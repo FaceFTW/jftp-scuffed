@@ -92,6 +92,7 @@ fabric.properties
 # Ignore built for distribution
 dist/
 
-
+# Ignore javadoc build output
+doc/javadoc/
 
 # Anything below this line should be placed into a category above instead! Explain why it's ignored.
