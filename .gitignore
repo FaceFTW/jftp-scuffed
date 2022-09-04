@@ -88,3 +88,10 @@ fabric.properties
 
 # Share additions to spellcheck dictionary across users
 !.idea/**/dictionaries
+
+# Ignore built for distribution
+dist/
+
+
+
+# Anything below this line should be placed into a category above instead! Explain why it's ignored.
