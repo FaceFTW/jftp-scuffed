@@ -15,42 +15,36 @@
  */
 package net.sf.jftp.tools;
 
-import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
-import net.sf.jftp.gui.*;
 import net.sf.jftp.gui.base.StatusCanvas;
-import net.sf.jftp.gui.framework.*;
+import net.sf.jftp.gui.framework.HImageButton;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import java.net.*;
-
-import java.util.*;
-
-import javax.swing.*;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import java.util.Enumeration;
 
 
-public class RSSFeeder extends JPanel implements Runnable, ActionListener
-{
+public class RSSFeeder extends JPanel implements Runnable, ActionListener {
     public static String urlstring = Settings.getRSSFeed();
     Thread runner;
     URL url;
     RSSParser parser;
     StatusCanvas can = new StatusCanvas();
     HImageButton next = new HImageButton(Settings.nextRSSImage, "nextRSS",
-                                         "Display next RSS news item", this);
+            "Display next RSS news item", this);
     boolean header = false;
     boolean breakHeader = false;
     int HEADER_IVAL = 4000;
     int LOAD_IVAL = 31 * 60000;
 
     //"http://www.spiegel.de/schlagzeilen/rss/0,5291,,00.xml";
-    public RSSFeeder()
-    {
+    public RSSFeeder() {
         setLayout(new BorderLayout(0, 0));
         next.setPreferredSize(new Dimension(22, 22));
         next.setMaximumSize(new Dimension(22, 22));
@@ -63,12 +57,10 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener
         runner.start();
     }
 
-    public void switchTo(String u)
-    {
-        if(u == null)
-        {
+    public void switchTo(String u) {
+        if (u == null) {
             return;
-        }    
+        }
 
         urlstring = u;
 
@@ -77,46 +69,38 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener
         runner.start();
     }
 
-    public void run()
-    {
+    public void run() {
         long time;
 
         LocalIO.pause(3000);
 
         Log.out("Starting RSS Feed");
 
-        try
-        {
+        try {
             can.setInterval(10);
             url = new URL(urlstring);
             parser = new RSSParser(url);
             time = System.currentTimeMillis();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: Can't load RSS feed (" + ex + ")");
             ex.printStackTrace();
 
             return;
         }
 
-        while(true)
-        {
-            try
-            {
+        while (true) {
+            try {
                 Enumeration e = parser.titles.elements();
                 Enumeration e2 = parser.descs.elements();
 
-                while(e.hasMoreElements())
-                {
+                while (e.hasMoreElements()) {
                     can.setText((String) e.nextElement());
                     next.setEnabled(true);
                     header = true;
 
                     int i = 0;
 
-                    while(!breakHeader && (i < 100))
-                    {
+                    while (!breakHeader && (i < 100)) {
                         LocalIO.pause(HEADER_IVAL / 100);
                         i++;
                     }
@@ -125,37 +109,28 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener
                     breakHeader = false;
                     header = false;
 
-                    if(e2.hasMoreElements())
-                    {
+                    if (e2.hasMoreElements()) {
                         next.setEnabled(true);
                         can.scrollText((String) e2.nextElement());
                         next.setEnabled(false);
                     }
                 }
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
 
-            if(System.currentTimeMillis() > (LOAD_IVAL + time))
-            {
+            if (System.currentTimeMillis() > (LOAD_IVAL + time)) {
                 parser = new RSSParser(url);
                 time = System.currentTimeMillis();
             }
         }
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == next)
-        {
-            if(header)
-            {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == next) {
+            if (header) {
                 breakHeader = true;
-            }
-            else
-            {
+            } else {
                 can.forward();
             }
         }

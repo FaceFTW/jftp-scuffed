@@ -15,26 +15,21 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.config.Settings;
-import net.sf.jftp.gui.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-
-import java.io.*;
-
-import java.net.*;
-
-import java.util.*;
-
-import javax.swing.*;
+import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
+import java.net.URL;
 
 
-public class ImageViewer extends JInternalFrame
-{
-    public ImageViewer(String img)
-    {
+public class ImageViewer extends JInternalFrame {
+    public ImageViewer(String img) {
         super(img, true, true, true, true);
         setLocation(150, 50);
         setSize(400, 300);
@@ -60,14 +55,11 @@ public class ImageViewer extends JInternalFrame
 }
 
 
-class ImagePanel extends JPanel
-{
+class ImagePanel extends JPanel {
     private Image img;
 
-    public ImagePanel(String url)
-    {
-        try
-        {
+    public ImagePanel(String url) {
+        try {
             setBackground(Color.white);
 
             img = Toolkit.getDefaultToolkit().getImage(new URL(url));
@@ -81,22 +73,18 @@ class ImagePanel extends JPanel
             repaint();
 
             //validate();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void paintComponent(Graphics g)
-    {
+    public void paintComponent(Graphics g) {
         g.setColor(Color.white);
         g.fillRect(0, 0, 1500, 1500);
         g.drawImage(img, 0, 0, null);
     }
 
-    public void update(Graphics g)
-    {
+    public void update(Graphics g) {
         paintComponent(g);
     }
 }

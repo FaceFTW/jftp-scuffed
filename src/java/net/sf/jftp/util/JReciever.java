@@ -15,49 +15,29 @@
  */
 package net.sf.jftp.util;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
 import net.sf.jftp.system.LocalIO;
-import net.sf.jftp.util.*;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-
-import java.net.*;
-
-import java.util.*;
-
-import javax.swing.*;
-import javax.swing.event.*;
+import javax.swing.JScrollBar;
+import java.io.DataInputStream;
 
 
-public class JReciever implements Runnable
-{
+public class JReciever implements Runnable {
     private DataInputStream in;
     private Thread reciever;
     private byte[] buf = new byte[4048];
 
-    public JReciever(DataInputStream in)
-    {
+    public JReciever(DataInputStream in) {
         this.in = in;
         reciever = new Thread(this);
         reciever.start();
     }
 
-    public void run()
-    {
-        try
-        {
-            while(true)
-            {
+    public void run() {
+        try {
+            while (true) {
                 int cnt = in.read(buf);
 
-                if(cnt == -1)
-                {
+                if (cnt == -1) {
                     RawConnection.output.append(">>> Connection closed...");
 
                     LocalIO.pause(100);
@@ -68,9 +48,7 @@ public class JReciever implements Runnable
                     in.close();
 
                     return;
-                }
-                else
-                {
+                } else {
                     String tmp = new String(buf);
                     tmp = tmp.substring(0, cnt);
 
@@ -83,15 +61,12 @@ public class JReciever implements Runnable
                     LocalIO.pause(400);
                 }
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void reset(DataInputStream in)
-    {
+    public void reset(DataInputStream in) {
         reciever.destroy();
         this.in = in;
         reciever = new Thread(this);
