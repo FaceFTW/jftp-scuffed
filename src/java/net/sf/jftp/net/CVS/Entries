@@ -1,0 +1,18 @@
+/FtpServer.java/1.2/Sat Oct  5 07:27:55 2002//
+/FtpServerSocket.java/1.5/Sat Nov  2 09:09:23 2002//
+/FtpURLStreamHandler.java/1.2/Fri Nov 15 13:08:12 2002//
+/FtpConstants.java/1.7/Sun Dec 15 13:30:23 2002//
+/JConnection.java/1.10/Wed Feb 12 13:46:02 2003//
+/FtpURLConnection.java/1.6/Mon Feb 17 11:32:53 2003//
+/FtpClient.java/1.6/Fri Feb 28 16:35:54 2003//
+/ConnectionHandler.java/1.13/Sat Mar  8 23:49:37 2003//
+/DataConnection.java/1.25/Mon Mar 10 22:14:45 2003//
+/ConnectionListener.java/1.10/Wed Mar 12 08:28:14 2003//
+/BasicConnection.java/1.2/Sun Mar 16 15:05:36 2003//
+/FilesystemConnection.java/1.5/Sat Mar 22 12:36:42 2003//
+/FtpConnection.java/1.64/Sat Mar 22 13:35:23 2003//
+/SftpConnection.java/1.1/Sun Mar 23 19:37:42 2003//
+/SftpVerification.java/1.1/Sat Mar 22 21:44:54 2003//
+/SmbConnection.java/1.2/Sun Mar 23 18:40:22 2003//
+/Transfer.java/1.5/Sun Mar 23 12:58:40 2003//
+D

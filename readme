@@ -1,0 +1,386 @@
+Last update: 12/29/2014 18:00 CET  --- >1.59<
+
+--------------------------------------------------------------------------------
+
+>>>	Contents	<<<
+
+1. Setup
+	1.1	How do i run JFtp?
+	1.2 What about compiling?
+	1.3	Updates
+	1.4	Compatibility
+	1.5 Why do you use so many other APIs?
+	1.6	What about those themes?
+	1.7 Integrating JFtp as an applet or via Webstart
+	1.8 Signing a custom jar
+	1.9 Using the browser component on windows / os x
+
+2. Features
+	2.1	General features
+	2.2	Multiple parallel downloads
+	2.3	You do not support the ??? command!
+	2.4	SMB specific info
+	2.5 Deployment via Webstart
+	2.6 Startup parameters / batch processing
+
+3. Tweaking / Bugs
+	3.1	Changing options in Settings.java
+	3.2	I found a bug!
+	3.3	I see no icons!
+	3.4 Tips and tricks
+
+4. The team
+	4.1 Wo is involved in this project?
+	4.2	Submitting patches
+	4.3	Hompage
+
+5. API License
+	5.1	Using the API in your own applications
+	5.2	Use in commercial products
+
+--------------------------------------------------------------------------------
+
+			         --- NOTICE ---
+
+	Updates are released quickly after coding, so please report
+	bugs to j-ftp-devel@lists.sourceforge.net if you encounter them... :)
+
+--------------------------------------------------------------------------------
+
+1.1 How do i run JFtp?
+
+	Unpack the .tar.gz to a java conform path (no exclamation mark, tab etc)
+
+        To start JFtp just call "run" (*nix) or "run.bat" (Windows/DOS).
+	Alternatively type "java -jar jftp.jar" in build/jars/
+
+	You can also add a command-line url, for example:
+		java -jar jftp.jar "ftp://anonymous:test@ftp.kernel.org/pub"
+	or	run.bat "ftp://anonymous:test@ftp.kernel.org/pub"
+	
+	This works for SFTP now, too if you replace ftp:// with sftp://
+
+1.2 What about compiling?
+
+	JFtp is already compiled if you have downloaded it in a .tar.gz. 
+	Recompile using "ant clean" and "ant" in j-ftp/ - of course you'll 
+	need the ant tools installed.
+	
+1.3 Updates
+
+	If we have important changes we usually release immendiately. Sometimes 
+	we release a few versions a week, sometimes the developement stalls for 
+	some time. If you have created patches or want to code on JFtp, please send
+	a mail to me or directly to the mailing list.
+
+	Binary prereleases are available via Java Web Start.
+	You can also load the jar directly:
+	
+	http://j-ftp.sourceforge.net/jftp.jar
+
+	If you found a critical bug, please mail it (see 3.2 for instructions).
+	We'll try to fix it asap.
+	
+1.4 Compatibility
+
+	JFtp should work with all platforms. However, i'm not able to test it 
+	under different platforms often, so it may run less stable there than with linux.
+	
+	If you encounter a java.lang.UnsupportedClassVersionError please make sure to either recompile it with your
+	java version or update you JRE.
+
+1.5  Embedded APIs
+
+	All APIs used by JFtp that are not written by myself and the other project members
+	have a free (LGPL/BSD/Apache) license. These include:
+
+	- jcifs for the SMB protocol, very nice API.
+	- jsch for SFTP, very nice API.	
+	- webnfs for NFS, downloaded from Sun Microsystems, it took me a while to get things working
+	              because there was just a small subset of NFS info in the javadoc and not that much demos.
+		      But the API itselfs rocks, too - it is fast, stable and more than just a NFS API, but a
+		      replacement for the File class with network support.		      
+	- apache.org: commons, log4j, webdav ...	
+	- djproject for native browsing
+
+1.6	The nice looking themes and icons
+
+	- http://www.incors.org/ 
+	- http://mlf.sourceforge.net (Metuoia LnF - not sure if this link is still the appripriate site)
+	- http://www.famfamfam.com/lab/icons/silk/
+	- http://www.graphicsfuel.com/2010/12/arrow-buttons-psd-pack/
+	- The jayalobby icons are copyrighted by Dean S. Jones
+	
+1.7 Integrating JFtp as an applet or via Webstart
+
+	If you want to use JFtp as an applet or launch it via webstart please look at doc/applet.html 
+	and doc/jftp.jnlp for examples.
+
+	You can easily take the jnlp-file in the doc-directory, modify some configuration options
+	(codebase, href and jar-href come to mind) and put it on your webserver to support Java Webstart.
+	Please note that your jar has to be signed of course and you will have to do it for yourself:
+	
+1.8 Signing a custom jar
+
+	While you don't need any real certificate and the process might be no more than running two lines in the shell
+	of your choice please take your time to understand what this process does. Google is your friend here and of course
+	there are (very lengthy) official docs, too:
+
+	http://java.sun.com/j2se/1.4.2/docs/tooldocs/windows/keytool.html
+	http://java.sun.com/j2se/1.3/docs/tooldocs/win32/jarsigner.html 
+	
+1.9 Using the browser component on windows / os x
+
+	JFtp currently ships SWT 3.7.1 for linux. For other platforms just download it from
+	
+	http://www.eclipse.org/swt/
+	
+	and extract the org/-dir and the dlls/libs from swt.jar into j-ftp/lib and build a new jar.	
+	
+	
+	
+--------------------------------------------------------------------------------
+	
+2.1 General features
+
+	JFtp is a multi-platform, multi-protocol network browser.
+
+	It started as a ftp client with its own api and has grown to support
+	file, ftp, smb, http, sftp, nfs and raw tcp/ip connections using standard or 3rd-party apis.
+
+	Some words about the ftp features:
+
+	It can up- and download directories recursively, resume ftp up- and downloads automatically, has a
+	download manager and a nice swing ui. Active and passive mode ftp are supported and the parsing
+	of the directory listings is very robust. You can also ftp mutithreaded, which means that you can browse
+	the server and transfer files/dirs at the same time (see "Multiple parallel transfers" below).
+
+2.2 Multiple parallel transfers
+
+	Use multiple connections parallel to save time, for example if a server
+	has a bandwith limit. If a server allows only one connection at a time 
+	you'll have to uncheck "Multiple Conenctions", though. You can increase 
+	the number of parallel connections manually when initiating a 
+	connection. Passive ftp is recommended because multiple connections do 
+	not work with active ftp. 
+
+2.3 You do not support the ??? command!
+	
+	Use "Execute remote command" if you have to use commands not implemented
+	directly in JFtp, such as changing permissions of files. If it would 
+	make sense to add support directly, send a mail to the mailing list 
+	and/or write a feature request on our sourceforge-site. :-)
+
+2.4 SMB specific info
+
+	Note that if you have multiple network cards and get an error messag containing MSBROWSE
+	when browsing the lan this probably happens because the wrong adapter is chosen.
+	You have to temporaryly disable the other card and restart to use this feature atm, since there is no fix yet.
+
+2.6 Startup parameters / batch processing
+
+	If you are interested in batch-downloading some files at startup take a look at doc/jftp.jnlp for an example
+	how to pass statup paramters like connection-url, local path and the files to download to JFtp.
+	Please read 1.7 and 1.8 if you want to use an applet or Webstart (of course the command line should work, too).
+
+--------------------------------------------------------------------------------
+	
+3.1 Changing options in Settings.java
+
+        If you want to activate some other options just edit src/Settings.java
+        and recompile using "ant" in j-ftp/ 
+
+	Notes: There are some interesting options you can manually tweak in
+	Settings.java.	You need to recompile, of course...
+
+	>>> uiRefresh
+		 minimal amount of time between ui refreshes caused by JFtp.log().
+		 500 milliseconds seem like a safe default, but if you recompile you
+		 probably want to play with this.
+
+	>>> enableMultiThreading
+		uses different threads and connections so you can browse the 
+		server while up- and/or downloading (single files, not 
+		directories). Does not work on servers with a limit of 
+		connections per user, but for servers supporting it you should 
+		set this to true (can be set via gui, too).
+	
+	>>> noUploadMultiThreading 
+		do not use different connections for uploads.
+
+	>>> maxConnections
+		use up to this many connections to up- and download.
+	
+	>>> smallSize
+		if file is smaller than this it will be downloaded using the 
+		normal control connection, this results in a faster transfer 
+		blocking, but most times even faster than the initial blocking 
+		when forking a download.
+	
+	>>> smallSizeUp
+		same as above for uploads.
+	
+	>>> enableResuming
+		false for the API (overwrite default), overridden to true by
+		JFtp.
+
+	>>> enableUploadResuming
+		default: true
+	
+	>>> askToResume
+		change this to false if you don't want any messages, but note 
+		that if you have an older but smaller file you probably don't 
+		want it to be autoresumed
+
+	>>> connectionTimeout
+		timeout for a connection to a server, default should be ok.
+	
+	>>> hideStatus
+		if true some unimportant messages are hidden, default is false.
+	
+	>>> cachePass
+		set this to false if you do not want your passwords to be saved.
+	
+	>>> safeMode
+		sends some NOOPs to clear buffers, should be obsolete.
+	
+	>>> autoUpdate
+		checks for new versions, but might not work sometimes.
+	
+	>>> defaultFtpPasvMode
+		leave this true if you do not need active FTP. Passive FTP is 
+		more firewall-friedly, and if it is not supported by the server 
+		switches the app automatically.
+	
+	>>> bufferSize
+		every n bytes recieved data is written on disk and a 
+		statusmessage is sent to the downloadmanager. If you set this 
+		too high and have a slow connection you'll get outdated status 
+		in the downloadmanager, if you set it too low you'll waste 
+		cpu power.
+
+	>>> refreshDelay
+		time in milliseconds bettween downloadmanager UI refreshes. 
+		Increase this if the JList flickers often (default 500).
+
+3.2 I found a bug!
+
+	We need your help to improve JFtp. We cannot test every type of server 
+	around with every option turned on/off every time we do a release. So 
+	if you find an error, please mail me (hansmann.d@debitel.net) and/or the
+	mailing list (j-ftp-devel@lists.sourceforge.net) and tell us about it. 
+	Please include the server ip you we're trying to access and the 
+	stacktrace of the exception (if you got one). 
+	Please visit the sourceforge project page and fill out a bug report, too. 
+
+
+3.3 I see no icons!
+
+	If the application starts, but you cannot see any icons, you probably
+	installed JFtp in a path that is not java conform. Remove all special
+	characters like exclamation mark, tab, etc. and try again.
+
+3.4 Tips and tricks
+
+	- Check the shortcuts already present, if you are annoyed by log messages
+	   and finished transfers. Just press "Alt-1" and "Alt-2" to clear log and
+	   download manager.
+
+	- Check the address bar. If you put a FTP-URL pointing to a file it will be downloaded
+	   instantly using the (minimalistic) Java FTP protocol implementation, mostly because I want
+	   to have an alternative if some code is broken in the API.
+	   If a URL pointing to a directory is given it will be opened in a remote window using
+	   the JFtp API.
+
+	- Check the queueing system. It resumes aborted downloads automatically and does work really
+	  good if you want to download huge files without haveing to check wheter they have been aborted by the
+	  server every ten minutes. Tip: Add files to the queue, disconnect and then start the queued downloads
+	  if the server does not support multiple connections.
+
+--------------------------------------------------------------------------------
+
+4.1 Who is involved in this project?
+
+All new Contributors are appended at the end, please check the changelog
+if you want to know who did what exactly. If your name is missing and you want
+to be listed here because you contributed code, made documentation or similar -
+please don't take that personal and just write a short email to me :)
+
+        People involved:
+
+Active developers:
+    - David Hansmann <mailto:hansmann.d@debitel.net>	
+
+Other people that have spent time working on the project:
+	- Jake Kasprzak <jolt@radioheart.com>
+	- Dean S. Jones <dean@gallant.com> (Icons: Copyright(C) 1998 by Dean S. Jones, jfa.javalobby.com <dean@gallant.com>)
+    - Ron Broberg <mailto:ronbroberg@yahoo.com>
+    - Paul Hammant <mailto:Paul_Hammant@yahoo.com>
+    - Gary Wong
+    - Ricardo Kustner
+    - Bas Cancrinus <mailto:bas@cipherware.com>
+    - Daniele Panozzo <mailto:daniele@panozzo.191.it>
+    - Sandy McGuffog <mailto:mcguffog@ieee.org>
+    - Leon Stringer
+    - Pavel Abrosimov <mailto:pavel.abrosimov@gmail.com>
+	- Mark Hale <mailto:mj_hale@yahoo.com>
+	- Richard Krutisch <mailto:richard.krutisch@gmx.net>
+	- Bruno Brueckmann <Bruno.Brueckmann@BIT.admin.ch>
+	- Daniel Reichert <reichert-d at sourceforge> 
+
+
+4.2 Submitting patches
+
+	If you are using JFtp and are able to fix bugs you find yourself, please
+	consider to do this. A patch is applied quickly, and often i am not able
+	to even find the bugs reported. If you want  you can have a cvs access
+	and modify whatever you want. 
+	
+	IMPORTANT NOTE: this is a free project... but if you contribute code you have to accept that 
+	I may sell commercial licenses / support for it.
+
+
+4.3 Homepage
+
+	http://j-ftp.sourceforge.net -> Homepage, Java Web Start link
+	http://www.sourceforge.net/projects/j-ftp -> Sourceforge project page
+
+--------------------------------------------------------------------------------
+
+
+5.1 Using the APIs in your own applications
+
+	You can use the APIs in your own applications. Simply add jftp.jar to
+	your classpath and import the packages net.sf.jftp.net, .util and
+	.config and use the FtpConnection class to transfer files.
+
+	Note that the license is GPL per default, but I may grant you a less restrictive
+	license (see below).
+
+	Take a look at doc/FtpDownload.java. Please note that resuming is
+	*disabled* per default (in the api) and local files are overwritten if
+	they exist. This behaviour is necessary since there is no proof the part
+	of the file is equal to the remote file. You can change
+	Setting.enableResuming to enable it, but you need to check the files
+	manually (if they are smaller than the remote file).
+
+	If you want to use advanced features of the API, such as progress
+	updates for example, you'll have to read the source (it's very difficult
+	to maintain a lot of documentation code if you still change the API, so
+	there's not much of it) or to mail us your questions.
+
+
+5.2	Commercial use
+
+	JFtp is GPL, if you want to get another license, please contact me
+	via mail or the mailing list. This will cost you money, but you'll get support, bugfixes
+	and new features implemented if you want.
+
+
+		Have a lot of fun...
+
+		David Hansmann, JFtp project maintainer
+		hansmann.d@debitel.net
+
+
+

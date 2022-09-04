@@ -1,0 +1,807 @@
+- 1.59-pre2 D. fixed port saving bug for SFTP connections
+- 1.59-pre2 D. improved error handling for menu bar events
+- 1.59-pre1 D. changed userfriendly to xkcd
+- 1.59-pre1 D. changed Base64-Encoder to apache commons
+- 1.59-pre1	D. fixed SFTP default remote dir
+
+- 1.58-pre2 D. updated jsch to v1.51
+- 1.58-pre1 D. updated doc/FtpDownload.java
+- 1.58-pre1	D. updated javadoc
+
+- 1.57-pre4	D. switched ftp, sftp and smb host chooser to miglayout
+- 1.57-pre4	D. added miglayout manager and did some ui component refactoring
+- 1.57-pre3 D. reimplemented sftp url parameter parsing
+- 1.57-pre2	D. updated jsch to v1.49
+- 1.57-pre2	D. fixed exception when enabling RSS feed
+- 1.57-pre1 D. added actions "clear" and "scroll lock" to log panel
+- 1.57-pre1 D. fixed SMB hostchooser size
+
+- 1.56-pre2 D. replaced gnome transfer icons with icons from graphicsfuel
+- 1.56-pre2 D. removed j2ssh fallback and ssh shell (which might be reimplemented using jsch in the future)
+- 1.56-pre2 D. removed insomniac client code
+- 1.56-pre2 D. updated readme
+- 1.56-pre1 D. no question asked before opening file per default
+- 1.56-pre1 D. added Daniel's runCommand patch (open local files with system app)
+
+- 1.55-pre4 D. made the transfer buttons more visible
+- 1.55-pre4 D. made the download manager slightly bigger
+- 1.55-pre4 D. fixed size+positioning of "connection failed" dialog 
+- 1.55-pre4 D. source .tgz is now a git repository
+- 1.55-pre4 D. fixed a small ui bug when uploading directories
+- 1.55-pre3 D. FtpConnection now holds transfers as a list
+- 1.55-pre2 D. added linux browsing support and made it default - see README if you want windows support
+- 1.55-pre2 D. using DJ Sweet instead DJ NativeSwing for browsing feature now
+- 1.55-pre1 D. added Pavel's password encryption feature
+- 1.55-pre1 D. added Pavel's dual monitor window positioning fix
+- 1.55-pre1 D. added Pavel's SMB missing WINS server exception fix
+- 1.55-pre1 D. added Pavel's SMB hostchooser fix
+
+- 1.54-pre3 D. fixed JTable scrolling UI glitches
+- 1.54-pre3 D. app is now always using tablelayout
+- 1.54-pre3 D. updated j2ssh to v0.2.9 (this fixes >1g uploads, thanks to Tyler Barrus for investigating this bug)
+- 1.54-pre3 D. re-added fallback JContentPane for unsupported native swing
+- 1.54-pre3 D. fixed SMBHostChooser ui size bug
+- 1.54-pre2 D. added better browser support via DJNativeSwing
+- 1.54-pre2 D. made the default size 1000x750
+- 1.54-pre2 D. removed insomniac client
+- 1.54-pre2 D. removed outdated auto-update feature
+- 1.54-pre2	D. fixed slashdot rss feed url
+- 1.54-pre1 D. fixed file viewing bug for FilesystemConnection in remote dir
+- 1.54-pre1 D. added Hakon's DnD file path bugfix
+- 1.54-pre1 D. added Hakon's FtpURLConnection bugfix (didn't use the port specified)
+
+- 1.53-pre1 D. fixed smb connect path bug
+- 1.53-pre1 D. updated jCIFS to 1.3.15
+- 1.53-pre1 D. removed misleading smb chdir message after AuthException
+- 1.53-pre1 D. made JSch the default ssh engine
+- 1.54-pre1 D. changed up/download buttons
+- 1.54-pre1 D. removed some obsolete code
+- 1.54-pre1 D. changed build.xml: jars now depends on clean
+- 1.54-pre1 D. fixed an nullpointer on disconnect
+- 1.54-pre1 D. fixed a startup frame positioning bug
+
+- 1.53-pre1 D. removed JSch message popup
+- 1.53-pre1 D. updated JSch to v 1.44
+- 1.53-pre1 D. removed sysout logging for directory listing slowing down the app in console environments
+- 1.53-pre1 D. added ftp keepalive to fix dropping control connection on large transfers  
+
+- 1.52-pre3	D. readme updates
+- 1.52-pre3	D. removed broken what's next and visit hp menu items
+- 1.52-pre3 D. added command line support for sftp urls
+
+- 1.52-pre2	D. fixed progressbar int overflow bug
+- 1.52-pre2 D. fixed frame inset gui glitches
+- 1.53-pre3	D. updated the readme
+- 1.53-pre3	D. added support for autodownloading files on startup - one can now easily create
+			   multiple .jnlp/.sh/.bat files to automate routine tasks
+- 1.53-pre3	D. fixed first time startup window size and positions
+- 1.53-pre2	D. fixed some minor property-file init bugs
+- 1.53-pre1	D. fixed busy-cursor code
+
+- 1.52-pre2	D. made minor modifications to readme
+- 1.52-pre2	D. fixed StatusPanel resize UI glitch
+- 1.52-pre1	D. added ftp connection keepalive to fix dropping control connection on large files
+
+- 1.52-pre2	D. fixed imports for doc/*.java
+
+- 1.52-pre1	D. added JFileChooser for file://-connection in remote tab
+- 1.52-pre1	D. added hover-effect and hand cursor for directory selector
+- 1.52-pre1	D. started api cleanup, introduced parameterized types
+
+- 1.51-pre6	D. fixed applet System.exit()-bug 
+
+- 1.51-pre5	D. added fix for >2g ftp transfer bug reported by vasily
+
+- 1.51-pre4	D. fixed ftp directory listing bug (freeze when listing too long)
+- 1.51-pre4	D. fixed missing filesize in download manager
+- 1.51-pre4	D. improved download manager, added progressbars
+- 1.51-pre3	D. added gnome icon theme for debian compliance
+		   (copy src/images/gnome/* in src/images/current/ and rebuild to use)
+- 1.51-pre2	D. updated jcifs api to v1.2.7
+- 1.51-pre1	D. reintroduced JTable-sorting - this requires java 6 or later
+
+- 1.50-pre5	D. removed buggy JTable sorting (will reintroduce it and drop
+		   1.5-compatibility soon)
+- 1.50-pre4	D. added support for jsch as a j2ssh replacement
+- 1.50-pre4	D. fixed j2ssh-keyfile-auth on multithreading - thx@Uwe again ;)
+- 1.50-pre3	D. changed displayer font to monospaced
+- 1.50-pre3	D. added ftp remote shell (as an option instead of remote cmd)
+- 1.50-pre3	D. fixed textfield-size bug (proxy+ adv. options) reported by Uwe
+- 1.50-pre2	D. removed WebDav per default, it shouldn't be usable anyway
+		   (I don't know if it makes sense to support it anyway)
+- 1.50-pre2	D. changed default configuration to disable status animation -
+		   the ui responds much faster this way, please take a look at the 
+		   view menu if you don't already have as this does not affect 
+		   existing jftp.properties
+- 1.50-pre2	D. added some rollover buttons and made icons configurable
+- 1.50-pre2	D. changed icon theme to silk icons (icon selection is far from
+		   perfect, please make suggestions if you have any ideas)
+- 1.50-pre2	D. changed Settings so the API uses safe resuming options per default
+- 1.50-pre2	D. added wjyangs fix for active ftp port commands
+- 1.50-pre1	D. started to implement new gui container using a JTable -
+		   sorting by clicking on a table header column is enabled in 1.6.0+
+		   per default, the checkboxes will not show up then. 1.5.x does not
+		   have this feature (but still the boxes)
+- 1.50-pre1	D. added option to hide local dot-files
+- 1.50-pre1	D. added a popup for FTP upload resuming (thx@Uwe Dippel for 
+		   testing)
+- 1.50-pre1	D. added Safraz' fix for failed sftp deletes 
+
+- 1.49-pre6	D. attempt to fix OS/2 parser bug
+- 1.49-pre5	D. fixed a bug which led to a closed DataConnection.getInputStream()
+- 1.49-pre5	D. changed FtpConnection.list() from file-based to direct
+		   (this changes the BasicConnection-interface, too but
+		    the API should now be fully threadsafe even on massive 
+		    multithreaded io) 
+- 1.49-pre4	D. fixed SFTP close()-exception
+- 1.49-pre3	D. fixed FTP updatePWD() bug
+- 1.49-pre3	D. added a possible fix for the sftp upload bug
+- 1.49-pre2	D. positions of internal frames are now saved and restored
+- 1.49-pre2	D. fixed an sftp subconnection bug
+- 1.49-pre2	D. removed old sftp constructors
+- 1.49-pre1	D. added functionality to launch local (console+gui) applications
+- 1.49-pre1	D. note: future releases may work on 1.5 only
+- 1.49-pre1	D. switched to eclipse and did some refactoring
+- 1.49-pre1	D. repositioned some windows
+
+- 1.48-pre4	D. made some performance improvents in the FTP API
+- 1.48-pre4	D. applied Yang's multiple file download fix
+- 1.48-pre3	D. more work on the MVS parser
+- 1.48-pre3	D. changes in the way the FTP API handles return codes 
+- 1.48-pre2	D. fixed SFTP support (bug #1366256)
+- 1.48-pre2	D. added support for parsing different FTP server newline styles
+		   (needed for MVS, enable option in ftp menu. dataconnection
+		   will convert line breaks in binary mode then.)
+- 1.48-pre2	D. streams should now be closed correctly on failed transfers
+- 1.48-pre2	D. fixed more MVS path bugs
+- 1.48-pre1	D. implemented ssh shell command history
+- 1.48-pre1	D. added sftp keyfile authentication support
+- 1.48-pre1	D. added another small MVS fix
+- 1.48-pre1	D. removed old insomniac code
+- 1.48-pre1	D. improved ssh shell gui
+
+- 1.47-pre8	D. added remote file renaming support (for file, ftp, sftp and smb)
+- 1.47-pre8	D. added some small UI fixes
+- 1.47-pre8	D. added host key verification option for sftp to the menu
+		   and some other options to SftpHostChooser
+		   (you'll probably need to set up a host.xml in your jre to use this
+		    option, though)
+- 1.47-pre8	D. added a (very basic) ssh shell utility
+- 1.47-pre8	D. more MVSs work
+- 1.47-pre7	D. finally updated j2ssh api to v0.2.7 
+- 1.47-pre7	D. updated jcifs api to v1.2.6
+- 1.47-pre7	D. some small bugfixes and enhancements
+- 1.47-pre7	D. OS/2 should use plain LIST command per default now
+- 1.47-pre7	D. more MVS debugging and bugfixes
+- 1.47-pre7	D. made RSS-feed disabled by default
+- 1.47-pre7	D. added a small log flushing bug
+- 1.47-pre6	D. added a MVC code fix
+- 1.47-pre5	D. applied michaels mkdirs()-fix for DataConnection
+- 1.47-pre5	D. added initial MVS support
+- 1.47-pre4	D. changed Calendar.compareTo() to Date.compareTo() for jdk1.4-support
+- 1.47-pre3	D. fixed multithreading for active ftp 
+- 1.47-pre3	D. added small StatusCanvas UI fix 
+- 1.47-pre3	D. changed *HostChooser to use pack() instead of fixed w/h
+- 1.47-pre3	D. added SMB default option (again)
+- 1.47-pre3	D. added RSS initialization delay to prevent ui glitches
+- 1.47-pre2	D. fixed initial ftp sort-by-date code
+- 1.47-pre2	D. added sorting by date for FilesystemConnections
+- 1.47-pre2	D. added small image viewer for .gif+.jpg (local dir -> double click)
+- 1.47-pre2	D. updated jcifs api to v1.2.1
+- 1.47-pre1	D. added more RSS fedds and option to select a custom feed
+- 1.47-pre1	D. added next RSS item button
+
+- 1.46-pre5 	D. added RSS feed bar
+		   (you can disable it using the view menu, or, if you
+		    want another one set the jftp.customRSSFeed property to
+		    the full URL of the RSS feed. please note that the parser is very
+		    basic and might not work with every feed.)
+- 1.46-pre5	D. fixed some StatusCanvas UI glitches
+- 1.46-pre4	D. initial date parsing support for unix-style ftp connections
+		   (a remote directory sort option is only present for servers using
+		    "2005-04-13 23:00" style listings yet)
+- 1.46-pre3	D. added more delay to FtpConnection as an attempt to fix 1101591
+- 1.46-pre3	J. added patch for bug 1143622 (create dir problem)
+- 1.46-pre2	D. added Dan's NullPointer fix for ui refreshes without using mainframe
+- 1.46-pre2	D. connections should accept passwords starting/ending with spaces now
+- 1.46-pre2	D. local copy of file is no longer deleted if a remote file is viewed
+- 1.46-pre2	D. fixed a sftp upload data corruption bug (BUG 1093305)
+- 1.46-pre1	D. some code cleanup and javadoc improvement (Local/RemoteDir+StringUtils)
+
+- 1.45-pre4	D. added support for another ftp server date listing style -
+		   while "Aug 30" was recognized, date formats like "2004-11-18" were
+		   not successfully parsed and led to a "not a directory" message and
+		   empty remote dir before.
+- 1.45-pre4	D. fixed some hostchooser bugs introduced in pre3
+- 1.45-pre4	D. added d.j.'s SftpConnection bugfix (connections are now closed correctly)
+- 1.45-pre4	D. local zipfiles can now be unpacked and browsed via doubleclick
+- 1.45-pre4	D. set Settings.smallSize and smallSizeUp to zero which results in slower
+		   communication for multiple small files, but prevents the app from 
+		   freezing because of too much use of the control connection during
+		   upload of multiple selected files via a fast connection
+- 1.45-pre4	D. using repaint() plus revalidate() from other threads than the EDT without
+		   SwingUtilities.invokeLater() now, which seems to fix most of the UI
+		   glitches described below
+- 1.45-pre3	D. moved from paintImmediately() to repaint() again, with the result that
+		   the ui is a lot more responsive again. unfortunately this seems to lead
+		   to some other kinds of glitches and stability issues like:
+		   - missing scrollbars
+		   - missing ui unlock after a transfer or delete action
+		   - occasional app freeze (maybe related to multiple selections)
+		   This will take some time to investigate, 
+		   help of an UI expert is always welcome :)
+- 1.45-pre3	D. added gui option to not save cleartext passwords anymore and
+		   improved the password management system, some notes:
+		   - all stored passwords are still saved in cleartext
+		   - passwords are no longer saved per default
+		   - passwords in the bookmarks file can be replaced using
+		     Settings.hiddenPassword (currently: <%hidden%>), JFtp will
+		     ask for a password then		   
+- 1.45-pre2	D. initial drag and drop support (tested only with firefox 1.0pr / linux)
+		   - drop targets are (for now) the desktop background and the remotedir
+		   - only single files can be dropped
+		   - files are stored to the current path of the remote connection
+- 1.45-pre1	D. added workaround for a small ftp upload resuming bug
+- 1.45-pre1	D. fixed some stability issues when uploading multiple files
+- 1.45-pre1	D. added an threaded ui refresh daemon for better responsiveness
+
+- 1.44-pre3	D. added Klaus' FtpTransfer bugfix
+- 1.44-pre3	J. added gui dialog for adding bookmarks
+- 1.44-pre3	J. added cdup button to Local/RemoteDir
+- 1.44-pre2	D. added small bugfix for bug 961895
+- 1.44-pre2	D. initial directory sorting support
+- 1.44-pre2	J. some code cleanups and small gui improvements
+- 1.44-pre2     J. advanced options can be saved now
+- 1.44-pre1	D. bookmarks can be stored in folders now (take a look at 
+		   doc/bookmarks.txt for format changes)
+- 1.44-pre1	D. semantic warning messages are no longer displayed
+- 1.44-pre1	D. catch IOException instead of SocketTimeOutException in DataConnection now
+
+- 1.43-pre8	D. added FTP API download(remoteFileName, localFileName) method (FR 943586)
+- 1.43-pre7	D. smb broadcast ip shows a useful value as default now
+- 1.43-pre6	D. fixed a FTP total filesize display bug
+- 1.43-pre6	D. fixed some log autoscrolling bugs
+- 1.43-pre6	D. made some small socket timeout changes
+- 1.43-pre6	D. added Peter's patch for bug 935736 - cleanup failed passive ftp transfers
+- 1.43-pre5	D. added dialog to edit bookmark file
+- 1.43-pre5	D. initial bookmark menu support
+- 1.43-pre5	D. removed shift key accellerators because text-edit must be possible now
+- 1.43-pre4	D. fix-attempt for small new directory upload bug introduced in pre3
+- 1.43-pre3	D. fixed a FTP directory upload bug investigated by Richard
+		   (upload failed if target directory did already exist, client+api)
+- 1.43-pre2	D. fixed a FTP API transfer status bug for failed DataConnections
+		   (thx for debugging @ Richard Krutisch)
+- 1.43-pre1	D. more webdav work
+- 1.43-pre1	D. fixes a small OS/2 manual dirchange refresh bug
+
+- 1.42-pre6	D. another (final?) OS/2 parser fix - thx to Mark Hale for debugging! :)
+- 1.42-pre6	D. fixed two minor command line ftp url bugs
+- 1.42-pre5	D. re-enabled background image and added new image (created using
+		   madonion's (kasten.m@gmx.de) StrangeAttractor image generation code)
+- 1.42-pre5	D. more OS/2 parsing fixes
+- 1.42-pre4	D. added log-flushing background thread
+- 1.42-pre4	D. initial OS/2 FTP parsing support (bug 891346, needs testing)
+- 1.42-pre4	D. added compatibility LIST support option to HostChooser (needed for OS/2) 
+- 1.42-pre3	D. disabled background image per default
+- 1.42-pre3	D. changed default window size to 840x640
+- 1.42-pre3	D. changed default theme to metouiae
+- 1.42-pre3	D. fixed StatusPanel appearance bug when switching to metouia
+- 1.42-pre2	D. initial (readonly) WebDAV support using the slide webdav API -
+		   downloading and browsing using the (unauthenticated) testserver works,
+		   but there is much work left. 
+- 1.42-pre1	D. added field to specify a WINS server IP to SMBHostChooser
+		   as an attempt to fix SMB problems (bug 799534)
+		   you may need it to access hosts on different subnets where
+		   broadcast fails
+- 1.42-pre1	D. fixed bug 741640, JConnection closes sockets now
+- 1.42-pre1	D. added method to change the default "LIST -laL" command to
+		   the advanced options (test for bug 891346)
+- 1.42-pre1	D. added new advanced options menu item
+- 1.42-pre1	J. fixed password parsing bug (bug 866724) 
+
+- 1.41-pre1	D. improved http recursive download utility
+- 1.41-pre1	D. changed http tools to use internal frames
+- 1.41-pre1	D. minor readme updates
+- 1.41-pre1	D. improved internal frame management
+- 1.41-pre1	D. added close button to local and remote connection frames which appear
+		   when more than one tab is open - clicking on it closes the current
+		   active tab (the fsconnections and the frame itself can not be closed) 
+- 1.41-pre1	D. added SMBHostChooser broadcast ip field and added small insets 
+- 1.41-pre1	D. removed SMB "sortLs: trying" debug message
+
+- 1.40-pre6	D. enabled new symlink removal code for FilesystemConnection
+- 1.40-pre6	D. added SFTP port option
+- 1.40-pre6	J.  added SMB connection remembering fix
+- 1.40-pre5	D. attempt to fix a local parsing bug for solaris
+- 1.40-pre4	J.  added connection remembering functionality to menubar
+- 1.40-pre4	J.  refactored *HostChooser classes
+- 1.40-pre4	J.  added missing tooltips to queue and download manager
+- 1.40-pre3	D. added getTransferStatus-method to FtpTransfer
+- 1.40-pre2	D. disabled upload resuming by default (may lead to corrupted files otherwise occasionally)
+- 1.40-pre2	D. merged with recent ftp api code, FtpTransfer can store with different name now
+- 1.40-pre1	D. added applet-support - try using doc/applet.html
+
+- 1.39-pre1	D. completely disabled symlink removal. this fixes at least some (mine)
+		    and hopefully all of the reported dataloss bugs. even though i still don't know
+		    how file deletion can start itself on an appcrash the deletion of symlinks
+		    pointing to other directories leads to the deletion of those. what happened to me
+		    is that a symlink in a directory i wanted to delete pointed to my
+		    homedir and i lost half of my personal data, including the latest prerelease
+		    sourcecode. i'll release this version now as a bugfix-only release.
+		    if you encounter any dataloss bugs with this version, please report them
+		    immediately.
+- 1.39-pre1	D. added Herve's build.xml properties bugfix
+
+- 1.38-pre5	D. removed virus infected file "RPC*.exe" from the build directory.
+			    note that this file got there while i was using it as a test file for transfers while
+			    implementing local connections. unfortunately, until the local paths were fixed for the
+			    connections some of the test files were transfered in the build directory which i didn't notice.
+			    NOTE: This file was *never* executed by the code and should not have been there!
+- 1.38-pre5	D. applied Jake's keyboard shortcuts and AppMenuBar improvements
+- 1.38-pre5	D. fixed a *harmless* SFTP recursive deletion bug while investigating a bug report.
+			    somebody reported sftp would have deleted his root and /usr/local dirs and,
+			    if anybody has noticed the deletion of *any* file which was not previously selected to be deleted,
+			    please tell us *immediately*. i did not find any harmful code and received no other bug report yet.
+- 1.38-pre5	D. fixed new ftp connection bug introduced in pre-4
+- 1.38-pre4	D. improved insomniac client
+- 1.38-pre4	D. tabs are no longer created if a login failed
+- 1.38-pre3	D. added ability to start up as insomniac client
+- 1.38-pre2	D. added insomniac threading and downloadmanager support
+- 1.38-pre2	D. new connection dialog is now longer modal
+- 1.38-pre1	D. initial insomniac support
+
+- 1.37-pre5	D. updated readme
+- 1.37-pre5	D. improved sftp, nfs and smb connection linking support
+- 1.37-pre4	D. added upload(String file, InputStream in) and getDownloadInputStream(String file) to BasicConnection
+- 1.37-pre4	D. more connection linking work
+- 1.37-pre3	D. fixed file deletion abort bug where ui stays locked
+- 1.37-pre3	D. fixed desktop background resize bug (bug 809992)
+- 1.37-pre3	D. fixed ftp multi line answer parsing bug
+- 1.37-pre2	D. attempt to fix smb problems (bug 799534)
+- 1.37-pre2	D. fixed some disconnects when creating new connections
+- 1.37-pre2	D. ftp connections can now transfer files between each other, too
+- 1.37-pre1	D. inital: ftpconnections can now be in the local tab, too (does only work with remote file connection yet)
+- 1.37-pre1	D. added methods to upload from / download to InputStreams to the ftp API
+
+- 1.36-pre2	D. added file view (local only) and properties to popup menu.
+- 1.36-pre2	D. added popup menus for local and remote dir entries
+- 1.36-pre2	D. proxy options and url contents are now displayed in internal frames
+- 1.36-pre2	D. improved desktop background (uses j-ftp/src/images/back.jpg, can be turned off in view menu)
+- 1.36-pre2	D. added multiple parallel remote connection support
+- 1.36-pre1	D. applied walluck's theme-listing bugfix for metuoia theme
+- 1.36-pre1	D. applied walluck's signjar build.xml patch
+
+- 1.35-pre5	D. updated j2ssh api to v0.2.5
+- 1.35-pre5	D. applied walluck's theme-bugfix patches
+- 1.35-pre5	D. applied walluck's .jftp-directory path patch
+- 1.35-pre4	D. fixed ftp wrong login nullpointer exception
+- 1.35-pre3	D. fixed ftp recursive deletion bug
+- 1.35-pre2	D. merged api changes
+- 1.35-api		D. added ability to get/abort the last spawned transfer
+- 1.35-pre1	D. initial upload resuming support (enabled per default)
+
+- 1.34pre3	D. initial socks proxy support
+- 1.34pre3	D. added jeffdahl's FtpConnection.rename method
+- 1.34pre2	D. fixed a SFTP directory transfer bug
+- 1.34pre1	D. updated jcifs SMB api to v0.7.11
+
+- 1.33pre2	D. api-backport: fixed upload under different name, ist now upload(String file, String realName)
+- 1.33pre2	D. api-backport: added exists()-method in FtpConnection
+- 1.33pre1	D. improved the connection chooser to show a busy cursor while connecting (request 737502)
+- 1.33pre1	D. fixed ui bug for host, user and pass textfield in ftp hostchooser
+- 1.33pre1	D. added anonymous login checkbox for ftp (request 737482)
+- 1.33pre1	D. added more tooltips (request 741624)
+
+- 1.32pre2	D. added new "metouia" theme - check it out, it's really nice!
+- 1.32pre2	D. added multithreading and enhanced download tool url parsing
+- 1.32pre2	D. fixed connection problems for download tool
+- 1.32pre1	D. initial HTTP recursive download support
+
+- 1.31		D. merged api changes with the main source tree
+- 1.31-api	        D. added/improved return codes for up/download/remove methods, BasicConnection interface changes
+- 1.31-api		D. improved documentation code, some code cleanups
+- 1.31-api		D. fixed a log4j initialisation bug
+- 1.31-api		D. improved ftp api javadoc, especially for the FtpConnection class
+- 1.31-api		D. created a separate commercial branch of the ftp api for a customer
+
+- 1.30pre3	D. made bottom toolbar non-floatable (bug 741635)
+- 1.30pre2	DP. DownloadQueue does no longer reconnect if the next file is on the same server
+- 1.30pre2	DP. removed some obsolete debug messages
+- 1.30pre1	D. fixed crash on filezilla ftp server response code parsing for mkdir command
+
+- 1.29pre1	D. improved interface guessing for smb connections and changed the JTextField to a JComboBox
+- 1.29pre1	DP. daniele's download queue system has landed (!)
+
+- 1.28pre4	D. changed Displayer to use a JInternalFrame in most cases
+- 1.28pre4	D. made downloadDir() private, use download()/handleDownload() for both files and dirs now if you embed the api
+- 1.28pre4	D. fixed filesize for uploads
+- 1.28pre3	D. changed buttons to standard ones
+- 1.28pre2	D. improved raw tcp/ip connection tool a little bit
+- 1.28pre2	D. fixed SFTP directory removal bug
+- 1.28pre2	D. fixed a SFTP connection bug which caused the directory listing not to be displayed after connect
+- 1.28pre2	D. applied patch for standalone/dispose mode
+- 1.28pre2	D. fixed raw QUIT command bug
+- 1.28pre2	D. moved status bar to the bottom of the frame
+- 1.28pre2	D. more nfs support work
+- 1.28pre2	D. debug messages from log are now in console debug, too
+- 1.28pre1	D. added initial NFS support using sun webnfs api
+
+- 1.27pre3	D. added raw tcp/ip connection tool
+- 1.27pre3	D. added visit homepage menu option
+- 1.27pre3	D. updated readme
+- 1.27pre3	D. added small html browser and download tool (using html 3.2 compatible JEditorPane)
+- 1.27pre3	D. fixed unix parser bug (used backup parser for first line if ls output sends a total x info and failed)
+- 1.27pre3	D. fixed name parsing for files containing spaces
+- 1.27pre3	D. address bar opens a connection window now if a ftp url represents a directory
+- 1.27pre2	D. added background image to desktop (replace src/images/stdback.gif and recompile for a custom image)
+- 1.27pre1	D. added new address bar to directly download urls using the standard java api
+- 1.27pre1	D. added http download tool and implemented initial downloadmanager functionality
+- 1.27pre1	D. added some  more keyboard shortcuts
+
+- 1.26pre3	D. enhanced GUI, added a desktop, internal frames and customizeable toolbars
+- 1.26pre2	D. made remote filesize listing safer
+- 1.26pre2	DP. added ftp port field bugfix (is also saved now)
+- 1.26pre1	D. added notes for use of the ftp api in commercial applications
+
+- 1.25pre2	D. fixed windows server support
+- 1.25pre2	D. added detailed debug console messages for parsing of directory listing
+- 1.25pre1	D. ftp resume and overwrite now follow thread spawning rules, too
+- 1.25pre1	D. log can now be disabled
+- 1.25pre1	D. added debug mode and messages
+- 1.25pre1	D. ensure logging on important events
+
+- 1.24pre2	D. fixed documentation code and added comments
+- 1.24pre1	D. improved ui responsiveness and removed log spamming
+- 1.24pre1	D. removed some obsolete mode calls and dir refreshes for better performance
+
+------------------------------------------------------------------------------------------------------
+
+- 1.23pre4	D. fixed ftp link parsing bug
+- 1.23pre4	D. remote filesystem dir does work now if a connection has failed to login before
+- 1.23pre4	D. window no longer disappears if ftp login failes
+- 1.23pre4	D. app no longer asks for each file to delete
+- 1.23pre4	D. fixed no dir refresh bug for SMB, SFTP threaded transfers
+- 1.23pre4	D. changed gui refresh code a little bit again
+- 1.23pre4	D. added .iso icon extension
+- 1.23pre3	D. added multithreading options for SMB and SFTP to the JMenuBar
+- 1.23pre2	D. removed obslote awt stuff for SFTP authentication
+- 1.23pre2	D. SMB and SFTP are now multithreaded, too
+- 1.23pre1	D. changed SMB error message if master not found
+
+------------------------------------------------------------------------------------------------------
+
+- 1.22	D. use space to cycle between local and remote dir
+- 1.22	D. implemented remote file viewing
+- 1.22	D. cursor is now busy when refreshing directories
+- 1.22	D. enter does now open a selected directory
+- 1.22	D. try to fix a windows/dos ftp parsing bug
+- 1.22	D. fixed classloader bug bug for UIManager
+- 1.22	D. show path change dialog the connection:path label is clicked
+- 1.22	D. added dialog to confirm deletion of files and option in the menu
+- 1.22	D. added Kunststoff theme and made it default - looks quite nice!
+- 1.22	D. try to fix a loop forever bug on SMB connections for people with firewalls quietly dropping connections
+- 1.22	D. fixed link parsing bug for ftp directory listings (tru64 bug)
+- 1.22	D. changed the backgroundcolor of some components
+- 1.22	D. changed font to Arial for most components
+- 1.22	D. fixed NullPointer for remoteDir, too
+
+- 1.21	D. fixed file specific downloadmanager icons
+- 1.21	D. fixed a NullPointer when when deleting the last listed file
+- 1.21	D. safe menu options are now saved
+- 1.21	D. added menu options to change the look and feel
+- 1.21	D. clear log with alt-1 now
+- 1.21	D. doubleclick now opens html, rtf and plain files in a JEditorPane instead of transferring them (local dir only)
+- 1.21	D. made Transfer an interface
+- 1.21	D. fixed an ui refresh bug
+- 1.21	D. made FilesystemConnection show transfers in the downloadmanager, too
+
+- 1.20	D. remove some debug messages
+- 1.20	D. stripped down included j2ssh version
+- 1.20	D. selected files are now reselected if the listing has not changed but was refreshed
+- 1.20	D. fixed NullPointers for resume, pause and stop on other connections than ftp
+- 1.20	D. implemented filesizes and parts of permissions permissions for SFTp connections
+- 1.20	D. SFTP connect bugfix
+
+- 1.19	D. fixed some SFTP bugs and added debug messages, improved performance
+- 1.19	D. fixed an ArrayIndexOutOfBoundsException in the downloadmanager
+- 1.19	D. improved ui refreshing
+- 1.19	D. stripped down included log4j version
+- 1.19	D. added initial SFTP support
+
+- 1.18	D. SMB connections do now use the download manager, too
+- 1.18	D. changed display style for SMB connections
+- 1.18	D. ftp specific buttons are now hidden for other connections
+- 1.18	D. fixed chdir-bug, no longer entering denied directories in SMB and file connections
+- 1.18	D. added multiple interface support for SMB connections
+- 1.18	D. fixed SMB authentication support
+
+- 1.17	D. removing classes dir per default to save space
+- 1.17	D. added "clear log" to menu
+- 1.17	D. improved performance of log display JTextArea
+- 1.17	D. added debugRaw for Logger to support "fake" progress bars in log JTextArea
+- 1.17	D. blocking for file and SMB io
+- 1.17	D. fixed ".ls_out" transfer not hidden on windows
+- 1.17	D. disable remote commands for non-ftp connections
+- 1.17	D. added LAN browsing feature for SmbConnection
+- 1.17	D. added full SMB (windows share) support (using jcifs.samba.org api)
+- 1.17	D. fixed possible cdup() api bug
+
+- 1.16	D. added icons for the downloadmanager
+- 1.16	D. added status animation and did some ui polishing
+- 1.16	D. implemented local to local directory transfer
+- 1.16	D. remove obsolete pwd updates
+- 1.16	D. fixed a parsing bug in StringUtils.isRelative()
+- 1.16	D. changed labels to show current type of connection
+- 1.16	D. added disconnect option so you can toggle between ftp- and fsconnections
+- 1.16	D. added JMenuBar to have more space to add functionality
+- 1.16	D. made the app 40px higher per default and changed icon arrangement a little bit
+- 1.16	D. moved remote listing and transfer type to RemoteDir
+
+- 1.15	D. added version information to window title
+- 1.15	D. made windows version stable, too
+- 1.15	GD. added enhanced run.bat and updated readme file
+- 1.15	D. fixed a possible ls output parsing problem
+- 1.15	D. java web start support
+
+- 1.14	D. listing message is hidden now
+- 1.14	D. moved AutoRemover functionality into local/remote dirs
+- 1.14	D. fixed local remove selected bug on multiple selected files
+- 1.14	D. fixed documentation code
+
+- 1.13	D. fixed ZipEntry bug on no permission
+- 1.13	D. fixed refresh spamming and NullPointers
+- 1.13	D. fixed NullPointer when copy is called without a file selected
+- 1.13	D. move more methods to util/StringUtils.java
+- 1.13 	D. app has now 2 local dirs at startup
+- 1.13	D. no need to establish a connection at startup anymore
+- 1.13	D. local dir(s) are now using a FilesystemConnection for io
+- 1.13	D. made an interface BasicConnection to replace FtpConnection and allow other connection types
+
+- 1.12	D. disabled update feature per default (stalls too often)
+- 1.12	D. added copy method to local dir
+- 1.12	D. added ability to create zipfiles in local dir
+- 1.12	D. changed icon type and arrangement for local and remote Dir
+- 1.12	D. the first transfer is selected per default again
+- 1.12	D. deleting of paused transfers is now possible again
+- 1.12	D. changed refresh code and fixed ui glitches in the downloadmanager
+- 1.12	D. added ConnectionListener localDir
+- 1.12	D. FtpConnection does now support multiple ConnectionListeners
+- 1.12	D. use default dir checkbox is now remembered, too.
+- 1.12	D. made downloadmanager a little bit bigger
+- 1.12	D. changed filesize type to long, added filesize for uploads
+- 1.12	D. some gui code cleanups and reorganisation
+- 1.12	D. split up DirPanel in LocalDir and RemoteDir
+
+- 1.11	D. changed downloadmanager from JTextArea to nicer looking JList
+- 1.11	D. event handling is now separate from the downloadmanager
+- 1.11	D. added debug messages for update check, to see if the client stalls (happens occasionately)
+- 1.11	D. fixed connection remove problem when transferring directories
+- 1.11	D. added  Grapher.java (just a toy, but it could be modified to show how classes interact)
+
+- 1.10	D. added actionFinished() to ConnectionListener
+- 1.10 	D. fixed no local refresh on download bug
+- 1.10	D. more api cleanups
+- 1.10	D. directory transfers can now be stopped
+- 1.10	D. directory  transfers are now shown a a single item in downloadmanager
+
+- 1.09	D. fixed download manager pause, resume and delete bugs
+- 1.09	D. beginning to change everything not needed by other classes to private access
+- 1.09	D. implemented better bidirectional communication between application and connection
+- 1.09 	D. ConnectionHandler is no longer static, so a handler per connection can be used
+- 1.09	D. FtpConnection does event triggering directly now an no longer via ConnectionHandler
+
+- 1.08	D. tried to fix ui NullPointer bugs (please look for them in the console and report them)
+- 1.08	D. fixed remote directory creation bug (affected windows only)
+
+- 1.07	D. fixed client crash bug when doing something while a connection was starting
+- 1.07	D. updated TODO and documentation code
+- 1.07	D. fixed icon for .tgz files
+- 1.07	D. fixed some remote directory refreshing bugs
+- 1.07	D. fixed local windows pathname recognition
+
+- 1.06	D. cleaned up the tranfer handling code in FtpConnection
+- 1.06	D. added multithread support for directories, too
+- 1.06	D. some DownloadManager fixes
+- 1.06 	D. fixed local directory refresh bug
+- 1.06	D. single files are now uploaded multithreaded, too
+
+- 1.05	D. fixed relative path name recognition for FtpConnection.upload() and FtpConnection.download()
+- 1.05	D. changed offending debug message in FtpConnection and message in DataConnection
+
+- 1.04	D. applied loen's remote directory deletion bugfix
+- 1.04	D. fixed documentation code and added FtpUpload.java
+- 1.04	D. added auto-update-download-routine (please check manually from time to time, it might be buggy)
+
+- 1.03	D. add smart download routine - files smaller than Settings.smallSize (100kb default)  are now downloaded without a new connection
+- 1.03	D. downloadmanager no longer refuses to resume downloads after queue is full (paused item included)
+- 1.03	D. fixed some bugs for pause, resume and delete (sometimes wrong items were selected)
+- 1.03	D. client no longer hangs when queueing more than 1 item
+- 1.03	D. writable files are colored now, too
+- 1.03 	D. to be able to view selections now the font is colored, not the background
+- 1.03	D. fixed window location bug (window was moved some pixels after each restart)
+
+- 1.02	D. added delay for DownloadList.updateList to increase performance and prevent bugs
+- 1.02	D. fixed client crash when no permission to upload is granted
+- 1.02	D. changed finished to failed for failed transfers
+- 1.02	D. removing directories is fixed now
+- 1.02	D. made some dirty bugfixes to prevent DirPanel NullPointers
+
+- 1.01	D. fixed transfer multiple selected files bug (again)
+- 1.01	D. fixed non-closeable info-window bug
+
+- 1.00	D. made new connection and type toggle no longer work while app is blocked to prevent bugs
+- 1.00	D. window size and position are now remembered correctly when closing via exit button
+- 1.00	D. added "background reconnection" mode - if a server is busy the user can select to hide the windows and infinitely try to relogin
+- 1.00	D. added console-message if property file is not found
+
+- 1.0pre4	D. recursive download blocks again to prevent errors with local path change
+- 1.0pre4	D. auto-reconnect to servers which are full - turn off Settings.reconnect if you don't like this
+- 1.0pre4	D. fixed another DirPanel-NullPointer
+- 1.0pre4	D. filesizes are now correct after changing cwd, too
+
+- 1.0pre3	D. fixed possible crash on delete of queued items
+- 1.0pre3	D. users can't try to download a single file twice a time any more
+- 1.0pre3	D. fixed transferred byte count when resuming
+- 1.0pre3	D. fixed ArrayIndexOutOfBoundsException when doing a cd ..
+- 1.0pre3	D. implemented pause and resume in downloadmanager
+- 1.0pre3	D. fixed put instead of get message when resuming
+
+- 1.0pre2	D. disabled safeMode pre default, this should bring a small performance improvement (view readme)
+- 1.0pre2	D. fixed some ui-nullpointers in DirPanel
+- 1.0pre2	D. minor documentation updates
+- 1.0pre2	D. disabled autoresuming in the api to prevent bugs (this does not affect the gui client, see 3.3 in the readme)
+- 1.0pre2	D. fixed resuming bug reported by sandy - existing files are not auto-resumed any more to prevent resuming the wrong
+			     file, added ResumeDialog class which asks for the desired action if a file does already exist
+- 1.0pre2	D. renamed FtpConnection.setRemotePath() to chdir(), unparsed chdir is now chdirRaw()
+
+- 1.0pre1 	D. add log window if a connection fails
+- 1.0pre1 	D. fixed a few JConnection/FtpConnection NullPointers
+- 1.0pre1	D. split DirPanel and made it extend a base class TransferComponent
+- 1.0pre1  	D. cleaned DirPanel a little bit
+- 1.0pre1 	S. if multiple files were selected only the first was downloaded due to DirPanel refresh, fixed now
+- 1.0pre1 	S. fixed HostChooser-UI bug
+
+- 0.99 	D. fixed example code and added build target "compiledoc"
+
+- 0.98 	D. added queuing instead of blocking for multithreaded mode
+- 0.98 	D. updated readme
+- 0.98 	D. changed "cancel transfer" to just close the socket
+- 0.98 	D. simplified clear and selection-method of downloadmanager
+- 0.98 	D. made getPasvPort() like the rfc wants it
+- 0.98 	D. made multiple parallel downloads default
+- 0.98 	D. fixed url-support
+- 0.98 	G. starts to add sftp support
+
+- 0.97 	D. added rotate-method to toglle downloads
+- 0.97 	D. moved clear downloads button into new created download toolbar
+- 0.97 	D. downloads can now be cancelled in threaded mode
+
+- 0.96 D. added some delays to prevent ui-nullpointers - very strange bugs
+- 0.96 D. added command output window
+- 0.96 D. changed queueing code and merged it with threading support
+- 0.96 D. fixed serious multiple download bug
+- 0.96 G. improved commandline client
+
+- 0.95 D. added active mode fallback for servers not implementing pasv mode
+- 0.95 D. added type L 8 mode to switching method
+- 0.95 D. increased socket timeout
+- 0.95 D. fixed bug which prevented the properties to be saved
+- 0.95 D. added download output
+
+- 0.94 D. added experimental multithreading support
+- 0.94 D. local permissions are now colored, too
+- 0.94 D. fixed a ls -laL parsing bug
+
+- 0.93 D. support for VMS servers (directory listing style)
+- 0.93 D. files the user has no permissions to download are marked red now
+- 0.93 D. links are now resolved correctly
+- 0.93 D. cleaned up the listing methods a little bit
+
+- 0.92 D. small ui improvements for Creator, PathChanger and RemoteCommand
+- 0.92 D. user can now change transfer mode
+- 0.92 D. it is now possible to descend into directories represented by links
+- 0.92 D. improved link detection
+- 0.92 D. no longer freezes on a permission denied response
+
+- 0.91 D. hitting enter in JPasswordField connects to server now
+- 0.91 D. made some gui improvements
+- 0.91 D. made passive ftp default again
+- 0.91 D. fixed serious timeout bug in DataConnection
+
+- 0.90 D. removed experimental status of active ftp
+
+- 0.89 G. print out ftp commands being executed
+- 0.89 G. initial checkin of simple ftp server (implements LANG rfc 2640)
+- 0.89 G. fix JSplitPane to work better under Java 1.4
+
+- 0.88 D. client may exit if no connection is wanted
+- 0.88 B. gui improvements
+- 0.88 B. clients no longer hangs after successful PORT cmd
+
+- 0.87 D. made local setPath no longer get obsolete remote pwd
+- 0.87 D. use JFileChooser for local directory changing
+- 0.87 D. do remoteUpdate after remoteCmd
+- 0.87 D. made size-logging timebased, doing better progress output
+- 0.87 D. gathering better information about transferred bytes now
+- 0.87 D. improved IO for uploading
+- 0.87 D. fixed missing filesize-update for non-resumed downloads
+- 0.87 D. made ui refresh while up/downloading
+
+- 0.86 D. changed FtpConnection.up/download to be blocking, some
+	  servers didn't work if commands were sent while a DataConnection
+	  was open... (affected only downloads which took > a few seconds)
+
+- 0.85 D. client does not open HostChooser again if login fails
+- 0.85 D. login() in FtpConnection now returns a status message
+- 0.85 D. added bashscript run for task below
+- 0.85 D. jar can now take an URL as argument and launches this immediately
+- 0.85 R. userdata is now in $HOME
+- 0.85 R. improved FtpConnection
+- 0.85 G. getOsType now uses SYST
+- 0.85 G. added FtpURLConnection
+
+- 0.84 D. changed LayoutManager for DirPanel, resizes now better
+- 0.84 D. fixed refresh-problem
+- 0.84 D. files are now sorted alphabetically in DirPanel
+- 0.84 D. (re)implemented filesizes in ListModel
+- 0.84 D. added image for cmdButton in DirPanel
+- 0.84 D. set ftpPasvMode default to false (active mode testing)
+
+- 0.83 D. fixed active mode ftp and added checkbox + property
+- 0.83 D. some cleanups and documentation
+- 0.83 D. created GUIDefaults, core api now no longer needs X
+- 0.83 D. put localPath in FtpConnection
+- 0.83 D. more net layer restructuring, can now be used standalone
+- 0.83 D. moved control options to FtpConnection instead of Resource
+- 0.83 D. restructuring of the net layer, introducing ConnectionHandler
+- 0.83 T. added a new and nicer hostlist
+- 0.83 D. fixed small setLocation() bug, changed JSplitPane sizes
+- 0.83 G. config values can now be stored in a property file
+- 0.83 G. reimplemented second JSplitPane
+- 0.83 G. remember last window size and location
+
+- 0.82 D. Displayer shows now the top of the file, not the end
+- 0.82 D. reimplemented StatusCanvas
+- 0.82 D. app now disconnects on exit or new connection
+- 0.82 D. added "use default dirs" option to hostchooser
+- 0.82 D. fixed nullpointerexception due to mousewheel-scrolling in dirpanel
+- 0.82 D. speed improvement on file deletion
+- 0.82 D. fixed paths for files in jar-file as Paul suggested
+- 0.82 P. added invokeLater() jesktop-bugfix
+- 0.82 D. fixed JSplitPane-resize-bug
+- 0.82 D. do link parsing when deleting files, too
+- 0.82 D. fixed delete selected bug
+- 0.82 G. added JSplitPane
+- 0.82 G. remembers window size
+
+- 0.81 D. single delete button now removes all selected files/dirs
+- 0.81 D. failed download no longer leaves a 0 byte file
+- 0.81 D. FtpConnection can now use server-default as startup dir
+- 0.81 D. put 2 options from net/Resource in config/Settings, minor cleanups
+- 0.81 G. speed improvements for icon loading
+- 0.81 G. io-improvements
+- 0.81 G. buffersize in Settings, File.seperator is now used
+- 0.81 D. removed jesktop-frimble.jar from cvs
+- 0.81 D. put string methods from net/Resource to util/StringUtils
+- 0.81 D. packaging (net.sf.jftp.*;)
+- 0.81 D. (re)enabled hostlist on clean builds
+- 0.81 D. changed default build to "jars", deprecation off
+- 0.81 D. added real changelog
+- 0.81 P. now using cvs
+- 0.81 P. now using ant as build method
+
+- 0.80 D. parse symlinks correctly if downloading
+- 0.80 D. ability to view remote dir listings
+- 0.80 D. fixed recursive permission denied bug
+
+- 0.79 D. fixed relayout while loading
+- 0.79 D. give output on console while loading
+- 0.79 D. fixed nasty upload-bug
+
+- 0.78 D. fixed nasty mp3-icon-crash bug
+- 0.78 D. gui is now 100% swing
+- 0.78 D. dataconnection uses now separate thread correctly
+
+- 0.77 D. fixed some gui-bugs
+- 0.77 D. jesktop-compatibility
+- 0.77 D. uses now jar-file, getResource-updates

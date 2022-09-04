@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: net.sf.jftp.JFtp
+Created-By: 1.4.0-beta (Sun Microsystems Inc.)
+

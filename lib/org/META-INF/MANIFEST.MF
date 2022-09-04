@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.5.3 
+Created-By: Apache Jakarta Maven
+Built-By: tobrien
+Package: org.apache.commons.*
+Build-Jdk: 1.4.2_01
+Extension-Name: org.apache.commons.codec.*
+Specification-Version: 1.2
+Specification-Vendor: Apache Software Foundation
+Specification-Title: Jakarta Commons Codec
+Implementation-Version: 1.2
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: 
+Implementation-Title: org.apache.commons.codec.*
+

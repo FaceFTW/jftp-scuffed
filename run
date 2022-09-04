@@ -1,0 +1,11 @@
+#!/bin/bash
+
+dir=`dirname $0`
+cd $dir/build
+
+if test -z "$1" ; then
+	java -jar jars/jftp.jar
+else
+	java -jar jars/jftp.jar "$1"
+fi
+
