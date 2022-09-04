@@ -4,7 +4,7 @@ import javax.swing.JList;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * Helperklasse für TableUtils.generate*Model()
+ * Helperklasse fÃ¼r TableUtils.generate*Model()
  *
  */
 public abstract class MaterializedTableModel extends AbstractTableModel {
@@ -12,7 +12,7 @@ public abstract class MaterializedTableModel extends AbstractTableModel {
 	protected JList list;
 	
 	/**
-	 * Speichert eine JList auf die später in einem TableModel zugegriffen werden kann.
+	 * Speichert eine JList auf die spÃ¤ter in einem TableModel zugegriffen werden kann.
 	 * 
 	 * @param list JList
 	 */
