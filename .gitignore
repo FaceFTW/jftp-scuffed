@@ -1,7 +1,5 @@
 # Eclipse, VS Code configuration files
 /.vscode/
-/.classpath
-/.project
 /.settings/
 
 # Build output folders
