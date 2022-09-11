@@ -1,0 +1,58 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+package config {
+    class Crypto
+    class LoadSet
+    class SaveSet
+    class Settings
+}
+package event {
+    interface Acceptor
+    class Event
+    class EventCollector
+    interface EventHandler
+    class EventProcessor
+    class FtpEvent
+    interface FtpEventConstants
+    class FtpEventHandler
+}
+package gui{
+    package base{
+        package dir{
+            class ColoredCellRenderer
+            interface Dir
+            class DirCanvas
+            class DirCellRenderer
+            class DirComponent
+            class DirEntry
+            class DirLister
+            class DirPanel
+            class MaterializedTableModel
+            class TableUtils
+        }
+        class AppMenuBar
+        class DownloadList
+        class DownloadQueue
+        class FtpHost
+        class LocalDir
+        class LogFlusher
+        class Properties
+        class RemoteDir
+        class ResumeDialog
+        class StatusCanvas
+        class StatusPAnel
+        class UITool
+        class UIUtils{
+        class Spawn
+        class UIUtils
+      }
+
+
+
+
+
+    }
+}
+
+@enduml
