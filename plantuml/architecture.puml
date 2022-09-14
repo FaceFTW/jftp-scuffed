@@ -2,10 +2,43 @@
 'https://plantuml.com/class-diagram
 
 package config {
-    class Crypto
-    class LoadSet
-    class SaveSet
-    class Settings
+    class Crypto{
+        - {static}PASSWORD: final char[]
+        - {static} SALT: final byte[]
+        - {static} base64Encode(bytes: byte[]): String
+        - {static} base 64Decode(str: String): byte[]
+        + {static} Encrypt(str : String): String
+        + {static} Decrypt( str: String) : String
+    }
+    class LoadSet{
+        + {static} loadSet(file: String, ask: boolean): String[]
+        + {static} loadSet(file: String): String[]
+    }
+
+    class SaveSet{
+        + savePW(pass:String, out: PrintStream): void
+
+    }
+    class Settings{
+        - {static} p: Properties
+        - {static} propertyFilename: final String
+        + {static} IS_JAVA_1_6: boolean
+        + {static} sshHostKeyVerificationFile: String
+        + {static} defaultWidth : final String
+        + {static} defaultHeight : final String
+        + {static} defaultX : final String
+        + {static} defaultY: final String
+        + {static} maxConnections: in
+        + {static} enableResuming: boolean
+        + {static} enableUploadResuming: boolean
+        + {static} noUploadResumingQuestion: boolean
+        + {static} askToResume: boolean
+        + {static} reconnect: boolean
+        + {static} uiRefresh: int
+        + {static} logFlushInterval: int
+        + {static} useLogFlusher: boolean
+
+    }
 }
 package event {
     interface Acceptor
@@ -46,13 +79,91 @@ package gui{
         class UIUtils{
         class Spawn
         class UIUtils
-      }
-
-
-
-
-
+        }
+    }
+    package framework{
+        class NEEDTOADD
+    }
+    package hostchooser{
+        class HostChooser
+        class NfsHostChooser
+        class SftpHostChooser
+        class SmbHostChooser
+        class WebdavHostChooser
+    }
+    package tasks{
+        class NEEDTOADD2
     }
 }
+package net{
+    package servers{
+        class FtpServer
+        class FtpServerSocket
+    }
+    package wrappers{
+        class HttpTransfer
+        class NfsConnection
+        class Sftp2Connection{
+            class MyUserInfo
+            class Sftp2Connection
+        }
+        class Sftp2Transfer
+        class Sftp2URLConnection
+        class SmbConnection
+        class SmbTest
+        class SmbTransfer
+        class StartConnection
+        class WebdavConnection
+    }
+    interface BasicConnection
+    class ConnectionHandler
+    interface ConnectionListener
+    class DataConnection
+    class FilesystemConnection
+    class FtpClient
+    class FtpConnection
+    interface FtpConstants
+    class FtpKeepAliveThread
+    class FtpTransfer
+    class FtpURLConnection
+    class FtpURLStreamHandler
+    class JConnection
+    class Transfer
+}
+package system{
+    package logging{
+        class Log
+        class Log4Logger
+        interface Logger
+        class SystemLogger
+    }
+    class CommandLine
+    class LocalIO
+    class StringUtils
+    class UpdateDaemon
+}
+package tools{
+    class FileSearch{
+        class FileSearch
+        class Getter
+    }
+    class HttpSpider{
+        class Holer
+        class HttpSpider
+    }
+    class RSSFeeder
+    class RSSParser
+    class Shell
+}
+package util{
+    class JHostChooser
+    class JRawConnection
+    class JReciever
+    class RawConnection
+    class ZipFileCreator
+}
+class JFtp
+class JFtpApplet
+
 
 @enduml
