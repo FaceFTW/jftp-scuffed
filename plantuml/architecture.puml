@@ -37,18 +37,63 @@ package config {
         + {static} uiRefresh: int
         + {static} logFlushInterval: int
         + {static} useLogFlusher: boolean
-
+        + {static} ftpTransferThreadPause: int
+        + {static} smallSize: int
+        + {static} smallSizeUp: int
+        + {static} shortProgress: boolean
+        + {static} defaultFtpPasvMode: String
+        + {static} defaultEnableDebug: String
+        + {static} FILL OUT THE REST - Left off on line 60
     }
 }
 package event {
-    interface Acceptor
-    class Event
-    class EventCollector
-    interface EventHandler
-    class EventProcessor
-    class FtpEvent
-    interface FtpEventConstants
-    class FtpEventHandler
+    interface Acceptor{
+        + accept(e: Event): void
+    }
+    abstract class Event{
+        + {abstract} eventCode: int
+    }
+    class EventCollector implements Acceptor{
+        # buffer: Vector
+        + accept(e: Event): void
+    }
+    interface EventHandler{
+        +handle(e:Event): boolean
+    }
+    class EventProcessor implements Runnable, Acceptor, FtpEventConstants, EventHandler{
+        - {static} table: Hashtable
+        - buffer: Vector
+        - done: boolean
+        + accept(e:Event): void
+        + {static} addHandler(eventCode: int, h: EventHandler): void
+        + handle(e:Event): boolean
+        + run(): void
+    }
+    class FtpEvent extends Event{
+        - code: int
+        - message: String
+        + eventMsg(): String
+        + eventCode(): int
+    }
+    interface FtpEventConstants {
+        + {static} FTPCommand: final int
+        + {static} FTPPrompt: final int
+        + {static} FTPShutdown: final int
+    }
+    class FtpEventHandler implements EventHandler{
+       -{static} commands: ArrayList
+       - client: FtpClient
+       - methods: Hashtable
+       +open(args:Vector): void
+       +disconnect(args:Vector): void
+       +cd(args: Vector): void
+       +pwd(args: Vector): void
+       +get(args: Vector): void
+       +put(args: Vector): void
+       +quit(args: Vector): void
+       +handle(e: Event): boolean
+
+    }
 }
 package gui{
     package base{
