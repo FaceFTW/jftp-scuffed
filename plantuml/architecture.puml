@@ -84,14 +84,14 @@ package event {
        -{static} commands: ArrayList
        - client: FtpClient
        - methods: Hashtable
-       +open(args:Vector): void
-       +disconnect(args:Vector): void
-       +cd(args: Vector): void
-       +pwd(args: Vector): void
-       +get(args: Vector): void
-       +put(args: Vector): void
-       +quit(args: Vector): void
-       +handle(e: Event): boolean
+       + open(args:Vector): void
+       + disconnect(args:Vector): void
+       + cd(args: Vector): void
+       + pwd(args: Vector): void
+       + get(args: Vector): void
+       + put(args: Vector): void
+       + quit(args: Vector): void
+       + handle(e: Event): boolean
 
     }
 }
@@ -210,5 +210,14 @@ package util{
 class JFtp
 class JFtpApplet
 
+LoadSet -.-> Settings
+LoadSet -.-> UIUtils
+LoadSet -.-> Crypto
+LoadSet -.-> JFtp
+SaveSet -.-> Settings
+SaveSet -.-> Crypto
+EventCollector -.-> EventProcessor
+EventProcessor -.-> EventHandler
+FtpEventHandler --> FtpClient
 
 @enduml
