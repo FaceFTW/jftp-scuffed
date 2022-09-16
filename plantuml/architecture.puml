@@ -101,12 +101,12 @@ package gui{
             class ColoredCellRenderer
             interface Dir
             class DirCanvas
-            class DirCellRenderer
-            class DirComponent
+            class DirCellRenderer extends DefaultListCellRenderer
+            class DirComponent extends DirPanel implements ListSelectionListener
             class DirEntry
-            class DirLister
-            class DirPanel
-            class MaterializedTableModel
+            class DirLister implements ActionListener
+            class DirPanel extends HPanel implements Dir
+            class MaterializedTableModel extends AbstractTableModel
             class TableUtils
         }
         class AppMenuBar
@@ -119,7 +119,7 @@ package gui{
         class RemoteDir
         class ResumeDialog
         class StatusCanvas
-        class StatusPAnel
+        class StatusPanel
         class UITool
         class UIUtils{
         class Spawn
@@ -219,5 +219,36 @@ SaveSet -.-> Crypto
 EventCollector -.-> EventProcessor
 EventProcessor -.-> EventHandler
 FtpEventHandler --> FtpClient
+Dir --> BasicConnection
+Dir --> DownloadList
+DirCanvas --> Dir
+DirCanvas -.-> UITool
+DirCanvas -.-> PathChanger
+DirCanvas -.-> GUIDefaults
+DirCellRenderer --> ImageIcon
+DirCellRenderer -.-> DirEntry
+DirCellRenderer -.-> GUIDefaults
+DirCellRenderer -.-> RemoteDir
+DirCellRenderer -.-> LocalDir
+DirComponent --> DirPanel
+DirComponent -.-> ColoredCellRenderer
+DirEntry -.-> HImage
+DirEntry -.-> ImageIcon
+DirEntry -.-> Image
+DirLister --> BasicConnection
+DirLister -.-> FtpConnection
+DirLister -.-> FilesystemConnection
+
+DirPanel --> DirEntry
+DirPanel --> DownloadList
+DirPanel --> BasicConnection
+TableUtils --> TableCellRenderer
+TableUtils --> TableColumnModel
+TableUtils --> TableModel
+TableUtils --> TableColumn
+
+
+
+
 
 @enduml
