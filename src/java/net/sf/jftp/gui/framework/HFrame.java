@@ -22,27 +22,27 @@ import java.awt.*;
 
 
 public class HFrame extends JDialog {
-    public HFrame() {
-        setFont(GUIDefaults.font);
-        setTitle("JFtp...");
-        setBackground(new JLabel().getBackground());
-        setResizable(Settings.resize);
+	public HFrame() {
+		setFont(GUIDefaults.font);
+		setTitle("JFtp...");
+		setBackground(new JLabel().getBackground());
+		setResizable(Settings.resize);
 
-        //setModal(true);
-        fixLocation();
-    }
+		//setModal(true);
+		fixLocation();
+	}
 
-    public static void fixLocation(Window w) {
-        Toolkit tk = Toolkit.getDefaultToolkit();
+	public static void fixLocation(Window w) {
+		Toolkit tk = Toolkit.getDefaultToolkit();
 
-        w.setLocation((tk.getScreenSize().width - w.getSize().width) / 2, (tk.getScreenSize().height - w.getSize().height) / 2);
-    }
+		w.setLocation((tk.getScreenSize().width - w.getSize().width) / 2, (tk.getScreenSize().height - w.getSize().height) / 2);
+	}
 
-    public void fixLocation() {
-        Toolkit tk = Toolkit.getDefaultToolkit();
+	public void fixLocation() {
+		Toolkit tk = Toolkit.getDefaultToolkit();
 
-        setLocation((tk.getScreenSize().width - getSize().width) / 2, (tk.getScreenSize().height - getSize().height) / 2);
-    }
+		setLocation((tk.getScreenSize().width - getSize().width) / 2, (tk.getScreenSize().height - getSize().height) / 2);
+	}
 
 	/*
 	public Insets getInsets()

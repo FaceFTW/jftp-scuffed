@@ -30,121 +30,118 @@ import java.awt.event.ActionListener;
 
 //***
 public class AdvancedOptions extends HPanel implements ActionListener {
-    //used this to see if it needs to look up file value
-    public static boolean listOptionSet = false;
-    private final HTextField listCommand = new HTextField("FTP LIST command:",
-            FtpConnection.LIST, 15);
-    private final JButton setListCommand = new JButton("Set");
+	//used this to see if it needs to look up file value
+	public static boolean listOptionSet = false;
+	private final HTextField listCommand = new HTextField("FTP LIST command:", FtpConnection.LIST, 15);
+	private final JButton setListCommand = new JButton("Set");
 
-    //*** 
-    private final JButton saveCommand = new JButton("Set and Save");
+	//***
+	private final JButton saveCommand = new JButton("Set and Save");
 
-    //***
-    //*** should it really be set up so that the original message here on top
-    //*** is cleared out when events such as changing settings occurs
-    //*** (the text area which contains instructions at first has these
-    //*** instructions cleared out when some events occur.)
-    //*** So maybe should have a text box at the bottom? And a label at top
-    //*** with the instruction text?
-    //***this line may be deprecated
-    private final JLabel text = new JLabel();
-    //private JLabel note = new JLabel();
+	//***
+	//*** should it really be set up so that the original message here on top
+	//*** is cleared out when events such as changing settings occurs
+	//*** (the text area which contains instructions at first has these
+	//*** instructions cleared out when some events occur.)
+	//*** So maybe should have a text box at the bottom? And a label at top
+	//*** with the instruction text?
+	//***this line may be deprecated
+	private final JLabel text = new JLabel();
+	//private JLabel note = new JLabel();
 
-    //***
-    private final JLabel statusText = new JLabel();
-    private String listOptionText = ""; //what the text in the box initially is
+	//***
+	private final JLabel statusText = new JLabel();
+	private String listOptionText = ""; //what the text in the box initially is
 
-    //***
-    public AdvancedOptions() {
-        setLayout(new BorderLayout(5, 5));
+	//***
+	public AdvancedOptions() {
+		setLayout(new BorderLayout(5, 5));
 
-        //text.setText("You can override the default values here, but note that " +
-        //	     "the values are not saved\n and lost after closing the application.");
-        text.setText("Default values for commands can be overidden here.");
-        statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
+		//text.setText("You can override the default values here, but note that " +
+		//	     "the values are not saved\n and lost after closing the application.");
+		text.setText("Default values for commands can be overidden here.");
+		statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
 
-        text.setPreferredSize(new Dimension(400, 30));
+		text.setPreferredSize(new Dimension(400, 30));
 
-        //text.setLineWrap(true);
-        //***
-        statusText.setPreferredSize(new Dimension(400, 30));
+		//text.setLineWrap(true);
+		//***
+		statusText.setPreferredSize(new Dimension(400, 30));
 
-        //statusText.setLineWrap(true);
-        //***
-        //load initial advanced options here
-        //JUST FOR NOW: We just know that value 0 is the FTP LIST command
-        if (listOptionSet) {
-            listOptionText = FtpConnection.LIST;
-        } else {
-            //AND NEED TO CHECK IF FILE DOESN'T EXIST (if not, create it
-            //and set the file and settings to the default
-            if (LoadSet.loadSet(Settings.adv_settings) != null) {
-                listOptionText = LoadSet.loadSet(Settings.adv_settings)[0];
-            } else {
-                listOptionText = FtpConnection.LIST_DEFAULT;
+		//statusText.setLineWrap(true);
+		//***
+		//load initial advanced options here
+		//JUST FOR NOW: We just know that value 0 is the FTP LIST command
+		if (listOptionSet) {
+			listOptionText = FtpConnection.LIST;
+		} else {
+			//AND NEED TO CHECK IF FILE DOESN'T EXIST (if not, create it
+			//and set the file and settings to the default
+			if (LoadSet.loadSet(Settings.adv_settings) != null) {
+				listOptionText = LoadSet.loadSet(Settings.adv_settings)[0];
+			} else {
+				listOptionText = FtpConnection.LIST_DEFAULT;
 
-                SaveSet s = new SaveSet(Settings.adv_settings,
-                        FtpConnection.LIST_DEFAULT);
-            }
-        }
+				SaveSet s = new SaveSet(Settings.adv_settings, FtpConnection.LIST_DEFAULT);
+			}
+		}
 
-        listCommand.setText(listOptionText);
+		listCommand.setText(listOptionText);
 
-        HPanel content = new HPanel();
-        HPanel panel = new HPanel();
-        panel.add(listCommand);
-        panel.add(setListCommand);
+		HPanel content = new HPanel();
+		HPanel panel = new HPanel();
+		panel.add(listCommand);
+		panel.add(setListCommand);
 
-        //***
-        panel.add(saveCommand);
+		//***
+		panel.add(saveCommand);
 
-        //***
-        content.add(panel);
+		//***
+		content.add(panel);
 
-        add("North", text);
-        add("Center", content);
+		add("North", text);
+		add("Center", content);
 
-        add("South", statusText);
+		add("South", statusText);
 
-        setListCommand.addActionListener(this);
-        saveCommand.addActionListener(this);
-    }
+		setListCommand.addActionListener(this);
+		saveCommand.addActionListener(this);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == setListCommand) {
-            FtpConnection.LIST = listCommand.getText().trim();
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == setListCommand) {
+			FtpConnection.LIST = listCommand.getText().trim();
 
-            //text.setText("LIST command set.");
-            //***
-            statusText.setText("LIST command set.");
-            listOptionSet = true;
+			//text.setText("LIST command set.");
+			//***
+			statusText.setText("LIST command set.");
+			listOptionSet = true;
 
-            //***
-        }
+			//***
+		}
 
-        //if(e.getSource() == saveCommand)
-        else {
-            //isn't the following line redundant? So I commented it out
-            //it would be redundant if the LIST command is read in by LoadSet each time
-            //FtpConnection.LIST = listCommand.getText().trim();
-            FtpConnection.LIST = listCommand.getText().trim();
+		//if(e.getSource() == saveCommand)
+		else {
+			//isn't the following line redundant? So I commented it out
+			//it would be redundant if the LIST command is read in by LoadSet each time
+			//FtpConnection.LIST = listCommand.getText().trim();
+			FtpConnection.LIST = listCommand.getText().trim();
 
-            listOptionSet = true;
+			listOptionSet = true;
 
-            //text.setText("LIST command set and saved");
-            //statusText.setText("LIST command set and saved.");
-            SaveSet s = new SaveSet(Settings.adv_settings,
-                    listCommand.getText().trim());
+			//text.setText("LIST command set and saved");
+			//statusText.setText("LIST command set and saved.");
+			SaveSet s = new SaveSet(Settings.adv_settings, listCommand.getText().trim());
 
-            //***
-            //text.setText("LIST command set and saved");
-            statusText.setText("LIST command set and saved.");
+			//***
+			//text.setText("LIST command set and saved");
+			statusText.setText("LIST command set and saved.");
 
-            //***
-        }
-    }
+			//***
+		}
+	}
 
-    public Insets getInsets() {
-        return new Insets(super.getInsets().top + 5, super.getInsets().left + 5, super.getInsets().bottom + 5, super.getInsets().right + 5);
-    }
+	public Insets getInsets() {
+		return new Insets(super.getInsets().top + 5, super.getInsets().left + 5, super.getInsets().bottom + 5, super.getInsets().right + 5);
+	}
 }

@@ -24,35 +24,35 @@ import java.awt.event.ActionListener;
 
 
 public class RemoverQuery extends HFrame implements ActionListener {
-    private final String file;
-    private final String type;
-    private final HButton ok = new HButton("Ok");
-    private final HButton cancel = new HButton("Cancel");
+	private final String file;
+	private final String type;
+	private final HButton ok = new HButton("Ok");
+	private final HButton cancel = new HButton("Cancel");
 
-    public RemoverQuery(String file, String type) {
-        this.file = file;
-        this.type = type;
+	public RemoverQuery(String file, String type) {
+		this.file = file;
+		this.type = type;
 
-        setSize(200, 70);
-        setTitle("Really?");
-        setLayout(new FlowLayout());
-        setLocation(150, 150);
+		setSize(200, 70);
+		setTitle("Really?");
+		setLayout(new FlowLayout());
+		setLocation(150, 150);
 
-        add(ok);
-        add(cancel);
+		add(ok);
+		add(cancel);
 
-        ok.addActionListener(this);
-        cancel.addActionListener(this);
+		ok.addActionListener(this);
+		cancel.addActionListener(this);
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == ok) {
-            AutoRemover armv = new AutoRemover(file, type);
-            this.dispose();
-        } else {
-            this.dispose();
-        }
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == ok) {
+			AutoRemover armv = new AutoRemover(file, type);
+			this.dispose();
+		} else {
+			this.dispose();
+		}
+	}
 }

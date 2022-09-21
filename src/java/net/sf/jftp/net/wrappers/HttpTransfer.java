@@ -1,6 +1,10 @@
 package net.sf.jftp.net.wrappers;
 
-import net.sf.jftp.net.*;
+import net.sf.jftp.net.ConnectionHandler;
+import net.sf.jftp.net.ConnectionListener;
+import net.sf.jftp.net.DataConnection;
+import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.net.Transfer;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
 
@@ -13,121 +17,116 @@ import java.util.Vector;
 
 
 public class HttpTransfer extends Transfer implements Runnable {
-    private final String url;
-    private final String localPath;
-    private final String file;
-    private final Vector listeners;
-    public boolean work = true;
-    public boolean pause = false;
-    public Thread runner;
-    private int stat = 1;
-    private ConnectionHandler handler = new ConnectionHandler();
+	private final String url;
+	private final String localPath;
+	private final String file;
+	private final Vector listeners;
+	public boolean work = true;
+	public boolean pause = false;
+	public Thread runner;
+	private int stat = 1;
+	private ConnectionHandler handler = new ConnectionHandler();
 
-    public HttpTransfer(String url, String localPath, Vector listeners,
-                        ConnectionHandler handler) {
-        this.url = url;
-        this.localPath = localPath;
-        this.listeners = listeners;
-        this.handler = handler;
+	public HttpTransfer(String url, String localPath, Vector listeners, ConnectionHandler handler) {
+		this.url = url;
+		this.localPath = localPath;
+		this.listeners = listeners;
+		this.handler = handler;
 
-        file = StringUtils.getFile(url);
+		file = StringUtils.getFile(url);
 
-        prepare();
-    }
+		prepare();
+	}
 
-    public void prepare() {
-        runner = new Thread(this);
-        runner.setPriority(Thread.MIN_PRIORITY);
-        runner.start();
-    }
+	public void prepare() {
+		runner = new Thread(this);
+		runner.setPriority(Thread.MIN_PRIORITY);
+		runner.start();
+	}
 
-    public void run() {
-        try {
-            if (handler.getConnections().get(file) == null) {
-                Log.out("download started: " + url);
-                Log.out("connection handler present: " + handler +
-                        ", poll size: " + handler.getConnections().size());
-                Log.out("local file: " + localPath + file);
-                handler.addConnection(file, this);
-            } else {
-                Log.debug("Transfer already in progress: " + file);
-                work = false;
-                stat = 2;
+	public void run() {
+		try {
+			if (handler.getConnections().get(file) == null) {
+				Log.out("download started: " + url);
+				Log.out("connection handler present: " + handler + ", poll size: " + handler.getConnections().size());
+				Log.out("local file: " + localPath + file);
+				handler.addConnection(file, this);
+			} else {
+				Log.debug("Transfer already in progress: " + file);
+				work = false;
+				stat = 2;
 
-                return;
-            }
+				return;
+			}
 
-            URL u = new URL(url);
+			URL u = new URL(url);
 
-            BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(localPath +
-                    file));
-            BufferedInputStream in = new BufferedInputStream(u.openStream());
-            byte[] buf = new byte[4096];
-            int len = 0;
+			BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(localPath + file));
+			BufferedInputStream in = new BufferedInputStream(u.openStream());
+			byte[] buf = new byte[4096];
+			int len = 0;
 
-            while ((stat > 0) && work) {
-                stat = in.read(buf);
+			while ((stat > 0) && work) {
+				stat = in.read(buf);
 
-                if (stat == -1) {
-                    break;
-                }
+				if (stat == -1) {
+					break;
+				}
 
-                f.write(buf, 0, stat);
+				f.write(buf, 0, stat);
 
-                len += stat;
-                fireProgressUpdate(file, DataConnection.GET, len);
-            }
+				len += stat;
+				fireProgressUpdate(file, DataConnection.GET, len);
+			}
 
-            f.flush();
-            f.close();
-            in.close();
+			f.flush();
+			f.close();
+			in.close();
 
-            fireProgressUpdate(file, DataConnection.FINISHED, len);
-        } catch (Exception ex) {
-            work = false;
-            Log.debug("Download failed: " + ex);
+			fireProgressUpdate(file, DataConnection.FINISHED, len);
+		} catch (Exception ex) {
+			work = false;
+			Log.debug("Download failed: " + ex);
 
-            File f = new File(localPath + file);
-            f.delete();
-            fireProgressUpdate(file, DataConnection.FAILED, -1);
+			File f = new File(localPath + file);
+			f.delete();
+			fireProgressUpdate(file, DataConnection.FAILED, -1);
 
-            ex.printStackTrace();
+			ex.printStackTrace();
 
-            return;
-        }
+			return;
+		}
 
-        if (!work) {
-            File f = new File(localPath + file);
-            f.delete();
-            Log.out("download aborted: " + file);
-        }
-    }
+		if (!work) {
+			File f = new File(localPath + file);
+			f.delete();
+			Log.out("download aborted: " + file);
+		}
+	}
 
-    public void fireProgressUpdate(String file, String type, int bytes) {
-        if (listeners == null) {
-            return;
-        }
+	public void fireProgressUpdate(String file, String type, int bytes) {
+		if (listeners == null) {
+			return;
+		}
 
-        for (int i = 0; i < listeners.size(); i++) {
-            ((ConnectionListener) listeners.elementAt(i)).updateProgress(file,
-                    type,
-                    bytes);
-        }
-    }
+		for (int i = 0; i < listeners.size(); i++) {
+			((ConnectionListener) listeners.elementAt(i)).updateProgress(file, type, bytes);
+		}
+	}
 
-    public int getStatus() {
-        return stat;
-    }
+	public int getStatus() {
+		return stat;
+	}
 
-    public boolean hasStarted() {
-        return true;
-    }
+	public boolean hasStarted() {
+		return true;
+	}
 
-    public FtpConnection getFtpConnection() {
-        return null;
-    }
+	public FtpConnection getFtpConnection() {
+		return null;
+	}
 
-    public DataConnection getDataConnection() {
-        return null;
-    }
+	public DataConnection getDataConnection() {
+		return null;
+	}
 }

@@ -28,42 +28,39 @@ import java.util.Vector;
 
 
 public class HttpDownloader extends HPanel implements ActionListener {
-    private final HTextField text;
-    private final HButton ok = new HButton("Start");
+	private final HTextField text;
+	private final HButton ok = new HButton("Start");
 
-    public HttpDownloader() {
-        //setSize(480,100);
-        //setTitle("Download a file via an URL");
-        //setLocation(150,150);
-        //getContentPane().
-        setLayout(new FlowLayout());
+	public HttpDownloader() {
+		//setSize(480,100);
+		//setTitle("Download a file via an URL");
+		//setLocation(150,150);
+		//getContentPane().
+		setLayout(new FlowLayout());
 
-        text = new HTextField("URL:", "http://", 25);
+		text = new HTextField("URL:", "http://", 25);
 
-        //getContentPane().
-        add(text);
+		//getContentPane().
+		add(text);
 
-        //getContentPane().
-        add(ok);
-        ok.addActionListener(this);
-        text.text.addActionListener(this);
+		//getContentPane().
+		add(ok);
+		ok.addActionListener(this);
+		text.text.addActionListener(this);
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-            Vector listeners = new Vector();
-            listeners.add(JFtp.localDir);
+	public void actionPerformed(ActionEvent e) {
+		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+			Vector listeners = new Vector();
+			listeners.add(JFtp.localDir);
 
-            HttpTransfer t = new HttpTransfer(text.getText().trim(),
-                    JFtp.localDir.getPath(),
-                    listeners,
-                    JFtp.getConnectionHandler());
+			HttpTransfer t = new HttpTransfer(text.getText().trim(), JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
 
-            JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
+			JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
 
-            //hide();
-        }
-    }
+			//hide();
+		}
+	}
 }

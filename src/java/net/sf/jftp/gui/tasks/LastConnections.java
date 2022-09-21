@@ -29,55 +29,55 @@ import java.util.StringTokenizer;
 
 
 public class LastConnections {
-    public static String SENTINEL = "********************";
-    private static JFtp jftp;
+	public static String SENTINEL = "********************";
+	private static JFtp jftp;
 
-    //*** changed this so that JFtp object is passed to it and 
-    //initialized
-    public LastConnections(JFtp jftp) {
-        LastConnections.jftp = jftp;
+	//*** changed this so that JFtp object is passed to it and
+	//initialized
+	public LastConnections(JFtp jftp) {
+		LastConnections.jftp = jftp;
 
-        //init();
-    }
+		//init();
+	}
 
-    //writeToFile: This code is called when modifications are done
-    //being made (should it be private and called from inside 
-    //this class?)
-    //maybe I should return a boolean value stating whether or not it
-    //succeeded
-    //SHOULD THIS BE PRIVATE?
-    //public static void writeToFile(String[] a, int capacity) {
-    public static void writeToFile(String[][] a, int capacity) {
-        try {
-            File f1 = new File(Settings.appHomeDir);
-            f1.mkdir();
+	//writeToFile: This code is called when modifications are done
+	//being made (should it be private and called from inside
+	//this class?)
+	//maybe I should return a boolean value stating whether or not it
+	//succeeded
+	//SHOULD THIS BE PRIVATE?
+	//public static void writeToFile(String[] a, int capacity) {
+	public static void writeToFile(String[][] a, int capacity) {
+		try {
+			File f1 = new File(Settings.appHomeDir);
+			f1.mkdir();
 
-            File f2 = new File(Settings.last_cons);
-            f2.createNewFile();
+			File f2 = new File(Settings.last_cons);
+			f2.createNewFile();
 
-            FileOutputStream fos;
-            PrintStream out;
+			FileOutputStream fos;
+			PrintStream out;
 
-            fos = new FileOutputStream(Settings.last_cons);
-            out = new PrintStream(fos);
+			fos = new FileOutputStream(Settings.last_cons);
+			out = new PrintStream(fos);
 
-            //String[] lastCons = new String[capacity];
-            //lastCons = readFromFile(capacity);
-            for (int i = 0; i < capacity; i++) {
-                //out.println(a[i]);
-                int j = 0;
-                out.println(a[i][j]);
+			//String[] lastCons = new String[capacity];
+			//lastCons = readFromFile(capacity);
+			for (int i = 0; i < capacity; i++) {
+				//out.println(a[i]);
+				int j = 0;
+				out.println(a[i][j]);
 
-                while ((j < JFtp.CAPACITY) && !(a[i][j].equals(SENTINEL))) {
-                    j++;
-                    out.println(a[i][j]);
+				while ((j < JFtp.CAPACITY) && !(a[i][j].equals(SENTINEL))) {
+					j++;
+					out.println(a[i][j]);
 
-                    //retVal[i][j] = raf.readLine();
-                    //System.out.println();
-                }
+					//retVal[i][j] = raf.readLine();
+					//System.out.println();
+				}
 
-                //System.out.println(a[i]);
-            }
+				//System.out.println(a[i]);
+			}
 
             /*
             RandomAccessFile raf =
@@ -90,31 +90,31 @@ public class LastConnections {
 
             }
             */
-            JFtp.updateMenuBar();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+			JFtp.updateMenuBar();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-    //writeToFile
-    public static String[][] readFromFile(int capacity) {
-        //MAKE THIS 2D
-        //String[] retVal = new String[capacity];
-        String[][] retVal = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
+	//writeToFile
+	public static String[][] readFromFile(int capacity) {
+		//MAKE THIS 2D
+		//String[] retVal = new String[capacity];
+		String[][] retVal = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
 
-        //if ((f.exists()))
-        //	System.out.println("not found");
-        try {
-            File f1 = new File(Settings.appHomeDir);
-            f1.mkdir();
+		//if ((f.exists()))
+		//	System.out.println("not found");
+		try {
+			File f1 = new File(Settings.appHomeDir);
+			f1.mkdir();
 
-            File f2 = new File(Settings.last_cons);
+			File f2 = new File(Settings.last_cons);
 
-            //File f;
-            //f = init(capacity);
-            if (!f2.exists()) {
-                init(capacity);
-            }
+			//File f;
+			//f = init(capacity);
+			if (!f2.exists()) {
+				init(capacity);
+			}
 
             /*
             FileReader fr = new FileReader(Settings.last_cons);
@@ -126,206 +126,200 @@ public class LastConnections {
                    retVal[i] = breader.readLine();
             }
             */
-            RandomAccessFile raf = new RandomAccessFile(f2, "r");
+			RandomAccessFile raf = new RandomAccessFile(f2, "r");
 
-            //BUGFIX 1.40: determine if old style of file is 
-            //             being used
-            //THIS MAY MAKE THIS SECTION LESS TIME-EFFICIENT
-            String[] oldValues = new String[capacity];
-            String firstSection = "";
-            boolean oldVersion = true;
+			//BUGFIX 1.40: determine if old style of file is
+			//             being used
+			//THIS MAY MAKE THIS SECTION LESS TIME-EFFICIENT
+			String[] oldValues = new String[capacity];
+			String firstSection = "";
+			boolean oldVersion = true;
 
-            //System.out.println(capacity);
-            for (int i = 0; i < capacity; i++) {
-                if (capacity < JFtp.CAPACITY) {
-                    oldVersion = false;
+			//System.out.println(capacity);
+			for (int i = 0; i < capacity; i++) {
+				if (capacity < JFtp.CAPACITY) {
+					oldVersion = false;
 
-                    break;
-                }
+					break;
+				}
 
-                oldValues[i] = raf.readLine();
-                firstSection = oldValues[i].substring(0, 3);
+				oldValues[i] = raf.readLine();
+				firstSection = oldValues[i].substring(0, 3);
 
-                //System.out.print(i);
-                //System.out.print(firstSection);
-                //System.out.println("end");
-                if (!(firstSection.equals("FTP")) &&
-                        !(firstSection.equals("SFT")) &&
-                        !(firstSection.equals("SMB")) &&
-                        !(firstSection.equals("NFS")) &&
-                        !(firstSection.equals("nul"))) {
-                    //System.out.println("###");
-                    oldVersion = false;
-                }
+				//System.out.print(i);
+				//System.out.print(firstSection);
+				//System.out.println("end");
+				if (!(firstSection.equals("FTP")) && !(firstSection.equals("SFT")) && !(firstSection.equals("SMB")) && !(firstSection.equals("NFS")) && !(firstSection.equals("nul"))) {
+					//System.out.println("###");
+					oldVersion = false;
+				}
 
-                if (!oldVersion) {
-                    //System.out.println("!!!");
-                    break;
-                }
-            }
+				if (!oldVersion) {
+					//System.out.println("!!!");
+					break;
+				}
+			}
 
-            //for
-            raf = new RandomAccessFile(f2, "r");
+			//for
+			raf = new RandomAccessFile(f2, "r");
 
-            if (oldVersion) {
-                //System.out.println("old file detected");
-                for (int i = 0; i < capacity; i++) {
-                    oldValues[i] = raf.readLine();
-                }
+			if (oldVersion) {
+				//System.out.println("old file detected");
+				for (int i = 0; i < capacity; i++) {
+					oldValues[i] = raf.readLine();
+				}
 
-                changeFile(oldValues);
-            }
+				changeFile(oldValues);
+			}
 
-            //reset to read start of file 
-            raf = new RandomAccessFile(f2, "r");
+			//reset to read start of file
+			raf = new RandomAccessFile(f2, "r");
 
-            for (int i = 0; i < capacity; i++) {
-                int j = 0;
-                retVal[i][j] = raf.readLine();
+			for (int i = 0; i < capacity; i++) {
+				int j = 0;
+				retVal[i][j] = raf.readLine();
 
-                //System.out.print("--->");
-                //System.out.println(retVal[i][j]);
-                while ((j < JFtp.CONNECTION_DATA_LENGTH) &&
-                        !(retVal[i][j].equals(SENTINEL))) {
-                    j++;
-                    retVal[i][j] = raf.readLine();
+				//System.out.print("--->");
+				//System.out.println(retVal[i][j]);
+				while ((j < JFtp.CONNECTION_DATA_LENGTH) && !(retVal[i][j].equals(SENTINEL))) {
+					j++;
+					retVal[i][j] = raf.readLine();
 
-                    //System.out.print("--->");
-                    //System.out.println(retVal[i][j]);
-                    //j++;
-                }
+					//System.out.print("--->");
+					//System.out.println(retVal[i][j]);
+					//j++;
+				}
 
-                //while
-                //retVal[i][j+1] = raf.readLine();
-            }
+				//while
+				//retVal[i][j+1] = raf.readLine();
+			}
 
-            //for
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+			//for
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
-        return retVal;
-    }
+		return retVal;
+	}
 
-    //readFromFile
-    public static String[][] prepend(String[] newString, int capacity,
-                                     boolean newConnection) {
-        //BUGFIX: 2D                                        
-        //String[] lastCons = new String[capacity];
-        String[][] lastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
+	//readFromFile
+	public static String[][] prepend(String[] newString, int capacity, boolean newConnection) {
+		//BUGFIX: 2D
+		//String[] lastCons = new String[capacity];
+		String[][] lastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
 
-        lastCons = readFromFile(capacity);
+		lastCons = readFromFile(capacity);
 
-        for (int i = 0; i < capacity; i++) {
-            int j = 0;
+		for (int i = 0; i < capacity; i++) {
+			int j = 0;
 
-            while (!(lastCons[i][j].equals(SENTINEL))) {
-                //temp[j] = lastCons[i][j];
-                //lastCons[i][j] = newString[j];
-                //System.out.println(lastCons[i][j]);
-                j++;
-            }
+			while (!(lastCons[i][j].equals(SENTINEL))) {
+				//temp[j] = lastCons[i][j];
+				//lastCons[i][j] = newString[j];
+				//System.out.println(lastCons[i][j]);
+				j++;
+			}
 
-            //System.out.println(lastCons[i][j]);
-        }
+			//System.out.println(lastCons[i][j]);
+		}
 
-        //BUGFIX: now need array to represent 1st connection data 
-        //String temp = new String("");
-        String[] temp = new String[JFtp.CONNECTION_DATA_LENGTH];
+		//BUGFIX: now need array to represent 1st connection data
+		//String temp = new String("");
+		String[] temp = new String[JFtp.CONNECTION_DATA_LENGTH];
 
-        int j = 0;
+		int j = 0;
 
-        //is temp necessary?
-        //System.out.println("++++++++++++++++++++");
-        while (!(lastCons[0][j].equals(SENTINEL))) {
-            //while (!(newString[j].equals(SENTINEL))) {
-            temp[j] = lastCons[0][j];
+		//is temp necessary?
+		//System.out.println("++++++++++++++++++++");
+		while (!(lastCons[0][j].equals(SENTINEL))) {
+			//while (!(newString[j].equals(SENTINEL))) {
+			temp[j] = lastCons[0][j];
 
-            //lastCons[0][j] = newString[j];
-            //System.out.println(lastCons[0][j]);
-            //if (lastCons[0][j].equals(SENTINEL))
-            //break;
-            j++;
-        }
+			//lastCons[0][j] = newString[j];
+			//System.out.println(lastCons[0][j]);
+			//if (lastCons[0][j].equals(SENTINEL))
+			//break;
+			j++;
+		}
 
-        temp[j] = SENTINEL;
+		temp[j] = SENTINEL;
 
-        j = 0;
+		j = 0;
 
-        while (!(newString[j].equals(SENTINEL))) {
-            lastCons[0][j] = newString[j];
-            j++;
-        }
+		while (!(newString[j].equals(SENTINEL))) {
+			lastCons[0][j] = newString[j];
+			j++;
+		}
 
-        lastCons[0][j] = SENTINEL;
+		lastCons[0][j] = SENTINEL;
 
-        //take out any data that would be "left over" after sentinel
-        //is this necessary?
-        j++;
+		//take out any data that would be "left over" after sentinel
+		//is this necessary?
+		j++;
 
-        while (j < JFtp.CONNECTION_DATA_LENGTH) {
-            lastCons[0][j] = "";
-            j++;
-        }
+		while (j < JFtp.CONNECTION_DATA_LENGTH) {
+			lastCons[0][j] = "";
+			j++;
+		}
 
-        //System.out.println("-----------------");
-        for (int i = 0; i < capacity; i++) {
-            //while (!(lastCons[j].equals(SENTINEL))) {
-            //newString = temp;
-            if ((i + 1) != capacity) {
-                //System.out.print("-->");
-                j = 0;
+		//System.out.println("-----------------");
+		for (int i = 0; i < capacity; i++) {
+			//while (!(lastCons[j].equals(SENTINEL))) {
+			//newString = temp;
+			if ((i + 1) != capacity) {
+				//System.out.print("-->");
+				j = 0;
 
-                //System.out.println(temp[j]);
-                //shift temp data into newString
-                while (!(temp[j].equals(SENTINEL))) {
-                    newString[j] = temp[j];
+				//System.out.println(temp[j]);
+				//shift temp data into newString
+				while (!(temp[j].equals(SENTINEL))) {
+					newString[j] = temp[j];
 
-                    //System.out.println(newString[j]);
-                    j++;
-                }
+					//System.out.println(newString[j]);
+					j++;
+				}
 
-                newString[j] = SENTINEL;
+				newString[j] = SENTINEL;
 
-                //System.out.println("$$$$$$$$$$$$$");
-                //store lastCons data in temp again
-                j = 0;
+				//System.out.println("$$$$$$$$$$$$$");
+				//store lastCons data in temp again
+				j = 0;
 
-                //while (!(temp[j].equals(SENTINEL))) {
-                while (!(lastCons[i + 1][j].equals(SENTINEL))) {
-                    //newString[j] = temp[j];
-                    temp[j] = lastCons[i + 1][j];
+				//while (!(temp[j].equals(SENTINEL))) {
+				while (!(lastCons[i + 1][j].equals(SENTINEL))) {
+					//newString[j] = temp[j];
+					temp[j] = lastCons[i + 1][j];
 
-                    //temp[j] = lastCons[i + 1][j];
-                    //lastCons[i+1][j] = newString[j];
-                    //j++;
-                    //System.out.println(lastCons[i+1][j]);
-                    //System.out.println(temp[j]);
-                    //if (temp[j].equals(SENTINEL))
-                    //if (lastCons[i][j].equals(SENTINEL))
-                    //break;
-                    //temp[j] = lastCons[i+1][j];
-                    j++;
-                }
+					//temp[j] = lastCons[i + 1][j];
+					//lastCons[i+1][j] = newString[j];
+					//j++;
+					//System.out.println(lastCons[i+1][j]);
+					//System.out.println(temp[j]);
+					//if (temp[j].equals(SENTINEL))
+					//if (lastCons[i][j].equals(SENTINEL))
+					//break;
+					//temp[j] = lastCons[i+1][j];
+					j++;
+				}
 
-                //while
-                temp[j] = SENTINEL;
+				//while
+				temp[j] = SENTINEL;
 
-                //System.out.println("+-+-+-+-+-+-");
-                //then, make adjustments to lastCons
-                j = 0;
+				//System.out.println("+-+-+-+-+-+-");
+				//then, make adjustments to lastCons
+				j = 0;
 
-                //while (!(lastCons[i+1][j].equals(SENTINEL))) {
-                while (!(newString[j].equals(SENTINEL))) {
-                    lastCons[i + 1][j] = newString[j];
+				//while (!(lastCons[i+1][j].equals(SENTINEL))) {
+				while (!(newString[j].equals(SENTINEL))) {
+					lastCons[i + 1][j] = newString[j];
 
-                    //System.out.println(lastCons[i+1][j]);
-                    j++;
-                }
+					//System.out.println(lastCons[i+1][j]);
+					j++;
+				}
 
-                lastCons[i + 1][j] = SENTINEL;
+				lastCons[i + 1][j] = SENTINEL;
 
-                //j=0;
+				//j=0;
 
                 /*
                 while (!(lastCons[i][j].equals(SENTINEL))) {
@@ -336,224 +330,222 @@ public class LastConnections {
                 }
                 */
 
-                //lastCons[i+1][j] = SENTINEL;
-            }
+				//lastCons[i+1][j] = SENTINEL;
+			}
 
-            //if
-        }
+			//if
+		}
 
-        //for
-        for (int i = 0; i < capacity; i++) {
-            j = 0;
+		//for
+		for (int i = 0; i < capacity; i++) {
+			j = 0;
 
-            while (!lastCons[i][j].equals(SENTINEL)) {
-                //System.out.println(lastCons[i][j]);
-                if (lastCons[i][j].equals(SENTINEL)) {
-                    break;
-                }
+			while (!lastCons[i][j].equals(SENTINEL)) {
+				//System.out.println(lastCons[i][j]);
+				if (lastCons[i][j].equals(SENTINEL)) {
+					break;
+				}
 
-                j++;
-            }
+				j++;
+			}
 
-            //System.out.println(lastCons[i][j]);
-        }
+			//System.out.println(lastCons[i][j]);
+		}
 
-        //***
-        if (newConnection) {
-            writeToFile(lastCons, capacity);
-        }
+		//***
+		if (newConnection) {
+			writeToFile(lastCons, capacity);
+		}
 
-        return lastCons;
-    }
+		return lastCons;
+	}
 
-    //prepend
-    public static String[][] moveToFront(int position, int capacity) {
-        //make these 2D
-        //String[] lastCons = new String[capacity];
-        //String[] newLastCons = new String[capacity];
-        String[][] lastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
-        String[][] newLastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
+	//prepend
+	public static String[][] moveToFront(int position, int capacity) {
+		//make these 2D
+		//String[] lastCons = new String[capacity];
+		//String[] newLastCons = new String[capacity];
+		String[][] lastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
+		String[][] newLastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
 
-        //System.out.print("--------:");
-        //System.out.println(capacity);
-        lastCons = readFromFile(capacity);
+		//System.out.print("--------:");
+		//System.out.println(capacity);
+		lastCons = readFromFile(capacity);
 
-        //String temp = new String("");
-        String[] temp = new String[JFtp.CONNECTION_DATA_LENGTH];
+		//String temp = new String("");
+		String[] temp = new String[JFtp.CONNECTION_DATA_LENGTH];
 
-        //String[] lastCons = new String[capacity];
-        int j = 0;
-        temp[j] = lastCons[position][j];
+		//String[] lastCons = new String[capacity];
+		int j = 0;
+		temp[j] = lastCons[position][j];
 
-        while (!(lastCons[position][j].equals(SENTINEL))) {
-            j++;
-            temp[j] = lastCons[position][j];
-        }
+		while (!(lastCons[position][j].equals(SENTINEL))) {
+			j++;
+			temp[j] = lastCons[position][j];
+		}
 
-        j = 0;
+		j = 0;
 
-        //System.out.println("START");
-        while (!(lastCons[position][j].equals(SENTINEL))) {
-            //System.out.println(lastCons[position][j]);
-            j++;
-        }
+		//System.out.println("START");
+		while (!(lastCons[position][j].equals(SENTINEL))) {
+			//System.out.println(lastCons[position][j]);
+			j++;
+		}
 
-        //System.out.println("END");
-        //possible bugfix code?
+		//System.out.println("END");
+		//possible bugfix code?
         /*
         for (int i=0; i<JFtp.CONNECTION_DATA_LENGTH; i++) {
                 temp[i] = lastCons[position][i];
         }
         */
-        newLastCons = prepend(temp, position + 1, false);
+		newLastCons = prepend(temp, position + 1, false);
 
-        for (int i = 0; i <= position; i++) {
-            j = 0;
+		for (int i = 0; i <= position; i++) {
+			j = 0;
 
-            //while (!(lastCons[position][i].equals(SENTINEL))) {
-            //while (!(lastCons[i][j].equals(SENTINEL))) { 
-            while (!(newLastCons[i][j].equals(SENTINEL))) {
-                //j++;      
-                //temp[i] = lastCons[position][i];
-                //System.out.println(i);
-                //System.out.println(j);
-                //System.out.println(newLastCons[i][j]);
-                lastCons[i][j] = newLastCons[i][j];
-                j++;
-            }
+			//while (!(lastCons[position][i].equals(SENTINEL))) {
+			//while (!(lastCons[i][j].equals(SENTINEL))) {
+			while (!(newLastCons[i][j].equals(SENTINEL))) {
+				//j++;
+				//temp[i] = lastCons[position][i];
+				//System.out.println(i);
+				//System.out.println(j);
+				//System.out.println(newLastCons[i][j]);
+				lastCons[i][j] = newLastCons[i][j];
+				j++;
+			}
 
-            lastCons[i][j] = SENTINEL;
-        }
+			lastCons[i][j] = SENTINEL;
+		}
 
-        //for
-        writeToFile(lastCons, capacity);
+		//for
+		writeToFile(lastCons, capacity);
 
-        return lastCons;
-    }
+		return lastCons;
+	}
 
-    //moveToFront
-    public static int findString(String[] findVal, int capacity) {
-        //BUGFIX: 2D
-        //String[] lastCons = new String[capacity];
-        String[][] lastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
+	//moveToFront
+	public static int findString(String[] findVal, int capacity) {
+		//BUGFIX: 2D
+		//String[] lastCons = new String[capacity];
+		String[][] lastCons = new String[capacity][JFtp.CONNECTION_DATA_LENGTH];
 
-        lastCons = readFromFile(capacity);
+		lastCons = readFromFile(capacity);
 
-        for (int i = 0; i < capacity; i++) {
-            int j = 0;
+		for (int i = 0; i < capacity; i++) {
+			int j = 0;
 
-            while ((j < JFtp.CAPACITY) && findVal[j].equals(lastCons[i][j]) &&
-                    !(lastCons[i][j].equals(SENTINEL)) &&
-                    !(findVal[j].equals(SENTINEL))) {
-                //System.out.println("start ");
-                //System.out.print(lastCons[i][j]);
-                //System.out.print(findVal[j]);
-                //System.out.println("end");
-                j++;
+			while ((j < JFtp.CAPACITY) && findVal[j].equals(lastCons[i][j]) && !(lastCons[i][j].equals(SENTINEL)) && !(findVal[j].equals(SENTINEL))) {
+				//System.out.println("start ");
+				//System.out.print(lastCons[i][j]);
+				//System.out.print(findVal[j]);
+				//System.out.println("end");
+				j++;
 
-                //if (findVal.equals(lastCons[i]))
-                //return i;
-            }
+				//if (findVal.equals(lastCons[i]))
+				//return i;
+			}
 
-            if (findVal[j].equals(lastCons[i][j])) {
-                //System.out.println("test");
-                //System.out.println(lastCons[i][j]);
-                //System.out.println(findVal[j]);
-                return i;
-            } else {
-                //System.out.println("test2");
-                //System.out.println(lastCons[i][j]);
-                //System.out.println(findVal[j]);
-                //System.out.println("NO");
-            }
-        }
+			if (findVal[j].equals(lastCons[i][j])) {
+				//System.out.println("test");
+				//System.out.println(lastCons[i][j]);
+				//System.out.println(findVal[j]);
+				return i;
+			} else {
+				//System.out.println("test2");
+				//System.out.println(lastCons[i][j]);
+				//System.out.println(findVal[j]);
+				//System.out.println("NO");
+			}
+		}
 
-        //if not found, return -1
-        return -1;
-    }
+		//if not found, return -1
+		return -1;
+	}
 
-    //findString
+	//findString
 
-    /*
-    //unnecessary?
-    public static String[] swap(String a[], int pos1, int pos2) {
+	/*
+	//unnecessary?
+	public static String[] swap(String a[], int pos1, int pos2) {
 
-            String temp = new String("");
+			String temp = new String("");
 
-            temp = a[pos2];
-            a[pos2] = a[pos1];
-            a[pos1] = temp;
+			temp = a[pos2];
+			a[pos2] = a[pos1];
+			a[pos1] = temp;
 
-            return a;
+			return a;
 
-    } //swap
-    */
-    private static void init(int capacity) {
-        //File f = new File(Settings.last_cons);
-        try {
-            FileOutputStream fos;
-            PrintStream out;
+	} //swap
+	*/
+	private static void init(int capacity) {
+		//File f = new File(Settings.last_cons);
+		try {
+			FileOutputStream fos;
+			PrintStream out;
 
-            fos = new FileOutputStream(Settings.last_cons);
-            out = new PrintStream(fos);
+			fos = new FileOutputStream(Settings.last_cons);
+			out = new PrintStream(fos);
 
-            for (int i = 0; i < capacity; i++) {
-                out.println("null");
-                out.println(SENTINEL);
-            }
+			for (int i = 0; i < capacity; i++) {
+				out.println("null");
+				out.println(SENTINEL);
+			}
 
-            fos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        //return f;
-    }
+		//return f;
+	}
 
-    //init
-    private static void changeFile(String[] oldValues) {
-        StringTokenizer tokens;
+	//init
+	private static void changeFile(String[] oldValues) {
+		StringTokenizer tokens;
 
-        String[][] newData = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
+		String[][] newData = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 
-        //this assumes that capacity will not change
-        //should this be set to 9 instead of JFtp.CAPACITY?
-        for (int i = 0; i < JFtp.CAPACITY; i++) {
-            //System.out.println(oldValues[i]);
-            tokens = new StringTokenizer(oldValues[i], " ");
+		//this assumes that capacity will not change
+		//should this be set to 9 instead of JFtp.CAPACITY?
+		for (int i = 0; i < JFtp.CAPACITY; i++) {
+			//System.out.println(oldValues[i]);
+			tokens = new StringTokenizer(oldValues[i], " ");
 
-            int j = 0;
+			int j = 0;
 
-            while ((tokens.hasMoreTokens())) {
-                newData[i][j] = tokens.nextToken();
+			while ((tokens.hasMoreTokens())) {
+				newData[i][j] = tokens.nextToken();
 
-                //System.out.println(newData[i][j]);
-                j++;
-            }
+				//System.out.println(newData[i][j]);
+				j++;
+			}
 
-            newData[i][j] = SENTINEL;
+			newData[i][j] = SENTINEL;
 
-            //System.out.print("---->");
-            //System.out.println(newData[i][0]);
-            //System.out.println(j);
-            //for backwards compatibility with versions that
-            //don't have SFTP port remembered: enter port 22
-            //(which is default) there
-            if (newData[i][0].equals("SFTP") && (j == 5)) {
-                String temp = "";
-                String temp2 = "";
+			//System.out.print("---->");
+			//System.out.println(newData[i][0]);
+			//System.out.println(j);
+			//for backwards compatibility with versions that
+			//don't have SFTP port remembered: enter port 22
+			//(which is default) there
+			if (newData[i][0].equals("SFTP") && (j == 5)) {
+				String temp = "";
+				String temp2 = "";
 
-                temp = newData[i][4];
-                newData[i][4] = "22";
+				temp = newData[i][4];
+				newData[i][4] = "22";
 
-                temp2 = newData[i][5];
+				temp2 = newData[i][5];
 
-                newData[i][5] = temp;
+				newData[i][5] = temp;
 
-                //temp2 = newData[i][5];
-                //newData[i][6] = temp2;
-                //newData[i][7] = SENTINEL;
-                newData[i][6] = SENTINEL;
+				//temp2 = newData[i][5];
+				//newData[i][6] = temp2;
+				//newData[i][7] = SENTINEL;
+				newData[i][6] = SENTINEL;
 
                 /*
                 for (int j=5; j++; j<7) {
@@ -562,16 +554,16 @@ public class LastConnections {
                         newData[i][j] = newData[i][j-1];
 
                 } */
-            }
+			}
 
-            //if
-        }
+			//if
+		}
 
-        //for
-        writeToFile(newData, JFtp.CAPACITY);
-    }
+		//for
+		writeToFile(newData, JFtp.CAPACITY);
+	}
 
-    //changeFile
+	//changeFile
 }
 
 

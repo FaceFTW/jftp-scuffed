@@ -21,17 +21,17 @@ import java.awt.event.ActionListener;
 
 
 public class Template extends HPanel implements ActionListener {
-    public Template() {
-        setVisible(true);
-    }
+	public Template() {
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-    }
+	public void actionPerformed(ActionEvent e) {
+	}
 
-    public Insets getInsets() {
-        Insets in = super.getInsets();
+	public Insets getInsets() {
+		Insets in = super.getInsets();
 
-        //return new Insets(in.top+5,in.left+5,in.bottom+5,in.right+5);
-        return new Insets(in.top, in.left, in.bottom, in.right);
-    }
+		//return new Insets(in.top+5,in.left+5,in.bottom+5,in.right+5);
+		return new Insets(in.top, in.left, in.bottom, in.right);
+	}
 }

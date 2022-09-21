@@ -22,67 +22,64 @@ import java.awt.*;
 
 
 public class HTextField extends JPanel {
-    public JTextField text;
-    private JLabel label;
+	public JTextField text;
+	private JLabel label;
 
-    public HTextField(String l, String t, int size) {
-        init(l, t, size, false);
-    }
+	public HTextField(String l, String t, int size) {
+		init(l, t, size, false);
+	}
 
-    public HTextField(String l, String t) {
-        init(l, t, 12, false);
-    }
+	public HTextField(String l, String t) {
+		init(l, t, 12, false);
+	}
 
-    public HTextField(String l, String t, boolean isPw) {
-        init(l, t, 12, isPw);
-    }
+	public HTextField(String l, String t, boolean isPw) {
+		init(l, t, 12, isPw);
+	}
 
-    public void init(String l, String t, int size, boolean isPw) {
-        setLayout(new MigLayout());
+	public void init(String l, String t, int size, boolean isPw) {
+		setLayout(new MigLayout());
 
-        label = new JLabel(l);
-        add(label);
+		label = new JLabel(l);
+		add(label);
 
-        text = isPw ?
-                new JPasswordField(t, size) {
-                    public Insets getInsets() {
-                        return new Insets(4, 4, 4, 4);
-                    }
-                }
-                :
-                new JTextField(t, size) {
-                    public Insets getInsets() {
-                        return new Insets(4, 4, 4, 4);
-                    }
-                };
+		text = isPw ? new JPasswordField(t, size) {
+			public Insets getInsets() {
+				return new Insets(4, 4, 4, 4);
+			}
+		} : new JTextField(t, size) {
+			public Insets getInsets() {
+				return new Insets(4, 4, 4, 4);
+			}
+		};
 
-        add(text, "align right");
+		add(text, "align right");
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
 
-    public String getLabel() {
-        return label.getText();
-    }
+	public String getLabel() {
+		return label.getText();
+	}
 
-    public void setLabel(String l) {
-        label.setText(l + "  ");
-    }
+	public void setLabel(String l) {
+		label.setText(l + "  ");
+	}
 
-    public String getText() {
-        return text.getText();
-    }
+	public String getText() {
+		return text.getText();
+	}
 
-    public void setText(String t) {
-        text.setText(t);
-    }
+	public void setText(String t) {
+		text.setText(t);
+	}
 
-    public void requestFocus() {
-        text.requestFocus();
-    }
+	public void requestFocus() {
+		text.requestFocus();
+	}
 
-    public void setEnabled(boolean yesno) {
-        text.setEnabled(yesno);
-    }
+	public void setEnabled(boolean yesno) {
+		text.setEnabled(yesno);
+	}
 }

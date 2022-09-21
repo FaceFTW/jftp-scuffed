@@ -26,55 +26,53 @@ import java.awt.event.MouseListener;
 
 
 public class HImageButton extends JButton implements MouseListener {
-    public String label = "";
-    public ActionListener who = null;
-    private String cmd = "default";
+	public String label = "";
+	public ActionListener who = null;
+	private String cmd = "default";
 
-    public HImageButton(String image, String cmd, String label,
-                        ActionListener who) {
-        this.cmd = cmd;
-        this.label = label;
-        this.who = who;
+	public HImageButton(String image, String cmd, String label, ActionListener who) {
+		this.cmd = cmd;
+		this.label = label;
+		this.who = who;
 
-        try {
-            setIcon(new ImageIcon(HImage.getImage(this, image)));
-        } catch (Exception ex) {
-            System.out.println("Image file: " + image);
-            ex.printStackTrace();
-        }
-        addMouseListener(this);
+		try {
+			setIcon(new ImageIcon(HImage.getImage(this, image)));
+		} catch (Exception ex) {
+			System.out.println("Image file: " + image);
+			ex.printStackTrace();
+		}
+		addMouseListener(this);
 
-        setVisible(true);
-        setMinimumSize(new Dimension(25, 25));
-        setPreferredSize(new Dimension(25, 25));
-        setMaximumSize(new Dimension(25, 25));
-    }
+		setVisible(true);
+		setMinimumSize(new Dimension(25, 25));
+		setPreferredSize(new Dimension(25, 25));
+		setMaximumSize(new Dimension(25, 25));
+	}
 
-    public void update(Graphics g) {
-        paintComponent(g);
-    }
+	public void update(Graphics g) {
+		paintComponent(g);
+	}
 
-    public void mouseClicked(MouseEvent e) {
-    }
+	public void mouseClicked(MouseEvent e) {
+	}
 
-    public void mousePressed(MouseEvent e) {
-    }
+	public void mousePressed(MouseEvent e) {
+	}
 
-    public void mouseReleased(MouseEvent e) {
-        who.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                cmd));
+	public void mouseReleased(MouseEvent e) {
+		who.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, cmd));
 
-    }
+	}
 
-    public void mouseEntered(MouseEvent e) {
-        setCursor(new Cursor(Cursor.HAND_CURSOR));
+	public void mouseEntered(MouseEvent e) {
+		setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        JFtp.statusP.status(label);
-    }
+		JFtp.statusP.status(label);
+	}
 
-    public void mouseExited(MouseEvent e) {
-        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	public void mouseExited(MouseEvent e) {
+		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
-        JFtp.statusP.status("");
-    }
+		JFtp.statusP.status("");
+	}
 }

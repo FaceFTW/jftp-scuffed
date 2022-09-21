@@ -18,7 +18,11 @@ package net.sf.jftp.net;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.logging.Log;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
@@ -29,44 +33,44 @@ import java.net.Socket;
  * waits for the target host...
  */
 public class JConnection implements Runnable {
-    private final int timeout = Settings.connectionTimeout;
-    private final String host;
-    private final int port;
-    //private boolean reciever = false;
-    private final Thread runner;
-    private PrintStream out;
-    private BufferedReader in;
-    private Socket s;
-    private boolean isOk = false;
-    private boolean established = false;
-    private int localPort = -1;
-    //private int time = 0;
+	private final int timeout = Settings.connectionTimeout;
+	private final String host;
+	private final int port;
+	//private boolean reciever = false;
+	private final Thread runner;
+	private PrintStream out;
+	private BufferedReader in;
+	private Socket s;
+	private boolean isOk = false;
+	private boolean established = false;
+	private int localPort = -1;
+	//private int time = 0;
 
-    /*
-    private boolean useSocks4 = false;
-    private String socks4Host = "192.168.0.1";
-    private int socks4Port = 1080;
-    */
-    public JConnection(String host, int port) {
-        this.host = host;
-        this.port = port;
+	/*
+	private boolean useSocks4 = false;
+	private String socks4Host = "192.168.0.1";
+	private int socks4Port = 1080;
+	*/
+	public JConnection(String host, int port) {
+		this.host = host;
+		this.port = port;
 
-        runner = new Thread(this);
-        runner.start();
-    }
+		runner = new Thread(this);
+		runner.start();
+	}
 
-    /*
-        public JConnection(String host, int port, int time)
-        {
-            this.host = host;
-            this.port = port;
-            this.timeout = time;
-            this.time = time;
+	/*
+		public JConnection(String host, int port, int time)
+		{
+			this.host = host;
+			this.port = port;
+			this.timeout = time;
+			this.time = time;
 
-            runner = new Thread(this);
-            runner.start();
-        }
-    */
+			runner = new Thread(this);
+			runner.start();
+		}
+	*/
     /*
     private int swabInt(int v)
     {
@@ -74,8 +78,8 @@ public class JConnection implements Runnable {
       ((v << 8) & 0x00FF0000) | ((v >> 8) & 0x0000FF00);
     }
     */
-    public void run() {
-        try {
+	public void run() {
+		try {
             /*
                 if(useSocks4)
                 {
@@ -122,111 +126,108 @@ public class JConnection implements Runnable {
                 else
                 {
                 */
-            s = new Socket(host, port);
+			s = new Socket(host, port);
 
-            localPort = s.getLocalPort();
+			localPort = s.getLocalPort();
 
-            //if(time > 0) s.setSoTimeout(time);
-            out = new PrintStream(new BufferedOutputStream(s.getOutputStream(),
-                    Settings.bufferSize));
-            in = new BufferedReader(new InputStreamReader(s.getInputStream()),
-                    Settings.bufferSize);
-            isOk = true;
+			//if(time > 0) s.setSoTimeout(time);
+			out = new PrintStream(new BufferedOutputStream(s.getOutputStream(), Settings.bufferSize));
+			in = new BufferedReader(new InputStreamReader(s.getInputStream()), Settings.bufferSize);
+			isOk = true;
 
-            // }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            Log.out("WARNING: connection closed due to exception (" + host +
-                    ":" + port + ")");
-            isOk = false;
+			// }
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Log.out("WARNING: connection closed due to exception (" + host + ":" + port + ")");
+			isOk = false;
 
-            try {
-                if ((s != null) && !s.isClosed()) {
-                    s.close();
-                }
+			try {
+				if ((s != null) && !s.isClosed()) {
+					s.close();
+				}
 
-                if (out != null) {
-                    out.close();
-                }
+				if (out != null) {
+					out.close();
+				}
 
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Exception ex2) {
-                ex2.printStackTrace();
-                Log.out("WARNING: got more errors trying to close socket and streams");
-            }
-        }
+				if (in != null) {
+					in.close();
+				}
+			} catch (Exception ex2) {
+				ex2.printStackTrace();
+				Log.out("WARNING: got more errors trying to close socket and streams");
+			}
+		}
 
-        established = true;
-    }
+		established = true;
+	}
 
-    public boolean isThere() {
-        int cnt = 0;
+	public boolean isThere() {
+		int cnt = 0;
 
-        while (!established && (cnt < timeout)) {
-            pause(10);
-            cnt = cnt + 10;
+		while (!established && (cnt < timeout)) {
+			pause(10);
+			cnt = cnt + 10;
 
-            //System.out.println(cnt + "/" + timeout);
-        }
+			//System.out.println(cnt + "/" + timeout);
+		}
 
-        return isOk;
-    }
+		return isOk;
+	}
 
-    public void send(String data) {
-        try {
-            //System.out.println(":"+data+":");
-            out.print(data);
-            out.print("\r\n");
-            out.flush();
+	public void send(String data) {
+		try {
+			//System.out.println(":"+data+":");
+			out.print(data);
+			out.print("\r\n");
+			out.flush();
 
-            if (data.startsWith("PASS")) {
-                Log.debug("> PASS ****");
-            } else {
-                Log.debug("> " + data);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+			if (data.startsWith("PASS")) {
+				Log.debug("> PASS ****");
+			} else {
+				Log.debug("> " + data);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
-    public PrintStream getInetOutputStream() {
-        return out;
-    }
+	public PrintStream getInetOutputStream() {
+		return out;
+	}
 
-    public BufferedReader getReader() {
-        return in;
-    }
+	public BufferedReader getReader() {
+		return in;
+	}
 
-    public int getLocalPort() {
-        return localPort;
-    }
+	public int getLocalPort() {
+		return localPort;
+	}
 
-    public InetAddress getLocalAddress() throws IOException {
-        return s.getLocalAddress();
-    }
+	public InetAddress getLocalAddress() throws IOException {
+		return s.getLocalAddress();
+	}
 
-    private void pause(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (Exception ex) {
-        }
-    }
+	private void pause(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (Exception ex) {
+		}
+	}
 
-    public BufferedReader getIn() {
-        return in;
-    }
+	public BufferedReader getIn() {
+		return in;
+	}
 
-    public void setIn(BufferedReader in) {
-        this.in = in;
-    }
+	public void setIn(BufferedReader in) {
+		this.in = in;
+	}
 
-    public PrintStream getOut() {
-        return out;
-    }
+	public PrintStream getOut() {
+		return out;
+	}
 
-    public void setOut(PrintStream out) {
-        this.out = out;
-    }
+	public void setOut(PrintStream out) {
+		this.out = out;
+	}
 }

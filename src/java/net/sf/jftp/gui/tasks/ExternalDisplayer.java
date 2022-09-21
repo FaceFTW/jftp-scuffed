@@ -32,66 +32,65 @@ import java.io.IOException;
 
 
 public class ExternalDisplayer extends HFrame implements ActionListener {
-    private final JTextArea info = new JTextArea(25, 50);
-    private final JButton close = new JButton("Close");
+	private final JTextArea info = new JTextArea(25, 50);
+	private final JButton close = new JButton("Close");
 
-    public ExternalDisplayer(java.net.URL file) {
-        setTitle("Info...");
-        setLocation(50, 50);
-        setSize(600, 540);
-        getContentPane().setLayout(new BorderLayout());
+	public ExternalDisplayer(java.net.URL file) {
+		setTitle("Info...");
+		setLocation(50, 50);
+		setSize(600, 540);
+		getContentPane().setLayout(new BorderLayout());
 
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
-        load(file);
-        info.setEditable(false);
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				dispose();
+			}
+		});
+		load(file);
+		info.setEditable(false);
 
-        JScrollPane jsp = new JScrollPane(info);
-        getContentPane().add("Center", jsp);
+		JScrollPane jsp = new JScrollPane(info);
+		getContentPane().add("Center", jsp);
 
-        HPanel closeP = new HPanel();
-        closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
-        closeP.add(close);
+		HPanel closeP = new HPanel();
+		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
+		closeP.add(close);
 
-        close.addActionListener(this);
+		close.addActionListener(this);
 
-        getContentPane().add("South", closeP);
+		getContentPane().add("South", closeP);
 
-        info.setCaretPosition(0);
-        setVisible(true);
-        pack();
-    }
+		info.setCaretPosition(0);
+		setVisible(true);
+		pack();
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == close) {
-            this.dispose();
-        }
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == close) {
+			this.dispose();
+		}
+	}
 
-    private void load(java.net.URL file) {
-        String data = "";
-        String now = "";
+	private void load(java.net.URL file) {
+		String data = "";
+		String now = "";
 
-        try {
-            DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
+		try {
+			DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-            while ((data = in.readLine()) != null) {
-                now = now + data + "\n";
-            }
-        } catch (IOException e) {
-            Log.debug(e + " @Displayer.load()");
-        }
+			while ((data = in.readLine()) != null) {
+				now = now + data + "\n";
+			}
+		} catch (IOException e) {
+			Log.debug(e + " @Displayer.load()");
+		}
 
-        info.setText(now);
-    }
+		info.setText(now);
+	}
 
-    public Insets getInsets() {
-        Insets std = super.getInsets();
+	public Insets getInsets() {
+		Insets std = super.getInsets();
 
-        return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-                std.right + 5);
-    }
+		return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
+	}
 }

@@ -24,11 +24,11 @@ import java.net.URLStreamHandler;
  * An URLStreamHandler for handling ftp urls.
  */
 public class FtpURLStreamHandler extends URLStreamHandler {
-    public FtpURLStreamHandler() {
-        super();
-    }
+	public FtpURLStreamHandler() {
+		super();
+	}
 
-    public URLConnection openConnection(URL u) {
-        return null;
-    }
+	public URLConnection openConnection(URL u) {
+		return null;
+	}
 }

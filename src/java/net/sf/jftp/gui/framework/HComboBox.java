@@ -21,87 +21,87 @@ import java.awt.*;
 
 public class HComboBox extends JPanel //implements ActionListener
 {
-    private final JLabel label;
-    public JComboBox comboBox;
+	private final JLabel label;
+	public JComboBox comboBox;
 
-    public HComboBox(String l) {
-        setLayout(new BorderLayout(5, 5));
+	public HComboBox(String l) {
+		setLayout(new BorderLayout(5, 5));
 
-        label = new JLabel(l + "  ");
-        add("West", label);
+		label = new JLabel(l + "  ");
+		add("West", label);
 
-        //comboBox = new JComboBox(t, 12);
-        comboBox = new JComboBox();
-        add("East", comboBox);
+		//comboBox = new JComboBox(t, 12);
+		comboBox = new JComboBox();
+		add("East", comboBox);
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    public HComboBox(String l, String[] t) {
-        setLayout(new BorderLayout(5, 5));
+	public HComboBox(String l, String[] t) {
+		setLayout(new BorderLayout(5, 5));
 
-        label = new JLabel(l + "  ");
-        add("West", label);
+		label = new JLabel(l + "  ");
+		add("West", label);
 
-        //comboBox = new JComboBox(t, 12);
-        comboBox = new JComboBox(t);
-        add("East", comboBox);
+		//comboBox = new JComboBox(t, 12);
+		comboBox = new JComboBox(t);
+		add("East", comboBox);
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    /*
-    public HComboBox(String l, String t, int size)
-    {
-        setLayout(new BorderLayout(5, 5));
+	/*
+	public HComboBox(String l, String t, int size)
+	{
+		setLayout(new BorderLayout(5, 5));
 
-        label = new JLabel(l + "  ");
-        add("West", label);
+		label = new JLabel(l + "  ");
+		add("West", label);
 
-        comboBox = new JComboBox(t, size);
-        add("East", comboBox);
+		comboBox = new JComboBox(t, size);
+		add("East", comboBox);
 
-        setVisible(true);
-    }
-    */
-    public String getLabel() {
-        return label.getText();
-    }
+		setVisible(true);
+	}
+	*/
+	public String getLabel() {
+		return label.getText();
+	}
 
-    public void setLabel(String l) {
-        label.setText(l + "  ");
-    }
+	public void setLabel(String l) {
+		label.setText(l + "  ");
+	}
 
-    public Object getSelectedItem() {
-        return comboBox.getSelectedItem();
-    }
+	public Object getSelectedItem() {
+		return comboBox.getSelectedItem();
+	}
 
-    public void addItem(Object obj) {
-        comboBox.addItem(obj);
-    }
+	public void addItem(Object obj) {
+		comboBox.addItem(obj);
+	}
 
-    public void addActionListener(java.awt.event.ActionListener actListen) {
-        comboBox.addActionListener(actListen);
-    }
+	public void addActionListener(java.awt.event.ActionListener actListen) {
+		comboBox.addActionListener(actListen);
+	}
 
-    /*
-    public String getText()
-    {
-        return comboBox.getText();
-    }
+	/*
+	public String getText()
+	{
+		return comboBox.getText();
+	}
 
-    public void setText(String t)
-    {
-        comboBox.setText(t);
-    }
+	public void setText(String t)
+	{
+		comboBox.setText(t);
+	}
 
-    /*
-    public void requestFocus()
-    {
-        text.requestFocus();
-    }
-    */
-    public void setEditable(boolean yesno) {
-        comboBox.setEditable(yesno);
-    }
+	/*
+	public void requestFocus()
+	{
+		text.requestFocus();
+	}
+	*/
+	public void setEditable(boolean yesno) {
+		comboBox.setEditable(yesno);
+	}
 }

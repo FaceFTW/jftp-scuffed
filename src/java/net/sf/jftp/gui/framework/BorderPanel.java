@@ -20,36 +20,33 @@ import java.awt.*;
 
 
 public class BorderPanel extends JPanel {
-    public boolean left = true;
+	public boolean left = true;
 
-    public void paintComponent(Graphics g) {
-        if (left) {
-            g.setColor(Color.black);
-            g.drawLine(2, 2, 2, getSize().height - 3);
-            g.drawLine(2, 2, getSize().width - 3, 2);
+	public void paintComponent(Graphics g) {
+		if (left) {
+			g.setColor(Color.black);
+			g.drawLine(2, 2, 2, getSize().height - 3);
+			g.drawLine(2, 2, getSize().width - 3, 2);
 
-            g.setColor(new Color(80, 80, 80));
-            g.drawLine(1, 1, 1, getSize().height - 2);
-            g.drawLine(1, 1, getSize().width - 2, 1);
+			g.setColor(new Color(80, 80, 80));
+			g.drawLine(1, 1, 1, getSize().height - 2);
+			g.drawLine(1, 1, getSize().width - 2, 1);
 
-            g.setColor(new Color(180, 180, 180));
-            g.drawLine(0, 0, 0, getSize().height - 1);
-            g.drawLine(0, 0, getSize().width - 1, 0);
-        } else {
-            g.setColor(Color.black);
-            g.drawLine(getSize().width - 1, 2, getSize().width - 1,
-                    getSize().height - 3);
-            g.drawLine(0, 2, getSize().width - 3, 2);
+			g.setColor(new Color(180, 180, 180));
+			g.drawLine(0, 0, 0, getSize().height - 1);
+			g.drawLine(0, 0, getSize().width - 1, 0);
+		} else {
+			g.setColor(Color.black);
+			g.drawLine(getSize().width - 1, 2, getSize().width - 1, getSize().height - 3);
+			g.drawLine(0, 2, getSize().width - 3, 2);
 
-            g.setColor(new Color(80, 80, 80));
-            g.drawLine(getSize().width - 2, 1, getSize().width - 2,
-                    getSize().height - 2);
-            g.drawLine(1, 1, getSize().width - 2, 1);
+			g.setColor(new Color(80, 80, 80));
+			g.drawLine(getSize().width - 2, 1, getSize().width - 2, getSize().height - 2);
+			g.drawLine(1, 1, getSize().width - 2, 1);
 
-            g.setColor(new Color(180, 180, 180));
-            g.drawLine(getSize().width - 3, 0, getSize().width - 3,
-                    getSize().height - 1);
-            g.drawLine(0, 0, getSize().width - 1, 0);
-        }
-    }
+			g.setColor(new Color(180, 180, 180));
+			g.drawLine(getSize().width - 3, 0, getSize().width - 3, getSize().height - 1);
+			g.drawLine(0, 0, getSize().width - 1, 0);
+		}
+	}
 }

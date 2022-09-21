@@ -24,117 +24,122 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
 
 public class BookmarkManager extends JInternalFrame implements ActionListener {
-    private final JTextArea info = new JTextArea(25, 50);
-    private final JButton save = new JButton("Save and close");
-    private final JButton close = new JButton("Close");
+	private final JTextArea info = new JTextArea(25, 50);
+	private final JButton save = new JButton("Save and close");
+	private final JButton close = new JButton("Close");
 
-    public BookmarkManager() {
-        super("Manage Bookmarks", true, true, true, true);
-        setLocation(50, 50);
-        setSize(600, 540);
-        getContentPane().setLayout(new BorderLayout());
+	public BookmarkManager() {
+		super("Manage Bookmarks", true, true, true, true);
+		setLocation(50, 50);
+		setSize(600, 540);
+		getContentPane().setLayout(new BorderLayout());
 
-        load(Settings.bookmarks);
+		load(Settings.bookmarks);
 
-        JScrollPane jsp = new JScrollPane(info);
-        getContentPane().add("Center", jsp);
+		JScrollPane jsp = new JScrollPane(info);
+		getContentPane().add("Center", jsp);
 
-        HPanel closeP = new HPanel();
-        closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
+		HPanel closeP = new HPanel();
+		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        //closeP.add(close);
-        closeP.add(save);
+		//closeP.add(close);
+		closeP.add(save);
 
-        close.addActionListener(this);
-        save.addActionListener(this);
+		close.addActionListener(this);
+		save.addActionListener(this);
 
-        getContentPane().add("South", closeP);
+		getContentPane().add("South", closeP);
 
-        info.setCaretPosition(0);
-        pack();
-        setVisible(true);
-    }
+		info.setCaretPosition(0);
+		pack();
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == close) {
-            this.dispose();
-        } else {
-            save(Settings.bookmarks);
-            JFtp.menuBar.loadBookmarks();
-            this.dispose();
-        }
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == close) {
+			this.dispose();
+		} else {
+			save(Settings.bookmarks);
+			JFtp.menuBar.loadBookmarks();
+			this.dispose();
+		}
+	}
 
-    private void setDefaultText() {
-        info.setText("");
-        info.append("# JFtp Bookmark Configuration file\n");
-        info.append("#\n");
-        info.append("# Syntax: protocol#host#user#password#port#dir/domain#local\n");
-        info.append("#\n");
-        info.append("# Note: not all values are used by every connection, but all fields must contain at least\n");
-        info.append("# one character.\n");
-        info.append("Use \"<%hidden%>\" for password fields you don't want to fill out.");
-        info.append("#\n");
-        info.append("# protocol: FTP, SFTP, SMB or NFS (uppercase)\n");
-        info.append("# host: hostname or ip for ftp + sftp, valid url for smb + nfs  (\"(LAN)\" for smb lan browsing)\n");
-        info.append("# user, password: the login data\n");
-        info.append("# port: this must be a number (even if it is not used for smb+nfs, set it in the url for nfs)\n");
-        info.append("# dir/domain: inital directory for the connection, domainname for smb\n");
-        info.append("# local: \"true\" if connection should be opened in local tab, \"false\" otherwise\n");
-        info.append("# directories must be included in <dir></dir> tags and can be ended" +
-                " using a single\n# <enddir> tag");
-        info.append("#\n");
-        info.append("#\n");
-        info.append("\n<dir>JFtp</dir>\n");
-        info.append("FTP#upload.sourceforge.net#anonymous#j-ftp@sf.net#21#/incoming#false\n");
-        info.append("<enddir>\n");
-        info.append("\n");
-        info.append("FTP#ftp.kernel.org#anonymous#j-ftp@sf.net#21#/pub/linux/kernel/v2.6#false\n");
-        info.append("\n");
-        info.append("SMB#(LAN)#guest#guest#-1#-#false\n\n");
-    }
+	private void setDefaultText() {
+		info.setText("");
+		info.append("# JFtp Bookmark Configuration file\n");
+		info.append("#\n");
+		info.append("# Syntax: protocol#host#user#password#port#dir/domain#local\n");
+		info.append("#\n");
+		info.append("# Note: not all values are used by every connection, but all fields must contain at least\n");
+		info.append("# one character.\n");
+		info.append("Use \"<%hidden%>\" for password fields you don't want to fill out.");
+		info.append("#\n");
+		info.append("# protocol: FTP, SFTP, SMB or NFS (uppercase)\n");
+		info.append("# host: hostname or ip for ftp + sftp, valid url for smb + nfs  (\"(LAN)\" for smb lan browsing)\n");
+		info.append("# user, password: the login data\n");
+		info.append("# port: this must be a number (even if it is not used for smb+nfs, set it in the url for nfs)\n");
+		info.append("# dir/domain: inital directory for the connection, domainname for smb\n");
+		info.append("# local: \"true\" if connection should be opened in local tab, \"false\" otherwise\n");
+		info.append("# directories must be included in <dir></dir> tags and can be ended" + " using a single\n# <enddir> tag");
+		info.append("#\n");
+		info.append("#\n");
+		info.append("\n<dir>JFtp</dir>\n");
+		info.append("FTP#upload.sourceforge.net#anonymous#j-ftp@sf.net#21#/incoming#false\n");
+		info.append("<enddir>\n");
+		info.append("\n");
+		info.append("FTP#ftp.kernel.org#anonymous#j-ftp@sf.net#21#/pub/linux/kernel/v2.6#false\n");
+		info.append("\n");
+		info.append("SMB#(LAN)#guest#guest#-1#-#false\n\n");
+	}
 
-    private void load(String file) {
-        String data = "";
-        String now = "";
+	private void load(String file) {
+		String data = "";
+		String now = "";
 
-        try {
-            DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
+		try {
+			DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 
-            while ((data = in.readLine()) != null) {
-                now = now + data + "\n";
-            }
-        } catch (IOException e) {
-            Log.debug("No bookmarks.txt found, using defaults.");
+			while ((data = in.readLine()) != null) {
+				now = now + data + "\n";
+			}
+		} catch (IOException e) {
+			Log.debug("No bookmarks.txt found, using defaults.");
 
-            setDefaultText();
+			setDefaultText();
 
-            return;
-        }
+			return;
+		}
 
-        info.setText(now);
-    }
+		info.setText(now);
+	}
 
-    private void save(String file) {
-        try {
-            PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)));
+	private void save(String file) {
+		try {
+			PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)));
 
-            out.println(info.getText());
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            Log.debug(e + " @BookmarkManager.save()");
-        }
-    }
+			out.println(info.getText());
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			Log.debug(e + " @BookmarkManager.save()");
+		}
+	}
 
-    public Insets getInsets() {
-        Insets std = super.getInsets();
+	public Insets getInsets() {
+		Insets std = super.getInsets();
 
-        return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-                std.right + 5);
-    }
+		return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
+	}
 }

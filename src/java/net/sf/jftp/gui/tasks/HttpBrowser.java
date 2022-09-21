@@ -28,72 +28,67 @@ import java.util.Vector;
 
 
 public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
-    public HttpBrowser(String url) {
-        super("Http Browser", true, true, true, true);
+	public HttpBrowser(String url) {
+		super("Http Browser", true, true, true, true);
 
-        try {
-            setTitle(url);
+		try {
+			setTitle(url);
 
-            JEditorPane pane = new JEditorPane(url);
-            pane.setEditable(false);
-            pane.addHyperlinkListener(this);
+			JEditorPane pane = new JEditorPane(url);
+			pane.setEditable(false);
+			pane.addHyperlinkListener(this);
 
-            if (!pane.getEditorKit().getContentType().equals("text/html") &&
-                    !pane.getEditorKit().getContentType().equals("text/rtf")) {
-                if (!pane.getEditorKit().getContentType().equals("text/plain")) {
-                    Log.debug("Could not display URL.");
+			if (!pane.getEditorKit().getContentType().equals("text/html") && !pane.getEditorKit().getContentType().equals("text/rtf")) {
+				if (!pane.getEditorKit().getContentType().equals("text/plain")) {
+					Log.debug("Could not display URL.");
 
-                    return;
-                }
+					return;
+				}
 
-                pane.setEditable(false);
-                pane.addHyperlinkListener(this);
-            }
+				pane.setEditable(false);
+				pane.addHyperlinkListener(this);
+			}
 
-            JScrollPane jsp = new JScrollPane(pane);
+			JScrollPane jsp = new JScrollPane(pane);
 
-            getContentPane().setLayout(new BorderLayout());
-            getContentPane().add("Center", jsp);
+			getContentPane().setLayout(new BorderLayout());
+			getContentPane().add("Center", jsp);
 
-            setLocation(50, 50);
-            setSize(800, 500);
-            show();
-            requestFocus();
-        } catch (Exception ex) {
-            Log.debug("Error fetching URL: " + ex);
-            ex.printStackTrace();
-        }
-    }
+			setLocation(50, 50);
+			setSize(800, 500);
+			show();
+			requestFocus();
+		} catch (Exception ex) {
+			Log.debug("Error fetching URL: " + ex);
+			ex.printStackTrace();
+		}
+	}
 
-    public void hyperlinkUpdate(HyperlinkEvent e) {
-        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-            JEditorPane pane = (JEditorPane) e.getSource();
+	public void hyperlinkUpdate(HyperlinkEvent e) {
+		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+			JEditorPane pane = (JEditorPane) e.getSource();
 
-            if (e instanceof HTMLFrameHyperlinkEvent) {
-                HTMLFrameHyperlinkEvent evt = (HTMLFrameHyperlinkEvent) e;
-                HTMLDocument doc = (HTMLDocument) pane.getDocument();
-                doc.processHTMLFrameHyperlinkEvent(evt);
-            } else {
-                try {
-                    String url = e.getURL().toString();
-                    String tmp = url.substring(url.lastIndexOf("/"));
+			if (e instanceof HTMLFrameHyperlinkEvent) {
+				HTMLFrameHyperlinkEvent evt = (HTMLFrameHyperlinkEvent) e;
+				HTMLDocument doc = (HTMLDocument) pane.getDocument();
+				doc.processHTMLFrameHyperlinkEvent(evt);
+			} else {
+				try {
+					String url = e.getURL().toString();
+					String tmp = url.substring(url.lastIndexOf("/"));
 
-                    Vector listeners = new Vector();
-                    listeners.add(JFtp.localDir);
+					Vector listeners = new Vector();
+					listeners.add(JFtp.localDir);
 
-                    if (!url.endsWith(".htm") && !url.endsWith(".html") &&
-                            (tmp.indexOf(".") >= 0)) {
-                        JFtp.statusP.startTransfer(url,
-                                JFtp.localDir.getPath(),
-                                listeners,
-                                JFtp.getConnectionHandler());
-                    } else {
-                        pane.setPage(e.getURL());
-                    }
-                } catch (Throwable t) {
-                    t.printStackTrace();
-                }
-            }
-        }
-    }
+					if (!url.endsWith(".htm") && !url.endsWith(".html") && (tmp.indexOf(".") >= 0)) {
+						JFtp.statusP.startTransfer(url, JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
+					} else {
+						pane.setPage(e.getURL());
+					}
+				} catch (Throwable t) {
+					t.printStackTrace();
+				}
+			}
+		}
+	}
 }

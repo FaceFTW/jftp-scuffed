@@ -22,24 +22,24 @@ import java.io.File;
 
 
 public class AutoRemover {
-    public AutoRemover(String file, String type) {
-        if (type.equals("local")) {
-            File f = new File(JFtp.localDir.getPath() + file);
+	public AutoRemover(String file, String type) {
+		if (type.equals("local")) {
+			File f = new File(JFtp.localDir.getPath() + file);
 
-            if (f.isDirectory()) {
-                LocalIO.cleanLocalDir(file, JFtp.localDir.getPath());
-                f.delete();
-            } else {
-                f.delete();
-            }
-        }
+			if (f.isDirectory()) {
+				LocalIO.cleanLocalDir(file, JFtp.localDir.getPath());
+				f.delete();
+			} else {
+				f.delete();
+			}
+		}
 
-        if (type.equals("remote")) {
-            JFtp.remoteDir.lock(false);
+		if (type.equals("remote")) {
+			JFtp.remoteDir.lock(false);
 
-            JFtp.remoteDir.getCon().removeFileOrDir(file);
+			JFtp.remoteDir.getCon().removeFileOrDir(file);
 
-            JFtp.remoteDir.unlock(false);
-        }
-    }
+			JFtp.remoteDir.unlock(false);
+		}
+	}
 }

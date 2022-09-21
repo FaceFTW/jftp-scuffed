@@ -23,69 +23,69 @@ import java.net.URLConnection;
 
 
 public class Sftp2URLConnection extends URLConnection {
-    private Sftp2Connection connection = null;
-    private String username = "user";
-    private String password = "none@no.no";
-    private boolean loginFlag = false;
+	private Sftp2Connection connection = null;
+	private String username = "user";
+	private String password = "none@no.no";
+	private boolean loginFlag = false;
 
-    public Sftp2URLConnection(URL u) {
-        super(u);
+	public Sftp2URLConnection(URL u) {
+		super(u);
 
-        int port = u.getPort() > 0 ? u.getPort() : 22;
-        connection = new Sftp2Connection(u.getHost(), "" + port, null);
+		int port = u.getPort() > 0 ? u.getPort() : 22;
+		connection = new Sftp2Connection(u.getHost(), "" + port, null);
 
-        String userInfo = u.getUserInfo();
+		String userInfo = u.getUserInfo();
 
-        if (userInfo != null) {
-            int index = userInfo.indexOf(":");
+		if (userInfo != null) {
+			int index = userInfo.indexOf(":");
 
-            if (index != -1) {
-                username = userInfo.substring(0, index);
-                password = userInfo.substring(index + 1);
-            }
-        }
+			if (index != -1) {
+				username = userInfo.substring(0, index);
+				password = userInfo.substring(index + 1);
+			}
+		}
 
-        Log.debug("Connecting...");
-    }
+		Log.debug("Connecting...");
+	}
 
-    public void connect() throws IOException {
-        loginFlag = connection.login(username, password);
+	public void connect() throws IOException {
+		loginFlag = connection.login(username, password);
 
-        if (!loginFlag) {
-            return;
-        }
+		if (!loginFlag) {
+			return;
+		}
 
-        connection.chdir(url.getPath());
-    }
+		connection.chdir(url.getPath());
+	}
 
-    public Sftp2Connection getSftp2Connection() {
-        return connection;
-    }
+	public Sftp2Connection getSftp2Connection() {
+		return connection;
+	}
 
-    public String getUser() {
-        return username;
-    }
+	public String getUser() {
+		return username;
+	}
 
-    public String getPass() {
-        return password;
-    }
+	public String getPass() {
+		return password;
+	}
 
-    public String getHost() {
-        return url.getHost();
-    }
+	public String getHost() {
+		return url.getHost();
+	}
 
-    public int getPort() {
-        int ret = url.getPort();
+	public int getPort() {
+		int ret = url.getPort();
 
-        if (ret <= 0) {
-            return 22;
-        } else {
-            return ret;
-        }
-    }
+		if (ret <= 0) {
+			return 22;
+		} else {
+			return ret;
+		}
+	}
 
-    public boolean loginSucceeded() {
-        return loginFlag;
-    }
+	public boolean loginSucceeded() {
+		return loginFlag;
+	}
 
 }

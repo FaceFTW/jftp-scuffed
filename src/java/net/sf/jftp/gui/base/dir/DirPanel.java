@@ -23,67 +23,67 @@ import javax.swing.*;
 
 
 public class DirPanel extends HPanel implements Dir {
-    public int length = 0;
-    public String[] files;
-    public DirEntry[] dirEntry;
-    public String type = null;
-    public long oldtime = 0;
-    public DownloadList dList = null;
-    public BasicConnection con = null;
-    public String path = "./";
-    public JList jl = new JList();
+	public int length = 0;
+	public String[] files;
+	public DirEntry[] dirEntry;
+	public String type = null;
+	public long oldtime = 0;
+	public DownloadList dList = null;
+	public BasicConnection con = null;
+	public String path = "./";
+	public JList jl = new JList();
 
-    public DirPanel() {
-    }
+	public DirPanel() {
+	}
 
-    public DirPanel(String path) {
-        this.path = path;
-    }
+	public DirPanel(String path) {
+		this.path = path;
+	}
 
-    public DirPanel(String path, String type) {
-        this.path = path;
-        this.type = type;
-    }
+	public DirPanel(String path, String type) {
+		this.path = path;
+		this.type = type;
+	}
 
-    public boolean setPath(String path) {
-        this.path = path;
+	public boolean setPath(String path) {
+		this.path = path;
 
-        return true;
-    }
+		return true;
+	}
 
-    public String getPath() {
-        return path;
-    }
+	public String getPath() {
+		return path;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getType() {
+		return type;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    public void setDownloadList(DownloadList d) {
-        dList = d;
-    }
+	public void setDownloadList(DownloadList d) {
+		dList = d;
+	}
 
-    public BasicConnection getCon() {
-        return con;
-    }
+	public BasicConnection getCon() {
+		return con;
+	}
 
-    public void setCon(BasicConnection con) {
-        this.con = con;
-    }
+	public void setCon(BasicConnection con) {
+		this.con = con;
+	}
 
-    public void fresh() {
-    }
+	public void fresh() {
+	}
 
-    public void actionPerformed(Object target, String msg) {
-    }
+	public void actionPerformed(Object target, String msg) {
+	}
 
-    public void lock(boolean isNotification) {
-    }
+	public void lock(boolean isNotification) {
+	}
 
-    public void unlock(boolean isNotification) {
-    }
+	public void unlock(boolean isNotification) {
+	}
 }

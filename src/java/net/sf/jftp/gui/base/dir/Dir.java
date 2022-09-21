@@ -20,25 +20,25 @@ import net.sf.jftp.net.BasicConnection;
 
 
 public interface Dir {
-    void setDownloadList(DownloadList list);
+	void setDownloadList(DownloadList list);
 
-    BasicConnection getCon();
+	BasicConnection getCon();
 
-    void setCon(BasicConnection con);
+	void setCon(BasicConnection con);
 
-    void actionPerformed(Object target, String message);
+	void actionPerformed(Object target, String message);
 
-    String getPath();
+	String getPath();
 
-    boolean setPath(String path);
+	boolean setPath(String path);
 
-    String getType();
+	String getType();
 
-    void setType(String type);
+	void setType(String type);
 
-    void fresh();
+	void fresh();
 
-    void lock(boolean isNotification);
+	void lock(boolean isNotification);
 
-    void unlock(boolean isNotification);
+	void unlock(boolean isNotification);
 }

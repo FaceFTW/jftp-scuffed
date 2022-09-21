@@ -28,94 +28,90 @@ import java.awt.*;
 // Display an icon and a string for each object in the list.
 // class DirCellRenderer extends JLabel implements ListCellRenderer {
 public class DirCellRenderer extends DefaultListCellRenderer {
-    final static ImageIcon longIcon = new ImageIcon(Settings.dirImage);
-    final static ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
-    private Object value;
+	final static ImageIcon longIcon = new ImageIcon(Settings.dirImage);
+	final static ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
+	private Object value;
 
-    public DirCellRenderer() {
-    }
+	public DirCellRenderer() {
+	}
 
-    // This is the only method defined by ListCellRenderer.
-    // We just reconfigure the JLabel each time we're called.
-    public Component getListCellRendererComponent(JList list, Object value, // value to display
-                                                  int index, // cell index
-                                                  boolean isSelected, // is the cell selected
-                                                  boolean cellHasFocus) // the list and the cell have the focus
-    {
-        /* The DefaultListCellRenderer class will take care of
-         * the JLabels text property, it's foreground and background
-         * colors, and so on.
-         */
-        super.getListCellRendererComponent(list, value, index, isSelected,
-                cellHasFocus);
+	// This is the only method defined by ListCellRenderer.
+	// We just reconfigure the JLabel each time we're called.
+	public Component getListCellRendererComponent(JList list, Object value, // value to display
+	                                              int index, // cell index
+	                                              boolean isSelected, // is the cell selected
+	                                              boolean cellHasFocus) // the list and the cell have the focus
+	{
+		/* The DefaultListCellRenderer class will take care of
+		 * the JLabels text property, it's foreground and background
+		 * colors, and so on.
+		 */
+		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-        ImageIcon i = new ImageIcon(((DirEntry) value).getImage());
+		ImageIcon i = new ImageIcon(((DirEntry) value).getImage());
 
-        if (i == null) {
-            System.out.println("Img null: " + value.toString() +
-                    "/" + ((DirEntry) value).getImage());
-        } else {
-            setIcon(i);
-        }
+		if (i == null) {
+			System.out.println("Img null: " + value.toString() + "/" + ((DirEntry) value).getImage());
+		} else {
+			setIcon(i);
+		}
 
-        this.value = value;
-        Log.devnull(this.value); // prevents eclipse warning
+		this.value = value;
+		Log.devnull(this.value); // prevents eclipse warning
 
-        if (!((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
-            String size = "";
+		if (!((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
+			String size = "";
 
-            if (Settings.showFileSize) {
-                size = ((DirEntry) list.getModel().getElementAt(index)).getFileSize();
-            }
+			if (Settings.showFileSize) {
+				size = ((DirEntry) list.getModel().getElementAt(index)).getFileSize();
+			}
 
-            setFont(GUIDefaults.monospaced);
+			setFont(GUIDefaults.monospaced);
 
-            String s = value.toString();
+			String s = value.toString();
 
-            String date = "";
+			String date = "";
 
-            if (Settings.showDateNoSize &&
-                    (((DirEntry) list.getModel().getElementAt(index)).who instanceof RemoteDir)) {
-                size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
+			if (Settings.showDateNoSize && (((DirEntry) list.getModel().getElementAt(index)).who instanceof RemoteDir)) {
+				size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
 
-                int x = 12 - size.length();
+				int x = 12 - size.length();
 
-                for (int j = 0; j < x; j++) {
-                    size += " ";
-                }
-            } else if (Settings.showLocalDateNoSize &&
-                    (((DirEntry) list.getModel().getElementAt(index)).who instanceof LocalDir)) {
-                size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
+				for (int j = 0; j < x; j++) {
+					size += " ";
+				}
+			} else if (Settings.showLocalDateNoSize && (((DirEntry) list.getModel().getElementAt(index)).who instanceof LocalDir)) {
+				size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
 
-                int x = 12 - size.length();
+				int x = 12 - size.length();
 
-                for (int j = 0; j < x; j++) {
-                    size += " ";
-                }
-            }
+				for (int j = 0; j < x; j++) {
+					size += " ";
+				}
+			}
 
-            setText(size + s);
-        } else {
-            setFont(GUIDefaults.small);
+			setText(size + s);
+		} else {
+			setFont(GUIDefaults.small);
 
-            String s = value.toString();
-            setText(s);
-        }
+			String s = value.toString();
+			setText(s);
+		}
 
-        int ok = ((DirEntry) value).getPermission();
+		int ok = ((DirEntry) value).getPermission();
 
-        if (ok == DirEntry.DENIED) {
-            setForeground(GUIDefaults.deniedColor);
-        } else if (ok == DirEntry.W) {
-            setForeground(GUIDefaults.writableColor);
-        } else {
-            setForeground(GUIDefaults.defaultColor);
-        }
+		if (ok == DirEntry.DENIED) {
+			setForeground(GUIDefaults.deniedColor);
+		} else if (ok == DirEntry.W) {
+			setForeground(GUIDefaults.writableColor);
+		} else {
+			setForeground(GUIDefaults.defaultColor);
+		}
 
-        if (((DirEntry) value).file.equals("..")) {
-            setBackground(GUIDefaults.cdColor);
-        }
+		if (((DirEntry) value).file.equals("..")) {
+			setBackground(GUIDefaults.cdColor);
+		}
 
-        return this;
-    }
+		return this;
+	}
 }

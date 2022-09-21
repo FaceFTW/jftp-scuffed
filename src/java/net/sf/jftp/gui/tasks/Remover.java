@@ -27,54 +27,54 @@ import java.awt.event.ActionListener;
 
 
 public class Remover extends HFrame implements ActionListener {
-    private final HTextField text;
-    private final HButton ok = new HButton("Remove file/directory...");
-    private final HButton cancel = new HButton("Cancel");
-    private final HPanel okP = new HPanel();
-    private String type = null;
+	private final HTextField text;
+	private final HButton ok = new HButton("Remove file/directory...");
+	private final HButton cancel = new HButton("Cancel");
+	private final HPanel okP = new HPanel();
+	private String type = null;
 
-    public Remover(String l, String type) {
-        this.type = type;
+	public Remover(String l, String type) {
+		this.type = type;
 
-        setSize(350, 100);
-        setTitle("Choose...");
-        setLocation(150, 150);
-        getContentPane().setLayout(new BorderLayout(10, 10));
+		setSize(350, 100);
+		setTitle("Choose...");
+		setLocation(150, 150);
+		getContentPane().setLayout(new BorderLayout(10, 10));
 
-        text = new HTextField(l, "");
-        okP.add(ok);
-        okP.add(cancel);
-        getContentPane().add("North", text);
-        getContentPane().add("South", okP);
-        ok.addActionListener(this);
-        cancel.addActionListener(this);
+		text = new HTextField(l, "");
+		okP.add(ok);
+		okP.add(cancel);
+		getContentPane().add("North", text);
+		getContentPane().add("South", okP);
+		ok.addActionListener(this);
+		cancel.addActionListener(this);
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == ok) {
-            setVisible(false);
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == ok) {
+			setVisible(false);
 
-            String tmp = text.getText();
+			String tmp = text.getText();
 
-            if (!tmp.endsWith("/")) {
-                tmp = tmp + "/";
-            }
+			if (!tmp.endsWith("/")) {
+				tmp = tmp + "/";
+			}
 
-            AutoRemover armv = new AutoRemover(tmp, type);
+			AutoRemover armv = new AutoRemover(tmp, type);
 
-            if (type.equals("local")) {
-                JFtp.localUpdate();
-            }
+			if (type.equals("local")) {
+				JFtp.localUpdate();
+			}
 
-            if (type.equals("remote")) {
-                JFtp.remoteUpdate();
-            }
-        }
+			if (type.equals("remote")) {
+				JFtp.remoteUpdate();
+			}
+		}
 
-        if (e.getSource() == cancel) {
-            this.dispose();
-        }
-    }
+		if (e.getSource() == cancel) {
+			this.dispose();
+		}
+	}
 }

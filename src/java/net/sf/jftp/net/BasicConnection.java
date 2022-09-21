@@ -25,56 +25,56 @@ import java.util.Vector;
  * Interface for all connection types
  */
 public interface BasicConnection {
-    boolean hasUploaded = false;
+	boolean hasUploaded = false;
 
-    void sendRawCommand(String cmd);
+	void sendRawCommand(String cmd);
 
-    //public boolean login(String user, String pass);
-    void disconnect();
+	//public boolean login(String user, String pass);
+	void disconnect();
 
-    boolean isConnected();
+	boolean isConnected();
 
-    String getPWD();
+	String getPWD();
 
-    boolean cdup();
+	boolean cdup();
 
-    boolean mkdir(String dirName);
+	boolean mkdir(String dirName);
 
-    void list() throws IOException;
+	void list() throws IOException;
 
-    boolean chdir(String p);
+	boolean chdir(String p);
 
-    boolean chdirNoRefresh(String p);
+	boolean chdirNoRefresh(String p);
 
-    String getLocalPath();
+	String getLocalPath();
 
-    boolean setLocalPath(String newPath);
+	boolean setLocalPath(String newPath);
 
-    String[] sortLs();
+	String[] sortLs();
 
-    String[] sortSize();
+	String[] sortSize();
 
-    Date[] sortDates();
+	Date[] sortDates();
 
-    int[] getPermissions();
+	int[] getPermissions();
 
-    int handleDownload(String file);
+	int handleDownload(String file);
 
-    int handleUpload(String file);
+	int handleUpload(String file);
 
-    int download(String file);
+	int download(String file);
 
-    int upload(String file);
+	int upload(String file);
 
-    int upload(String file, InputStream in);
+	int upload(String file, InputStream in);
 
-    InputStream getDownloadInputStream(String file);
+	InputStream getDownloadInputStream(String file);
 
-    int removeFileOrDir(String file);
+	int removeFileOrDir(String file);
 
-    void addConnectionListener(ConnectionListener listener);
+	void addConnectionListener(ConnectionListener listener);
 
-    void setConnectionListeners(Vector<ConnectionListener> listeners);
+	void setConnectionListeners(Vector<ConnectionListener> listeners);
 
-    boolean rename(String from, String to);
+	boolean rename(String from, String to);
 }

@@ -30,31 +30,31 @@ import java.awt.event.ActionListener;
  * @author David Hansmann
  */
 public class Creator extends HFrame implements ActionListener {
-    private final HTextField text;
-    private final HButton ok = new HButton("Create directory...");
-    private final BasicConnection con;
+	private final HTextField text;
+	private final HButton ok = new HButton("Create directory...");
+	private final BasicConnection con;
 
-    public Creator(String l, BasicConnection con) {
-        this.con = con;
+	public Creator(String l, BasicConnection con) {
+		this.con = con;
 
-        setTitle("Choose...");
-        getContentPane().setLayout(new FlowLayout());
+		setTitle("Choose...");
+		getContentPane().setLayout(new FlowLayout());
 
-        text = new HTextField(l, "");
-        getContentPane().add(text);
-        getContentPane().add(ok);
-        ok.addActionListener(this);
-        text.text.addActionListener(this);
+		text = new HTextField(l, "");
+		getContentPane().add(text);
+		getContentPane().add(ok);
+		ok.addActionListener(this);
+		text.text.addActionListener(this);
 
-        pack();
-        fixLocation();
-        setVisible(true);
-    }
+		pack();
+		fixLocation();
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-            setVisible(false);
-            con.mkdir(text.getText());
-        }
-    }
+	public void actionPerformed(ActionEvent e) {
+		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+			setVisible(false);
+			con.mkdir(text.getText());
+		}
+	}
 }

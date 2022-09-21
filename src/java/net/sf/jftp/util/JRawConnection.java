@@ -26,83 +26,83 @@ import java.net.Socket;
 alternative connection class, used for raw tcp/ip connection
 */
 public class JRawConnection implements Runnable {
-    private final int timeout = Settings.connectionTimeout;
-    private final String host;
-    private final int port;
-    private final Thread runner;
-    private PrintStream out;
-    private DataInputStream in;
-    private Socket s;
-    private JReciever jrcv;
-    private boolean isOk = false;
-    private boolean established = false;
-    private boolean reciever = false;
+	private final int timeout = Settings.connectionTimeout;
+	private final String host;
+	private final int port;
+	private final Thread runner;
+	private PrintStream out;
+	private DataInputStream in;
+	private Socket s;
+	private JReciever jrcv;
+	private boolean isOk = false;
+	private boolean established = false;
+	private boolean reciever = false;
 
-    public JRawConnection(String host, int port) {
-        this(host, port, false);
-    }
+	public JRawConnection(String host, int port) {
+		this(host, port, false);
+	}
 
-    public JRawConnection(String host, int port, boolean reciever) {
-        this.host = host;
-        this.port = port;
-        this.reciever = reciever;
+	public JRawConnection(String host, int port, boolean reciever) {
+		this.host = host;
+		this.port = port;
+		this.reciever = reciever;
 
-        runner = new Thread(this);
-        runner.start();
-    }
+		runner = new Thread(this);
+		runner.start();
+	}
 
-    public void run() {
-        try {
-            s = new Socket(host, port);
+	public void run() {
+		try {
+			s = new Socket(host, port);
 
-            //  s.setSoTimeout(Resource.socketTimeout);
-            out = new PrintStream(s.getOutputStream());
-            in = new DataInputStream(s.getInputStream());
+			//  s.setSoTimeout(Resource.socketTimeout);
+			out = new PrintStream(s.getOutputStream());
+			in = new DataInputStream(s.getInputStream());
 
-            if (reciever) {
-                JReciever jrcv = new JReciever(in);
-            }
+			if (reciever) {
+				JReciever jrcv = new JReciever(in);
+			}
 
-            isOk = true;
-        } catch (Exception ex) {
-            isOk = false;
-        }
+			isOk = true;
+		} catch (Exception ex) {
+			isOk = false;
+		}
 
-        established = true;
-    }
+		established = true;
+	}
 
-    public boolean isThere() {
-        int cnt = 0;
+	public boolean isThere() {
+		int cnt = 0;
 
-        while (!established && (cnt < timeout)) {
-            pause(100);
-            cnt = cnt + 100;
-        }
+		while (!established && (cnt < timeout)) {
+			pause(100);
+			cnt = cnt + 100;
+		}
 
-        return isOk;
-    }
+		return isOk;
+	}
 
-    public void send(String data) {
-        try {
-            out.println(data);
-        } catch (Exception ex) {
-            System.out.println(ex + "@JConnection.send()");
-        }
-    }
+	public void send(String data) {
+		try {
+			out.println(data);
+		} catch (Exception ex) {
+			System.out.println(ex + "@JConnection.send()");
+		}
+	}
 
-    public PrintStream getInetOutputStream() {
-        return out;
-    }
+	public PrintStream getInetOutputStream() {
+		return out;
+	}
 
-    public DataInputStream getInetInputStream() {
-        return in;
-    }
+	public DataInputStream getInetInputStream() {
+		return in;
+	}
 
-    private void pause(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (Exception ex) {
-            System.out.println(ex);
-        }
-    }
+	private void pause(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+	}
 }

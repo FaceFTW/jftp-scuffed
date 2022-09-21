@@ -22,54 +22,54 @@ import java.io.DataInputStream;
 
 
 public class JReciever implements Runnable {
-    private final byte[] buf = new byte[4048];
-    private DataInputStream in;
-    private Thread reciever;
+	private final byte[] buf = new byte[4048];
+	private DataInputStream in;
+	private Thread reciever;
 
-    public JReciever(DataInputStream in) {
-        this.in = in;
-        reciever = new Thread(this);
-        reciever.start();
-    }
+	public JReciever(DataInputStream in) {
+		this.in = in;
+		reciever = new Thread(this);
+		reciever.start();
+	}
 
-    public void run() {
-        try {
-            while (true) {
-                int cnt = in.read(buf);
+	public void run() {
+		try {
+			while (true) {
+				int cnt = in.read(buf);
 
-                if (cnt == -1) {
-                    RawConnection.output.append(">>> Connection closed...");
+				if (cnt == -1) {
+					RawConnection.output.append(">>> Connection closed...");
 
-                    LocalIO.pause(100);
+					LocalIO.pause(100);
 
-                    JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
-                    bar.setValue(bar.getMaximum());
+					JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
+					bar.setValue(bar.getMaximum());
 
-                    in.close();
+					in.close();
 
-                    return;
-                } else {
-                    String tmp = new String(buf);
-                    tmp = tmp.substring(0, cnt);
+					return;
+				} else {
+					String tmp = new String(buf);
+					tmp = tmp.substring(0, cnt);
 
-                    RawConnection.output.append(tmp);
-                    LocalIO.pause(100);
+					RawConnection.output.append(tmp);
+					LocalIO.pause(100);
 
-                    JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
-                    bar.setValue(bar.getMaximum());
+					JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
+					bar.setValue(bar.getMaximum());
 
-                    LocalIO.pause(400);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+					LocalIO.pause(400);
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
-    public void reset(DataInputStream in) {
-        reciever.destroy();
-        this.in = in;
-        reciever = new Thread(this);
-        reciever.start();
-    }
+	public void reset(DataInputStream in) {
+		reciever.destroy();
+		this.in = in;
+		reciever = new Thread(this);
+		reciever.start();
+	}
 }

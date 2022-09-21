@@ -25,32 +25,32 @@ import java.util.Hashtable;
  * for each connection to make the connection recognize its handler.
  */
 public class ConnectionHandler {
-    private final Hashtable<String, Transfer> connections = new Hashtable<String, Transfer>();
+	private final Hashtable<String, Transfer> connections = new Hashtable<String, Transfer>();
 
-    public void addConnection(String file, Transfer t) {
-        connections.put(file, t);
-    }
+	public void addConnection(String file, Transfer t) {
+		connections.put(file, t);
+	}
 
-    public void removeConnection(String file) {
-        connections.remove(file);
-    }
+	public void removeConnection(String file) {
+		connections.remove(file);
+	}
 
-    public Hashtable<String, Transfer> getConnections() {
-        return connections;
-    }
+	public Hashtable<String, Transfer> getConnections() {
+		return connections;
+	}
 
-    public int getConnectionSize() {
-        int size = 0;
-        Enumeration<Transfer> e = connections.elements();
+	public int getConnectionSize() {
+		int size = 0;
+		Enumeration<Transfer> e = connections.elements();
 
-        while (e.hasMoreElements()) {
-            Transfer t = e.nextElement();
+		while (e.hasMoreElements()) {
+			Transfer t = e.nextElement();
 
-            if (t.hasStarted()) {
-                size++;
-            }
-        }
+			if (t.hasStarted()) {
+				size++;
+			}
+		}
 
-        return size;
-    }
+		return size;
+	}
 }

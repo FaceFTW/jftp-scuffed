@@ -21,62 +21,62 @@ import java.net.URL;
 
 
 public class ImageViewer extends JInternalFrame {
-    public ImageViewer(String img) {
-        super(img, true, true, true, true);
-        setLocation(150, 50);
-        setSize(400, 300);
+	public ImageViewer(String img) {
+		super(img, true, true, true, true);
+		setLocation(150, 50);
+		setSize(400, 300);
 
-        setLayout(new BorderLayout(2, 2));
+		setLayout(new BorderLayout(2, 2));
 
-        ImagePanel p = new ImagePanel(img);
-        JScrollPane scroll = new JScrollPane(p);
+		ImagePanel p = new ImagePanel(img);
+		JScrollPane scroll = new JScrollPane(p);
 
-        getContentPane().add("Center", scroll);
+		getContentPane().add("Center", scroll);
 
-        p.setMinimumSize(new Dimension(1500, 1500));
-        p.setPreferredSize(new Dimension(1500, 1500));
-        p.setMaximumSize(new Dimension(1500, 1500));
+		p.setMinimumSize(new Dimension(1500, 1500));
+		p.setPreferredSize(new Dimension(1500, 1500));
+		p.setMaximumSize(new Dimension(1500, 1500));
 
-        setVisible(true);
+		setVisible(true);
 
-        //doLayout();
-        //validate();
-        //p.repaint();
-        //Log.out(""+p.getSize().width);
-    }
+		//doLayout();
+		//validate();
+		//p.repaint();
+		//Log.out(""+p.getSize().width);
+	}
 }
 
 
 class ImagePanel extends JPanel {
-    private Image img;
+	private Image img;
 
-    public ImagePanel(String url) {
-        try {
-            setBackground(Color.white);
+	public ImagePanel(String url) {
+		try {
+			setBackground(Color.white);
 
-            img = Toolkit.getDefaultToolkit().getImage(new URL(url));
+			img = Toolkit.getDefaultToolkit().getImage(new URL(url));
 
-            MediaTracker mt = new MediaTracker(this);
-            mt.addImage(img, 1);
-            mt.waitForAll();
+			MediaTracker mt = new MediaTracker(this);
+			mt.addImage(img, 1);
+			mt.waitForAll();
 
-            //System.out.println(img);
-            //setVisible(true);
-            repaint();
+			//System.out.println(img);
+			//setVisible(true);
+			repaint();
 
-            //validate();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+			//validate();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
-    public void paintComponent(Graphics g) {
-        g.setColor(Color.white);
-        g.fillRect(0, 0, 1500, 1500);
-        g.drawImage(img, 0, 0, null);
-    }
+	public void paintComponent(Graphics g) {
+		g.setColor(Color.white);
+		g.fillRect(0, 0, 1500, 1500);
+		g.drawImage(img, 0, 0, null);
+	}
 
-    public void update(Graphics g) {
-        paintComponent(g);
-    }
+	public void update(Graphics g) {
+		paintComponent(g);
+	}
 }

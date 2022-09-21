@@ -25,53 +25,52 @@ import javax.swing.*;
 
 //***
 public class BookmarkItem extends JMenuItem {
-    private String host = "localhost";
-    private String user = "anonymous";
-    private String pass = "j-ftp@sourceforge.net";
-    private String protocol = "FTP";
-    private int port = 21;
-    private String dirOrDom = "/";
-    private boolean useLocal = false;
+	private String host = "localhost";
+	private String user = "anonymous";
+	private String pass = "j-ftp@sourceforge.net";
+	private String protocol = "FTP";
+	private int port = 21;
+	private String dirOrDom = "/";
+	private boolean useLocal = false;
 
-    public BookmarkItem(String host) {
-        super(host);
-        this.host = host;
-    }
+	public BookmarkItem(String host) {
+		super(host);
+		this.host = host;
+	}
 
-    public void setProtocol(String proto) {
-        protocol = proto;
-        setLabel(proto + ": " + getLabel());
-    }
+	public void setProtocol(String proto) {
+		protocol = proto;
+		setLabel(proto + ": " + getLabel());
+	}
 
-    public void setDirectory(String dir) {
-        dirOrDom = dir;
-    }
+	public void setDirectory(String dir) {
+		dirOrDom = dir;
+	}
 
-    public void setPort(int p) {
-        port = p;
-    }
+	public void setPort(int p) {
+		port = p;
+	}
 
-    public void setLocal(boolean local) {
-        useLocal = local;
-    }
+	public void setLocal(boolean local) {
+		useLocal = local;
+	}
 
-    public void setUserdata(String u, String p) {
-        user = u;
-        pass = p;
-    }
+	public void setUserdata(String u, String p) {
+		user = u;
+		pass = p;
+	}
 
-    public void connect() {
-        if (protocol.equals("FTP")) {
-            if (pass.equals(Settings.hiddenPassword)) {
-                pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
-            }
+	public void connect() {
+		if (protocol.equals("FTP")) {
+			if (pass.equals(Settings.hiddenPassword)) {
+				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+			}
 
-            int i = StartConnection.startFtpCon(host, user, pass, port,
-                    dirOrDom, useLocal);
+			int i = StartConnection.startFtpCon(host, user, pass, port, dirOrDom, useLocal);
 
-            if (i < 0) {
-                pass = Settings.hiddenPassword;
-            }
+			if (i < 0) {
+				pass = Settings.hiddenPassword;
+			}
 
             /*
             FtpConnection con = StartConnection.con;
@@ -81,17 +80,16 @@ public class BookmarkItem extends JMenuItem {
                     con.chdir(dirOrDom);
             }
             */
-        } else {
-            if (pass.equals(Settings.hiddenPassword)) {
-                pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
-            }
+		} else {
+			if (pass.equals(Settings.hiddenPassword)) {
+				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+			}
 
-            boolean ok = StartConnection.startCon(protocol, host, user, pass,
-                    port, dirOrDom, useLocal);
+			boolean ok = StartConnection.startCon(protocol, host, user, pass, port, dirOrDom, useLocal);
 
-            if (!ok) {
-                pass = Settings.hiddenPassword;
-            }
-        }
-    }
+			if (!ok) {
+				pass = Settings.hiddenPassword;
+			}
+		}
+	}
 }

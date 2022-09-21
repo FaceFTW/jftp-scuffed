@@ -25,61 +25,59 @@ import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 
 
-public class HDesktopBackground extends JPanel implements MouseListener,
-        ImageObserver {
-    private final Image img;
-    private final String cmd = "default";
-    public ActionListener who = null;
-    private String image = null;
+public class HDesktopBackground extends JPanel implements MouseListener, ImageObserver {
+	private final Image img;
+	private final String cmd = "default";
+	public ActionListener who = null;
+	private String image = null;
 
-    public HDesktopBackground(String image, ActionListener who) {
-        this.image = image;
-        this.who = who;
+	public HDesktopBackground(String image, ActionListener who) {
+		this.image = image;
+		this.who = who;
 
-        img = HImage.getImage(this, image);
-        addMouseListener(this);
-        setVisible(true);
-    }
+		img = HImage.getImage(this, image);
+		addMouseListener(this);
+		setVisible(true);
+	}
 
-    public void paintComponent(Graphics g) {
-        if (!Settings.getUseBackground()) {
-            return;
-        }
+	public void paintComponent(Graphics g) {
+		if (!Settings.getUseBackground()) {
+			return;
+		}
 
-        int x = img.getWidth(this);
-        int y = img.getHeight(this);
-        int w = 2000 / x;
-        int h = 2000 / y;
+		int x = img.getWidth(this);
+		int y = img.getHeight(this);
+		int w = 2000 / x;
+		int h = 2000 / y;
 
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
-                g.drawImage(img, i * x, j * y, this);
-            }
-        }
-    }
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				g.drawImage(img, i * x, j * y, this);
+			}
+		}
+	}
 
-    public void update(Graphics g) {
-        paintComponent(g);
-    }
+	public void update(Graphics g) {
+		paintComponent(g);
+	}
 
-    public void mouseClicked(MouseEvent e) {
-    }
+	public void mouseClicked(MouseEvent e) {
+	}
 
-    public void mousePressed(MouseEvent e) {
-    }
+	public void mousePressed(MouseEvent e) {
+	}
 
-    public void mouseReleased(MouseEvent e) {
-    }
+	public void mouseReleased(MouseEvent e) {
+	}
 
-    public void mouseEntered(MouseEvent e) {
-    }
+	public void mouseEntered(MouseEvent e) {
+	}
 
-    public void mouseExited(MouseEvent e) {
-    }
+	public void mouseExited(MouseEvent e) {
+	}
 
-    public boolean imageUpdate(Image image, int infoflags, int x, int y,
-                               int width, int height) {
-        //if(width > 0 && height >0) repaint();
-        return true;
-    }
+	public boolean imageUpdate(Image image, int infoflags, int x, int y, int width, int height) {
+		//if(width > 0 && height >0) repaint();
+		return true;
+	}
 }

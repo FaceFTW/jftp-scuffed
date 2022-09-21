@@ -29,44 +29,44 @@ import java.io.File;
 
 
 public class Renamer extends HFrame implements ActionListener {
-    private final HButton ok = new HButton("Ok");
-    private final HPanel okP = new HPanel();
-    private final String oldName;
-    private final String path;
-    public HTextField text;
+	private final HButton ok = new HButton("Ok");
+	private final HPanel okP = new HPanel();
+	private final String oldName;
+	private final String path;
+	public HTextField text;
 
-    public Renamer(String oldName, String path) {
-        this.oldName = oldName;
-        this.path = path;
+	public Renamer(String oldName, String path) {
+		this.oldName = oldName;
+		this.path = path;
 
-        setSize(400, 80);
-        setTitle("Enter new name...");
-        setLocation(150, 150);
-        getContentPane().setLayout(new FlowLayout());
+		setSize(400, 80);
+		setTitle("Enter new name...");
+		setLocation(150, 150);
+		getContentPane().setLayout(new FlowLayout());
 
-        text = new HTextField("Name: ", oldName);
-        getContentPane().add(text);
-        getContentPane().add(ok);
-        ok.addActionListener(this);
-        text.text.addActionListener(this);
+		text = new HTextField("Name: ", oldName);
+		getContentPane().add(text);
+		getContentPane().add(ok);
+		ok.addActionListener(this);
+		text.text.addActionListener(this);
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-            String name = text.getText();
-            setVisible(false);
+	public void actionPerformed(ActionEvent e) {
+		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+			String name = text.getText();
+			setVisible(false);
 
-            File f = new File(path + oldName);
+			File f = new File(path + oldName);
 
-            if (f.exists()) {
-                f.renameTo(new File(path + name));
-            }
+			if (f.exists()) {
+				f.renameTo(new File(path + name));
+			}
 
-            JFtp.localUpdate();
+			JFtp.localUpdate();
 
-            Log.debug("Successfully renamed.");
-        }
-    }
+			Log.debug("Successfully renamed.");
+		}
+	}
 }

@@ -8,51 +8,50 @@ import java.util.Vector;
 
 public class DirComponent extends DirPanel implements ListSelectionListener {
 
-    public JTable table = new JTable();
-    DirPanel target;
+	public JTable table = new JTable();
+	DirPanel target;
 
-    public DirComponent() {
+	public DirComponent() {
 
-        table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
-        table.getSelectionModel().addListSelectionListener(this);
+		table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
+		table.getSelectionModel().addListSelectionListener(this);
 
-        //table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        table.setRowSelectionAllowed(true);
-        table.setColumnSelectionAllowed(false);
-    }
+		//table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setRowSelectionAllowed(true);
+		table.setColumnSelectionAllowed(false);
+	}
 
-    public void update() {
-        Vector colNames = new Vector();
-        colNames.add("");
-        colNames.add("Name");
-        colNames.add("Size");
-        colNames.add("##");
+	public void update() {
+		Vector colNames = new Vector();
+		colNames.add("");
+		colNames.add("Name");
+		colNames.add("Size");
+		colNames.add("##");
 
-        TableUtils.layoutTable(jl, table, colNames);
-    }
+		TableUtils.layoutTable(jl, table, colNames);
+	}
 
-    /**
-     * This manages the selections
-     */
-    public void valueChanged(ListSelectionEvent e) {
-        if (!e.getValueIsAdjusting()) {
-            TableUtils.copyTableSelectionsToJList(jl, table);
+	/**
+	 * This manages the selections
+	 */
+	public void valueChanged(ListSelectionEvent e) {
+		if (!e.getValueIsAdjusting()) {
+			TableUtils.copyTableSelectionsToJList(jl, table);
 
-            //  ui refresh bugfix
-            int index = jl.getSelectedIndex() - 1;
+			//  ui refresh bugfix
+			int index = jl.getSelectedIndex() - 1;
 
-            if ((index < 0) || (dirEntry == null) || (dirEntry.length < index) ||
-                    (dirEntry[index] == null)) {
-            } else { // -------------------- local --------------------------
+			if ((index < 0) || (dirEntry == null) || (dirEntry.length < index) || (dirEntry[index] == null)) {
+			} else { // -------------------- local --------------------------
 
-                String tgt = jl.getSelectedValue().toString();
+				String tgt = jl.getSelectedValue().toString();
 
-                for (int i = 0; i < dirEntry.length; i++) {
-                    dirEntry[i].setSelected(jl.isSelectedIndex(i + 1));
-                }
-            }
-        }
-    }
+				for (int i = 0; i < dirEntry.length; i++) {
+					dirEntry[i].setSelected(jl.isSelectedIndex(i + 1));
+				}
+			}
+		}
+	}
 
 
 }

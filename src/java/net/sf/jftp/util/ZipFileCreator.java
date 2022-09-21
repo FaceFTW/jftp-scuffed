@@ -17,63 +17,64 @@ package net.sf.jftp.util;
 
 import net.sf.jftp.system.logging.Log;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.StreamTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 
 public class ZipFileCreator {
-    private final ZipOutputStream z;
+	private final ZipOutputStream z;
 
-    public ZipFileCreator(String[] files, String path, String name)
-            throws Exception {
-        z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path +
-                name)));
-        perform(files, path, "");
-        z.finish();
-        z.flush();
-        z.close();
-    }
+	public ZipFileCreator(String[] files, String path, String name) throws Exception {
+		z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path + name)));
+		perform(files, path, "");
+		z.finish();
+		z.flush();
+		z.close();
+	}
 
-    private void perform(String[] files, String path, String offset) {
-        byte[] buf = new byte[4096];
+	private void perform(String[] files, String path, String offset) {
+		byte[] buf = new byte[4096];
 
-        for (int i = 0; i < files.length; i++) {
-            try {
-                File f = new File(path + offset + files[i]);
-                BufferedInputStream in = null;
+		for (int i = 0; i < files.length; i++) {
+			try {
+				File f = new File(path + offset + files[i]);
+				BufferedInputStream in = null;
 
-                if (f.exists() && !f.isDirectory()) {
-                    in = new BufferedInputStream(new FileInputStream(path +
-                            offset +
-                            files[i]));
-                } else if (f.exists()) {
-                    if (!files[i].endsWith("/")) {
-                        files[i] = files[i] + "/";
-                    }
+				if (f.exists() && !f.isDirectory()) {
+					in = new BufferedInputStream(new FileInputStream(path + offset + files[i]));
+				} else if (f.exists()) {
+					if (!files[i].endsWith("/")) {
+						files[i] = files[i] + "/";
+					}
 
-                    perform(f.list(), path, offset + files[i]);
-                }
+					perform(f.list(), path, offset + files[i]);
+				}
 
-                ZipEntry tmp = new ZipEntry(offset + files[i]);
-                z.putNextEntry(tmp);
+				ZipEntry tmp = new ZipEntry(offset + files[i]);
+				z.putNextEntry(tmp);
 
-                int len = 0;
+				int len = 0;
 
-                while ((in != null) && (len != StreamTokenizer.TT_EOF)) {
-                    len = in.read(buf);
+				while ((in != null) && (len != StreamTokenizer.TT_EOF)) {
+					len = in.read(buf);
 
-                    if (len == StreamTokenizer.TT_EOF) {
-                        break;
-                    }
+					if (len == StreamTokenizer.TT_EOF) {
+						break;
+					}
 
-                    z.write(buf, 0, len);
-                }
+					z.write(buf, 0, len);
+				}
 
-                z.closeEntry();
-            } catch (Exception ex) {
-                Log.debug("Skipping a file (no permission?)");
-            }
-        }
-    }
+				z.closeEntry();
+			} catch (Exception ex) {
+				Log.debug("Skipping a file (no permission?)");
+			}
+		}
+	}
 }

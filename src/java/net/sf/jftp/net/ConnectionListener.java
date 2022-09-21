@@ -22,19 +22,19 @@ package net.sf.jftp.net;
  * the class to get it working.
  */
 public interface ConnectionListener {
-    /**
-     * Called if the remote directory has changed by a chdir() or a finished upload for example.
-     */
-    void updateRemoteDirectory(BasicConnection con);
+	/**
+	 * Called if the remote directory has changed by a chdir() or a finished upload for example.
+	 */
+	void updateRemoteDirectory(BasicConnection con);
 
-    /**
-     * Called every n bytes, where n is defined by Settings
-     */
-    void updateProgress(String file, String type, long bytes);
+	/**
+	 * Called every n bytes, where n is defined by Settings
+	 */
+	void updateProgress(String file, String type, long bytes);
 
-    void connectionInitialized(BasicConnection con);
+	void connectionInitialized(BasicConnection con);
 
-    void connectionFailed(BasicConnection con, String why);
+	void connectionFailed(BasicConnection con, String why);
 
-    void actionFinished(BasicConnection con);
+	void actionFinished(BasicConnection con);
 }

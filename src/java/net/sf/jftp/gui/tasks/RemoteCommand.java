@@ -28,56 +28,56 @@ import java.awt.event.ActionListener;
 
 
 public class RemoteCommand extends HFrame implements ActionListener {
-    private final HTextField text;
-    private final HButton ok = new HButton("Execute");
+	private final HTextField text;
+	private final HButton ok = new HButton("Execute");
 
-    public RemoteCommand() {
-        //setSize(400, 80);
-        setTitle("Choose command...");
-        setLocation(150, 150);
-        getContentPane().setLayout(new FlowLayout());
+	public RemoteCommand() {
+		//setSize(400, 80);
+		setTitle("Choose command...");
+		setLocation(150, 150);
+		getContentPane().setLayout(new FlowLayout());
 
-        text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
-        getContentPane().add(text);
-        getContentPane().add(ok);
-        ok.addActionListener(this);
-        text.text.addActionListener(this);
+		text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
+		getContentPane().add(text);
+		getContentPane().add(ok);
+		ok.addActionListener(this);
+		text.text.addActionListener(this);
 
-        pack();
-        setVisible(true);
-    }
+		pack();
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-            setVisible(false);
+	public void actionPerformed(ActionEvent e) {
+		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+			setVisible(false);
 
-            String cmd = text.getText();
-            Log.debug("-> " + cmd);
-            JFtp.remoteDir.getCon().sendRawCommand(cmd);
+			String cmd = text.getText();
+			Log.debug("-> " + cmd);
+			JFtp.remoteDir.getCon().sendRawCommand(cmd);
 
-            if (cmd.toUpperCase().trim().startsWith("QUIT")) {
-                JFtp.safeDisconnect();
+			if (cmd.toUpperCase().trim().startsWith("QUIT")) {
+				JFtp.safeDisconnect();
 
-                return;
-            }
+				return;
+			}
 
-            JDialog j = new JDialog();
-            j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            j.setTitle("Command response");
-            j.setLocation(150, 150);
+			JDialog j = new JDialog();
+			j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			j.setTitle("Command response");
+			j.setLocation(150, 150);
 
-            JTextArea t = new JTextArea();
-            JScrollPane logSp = new JScrollPane(t);
-            logSp.setMinimumSize(new Dimension(300, 200));
+			JTextArea t = new JTextArea();
+			JScrollPane logSp = new JScrollPane(t);
+			logSp.setMinimumSize(new Dimension(300, 200));
 
-            t.setText(Log.getCache());
-            j.getContentPane().setLayout(new BorderLayout(5, 5));
-            j.getContentPane().add("Center", t);
-            j.setSize(new Dimension(400, 300));
-            j.pack();
-            j.setVisible(true);
+			t.setText(Log.getCache());
+			j.getContentPane().setLayout(new BorderLayout(5, 5));
+			j.getContentPane().add("Center", t);
+			j.setSize(new Dimension(400, 300));
+			j.pack();
+			j.setVisible(true);
 
-            JFtp.remoteUpdate();
-        }
-    }
+			JFtp.remoteUpdate();
+		}
+	}
 }

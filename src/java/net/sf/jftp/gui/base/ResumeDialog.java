@@ -29,78 +29,76 @@ import java.io.File;
 
 
 public class ResumeDialog extends HFrame implements ActionListener {
-    private final JButton resume = new JButton("Resume");
-    private final JButton skip = new JButton("Skip");
-    private final JButton over = new JButton("Overwrite");
-    private DirEntry dirEntry = null;
+	private final JButton resume = new JButton("Resume");
+	private final JButton skip = new JButton("Skip");
+	private final JButton over = new JButton("Overwrite");
+	private DirEntry dirEntry = null;
 
-    public ResumeDialog(DirEntry dirEntry) {
-        this.dirEntry = dirEntry;
+	public ResumeDialog(DirEntry dirEntry) {
+		this.dirEntry = dirEntry;
 
-        setLocation(150, 150);
-        setTitle("Question");
+		setLocation(150, 150);
+		setTitle("Question");
 
-        resume.setEnabled(false);
+		resume.setEnabled(false);
 
-        JTextArea text = new JTextArea();
-        text.append("A file named " + dirEntry.file +
-                " already exists.                       \n\n");
+		JTextArea text = new JTextArea();
+		text.append("A file named " + dirEntry.file + " already exists.                       \n\n");
 
-        File f = new File(JFtp.localDir.getPath() + dirEntry.file);
-        long diff = 0;
+		File f = new File(JFtp.localDir.getPath() + dirEntry.file);
+		long diff = 0;
 
-        diff = dirEntry.getRawSize() - f.length();
+		diff = dirEntry.getRawSize() - f.length();
 
-        if (diff == 0) {
-            text.append("It has exactly the same size as the remote file.\n\n");
-        } else if (diff < 0) {
-            text.append("It is bigger than the remote file.\n\n");
-        } else {
-            text.append("It is smaller than the remote file.\n\n");
-            resume.setEnabled(true);
-        }
+		if (diff == 0) {
+			text.append("It has exactly the same size as the remote file.\n\n");
+		} else if (diff < 0) {
+			text.append("It is bigger than the remote file.\n\n");
+		} else {
+			text.append("It is smaller than the remote file.\n\n");
+			resume.setEnabled(true);
+		}
 
-        getContentPane().setLayout(new BorderLayout(5, 5));
-        getContentPane().add("Center", text);
+		getContentPane().setLayout(new BorderLayout(5, 5));
+		getContentPane().add("Center", text);
 
-        HPanel p = new HPanel();
-        p.add(resume);
-        p.add(skip);
-        p.add(over);
+		HPanel p = new HPanel();
+		p.add(resume);
+		p.add(skip);
+		p.add(over);
 
-        getContentPane().add("South", p);
+		getContentPane().add("South", p);
 
-        resume.addActionListener(this);
-        skip.addActionListener(this);
-        over.addActionListener(this);
+		resume.addActionListener(this);
+		skip.addActionListener(this);
+		over.addActionListener(this);
 
-        pack();
-        fixLocation();
-        setVisible(true);
-    }
+		pack();
+		fixLocation();
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == resume) {
-            this.dispose();
-            transfer();
-        } else if (e.getSource() == skip) {
-            this.dispose();
-        } else if (e.getSource() == over) {
-            this.dispose();
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == resume) {
+			this.dispose();
+			transfer();
+		} else if (e.getSource() == skip) {
+			this.dispose();
+		} else if (e.getSource() == over) {
+			this.dispose();
 
-            File f = new File(JFtp.localDir.getPath() + dirEntry.file);
-            f.delete();
+			File f = new File(JFtp.localDir.getPath() + dirEntry.file);
+			f.delete();
 
-            transfer();
-        }
-    }
+			transfer();
+		}
+	}
 
-    private void transfer() {
-        if ((dirEntry.getRawSize() < Settings.smallSize) &&
-                !dirEntry.isDirectory()) {
-            JFtp.remoteDir.getCon().download(dirEntry.file);
-        } else {
-            JFtp.remoteDir.getCon().handleDownload(dirEntry.file);
-        }
-    }
+	private void transfer() {
+		if ((dirEntry.getRawSize() < Settings.smallSize) && !dirEntry.isDirectory()) {
+			JFtp.remoteDir.getCon().download(dirEntry.file);
+		} else {
+			JFtp.remoteDir.getCon().handleDownload(dirEntry.file);
+		}
+	}
 }

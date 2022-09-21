@@ -16,5 +16,5 @@
 package net.sf.jftp.event;
 
 public abstract class Event {
-    public abstract int eventCode();
+	public abstract int eventCode();
 }

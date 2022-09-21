@@ -28,71 +28,71 @@ import java.awt.event.ActionListener;
 
 
 public class ProxyChooser extends HPanel implements ActionListener {
-    private final HTextField proxy;
-    private final HTextField port;
-    private final HButton ok = new HButton("Ok");
+	private final HTextField proxy;
+	private final HTextField port;
+	private final HButton ok = new HButton("Ok");
 
-    public ProxyChooser() {
-        //setSize(500,120);
-        //setTitle("Proxy settings...");
-        //setLocation(50,150);
-        //getContentPane().
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+	public ProxyChooser() {
+		//setSize(500,120);
+		//setTitle("Proxy settings...");
+		//setLocation(50,150);
+		//getContentPane().
+		setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        proxy = new HTextField("Socks proxy:", "");
-        port = new HTextField("Port:", "");
+		proxy = new HTextField("Socks proxy:", "");
+		port = new HTextField("Port:", "");
 
-        proxy.setText(Settings.getSocksProxyHost());
-        port.setText(Settings.getSocksProxyPort());
+		proxy.setText(Settings.getSocksProxyHost());
+		port.setText(Settings.getSocksProxyPort());
 
-        //getContentPane().
-        add(proxy);
+		//getContentPane().
+		add(proxy);
 
-        //getContentPane().
-        add(port);
+		//getContentPane().
+		add(port);
 
-        //getContentPane().
-        add(ok);
+		//getContentPane().
+		add(ok);
 
-        //getContentPane().
-        add(new JLabel("Please note that you have to restart JFtp to apply the changes!"));
-        ok.addActionListener(this);
+		//getContentPane().
+		add(new JLabel("Please note that you have to restart JFtp to apply the changes!"));
+		ok.addActionListener(this);
 
-        //setVisible(true);
-    }
+		//setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == ok) {
-            //setVisible(false);
-            String h = proxy.getText().trim();
-            String p = port.getText().trim();
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == ok) {
+			//setVisible(false);
+			String h = proxy.getText().trim();
+			String p = port.getText().trim();
 
-            java.util.Properties sysprops = System.getProperties();
+			java.util.Properties sysprops = System.getProperties();
 
-            // Remove previous values
-            sysprops.remove("socksProxyHost");
-            sysprops.remove("socksProxyPort");
+			// Remove previous values
+			sysprops.remove("socksProxyHost");
+			sysprops.remove("socksProxyPort");
 
-            Settings.setProperty("jftp.socksProxyHost", h);
-            Settings.setProperty("jftp.socksProxyPort", p);
-            Settings.save();
+			Settings.setProperty("jftp.socksProxyHost", h);
+			Settings.setProperty("jftp.socksProxyPort", p);
+			Settings.save();
 
-            Log.out("proxy vars: " + h + ":" + p);
+			Log.out("proxy vars: " + h + ":" + p);
 
-            if (h.equals("") || p.equals("")) {
-                return;
-            }
+			if (h.equals("") || p.equals("")) {
+				return;
+			}
 
-            // Set your values
-            sysprops.put("socksProxyHost", h);
-            sysprops.put("socksProxyPort", p);
+			// Set your values
+			sysprops.put("socksProxyHost", h);
+			sysprops.put("socksProxyPort", p);
 
-            Log.out("new proxy vars set.");
+			Log.out("new proxy vars set.");
 
-            remove(3);
-            add(new JLabel("Options set. Please restart JFtp."));
-            validate();
-            setVisible(true);
-        }
-    }
+			remove(3);
+			add(new JLabel("Options set. Please restart JFtp."));
+			validate();
+			setVisible(true);
+		}
+	}
 }

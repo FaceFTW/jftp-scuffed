@@ -28,54 +28,54 @@ import java.io.File;
 
 
 public class Properties extends HFrame implements ActionListener {
-    private final Label fileL = new Label("File:                      ");
-    private final Label sizeL = new Label("Size: ? bytes              ");
-    private final HButton ok = new HButton("Dismiss");
-    private final HPanel okP = new HPanel();
-    private String type = "";
-    private String file = "";
+	private final Label fileL = new Label("File:                      ");
+	private final Label sizeL = new Label("Size: ? bytes              ");
+	private final HButton ok = new HButton("Dismiss");
+	private final HPanel okP = new HPanel();
+	private String type = "";
+	private String file = "";
 
-    public Properties(String file, String type) {
-        this.file = file;
-        this.type = type;
+	public Properties(String file, String type) {
+		this.file = file;
+		this.type = type;
 
-        setSize(300, 110);
-        setTitle("File properties...");
-        setLocation(150, 150);
-        setLayout(new GridLayout(3, 1));
+		setSize(300, 110);
+		setTitle("File properties...");
+		setLocation(150, 150);
+		setLayout(new GridLayout(3, 1));
 
-        okP.add(ok);
-        add(sizeL);
-        add(fileL);
-        add(okP);
-        ok.addActionListener(this);
+		okP.add(ok);
+		add(sizeL);
+		add(fileL);
+		add(okP);
+		ok.addActionListener(this);
 
-        process();
-        setVisible(true);
-    }
+		process();
+		setVisible(true);
+	}
 
-    private void process() {
-        if (type.equals("local")) {
-            File f = new File(JFtp.localDir.getPath() + file);
-            sizeL.setText("Size: " + f.length() + " bytes");
+	private void process() {
+		if (type.equals("local")) {
+			File f = new File(JFtp.localDir.getPath() + file);
+			sizeL.setText("Size: " + f.length() + " bytes");
 
-            try {
-                fileL.setText("File: " + f.getCanonicalPath());
-            } catch (Exception ex) {
-                Log.debug(ex.toString());
-            }
+			try {
+				fileL.setText("File: " + f.getCanonicalPath());
+			} catch (Exception ex) {
+				Log.debug(ex.toString());
+			}
 
-            sizeL.setText("Size: " + f.length() + " bytes");
-        }
+			sizeL.setText("Size: " + f.length() + " bytes");
+		}
 
-        if (type.equals("remote")) {
-            fileL.setText("File: " + JFtp.remoteDir.getPath() + file);
-        }
-    }
+		if (type.equals("remote")) {
+			fileL.setText("File: " + JFtp.remoteDir.getPath() + file);
+		}
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == ok) {
-            setVisible(false);
-        }
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == ok) {
+			setVisible(false);
+		}
+	}
 }

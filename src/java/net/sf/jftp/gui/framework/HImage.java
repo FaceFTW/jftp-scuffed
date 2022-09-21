@@ -22,50 +22,50 @@ import java.awt.*;
 
 
 public class HImage {
-    public static synchronized Image getImage(Component c, String name) {
-        Image img = null;
+	public static synchronized Image getImage(Component c, String name) {
+		Image img = null;
 
-        try {
-            java.net.URL url = ClassLoader.getSystemResource(name);
+		try {
+			java.net.URL url = ClassLoader.getSystemResource(name);
 
-            if (url == null) {
-                url = HImage.class.getResource("/" + name);
-            }
+			if (url == null) {
+				url = HImage.class.getResource("/" + name);
+			}
 
-            //System.out.println(name + ":" + url);
-            // this is used in case the image not found, and we are packaged as a jar.
-            if (url == null) {
-                url = HImage.class.getResource("/" + name.replace('\\', '/'));
-            }
+			//System.out.println(name + ":" + url);
+			// this is used in case the image not found, and we are packaged as a jar.
+			if (url == null) {
+				url = HImage.class.getResource("/" + name.replace('\\', '/'));
+			}
 
-            img = (url != null) ? Toolkit.getDefaultToolkit().getImage(url) : null;
+			img = (url != null) ? Toolkit.getDefaultToolkit().getImage(url) : null;
 
-            //Image img = Toolkit.getDefaultToolkit().getImage(name);
-            MediaTracker mt = new MediaTracker(c);
-            mt.addImage(img, 1);
-            mt.waitForAll();
-        } catch (Exception ex) {
-            Log.debug("\n\n\nError fetching image!");
-            ex.printStackTrace();
+			//Image img = Toolkit.getDefaultToolkit().getImage(name);
+			MediaTracker mt = new MediaTracker(c);
+			mt.addImage(img, 1);
+			mt.waitForAll();
+		} catch (Exception ex) {
+			Log.debug("\n\n\nError fetching image!");
+			ex.printStackTrace();
 
-            //System.exit(1);
-            //System.out.println(ex);
-            return img;
-        }
+			//System.exit(1);
+			//System.out.println(ex);
+			return img;
+		}
 
-        return img;
-    }
+		return img;
+	}
 
-    public static synchronized ImageIcon getImageIcon(String name, String desc) {
-        java.net.URL url = ClassLoader.getSystemResource(name);
+	public static synchronized ImageIcon getImageIcon(String name, String desc) {
+		java.net.URL url = ClassLoader.getSystemResource(name);
 
-        if (url == null) {
-            url = HImage.class.getResource("/" + name);
-        }
+		if (url == null) {
+			url = HImage.class.getResource("/" + name);
+		}
 
-        //System.out.println(name + ":" + url);
-        ImageIcon img = (url != null) ? new ImageIcon(url) : null;
+		//System.out.println(name + ":" + url);
+		ImageIcon img = (url != null) ? new ImageIcon(url) : null;
 
-        return img;
-    }
+		return img;
+	}
 }

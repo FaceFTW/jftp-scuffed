@@ -26,40 +26,40 @@ import java.awt.event.ActionListener;
 
 
 public class PathChanger extends HFrame implements ActionListener {
-    private final HTextField text;
-    private final HButton ok = new HButton("Change Directory");
-    private String type = "";
+	private final HTextField text;
+	private final HButton ok = new HButton("Change Directory");
+	private String type = "";
 
-    public PathChanger(String type) {
-        this.type = type;
+	public PathChanger(String type) {
+		this.type = type;
 
-        //setSize(400, 80);
-        setTitle("Choose path...");
-        //setLocation(150, 150);
-        getContentPane().setLayout(new FlowLayout());
+		//setSize(400, 80);
+		setTitle("Choose path...");
+		//setLocation(150, 150);
+		getContentPane().setLayout(new FlowLayout());
 
-        text = new HTextField("Path:", "");
-        getContentPane().add(text);
-        getContentPane().add(ok);
-        ok.addActionListener(this);
-        text.text.addActionListener(this);
+		text = new HTextField("Path:", "");
+		getContentPane().add(text);
+		getContentPane().add(ok);
+		ok.addActionListener(this);
+		text.text.addActionListener(this);
 
-        pack();
-        fixLocation();
-        setVisible(true);
-    }
+		pack();
+		fixLocation();
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-            setVisible(false);
+	public void actionPerformed(ActionEvent e) {
+		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+			setVisible(false);
 
-            if (type.equals("remote")) {
-                JFtp.remoteDir.getCon().chdir(text.getText());
-            }
+			if (type.equals("remote")) {
+				JFtp.remoteDir.getCon().chdir(text.getText());
+			}
 
-            if (type.equals("local")) {
-                JFtp.localDir.getCon().chdir(text.getText());
-            }
-        }
-    }
+			if (type.equals("local")) {
+				JFtp.localDir.getCon().chdir(text.getText());
+			}
+		}
+	}
 }

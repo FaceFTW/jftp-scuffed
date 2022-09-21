@@ -28,256 +28,198 @@ import java.util.Hashtable;
 
 
 public class DirEntry {
-    // to check file permissions
-    public static final int R = FtpConnection.R;
-    public static final int W = FtpConnection.W;
-    public static final int DENIED = FtpConnection.DENIED;
-    final static Object[] extensions =
-            {
-                    new String[]
-                            {
-                                    Settings.textFileImage, ".txt",
-                                    ".doc", ".rtf"
-                            },
-                    new String[]
-                            {
-                                    Settings.htmlFileImage, ".htm",
-                                    ".html"
-                            },
-                    new String[]
-                            {
-                                    Settings.zipFileImage, ".arj",
-                                    ".bz", ".bz2", ".deb", ".jar",
-                                    ".gz", ".rav", ".rpm", ".tar",
-                                    ".tgz", ".zip", ".z", ".iso"
-                            },
-                    new String[]
-                            {
-                                    Settings.imageFileImage, "bmp",
-                                    ".gif", ".jpg", ".png", ".xbm",
-                                    ".xpm"
-                            },
-                    new String[]
-                            {
-                                    Settings.codeFileImage, ".c",
-                                    ".cc", ".h", ".java"
-                            },
-                    new String[]
-                            {
-                                    Settings.audioFileImage, ".au",
-                                    ".mid", ".midi", ".mp3", ".wav"
-                            },
-                    new String[]
-                            {
-                                    Settings.execFileImage, ".bat",
-                                    ".csh", ".cgi", ".com", ".class",
-                                    ".cmd", ".csh", ".dtksh", ".exe",
-                                    ".ksh", ".pdksh", ".pl", ".sh",
-                                    ".tcl", ".tksh", ".zsh"
-                            },
-                    new String[]
-                            {
-                                    Settings.presentationFileImage,
-                                    ".ppt"
-                            },
-                    new String[]
-                            {
-                                    Settings.spreadsheetFileImage,
-                                    ".xls"
-                            },
-                    new String[]
-                            {
-                                    Settings.videoFileImage, ".asf",
-                                    ".avi", ".mpg", "mpeg", ".wmf"
-                            }
-            };
-    static Hashtable extensionMap = new Hashtable();
+	// to check file permissions
+	public static final int R = FtpConnection.R;
+	public static final int W = FtpConnection.W;
+	public static final int DENIED = FtpConnection.DENIED;
+	final static Object[] extensions = {new String[]{Settings.textFileImage, ".txt", ".doc", ".rtf"}, new String[]{Settings.htmlFileImage, ".htm", ".html"}, new String[]{Settings.zipFileImage, ".arj", ".bz", ".bz2", ".deb", ".jar", ".gz", ".rav", ".rpm", ".tar", ".tgz", ".zip", ".z", ".iso"}, new String[]{Settings.imageFileImage, "bmp", ".gif", ".jpg", ".png", ".xbm", ".xpm"}, new String[]{Settings.codeFileImage, ".c", ".cc", ".h", ".java"}, new String[]{Settings.audioFileImage, ".au", ".mid", ".midi", ".mp3", ".wav"}, new String[]{Settings.execFileImage, ".bat", ".csh", ".cgi", ".com", ".class", ".cmd", ".csh", ".dtksh", ".exe", ".ksh", ".pdksh", ".pl", ".sh", ".tcl", ".tksh", ".zsh"}, new String[]{Settings.presentationFileImage, ".ppt"}, new String[]{Settings.spreadsheetFileImage, ".xls"}, new String[]{Settings.videoFileImage, ".asf", ".avi", ".mpg", "mpeg", ".wmf"}};
+	static Hashtable extensionMap = new Hashtable();
 
-    static {
-        for (int i = 0; i < extensions.length; i++) {
-            String[] temp = (String[]) extensions[i];
+	static {
+		for (int i = 0; i < extensions.length; i++) {
+			String[] temp = (String[]) extensions[i];
 
-            for (int j = 1; j < temp.length; j++) {
-                extensionMap.put(temp[j], temp[0]);
-            }
-        }
-    }
+			for (int j = 1; j < temp.length; j++) {
+				extensionMap.put(temp[j], temp[0]);
+			}
+		}
+	}
 
-    private final JLabel c = new JLabel();
-    public String file = "";
-    public boolean selected = false;
-    public ActionListener who = null;
-    public boolean isFile = true;
-    public Date date = null;
-    //private boolean entered = false;
-    private Image img;
-    private boolean isDirectory = false;
-    private long size = 0;
-    private long transferred = 0;
-    private boolean isLink = false;
-    private int accessible = -1;
-    private boolean noRender = false;
+	private final JLabel c = new JLabel();
+	public String file = "";
+	public boolean selected = false;
+	public ActionListener who = null;
+	public boolean isFile = true;
+	public Date date = null;
+	//private boolean entered = false;
+	private Image img;
+	private boolean isDirectory = false;
+	private long size = 0;
+	private long transferred = 0;
+	private boolean isLink = false;
+	private int accessible = -1;
+	private boolean noRender = false;
 
-    public DirEntry(String file, ActionListener who) {
-        this.file = file;
-        this.who = who;
-        setFile();
-    }
+	public DirEntry(String file, ActionListener who) {
+		this.file = file;
+		this.who = who;
+		setFile();
+	}
 
-    public void setFile() {
-        String f = file;
+	public void setFile() {
+		String f = file;
 
-        if ((f.indexOf("<") >= 0) && (f.indexOf(">") >= 0)) {
-            f = file.substring(file.indexOf("<") + 1);
-            f = f.substring(0, f.lastIndexOf(">"));
-        }
+		if ((f.indexOf("<") >= 0) && (f.indexOf(">") >= 0)) {
+			f = file.substring(file.indexOf("<") + 1);
+			f = f.substring(0, f.lastIndexOf(">"));
+		}
 
-        int lastIndex = f.lastIndexOf(".");
-        String image = Settings.fileImage; // default
+		int lastIndex = f.lastIndexOf(".");
+		String image = Settings.fileImage; // default
 
-        if (lastIndex != -1) {
-            String ext = f.substring(lastIndex);
-            String tmp = (String) extensionMap.get(ext.toLowerCase());
+		if (lastIndex != -1) {
+			String ext = f.substring(lastIndex);
+			String tmp = (String) extensionMap.get(ext.toLowerCase());
 
-            if (tmp != null) // we found an extension, let's use it's image
-            {
-                image = tmp;
-            }
-        }
+			if (tmp != null) // we found an extension, let's use it's image
+			{
+				image = tmp;
+			}
+		}
 
-        // else use the default
-        img = HImage.getImage(c, image);
+		// else use the default
+		img = HImage.getImage(c, image);
 
-        if (img == null) {
-            img = HImage.getImage(c, Settings.fileImage);
-        }
+		if (img == null) {
+			img = HImage.getImage(c, Settings.fileImage);
+		}
 
-        isFile = true;
-        isDirectory = false;
-    }
+		isFile = true;
+		isDirectory = false;
+	}
 
-    public void setDirectory() {
-        img = HImage.getImage(c, Settings.dirImage);
-        isFile = false;
-        isDirectory = true;
-    }
+	public void setDirectory() {
+		img = HImage.getImage(c, Settings.dirImage);
+		isFile = false;
+		isDirectory = true;
+	}
 
-    public void setNoRender() {
-        noRender = true;
-    }
+	public void setNoRender() {
+		noRender = true;
+	}
 
-    public boolean getNoRender() {
-        return noRender;
-    }
+	public boolean getNoRender() {
+		return noRender;
+	}
 
-    public int getPermission() {
-        return accessible;
-    }
+	public int getPermission() {
+		return accessible;
+	}
 
-    public void setPermission(int what) {
-        accessible = what;
-    }
+	public void setPermission(int what) {
+		accessible = what;
+	}
 
-    public boolean isDirectory() {
-        return isDirectory;
-    }
+	public boolean isDirectory() {
+		return isDirectory;
+	}
 
-    public boolean isFile() {
-        return isFile;
-    }
+	public boolean isFile() {
+		return isFile;
+	}
 
-    public boolean isSelected() {
-        return selected;
-    }
+	public boolean isSelected() {
+		return selected;
+	}
 
-    public void setSelected(boolean state) {
-        selected = state;
-    }
+	public void setSelected(boolean state) {
+		selected = state;
+	}
 
-    public String toString() {
-        return file;
-    }
+	public String toString() {
+		return file;
+	}
 
-    public Image getImage() {
-        return img;
-    }
+	public Image getImage() {
+		return img;
+	}
 
-    public ImageIcon getImageIcon() {
-        return new ImageIcon(img);
-    }
+	public ImageIcon getImageIcon() {
+		return new ImageIcon(img);
+	}
 
-    public String getDate() {
-        if (date == null) {
-            return "";
-        }
+	public String getDate() {
+		if (date == null) {
+			return "";
+		}
 
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 
-        return df.format(date);
-    }
+		return df.format(date);
+	}
 
-    public void setDate(Date d) {
-        date = d;
-    }
+	public void setDate(Date d) {
+		date = d;
+	}
 
-    public String getFileSize() {
-        if (isDirectory() || (size < 0)) {
-            return "          ";
-        }
+	public String getFileSize() {
+		if (isDirectory() || (size < 0)) {
+			return "          ";
+		}
 
-        long rsize = size;
+		long rsize = size;
 
-        String type = "bs";
+		String type = "bs";
 
-        if (rsize > 1024) {
-            rsize = rsize / 1024;
-            type = "kb";
-        }
+		if (rsize > 1024) {
+			rsize = rsize / 1024;
+			type = "kb";
+		}
 
-        if (rsize > 1024) {
-            rsize = rsize / 1024;
-            type = "mb";
-        }
+		if (rsize > 1024) {
+			rsize = rsize / 1024;
+			type = "mb";
+		}
 
-        if (rsize > 1024) {
-            rsize = rsize / 1024;
-            type = "gb";
-        }
+		if (rsize > 1024) {
+			rsize = rsize / 1024;
+			type = "gb";
+		}
 
-        String x = Long.toString(rsize);
+		String x = Long.toString(rsize);
 
-        while (x.length() < 4) {
-            x = " " + x;
-        }
+		while (x.length() < 4) {
+			x = " " + x;
+		}
 
-        return x + " " + type + " > ";
-    }
+		return x + " " + type + " > ";
+	}
 
-    public void setFileSize(long s) {
-        size = s;
-    }
+	public void setFileSize(long s) {
+		size = s;
+	}
 
-    public long getRawSize() {
-        return size;
-    }
+	public long getRawSize() {
+		return size;
+	}
 
-    public void setLink() {
-        img = HImage.getImage(c, Settings.linkImage);
-        file = file.substring(0, file.lastIndexOf("###"));
-        isLink = true;
-    }
+	public void setLink() {
+		img = HImage.getImage(c, Settings.linkImage);
+		file = file.substring(0, file.lastIndexOf("###"));
+		isLink = true;
+	}
 
-    public boolean isLink() {
-        return isLink;
-    }
+	public boolean isLink() {
+		return isLink;
+	}
 
-    public long getTransferred() {
-        return transferred;
-    }
+	public long getTransferred() {
+		return transferred;
+	}
 
-    public void setTransferred(long transferred) {
-        this.transferred = transferred;
-    }
+	public void setTransferred(long transferred) {
+		this.transferred = transferred;
+	}
 
 
 }

@@ -20,33 +20,31 @@ import java.io.File;
 
 
 public class UITool {
-    public static boolean askToDelete(JComponent parent) {
-        int res = JOptionPane.showConfirmDialog(parent,
-                "Do you really want to continue?");
+	public static boolean askToDelete(JComponent parent) {
+		int res = JOptionPane.showConfirmDialog(parent, "Do you really want to continue?");
 
-        return res == JOptionPane.OK_OPTION;
-    }
+		return res == JOptionPane.OK_OPTION;
+	}
 
-    public static boolean askToRun(JComponent parent) {
-        int res = JOptionPane.showConfirmDialog(parent,
-                "Do you want to launch this file?");
+	public static boolean askToRun(JComponent parent) {
+		int res = JOptionPane.showConfirmDialog(parent, "Do you want to launch this file?");
 
-        return res == JOptionPane.OK_OPTION;
-    }
+		return res == JOptionPane.OK_OPTION;
+	}
 
-    public static String getPathFromDialog(String path) {
-        JFileChooser chooser = new JFileChooser(path);
-        chooser.setDialogTitle("Choose directory");
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	public static String getPathFromDialog(String path) {
+		JFileChooser chooser = new JFileChooser(path);
+		chooser.setDialogTitle("Choose directory");
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-        int returnVal = chooser.showOpenDialog(new JDialog());
+		int returnVal = chooser.showOpenDialog(new JDialog());
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File f = chooser.getSelectedFile();
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File f = chooser.getSelectedFile();
 
-            return f.getPath();
-        }
+			return f.getPath();
+		}
 
-        return null;
-    }
+		return null;
+	}
 }

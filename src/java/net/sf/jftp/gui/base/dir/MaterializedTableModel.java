@@ -8,18 +8,18 @@ import javax.swing.table.AbstractTableModel;
  */
 public abstract class MaterializedTableModel extends AbstractTableModel {
 
-    protected JList list;
+	protected JList list;
 
-    /**
-     * Speichert eine JList auf die später in einem TableModel zugegriffen werden kann.
-     *
-     * @param list JList
-     */
-    public MaterializedTableModel(JList list) {
-        super();
+	/**
+	 * Speichert eine JList auf die später in einem TableModel zugegriffen werden kann.
+	 *
+	 * @param list JList
+	 */
+	public MaterializedTableModel(JList list) {
+		super();
 
-        this.list = list;
-    }
+		this.list = list;
+	}
 
 }
  

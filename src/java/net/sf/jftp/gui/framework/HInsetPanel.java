@@ -19,8 +19,8 @@ import java.awt.*;
 
 
 public class HInsetPanel extends HPanel {
-    public Insets getInsets() {
-        Insets in = super.getInsets();
-        return new Insets(in.top + 10, in.left + 10, in.bottom + 10, in.right + 10);
-    }
+	public Insets getInsets() {
+		Insets in = super.getInsets();
+		return new Insets(in.top + 10, in.left + 10, in.bottom + 10, in.right + 10);
+	}
 }

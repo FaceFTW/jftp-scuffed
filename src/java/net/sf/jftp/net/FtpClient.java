@@ -17,55 +17,55 @@ package net.sf.jftp.net;
 
 
 public class FtpClient {
-    private String name = "ftp";
-    private String password = "ftp@sourceforge.net";
-    private FtpConnection connection = null;
+	private String name = "ftp";
+	private String password = "ftp@sourceforge.net";
+	private FtpConnection connection = null;
 
-    public FtpClient() {
-    }
+	public FtpClient() {
+	}
 
-    public void login(String host) {
-        connection = new FtpConnection(host);
-        connection.login(name, password);
-    }
+	public void login(String host) {
+		connection = new FtpConnection(host);
+		connection.login(name, password);
+	}
 
-    public void setUsername(String s) {
-        name = s;
-    }
+	public void setUsername(String s) {
+		name = s;
+	}
 
-    public void setPassword(String s) {
-        password = s;
-    }
+	public void setPassword(String s) {
+		password = s;
+	}
 
-    public void disconnect() {
-        if (connection != null) {
-            connection.disconnect();
-        }
-    }
+	public void disconnect() {
+		if (connection != null) {
+			connection.disconnect();
+		}
+	}
 
-    public void cd(String s) {
-        if (connection != null) {
-            connection.chdir(s);
-        }
-    }
+	public void cd(String s) {
+		if (connection != null) {
+			connection.chdir(s);
+		}
+	}
 
-    public String pwd() {
-        if (connection != null) {
-            return connection.getPWD();
-        } else {
-            return "";
-        }
-    }
+	public String pwd() {
+		if (connection != null) {
+			return connection.getPWD();
+		} else {
+			return "";
+		}
+	}
 
-    public void get(String file) {
-        if (connection != null) {
-            connection.handleDownload(file);
-        }
-    }
+	public void get(String file) {
+		if (connection != null) {
+			connection.handleDownload(file);
+		}
+	}
 
-    public void put(String file) {
-        if (connection != null) {
-            connection.handleUpload(file);
-        }
-    }
+	public void put(String file) {
+		if (connection != null) {
+			connection.handleUpload(file);
+		}
+	}
 }

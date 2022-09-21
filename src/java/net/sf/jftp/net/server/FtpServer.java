@@ -26,31 +26,31 @@ import java.net.Socket;
  *
  */
 public class FtpServer extends Thread {
-    private final int dataPort = 20;
-    private int port = 21;
+	private final int dataPort = 20;
+	private int port = 21;
 
-    public FtpServer() {
-    }
+	public FtpServer() {
+	}
 
-    public FtpServer(int port) {
-        this.port = port;
-    }
+	public FtpServer(int port) {
+		this.port = port;
+	}
 
-    public static void main(String[] args) {
-        FtpServer server = new FtpServer(2100);
-        server.start();
-    }
+	public static void main(String[] args) {
+		FtpServer server = new FtpServer(2100);
+		server.start();
+	}
 
-    public void run() {
-        try {
-            ServerSocket listener = new ServerSocket(port);
+	public void run() {
+		try {
+			ServerSocket listener = new ServerSocket(port);
 
-            while (true) {
-                Socket s = listener.accept();
-                new FtpServerSocket(s);
-            }
-        } catch (IOException ioe) {
-            Log.debug("ServerSocket error: " + ioe);
-        }
-    }
+			while (true) {
+				Socket s = listener.accept();
+				new FtpServerSocket(s);
+			}
+		} catch (IOException ioe) {
+			Log.debug("ServerSocket error: " + ioe);
+		}
+	}
 }

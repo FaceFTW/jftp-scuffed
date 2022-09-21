@@ -24,51 +24,50 @@ import java.awt.event.ActionListener;
 
 
 public class JHostChooser extends HFrame implements ActionListener {
-    private final JLabel hostL = new JLabel("Host:");
-    private final JLabel portL = new JLabel("Port:");
-    private final JTextField host = new JTextField(20);
-    private final JTextField port = new JTextField(5);
-    private final JPanel p1 = new JPanel();
-    private final JPanel okP = new JPanel();
-    private final JButton ok = new JButton("Use these settings");
+	private final JLabel hostL = new JLabel("Host:");
+	private final JLabel portL = new JLabel("Port:");
+	private final JTextField host = new JTextField(20);
+	private final JTextField port = new JTextField(5);
+	private final JPanel p1 = new JPanel();
+	private final JPanel okP = new JPanel();
+	private final JButton ok = new JButton("Use these settings");
 
-    public JHostChooser() {
-        setSize(400, 120);
-        setLocation(200, 250);
-        setTitle("Connection...");
-        getContentPane().setLayout(new BorderLayout());
-        setBackground(Color.lightGray);
+	public JHostChooser() {
+		setSize(400, 120);
+		setLocation(200, 250);
+		setTitle("Connection...");
+		getContentPane().setLayout(new BorderLayout());
+		setBackground(Color.lightGray);
 
-        p1.add(hostL);
-        p1.add(host);
-        p1.add(portL);
-        p1.add(port);
+		p1.add(hostL);
+		p1.add(host);
+		p1.add(portL);
+		p1.add(port);
 
-        host.setText(RawConnection.host.getText());
-        port.setText(RawConnection.port.getText());
+		host.setText(RawConnection.host.getText());
+		port.setText(RawConnection.port.getText());
 
-        getContentPane().add("Center", p1);
-        getContentPane().add("South", okP);
-        okP.add(ok);
-        ok.addActionListener(this);
+		getContentPane().add("Center", p1);
+		getContentPane().add("South", okP);
+		okP.add(ok);
+		ok.addActionListener(this);
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == ok) {
-            RawConnection.host.setText(host.getText());
-            RawConnection.port.setText(port.getText());
-            RawConnection.established = false;
-            RawConnection.mayDispose = true;
-            this.dispose();
-        }
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == ok) {
+			RawConnection.host.setText(host.getText());
+			RawConnection.port.setText(port.getText());
+			RawConnection.established = false;
+			RawConnection.mayDispose = true;
+			this.dispose();
+		}
+	}
 
-    public Insets getInsets() {
-        Insets std = super.getInsets();
+	public Insets getInsets() {
+		Insets std = super.getInsets();
 
-        return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-                std.right + 5);
-    }
+		return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
+	}
 }
