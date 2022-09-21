@@ -110,7 +110,7 @@ public class DirEntry
     }
 
     public String file = "";
-    private JLabel c = new JLabel();
+    private final JLabel c = new JLabel();
     public boolean selected = false;
     public ActionListener who = null;
     //private boolean entered = false;

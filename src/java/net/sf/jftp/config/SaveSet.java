@@ -38,7 +38,7 @@ public class SaveSet
             }
             else
             {
-                out.println("");
+                out.println();
             }
 
             out.println(name);
@@ -66,7 +66,7 @@ public class SaveSet
             }
             else
             {
-                out.println("");
+                out.println();
             }
 
             out.println(port);

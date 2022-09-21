@@ -34,16 +34,16 @@ import net.sf.jftp.system.logging.Log;
  */
 public class JConnection implements Runnable
 {
-    private int timeout = Settings.connectionTimeout;
-    private String host;
-    private int port;
+    private final int timeout = Settings.connectionTimeout;
+    private final String host;
+    private final int port;
     private PrintStream out;
     private BufferedReader in;
     private Socket s;
     private boolean isOk = false;
     private boolean established = false;
     //private boolean reciever = false;
-    private Thread runner;
+    private final Thread runner;
     private int localPort = -1;
     //private int time = 0;
 

@@ -35,7 +35,7 @@ public class UIUtils
         JOptionPane j = new JOptionPane();
         JPasswordField pField = new JPasswordField();
 
-        int ret = j.showOptionDialog(parent, pField, "Password required",
+        int ret = JOptionPane.showOptionDialog(parent, pField, "Password required",
                                      JOptionPane.YES_NO_OPTION,
                                      JOptionPane.QUESTION_MESSAGE, null, null,
                                      null);
@@ -61,7 +61,7 @@ public class UIUtils
 }
 
 class Spawn implements Runnable {
-	private Thread runner;
+	private final Thread runner;
 	private String cmd;
 	
 	public Spawn(String cmd) {

@@ -56,7 +56,7 @@ public class NfsConnection implements BasicConnection
     private int fileCount;
     private boolean isDirUpload = false;
     private boolean shortProgress = false;
-    private boolean dummy = false;
+    private final boolean dummy = false;
 
     public NfsConnection(String url)
     {
@@ -166,7 +166,7 @@ public class NfsConnection implements BasicConnection
         }
         catch(IOException ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
         }
 
@@ -418,7 +418,7 @@ public class NfsConnection implements BasicConnection
             }
             catch(Exception ex)
             {
-                Log.debug("Can not list exports:" + ex.toString());
+                Log.debug("Can not list exports:" + ex);
                 ex.printStackTrace();
             }
         }
@@ -750,7 +750,6 @@ public class NfsConnection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -777,7 +776,6 @@ public class NfsConnection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -794,7 +792,6 @@ public class NfsConnection implements BasicConnection
         //System.out.println(listener);
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -835,7 +832,6 @@ public class NfsConnection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -916,7 +912,7 @@ public class NfsConnection implements BasicConnection
         catch(Exception ex)
         {
             ex.printStackTrace();
-            Log.debug(ex.toString() +
+            Log.debug(ex +
                       " @NfsConnection::getDownloadInputStream");
 
             return null;

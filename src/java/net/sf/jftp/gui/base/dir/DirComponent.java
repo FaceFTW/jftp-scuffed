@@ -40,7 +40,7 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	    */
 	    public void valueChanged(ListSelectionEvent e)
 	    {
-	        if(e.getValueIsAdjusting() == false)
+	        if(!e.getValueIsAdjusting())
 	        {
            		TableUtils.copyTableSelectionsToJList(jl, table);
 
@@ -50,12 +50,11 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	            if((index < 0) || (dirEntry == null) || (dirEntry.length < index) ||
 	                   (dirEntry[index] == null))
 	            {
-	                return;
-	            }
+				}
 	            else
 	            { // -------------------- local --------------------------
 
-	                String tgt = (String) jl.getSelectedValue().toString();
+	                String tgt = jl.getSelectedValue().toString();
 
 	                for(int i = 0; i < dirEntry.length; i++)
 	                {

@@ -50,8 +50,8 @@ public class WebdavHostChooser extends HFrame implements ActionListener,
     //public static HTextField port = new HTextField("Port:","22");
     public static HPasswordField pass = new HPasswordField("Password:",
                                                            "nopasswd");
-    private HPanel okP = new HPanel();
-    private HButton ok = new HButton("Connect");
+    private final HPanel okP = new HPanel();
+    private final HButton ok = new HButton("Connect");
     private ComponentListener listener = null;
     private boolean useLocal = false;
 

@@ -72,24 +72,24 @@ public class HostChooser extends HFrame implements ActionListener,
     public HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
     public HTextField dl = new HTextField("Max. connections:    ", "3");
     public HTextField crlf = new HTextField("Override server newline:    ", "<default>");
-    private JCheckBox anonBox = new JCheckBox("Use anonymous login", false);
-    private JCheckBox listBox = new JCheckBox("LIST compatibility mode", false);
-    private JCheckBox dirBox = new JCheckBox("Use default directories",
+    private final JCheckBox anonBox = new JCheckBox("Use anonymous login", false);
+    private final JCheckBox listBox = new JCheckBox("LIST compatibility mode", false);
+    private final JCheckBox dirBox = new JCheckBox("Use default directories",
                                              Settings.getUseDefaultDir());
-    private JCheckBox modeBox = new JCheckBox("Use active Ftp (no need to)",
+    private final JCheckBox modeBox = new JCheckBox("Use active Ftp (no need to)",
                                               false);
-    private JCheckBox threadBox = new JCheckBox("Multiple connections", false);
-    private HPanel okP = new HPanel();
-    private HButton ok = new HButton("Connect");
-    private HButton backMode = new HButton("Yes");
-    private HButton frontMode = new HButton("No");
-    private HFrame h = new HFrame();
-    private HPanel listP = new HPanel();
-    private HButton list = new HButton("Choose from or edit list...");
+    private final JCheckBox threadBox = new JCheckBox("Multiple connections", false);
+    private final HPanel okP = new HPanel();
+    private final HButton ok = new HButton("Connect");
+    private final HButton backMode = new HButton("Yes");
+    private final HButton frontMode = new HButton("No");
+    private final HFrame h = new HFrame();
+    private final HPanel listP = new HPanel();
+    private final HButton list = new HButton("Choose from or edit list...");
     private ComponentListener listener = null;
     private int mode = 0;
     private boolean useLocal = false;
-    private boolean ext = Settings.showNewlineOption;
+    private final boolean ext = Settings.showNewlineOption;
 
     public HostChooser(ComponentListener l, boolean local)
     {
@@ -120,7 +120,7 @@ public class HostChooser extends HFrame implements ActionListener,
 
         try {
         	LoadSet l = new LoadSet();
-        	String[] login = l.loadSet(Settings.login_def);
+        	String[] login = LoadSet.loadSet(Settings.login_def);
 
         	if((login != null) && (login[0] != null))
         	{
@@ -420,20 +420,12 @@ public class HostChooser extends HFrame implements ActionListener,
         }
         else if(e.getSource() == threadBox)
         {
-            if(threadBox.isSelected())
-            {
-                dl.setEnabled(true);
-            }
-            else
-            {
-                dl.setEnabled(false);
-            }
+            dl.setEnabled(threadBox.isSelected());
         }
         else if(e.getSource() == backMode)
         {
             mode = 1;
             h.setVisible(false);
-            ;
         }
         else if(e.getSource() == frontMode)
         {
@@ -569,7 +561,6 @@ public class HostChooser extends HFrame implements ActionListener,
                 this.setVisible(true);
                 this.toFront();
 
-                return;
             }
         }
         else if((response != FtpConnection.LOGIN_OK) ||
@@ -590,7 +581,6 @@ public class HostChooser extends HFrame implements ActionListener,
 
             //this.setVisible(true);
             //this.toFront();
-            return;
         }
     }
 

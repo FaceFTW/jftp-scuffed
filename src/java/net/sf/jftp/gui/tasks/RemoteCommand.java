@@ -31,8 +31,8 @@ import javax.swing.*;
 
 public class RemoteCommand extends HFrame implements ActionListener
 {
-    private HTextField text;
-    private HButton ok = new HButton("Execute");
+    private final HTextField text;
+    private final HButton ok = new HButton("Execute");
 
     public RemoteCommand()
     {
@@ -63,7 +63,7 @@ public class RemoteCommand extends HFrame implements ActionListener
 
             if(cmd.toUpperCase().trim().startsWith("QUIT"))
             {
-                JFtp.statusP.jftp.safeDisconnect();
+                JFtp.safeDisconnect();
 
                 return;
             }

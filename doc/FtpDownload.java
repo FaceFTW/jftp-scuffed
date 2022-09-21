@@ -24,7 +24,7 @@ public class FtpDownload implements Logger, ConnectionListener
 
  // connection pool, not necessary but you should take a look at this class
  // if you want to use multiple event based ftp transfers.
- private ConnectionHandler handler = new ConnectionHandler();
+ private final ConnectionHandler handler = new ConnectionHandler();
 
 //creates a FtpConnection and downloads a file
  public FtpDownload(String host, String file)
@@ -81,7 +81,7 @@ public class FtpDownload implements Logger, ConnectionListener
  }
 
  // download welcome.msg from sourceforge or any other given file
- public static void main(String argv[])
+ public static void main(String[] argv)
  {
  	if(argv.length < 2)
 	{

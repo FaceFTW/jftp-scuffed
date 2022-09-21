@@ -207,14 +207,10 @@ public class StringUtils
         }
 
         // windows
-        if((file.length() > 2) && (file.charAt(1) == ':'))
-        {
-            return false;
-        }
+        return (file.length() <= 2) || (file.charAt(1) != ':');
 
         //System.out.println("true: " + file);
         // default
-        return true;
     }
 
     /**

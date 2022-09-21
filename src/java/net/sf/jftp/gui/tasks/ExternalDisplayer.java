@@ -30,8 +30,8 @@ import javax.swing.*;
 
 public class ExternalDisplayer extends HFrame implements ActionListener
 {
-    private JTextArea info = new JTextArea(25, 50);
-    private JButton close = new JButton("Close");
+    private final JTextArea info = new JTextArea(25, 50);
+    private final JButton close = new JButton("Close");
 
     public ExternalDisplayer(java.net.URL file)
     {

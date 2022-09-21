@@ -27,10 +27,10 @@ import java.io.*;
 
 public class Remover extends HFrame implements ActionListener
 {
-    private HTextField text;
-    private HButton ok = new HButton("Remove file/directory...");
-    private HButton cancel = new HButton("Cancel");
-    private HPanel okP = new HPanel();
+    private final HTextField text;
+    private final HButton ok = new HButton("Remove file/directory...");
+    private final HButton cancel = new HButton("Cancel");
+    private final HPanel okP = new HPanel();
     private String type = null;
 
     public Remover(String l, String type)

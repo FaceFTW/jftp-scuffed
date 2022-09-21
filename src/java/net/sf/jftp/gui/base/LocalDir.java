@@ -105,12 +105,12 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
     HImageButton zipButton;
     HImageButton cpButton;
     HImageButton rnButton;
-    private DirCanvas label = new DirCanvas(this);
+    private final DirCanvas label = new DirCanvas(this);
     private boolean pathChanged = true;
     private boolean firstGui = true;
-    private int pos = 0;
-    private JPanel p = new JPanel();
-    private JToolBar buttonPanel = new JToolBar()
+    private final int pos = 0;
+    private final JPanel p = new JPanel();
+    private final JToolBar buttonPanel = new JToolBar()
     {
         public Insets getInsets()
         {
@@ -118,7 +118,7 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
         }
     };
 
-    private JToolBar currDirPanel = new JToolBar()
+    private final JToolBar currDirPanel = new JToolBar()
     {
         public Insets getInsets()
         {
@@ -129,15 +129,15 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
     private DefaultListModel jlm;
     private JScrollPane jsp = new JScrollPane(jl);
     private int tmpindex = -1;
-    private Hashtable dummy = new Hashtable();
-    private JPopupMenu popupMenu = new JPopupMenu();
-    private JMenuItem runFile = new JMenuItem("Launch file");
-    private JMenuItem viewFile = new JMenuItem("View file");
-    private JMenuItem props = new JMenuItem("Properties");
+    private final Hashtable dummy = new Hashtable();
+    private final JPopupMenu popupMenu = new JPopupMenu();
+    private final JMenuItem runFile = new JMenuItem("Launch file");
+    private final JMenuItem viewFile = new JMenuItem("View file");
+    private final JMenuItem props = new JMenuItem("Properties");
     private DirEntry currentPopup = null;
     private String sortMode = null;
     String[] sortTypes = new String[] { "Normal", "Reverse", "Size", "Size/Re" };
-    private JComboBox sorter = new JComboBox(sortTypes);
+    private final JComboBox sorter = new JComboBox(sortTypes);
     HImageButton cdUpButton;
     private boolean dateEnabled = false;
 
@@ -300,7 +300,7 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
                         return;
                     }
 
-                    String tgt = (String) jl.getSelectedValue().toString();
+                    String tgt = jl.getSelectedValue().toString();
 
                     if(index < 0)
                     {
@@ -308,7 +308,6 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
                     else if((dirEntry == null) || (dirEntry.length < index) ||
                                 (dirEntry[index] == null))
                     {
-                        return;
                     }
                     else
                     {
@@ -339,7 +338,7 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
                         return;
                     }
 
-                    String tgt = (String) jl.getSelectedValue().toString();
+                    String tgt = jl.getSelectedValue().toString();
 
                     //System.out.println("List selection: "+index);
                     if(index < 0)
@@ -349,7 +348,6 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
                     else if((dirEntry == null) || (dirEntry.length < index) ||
                                 (dirEntry[index] == null))
                     {
-                        return;
                     }
                     else if(dirEntry[index].isDirectory())
                     {
@@ -815,7 +813,7 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
         }
         else if(e.getSource() == props)
         {
-            JFtp.statusP.jftp.clearLog();
+            JFtp.clearLog();
 
             int x = currentPopup.getPermission();
             String tmp;
@@ -873,14 +871,7 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
         {
             sortMode = (String) sorter.getSelectedItem();
 
-            if(sortMode.equals("Date"))
-            {
-                Settings.showLocalDateNoSize = true;
-            }
-            else
-            {
-                Settings.showLocalDateNoSize = false;
-            }
+            Settings.showLocalDateNoSize = sortMode.equals("Date");
 
             fresh();
         }
@@ -1125,8 +1116,8 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
             }
 
             Log.out("direct ftp transfer started (upload)");
-            ((FtpConnection) JFtp.remoteDir.getCon()).upload(entry.file,
-                                                             ((FtpConnection) JFtp.localDir.getCon()).getDownloadInputStream(path +
+            JFtp.remoteDir.getCon().upload(entry.file,
+                                                             JFtp.localDir.getCon().getDownloadInputStream(path +
                                                                                                                              entry.file));
         }
         else if(con instanceof FtpConnection &&
@@ -1174,7 +1165,6 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
         {
             transfer();
 
-            return;
         }
         else if(dirEntry[i].selected)
         {
@@ -1502,7 +1492,7 @@ public class LocalDir extends DirComponent implements ListSelectionListener,
                 return;
             }
 
-            String tmp = ((DirEntry) o).toString();
+            String tmp = o.toString();
 
             if(tmp.endsWith("/") || tmp.equals(".."))
             {

@@ -51,20 +51,20 @@ public class DataConnection implements Runnable
     public Socket sock = null;
     private ServerSocket ssock = null;
     private String type;
-    private String file;
-    private String host;
+    private final String file;
+    private final String host;
     private boolean resume = false;
     public boolean finished = false;
     private boolean isThere = false;
     private long start;
-    private FtpConnection con;
+    private final FtpConnection con;
     private int skiplen = 0;
     private boolean justStream = false;
     private boolean ok = true;
     private String localfile = null;
     //private String outputCharset = "CP037";
     private String newLine = null;
-    private String LINEEND = System.getProperty("line.separator");
+    private final String LINEEND = System.getProperty("line.separator");
 
     public DataConnection(FtpConnection con, int port, String host,
                           String file, String type)

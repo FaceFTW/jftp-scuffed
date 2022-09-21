@@ -41,27 +41,27 @@ import javax.swing.*;
 public class StatusPanel extends HPanel implements ActionListener
 {
     public static StatusCanvas status = new StatusCanvas();
-    private HImageButton newcon = new HImageButton(Settings.hostImage,
+    private final HImageButton newcon = new HImageButton(Settings.hostImage,
                                                    "newcon",
                                                    "Add FTP Connection...", this);
-    private HImageButton smbcon = new HImageButton(Settings.openImage,
+    private final HImageButton smbcon = new HImageButton(Settings.openImage,
                                                    "smbcon",
                                                    "Add SMB Connection...", this);
-    private HImageButton sftpcon = new HImageButton(Settings.sftpImage,
+    private final HImageButton sftpcon = new HImageButton(Settings.sftpImage,
                                                     "sftpcon",
                                                     "Add SFTP Connection...",
                                                     this);
-    private HImageButton nfscon = new HImageButton(Settings.nfsImage, "nfscon",
+    private final HImageButton nfscon = new HImageButton(Settings.nfsImage, "nfscon",
                                                    "Add NFS Connection...", this);
-    private HImageButton webdavcon = new HImageButton(Settings.webdavImage,
+    private final HImageButton webdavcon = new HImageButton(Settings.webdavImage,
                                                       "webdavcon",
                                                       "Add WebDAV Connection...",
                                                       this);
     public HImageButton close = new HImageButton(Settings.closeImage, "close",
                                                  "Close active tab...", this);
-    private HImageButton go = new HImageButton(Settings.refreshImage, "go",
+    private final HImageButton go = new HImageButton(Settings.refreshImage, "go",
                                                "Download URL now...", this);
-    private JTextField address = new JTextField("http://www.xkcd.com", 30);
+    private final JTextField address = new JTextField("http://www.xkcd.com", 30);
     public JFtp jftp;
 
     public StatusPanel(JFtp jftp)
@@ -199,7 +199,7 @@ public class StatusPanel extends HPanel implements ActionListener
         {
             jftp.closeCurrentTab();
         }
-        else if(e.getActionCommand().equals("newcon") && (!jftp.uiBlocked))
+        else if(e.getActionCommand().equals("newcon") && (!JFtp.uiBlocked))
         {
             // jftp.safeDisconnect();
             // Switch windows
@@ -218,7 +218,7 @@ public class StatusPanel extends HPanel implements ActionListener
         if(url.startsWith("ftp://") &&
                (url.endsWith("/") || (url.lastIndexOf("/") < 10)))
         {
-            jftp.safeDisconnect();
+            JFtp.safeDisconnect();
 
             HostChooser hc = new HostChooser();
             hc.update(url);

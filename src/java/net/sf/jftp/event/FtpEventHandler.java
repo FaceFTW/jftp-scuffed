@@ -88,8 +88,8 @@ public class FtpEventHandler implements EventHandler
         commands.add("user");
     }
 
-    private FtpClient client;
-    private Hashtable methods = new Hashtable();
+    private final FtpClient client;
+    private final Hashtable methods = new Hashtable();
 
     public FtpEventHandler()
     {
@@ -173,7 +173,7 @@ public class FtpEventHandler implements EventHandler
             {
                 try
                 {
-                    o.invoke(this, new Object[] { list });
+                    o.invoke(this, list);
                 }
                 catch(Exception ex)
                 {

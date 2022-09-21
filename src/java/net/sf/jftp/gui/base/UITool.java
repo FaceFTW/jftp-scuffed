@@ -27,14 +27,7 @@ public class UITool
         int res = JOptionPane.showConfirmDialog(parent,
                                                 "Do you really want to continue?");
 
-        if((res == JOptionPane.OK_OPTION))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return res == JOptionPane.OK_OPTION;
     }
     
     public static boolean askToRun(JComponent parent)
@@ -42,14 +35,7 @@ public class UITool
         int res = JOptionPane.showConfirmDialog(parent,
                                                 "Do you want to launch this file?");
 
-        if((res == JOptionPane.OK_OPTION))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return res == JOptionPane.OK_OPTION;
     }
 
     public static String getPathFromDialog(String path)

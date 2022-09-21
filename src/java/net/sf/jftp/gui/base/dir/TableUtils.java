@@ -170,7 +170,7 @@ public class TableUtils {
 			}
 		}
 		
-		int tmp[] = new int[sel.size()];
+		int[] tmp = new int[sel.size()];
 		for(int i=0; i<sel.size(); i++) tmp[i] = ((Integer)sel.get(i)).intValue();
 		
 		list.setSelectedIndices(tmp);

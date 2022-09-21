@@ -32,9 +32,9 @@ import javax.swing.event.*;
 
 public class ResumeDialog extends HFrame implements ActionListener
 {
-    private JButton resume = new JButton("Resume");
-    private JButton skip = new JButton("Skip");
-    private JButton over = new JButton("Overwrite");
+    private final JButton resume = new JButton("Resume");
+    private final JButton skip = new JButton("Skip");
+    private final JButton over = new JButton("Overwrite");
     private DirEntry dirEntry = null;
 
     public ResumeDialog(DirEntry dirEntry)

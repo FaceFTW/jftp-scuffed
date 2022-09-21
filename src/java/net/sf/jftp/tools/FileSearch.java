@@ -38,7 +38,7 @@ public class FileSearch
 {
 
     private int currentDepth = 0;
-    private Hashtable checked = new Hashtable();
+    private final Hashtable checked = new Hashtable();
     public static boolean quiet = true;
     public static boolean ultraquiet = false;
     
@@ -54,7 +54,7 @@ public class FileSearch
     String[] scanArray = { "" };
     
 
-    public static void main(String argv[]) {
+    public static void main(String[] argv) {
         String[] typeArray = { ".gz", ".bz2", ".zip", ".rar" };
         String[] termArray = { "linux", "kernel" };
         String[] optArray = { "download", "file", "mirror", "location" };

@@ -24,7 +24,7 @@ import java.io.DataInputStream;
 public class JReciever implements Runnable {
     private DataInputStream in;
     private Thread reciever;
-    private byte[] buf = new byte[4048];
+    private final byte[] buf = new byte[4048];
 
     public JReciever(DataInputStream in) {
         this.in = in;

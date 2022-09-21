@@ -91,14 +91,14 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	 */
 	public boolean hasUploaded = false;
 	public boolean work = true;
-	private boolean msg = true;
+	private final boolean msg = true;
 	private boolean ok = true;
 	private String pwd = "";
 	private String initCWD = Settings.defaultDir;
-	private String[] loginAck = new String[] { FTP331_USER_OK_NEED_PASSWORD, FTP230_LOGGED_IN };
+	private final String[] loginAck = new String[] { FTP331_USER_OK_NEED_PASSWORD, FTP230_LOGGED_IN };
 	private String osType = "";
 	private String dataType;
-	private List<FtpTransfer> transfers = new ArrayList<FtpTransfer>();
+	private final List<FtpTransfer> transfers = new ArrayList<FtpTransfer>();
 	private boolean modeStreamSet = false;
 	private DataConnection dcon = null;
 	private Vector<ConnectionListener> listeners = new Vector<ConnectionListener>();
@@ -343,7 +343,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		}
 		else
 		{
-			fireConnectionFailed(this, new Integer(status).toString());
+			fireConnectionFailed(this, Integer.toString(status));
 		}
 
 		return status;
@@ -368,7 +368,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 
 			for(int i=0; i<currentListing.size(); i++)
 			{
-				String tmp = (String) currentListing.get(i);
+				String tmp = currentListing.get(i);
 
 				// ------------- VMS override -------------------
 				if(getOsType().indexOf("VMS") >= 0)
@@ -464,7 +464,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		}
 		catch(Exception ex)
 		{
-			Log.debug(ex.toString() + " @FtpConnection::sortSize#1");
+			Log.debug(ex + " @FtpConnection::sortSize#1");
 			return new String[0];
 		}
 
@@ -472,10 +472,10 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	}
 
 	private String[] toArray(Vector<String> in) {
-		String ret[] = new String[in.size()];
+		String[] ret = new String[in.size()];
 
 		for(int i=0; i<in.size(); i++) {
-			ret[i] = (String) in.get(i);
+			ret[i] = in.get(i);
 		}
 
 		return ret;
@@ -497,7 +497,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 
 			for(int i=0; i<currentListing.size(); i++)
 			{
-				String tmp = (String) currentListing.get(i);
+				String tmp = currentListing.get(i);
 
 				// ------------- VMS override -------------------
 				if(getOsType().indexOf("VMS") >= 0)
@@ -578,13 +578,13 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		}
 		catch(Exception ex)
 		{
-			Log.debug(ex.toString() + " @FtpConnection::getPermissions#1");
+			Log.debug(ex + " @FtpConnection::getPermissions#1");
 		}
 
 		int[] ret = new int[currentPerms.size()];
 
 		for(int i=0; i<currentPerms.size(); i++) {
-			String fx = (String) currentPerms.get(i);
+			String fx = currentPerms.get(i);
 
 			if(fx.equals("w"))
 			{
@@ -621,7 +621,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 
 			for(int i=0; i<currentListing.size(); i++)
 			{
-				String tmp = (String) currentListing.get(i);
+				String tmp = currentListing.get(i);
 
 				// ------------------- VMS override --------------------
 				if(getOsType().indexOf("VMS") >= 0)
@@ -926,7 +926,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		}
 		catch(Exception ex)
 		{
-			Log.debug(ex.toString() + " @FtpConnection::sortLs");
+			Log.debug(ex + " @FtpConnection::sortLs");
 			ex.printStackTrace();
 		}
 
@@ -1138,12 +1138,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	/** test for symlink */
 	private boolean isSymlink(String file)
 	{
-		if(file.indexOf("->") >= 0)
-		{
-			return true;
-		}
-
-		return false;
+		return file.indexOf("->") >= 0;
 	}
 
 	/** Download a file or directory.
@@ -1268,7 +1263,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
-			Log.debug(ex.toString() +
+			Log.debug(ex +
 					" @FtpConnection::getDownloadInputStream");
 
 			return null;
@@ -1350,7 +1345,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
-			Log.debug(ex.toString() + " @FtpConnection::download");
+			Log.debug(ex + " @FtpConnection::download");
 
 			return TRANSFER_FAILED;
 		}
@@ -1429,7 +1424,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 
 					if(downloadDir(tmp[i]) < 0)
 					{
-						; // return TRANSFER_FAILED;
+						// return TRANSFER_FAILED;
 					}
 				}
 			}
@@ -1445,7 +1440,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 
 				if(rawDownload(getLocalPath() + tmp[i]) < 0)
 				{
-					; // return TRANSFER_FAILED;
+					// return TRANSFER_FAILED;
 				}
 			}
 		}
@@ -1767,7 +1762,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		catch(Exception ex)
 		{
 			ex.printStackTrace();
-			Log.debug(ex.toString() + " @FtpConnection::upload");
+			Log.debug(ex + " @FtpConnection::upload");
 
 			return TRANSFER_FAILED;
 		}
@@ -1848,7 +1843,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 
 				if(rawUpload(res) < 0)
 				{
-					; //return TRANSFER_STOPPED;
+					//return TRANSFER_STOPPED;
 				}
 			}
 		}
@@ -2061,7 +2056,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		}
 		catch(Exception ex)
 		{
-			Log.debug(ex.toString() + " @FtpConnection::getLine");
+			Log.debug(ex + " @FtpConnection::getLine");
 		}
 
 		//String resultString = null;
@@ -2104,7 +2099,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 			}
 			catch(Exception ex)
 			{
-				Log.debug(ex.toString() + " @FtpConnection::getLine");
+				Log.debug(ex + " @FtpConnection::getLine");
 
 				break;
 			}
@@ -2213,14 +2208,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	{
 		String tmp = getLine(op);
 
-		if((tmp != null) && tmp.startsWith(op))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return (tmp != null) && tmp.startsWith(op);
 	}
 
 	/**
@@ -2635,10 +2623,8 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		{
 			jcon.send("RNTO " + to);
 
-			if(success(POSITIVE))//FTP250_COMPLETED))
-			{
-				return true;
-			}
+			//FTP250_COMPLETED))
+			return success(POSITIVE);
 		}
 
 		return false;
@@ -2688,7 +2674,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
     }
 	 */
 
-	private String getActivePortCmd() throws UnknownHostException, IOException 
+	private String getActivePortCmd() throws IOException
 	{ 
 		InetAddress ipaddr = jcon.getLocalAddress(); 
 		String ip = ipaddr.getHostAddress().replace('.', ','); 
@@ -2946,13 +2932,12 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	{
 		if(listeners == null)
 		{
-			return;
 		}
 		else
 		{
 			for(int i = 0; i < listeners.size(); i++)
 			{
-				((ConnectionListener) listeners.elementAt(i)).updateRemoteDirectory(con);
+				listeners.elementAt(i).updateRemoteDirectory(con);
 			}
 		}
 	}
@@ -2971,13 +2956,12 @@ public class FtpConnection implements BasicConnection, FtpConstants
 		//System.out.println(listener);
 		if(listeners == null)
 		{
-			return;
 		}
 		else
 		{
 			for(int i = 0; i < listeners.size(); i++)
 			{
-				ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+				ConnectionListener listener = listeners.elementAt(i);
 
 				if(shortProgress && Settings.shortProgress)
 				{
@@ -3017,13 +3001,12 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	{
 		if(listeners == null)
 		{
-			return;
 		}
 		else
 		{
 			for(int i = 0; i < listeners.size(); i++)
 			{
-				((ConnectionListener) listeners.elementAt(i)).connectionInitialized(con);
+				listeners.elementAt(i).connectionInitialized(con);
 			}
 		}
 	}
@@ -3038,13 +3021,12 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	{
 		if(listeners == null)
 		{
-			return;
 		}
 		else
 		{
 			for(int i = 0; i < listeners.size(); i++)
 			{
-				((ConnectionListener) listeners.elementAt(i)).connectionFailed(con,
+				listeners.elementAt(i).connectionFailed(con,
 						why);
 			}
 		}
@@ -3059,13 +3041,12 @@ public class FtpConnection implements BasicConnection, FtpConstants
 	{
 		if(listeners == null)
 		{
-			return;
 		}
 		else
 		{
 			for(int i = 0; i < listeners.size(); i++)
 			{
-				((ConnectionListener) listeners.elementAt(i)).actionFinished(con);
+				listeners.elementAt(i).actionFinished(con);
 			}
 		}
 	}
@@ -3122,7 +3103,7 @@ public class FtpConnection implements BasicConnection, FtpConstants
 			}
 			catch(Exception ex)
 			{
-				Log.debug("Exception during abort: " + ex.toString());
+				Log.debug("Exception during abort: " + ex);
 				ex.printStackTrace();
 			}
 		}

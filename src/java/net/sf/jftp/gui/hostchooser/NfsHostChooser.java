@@ -47,8 +47,8 @@ public class NfsHostChooser extends HFrame implements ActionListener,
     public static HPasswordField pass = new HPasswordField("Password:",
                                                            "nopasswd");
     public static HButton info = new HButton("Read me!");
-    private HPanel okP = new HPanel();
-    private HButton ok = new HButton("Connect");
+    private final HPanel okP = new HPanel();
+    private final HButton ok = new HButton("Connect");
     private ComponentListener listener = null;
     private boolean useLocal = false;
 
@@ -98,7 +98,7 @@ public class NfsHostChooser extends HFrame implements ActionListener,
         }
 
         LoadSet l = new LoadSet();
-        String[] login = l.loadSet(Settings.login_def_nfs);
+        String[] login = LoadSet.loadSet(Settings.login_def_nfs);
 
         if((login[0] != null) && (login.length > 1))
         {

@@ -46,24 +46,24 @@ import net.sf.jftp.system.logging.Log;
 public class DownloadList extends HPanel implements ActionListener
 {
     public Hashtable sizeCache = new Hashtable();
-    private ProgressBarList list = new ProgressBarList();
+    private final ProgressBarList list = new ProgressBarList();
     private Hashtable downloads = new Hashtable();
     private long oldtime = 0;
-    private HImageButton resume = new HImageButton(Settings.resumeImage,
+    private final HImageButton resume = new HImageButton(Settings.resumeImage,
                                                    "resume",
                                                    "Resume selected transfer...",
                                                    this);
-    private HImageButton pause = new HImageButton(Settings.pauseImage, "pause",
+    private final HImageButton pause = new HImageButton(Settings.pauseImage, "pause",
                                                   "Pause selected transfer...",
                                                   this);
-    private HImageButton cancel = new HImageButton(Settings.deleteImage,
+    private final HImageButton cancel = new HImageButton(Settings.deleteImage,
                                                    "delete",
                                                    "Cancel selected transfer...",
                                                    this);
-    private HImageButton clear = new HImageButton(Settings.clearImage, "clear",
+    private final HImageButton clear = new HImageButton(Settings.clearImage, "clear",
                                                   "Remove old/stalled items from output...",
                                                   this);   
-    private JScrollPane scroll;
+    private final JScrollPane scroll;
 
     public DownloadList()
     {
@@ -152,7 +152,7 @@ public class DownloadList extends HPanel implements ActionListener
 
                 try
                 {
-                    Transfer d = (Transfer) JFtp.getConnectionHandler()
+                    Transfer d = JFtp.getConnectionHandler()
                                                 .getConnections().get(cmd);
 
                     if(d == null)
@@ -311,7 +311,7 @@ public class DownloadList extends HPanel implements ActionListener
 
     private String getActiveItem()
     {
-        String tmp = (String) ((ProgressbarItem)(list.getSelectedValue())).getDirEntry().toString();
+        String tmp = list.getSelectedValue().getDirEntry().toString();
 
         if(tmp == null)
         {
@@ -369,7 +369,7 @@ public class DownloadList extends HPanel implements ActionListener
         // ---------------
         //System.out.print(size+":");
         String tmp;
-        long s = (long) (size / 1024);
+        long s = size / 1024;
 
         if(s > 0)
         {

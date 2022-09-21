@@ -30,7 +30,7 @@ import java.util.*;
 public class FtpServer extends Thread
 {
     private int port = 21;
-    private int dataPort = 20;
+    private final int dataPort = 20;
 
     public FtpServer()
     {

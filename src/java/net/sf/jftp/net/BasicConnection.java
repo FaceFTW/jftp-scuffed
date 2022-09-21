@@ -26,56 +26,56 @@ import java.util.Vector;
  */
 public interface BasicConnection
 {
-    public boolean hasUploaded = false;
+    boolean hasUploaded = false;
 
-    public void sendRawCommand(String cmd);
+    void sendRawCommand(String cmd);
 
     //public boolean login(String user, String pass);
-    public void disconnect();
+    void disconnect();
 
-    public boolean isConnected();
+    boolean isConnected();
 
-    public String getPWD();
+    String getPWD();
 
-    public boolean cdup();
+    boolean cdup();
 
-    public boolean mkdir(String dirName);
+    boolean mkdir(String dirName);
 
-    public void list() throws IOException;
+    void list() throws IOException;
 
-    public boolean chdir(String p);
+    boolean chdir(String p);
 
-    public boolean chdirNoRefresh(String p);
+    boolean chdirNoRefresh(String p);
 
-    public String getLocalPath();
+    String getLocalPath();
 
-    public boolean setLocalPath(String newPath);
+    boolean setLocalPath(String newPath);
 
-    public String[] sortLs();
+    String[] sortLs();
 
-    public String[] sortSize();
+    String[] sortSize();
 
-    public Date[] sortDates();
+    Date[] sortDates();
 
-    public int[] getPermissions();
+    int[] getPermissions();
 
-    public int handleDownload(String file);
+    int handleDownload(String file);
 
-    public int handleUpload(String file);
+    int handleUpload(String file);
 
-    public int download(String file);
+    int download(String file);
 
-    public int upload(String file);
+    int upload(String file);
 
-    public int upload(String file, InputStream in);
+    int upload(String file, InputStream in);
 
-    public InputStream getDownloadInputStream(String file);
+    InputStream getDownloadInputStream(String file);
 
-    public int removeFileOrDir(String file);
+    int removeFileOrDir(String file);
 
-    public void addConnectionListener(ConnectionListener listener);
+    void addConnectionListener(ConnectionListener listener);
 
-    public void setConnectionListeners(Vector<ConnectionListener> listeners);
+    void setConnectionListeners(Vector<ConnectionListener> listeners);
 
-    public boolean rename(String from, String to);
+    boolean rename(String from, String to);
 }

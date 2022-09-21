@@ -41,12 +41,12 @@ public class RawConnection extends JFrame implements ActionListener,
     public static boolean established = false;
     public static boolean mayDispose = false;
     public static JScrollPane outputPane;
-    private JPanel p1 = new JPanel();
-    private HTextField com = new HTextField("Command:", "", 20);
-    private JPanel p2 = new JPanel();
-    private JButton send = new JButton("Send");
+    private final JPanel p1 = new JPanel();
+    private final HTextField com = new HTextField("Command:", "", 20);
+    private final JPanel p2 = new JPanel();
+    private final JButton send = new JButton("Send");
     private JRawConnection c;
-    private JButton clear = new JButton("Clear");
+    private final JButton clear = new JButton("Clear");
     JMenuBar mb = new JMenuBar();
     JMenu file = new JMenu("Prog");
     JMenu about = new JMenu("About");

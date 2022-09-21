@@ -114,7 +114,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
     public static HostInfo hostinfo = new HostInfo();
 
     //public static BasicConnection controlConnection = null;
-    private static ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
+    private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
     public static JDesktopPane desktop = new JDesktopPane();
     private static JScrollPane logSp;
     public static JTextArea log;    
@@ -128,24 +128,24 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
     public static DropTargetListener dtListener;
     public static int acceptableActions = DnDConstants.ACTION_COPY;
     private LogFlusher flusher;
-    private boolean initSize = true;
+    private final boolean initSize = true;
     public JTabbedPane remoteConnectionPanel = new JTabbedPane();
     public JTabbedPane localConnectionPanel = new JTabbedPane();
-    private String oldText = "";
+    private final String oldText = "";
     private HDesktopBackground background;
-    private JToolBar bottomBar = new JToolBar();
+    private final JToolBar bottomBar = new JToolBar();
 
     /** JSplitPane that holds the directory panes and the log/dl JSplitPane */
-    private JSplitPane workP = null;
+    private final JSplitPane workP = null;
 
     /** JSplitPane that holds the log download parts */
-    private JSplitPane logP = null;
+    private final JSplitPane logP = null;
     private JInternalFrame j1;
     private JInternalFrame j2;
     private JInternalFrame j3;
     private JInternalFrame j4;
     private JInternalFrame j5;
-    private static Hashtable<String, JInternalFrame> internalFrames = new Hashtable<String,JInternalFrame>();
+    private static final Hashtable<String, JInternalFrame> internalFrames = new Hashtable<String,JInternalFrame>();
     public HostChooser hc;
     private String buffer = "";
     private long oldtime = 0;
@@ -170,7 +170,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
     public JFtp(boolean mainUsed)
     {
         Log.setLogger(this);
-        this.mainUsed = mainUsed;
+        JFtp.mainUsed = mainUsed;
         init();
         displayGUI();
     }
@@ -178,7 +178,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
     public void init()
     {
         dtListener = new DTListener();
-        dropTarget = new DropTarget(this, this.acceptableActions, dtListener,
+        dropTarget = new DropTarget(this, acceptableActions, dtListener,
                                     true);
 
         setLayout(new BorderLayout());
@@ -189,10 +189,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
         statusP = new StatusPanel(this);
         add("North", statusP);
 
-        localDir = (Dir) new LocalDir(Settings.defaultWorkDir);
+        localDir = new LocalDir(Settings.defaultWorkDir);
         localDir.setDownloadList(dList);
 
-        remoteDir = (Dir) new RemoteDir();
+        remoteDir = new RemoteDir();
         remoteDir.setDownloadList(dList);
         //desktop.setDropTarget(this.dropTarget);
 
@@ -285,7 +285,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
         logSpPanel.add("West", logButtonPanel);
         logSpPanel.add("Center", logSp);
         
-        int x = (int) (desktop.getSize().width / 2);
+        int x = desktop.getSize().width / 2;
         j3.setLocation(5, 525);
         j3.getContentPane().add(logSpPanel, BorderLayout.CENTER);
         desktop.add(j3);
@@ -307,7 +307,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
         add("Center", desktop);
 
         bottomBar.setFloatable(false);
-        bottomBar.add(statusP.status, FlowLayout.LEFT);
+        bottomBar.add(StatusPanel.status, FlowLayout.LEFT);
 
         if(Settings.getEnableRSS())
         {
@@ -543,8 +543,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
              
         validate();
         
-        System.out.println(statusP.status);
-        statusP.status.fresh();
+        System.out.println(StatusPanel.status);
+        StatusPanel.status.fresh();
     }
 
     public void addBackgroundImage()
@@ -1000,7 +1000,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
     {
         con.addConnectionListener((ConnectionListener) localDir);
 
-        Dir tmp = (Dir) new RemoteDir();
+        Dir tmp = new RemoteDir();
         tmp.setDownloadList(dList);
         con.addConnectionListener((ConnectionListener) tmp);
         tmp.setCon(con);
@@ -1016,7 +1016,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
     {
         con.addConnectionListener((ConnectionListener) remoteDir);
 
-        Dir tmp = (Dir) new LocalDir();
+        Dir tmp = new LocalDir();
         tmp.setDownloadList(dList);
         con.addConnectionListener((ConnectionListener) tmp);
         tmp.setCon(con);
@@ -1120,7 +1120,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 
     public void removeFromDesktop(int component)
     {
-        JInternalFrame f = (JInternalFrame) internalFrames.get("" + component);
+        JInternalFrame f = internalFrames.get("" + component);
 
         if(f != null)
         {
@@ -1166,7 +1166,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 
     public void setClosable(int component, boolean ok)
     {
-        JInternalFrame f = (JInternalFrame) internalFrames.get("" + component);
+        JInternalFrame f = internalFrames.get("" + component);
 
         if(f != null)
         {
@@ -1180,7 +1180,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
 
     public void setLocation(int component, int x, int y)
     {
-        JInternalFrame f = (JInternalFrame) internalFrames.get("" + component);
+        JInternalFrame f = internalFrames.get("" + component);
 
         if(f != null)
         {
@@ -1315,7 +1315,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
                     }
                     else
                     {
-                        str = str + new Character((char) c).toString();
+                        str = str + new Character((char) c);
                     }
 
                     i++;
@@ -1343,7 +1343,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
                 name = str.substring(str.indexOf("[") + 1);
                 name = name.substring(0, name.lastIndexOf("]")); // last was str
             }
-            else if(new String(str).startsWith("file://"))
+            else if(str.startsWith("file://"))
             {
                 name = str.substring(7);
 
@@ -1432,7 +1432,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener,
                 t.printStackTrace();
                 e.dropComplete(false);
 
-                return;
             }
         }
     }

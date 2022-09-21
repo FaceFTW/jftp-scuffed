@@ -41,7 +41,7 @@ public class DirLister implements ActionListener
     private int[] perms;
     private boolean isDirectory = true;
     public boolean finished = false;
-    private BasicConnection con;
+    private final BasicConnection con;
     private String sortMode = null;
     private Date[] dates = null;
 
@@ -74,9 +74,9 @@ public class DirLister implements ActionListener
         		}
         	}
         	
-        	String newFiles[] = new String[cnt];
-        	String newSizes[] = new String[cnt];
-        	int newPerms[] = new int[cnt];
+        	String[] newFiles = new String[cnt];
+        	String[] newSizes = new String[cnt];
+        	int[] newPerms = new int[cnt];
         	
         	int idx = 0;
         	for(int i=0; i<files.length; i++) {
@@ -201,12 +201,7 @@ public class DirLister implements ActionListener
         {
             int cnt = 0;
             Hashtable processed = new Hashtable();
-            boolean reverse = false;
-
-            if(type.endsWith("/Re"))
-            {
-                reverse = true;
-            }
+            boolean reverse = type.endsWith("/Re");
 
             while(cnt < length)
             {
@@ -376,14 +371,8 @@ public class DirLister implements ActionListener
         c2.clear();
         c2.setTime(two);
 
-        if(c.getTime().compareTo(c2.getTime()) > 0) // c.compareTo(c2) > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        // c.compareTo(c2) > 0)
+        return c.getTime().compareTo(c2.getTime()) > 0;
     }
 
     public void sortFirst()

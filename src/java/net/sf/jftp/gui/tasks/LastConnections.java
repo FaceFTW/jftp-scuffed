@@ -37,14 +37,14 @@ import javax.swing.*;
 
 public class LastConnections
 {
-    public static String SENTINEL = new String("********************");
+    public static String SENTINEL = "********************";
     private static JFtp jftp;
 
     //*** changed this so that JFtp object is passed to it and 
     //initialized
     public LastConnections(JFtp jftp)
     {
-        this.jftp = jftp;
+        LastConnections.jftp = jftp;
 
         //init();
     }
@@ -103,7 +103,7 @@ public class LastConnections
 
             }
             */
-            jftp.updateMenuBar();
+            JFtp.updateMenuBar();
         }
         catch(Exception e)
         {
@@ -150,7 +150,7 @@ public class LastConnections
             //             being used
             //THIS MAY MAKE THIS SECTION LESS TIME-EFFICIENT
             String[] oldValues = new String[capacity];
-            String firstSection = new String("");
+            String firstSection = "";
             boolean oldVersion = true;
 
             //System.out.println(capacity);
@@ -603,8 +603,8 @@ public class LastConnections
             //(which is default) there
             if(newData[i][0].equals("SFTP") && (j == 5))
             {
-                String temp = new String("");
-                String temp2 = new String("");
+                String temp = "";
+                String temp2 = "";
 
                 temp = newData[i][4];
                 newData[i][4] = "22";

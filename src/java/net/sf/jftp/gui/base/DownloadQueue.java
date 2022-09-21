@@ -43,38 +43,38 @@ public class DownloadQueue extends HPanel implements ActionListener
     int NumRetry = 5;
 
     //private JTextArea text = new JTextArea();
-    private DefaultListModel liststr = new DefaultListModel();
-    private JList list = new JList(liststr);
-    private ArrayList queue = new ArrayList();
+    private final DefaultListModel liststr = new DefaultListModel();
+    private final JList list = new JList(liststr);
+    private final ArrayList queue = new ArrayList();
     private queueDownloader thread = new queueDownloader();
     private QueueRecord lastDownload;
     private BasicConnection con;
 
     // private Vector listeners = new Vector();
-    private HImageButton start = new HImageButton(Settings.resumeImage,
+    private final HImageButton start = new HImageButton(Settings.resumeImage,
                                                   "start",
                                                   "Start queue download...",
                                                   this);
-    private HImageButton stop = new HImageButton(Settings.pauseImage, "stop",
+    private final HImageButton stop = new HImageButton(Settings.pauseImage, "stop",
                                                  "Stop queue download...", this);
-    private HImageButton save = new HImageButton(Settings.saveImage, "save",
+    private final HImageButton save = new HImageButton(Settings.saveImage, "save",
                                                  "Save queue list to file...",
                                                  this);
-    private HImageButton load = new HImageButton(Settings.cdImage, "load",
+    private final HImageButton load = new HImageButton(Settings.cdImage, "load",
                                                  "Load queue list from...", this);
-    private HImageButton up = new HImageButton(Settings.downloadImage, "up",
+    private final HImageButton up = new HImageButton(Settings.downloadImage, "up",
                                                "Change order of queue", this);
-    private HImageButton down = new HImageButton(Settings.uploadImage, "down",
+    private final HImageButton down = new HImageButton(Settings.uploadImage, "down",
                                                  "Change order of queue", this);
-    private HImageButton delete = new HImageButton(Settings.deleteImage, "del",
+    private final HImageButton delete = new HImageButton(Settings.deleteImage, "del",
                                                    "Delete item in queue", this);
 
     //private HImageButton rotate = new HImageButton(Settings.cmdImage,"rotate","Toggle selected transfer...",this);
     // connection established?
     private boolean isThere = false;
-    private boolean downloading = false;
-    private ConnectionHandler handler = new ConnectionHandler();
-    private JLabel statuslabel;
+    private final boolean downloading = false;
+    private final ConnectionHandler handler = new ConnectionHandler();
+    private final JLabel statuslabel;
 
     public DownloadQueue()
     {

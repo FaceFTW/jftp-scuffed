@@ -28,10 +28,10 @@ import java.io.*;
 
 public class Properties extends HFrame implements ActionListener
 {
-    private Label fileL = new Label("File:                      ");
-    private Label sizeL = new Label("Size: ? bytes              ");
-    private HButton ok = new HButton("Dismiss");
-    private HPanel okP = new HPanel();
+    private final Label fileL = new Label("File:                      ");
+    private final Label sizeL = new Label("Size: ? bytes              ");
+    private final HButton ok = new HButton("Dismiss");
+    private final HPanel okP = new HPanel();
     private String type = "";
     private String file = "";
 
@@ -60,7 +60,7 @@ public class Properties extends HFrame implements ActionListener
         if(type.equals("local"))
         {
             File f = new File(JFtp.localDir.getPath() + file);
-            sizeL.setText("Size: " + Long.toString(f.length()) + " bytes");
+            sizeL.setText("Size: " + f.length() + " bytes");
 
             try
             {
@@ -71,7 +71,7 @@ public class Properties extends HFrame implements ActionListener
                 Log.debug(ex.toString());
             }
 
-            sizeL.setText("Size: " + Long.toString(f.length()) + " bytes");
+            sizeL.setText("Size: " + f.length() + " bytes");
         }
 
         if(type.equals("remote"))

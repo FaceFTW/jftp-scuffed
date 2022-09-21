@@ -66,7 +66,7 @@ public class StartConnection
         Integer potmpInt = new Integer(potmp);
 
         String potmpString = potmpInt.toString();
-        String useLocalString = new String("false");
+        String useLocalString = "false";
 
         if(useLocal)
         {
@@ -157,7 +157,7 @@ public class StartConnection
             //JFtp.statusP.jftp.addConnection(htmp, con);
             if(!utmp.equals("<anonymous>"))
             {
-                status = ((NfsConnection) con).login(utmp, ptmp);
+                status = con.login(utmp, ptmp);
             }
 
             if(useLocal)
@@ -293,7 +293,7 @@ public class StartConnection
             Integer potmpInt = new Integer(potmp);
 
             String potmpString = potmpInt.toString();
-            String useLocalString = new String("false");
+            String useLocalString = "false";
 
             if(useLocal)
             {

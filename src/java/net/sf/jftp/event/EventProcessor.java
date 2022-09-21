@@ -22,8 +22,8 @@ import java.util.Vector;
 public class EventProcessor implements Runnable, Acceptor, FtpEventConstants,
                                        EventHandler
 {
-    private static Hashtable table = new Hashtable();
-    private Vector buffer;
+    private static final Hashtable table = new Hashtable();
+    private final Vector buffer;
     private boolean done = false;
 
     public EventProcessor(Vector b)

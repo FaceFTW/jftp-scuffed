@@ -122,12 +122,7 @@ public class FtpURLConnection extends URLConnection
 
     public boolean loginSucceeded()
     {
-        if(loginFlag == FtpConnection.LOGIN_OK)
-        {
-            return true;
-        }
-
-        return false;
+        return loginFlag == FtpConnection.LOGIN_OK;
     }
 
     public static void main(String[] args)

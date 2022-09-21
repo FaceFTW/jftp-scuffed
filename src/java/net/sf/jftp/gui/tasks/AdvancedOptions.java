@@ -33,12 +33,12 @@ public class AdvancedOptions extends HPanel implements ActionListener
 {
     //used this to see if it needs to look up file value
     public static boolean listOptionSet = false;
-    private HTextField listCommand = new HTextField("FTP LIST command:",
+    private final HTextField listCommand = new HTextField("FTP LIST command:",
                                                     FtpConnection.LIST, 15);
-    private JButton setListCommand = new JButton("Set");
+    private final JButton setListCommand = new JButton("Set");
 
     //*** 
-    private JButton saveCommand = new JButton("Set and Save");
+    private final JButton saveCommand = new JButton("Set and Save");
 
     //***
     //*** should it really be set up so that the original message here on top
@@ -48,12 +48,12 @@ public class AdvancedOptions extends HPanel implements ActionListener
     //*** So maybe should have a text box at the bottom? And a label at top
     //*** with the instruction text?
     //***this line may be deprecated
-    private JLabel text = new JLabel();
+    private final JLabel text = new JLabel();
     //private JLabel note = new JLabel();
 
     //***
-    private JLabel statusText = new JLabel();
-    private String listOptionText = new String(); //what the text in the box initially is
+    private final JLabel statusText = new JLabel();
+    private String listOptionText = ""; //what the text in the box initially is
 
     //***
     public AdvancedOptions()

@@ -17,5 +17,5 @@ package net.sf.jftp.event;
 
 public interface EventHandler
 {
-    public boolean handle(Event e);
+    boolean handle(Event e);
 }

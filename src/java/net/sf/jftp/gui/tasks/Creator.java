@@ -33,9 +33,9 @@ import java.io.*;
  */
 public class Creator extends HFrame implements ActionListener
 {
-    private HTextField text;
-    private HButton ok = new HButton("Create directory...");
-    private BasicConnection con;
+    private final HTextField text;
+    private final HButton ok = new HButton("Create directory...");
+    private final BasicConnection con;
 
     public Creator(String l, BasicConnection con)
     {

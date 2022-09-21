@@ -24,10 +24,10 @@ import java.awt.event.*;
 
 public class RemoverQuery extends HFrame implements ActionListener
 {
-    private String file;
-    private String type;
-    private HButton ok = new HButton("Ok");
-    private HButton cancel = new HButton("Cancel");
+    private final String file;
+    private final String type;
+    private final HButton ok = new HButton("Ok");
+    private final HButton cancel = new HButton("Cancel");
 
     public RemoverQuery(String file, String type)
     {

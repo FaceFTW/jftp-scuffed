@@ -29,7 +29,7 @@ import java.net.*;
 
 public class CommandLine implements Runnable, EventHandler, FtpEventConstants
 {
-    private EventCollector eventCollector;
+    private final EventCollector eventCollector;
 
     public CommandLine()
     {

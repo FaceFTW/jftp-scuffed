@@ -57,7 +57,7 @@ public class Sftp2Connection implements BasicConnection
     private int[] perms = null;
     private String user;
     private String pass;
-    private String host;
+    private final String host;
     private String baseFile;
     private int fileCount;
     private boolean isDirUpload = false;
@@ -406,10 +406,7 @@ public class Sftp2Connection implements BasicConnection
                 x++;
             }
 
-            for(int i = 0; i < tmp.length; i++)
-            {
-                files[i] = tmp[i];
-            }
+            System.arraycopy(tmp, 0, files, 0, tmp.length);
 
             return files;
         }
@@ -825,7 +822,6 @@ public class Sftp2Connection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -852,7 +848,6 @@ public class Sftp2Connection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -928,7 +923,6 @@ public class Sftp2Connection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -1020,7 +1014,7 @@ public class Sftp2Connection implements BasicConnection
         catch(SftpException ex)
         {
             ex.printStackTrace();
-            Log.debug(ex.toString() +
+            Log.debug(ex +
                       " @Sftp2Connection::getDownloadInputStream");
 
             return null;

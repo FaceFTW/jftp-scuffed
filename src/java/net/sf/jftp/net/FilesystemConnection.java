@@ -99,7 +99,7 @@ public class FilesystemConnection implements BasicConnection
         }
         catch(IOException ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
         }
 
@@ -155,7 +155,7 @@ public class FilesystemConnection implements BasicConnection
         }
         catch(IOException ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
         }
     }
@@ -499,7 +499,6 @@ public class FilesystemConnection implements BasicConnection
         {
             transferDir(file, getLocalPath() + out);
 
-            return;
         }
         else
         {
@@ -564,7 +563,7 @@ public class FilesystemConnection implements BasicConnection
         }
         catch(Exception ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
 
             return -1;
@@ -625,7 +624,7 @@ public class FilesystemConnection implements BasicConnection
         catch(Exception ex)
         {
             ex.printStackTrace();
-            Log.debug(ex.toString() +
+            Log.debug(ex +
                       " @Filesystemconnection::getDownloadInputStream");
 
             return null;
@@ -649,13 +648,12 @@ public class FilesystemConnection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
             for(int i = 0; i < listeners.size(); i++)
             {
-                ((ConnectionListener) listeners.elementAt(i)).updateRemoteDirectory(this);
+                listeners.elementAt(i).updateRemoteDirectory(this);
             }
         }
     }
@@ -669,13 +667,12 @@ public class FilesystemConnection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
             for(int i = 0; i < listeners.size(); i++)
             {
-                ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+                ConnectionListener listener = listeners.elementAt(i);
 
                 if(shortProgress && Settings.shortProgress)
                 {

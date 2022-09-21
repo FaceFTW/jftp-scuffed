@@ -21,7 +21,7 @@ import net.sf.jftp.config.Settings;
 public class Log
 {
     private static Logger logger = new SystemLogger();
-    private static Log log = new Log();
+    private static final Log log = new Log();
     private static StringBuffer cache = new StringBuffer();
 
     private Log()

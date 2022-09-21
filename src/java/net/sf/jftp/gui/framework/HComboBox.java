@@ -22,7 +22,7 @@ import javax.swing.*;
 
 public class HComboBox extends JPanel //implements ActionListener
 {
-    private JLabel label;
+    private final JLabel label;
     public JComboBox comboBox;
 
     public HComboBox(String l)

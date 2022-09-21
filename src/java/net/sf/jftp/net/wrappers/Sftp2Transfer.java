@@ -6,18 +6,18 @@ import net.sf.jftp.net.Transfer;
 
 public class Sftp2Transfer implements Runnable
 {
-    private String host;
-    private String localPath;
-    private String remotePath;
-    private String file;
-    private String user;
-    private String pass;
+    private final String host;
+    private final String localPath;
+    private final String remotePath;
+    private final String file;
+    private final String user;
+    private final String pass;
     private Sftp2Connection con = null;
-    private String type;
+    private final String type;
     public Thread runner;
-    private Vector listeners;
-    private String keyfile;
-    private String port;
+    private final Vector listeners;
+    private final String keyfile;
+    private final String port;
     
     public Sftp2Transfer(String localPath, String remotePath,
                         String file, String user, String pass,

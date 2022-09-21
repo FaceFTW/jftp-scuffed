@@ -26,189 +26,189 @@ public interface FtpConstants
     //public static final String LIST = "LIST -laL";
 
     /** Possible upload() / download() return code */
-    public static final int TRANSFER_FAILED = -1;
+    int TRANSFER_FAILED = -1;
 
     /** Possible upload() / download() return code */
-    public static final int TRANSFER_STOPPED = -2;
+    int TRANSFER_STOPPED = -2;
 
     /** Possible upload() / download() / remove() return code */
-    public static final int MKDIR_FAILED = -3;
+    int MKDIR_FAILED = -3;
 
     /** Possible upload() / download() return code */
-    public static final int PERMISSION_DENIED = -4;
+    int PERMISSION_DENIED = -4;
 
     /** Possible upload() / download() / exists() return code */
-    public static final int CHDIR_FAILED = -5;
+    int CHDIR_FAILED = -5;
 
     /** Possible login() return code */
-    public final static int WRONG_LOGIN_DATA = -6;
+    int WRONG_LOGIN_DATA = -6;
 
     /** Possible login() return code */
-    public final static int OFFLINE = -7;
+    int OFFLINE = -7;
 
     /** Possible login() / remove() return code */
-    public final static int GENERIC_FAILED = -8;
+    int GENERIC_FAILED = -8;
 
     /** Possible remove() return code */
-    public final static int REMOVE_FAILED = -9;
+    int REMOVE_FAILED = -9;
 
     /** Possible upload() return code */
-    public final static int RENAME_FAILED = -10;
+    int RENAME_FAILED = -10;
 
     /** Possible exists() return code */
-    public final static int FILE_NOT_FOUND = -11;
+    int FILE_NOT_FOUND = -11;
 
     /** Possible up/download() return code */
-    public final static int DATACONNECTION_FAILED = -12;
+    int DATACONNECTION_FAILED = -12;
 
     /** Possible upload() / download() return code */
-    public static final int NEW_TRANSFER_SPAWNED = 0;
+    int NEW_TRANSFER_SPAWNED = 0;
 
     /** Possible upload() / download() return code */
-    public static final int TRANSFER_SUCCESSFUL = 1;
+    int TRANSFER_SUCCESSFUL = 1;
 
     /** Possible login() return code */
-    public final static int LOGIN_OK = 2;
+    int LOGIN_OK = 2;
 
     /** Possible remove() return code */
-    public final static int REMOVE_SUCCESSFUL = 3;
+    int REMOVE_SUCCESSFUL = 3;
 
     /** Possible getPermissions() / exists() return code */
-    public static final int R = 23;
+    int R = 23;
 
     /** Possible getPermissions() / exists() return code */
-    public static final int W = 42;
+    int W = 42;
 
     /** Possible getPermissions() / exists() return code */
-    public static final int DENIED = -666;
+    int DENIED = -666;
 
     // Access Control Commands
 
     /** User Name */
-    public final static String USER = "USER";
+    String USER = "USER";
 
     /** Password */
-    public final static String PASS = "PASS";
+    String PASS = "PASS";
 
     /** Account */
-    public final static String ACCT = "ACCT";
+    String ACCT = "ACCT";
 
     /** Change Working Directory */
-    public final static String CWD = "CWD";
+    String CWD = "CWD";
 
     /** Change to Parent Directory */
-    public final static String CDUP = "CDUP";
+    String CDUP = "CDUP";
 
     /** Structure Mount */
-    public final static String SMNT = "SMNT";
+    String SMNT = "SMNT";
 
     /** Reinitialize */
-    public final static String REIN = "REIN";
+    String REIN = "REIN";
 
     /** Logout */
-    public final static String QUIT = "QUIT";
+    String QUIT = "QUIT";
 
     // Transfer Parameter Commands
 
     /** Data Port */
-    public final static String PORT = "PORT";
+    String PORT = "PORT";
 
     /** Passive */
-    public final static String PASV = "PASV";
+    String PASV = "PASV";
 
     /** Representation Type (ASCII, EBCDIC, Image, Non-print, Telnet format effectors, Carriage Control, Local byte Byte size) */
-    public final static String TYPE = "TYPE";
+    String TYPE = "TYPE";
 
     /** File Structure (File, Record Structure, Page Structure) */
-    public final static String STRU = "STRU";
+    String STRU = "STRU";
 
     /** Transfer Mode (Stream, Block, Compressed) */
-    public final static String MODE = "MODE";
+    String MODE = "MODE";
 
     // FTP Service Commands
 
     /** Retrieve */
-    public final static String RETR = "RETR";
+    String RETR = "RETR";
 
     /** Store */
-    public final static String STOR = "STOR";
+    String STOR = "STOR";
 
     /** Store Unique */
-    public final static String STOU = "STOU";
+    String STOU = "STOU";
 
     /** Append (with create) */
-    public final static String APPE = "APPE";
+    String APPE = "APPE";
 
     /** Allocate */
-    public final static String ALLO = "ALLO";
+    String ALLO = "ALLO";
 
     /** Restart */
-    public final static String REST = "REST";
+    String REST = "REST";
 
     /** Rename From */
-    public final static String RNFR = "RNFR";
+    String RNFR = "RNFR";
 
     /** Rename To */
-    public final static String RNTO = "RNTO";
+    String RNTO = "RNTO";
 
     /** Abort */
-    public final static String ABOR = "ABOR";
+    String ABOR = "ABOR";
 
     /** Delete */
-    public final static String DELE = "DELE";
+    String DELE = "DELE";
 
     /** Remove Directory */
-    public final static String RMD = "RMD";
+    String RMD = "RMD";
 
     /** Make Directory */
-    public final static String MKD = "MKD";
+    String MKD = "MKD";
 
     /** Print Working Directory */
-    public final static String PWD = "PWD";
+    String PWD = "PWD";
 
     /** Name List */
-    public final static String NLST = "NLST";
+    String NLST = "NLST";
 
     /** Site Parameters */
-    public final static String SITE = "SITE";
+    String SITE = "SITE";
 
     /** System */
-    public final static String SYST = "SYST";
+    String SYST = "SYST";
 
     /** Status */
-    public final static String STAT = "STAT";
+    String STAT = "STAT";
 
     /** Help */
-    public final static String HELP = "HELP";
+    String HELP = "HELP";
 
     /** NOOP */
-    public final static String NOOP = "NOOP";
+    String NOOP = "NOOP";
 
     // The following commands were introduced in rfc 2228 FTP Security Extensions
 
     /** Authentication/Security Mechanism */
-    public final static String AUTH = "AUTH";
+    String AUTH = "AUTH";
 
     /** Authentication/Security Data */
-    public final static String ADAT = "ADAT";
+    String ADAT = "ADAT";
 
     /** Data Channel Protection Level */
-    public final static String PROT = "PROT";
+    String PROT = "PROT";
 
     /** Protection Buffer Size */
-    public final static String PBSZ = "PBSZ";
+    String PBSZ = "PBSZ";
 
     /** Clear Command Channel */
-    public final static String CCC = "CCC";
+    String CCC = "CCC";
 
     /** Integrity Protected Command */
-    public final static String MIC = "MIC";
+    String MIC = "MIC";
 
     /** Confidentiality Protected Command */
-    public final static String CONF = "CONF";
+    String CONF = "CONF";
 
     /** Privacy Protected Command */
-    public final static String ENC = "ENC";
+    String ENC = "ENC";
 
     // end of commands from rfc 2228
     // ftp reply codes
@@ -221,127 +221,127 @@ public interface FtpConstants
     // 1yz Positive Preliminary reply
 
     /** Restart marker reply */
-    public final static String RC110 = "110";
+    String RC110 = "110";
 
     /** Service ready in nnn minutes */
-    public final static String RC120 = "120";
+    String RC120 = "120";
 
     /** Data connection already open */
-    public final static String RC125 = "125";
+    String RC125 = "125";
 
     /** File status okay; about to open data connection */
-    public final static String RC150 = "150";
+    String RC150 = "150";
 
     // 2yz Positive Completion reply
 
     /** Command okay */
-    public final static String FTP200_OK = "2";
+    String FTP200_OK = "2";
 
     /** Command not implemented, superfluous at this site */
-    public final static String RC202 = "202";
+    String RC202 = "202";
 
     /** System status, or system help reply */
-    public final static String RC211 = "211";
+    String RC211 = "211";
 
     /** Directory status */
-    public final static String RC212 = "212";
+    String RC212 = "212";
 
     /** File status */
-    public final static String RC213 = "213";
+    String RC213 = "213";
 
     /** Help message */
-    public final static String RC214 = "214";
+    String RC214 = "214";
 
     /** System type */
-    public final static String FTP215_SYSTEM_TYPE = "215";
+    String FTP215_SYSTEM_TYPE = "215";
 
     /** Service ready for new user */
-    public final static String FTP220_SERVICE_READY = "220";
+    String FTP220_SERVICE_READY = "220";
 
     /** Service closing control connection */
-    public final static String FTP221_SERVICE_CLOSING = "221";
+    String FTP221_SERVICE_CLOSING = "221";
 
     /** Data connection open; no transfer in progress */
-    public final static String RC225 = "225";
+    String RC225 = "225";
 
     /** Closing data connection; requested file action successful */
-    public final static String FTP226_CLOSING_DATA_REQUEST_SUCCESSFUL = "226";
+    String FTP226_CLOSING_DATA_REQUEST_SUCCESSFUL = "226";
 
     /** Entering Passive Mode */
-    public final static String FTP227_ENTERING_PASSIVE_MODE = "227";
+    String FTP227_ENTERING_PASSIVE_MODE = "227";
 
     /** User logged in, proceed */
-    public final static String FTP230_LOGGED_IN = "2"; // 230
+    String FTP230_LOGGED_IN = "2"; // 230
 
     /** Requested file action okay, completed */
-    public final static String FTP250_COMPLETED = "250";
+    String FTP250_COMPLETED = "250";
 
     /** "PATHNAME" created */
-    public final static String FTP257_PATH_CREATED = "257";
+    String FTP257_PATH_CREATED = "257";
 
     // 3yz Positive Intermediate reply
 
     /** User name okay, need password */
-    public final static String FTP331_USER_OK_NEED_PASSWORD = "331";
+    String FTP331_USER_OK_NEED_PASSWORD = "331";
 
     /** Need account for login */
-    public final static String RC332 = "332";
+    String RC332 = "332";
 
     /** Requested file action pending further information */
-    public final static String RC350 = "350";
+    String RC350 = "350";
 
     // 4yz Transient Negative Completion reply
 
     /** Service not available */
-    public final static String RC421 = "421";
+    String RC421 = "421";
 
     /** Can't open data connection */
-    public final static String RC425 = "425";
+    String RC425 = "425";
 
     /** Connection closed; transfer aborted */
-    public final static String RC426 = "426";
+    String RC426 = "426";
 
     /** Requested file action not taken, file unavailable (file busy) */
-    public final static String RC450 = "450";
+    String RC450 = "450";
 
     /** Requested action aborted: local error in processing */
-    public final static String RC451 = "451";
+    String RC451 = "451";
 
     /** Requested action not taken, insufficient storage space in system */
-    public final static String RC452 = "452";
+    String RC452 = "452";
 
     // 5yz Permanent Negative Completion reply
 
     /** Syntax error, command unrecognized */
-    public final static String RC500 = "500";
+    String RC500 = "500";
 
     /** Syntax error in parameters or arguments */
-    public final static String RC501 = "501";
+    String RC501 = "501";
 
     /** Command not implemented */
-    public final static String RC502 = "502";
+    String RC502 = "502";
 
     /** Bad sequence of commands */
-    public final static String RC503 = "503";
+    String RC503 = "503";
 
     /** Command not implemented for that parameter */
-    public final static String RC504 = "504";
+    String RC504 = "504";
 
     /** Not logged in */
-    public final static String RC530 = "530";
+    String RC530 = "530";
 
     /** Need account for storing files */
-    public final static String RC532 = "532";
+    String RC532 = "532";
 
     /** Requested action not taken, file unavailable (file not found, no access) */
-    public final static String RC550 = "550";
+    String RC550 = "550";
 
     /** Requested action aborted: page type unknown */
-    public final static String RC551 = "551";
+    String RC551 = "551";
 
     /** Requested file action aborted, exceeded storage allocation */
-    public final static String RC552 = "552";
+    String RC552 = "552";
 
     /** Requested action not taken, file name not allowed */
-    public final static String RC553 = "553";
+    String RC553 = "553";
 }

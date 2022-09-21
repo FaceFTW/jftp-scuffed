@@ -37,8 +37,8 @@ public class AddBookmarks extends HFrame implements ActionListener,
                                                     WindowListener
 {
     private static JFtp jftp;
-    private HButton add = new HButton("Add Bookmark");
-    private HButton addAndConnect = new HButton("Add Bookmark and Connect to Server");
+    private final HButton add = new HButton("Add Bookmark");
+    private final HButton addAndConnect = new HButton("Add Bookmark and Connect to Server");
 
     //public JComboBox protocols = new JComboBox();
     public HComboBox protocols = new HComboBox("Protocol:");
@@ -57,13 +57,13 @@ public class AddBookmarks extends HFrame implements ActionListener,
     public AddBookmarks(ComponentListener l, JFtp jftp)
     {
         //listener = l;
-        this.jftp = jftp;
+        AddBookmarks.jftp = jftp;
         init();
     }
 
     public AddBookmarks(JFtp jftp)
     {
-        this.jftp = jftp;
+        AddBookmarks.jftp = jftp;
         init();
     }
 
@@ -169,7 +169,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
         //FOR NOW: only other possible event is update of the protocol ComboBox
         else
         {
-            String s = new String("");
+            String s = "";
 
             //s = (String) protocols.getSelectedItem()
             s = protocols.getSelectedItem().toString();
@@ -219,7 +219,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
     //actionPerformed
     private void getData(boolean andConnect)
     {
-        String protocoltmp = new String("");
+        String protocoltmp = "";
 
         //here, get the selected protocol
         //s = (String) protocols.getSelectedItem()
@@ -266,14 +266,14 @@ public class AddBookmarks extends HFrame implements ActionListener,
         String dirOrDomtmp = checkIfEmpty(StringUtils.cut(dirOrDom.getText(),
                                                           " "));
 
-        String local = new String("");
+        String local = "";
 
         Integer potmpInt = new Integer(potmp);
         int potmpint = potmpInt.intValue();
 
         local = isLocal.getSelectedItem().toString();
 
-        String localString = new String("");
+        String localString = "";
 
         boolean localtmp = false;
 
@@ -291,7 +291,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
         //first, build the string which is to be appended to end
         //of bookmark file
         // protocol#host#user#password#port#dir/domain#local
-        String addedString = new String("");
+        String addedString = "";
 
         addedString += (protocoltmp + "#");
         addedString += (htmp + "#");
@@ -314,10 +314,10 @@ public class AddBookmarks extends HFrame implements ActionListener,
 
             //commented out, just for now
             out.println(addedString);
-            out.println("");
+            out.println();
 
             //if it worked, update the menu
-            jftp.menuBar.loadBookmarks();
+            JFtp.menuBar.loadBookmarks();
         }
         catch(Exception e)
         {
@@ -350,7 +350,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
     //getData
     private String checkIfEmpty(String value)
     {
-        String retVal = new String("0");
+        String retVal = "0";
 
         if(value.equals(""))
         {

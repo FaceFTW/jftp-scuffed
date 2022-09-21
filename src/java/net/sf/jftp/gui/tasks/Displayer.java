@@ -32,7 +32,7 @@ public class Displayer extends JInternalFrame implements ActionListener
 {
     public static boolean showCloseButton = false;
     
-    private JTextArea info = new JTextArea(25, 50) {
+    private final JTextArea info = new JTextArea(25, 50) {
     	public Insets getInsets() {
     		Insets std = super.getInsets();
     		
@@ -41,7 +41,7 @@ public class Displayer extends JInternalFrame implements ActionListener
     	}
     };
     
-    private JButton close = new JButton("Close");
+    private final JButton close = new JButton("Close");
 
     public Displayer(java.net.URL file, Font font)
     {

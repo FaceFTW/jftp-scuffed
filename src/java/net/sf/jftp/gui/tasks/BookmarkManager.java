@@ -31,9 +31,9 @@ import javax.swing.*;
 
 public class BookmarkManager extends JInternalFrame implements ActionListener
 {
-    private JTextArea info = new JTextArea(25, 50);
-    private JButton save = new JButton("Save and close");
-    private JButton close = new JButton("Close");
+    private final JTextArea info = new JTextArea(25, 50);
+    private final JButton save = new JButton("Save and close");
+    private final JButton close = new JButton("Close");
 
     public BookmarkManager()
     {

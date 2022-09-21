@@ -50,7 +50,7 @@ public class SmbHostChooser extends HFrame implements ActionListener,
     public HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
 
     public JComboBox ip = new JComboBox();
-    private HButton ok = new HButton("Connect");
+    private final HButton ok = new HButton("Connect");
     private ComponentListener listener = null;
     private boolean useLocal = false;
 
@@ -178,7 +178,6 @@ public class SmbHostChooser extends HFrame implements ActionListener,
 
                 while(f.hasMoreElements())
                 {
-                    ;
                     ip.addItem(((InetAddress) f.nextElement()).getHostAddress());
                 }
             }

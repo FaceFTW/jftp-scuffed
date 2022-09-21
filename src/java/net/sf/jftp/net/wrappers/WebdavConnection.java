@@ -51,8 +51,8 @@ public class WebdavConnection implements BasicConnection
     private String baseFile;
     private int fileCount;
     private boolean shortProgress = false;
-    private String user;
-    private String pass;
+    private final String user;
+    private final String pass;
 
     public WebdavConnection(String path, String user, String pass,
                             ConnectionListener l)
@@ -171,7 +171,7 @@ public class WebdavConnection implements BasicConnection
         }
         catch(Exception ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
         }
     }
@@ -266,7 +266,7 @@ public class WebdavConnection implements BasicConnection
         }
         catch(Exception ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
 
             return false;
@@ -357,7 +357,7 @@ public class WebdavConnection implements BasicConnection
         }
         catch(Exception ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
 
             return null;
@@ -413,7 +413,7 @@ public class WebdavConnection implements BasicConnection
         }
         catch(Exception ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
 
             return false;
@@ -498,7 +498,7 @@ public class WebdavConnection implements BasicConnection
         }
         catch(Exception ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
 
             return new String[0];
@@ -598,7 +598,7 @@ public class WebdavConnection implements BasicConnection
         }
         catch(Exception ex)
         {
-            Log.debug("Error: " + ex.toString());
+            Log.debug("Error: " + ex);
             ex.printStackTrace();
         }
     }
@@ -624,7 +624,7 @@ public class WebdavConnection implements BasicConnection
     }
 
     private WebdavResource getResource(String res)
-                                throws HttpException, IOException
+                                throws IOException
     {
         return new WebdavResource(getURL(res));
     }
@@ -659,7 +659,6 @@ public class WebdavConnection implements BasicConnection
 
             transferDir(file, getLocalPath() + out);
 
-            return;
         }
         else
         {
@@ -850,7 +849,7 @@ public class WebdavConnection implements BasicConnection
         catch(Exception ex)
         {
             ex.printStackTrace();
-            Log.debug(ex.toString() +
+            Log.debug(ex +
                       " @WebdavConnection::getDownloadInputStream");
 
             return null;
@@ -872,7 +871,6 @@ public class WebdavConnection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -892,7 +890,6 @@ public class WebdavConnection implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {

@@ -11,8 +11,8 @@ import net.sf.jftp.gui.base.dir.DirEntry;
 
 public class ProgressbarItem extends JPanel {
 
-	private DirEntry d;
-	private JProgressBar bar = new JProgressBar();
+	private final DirEntry d;
+	private final JProgressBar bar = new JProgressBar();
 	
 	public ProgressbarItem(DirEntry d) {
 		this.d = d;

@@ -26,7 +26,7 @@ import java.util.Properties;
 
 public class Settings
 {
-    private static Properties p = new Properties();
+    private static final Properties p = new Properties();
     public static final String propertyFilename = System.getProperty("user.home") +
                                                   File.separator +
                                                   ".jftp/jftp.properties".replace('/',
@@ -56,13 +56,13 @@ public class Settings
     public static int smallSize = 0; //100000;
     public static int smallSizeUp = 0; //50000;
     public static boolean shortProgress = true;
-    private static String defaultFtpPasvMode = "true";
-    private static String defaultEnableDebug = "false";
-    private static String enableMultiThreading = "true";
-    private static String enableSmbMultiThreading = "true";
-    private static String enableSftpMultiThreading = "true";
-    private static String noUploadMultiThreading = "false";
-    private static String storePasswords = "false";
+    private static final String defaultFtpPasvMode = "true";
+    private static final String defaultEnableDebug = "false";
+    private static final String enableMultiThreading = "true";
+    private static final String enableSmbMultiThreading = "true";
+    private static final String enableSftpMultiThreading = "true";
+    private static final String noUploadMultiThreading = "false";
+    private static final String storePasswords = "false";
     
     public static boolean useFixedTableWidths = true;
     public static boolean enableWebDav = false;
@@ -266,14 +266,7 @@ public class Settings
     public static boolean getHideLocalDotNames() {
         String what = p.getProperty("jftp.hideHiddenDotNames", "false");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
     
     public static int getMaxConnections()
@@ -299,98 +292,49 @@ public class Settings
     {
         String what = p.getProperty("jftp.useBackground", "true");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableSshKeys()
     {
         String what = p.getProperty("jftp.useSshKeyVerification", "false");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableResuming()
     {
         String what = p.getProperty("jftp.enableResuming", "true");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableDebug()
     {
         String what = p.getProperty("jftp.enableDebug", defaultEnableDebug);
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getDisableLog()
     {
         String what = p.getProperty("jftp.disableLog", "false");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableStatusAnimation()
     {
         String what = p.getProperty("jftp.gui.enableStatusAnimation", "false");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getAskToDelete()
     {
         String what = p.getProperty("jftp.gui.askToDelete", "true");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static String getLookAndFeel()
@@ -401,15 +345,8 @@ public class Settings
     public static boolean getUseNewIcons()
     {
         String what = p.getProperty("jftp.gui.look.newIcons", "true");
-        
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableMultiThreading()
@@ -417,14 +354,7 @@ public class Settings
         String what = p.getProperty("jftp.enableMultiThreading",
                                     enableMultiThreading);
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableSmbMultiThreading()
@@ -432,14 +362,7 @@ public class Settings
         String what = p.getProperty("jftp.enableSmbMultiThreading",
                                     enableSmbMultiThreading);
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableSftpMultiThreading()
@@ -447,14 +370,7 @@ public class Settings
         String what = p.getProperty("jftp.enableSftpMultiThreading",
                                     enableSftpMultiThreading);
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getNoUploadMultiThreading()
@@ -462,56 +378,28 @@ public class Settings
         String what = p.getProperty("jftp.noUploadMultiThreading",
                                     noUploadMultiThreading);
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getFtpPasvMode()
     {
         String what = p.getProperty("jftp.ftpPasvMode", defaultFtpPasvMode);
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getUseDefaultDir()
     {
         String what = p.getProperty("jftp.useDefaultDir", "true");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static boolean getEnableRSS()
     {
         String what = p.getProperty("jftp.enableRSS", "false");
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
 
     public static String getRSSFeed()
@@ -569,14 +457,7 @@ public class Settings
         String what = p.getProperty("jftp.security.storePasswords",
                                     storePasswords);
 
-        if(what.trim().equals("false"))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return !what.trim().equals("false");
     }
     
     static

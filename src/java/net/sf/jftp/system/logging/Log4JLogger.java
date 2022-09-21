@@ -24,7 +24,7 @@ import java.io.StringWriter;
 
 public class Log4JLogger implements Logger
 {
-    private Category cat = Category.getInstance("jftp");
+    private final Category cat = Category.getInstance("jftp");
 
     public Log4JLogger()
     {

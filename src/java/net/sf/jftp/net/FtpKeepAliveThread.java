@@ -4,8 +4,8 @@ import net.sf.jftp.config.Settings;
 
 public class FtpKeepAliveThread implements Runnable {
 
-	private Thread runner;
-	private FtpConnection conn;
+	private final Thread runner;
+	private final FtpConnection conn;
 	
 	public FtpKeepAliveThread(FtpConnection conn) {
 		this.conn = conn;

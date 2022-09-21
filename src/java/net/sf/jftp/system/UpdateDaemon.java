@@ -27,7 +27,7 @@ public class UpdateDaemon implements Runnable {
     private static int reg;
     private static int cal;
     private Thread runner = null;
-    private JFtp jftp;
+    private final JFtp jftp;
 
     public UpdateDaemon(JFtp jftp) {
         this.jftp = jftp;
@@ -65,7 +65,7 @@ public class UpdateDaemon implements Runnable {
             try {
                 //System.out.print(":");
                 if (rem > 0) {
-                    ((RemoteDir) jftp.remoteDir).fresh();
+                    JFtp.remoteDir.fresh();
 
                     //System.out.print("R");
                     rem = 0;
@@ -73,7 +73,7 @@ public class UpdateDaemon implements Runnable {
                 }
 
                 if (reg > 0) {
-                    ((RemoteDir) jftp.remoteDir).gui(true);
+                    ((RemoteDir) JFtp.remoteDir).gui(true);
 
                     //System.out.print("r");
                     reg = 0;
@@ -81,7 +81,7 @@ public class UpdateDaemon implements Runnable {
                 }
 
                 if (loc > 0) {
-                    ((LocalDir) jftp.localDir).fresh();
+                    JFtp.localDir.fresh();
 
                     //System.out.print("L");
                     loc = 0;

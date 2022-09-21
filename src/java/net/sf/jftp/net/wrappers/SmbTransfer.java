@@ -7,16 +7,16 @@ import net.sf.jftp.net.Transfer;
 
 public class SmbTransfer implements Runnable
 {
-    private String url;
-    private String domain;
-    private String localPath;
-    private String file;
-    private String user;
-    private String pass;
+    private final String url;
+    private final String domain;
+    private final String localPath;
+    private final String file;
+    private final String user;
+    private final String pass;
     private SmbConnection con = null;
-    private String type;
+    private final String type;
     public Thread runner;
-    private Vector listeners;
+    private final Vector listeners;
 
     public SmbTransfer(String url, String localPath, String file, String user,
                        String pass, String domain, Vector listeners, String type)

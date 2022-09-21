@@ -30,8 +30,8 @@ import java.util.*;
 
 public class HttpDownloader extends HPanel implements ActionListener
 {
-    private HTextField text;
-    private HButton ok = new HButton("Start");
+    private final HTextField text;
+    private final HButton ok = new HButton("Start");
 
     public HttpDownloader()
     {

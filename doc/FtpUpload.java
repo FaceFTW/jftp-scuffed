@@ -17,7 +17,7 @@ public class FtpUpload implements Logger, ConnectionListener
 
  private boolean isThere = false;
 
- private ConnectionHandler handler = new ConnectionHandler();
+ private final ConnectionHandler handler = new ConnectionHandler();
 
  public FtpUpload(String host, String dir, String file)
  {
@@ -42,7 +42,7 @@ public class FtpUpload implements Logger, ConnectionListener
 	con.upload(file);
  }
 
- public static void main(String argv[])
+ public static void main(String[] argv)
  {
     if(argv.length == 3)
     { 

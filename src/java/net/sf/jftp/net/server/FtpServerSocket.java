@@ -70,16 +70,16 @@ public class FtpServerSocket extends Thread
     private Socket socket = null;
     private BufferedReader in = null;
     private PrintWriter out = null;
-    private Hashtable methods = new Hashtable();
+    private final Hashtable methods = new Hashtable();
     private File directory = new File(".");
-    private ResourceBundle bundle = ResourceBundle.getBundle("responses",
+    private final ResourceBundle bundle = ResourceBundle.getBundle("responses",
                                                              Locale.US);
     private ServerSocket pasvSocket = null;
     private boolean passive = false;
     private int activePort = 0;
-    private String structure = "file";
-    private String transferMode = "stream";
-    private String type = "ascii";
+    private final String structure = "file";
+    private final String transferMode = "stream";
+    private final String type = "ascii";
     private String rootDir = null;
     private String currentDir = null;
 
@@ -367,7 +367,7 @@ public class FtpServerSocket extends Thread
         int pasvPort = pasvSocket.getLocalPort();
         Object[] args = 
                         {
-                            pasvAddress + "," + ((int) pasvPort / 256) + "," +
+                            pasvAddress + "," + (pasvPort / 256) + "," +
                             (pasvPort % 256)
                         };
         send("227pasv", args);
@@ -504,7 +504,7 @@ public class FtpServerSocket extends Thread
                 {
                     try
                     {
-                        o.invoke(this, new Object[] { line });
+                        o.invoke(this, line);
                     }
                     catch(Exception e)
                     {

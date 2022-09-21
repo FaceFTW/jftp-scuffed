@@ -68,8 +68,8 @@ public class SftpHostChooser extends HFrame implements ActionListener,
     public JLabel csL = new JLabel("Preferred Message Authentication");
     public JLabel keysL = new JLabel("Preferred Public Key");
     public JLabel keyfileL = new JLabel("None, maybe look in ~/.ssh");
-    private HButton ok = new HButton("Connect");
-    private HButton keyfile = new HButton("Choose Key File");
+    private final HButton ok = new HButton("Connect");
+    private final HButton keyfile = new HButton("Choose Key File");
     private ComponentListener listener = null;
     private boolean useLocal = false;
     private String keyfileName = null;
@@ -276,7 +276,7 @@ public class SftpHostChooser extends HFrame implements ActionListener,
         		boolean status;
 
         		SaveSet s = new SaveSet(Settings.login_def_sftp, htmp,
-        				utmp, ptmp, new String("" + potmp), "null", "null");
+        				utmp, ptmp, "" + potmp, "null", "null");
 
     			Sftp2Connection con2 = new Sftp2Connection(htmp, ""+potmp, keyfileName);
 
@@ -293,8 +293,7 @@ public class SftpHostChooser extends HFrame implements ActionListener,
 
     				if(con2.chdir(con2.getPWD()) || con2.chdir("/"))
     				{
-    					;
-    				}
+                    }
     			}
         	}
         	catch(Exception ex)

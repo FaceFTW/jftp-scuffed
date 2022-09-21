@@ -39,9 +39,9 @@ alternative connection class, used for raw tcp/ip connection
 */
 public class JRawConnection implements Runnable
 {
-    private int timeout = Settings.connectionTimeout;
-    private String host;
-    private int port;
+    private final int timeout = Settings.connectionTimeout;
+    private final String host;
+    private final int port;
     private PrintStream out;
     private DataInputStream in;
     private Socket s;
@@ -49,7 +49,7 @@ public class JRawConnection implements Runnable
     private boolean isOk = false;
     private boolean established = false;
     private boolean reciever = false;
-    private Thread runner;
+    private final Thread runner;
 
     public JRawConnection(String host, int port)
     {

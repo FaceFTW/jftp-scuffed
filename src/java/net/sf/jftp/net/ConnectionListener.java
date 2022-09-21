@@ -26,16 +26,16 @@ public interface ConnectionListener
     /**
     * Called if the remote directory has changed by a chdir() or a finished upload for example.
     */
-    public void updateRemoteDirectory(BasicConnection con);
+    void updateRemoteDirectory(BasicConnection con);
 
     /**
     * Called every n bytes, where n is defined by Settings
     */
-    public void updateProgress(String file, String type, long bytes);
+    void updateProgress(String file, String type, long bytes);
 
-    public void connectionInitialized(BasicConnection con);
+    void connectionInitialized(BasicConnection con);
 
-    public void connectionFailed(BasicConnection con, String why);
+    void connectionFailed(BasicConnection con, String why);
 
-    public void actionFinished(BasicConnection con);
+    void actionFinished(BasicConnection con);
 }

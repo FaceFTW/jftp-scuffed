@@ -7,7 +7,7 @@ import javax.swing.*;
 public class Grapher extends Canvas
 {
 
-public String files[] = new String[] {"JFtp.java", "LoadSet.java","EventCollector.java", "EventProcessor.java", "FtpEvent.java","DirCellRenderer.java","DirPanel.java",
+public String[] files = new String[] {"JFtp.java", "LoadSet.java","EventCollector.java", "EventProcessor.java", "FtpEvent.java","DirCellRenderer.java","DirPanel.java",
 "Displayer.java","HostChooser.java","HostList.java","Properties.java","Updater.java","GUIDefaults.java","HPasswordField.java",
 "DataConnection.java","FtpClient.java","FtpConnection.java","FtpConstants.java","FtpServerSocket.java","FtpURLConnection.java",
 "FtpURLStreamHandler.java","JConnection.java","LocalIO.java","Log.java","Log4JLogger.java","Logger.java","SystemLogger.java",
@@ -42,7 +42,7 @@ public Grapher()
 			for(int j=0; j<files.length; j++)
 			{
 				int x = countRelations(f, files[j]);
-				if(x > 0) table.put(files[i] + ":" +files[j].substring(0, files[j].indexOf(".java")),  new String(""+x));
+				if(x > 0) table.put(files[i] + ":" +files[j].substring(0, files[j].indexOf(".java")), "" + x);
 			}
 		}
 	}
@@ -203,7 +203,7 @@ public File getFile(String name)
 	return null;
 }
 
-public static void main(String argv[])
+public static void main(String[] argv)
 {
 	Grapher g = new Grapher();
 	JFrame j = new JFrame();

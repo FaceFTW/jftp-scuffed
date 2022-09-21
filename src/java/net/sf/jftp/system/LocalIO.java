@@ -34,9 +34,9 @@ public class LocalIO
             {
                 if(array[j].compareTo(array[j + 1]) > 0)
                 {
-                    String T = new String(array[j]);
-                    array[j] = new String(array[j + 1]);
-                    array[j + 1] = new String(T);
+                    String T = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = T;
                     swapped = true;
                 }
             }

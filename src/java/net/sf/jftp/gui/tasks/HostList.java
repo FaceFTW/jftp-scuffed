@@ -33,17 +33,17 @@ import javax.swing.event.ListSelectionListener;
 
 public class HostList extends JDialog
 {
-    private String promptHost = " Host : ";
-    private String promptUser = " User : ";
-    private String promptPass = " Password : ";
-    private String promptName = " Name : ";
-    private String promptPort = " Port : ";
-    private String promptButtonCancel = "Cancel";
-    private String promptButtonOk = "  Ok  ";
-    private String promptButtonSave = " Apply ";
-    private String promptButtonNew = " New  ";
-    private String promptButtonDelete = "Delete";
-    private String promptDialogTitle = " J-FTP Host Selection ";
+    private final String promptHost = " Host : ";
+    private final String promptUser = " User : ";
+    private final String promptPass = " Password : ";
+    private final String promptName = " Name : ";
+    private final String promptPort = " Port : ";
+    private final String promptButtonCancel = "Cancel";
+    private final String promptButtonOk = "  Ok  ";
+    private final String promptButtonSave = " Apply ";
+    private final String promptButtonNew = " New  ";
+    private final String promptButtonDelete = "Delete";
+    private final String promptDialogTitle = " J-FTP Host Selection ";
 
     // has an ok, cancel button, and a save
     // needs to load itself too.
@@ -230,8 +230,8 @@ public class HostList extends JDialog
         gbc.gridy = 0;
         gbc.weightx = 0.0;
         gbc.weighty = 0.0;
-        gbc.anchor = gbc.NORTHWEST;
-        gbc.fill = gbc.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
         gbl.setConstraints(jlName, gbc);
 

@@ -30,9 +30,9 @@ import net.sf.jftp.system.logging.Log;
 
 public class ProxyChooser extends HPanel implements ActionListener
 {
-    private HTextField proxy;
-    private HTextField port;
-    private HButton ok = new HButton("Ok");
+    private final HTextField proxy;
+    private final HTextField port;
+    private final HButton ok = new HButton("Ok");
 
     public ProxyChooser()
     {

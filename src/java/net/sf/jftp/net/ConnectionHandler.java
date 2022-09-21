@@ -26,7 +26,7 @@ import java.util.Hashtable;
 */
 public class ConnectionHandler
 {
-    private Hashtable<String,Transfer> connections = new Hashtable<String,Transfer>();
+    private final Hashtable<String,Transfer> connections = new Hashtable<String,Transfer>();
 
     public void addConnection(String file, Transfer t)
     {
@@ -50,7 +50,7 @@ public class ConnectionHandler
 
         while(e.hasMoreElements())
         {
-            Transfer t = (Transfer) e.nextElement();
+            Transfer t = e.nextElement();
 
             if(t.hasStarted())
             {

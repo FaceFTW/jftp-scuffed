@@ -103,12 +103,12 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
     HImageButton rnButton;
 
     //static final String openString = "open";
-    private DirCanvas label = new DirCanvas(this);
+    private final DirCanvas label = new DirCanvas(this);
     private boolean pathChanged = true;
     private boolean firstGui = true;
-    private int pos = 0;
-    private JPanel p = new JPanel();
-    private JToolBar buttonPanel = new JToolBar()
+    private final int pos = 0;
+    private final JPanel p = new JPanel();
+    private final JToolBar buttonPanel = new JToolBar()
     {
         public Insets getInsets()
         {
@@ -117,7 +117,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
     };
 
     //private JPanel buttonPanel = new JPanel();
-    private JToolBar currDirPanel = new JToolBar()
+    private final JToolBar currDirPanel = new JToolBar()
     {
         public Insets getInsets()
         {
@@ -128,18 +128,18 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
     private DefaultListModel jlm;
     private JScrollPane jsp = new JScrollPane(jl);
     private int tmpindex = -1;
-    private HImageButton list = new HImageButton(Settings.listImage, "list",
+    private final HImageButton list = new HImageButton(Settings.listImage, "list",
                                                  "Show remote listing...", this);
-    private HImageButton transferType = new HImageButton(Settings.typeImage,
+    private final HImageButton transferType = new HImageButton(Settings.typeImage,
                                                          "type",
                                                          "Toggle transfer type...",
                                                          this);
-    private JPopupMenu popupMenu = new JPopupMenu();
-    private JMenuItem props = new JMenuItem("Properties");
+    private final JPopupMenu popupMenu = new JPopupMenu();
+    private final JMenuItem props = new JMenuItem("Properties");
     private DirEntry currentPopup = null;
     private String sortMode = null;
     String[] sortTypes = new String[] { "Normal", "Reverse", "Size", "Size/Re" };
-    private JComboBox sorter = new JComboBox(sortTypes);
+    private final JComboBox sorter = new JComboBox(sortTypes);
     private boolean dateEnabled = false;
 
     /**
@@ -292,7 +292,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
         jl.setCellRenderer(new DirCellRenderer());
         jl.setVisibleRowCount(Settings.visibleFileRows);
         jl.setDragEnabled(true);
-        jl.setDropTarget(JFtp.statusP.jftp.dropTarget);
+        jl.setDropTarget(JFtp.dropTarget);
 
         // add this becaus we need to fetch only doubleclicks
         MouseListener mouseListener = new MouseAdapter()
@@ -313,7 +313,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
                         return;
                     }
 
-                    String tgt = (String) jl.getSelectedValue().toString();
+                    String tgt = jl.getSelectedValue().toString();
 
                     if(index < 0)
                     {
@@ -321,7 +321,6 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
                     else if((dirEntry == null) || (dirEntry.length < index) ||
                                 (dirEntry[index] == null))
                     {
-                        return;
                     }
                     else
                     {
@@ -352,7 +351,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
                         return;
                     }
 
-                    String tgt = (String) jl.getSelectedValue().toString();
+                    String tgt = jl.getSelectedValue().toString();
 
                     if(index < 0)
                     {
@@ -361,7 +360,6 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
                     else if((dirEntry == null) || (dirEntry.length < index) ||
                                 (dirEntry[index] == null))
                     {
-                        return;
                     }
                     else if(dirEntry[index].isDirectory())
                     {
@@ -782,7 +780,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
         }
         else if(e.getSource() == props)
         {
-            JFtp.statusP.jftp.clearLog();
+            JFtp.clearLog();
 
             int x = currentPopup.getPermission();
             String tmp;
@@ -816,14 +814,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
         {
             sortMode = (String) sorter.getSelectedItem();
 
-            if(sortMode.equals("Date"))
-            {
-                Settings.showDateNoSize = true;
-            }
-            else
-            {
-                Settings.showDateNoSize = false;
-            }
+            Settings.showDateNoSize = sortMode.equals("Date");
 
             fresh();
         }
@@ -1264,8 +1255,8 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
             }
 
             Log.out("direct ftp transfer started (download)");
-            ((FtpConnection) JFtp.localDir.getCon()).upload(entry.file,
-                                                            ((FtpConnection) JFtp.remoteDir.getCon()).getDownloadInputStream(path +
+            JFtp.localDir.getCon().upload(entry.file,
+                                                            JFtp.remoteDir.getCon().getDownloadInputStream(path +
                                                                                                                              entry.file));
         }
         else if(con instanceof FtpConnection &&
@@ -1320,7 +1311,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
                 FileInputStream in = new FileInputStream(f);
                 JFtp.localDir.getCon().setLocalPath(path);
                 Log.debug(JFtp.localDir.getCon().getPWD());
-                ((FtpConnection) JFtp.localDir.getCon()).upload(entry.file, in);
+                JFtp.localDir.getCon().upload(entry.file, in);
             }
             catch(FileNotFoundException ex)
             {
@@ -1366,7 +1357,6 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
         {
             transfer();
 
-            return;
         }
         else if(dirEntry[i].selected)
         {
@@ -1550,7 +1540,7 @@ public class RemoteDir extends DirComponent implements ListSelectionListener,
                 return;
             }
 
-            String tmp = ((DirEntry) o).toString();
+            String tmp = o.toString();
 
             if(tmp.endsWith("/"))
             {

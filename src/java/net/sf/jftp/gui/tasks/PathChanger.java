@@ -27,8 +27,8 @@ import java.io.*;
 
 public class PathChanger extends HFrame implements ActionListener
 {
-    private HTextField text;
-    private HButton ok = new HButton("Change Directory");
+    private final HTextField text;
+    private final HButton ok = new HButton("Change Directory");
     private String type = "";
 
     public PathChanger(String type)

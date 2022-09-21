@@ -38,18 +38,18 @@ import javax.swing.event.*;
 
 public class HttpSpider extends HPanel implements Runnable, ActionListener
 {
-    private HTextField host = new HTextField("Full URL:",
+    private final HTextField host = new HTextField("Full URL:",
                                              "http://j-ftp.sourceforge.net/index.html",
                                              30);
-    private HTextField type = new HTextField("Types (use * for all):",
+    private final HTextField type = new HTextField("Types (use * for all):",
                                              "html-htm-css-gif-jpg-zip-gz-avi-mpg",
                                              25);
-    private HTextField depth = new HTextField("Search up to this many levels deeper:",
+    private final HTextField depth = new HTextField("Search up to this many levels deeper:",
                                               "1", 10);
-    private HTextField dir = new HTextField("Store files in:", "", 25);
-    private JPanel p1 = new JPanel();
-    private JPanel okP = new JPanel();
-    private JButton ok = new JButton("Start");
+    private final HTextField dir = new HTextField("Store files in:", "", 25);
+    private final JPanel p1 = new JPanel();
+    private final JPanel okP = new JPanel();
+    private final JButton ok = new JButton("Start");
     private int currentDepth = 0;
     private int MAX = 1;
     private String[] typeArray = { "mpg", "avi", "mpeg", "mov", "rm", "wmv" };
@@ -57,7 +57,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener
     private String[] argv;
     private Thread runner;
     private boolean stopflag = false;
-    private JButton stop = new JButton("Stop download (ASAP)");
+    private final JButton stop = new JButton("Stop download (ASAP)");
 
     public HttpSpider(String localDir)
     {

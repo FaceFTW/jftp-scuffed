@@ -18,13 +18,13 @@ import net.sf.jftp.system.logging.Log;
 
 public class HttpTransfer extends Transfer implements Runnable
 {
-    private String url;
-    private String localPath;
-    private String file;
+    private final String url;
+    private final String localPath;
+    private final String file;
     public boolean work = true;
     public boolean pause = false;
     public Thread runner;
-    private Vector listeners;
+    private final Vector listeners;
     private int stat = 1;
     private ConnectionHandler handler = new ConnectionHandler();
 
@@ -101,7 +101,7 @@ public class HttpTransfer extends Transfer implements Runnable
         catch(Exception ex)
         {
             work = false;
-            Log.debug("Download failed: " + ex.toString());
+            Log.debug("Download failed: " + ex);
 
             File f = new File(localPath + file);
             f.delete();

@@ -6,7 +6,7 @@ import net.sf.jftp.config.Settings;
 
 public class LogFlusher implements Runnable
 {
-    private Thread runner;
+    private final Thread runner;
 
     public LogFlusher()
     {
@@ -24,7 +24,7 @@ public class LogFlusher implements Runnable
         {
             try
             {
-                runner.sleep(Settings.logFlushInterval);
+                Thread.sleep(Settings.logFlushInterval);
             }
             catch(InterruptedException ex)
             {

@@ -29,8 +29,8 @@ import java.io.*;
 public class NameChooser extends HFrame implements ActionListener
 {
     public HTextField text;
-    private HButton ok = new HButton("Ok");
-    private HPanel okP = new HPanel();
+    private final HButton ok = new HButton("Ok");
+    private final HPanel okP = new HPanel();
 
     public NameChooser()
     {

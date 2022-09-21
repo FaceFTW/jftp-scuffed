@@ -767,7 +767,6 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -794,7 +793,6 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -816,7 +814,6 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection
         //System.out.println(listener);
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -857,7 +854,6 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection
     {
         if(listeners == null)
         {
-            return;
         }
         else
         {
@@ -939,7 +935,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection
         catch(Exception ex)
         {
             ex.printStackTrace();
-            Log.debug(ex.toString() +
+            Log.debug(ex +
                       " @SmbConnection::getDownloadInputStream");
 
             return null;
@@ -967,7 +963,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection
         catch(Exception ex)
         {
             ex.printStackTrace();
-            Log.debug(ex.toString() + " @SmbConnection::rename");
+            Log.debug(ex + " @SmbConnection::rename");
 
             return false;
         }

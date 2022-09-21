@@ -139,12 +139,12 @@ public class AppMenuBar extends JMenuBar implements ActionListener
     JMenuItem clear = new JMenuItem("Clear Log");
 
     //*** the menu items for the last connections
-    JMenuItem[] lastConnections = new JMenuItem[jftp.CAPACITY];
+    JMenuItem[] lastConnections = new JMenuItem[JFtp.CAPACITY];
 
     //*** information on each of the last connections
     //BUGFIX
-    String[][] cons = new String[jftp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
-    String[] lastConData = new String[jftp.CAPACITY];
+    String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
+    String[] lastConData = new String[JFtp.CAPACITY];
     Character charTab = new Character('\t');
     String tab = charTab.toString();
     JMenuItem manage = new JMenuItem("Manage Bookmarks...");
@@ -376,7 +376,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener
                         "j-ftp@sf.net", 21, "/incoming", "false");
             addBookmark("SMB", "(LAN)", "guest", "guest", -1, "-", "false");
 
-            return;
         }
     }
 
@@ -467,9 +466,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener
         try
         {
             //*** get the information on the last connections
-            cons = new String[jftp.CAPACITY][jftp.CONNECTION_DATA_LENGTH];
+            cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 
-            cons = LastConnections.readFromFile(jftp.CAPACITY);
+            cons = LastConnections.readFromFile(JFtp.CAPACITY);
 
             String protocol;
 
@@ -478,12 +477,12 @@ public class AppMenuBar extends JMenuBar implements ActionListener
             String utmp;
 
             String conNumber;
-            String usingLocal = new String("");
+            String usingLocal = "";
             Integer conNumberInt;
 
             //lastConData = new String("");
             //***
-            for(int i = 0; i < jftp.CAPACITY; i++)
+            for(int i = 0; i < JFtp.CAPACITY; i++)
             {
                 if(!(cons[i][0].equals("null")))
                 {
@@ -516,8 +515,8 @@ public class AppMenuBar extends JMenuBar implements ActionListener
                     conNumber = conNumberInt.toString();
 
                     //lastConData[i] = new String(conNumber + " " + protocol + ": Hostname: " + htmp + ";  Username: " + utmp);
-                    lastConData[i] = new String(conNumber + " " + protocol +
-                                                ": " + htmp + " " + usingLocal);
+                    lastConData[i] = conNumber + " " + protocol +
+                            ": " + htmp + " " + usingLocal;
 
                     lastConnections[i] = new JMenuItem(lastConData[i]);
                     lastConnections[i].addActionListener(this);
@@ -570,7 +569,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            hc.toFront();
 	            hc.update();
 	        }
-	        else if((e.getSource() == localFtpCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == localFtpCon) && (!JFtp.uiBlocked))
 	        {
 	            HostChooser hc = new HostChooser(null, true);
 	            hc.toFront();
@@ -578,7 +577,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            //hc.setModal(true);
 	            hc.update();
 	        }
-	        else if((e.getSource() == localSmbCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == localSmbCon) && (!JFtp.uiBlocked))
 	        {
 	            SmbHostChooser hc = new SmbHostChooser(null, true);
 	            hc.toFront();
@@ -586,7 +585,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            //hc.setModal(true);
 	            hc.update();
 	        }
-	        else if((e.getSource() == localSftpCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == localSftpCon) && (!JFtp.uiBlocked))
 	        {
 	            SftpHostChooser hc = new SftpHostChooser(null, true);
 	            hc.toFront();
@@ -594,7 +593,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            //hc.setModal(true);
 	            hc.update();
 	        }
-	        else if((e.getSource() == localNfsCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == localNfsCon) && (!JFtp.uiBlocked))
 	        {
 	            NfsHostChooser hc = new NfsHostChooser(null, true);
 	            hc.toFront();
@@ -602,7 +601,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            //hc.setModal(true);
 	            hc.update();
 	        }
-	        else if((e.getSource() == localWebdavCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == localWebdavCon) && (!JFtp.uiBlocked))
 	        {
 	            WebdavHostChooser hc = new WebdavHostChooser(null, true);
 	            hc.toFront();
@@ -616,12 +615,12 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	        }
 	        else if(e.getSource() == clear)
 	        {
-	            jftp.clearLog();
+	            JFtp.clearLog();
 	        }
 	        else if(e.getSource() == spider)
 	        {
 	            jftp.addToDesktop("Http recursive download",
-	                              new HttpSpider(jftp.localDir.getPath() +
+	                              new HttpSpider(JFtp.localDir.getPath() +
 	                                             "_httpdownload/"), 440, 250);
 	        }
 	        else if(e.getSource() == hp)
@@ -692,7 +691,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            if(!con.chdir("/")) con.chdir("C:\\");
 	            */
 	        }
-	        else if((e.getSource() == ftpCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == ftpCon) && (!JFtp.uiBlocked))
 	        {
 	            //jftp.safeDisconnect();
 	            HostChooser hc = new HostChooser();
@@ -701,7 +700,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            //hc.setModal(true);
 	            hc.update();
 	        }
-	        else if((e.getSource() == smbCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == smbCon) && (!JFtp.uiBlocked))
 	        {
 	            //jftp.safeDisconnect();
 	            SmbHostChooser hc = new SmbHostChooser();
@@ -710,7 +709,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            //hc.setModal(true);
 	            hc.update();
 	        }
-	        else if((e.getSource() == sftpCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == sftpCon) && (!JFtp.uiBlocked))
 	        {
 	            //jftp.safeDisconnect();
 	            SftpHostChooser hc = new SftpHostChooser();
@@ -719,7 +718,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            //hc.setModal(true);
 	            hc.update();
 	        }
-	        else if((e.getSource() == nfsCon) && (!jftp.uiBlocked))
+	        else if((e.getSource() == nfsCon) && (!JFtp.uiBlocked))
 	        {
 	            // jftp.safeDisconnect();
 	            NfsHostChooser hc = new NfsHostChooser();
@@ -855,40 +854,40 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	
 	        //***MY ADDITIONS (***how can I make this flexible enough to
 	        //*** easily add > 5 connections?)
-	        else if((e.getSource() == lastConnections[0]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[0]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(0);
 	        }
 	
-	        else if((e.getSource() == lastConnections[1]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[1]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(1);
 	        }
-	        else if((e.getSource() == lastConnections[2]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[2]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(2);
 	        }
-	        else if((e.getSource() == lastConnections[3]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[3]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(3);
 	        }
-	        else if((e.getSource() == lastConnections[4]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[4]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(4);
 	        }
-	        else if((e.getSource() == lastConnections[5]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[5]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(5);
 	        }
-	        else if((e.getSource() == lastConnections[6]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[6]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(6);
 	        }
-	        else if((e.getSource() == lastConnections[7]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[7]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(7);
 	        }
-	        else if((e.getSource() == lastConnections[8]) && (!jftp.uiBlocked))
+	        else if((e.getSource() == lastConnections[8]) && (!JFtp.uiBlocked))
 	        {
 	            connectionSelected(8);
 	        }
@@ -914,7 +913,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
 	            if(!state)
 	            {
 	                JOptionPane j = new JOptionPane();
-	                int x = j.showConfirmDialog(storePasswords,
+	                int x = JOptionPane.showConfirmDialog(storePasswords,
 	                                            "You chose not to Save passwords.\n" +
 	                                            "Do you want your old login data to be deleted?",
 	                                            "Delete old passwords?",
@@ -1084,7 +1083,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
             String stringI;
             char charI;
 
-            for(int i = 0; i < jftp.CAPACITY; i++)
+            for(int i = 0; i < JFtp.CAPACITY; i++)
             {
                 //*** I should note that functionality below only allows
                 //*** a maximum of nine connections to be remembered
@@ -1123,14 +1122,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener
         String protocol;
         int numTokens;
 
-        String htmp = new String("");
-        String utmp = new String("");
-        String ptmp = new String("");
-        String dtmp = new String("");
+        String htmp = "";
+        String utmp = "";
+        String ptmp = "";
+        String dtmp = "";
         boolean useLocal = false;
         int potmp = 0;
-        String potmpString = new String("0");
-        String useLocalString = new String("false");
+        String potmpString = "0";
+        String useLocalString = "false";
 
         /*
         //numTokens = tokens.countTokens();
@@ -1183,14 +1182,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
             */
             potmp = Integer.parseInt(potmpString);
 
-            if(useLocalString.equals("true"))
-            {
-                useLocal = true;
-            }
-            else
-            {
-                useLocal = false;
-            }
+            useLocal = useLocalString.equals("true");
 
             StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal);
 
@@ -1239,14 +1231,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener
         //***if statement
         potmp = Integer.parseInt(potmpString);
 
-        if(useLocalString.equals("true"))
-        {
-            useLocal = true;
-        }
-        else
-        {
-            useLocal = false;
-        }
+        useLocal = useLocalString.equals("true");
 
         if(protocol.equals("SFTP"))
         {

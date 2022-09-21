@@ -61,12 +61,12 @@ public class DirCellRenderer extends DefaultListCellRenderer
 
         if(i == null)
         {
-            System.out.println("Img null: " + ((DirEntry) value).toString() +
+            System.out.println("Img null: " + value.toString() +
                                "/" + ((DirEntry) value).getImage());
         }
         else
         {
-            setIcon((Icon) i);
+            setIcon(i);
         }
 
         this.value = value;

@@ -27,7 +27,7 @@ import java.util.zip.*;
  
 public class ZipFileCreator
 {
-    private ZipOutputStream z; 
+    private final ZipOutputStream z;
 
     public ZipFileCreator(String[] files, String path, String name) 
                    throws Exception

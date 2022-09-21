@@ -13,20 +13,20 @@ import net.sf.jftp.system.logging.Log;
 */
 public class FtpTransfer extends Transfer implements Runnable
 {
-    private String host;
-    private int port;
-    private String localPath;
-    private String remotePath;
-    private String file;
-    private String user;
-    private String pass;
+    private final String host;
+    private final int port;
+    private final String localPath;
+    private final String remotePath;
+    private final String file;
+    private final String user;
+    private final String pass;
     private FtpConnection con = null;
-    private String type;
+    private final String type;
     public Thread runner;
     private int stat = 0;
     private boolean started = false;
-    private ConnectionHandler handler;
-    private Vector<ConnectionListener> listeners;
+    private final ConnectionHandler handler;
+    private final Vector<ConnectionListener> listeners;
     private String newName = null;
     private int transferStatus = 0;
     private String crlf = null;
@@ -117,7 +117,7 @@ public class FtpTransfer extends Transfer implements Runnable
                 {
                     for(int i = 0; i < listeners.size(); i++)
                     {
-                        ((ConnectionListener) listeners.elementAt(i)).updateProgress(file,
+                        listeners.elementAt(i).updateProgress(file,
                                                                                      PAUSED,
                                                                                      -1);
                     }
@@ -129,7 +129,7 @@ public class FtpTransfer extends Transfer implements Runnable
                     {
                         for(int i = 0; i < listeners.size(); i++)
                         {
-                            ((ConnectionListener) listeners.elementAt(i)).updateProgress(file,
+                            listeners.elementAt(i).updateProgress(file,
                                                                                          REMOVED,
                                                                                          -1);
                         }
@@ -155,7 +155,7 @@ public class FtpTransfer extends Transfer implements Runnable
                 {
                     for(int i = 0; i < listeners.size(); i++)
                     {
-                        ((ConnectionListener) listeners.elementAt(i)).updateProgress(file,
+                        listeners.elementAt(i).updateProgress(file,
                                                                                      QUEUED,
                                                                                      -1);
                     }
@@ -177,7 +177,7 @@ public class FtpTransfer extends Transfer implements Runnable
             {
                 for(int i = 0; i < listeners.size(); i++)
                 {
-                    ((ConnectionListener) listeners.elementAt(i)).updateProgress(file,
+                    listeners.elementAt(i).updateProgress(file,
                                                                                  REMOVED,
                                                                                  -1);
                 }
