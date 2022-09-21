@@ -15,15 +15,11 @@
  */
 package net.sf.jftp.gui.framework;
 
-import java.awt.*;
-
 import javax.swing.*;
 
 
-public class HButton extends JButton
-{
-    public HButton(String str)
-    {
+public class HButton extends JButton {
+    public HButton(String str) {
         setFont(GUIDefaults.font);
         setText(str);
     }

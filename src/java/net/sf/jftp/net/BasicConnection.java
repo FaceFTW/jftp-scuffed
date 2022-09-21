@@ -24,8 +24,7 @@ import java.util.Vector;
 /**
  * Interface for all connection types
  */
-public interface BasicConnection
-{
+public interface BasicConnection {
     boolean hasUploaded = false;
 
     void sendRawCommand(String cmd);

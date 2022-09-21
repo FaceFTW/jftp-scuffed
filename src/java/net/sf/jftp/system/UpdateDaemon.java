@@ -17,7 +17,6 @@ package net.sf.jftp.system;
 
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
-import net.sf.jftp.gui.base.LocalDir;
 import net.sf.jftp.gui.base.RemoteDir;
 
 public class UpdateDaemon implements Runnable {
@@ -26,8 +25,8 @@ public class UpdateDaemon implements Runnable {
     private static int log;
     private static int reg;
     private static int cal;
-    private Thread runner = null;
     private final JFtp jftp;
+    private Thread runner = null;
 
     public UpdateDaemon(JFtp jftp) {
         this.jftp = jftp;

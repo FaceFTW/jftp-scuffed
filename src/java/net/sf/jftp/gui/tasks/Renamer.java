@@ -15,28 +15,27 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
-import java.io.*;
 
-
-public class Renamer extends HFrame implements ActionListener
-{
-    public HTextField text;
+public class Renamer extends HFrame implements ActionListener {
     private final HButton ok = new HButton("Ok");
     private final HPanel okP = new HPanel();
     private final String oldName;
     private final String path;
+    public HTextField text;
 
-    public Renamer(String oldName, String path)
-    {
+    public Renamer(String oldName, String path) {
         this.oldName = oldName;
         this.path = path;
 
@@ -54,17 +53,14 @@ public class Renamer extends HFrame implements ActionListener
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == ok) || (e.getSource() == text.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
             String name = text.getText();
             setVisible(false);
 
             File f = new File(path + oldName);
 
-            if(f.exists())
-            {
+            if (f.exists()) {
                 f.renameTo(new File(path + name));
             }
 

@@ -15,8 +15,7 @@
  */
 package net.sf.jftp.system.logging;
 
-public interface Logger
-{
+public interface Logger {
     void debug(String msg);
 
     void debugRaw(String msg);

@@ -15,33 +15,32 @@
  */
 package net.sf.jftp.gui.framework;
 
-import net.sf.jftp.*;
-
-import java.awt.*;
-import java.awt.event.*;
+import net.sf.jftp.JFtp;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
-public class HImageButton extends JButton implements MouseListener
-{
+public class HImageButton extends JButton implements MouseListener {
     public String label = "";
     public ActionListener who = null;
     private String cmd = "default";
 
     public HImageButton(String image, String cmd, String label,
-                        ActionListener who)
-    {
+                        ActionListener who) {
         this.cmd = cmd;
         this.label = label;
         this.who = who;
 
         try {
-	        setIcon(new ImageIcon(HImage.getImage(this, image)));
-        }
-        catch(Exception ex) {
-        	System.out.println("Image file: "+image);
-        	ex.printStackTrace();
+            setIcon(new ImageIcon(HImage.getImage(this, image)));
+        } catch (Exception ex) {
+            System.out.println("Image file: " + image);
+            ex.printStackTrace();
         }
         addMouseListener(this);
 
@@ -51,35 +50,29 @@ public class HImageButton extends JButton implements MouseListener
         setMaximumSize(new Dimension(25, 25));
     }
 
-    public void update(Graphics g)
-    {
+    public void update(Graphics g) {
         paintComponent(g);
     }
 
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
     }
 
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
     }
 
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         who.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                                            cmd));
+                cmd));
 
     }
 
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
         setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JFtp.statusP.status(label);
     }
 
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
         JFtp.statusP.status("");

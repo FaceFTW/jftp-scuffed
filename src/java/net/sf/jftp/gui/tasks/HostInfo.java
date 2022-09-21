@@ -17,8 +17,7 @@ package net.sf.jftp.gui.tasks;
 
 
 /* Incapsulate all the information of the current connection */
-public class HostInfo
-{
+public class HostInfo {
     public String type;
 
     // parameter used for ftp
@@ -35,7 +34,6 @@ public class HostInfo
     public String localip;
     public String domain;
 
-    public HostInfo()
-    {
+    public HostInfo() {
     }
 }

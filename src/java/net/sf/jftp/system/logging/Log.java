@@ -18,25 +18,20 @@ package net.sf.jftp.system.logging;
 import net.sf.jftp.config.Settings;
 
 
-public class Log
-{
-    private static Logger logger = new SystemLogger();
+public class Log {
     private static final Log log = new Log();
+    private static Logger logger = new SystemLogger();
     private static StringBuffer cache = new StringBuffer();
 
-    private Log()
-    {
+    private Log() {
     }
 
-    public static void setLogger(Logger logger)
-    {
+    public static void setLogger(Logger logger) {
         Log.logger = logger;
     }
 
-    public static void debug(String msg)
-    {
-        if(Settings.getDisableLog())
-        {
+    public static void debug(String msg) {
+        if (Settings.getDisableLog()) {
             return;
         }
 
@@ -44,44 +39,37 @@ public class Log
         logger.debug(msg);
         cache.append(msg + "\n");
 
-        if(!Settings.getEnableDebug()) System.out.println("> " + msg);
+        if (!Settings.getEnableDebug()) System.out.println("> " + msg);
     }
 
-    public static void debugRaw(String msg)
-    {
-        if(Settings.getDisableLog())
-        {
+    public static void debugRaw(String msg) {
+        if (Settings.getDisableLog()) {
             return;
         }
 
         logger.debugRaw(msg);
         cache.append(msg);
 
-        if(Settings.getEnableDebug()) System.out.print(msg);
+        if (Settings.getEnableDebug()) System.out.print(msg);
     }
 
-    public static void out(String msg)
-    {
-        if(!Settings.getEnableDebug())
-        {
+    public static void out(String msg) {
+        if (!Settings.getEnableDebug()) {
             return;
         }
 
         System.out.println("> " + msg);
     }
-    
-    public static void devnull(Object msg)
-    {
+
+    public static void devnull(Object msg) {
     }
 
 
-    public static String getCache()
-    {
+    public static String getCache() {
         return cache.toString();
     }
 
-    public static void clearCache()
-    {
+    public static void clearCache() {
         cache = new StringBuffer();
     }
 }

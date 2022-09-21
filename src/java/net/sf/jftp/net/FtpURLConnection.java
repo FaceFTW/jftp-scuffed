@@ -15,28 +15,26 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import net.sf.jftp.config.Settings;
-import net.sf.jftp.system.logging.Log;
-
 
 /**
  *
  */
-public class FtpURLConnection extends URLConnection
-{
+public class FtpURLConnection extends URLConnection {
     private FtpConnection connection = null;
     private String username = "ftp";
     private String password = "none@no.no";
     private int loginFlag = 0;
-   
-    public FtpURLConnection(URL u)
-    {
+
+    public FtpURLConnection(URL u) {
         super(u);
 
         int port = u.getPort() > 0 ? u.getPort() : 21;
@@ -44,12 +42,10 @@ public class FtpURLConnection extends URLConnection
 
         String userInfo = u.getUserInfo();
 
-        if(userInfo != null)
-        {
+        if (userInfo != null) {
             int index = userInfo.indexOf(":");
 
-            if(index != -1)
-            {
+            if (index != -1) {
                 username = userInfo.substring(0, index);
                 password = userInfo.substring(index + 1);
             }
@@ -58,12 +54,18 @@ public class FtpURLConnection extends URLConnection
         Log.debug("Connecting...");
     }
 
-    public void connect() throws IOException
-    {
+    public static void main(String[] args) {
+        try {
+            URLConnection uc = new FtpURLConnection(new URL("ftp://ftp:pass@localhost/pub"));
+            uc.connect();
+        } catch (IOException ioe) {
+        }
+    }
+
+    public void connect() throws IOException {
         loginFlag = connection.login(username, password);
 
-        if(loginFlag != FtpConnection.LOGIN_OK)
-        {
+        if (loginFlag != FtpConnection.LOGIN_OK) {
             return;
         }
 
@@ -71,69 +73,45 @@ public class FtpURLConnection extends URLConnection
         connection.chdir(url.getPath());
     }
 
-    public FtpConnection getFtpConnection()
-    {
+    public FtpConnection getFtpConnection() {
         return connection;
     }
 
-    public InputStream getInputStream() throws IOException
-    {
+    public InputStream getInputStream() throws IOException {
         return null;
     }
 
-    public OutputStream getOutputStream() throws IOException
-    {
+    public OutputStream getOutputStream() throws IOException {
         return null;
     }
 
-    public String getUser()
-    {
+    public String getUser() {
         return username;
     }
 
-    public String getPass()
-    {
+    public String getPass() {
         return password;
     }
 
-    public String getHost()
-    {
+    public String getHost() {
         return url.getHost();
     }
 
-    public int getPort()
-    {
+    public int getPort() {
         int ret = url.getPort();
 
-        if(ret <= 0)
-        {
+        if (ret <= 0) {
             return 21;
-        }
-        else
-        {
+        } else {
             return ret;
         }
     }
 
-    public int getLoginResponse()
-    {
+    public int getLoginResponse() {
         return loginFlag;
     }
 
-    public boolean loginSucceeded()
-    {
+    public boolean loginSucceeded() {
         return loginFlag == FtpConnection.LOGIN_OK;
-    }
-
-    public static void main(String[] args)
-    {
-        try
-        {
-            URLConnection uc = new FtpURLConnection(new URL("ftp://ftp:pass@localhost/pub"));
-            uc.connect();
-        }
-        catch(IOException ioe)
-        {
-        }
     }
 }

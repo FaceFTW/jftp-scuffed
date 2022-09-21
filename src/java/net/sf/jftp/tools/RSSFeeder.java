@@ -21,9 +21,8 @@ import net.sf.jftp.gui.framework.HImageButton;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.logging.Log;
 
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;

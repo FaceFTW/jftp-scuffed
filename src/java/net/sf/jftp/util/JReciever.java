@@ -17,14 +17,14 @@ package net.sf.jftp.util;
 
 import net.sf.jftp.system.LocalIO;
 
-import javax.swing.JScrollBar;
+import javax.swing.*;
 import java.io.DataInputStream;
 
 
 public class JReciever implements Runnable {
+    private final byte[] buf = new byte[4048];
     private DataInputStream in;
     private Thread reciever;
-    private final byte[] buf = new byte[4048];
 
     public JReciever(DataInputStream in) {
         this.in = in;

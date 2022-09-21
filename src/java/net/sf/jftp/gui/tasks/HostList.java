@@ -15,24 +15,22 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.config.*;
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.base.FtpHost;
-import net.sf.jftp.gui.framework.*;
 import net.sf.jftp.system.StringUtils;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.File;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 
-public class HostList extends JDialog
-{
+public class HostList extends JDialog {
     private final String promptHost = " Host : ";
     private final String promptUser = " User : ";
     private final String promptPass = " Password : ";
@@ -75,14 +73,14 @@ public class HostList extends JDialog
     private FtpHost selectedHostInfo = null;
 
     /**
-     *  Constructs an instance of the HostList with the
-     *  given parent and initializes the UI for the host list.
-     *  calling getFtpHost() will show the dialog and wait until
-     *  the user clicks ok() or cancel().
-     *         @param parent The parent JDialog
+     * Constructs an instance of the HostList with the
+     * given parent and initializes the UI for the host list.
+     * calling getFtpHost() will show the dialog and wait until
+     * the user clicks ok() or cancel().
+     *
+     * @param parent The parent JDialog
      */
-    public HostList(JDialog parent)
-    {
+    public HostList(JDialog parent) {
         super(parent);
         setTitle(promptDialogTitle);
         init();
@@ -92,60 +90,46 @@ public class HostList extends JDialog
     /**
      * Adds listeners to any components that need them
      */
-    protected void initListeners()
-    {
-        hostList.addListSelectionListener(new ListSelectionListener()
-            {
-                public void valueChanged(ListSelectionEvent lse)
-                {
-                    onSelectHost();
-                }
-            });
-        jbsave.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-                    onSave();
-                }
-            });
-        jbok.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-                    onOk();
-                }
-            });
-        jbcancel.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-                    onCancel();
-                }
-            });
-        jbnew.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-                    onNew();
-                }
-            });
-        jbdelete.addActionListener(new ActionListener()
-            {
-                public void actionPerformed(ActionEvent ae)
-                {
-                    onDelete();
-                }
-            });
+    protected void initListeners() {
+        hostList.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent lse) {
+                onSelectHost();
+            }
+        });
+        jbsave.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                onSave();
+            }
+        });
+        jbok.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                onOk();
+            }
+        });
+        jbcancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                onCancel();
+            }
+        });
+        jbnew.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                onNew();
+            }
+        });
+        jbdelete.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                onDelete();
+            }
+        });
     }
 
     /**
-     *         This method makes the dialog popup
-     *  and the user must select ok or cancel
-     *  upon clicking ok, the selected FtpHost will be returned
-     *  upon cancel, a null will be returned.
+     * This method makes the dialog popup
+     * and the user must select ok or cancel
+     * upon clicking ok, the selected FtpHost will be returned
+     * upon cancel, a null will be returned.
      */
-    public FtpHost getFtpHost()
-    {
+    public FtpHost getFtpHost() {
         selectedHostInfo = null;
         setVisible(true);
 
@@ -155,8 +139,7 @@ public class HostList extends JDialog
     /**
      * overall initialization routine called from the ctor
      */
-    protected void init()
-    {
+    protected void init() {
         this.initPrompts();
         this.initHostInfoPanel();
         this.initButtonPanel();
@@ -164,12 +147,9 @@ public class HostList extends JDialog
         this.loadHostList();
         initListeners();
 
-        if(hostListModel.size() > 0)
-        {
+        if (hostListModel.size() > 0) {
             hostList.setSelectedIndex(0);
-        }
-        else
-        {
+        } else {
             updateHostInfoPanel();
         }
 
@@ -182,16 +162,14 @@ public class HostList extends JDialog
      * take hold, you can change the values of the prompt
      * strings to whatever
      */
-    protected void initPrompts()
-    {
+    protected void initPrompts() {
         // do nothing
     }
 
     /**
      * initialize the button panel
      */
-    protected void initButtonPanel()
-    {
+    protected void initButtonPanel() {
         jpbuttons = new JPanel();
         jpbuttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         jbcancel = new JButton(promptButtonCancel);
@@ -205,10 +183,9 @@ public class HostList extends JDialog
     }
 
     /**
-     *         Build the host info panel
+     * Build the host info panel
      */
-    protected void initHostInfoPanel()
-    {
+    protected void initHostInfoPanel() {
         jtfHost = new JTextField(20);
         jtfUser = new JTextField(20);
         jtfPass = new JPasswordField(20);
@@ -277,10 +254,9 @@ public class HostList extends JDialog
     }
 
     /**
-     *         Initializes the overall dialog/frame
+     * Initializes the overall dialog/frame
      */
-    protected void initHostListFrame()
-    {
+    protected void initHostListFrame() {
         hostListModel = new DefaultListModel();
         hostList = new JList(hostListModel);
         jscrollpane = new JScrollPane(hostList);
@@ -298,26 +274,23 @@ public class HostList extends JDialog
         jptemp.add(jpHostInfo, BorderLayout.CENTER);
 
         jsplitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jptempleft,
-                                    jptemp);
+                jptemp);
         getContentPane().add(jsplitpane);
     }
 
     /**
-     *         Loads the host list from the hard drive
+     * Loads the host list from the hard drive
      */
-    protected void loadHostList()
-    {
+    protected void loadHostList() {
         //Log.out("x");
         // current host number
         int i = 0;
 
-        while(i >= 0)
-        {
+        while (i >= 0) {
             String filename = Settings.login.concat(String.valueOf(i));
             String[] host_info = LoadSet.loadSet(filename);
 
-            if((host_info == null) || (host_info.length == 1))
-            {
+            if ((host_info == null) || (host_info.length == 1)) {
                 // no file was loaded, break out.
                 i = -1;
 
@@ -326,16 +299,13 @@ public class HostList extends JDialog
 
             FtpHost ftpHost = new FtpHost();
 
-            try
-            {
+            try {
                 ftpHost.hostname = host_info[0];
                 ftpHost.username = host_info[1];
                 ftpHost.password = host_info[2];
                 ftpHost.name = host_info[3];
                 ftpHost.port = host_info[4];
-            }
-            catch(ArrayIndexOutOfBoundsException aioobe)
-            {
+            } catch (ArrayIndexOutOfBoundsException aioobe) {
                 // do nothing, this can happen
             }
 
@@ -344,8 +314,7 @@ public class HostList extends JDialog
         }
     }
 
-    public void onSelectHost()
-    {
+    public void onSelectHost() {
         // update the old one, then show the new one
         updateHostInfoObject();
         selectedHostInfo = getSelected();
@@ -355,18 +324,14 @@ public class HostList extends JDialog
     /**
      * Delete button handler
      */
-    public void onDelete()
-    {
+    public void onDelete() {
         Object selected = hostList.getSelectedValue();
         hostListModel.removeElement(selected);
         selectedHostInfo = null;
 
-        if(hostListModel.size() > 0)
-        {
+        if (hostListModel.size() > 0) {
             hostList.setSelectedIndex(0);
-        }
-        else
-        {
+        } else {
             updateHostInfoPanel();
         }
 
@@ -377,32 +342,26 @@ public class HostList extends JDialog
     /**
      * Save button handler
      */
-    public void onSave()
-    {
+    public void onSave() {
         updateHostInfoObject();
 
         // remove all previously saved hosts
         int i = 0;
 
-        while(true)
-        {
+        while (true) {
             File f = new File(Settings.login.concat(String.valueOf(i)));
 
-            if(f.exists())
-            {
+            if (f.exists()) {
                 f.delete();
                 i++;
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
 
         int len = hostListModel.size();
 
-        for(i = 0; i < len; i++)
-        {
+        for (i = 0; i < len; i++) {
             FtpHost ftphost = (FtpHost) hostListModel.elementAt(i);
             String htmp = StringUtils.cut(ftphost.hostname, " ");
             String utmp = StringUtils.cut(ftphost.username, " ");
@@ -410,17 +369,16 @@ public class HostList extends JDialog
             String ntmp = StringUtils.cut(ftphost.name, " ");
             String ttmp = StringUtils.cut(ftphost.port, " ");
             SaveSet s = new SaveSet(Settings.login.concat(String.valueOf(i)),
-                                    htmp, utmp, ptmp, ntmp, ttmp);
+                    htmp, utmp, ptmp, ntmp, ttmp);
         }
 
         hostList.repaint();
     }
 
     /**
-      * OK Button handler
-      */
-    public void onOk()
-    {
+     * OK Button handler
+     */
+    public void onOk() {
         selectedHostInfo = getSelected();
         onSave();
         dispose();
@@ -429,8 +387,7 @@ public class HostList extends JDialog
     /**
      * Cancel button handler
      */
-    public void onCancel()
-    {
+    public void onCancel() {
         selectedHostInfo = null;
         dispose();
     }
@@ -438,8 +395,7 @@ public class HostList extends JDialog
     /**
      * Create a default one and stuff itin the list
      */
-    public void onNew()
-    {
+    public void onNew() {
         FtpHost ftpHost = new FtpHost();
         ftpHost.name = "undefined";
         ftpHost.username = "undefined";
@@ -454,16 +410,12 @@ public class HostList extends JDialog
     /**
      * Returns the selected FtpHost from the hostList
      */
-    private FtpHost getSelected()
-    {
+    private FtpHost getSelected() {
         int sel = hostList.getSelectedIndex();
 
-        if((sel < 0) || (sel > (hostListModel.size() - 1)))
-        {
+        if ((sel < 0) || (sel > (hostListModel.size() - 1))) {
             return null;
-        }
-        else
-        {
+        } else {
             return (FtpHost) hostListModel.elementAt(hostList.getSelectedIndex());
         }
     }
@@ -473,10 +425,8 @@ public class HostList extends JDialog
      * selected FtpHost object.  If none is selected, then
      * it clears the panel
      */
-    private void updateHostInfoPanel()
-    {
-        if(selectedHostInfo == null)
-        {
+    private void updateHostInfoPanel() {
+        if (selectedHostInfo == null) {
             jtfName.setText("");
             jtfUser.setText("");
             jtfPass.setText("");
@@ -487,9 +437,7 @@ public class HostList extends JDialog
             jtfHost.setEnabled(false);
             jtfPass.setEnabled(false);
             jtfPort.setEnabled(false);
-        }
-        else
-        {
+        } else {
             jtfName.setEnabled(true);
             jtfUser.setEnabled(true);
             jtfHost.setEnabled(true);
@@ -507,10 +455,8 @@ public class HostList extends JDialog
      * Updates the currently selected FtpHost object called
      * "selectedHostInfo" from the contents of the screen
      */
-    private void updateHostInfoObject()
-    {
-        if(selectedHostInfo == null)
-        {
+    private void updateHostInfoObject() {
+        if (selectedHostInfo == null) {
             return;
         }
 

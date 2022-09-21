@@ -17,20 +17,17 @@ package net.sf.jftp.event;
 
 import net.sf.jftp.net.FtpClient;
 
-import java.lang.reflect.*;
-
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
 
-public class FtpEventHandler implements EventHandler
-{
+public class FtpEventHandler implements EventHandler {
     private static ArrayList commands = null;
 
-    static
-    {
+    static {
         commands = new ArrayList();
         commands.add("account");
         commands.add("append");
@@ -91,92 +88,75 @@ public class FtpEventHandler implements EventHandler
     private final FtpClient client;
     private final Hashtable methods = new Hashtable();
 
-    public FtpEventHandler()
-    {
+    public FtpEventHandler() {
         this.client = new FtpClient();
 
         Method[] m = this.getClass().getDeclaredMethods();
         String methodName = null;
 
-        for(int i = 0; i < m.length; i++)
-        {
+        for (int i = 0; i < m.length; i++) {
             methodName = m[i].getName();
 
-            if(commands.contains(methodName))
-            {
+            if (commands.contains(methodName)) {
                 methods.put(methodName, m[i]);
             }
         }
     }
 
-    public void open(Vector args)
-    {
+    public void open(Vector args) {
         System.out.println("***open");
         client.login((String) args.elementAt(1));
     }
 
-    public void disconnect(Vector args)
-    {
+    public void disconnect(Vector args) {
         System.out.println("***disconnect");
         client.disconnect();
     }
 
-    public void cd(Vector args)
-    {
+    public void cd(Vector args) {
         System.out.println("***cd");
         client.cd((String) args.elementAt(1));
     }
 
-    public void pwd(Vector args)
-    {
+    public void pwd(Vector args) {
         System.out.println("***pwd");
 
         String directory = client.pwd();
     }
 
-    public void get(Vector args)
-    {
+    public void get(Vector args) {
         System.out.println("***get");
         client.get((String) args.elementAt(1));
     }
 
-    public void put(Vector args)
-    {
+    public void put(Vector args) {
         System.out.println("***put");
         client.put((String) args.elementAt(1));
     }
 
-    public void quit(Vector args)
-    {
+    public void quit(Vector args) {
         disconnect(args);
     }
 
-    public boolean handle(Event e)
-    {
+    public boolean handle(Event e) {
         System.out.println(e.eventCode());
         System.out.println(((FtpEvent) e).eventMsg());
 
         StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
         Vector list = new Vector();
 
-        while(st.hasMoreTokens())
-        {
+        while (st.hasMoreTokens()) {
             list.addElement(st.nextToken());
         }
 
-        if(list.size() != 0)
-        {
+        if (list.size() != 0) {
             String command = (String) list.elementAt(0);
             Method o = (Method) methods.get(command.toLowerCase());
 
-            if(o != null)
-            {
-                try
-                {
+            if (o != null) {
+                try {
                     o.invoke(this, list);
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                 }
             }
         }

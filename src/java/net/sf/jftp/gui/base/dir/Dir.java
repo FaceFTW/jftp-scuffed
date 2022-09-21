@@ -16,11 +16,10 @@
 package net.sf.jftp.gui.base.dir;
 
 import net.sf.jftp.gui.base.DownloadList;
-import net.sf.jftp.net.*;
+import net.sf.jftp.net.BasicConnection;
 
 
-public interface Dir
-{
+public interface Dir {
     void setDownloadList(DownloadList list);
 
     BasicConnection getCon();

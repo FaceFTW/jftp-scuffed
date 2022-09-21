@@ -20,40 +20,33 @@ import java.util.Hashtable;
 
 
 /**
-* This class manages a connection pool.
-* You do not have to create an instance, but when you do use FtpConnection.setConnectionHandler
-* for each connection to make the connection recognize its handler.
-*/
-public class ConnectionHandler
-{
-    private final Hashtable<String,Transfer> connections = new Hashtable<String,Transfer>();
+ * This class manages a connection pool.
+ * You do not have to create an instance, but when you do use FtpConnection.setConnectionHandler
+ * for each connection to make the connection recognize its handler.
+ */
+public class ConnectionHandler {
+    private final Hashtable<String, Transfer> connections = new Hashtable<String, Transfer>();
 
-    public void addConnection(String file, Transfer t)
-    {
+    public void addConnection(String file, Transfer t) {
         connections.put(file, t);
     }
 
-    public void removeConnection(String file)
-    {
+    public void removeConnection(String file) {
         connections.remove(file);
     }
 
-    public Hashtable<String,Transfer> getConnections()
-    {
+    public Hashtable<String, Transfer> getConnections() {
         return connections;
     }
 
-    public int getConnectionSize()
-    {
+    public int getConnectionSize() {
         int size = 0;
         Enumeration<Transfer> e = connections.elements();
 
-        while(e.hasMoreElements())
-        {
+        while (e.hasMoreElements()) {
             Transfer t = e.nextElement();
 
-            if(t.hasStarted())
-            {
+            if (t.hasStarted()) {
                 size++;
             }
         }

@@ -15,7 +15,6 @@
  */
 package net.sf.jftp.event;
 
-public interface Acceptor
-{
+public interface Acceptor {
     void accept(Event e);
 }

@@ -4,30 +4,22 @@ import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 
 
-public class LogFlusher implements Runnable
-{
+public class LogFlusher implements Runnable {
     private final Thread runner;
 
-    public LogFlusher()
-    {
+    public LogFlusher() {
         runner = new Thread(this);
 
-        if(Settings.useLogFlusher)
-        {
+        if (Settings.useLogFlusher) {
             runner.start();
         }
     }
 
-    public void run()
-    {
-        while(true)
-        {
-            try
-            {
+    public void run() {
+        while (true) {
+            try {
                 Thread.sleep(Settings.logFlushInterval);
-            }
-            catch(InterruptedException ex)
-            {
+            } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
 

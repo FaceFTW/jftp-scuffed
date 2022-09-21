@@ -15,14 +15,5 @@
  */
 package net.sf.jftp.gui.framework;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-
-import java.io.*;
-
-
-public class TransferComponent extends HPanel
-{
+public class TransferComponent extends HPanel {
 }

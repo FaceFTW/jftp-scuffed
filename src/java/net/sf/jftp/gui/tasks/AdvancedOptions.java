@@ -15,26 +15,25 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-
-//***
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-
-import java.awt.*;
-import java.awt.event.*;
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.FtpConnection;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 //***
-public class AdvancedOptions extends HPanel implements ActionListener
-{
+public class AdvancedOptions extends HPanel implements ActionListener {
     //used this to see if it needs to look up file value
     public static boolean listOptionSet = false;
     private final HTextField listCommand = new HTextField("FTP LIST command:",
-                                                    FtpConnection.LIST, 15);
+            FtpConnection.LIST, 15);
     private final JButton setListCommand = new JButton("Set");
 
     //*** 
@@ -56,8 +55,7 @@ public class AdvancedOptions extends HPanel implements ActionListener
     private String listOptionText = ""; //what the text in the box initially is
 
     //***
-    public AdvancedOptions()
-    {
+    public AdvancedOptions() {
         setLayout(new BorderLayout(5, 5));
 
         //text.setText("You can override the default values here, but note that " +
@@ -75,24 +73,18 @@ public class AdvancedOptions extends HPanel implements ActionListener
         //***
         //load initial advanced options here
         //JUST FOR NOW: We just know that value 0 is the FTP LIST command
-        if(listOptionSet)
-        {
+        if (listOptionSet) {
             listOptionText = FtpConnection.LIST;
-        }
-        else
-        {
+        } else {
             //AND NEED TO CHECK IF FILE DOESN'T EXIST (if not, create it
             //and set the file and settings to the default
-            if(LoadSet.loadSet(Settings.adv_settings) != null)
-            {
+            if (LoadSet.loadSet(Settings.adv_settings) != null) {
                 listOptionText = LoadSet.loadSet(Settings.adv_settings)[0];
-            }
-            else
-            {
+            } else {
                 listOptionText = FtpConnection.LIST_DEFAULT;
 
                 SaveSet s = new SaveSet(Settings.adv_settings,
-                                        FtpConnection.LIST_DEFAULT);
+                        FtpConnection.LIST_DEFAULT);
             }
         }
 
@@ -118,10 +110,8 @@ public class AdvancedOptions extends HPanel implements ActionListener
         saveCommand.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == setListCommand)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == setListCommand) {
             FtpConnection.LIST = listCommand.getText().trim();
 
             //text.setText("LIST command set.");
@@ -133,8 +123,7 @@ public class AdvancedOptions extends HPanel implements ActionListener
         }
 
         //if(e.getSource() == saveCommand)
-        else
-        {
+        else {
             //isn't the following line redundant? So I commented it out
             //it would be redundant if the LIST command is read in by LoadSet each time
             //FtpConnection.LIST = listCommand.getText().trim();
@@ -145,7 +134,7 @@ public class AdvancedOptions extends HPanel implements ActionListener
             //text.setText("LIST command set and saved");
             //statusText.setText("LIST command set and saved.");
             SaveSet s = new SaveSet(Settings.adv_settings,
-                                    listCommand.getText().trim());
+                    listCommand.getText().trim());
 
             //***
             //text.setText("LIST command set and saved");
@@ -154,9 +143,8 @@ public class AdvancedOptions extends HPanel implements ActionListener
             //***
         }
     }
-    
-	public Insets getInsets() 
-	{ 
-		return new Insets(super.getInsets().top+5,super.getInsets().left+5,super.getInsets().bottom+5,super.getInsets().right+5);
-	}
+
+    public Insets getInsets() {
+        return new Insets(super.getInsets().top + 5, super.getInsets().left + 5, super.getInsets().bottom + 5, super.getInsets().right + 5);
+    }
 }

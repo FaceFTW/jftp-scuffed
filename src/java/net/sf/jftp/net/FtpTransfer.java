@@ -1,18 +1,17 @@
 package net.sf.jftp.net;
 
-import java.io.File;
-import java.util.Vector;
-
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.logging.Log;
 
+import java.io.File;
+import java.util.Vector;
+
 
 /**
-* This class is used internally by FtpConnection.
-* You probably don't have to use it directly.
-*/
-public class FtpTransfer extends Transfer implements Runnable
-{
+ * This class is used internally by FtpConnection.
+ * You probably don't have to use it directly.
+ */
+public class FtpTransfer extends Transfer implements Runnable {
     private final String host;
     private final int port;
     private final String localPath;
@@ -20,13 +19,13 @@ public class FtpTransfer extends Transfer implements Runnable
     private final String file;
     private final String user;
     private final String pass;
-    private FtpConnection con = null;
     private final String type;
-    public Thread runner;
-    private int stat = 0;
-    private boolean started = false;
     private final ConnectionHandler handler;
     private final Vector<ConnectionListener> listeners;
+    public Thread runner;
+    private FtpConnection con = null;
+    private int stat = 0;
+    private boolean started = false;
     private String newName = null;
     private int transferStatus = 0;
     private String crlf = null;
@@ -34,8 +33,7 @@ public class FtpTransfer extends Transfer implements Runnable
     public FtpTransfer(String host, int port, String localPath,
                        String remotePath, String file, String user,
                        String pass, String type, ConnectionHandler handler,
-                       Vector<ConnectionListener> listeners, String newName, String crlf)
-    {
+                       Vector<ConnectionListener> listeners, String newName, String crlf) {
         this.host = host;
         this.port = port;
         this.localPath = localPath;
@@ -47,10 +45,9 @@ public class FtpTransfer extends Transfer implements Runnable
         this.handler = handler;
         this.listeners = listeners;
         this.newName = newName;
-	this.crlf = crlf;
+        this.crlf = crlf;
 
-        if(handler == null)
-        {
+        if (handler == null) {
             handler = new ConnectionHandler();
         }
 
@@ -60,8 +57,7 @@ public class FtpTransfer extends Transfer implements Runnable
     public FtpTransfer(String host, int port, String localPath,
                        String remotePath, String file, String user,
                        String pass, String type, ConnectionHandler handler,
-                       Vector<ConnectionListener> listeners, String crlf)
-    {
+                       Vector<ConnectionListener> listeners, String crlf) {
         this.host = host;
         this.port = port;
         this.localPath = localPath;
@@ -74,30 +70,24 @@ public class FtpTransfer extends Transfer implements Runnable
         this.listeners = listeners;
         this.crlf = crlf;
 
-        if(handler == null)
-        {
+        if (handler == null) {
             handler = new ConnectionHandler();
         }
 
         prepare();
     }
 
-    public void prepare()
-    {
+    public void prepare() {
         runner = new Thread(this);
         runner.setPriority(Thread.MIN_PRIORITY);
         runner.start();
     }
 
-    public void run()
-    {
+    public void run() {
         //System.out.println(file);
-        if(handler.getConnections().get(file) == null)
-        {
+        if (handler.getConnections().get(file) == null) {
             handler.addConnection(file, this);
-        }
-        else if(!pause)
-        {
+        } else if (!pause) {
             Log.debug("Transfer already in progress: " + file);
             work = false;
             stat = 2;
@@ -107,79 +97,59 @@ public class FtpTransfer extends Transfer implements Runnable
 
         boolean hasPaused = false;
 
-        while(pause)
-        {
-            try
-            {
+        while (pause) {
+            try {
                 Thread.sleep(100);
 
-                if(listeners != null)
-                {
-                    for(int i = 0; i < listeners.size(); i++)
-                    {
+                if (listeners != null) {
+                    for (int i = 0; i < listeners.size(); i++) {
                         listeners.elementAt(i).updateProgress(file,
-                                                                                     PAUSED,
-                                                                                     -1);
+                                PAUSED,
+                                -1);
                     }
                 }
 
-                if(!work)
-                {
-                    if(listeners != null)
-                    {
-                        for(int i = 0; i < listeners.size(); i++)
-                        {
+                if (!work) {
+                    if (listeners != null) {
+                        for (int i = 0; i < listeners.size(); i++) {
                             listeners.elementAt(i).updateProgress(file,
-                                                                                         REMOVED,
-                                                                                         -1);
+                                    REMOVED,
+                                    -1);
                         }
                     }
                 }
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
             }
 
             hasPaused = true;
         }
 
-        while((handler.getConnectionSize() >= Settings.getMaxConnections()) &&
-                  (handler.getConnectionSize() > 0) && work)
-        {
-            try
-            {
+        while ((handler.getConnectionSize() >= Settings.getMaxConnections()) &&
+                (handler.getConnectionSize() > 0) && work) {
+            try {
                 stat = 4;
                 Thread.sleep(400);
 
-                if(!hasPaused && (listeners != null))
-                {
-                    for(int i = 0; i < listeners.size(); i++)
-                    {
+                if (!hasPaused && (listeners != null)) {
+                    for (int i = 0; i < listeners.size(); i++) {
                         listeners.elementAt(i).updateProgress(file,
-                                                                                     QUEUED,
-                                                                                     -1);
+                                QUEUED,
+                                -1);
                     }
-                }
-                else
-                {
+                } else {
                     break;
                 }
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
 
-        if(!work)
-        {
-            if(listeners != null)
-            {
-                for(int i = 0; i < listeners.size(); i++)
-                {
+        if (!work) {
+            if (listeners != null) {
+                for (int i = 0; i < listeners.size(); i++) {
                     listeners.elementAt(i).updateProgress(file,
-                                                                                 REMOVED,
-                                                                                 -1);
+                            REMOVED,
+                            -1);
                 }
             }
 
@@ -191,12 +161,9 @@ public class FtpTransfer extends Transfer implements Runnable
 
         started = true;
 
-        try
-        {
-        	Thread.sleep(Settings.ftpTransferThreadPause);
-        }
-        catch(Exception ex)
-        {
+        try {
+            Thread.sleep(Settings.ftpTransferThreadPause);
+        } catch (Exception ex) {
         }
 
         con = new FtpConnection(host, port, remotePath, crlf);
@@ -206,56 +173,43 @@ public class FtpTransfer extends Transfer implements Runnable
 
         int status = con.login(user, pass);
 
-        if(status == FtpConnection.LOGIN_OK)
-        {
+        if (status == FtpConnection.LOGIN_OK) {
             File f = new File(localPath);
             con.setLocalPath(f.getAbsolutePath());
 
-            if(type.equals(UPLOAD))
-            {
-                if(newName != null)
-                {
+            if (type.equals(UPLOAD)) {
+                if (newName != null) {
                     transferStatus = con.upload(file, newName);
-                }
-                else
-                {
+                } else {
                     transferStatus = con.upload(file);
                 }
-            }
-            else
-            {
+            } else {
                 transferStatus = con.download(file);
             }
         }
 
-        if(!pause)
-        {
+        if (!pause) {
             handler.removeConnection(file);
         }
     }
 
-    public int getStatus()
-    {
+    public int getStatus() {
         return stat;
     }
 
-    public int getTransferStatus()
-    {
+    public int getTransferStatus() {
         return transferStatus;
     }
 
-    public boolean hasStarted()
-    {
+    public boolean hasStarted() {
         return started;
     }
 
-    public FtpConnection getFtpConnection()
-    {
+    public FtpConnection getFtpConnection() {
         return con;
     }
 
-    public DataConnection getDataConnection()
-    {
+    public DataConnection getDataConnection() {
         return con.getDataConnection();
     }
 }

@@ -15,33 +15,21 @@
  */
 package net.sf.jftp.util;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-import net.sf.jftp.util.*;
+import net.sf.jftp.config.Settings;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-
-import java.net.*;
-
-import java.util.*;
-
-import javax.swing.*;
-import javax.swing.event.*;
+import java.io.DataInputStream;
+import java.io.PrintStream;
+import java.net.Socket;
 
 
 /*
 alternative connection class, used for raw tcp/ip connection
 */
-public class JRawConnection implements Runnable
-{
+public class JRawConnection implements Runnable {
     private final int timeout = Settings.connectionTimeout;
     private final String host;
     private final int port;
+    private final Thread runner;
     private PrintStream out;
     private DataInputStream in;
     private Socket s;
@@ -49,15 +37,12 @@ public class JRawConnection implements Runnable
     private boolean isOk = false;
     private boolean established = false;
     private boolean reciever = false;
-    private final Thread runner;
 
-    public JRawConnection(String host, int port)
-    {
+    public JRawConnection(String host, int port) {
         this(host, port, false);
     }
 
-    public JRawConnection(String host, int port, boolean reciever)
-    {
+    public JRawConnection(String host, int port, boolean reciever) {
         this.host = host;
         this.port = port;
         this.reciever = reciever;
@@ -66,37 +51,30 @@ public class JRawConnection implements Runnable
         runner.start();
     }
 
-    public void run()
-    {
-        try
-        {
+    public void run() {
+        try {
             s = new Socket(host, port);
 
             //  s.setSoTimeout(Resource.socketTimeout);
             out = new PrintStream(s.getOutputStream());
             in = new DataInputStream(s.getInputStream());
 
-            if(reciever)
-            {
+            if (reciever) {
                 JReciever jrcv = new JReciever(in);
             }
 
             isOk = true;
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             isOk = false;
         }
 
         established = true;
     }
 
-    public boolean isThere()
-    {
+    public boolean isThere() {
         int cnt = 0;
 
-        while(!established && (cnt < timeout))
-        {
+        while (!established && (cnt < timeout)) {
             pause(100);
             cnt = cnt + 100;
         }
@@ -104,36 +82,26 @@ public class JRawConnection implements Runnable
         return isOk;
     }
 
-    public void send(String data)
-    {
-        try
-        {
+    public void send(String data) {
+        try {
             out.println(data);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex + "@JConnection.send()");
         }
     }
 
-    public PrintStream getInetOutputStream()
-    {
+    public PrintStream getInetOutputStream() {
         return out;
     }
 
-    public DataInputStream getInetInputStream()
-    {
+    public DataInputStream getInetInputStream() {
         return in;
     }
 
-    private void pause(int time)
-    {
-        try
-        {
+    private void pause(int time) {
+        try {
             Thread.sleep(time);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }

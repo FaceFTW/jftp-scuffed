@@ -16,31 +16,23 @@
 package net.sf.jftp.gui.base.dir;
 
 import net.sf.jftp.config.Settings;
-import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.gui.base.LocalDir;
 import net.sf.jftp.gui.base.RemoteDir;
 import net.sf.jftp.gui.framework.GUIDefaults;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.text.*;
-
-import java.util.*;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 // Display an icon and a string for each object in the list.
 // class DirCellRenderer extends JLabel implements ListCellRenderer {
-public class DirCellRenderer extends DefaultListCellRenderer
-{
+public class DirCellRenderer extends DefaultListCellRenderer {
     final static ImageIcon longIcon = new ImageIcon(Settings.dirImage);
     final static ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
     private Object value;
 
-    public DirCellRenderer()
-    {
+    public DirCellRenderer() {
     }
 
     // This is the only method defined by ListCellRenderer.
@@ -55,29 +47,24 @@ public class DirCellRenderer extends DefaultListCellRenderer
          * colors, and so on.
          */
         super.getListCellRendererComponent(list, value, index, isSelected,
-                                           cellHasFocus);
+                cellHasFocus);
 
         ImageIcon i = new ImageIcon(((DirEntry) value).getImage());
 
-        if(i == null)
-        {
+        if (i == null) {
             System.out.println("Img null: " + value.toString() +
-                               "/" + ((DirEntry) value).getImage());
-        }
-        else
-        {
+                    "/" + ((DirEntry) value).getImage());
+        } else {
             setIcon(i);
         }
 
         this.value = value;
         Log.devnull(this.value); // prevents eclipse warning
 
-        if(!((DirEntry) list.getModel().getElementAt(index)).getNoRender())
-        {
+        if (!((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
             String size = "";
 
-            if(Settings.showFileSize)
-            {
+            if (Settings.showFileSize) {
                 size = ((DirEntry) list.getModel().getElementAt(index)).getFileSize();
             }
 
@@ -87,35 +74,28 @@ public class DirCellRenderer extends DefaultListCellRenderer
 
             String date = "";
 
-            if(Settings.showDateNoSize &&
-                   (((DirEntry) list.getModel().getElementAt(index)).who instanceof RemoteDir))
-            {
+            if (Settings.showDateNoSize &&
+                    (((DirEntry) list.getModel().getElementAt(index)).who instanceof RemoteDir)) {
                 size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
 
                 int x = 12 - size.length();
 
-                for(int j = 0; j < x; j++)
-                {
+                for (int j = 0; j < x; j++) {
                     size += " ";
                 }
-            }
-            else if(Settings.showLocalDateNoSize &&
-                        (((DirEntry) list.getModel().getElementAt(index)).who instanceof LocalDir))
-            {
+            } else if (Settings.showLocalDateNoSize &&
+                    (((DirEntry) list.getModel().getElementAt(index)).who instanceof LocalDir)) {
                 size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
 
                 int x = 12 - size.length();
 
-                for(int j = 0; j < x; j++)
-                {
+                for (int j = 0; j < x; j++) {
                     size += " ";
                 }
             }
 
             setText(size + s);
-        }
-        else
-        {
+        } else {
             setFont(GUIDefaults.small);
 
             String s = value.toString();
@@ -124,21 +104,15 @@ public class DirCellRenderer extends DefaultListCellRenderer
 
         int ok = ((DirEntry) value).getPermission();
 
-        if(ok == DirEntry.DENIED)
-        {
+        if (ok == DirEntry.DENIED) {
             setForeground(GUIDefaults.deniedColor);
-        }
-        else if(ok == DirEntry.W)
-        {
+        } else if (ok == DirEntry.W) {
             setForeground(GUIDefaults.writableColor);
-        }
-        else
-        {
+        } else {
             setForeground(GUIDefaults.defaultColor);
         }
 
-        if(((DirEntry) value).file.equals(".."))
-        {
+        if (((DirEntry) value).file.equals("..")) {
             setBackground(GUIDefaults.cdColor);
         }
 

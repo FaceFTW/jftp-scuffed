@@ -15,30 +15,26 @@
  */
 package net.sf.jftp.gui.base;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.base.dir.DirEntry;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
 
 import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 
-public class ResumeDialog extends HFrame implements ActionListener
-{
+public class ResumeDialog extends HFrame implements ActionListener {
     private final JButton resume = new JButton("Resume");
     private final JButton skip = new JButton("Skip");
     private final JButton over = new JButton("Overwrite");
     private DirEntry dirEntry = null;
 
-    public ResumeDialog(DirEntry dirEntry)
-    {
+    public ResumeDialog(DirEntry dirEntry) {
         this.dirEntry = dirEntry;
 
         setLocation(150, 150);
@@ -48,23 +44,18 @@ public class ResumeDialog extends HFrame implements ActionListener
 
         JTextArea text = new JTextArea();
         text.append("A file named " + dirEntry.file +
-                    " already exists.                       \n\n");
+                " already exists.                       \n\n");
 
         File f = new File(JFtp.localDir.getPath() + dirEntry.file);
         long diff = 0;
 
         diff = dirEntry.getRawSize() - f.length();
 
-        if(diff == 0)
-        {
+        if (diff == 0) {
             text.append("It has exactly the same size as the remote file.\n\n");
-        }
-        else if(diff < 0)
-        {
+        } else if (diff < 0) {
             text.append("It is bigger than the remote file.\n\n");
-        }
-        else
-        {
+        } else {
             text.append("It is smaller than the remote file.\n\n");
             resume.setEnabled(true);
         }
@@ -84,23 +75,17 @@ public class ResumeDialog extends HFrame implements ActionListener
         over.addActionListener(this);
 
         pack();
-	fixLocation();
+        fixLocation();
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == resume)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == resume) {
             this.dispose();
             transfer();
-        }
-        else if(e.getSource() == skip)
-        {
+        } else if (e.getSource() == skip) {
             this.dispose();
-        }
-        else if(e.getSource() == over)
-        {
+        } else if (e.getSource() == over) {
             this.dispose();
 
             File f = new File(JFtp.localDir.getPath() + dirEntry.file);
@@ -110,15 +95,11 @@ public class ResumeDialog extends HFrame implements ActionListener
         }
     }
 
-    private void transfer()
-    {
-        if((dirEntry.getRawSize() < Settings.smallSize) &&
-               !dirEntry.isDirectory())
-        {
+    private void transfer() {
+        if ((dirEntry.getRawSize() < Settings.smallSize) &&
+                !dirEntry.isDirectory()) {
             JFtp.remoteDir.getCon().download(dirEntry.file);
-        }
-        else
-        {
+        } else {
             JFtp.remoteDir.getCon().handleDownload(dirEntry.file);
         }
     }

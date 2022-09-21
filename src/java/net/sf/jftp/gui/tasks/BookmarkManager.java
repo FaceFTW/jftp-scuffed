@@ -15,28 +15,24 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.*;
 
 
-public class BookmarkManager extends JInternalFrame implements ActionListener
-{
+public class BookmarkManager extends JInternalFrame implements ActionListener {
     private final JTextArea info = new JTextArea(25, 50);
     private final JButton save = new JButton("Save and close");
     private final JButton close = new JButton("Close");
 
-    public BookmarkManager()
-    {
+    public BookmarkManager() {
         super("Manage Bookmarks", true, true, true, true);
         setLocation(50, 50);
         setSize(600, 540);
@@ -63,22 +59,17 @@ public class BookmarkManager extends JInternalFrame implements ActionListener
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == close)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == close) {
             this.dispose();
-        }
-        else
-        {
+        } else {
             save(Settings.bookmarks);
             JFtp.menuBar.loadBookmarks();
             this.dispose();
         }
     }
 
-    private void setDefaultText()
-    {
+    private void setDefaultText() {
         info.setText("");
         info.append("# JFtp Bookmark Configuration file\n");
         info.append("#\n");
@@ -95,7 +86,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener
         info.append("# dir/domain: inital directory for the connection, domainname for smb\n");
         info.append("# local: \"true\" if connection should be opened in local tab, \"false\" otherwise\n");
         info.append("# directories must be included in <dir></dir> tags and can be ended" +
-                    " using a single\n# <enddir> tag");
+                " using a single\n# <enddir> tag");
         info.append("#\n");
         info.append("#\n");
         info.append("\n<dir>JFtp</dir>\n");
@@ -107,22 +98,17 @@ public class BookmarkManager extends JInternalFrame implements ActionListener
         info.append("SMB#(LAN)#guest#guest#-1#-#false\n\n");
     }
 
-    private void load(String file)
-    {
+    private void load(String file) {
         String data = "";
         String now = "";
 
-        try
-        {
+        try {
             DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 
-            while((data = in.readLine()) != null)
-            {
+            while ((data = in.readLine()) != null) {
                 now = now + data + "\n";
             }
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             Log.debug("No bookmarks.txt found, using defaults.");
 
             setDefaultText();
@@ -133,27 +119,22 @@ public class BookmarkManager extends JInternalFrame implements ActionListener
         info.setText(now);
     }
 
-    private void save(String file)
-    {
-        try
-        {
+    private void save(String file) {
+        try {
             PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)));
 
             out.println(info.getText());
             out.flush();
             out.close();
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             Log.debug(e + " @BookmarkManager.save()");
         }
     }
 
-    public Insets getInsets()
-    {
+    public Insets getInsets() {
         Insets std = super.getInsets();
 
         return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-                          std.right + 5);
+                std.right + 5);
     }
 }

@@ -15,25 +15,22 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-import net.sf.jftp.util.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.io.*;
 
-
-public class NameChooser extends HFrame implements ActionListener
-{
-    public HTextField text;
+public class NameChooser extends HFrame implements ActionListener {
     private final HButton ok = new HButton("Ok");
     private final HPanel okP = new HPanel();
+    public HTextField text;
 
-    public NameChooser()
-    {
+    public NameChooser() {
         //setSize(400, 80);
         setTitle("Enter a name for the file...");
         //setLocation(150, 150);
@@ -46,14 +43,12 @@ public class NameChooser extends HFrame implements ActionListener
         text.text.addActionListener(this);
 
         pack();
-	fixLocation();
+        fixLocation();
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == ok) || (e.getSource() == text.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
             setVisible(false);
         }
     }

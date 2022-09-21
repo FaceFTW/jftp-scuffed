@@ -15,24 +15,22 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HTextField;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.io.*;
 
-
-public class PathChanger extends HFrame implements ActionListener
-{
+public class PathChanger extends HFrame implements ActionListener {
     private final HTextField text;
     private final HButton ok = new HButton("Change Directory");
     private String type = "";
 
-    public PathChanger(String type)
-    {
+    public PathChanger(String type) {
         this.type = type;
 
         //setSize(400, 80);
@@ -47,23 +45,19 @@ public class PathChanger extends HFrame implements ActionListener
         text.text.addActionListener(this);
 
         pack();
-	fixLocation();
+        fixLocation();
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == ok) || (e.getSource() == text.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
             setVisible(false);
 
-            if(type.equals("remote"))
-            {
+            if (type.equals("remote")) {
                 JFtp.remoteDir.getCon().chdir(text.getText());
             }
 
-            if(type.equals("local"))
-            {
+            if (type.equals("local")) {
                 JFtp.localDir.getCon().chdir(text.getText());
             }
         }

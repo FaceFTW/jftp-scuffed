@@ -15,59 +15,49 @@
  */
 package net.sf.jftp.tools;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.net.URL;
+import java.util.Vector;
 
-import java.net.*;
 
-import java.util.*;
-
-
-public class RSSParser
-{
+public class RSSParser {
     URL file;
     Vector titles = new Vector();
     Vector descs = new Vector();
     Vector links = new Vector();
     Vector content = new Vector();
 
-    public RSSParser(URL f)
-    {
+    public RSSParser(URL f) {
         file = f;
         parse();
     }
 
-    private void parse()
-    {
-        try
-        {
+    private void parse() {
+        try {
             DataInputStream in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
             String tmp;
             String data = "";
 
-            while((tmp = in.readLine()) != null)
-            {
+            while ((tmp = in.readLine()) != null) {
                 data += tmp;
             }
 
             add(data, content, "<title>", "</title>", "<description>",
-                "</description>");
+                    "</description>");
             add(data, titles, "<title>", "</title>", null, null);
             add(data, descs, "<description>", "</description>", null, null);
             add(data, links, "<link>", "</link>", null, null);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
 
         }
     }
 
     private void add(String tmp, Vector target, String start, String end,
-                     String s2, String e2)
-    {
-        if(s2 == null)
-        {
+                     String s2, String e2) {
+        if (s2 == null) {
             s2 = start;
             e2 = end;
         }
@@ -75,13 +65,11 @@ public class RSSParser
         int x = tmp.indexOf(start);
         int x2 = tmp.indexOf(s2);
 
-        if(((x < 0) && (x2 < 0)) || ((x < 0) && start.equals(s2)))
-        {
+        if (((x < 0) && (x2 < 0)) || ((x < 0) && start.equals(s2))) {
             return;
         }
 
-        if((x2 >= 0) && ((x2 < x) || (x < 0)))
-        {
+        if ((x2 >= 0) && ((x2 < x) || (x < 0))) {
             x = x2;
 
             String t = start;

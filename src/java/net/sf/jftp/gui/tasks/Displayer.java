@@ -15,47 +15,44 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
+import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.IOException;
 
 
-public class Displayer extends JInternalFrame implements ActionListener
-{
+public class Displayer extends JInternalFrame implements ActionListener {
     public static boolean showCloseButton = false;
-    
+
     private final JTextArea info = new JTextArea(25, 50) {
-    	public Insets getInsets() {
-    		Insets std = super.getInsets();
-    		
-    		return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-    				std.right + 5);
-    	}
+        public Insets getInsets() {
+            Insets std = super.getInsets();
+
+            return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
+                    std.right + 5);
+        }
     };
-    
+
     private final JButton close = new JButton("Close");
 
-    public Displayer(java.net.URL file, Font font)
-    {
+    public Displayer(java.net.URL file, Font font) {
         super(file.getFile(), true, true, true, true);
         setLocation(50, 50);
         setSize(600, 540);
         getContentPane().setLayout(new BorderLayout());
 
         load(file);
-        if(font != null) {
-        	info.setFont(font);
-        }
-        else {
-        	info.setFont(new Font("monospaced",Font.PLAIN, 11));
+        if (font != null) {
+            info.setFont(font);
+        } else {
+            info.setFont(new Font("monospaced", Font.PLAIN, 11));
         }
         info.setEditable(false);
 
@@ -68,51 +65,42 @@ public class Displayer extends JInternalFrame implements ActionListener
 
         close.addActionListener(this);
 
-        if(showCloseButton)
-        {
+        if (showCloseButton) {
             getContentPane().add("South", closeP);
         }
-        
+
         info.setCaretPosition(0);
 
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == close)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == close) {
             this.dispose();
         }
     }
 
-    private void load(java.net.URL file)
-    {
+    private void load(java.net.URL file) {
         String data = "";
         String now = "";
 
-        try
-        {
+        try {
             DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-            while((data = in.readLine()) != null)
-            {
+            while ((data = in.readLine()) != null) {
                 now = now + data + "\n";
             }
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             Log.debug(e + " @Displayer.load()");
         }
 
         info.setText(now);
     }
 
-    public Insets getInsets()
-    {
+    public Insets getInsets() {
         Insets std = super.getInsets();
 
         return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-                          std.right + 5);
+                std.right + 5);
     }
 }

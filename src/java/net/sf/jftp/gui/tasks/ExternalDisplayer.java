@@ -15,38 +15,37 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedInputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.IOException;
 
 
-public class ExternalDisplayer extends HFrame implements ActionListener
-{
+public class ExternalDisplayer extends HFrame implements ActionListener {
     private final JTextArea info = new JTextArea(25, 50);
     private final JButton close = new JButton("Close");
 
-    public ExternalDisplayer(java.net.URL file)
-    {
+    public ExternalDisplayer(java.net.URL file) {
         setTitle("Info...");
         setLocation(50, 50);
         setSize(600, 540);
         getContentPane().setLayout(new BorderLayout());
 
-        addWindowListener(new WindowAdapter()
-            {
-                public void windowClosing(WindowEvent e)
-                {
-                    dispose();
-                }
-            });
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
         load(file);
         info.setEditable(false);
 
@@ -66,41 +65,33 @@ public class ExternalDisplayer extends HFrame implements ActionListener
         pack();
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == close)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == close) {
             this.dispose();
         }
     }
 
-    private void load(java.net.URL file)
-    {
+    private void load(java.net.URL file) {
         String data = "";
         String now = "";
 
-        try
-        {
+        try {
             DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-            while((data = in.readLine()) != null)
-            {
+            while ((data = in.readLine()) != null) {
                 now = now + data + "\n";
             }
-        }
-        catch(IOException e)
-        {
+        } catch (IOException e) {
             Log.debug(e + " @Displayer.load()");
         }
 
         info.setText(now);
     }
 
-    public Insets getInsets()
-    {
+    public Insets getInsets() {
         Insets std = super.getInsets();
 
         return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-                          std.right + 5);
+                std.right + 5);
     }
 }

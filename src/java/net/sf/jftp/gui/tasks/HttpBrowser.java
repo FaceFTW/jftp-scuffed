@@ -15,43 +15,32 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
+import net.sf.jftp.JFtp;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-
-import java.io.*;
-
-import java.util.*;
 
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.html.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLFrameHyperlinkEvent;
+import java.awt.*;
+import java.util.Vector;
 
 
-public class HttpBrowser extends JInternalFrame implements HyperlinkListener
-{
-    public HttpBrowser(String url)
-    {
+public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
+    public HttpBrowser(String url) {
         super("Http Browser", true, true, true, true);
 
-        try
-        {
+        try {
             setTitle(url);
 
             JEditorPane pane = new JEditorPane(url);
             pane.setEditable(false);
             pane.addHyperlinkListener(this);
 
-            if(!pane.getEditorKit().getContentType().equals("text/html") &&
-                   !pane.getEditorKit().getContentType().equals("text/rtf"))
-            {
-                if(!pane.getEditorKit().getContentType().equals("text/plain"))
-                {
+            if (!pane.getEditorKit().getContentType().equals("text/html") &&
+                    !pane.getEditorKit().getContentType().equals("text/rtf")) {
+                if (!pane.getEditorKit().getContentType().equals("text/plain")) {
                     Log.debug("Could not display URL.");
 
                     return;
@@ -70,51 +59,38 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener
             setSize(800, 500);
             show();
             requestFocus();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error fetching URL: " + ex);
             ex.printStackTrace();
         }
     }
 
-    public void hyperlinkUpdate(HyperlinkEvent e)
-    {
-        if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED)
-        {
+    public void hyperlinkUpdate(HyperlinkEvent e) {
+        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
             JEditorPane pane = (JEditorPane) e.getSource();
 
-            if(e instanceof HTMLFrameHyperlinkEvent)
-            {
+            if (e instanceof HTMLFrameHyperlinkEvent) {
                 HTMLFrameHyperlinkEvent evt = (HTMLFrameHyperlinkEvent) e;
                 HTMLDocument doc = (HTMLDocument) pane.getDocument();
                 doc.processHTMLFrameHyperlinkEvent(evt);
-            }
-            else
-            {
-                try
-                {
+            } else {
+                try {
                     String url = e.getURL().toString();
                     String tmp = url.substring(url.lastIndexOf("/"));
 
                     Vector listeners = new Vector();
                     listeners.add(JFtp.localDir);
 
-                    if(!url.endsWith(".htm") && !url.endsWith(".html") &&
-                           (tmp.indexOf(".") >= 0))
-                    {
+                    if (!url.endsWith(".htm") && !url.endsWith(".html") &&
+                            (tmp.indexOf(".") >= 0)) {
                         JFtp.statusP.startTransfer(url,
-                                                   JFtp.localDir.getPath(),
-                                                   listeners,
-                                                   JFtp.getConnectionHandler());
-                    }
-                    else
-                    {
+                                JFtp.localDir.getPath(),
+                                listeners,
+                                JFtp.getConnectionHandler());
+                    } else {
                         pane.setPage(e.getURL());
                     }
-                }
-                catch(Throwable t)
-                {
+                } catch (Throwable t) {
                     t.printStackTrace();
                 }
             }

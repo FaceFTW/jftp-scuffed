@@ -15,26 +15,14 @@
  */
 package net.sf.jftp.gui.base.dir;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
 import net.sf.jftp.gui.base.DownloadList;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-
-import java.util.*;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.net.BasicConnection;
 
 import javax.swing.*;
-import javax.swing.event.*;
 
 
-public class DirPanel extends HPanel implements Dir
-{
+public class DirPanel extends HPanel implements Dir {
     public int length = 0;
     public String[] files;
     public DirEntry[] dirEntry;
@@ -42,74 +30,60 @@ public class DirPanel extends HPanel implements Dir
     public long oldtime = 0;
     public DownloadList dList = null;
     public BasicConnection con = null;
-    public String path = "./";  
+    public String path = "./";
     public JList jl = new JList();
 
-    public DirPanel()
-    {
+    public DirPanel() {
     }
 
-    public DirPanel(String path)
-    {
+    public DirPanel(String path) {
         this.path = path;
     }
 
-    public DirPanel(String path, String type)
-    {
+    public DirPanel(String path, String type) {
         this.path = path;
         this.type = type;
     }
 
-    public boolean setPath(String path)
-    {
+    public boolean setPath(String path) {
         this.path = path;
 
         return true;
     }
 
-    public void setType(String type)
-    {
-        this.type = type;
-    }
-
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public void setDownloadList(DownloadList d)
-    {
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setDownloadList(DownloadList d) {
         dList = d;
     }
 
-    public BasicConnection getCon()
-    {
+    public BasicConnection getCon() {
         return con;
     }
 
-    public void setCon(BasicConnection con)
-    {
+    public void setCon(BasicConnection con) {
         this.con = con;
     }
 
-    public void fresh()
-    {
+    public void fresh() {
     }
 
-    public void actionPerformed(Object target, String msg)
-    {
+    public void actionPerformed(Object target, String msg) {
     }
 
-    public void lock(boolean isNotification)
-    {
+    public void lock(boolean isNotification) {
     }
 
-    public void unlock(boolean isNotification)
-    {
+    public void unlock(boolean isNotification) {
     }
 }

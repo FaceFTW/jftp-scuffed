@@ -15,66 +15,46 @@
  */
 package net.sf.jftp.gui.hostchooser;
 
-import java.awt.BorderLayout;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-
 import net.sf.jftp.JFtp;
-import net.sf.jftp.gui.framework.HButton;
-import net.sf.jftp.gui.framework.HFrame;
-import net.sf.jftp.gui.framework.HPanel;
-import net.sf.jftp.gui.framework.HPasswordField;
-import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.gui.framework.*;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.wrappers.WebdavConnection;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
 
 public class WebdavHostChooser extends HFrame implements ActionListener,
-                                                         WindowListener
-{
+        WindowListener {
     public static HTextField host = new HTextField("URL:", "http://localhost",
-                                                   35);
+            35);
     public static HTextField user = new HTextField("Username:", "guest");
 
     //public static HTextField port = new HTextField("Port:","22");
     public static HPasswordField pass = new HPasswordField("Password:",
-                                                           "nopasswd");
+            "nopasswd");
     private final HPanel okP = new HPanel();
     private final HButton ok = new HButton("Connect");
     private ComponentListener listener = null;
     private boolean useLocal = false;
 
-    public WebdavHostChooser(ComponentListener l, boolean local)
-    {
+    public WebdavHostChooser(ComponentListener l, boolean local) {
         listener = l;
         useLocal = local;
         init();
     }
 
-    public WebdavHostChooser(ComponentListener l)
-    {
+    public WebdavHostChooser(ComponentListener l) {
         listener = l;
         init();
     }
 
-    public WebdavHostChooser()
-    {
+    public WebdavHostChooser() {
         init();
     }
 
-    public void init()
-    {
+    public void init() {
         //setSize(500, 200);
         setLocation(100, 150);
         setTitle("WebDAV Connection... (ALPHA STATE)");
@@ -172,17 +152,14 @@ public class WebdavHostChooser extends HFrame implements ActionListener,
         pack();
     }
 
-    public void update()
-    {
+    public void update() {
         setVisible(true);
         toFront();
         host.requestFocus();
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == ok) || (e.getSource() == pass.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
             String htmp = host.getText().trim();
@@ -191,17 +168,14 @@ public class WebdavHostChooser extends HFrame implements ActionListener,
 
             WebdavConnection con;
 
-            if(useLocal)
-            {
+            if (useLocal) {
                 con = new WebdavConnection(htmp, utmp, ptmp,
-                                           (ConnectionListener) JFtp.localDir);
+                        (ConnectionListener) JFtp.localDir);
                 JFtp.statusP.jftp.addLocalConnection("Webdav", con);
                 con.chdir(htmp);
-            }
-            else
-            {
+            } else {
                 con = new WebdavConnection(htmp, utmp, ptmp,
-                                           (ConnectionListener) JFtp.remoteDir);
+                        (ConnectionListener) JFtp.remoteDir);
                 JFtp.statusP.jftp.addConnection("Webdav", con);
                 con.chdir(htmp);
             }
@@ -211,41 +185,33 @@ public class WebdavHostChooser extends HFrame implements ActionListener,
             JFtp.mainFrame.setVisible(true);
             JFtp.mainFrame.toFront();
 
-            if(listener != null)
-            {
+            if (listener != null) {
                 listener.componentResized(new ComponentEvent(this, 0));
             }
         }
     }
 
-    public void windowClosing(WindowEvent e)
-    {
+    public void windowClosing(WindowEvent e) {
         //System.exit(0);
         this.dispose();
     }
 
-    public void windowClosed(WindowEvent e)
-    {
+    public void windowClosed(WindowEvent e) {
     }
 
-    public void windowActivated(WindowEvent e)
-    {
+    public void windowActivated(WindowEvent e) {
     }
 
-    public void windowDeactivated(WindowEvent e)
-    {
+    public void windowDeactivated(WindowEvent e) {
     }
 
-    public void windowIconified(WindowEvent e)
-    {
+    public void windowIconified(WindowEvent e) {
     }
 
-    public void windowDeiconified(WindowEvent e)
-    {
+    public void windowDeiconified(WindowEvent e) {
     }
 
-    public void windowOpened(WindowEvent e)
-    {
+    public void windowOpened(WindowEvent e) {
     }
 
     /*
@@ -258,14 +224,10 @@ public class WebdavHostChooser extends HFrame implements ActionListener,
     }
     */
 
-    public void pause(int time)
-    {
-        try
-        {
+    public void pause(int time) {
+        try {
             Thread.sleep(time);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
         }
     }
 }

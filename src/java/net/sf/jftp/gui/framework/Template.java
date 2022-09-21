@@ -15,25 +15,20 @@
  */
 package net.sf.jftp.gui.framework;
 
-import net.sf.jftp.gui.framework.*;
-
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-public class Template extends HPanel implements ActionListener
-{
-    public Template()
-    {
+public class Template extends HPanel implements ActionListener {
+    public Template() {
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
     }
 
-    public Insets getInsets()
-    {
+    public Insets getInsets() {
         Insets in = super.getInsets();
 
         //return new Insets(in.top+5,in.left+5,in.bottom+5,in.right+5);

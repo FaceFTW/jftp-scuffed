@@ -15,26 +15,25 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.util.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import java.io.*;
 
-
-public class Remover extends HFrame implements ActionListener
-{
+public class Remover extends HFrame implements ActionListener {
     private final HTextField text;
     private final HButton ok = new HButton("Remove file/directory...");
     private final HButton cancel = new HButton("Cancel");
     private final HPanel okP = new HPanel();
     private String type = null;
 
-    public Remover(String l, String type)
-    {
+    public Remover(String l, String type) {
         this.type = type;
 
         setSize(350, 100);
@@ -53,34 +52,28 @@ public class Remover extends HFrame implements ActionListener
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == ok)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == ok) {
             setVisible(false);
 
             String tmp = text.getText();
 
-            if(!tmp.endsWith("/"))
-            {
+            if (!tmp.endsWith("/")) {
                 tmp = tmp + "/";
             }
 
             AutoRemover armv = new AutoRemover(tmp, type);
 
-            if(type.equals("local"))
-            {
+            if (type.equals("local")) {
                 JFtp.localUpdate();
             }
 
-            if(type.equals("remote"))
-            {
+            if (type.equals("remote")) {
                 JFtp.remoteUpdate();
             }
         }
 
-        if(e.getSource() == cancel)
-        {
+        if (e.getSource() == cancel) {
             this.dispose();
         }
     }

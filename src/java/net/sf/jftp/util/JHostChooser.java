@@ -15,25 +15,15 @@
  */
 package net.sf.jftp.util;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-
-import java.util.*;
+import net.sf.jftp.gui.framework.HFrame;
 
 import javax.swing.*;
-import javax.swing.event.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-public class JHostChooser extends HFrame implements ActionListener
-{
+public class JHostChooser extends HFrame implements ActionListener {
     private final JLabel hostL = new JLabel("Host:");
     private final JLabel portL = new JLabel("Port:");
     private final JTextField host = new JTextField(20);
@@ -42,8 +32,7 @@ public class JHostChooser extends HFrame implements ActionListener
     private final JPanel okP = new JPanel();
     private final JButton ok = new JButton("Use these settings");
 
-    public JHostChooser()
-    {
+    public JHostChooser() {
         setSize(400, 120);
         setLocation(200, 250);
         setTitle("Connection...");
@@ -66,10 +55,8 @@ public class JHostChooser extends HFrame implements ActionListener
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == ok)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == ok) {
             RawConnection.host.setText(host.getText());
             RawConnection.port.setText(port.getText());
             RawConnection.established = false;
@@ -78,11 +65,10 @@ public class JHostChooser extends HFrame implements ActionListener
         }
     }
 
-    public Insets getInsets()
-    {
+    public Insets getInsets() {
         Insets std = super.getInsets();
 
         return new Insets(std.top + 5, std.left + 5, std.bottom + 5,
-                          std.right + 5);
+                std.right + 5);
     }
 }

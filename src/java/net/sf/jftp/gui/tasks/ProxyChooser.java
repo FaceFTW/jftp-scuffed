@@ -15,27 +15,24 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JLabel;
-
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.logging.Log;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ProxyChooser extends HPanel implements ActionListener
-{
+
+public class ProxyChooser extends HPanel implements ActionListener {
     private final HTextField proxy;
     private final HTextField port;
     private final HButton ok = new HButton("Ok");
 
-    public ProxyChooser()
-    {
+    public ProxyChooser() {
         //setSize(500,120);
         //setTitle("Proxy settings...");
         //setLocation(50,150);
@@ -64,10 +61,8 @@ public class ProxyChooser extends HPanel implements ActionListener
         //setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == ok)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == ok) {
             //setVisible(false);
             String h = proxy.getText().trim();
             String p = port.getText().trim();
@@ -84,8 +79,7 @@ public class ProxyChooser extends HPanel implements ActionListener
 
             Log.out("proxy vars: " + h + ":" + p);
 
-            if(h.equals("") || p.equals(""))
-            {
+            if (h.equals("") || p.equals("")) {
                 return;
             }
 

@@ -17,20 +17,19 @@ package net.sf.jftp.net;
 
 
 /**
-* Classes that implement this interface are notified about various
-* events that may happen. Make sure to use myftpconnection.addConnectionListener(this) in
-* the class to get it working.
-*/
-public interface ConnectionListener
-{
+ * Classes that implement this interface are notified about various
+ * events that may happen. Make sure to use myftpconnection.addConnectionListener(this) in
+ * the class to get it working.
+ */
+public interface ConnectionListener {
     /**
-    * Called if the remote directory has changed by a chdir() or a finished upload for example.
-    */
+     * Called if the remote directory has changed by a chdir() or a finished upload for example.
+     */
     void updateRemoteDirectory(BasicConnection con);
 
     /**
-    * Called every n bytes, where n is defined by Settings
-    */
+     * Called every n bytes, where n is defined by Settings
+     */
     void updateProgress(String file, String type, long bytes);
 
     void connectionInitialized(BasicConnection con);

@@ -16,33 +16,25 @@
 package net.sf.jftp.gui.framework;
 
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.image.*;
 
 import javax.swing.*;
+import java.awt.*;
 
 
-public class HImage
-{
-    public static synchronized Image getImage(Component c, String name)
-    {
+public class HImage {
+    public static synchronized Image getImage(Component c, String name) {
         Image img = null;
 
-        try
-        {
+        try {
             java.net.URL url = ClassLoader.getSystemResource(name);
 
-            if(url == null)
-            {
+            if (url == null) {
                 url = HImage.class.getResource("/" + name);
             }
 
             //System.out.println(name + ":" + url);
             // this is used in case the image not found, and we are packaged as a jar.
-            if(url == null)
-            {
+            if (url == null) {
                 url = HImage.class.getResource("/" + name.replace('\\', '/'));
             }
 
@@ -52,9 +44,7 @@ public class HImage
             MediaTracker mt = new MediaTracker(c);
             mt.addImage(img, 1);
             mt.waitForAll();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("\n\n\nError fetching image!");
             ex.printStackTrace();
 
@@ -66,12 +56,10 @@ public class HImage
         return img;
     }
 
-    public static synchronized ImageIcon getImageIcon(String name, String desc)
-    {
+    public static synchronized ImageIcon getImageIcon(String name, String desc) {
         java.net.URL url = ClassLoader.getSystemResource(name);
 
-        if(url == null)
-        {
+        if (url == null) {
             url = HImage.class.getResource("/" + name);
         }
 

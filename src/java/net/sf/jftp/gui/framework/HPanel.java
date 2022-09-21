@@ -15,14 +15,11 @@
  */
 package net.sf.jftp.gui.framework;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
-public class HPanel extends JPanel
-{
-    public HPanel()
-    {
+public class HPanel extends JPanel {
+    public HPanel() {
         setFont(GUIDefaults.font);
         setBackground(new JLabel().getBackground());
     }

@@ -15,19 +15,19 @@
  */
 package net.sf.jftp.gui.base;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
-import java.io.*;
 
-
-public class Properties extends HFrame implements ActionListener
-{
+public class Properties extends HFrame implements ActionListener {
     private final Label fileL = new Label("File:                      ");
     private final Label sizeL = new Label("Size: ? bytes              ");
     private final HButton ok = new HButton("Dismiss");
@@ -35,8 +35,7 @@ public class Properties extends HFrame implements ActionListener
     private String type = "";
     private String file = "";
 
-    public Properties(String file, String type)
-    {
+    public Properties(String file, String type) {
         this.file = file;
         this.type = type;
 
@@ -55,35 +54,27 @@ public class Properties extends HFrame implements ActionListener
         setVisible(true);
     }
 
-    private void process()
-    {
-        if(type.equals("local"))
-        {
+    private void process() {
+        if (type.equals("local")) {
             File f = new File(JFtp.localDir.getPath() + file);
             sizeL.setText("Size: " + f.length() + " bytes");
 
-            try
-            {
+            try {
                 fileL.setText("File: " + f.getCanonicalPath());
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 Log.debug(ex.toString());
             }
 
             sizeL.setText("Size: " + f.length() + " bytes");
         }
 
-        if(type.equals("remote"))
-        {
+        if (type.equals("remote")) {
             fileL.setText("File: " + JFtp.remoteDir.getPath() + file);
         }
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == ok)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == ok) {
             setVisible(false);
         }
     }

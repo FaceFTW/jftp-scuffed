@@ -17,55 +17,49 @@ package net.sf.jftp.gui.base;
 
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.gui.hostchooser.HostChooser;
-import net.sf.jftp.gui.hostchooser.NfsHostChooser;
-import net.sf.jftp.gui.hostchooser.SftpHostChooser;
-import net.sf.jftp.gui.hostchooser.SmbHostChooser;
-import net.sf.jftp.gui.hostchooser.WebdavHostChooser;
+import net.sf.jftp.gui.framework.GUIDefaults;
+import net.sf.jftp.gui.framework.HImageButton;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.hostchooser.*;
 import net.sf.jftp.gui.tasks.HttpBrowser;
 import net.sf.jftp.gui.tasks.NativeHttpBrowser;
-import net.sf.jftp.net.*;
+import net.sf.jftp.net.ConnectionHandler;
 import net.sf.jftp.net.wrappers.HttpTransfer;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.util.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
 
-public class StatusPanel extends HPanel implements ActionListener
-{
+public class StatusPanel extends HPanel implements ActionListener {
     public static StatusCanvas status = new StatusCanvas();
     private final HImageButton newcon = new HImageButton(Settings.hostImage,
-                                                   "newcon",
-                                                   "Add FTP Connection...", this);
+            "newcon",
+            "Add FTP Connection...", this);
     private final HImageButton smbcon = new HImageButton(Settings.openImage,
-                                                   "smbcon",
-                                                   "Add SMB Connection...", this);
+            "smbcon",
+            "Add SMB Connection...", this);
     private final HImageButton sftpcon = new HImageButton(Settings.sftpImage,
-                                                    "sftpcon",
-                                                    "Add SFTP Connection...",
-                                                    this);
+            "sftpcon",
+            "Add SFTP Connection...",
+            this);
     private final HImageButton nfscon = new HImageButton(Settings.nfsImage, "nfscon",
-                                                   "Add NFS Connection...", this);
+            "Add NFS Connection...", this);
     private final HImageButton webdavcon = new HImageButton(Settings.webdavImage,
-                                                      "webdavcon",
-                                                      "Add WebDAV Connection...",
-                                                      this);
-    public HImageButton close = new HImageButton(Settings.closeImage, "close",
-                                                 "Close active tab...", this);
+            "webdavcon",
+            "Add WebDAV Connection...",
+            this);
     private final HImageButton go = new HImageButton(Settings.refreshImage, "go",
-                                               "Download URL now...", this);
+            "Download URL now...", this);
     private final JTextField address = new JTextField("http://www.xkcd.com", 30);
+    public HImageButton close = new HImageButton(Settings.closeImage, "close",
+            "Close active tab...", this);
     public JFtp jftp;
 
-    public StatusPanel(JFtp jftp)
-    {
+    public StatusPanel(JFtp jftp) {
         this.jftp = jftp;
         setLayout(new BorderLayout());
 
@@ -80,7 +74,7 @@ public class StatusPanel extends HPanel implements ActionListener
         */
         Insets in = bar.getMargin();
         bar.setMargin(new Insets(in.top + 2, in.left + 4, in.bottom + 2,
-                                 in.right + 4));
+                in.right + 4));
 
         bar.add(newcon);
         newcon.setSize(24, 24);
@@ -102,7 +96,7 @@ public class StatusPanel extends HPanel implements ActionListener
         nfscon.setToolTipText("New NFS Connection...");
         bar.add(new JLabel(" "));
 
-        if(Settings.enableWebDav) bar.add(webdavcon);
+        if (Settings.enableWebDav) bar.add(webdavcon);
         webdavcon.setSize(24, 24);
         webdavcon.setToolTipText("New WebDAV Connection...");
         bar.add(new JLabel("   "));
@@ -132,75 +126,58 @@ public class StatusPanel extends HPanel implements ActionListener
         setVisible(true);
     }
 
-    public void status(String msg)
-    {
+    public void status(String msg) {
         status.setText(msg);
     }
 
-    public String getHost()
-    {
+    public String getHost() {
         return status.getHost();
     }
 
-    public void setHost(String host)
-    {
+    public void setHost(String host) {
         status.setHost(host);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getActionCommand().equals("go") || (e.getSource() == address))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("go") || (e.getSource() == address)) {
             Vector listeners = new Vector();
             listeners.add(JFtp.localDir);
 
             String url = address.getText().trim();
 
             startTransfer(url, JFtp.localDir.getPath(), listeners,
-                          JFtp.getConnectionHandler());
-        }
-        else if(e.getActionCommand().equals("smbcon"))
-        {
+                    JFtp.getConnectionHandler());
+        } else if (e.getActionCommand().equals("smbcon")) {
             //jftp.safeDisconnect();
             SmbHostChooser hc = new SmbHostChooser();
             hc.toFront();
 
             //hc.setModal(true);
             hc.update();
-        }
-        else if(e.getActionCommand().equals("sftpcon"))
-        {
+        } else if (e.getActionCommand().equals("sftpcon")) {
             //jftp.safeDisconnect();
             SftpHostChooser hc = new SftpHostChooser();
             hc.toFront();
 
             //hc.setModal(true);
             hc.update();
-        }
-        else if(e.getActionCommand().equals("nfscon"))
-        {
+        } else if (e.getActionCommand().equals("nfscon")) {
             //jftp.safeDisconnect();
             NfsHostChooser hc = new NfsHostChooser();
             hc.toFront();
 
             //hc.setModal(true);
             hc.update();
-        }
-        else if(e.getActionCommand().equals("webdavcon"))
-        {
+        } else if (e.getActionCommand().equals("webdavcon")) {
             //jftp.safeDisconnect();
             WebdavHostChooser hc = new WebdavHostChooser();
             hc.toFront();
 
             //hc.setModal(true);
             hc.update();
-        }
-        else if(e.getActionCommand().equals("close"))
-        {
+        } else if (e.getActionCommand().equals("close")) {
             jftp.closeCurrentTab();
-        }
-        else if(e.getActionCommand().equals("newcon") && (!JFtp.uiBlocked))
-        {
+        } else if (e.getActionCommand().equals("newcon") && (!JFtp.uiBlocked)) {
             // jftp.safeDisconnect();
             // Switch windows
             // jftp.mainFrame.setVisible(false);
@@ -213,38 +190,30 @@ public class StatusPanel extends HPanel implements ActionListener
     }
 
     public void startTransfer(String url, String localPath, Vector listeners,
-                              ConnectionHandler handler)
-    {
-        if(url.startsWith("ftp://") &&
-               (url.endsWith("/") || (url.lastIndexOf("/") < 10)))
-        {
+                              ConnectionHandler handler) {
+        if (url.startsWith("ftp://") &&
+                (url.endsWith("/") || (url.lastIndexOf("/") < 10))) {
             JFtp.safeDisconnect();
 
             HostChooser hc = new HostChooser();
             hc.update(url);
-        }
-        else if(url.startsWith("http://") &&
-                    (url.endsWith("/") || (url.lastIndexOf("/") < 10)))
-        {
+        } else if (url.startsWith("http://") &&
+                (url.endsWith("/") || (url.lastIndexOf("/") < 10))) {
             try {
-            	NativeHttpBrowser.main(new String[] {url});
-            }
-            catch(Throwable ex) {
+                NativeHttpBrowser.main(new String[]{url});
+            } catch (Throwable ex) {
                 ex.printStackTrace();
                 Log.debug("Native browser intialization failed, using JContentPane...");
 
                 HttpBrowser h = new HttpBrowser(url);
                 JFtp.desktop.add(h, new Integer(Integer.MAX_VALUE - 10));
             }
-        }
-        else
-        {
+        } else {
             HttpTransfer t = new HttpTransfer(url, localPath, listeners, handler);
         }
     }
 
-    public Insets getInsets()
-    {
+    public Insets getInsets() {
         Insets in = super.getInsets();
 
         return new Insets(in.top, in.left, in.bottom, in.right);

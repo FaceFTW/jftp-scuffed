@@ -16,85 +16,72 @@
 package net.sf.jftp.system.logging;
 
 
-import org.apache.log4j.*;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Category;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 
-public class Log4JLogger implements Logger
-{
+public class Log4JLogger implements Logger {
     private final Category cat = Category.getInstance("jftp");
 
-    public Log4JLogger()
-    {
+    public Log4JLogger() {
         BasicConfigurator.configure();
     }
 
-    private String stacktrace(Throwable throwable)
-    {
+    private String stacktrace(Throwable throwable) {
         StringWriter out = new StringWriter();
         throwable.printStackTrace(new PrintWriter(out));
 
         return (throwable.toString());
     }
 
-    public void debug(String msg)
-    {
+    public void debug(String msg) {
         cat.debug(msg);
     }
 
-    public void debugRaw(String msg)
-    {
+    public void debugRaw(String msg) {
         cat.debug(msg);
     }
 
-    public void debug(String msg, Throwable throwable)
-    {
+    public void debug(String msg, Throwable throwable) {
         cat.debug(msg);
         cat.debug(stacktrace(throwable));
     }
 
-    public void warn(String msg)
-    {
+    public void warn(String msg) {
         cat.warn(msg);
     }
 
-    public void warn(String msg, Throwable throwable)
-    {
+    public void warn(String msg, Throwable throwable) {
         cat.warn(msg);
         cat.warn(stacktrace(throwable));
     }
 
-    public void error(String msg)
-    {
+    public void error(String msg) {
         cat.error(msg);
     }
 
-    public void error(String msg, Throwable throwable)
-    {
+    public void error(String msg, Throwable throwable) {
         cat.error(msg);
         cat.error(stacktrace(throwable));
     }
 
-    public void info(String msg)
-    {
+    public void info(String msg) {
         cat.info(msg);
     }
 
-    public void info(String msg, Throwable throwable)
-    {
+    public void info(String msg, Throwable throwable) {
         cat.info(msg);
         cat.info(stacktrace(throwable));
     }
 
-    public void fatal(String msg)
-    {
+    public void fatal(String msg) {
         cat.fatal(msg);
     }
 
-    public void fatal(String msg, Throwable throwable)
-    {
+    public void fatal(String msg, Throwable throwable) {
         cat.fatal(msg);
         cat.fatal(stacktrace(throwable));
     }

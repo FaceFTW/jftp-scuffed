@@ -18,8 +18,13 @@ package net.sf.jftp.gui.framework;
 import java.awt.*;
 
 
-public class GUIDefaults
-{
+public class GUIDefaults {
+    public static final Font small = new Font("Arial", Font.PLAIN, 10);
+    public static final Font font = new Font("monospaced", Font.PLAIN, 12);
+    public static final Font active = new Font("Arial", Font.PLAIN, 14);
+    public static final Font menuFont = new Font("Arial", Font.PLAIN, 12);
+    public static final Font status = new Font("Arial", Font.BOLD, 12);
+    public static final Font monospaced = font;
     public static Color mainBack = Color.lightGray;
     public static Color back = new Color(230, 230, 230);
     public static Color sizeBack = new Color(255, 200, 0);
@@ -36,10 +41,4 @@ public class GUIDefaults
     public static Color defaultColor = new Color(0, 0, 0);
     public static Color light = new Color(233, 233, 233);
     public static Color lightActive = new Color(222, 222, 255);
-    public static final Font small = new Font("Arial", Font.PLAIN, 10);
-    public static final Font font = new Font("monospaced", Font.PLAIN, 12);
-    public static final Font active = new Font("Arial", Font.PLAIN, 14);
-    public static final Font menuFont = new Font("Arial", Font.PLAIN, 12);
-    public static final Font status = new Font("Arial", Font.BOLD, 12);
-    public static final Font monospaced = font;
 }

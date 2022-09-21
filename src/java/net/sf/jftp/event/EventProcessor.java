@@ -20,40 +20,22 @@ import java.util.Vector;
 
 
 public class EventProcessor implements Runnable, Acceptor, FtpEventConstants,
-                                       EventHandler
-{
+        EventHandler {
     private static final Hashtable table = new Hashtable();
     private final Vector buffer;
     private boolean done = false;
 
-    public EventProcessor(Vector b)
-    {
+    public EventProcessor(Vector b) {
         buffer = b;
         new Thread(this).start();
         addHandler(FTPShutdown, this);
     }
 
-    public void accept(Event e)
-    {
-        Integer code = new Integer(e.eventCode());
-        Vector handlers = (Vector) (table.get(code));
-
-        if(handlers != null)
-        {
-            for(int i = 0, max = handlers.size(); i < max; i++)
-            {
-                ((EventHandler) (handlers.elementAt(i))).handle(e);
-            }
-        }
-    }
-
-    public static void addHandler(int eventCode, EventHandler h)
-    {
+    public static void addHandler(int eventCode, EventHandler h) {
         Integer code = new Integer(eventCode);
         Vector handlers = (Vector) (table.get(code));
 
-        if(handlers == null)
-        {
+        if (handlers == null) {
             handlers = new Vector();
             table.put(code, handlers);
         }
@@ -61,19 +43,26 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants,
         handlers.addElement(h);
     }
 
-    public boolean handle(Event e)
-    {
+    public void accept(Event e) {
+        Integer code = new Integer(e.eventCode());
+        Vector handlers = (Vector) (table.get(code));
+
+        if (handlers != null) {
+            for (int i = 0, max = handlers.size(); i < max; i++) {
+                ((EventHandler) (handlers.elementAt(i))).handle(e);
+            }
+        }
+    }
+
+    public boolean handle(Event e) {
         done = true;
 
         return true;
     }
 
-    public void run()
-    {
-        while(!done)
-        {
-            if(buffer.size() != 0)
-            {
+    public void run() {
+        while (!done) {
+            if (buffer.size() != 0) {
                 accept((Event) buffer.firstElement());
                 buffer.removeElementAt(0);
             }

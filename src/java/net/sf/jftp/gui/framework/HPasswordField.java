@@ -15,22 +15,17 @@
  */
 package net.sf.jftp.gui.framework;
 
-import java.awt.*;
-
 import javax.swing.*;
 
 
-public class HPasswordField extends HTextField
-{
+public class HPasswordField extends HTextField {
 
-    public HPasswordField(String l, String t)
-    {
-        super(l, t, true);        
+    public HPasswordField(String l, String t) {
+        super(l, t, true);
     }
 
-    public String getText()
-    {
-        return new String(((JPasswordField)text).getPassword());
+    public String getText() {
+        return new String(((JPasswordField) text).getPassword());
     }
 
 }

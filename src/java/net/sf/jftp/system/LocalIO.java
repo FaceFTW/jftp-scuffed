@@ -15,25 +15,20 @@
  */
 package net.sf.jftp.system;
 
-import java.io.*;
+import java.io.File;
 
 
-public class LocalIO
-{
+public class LocalIO {
     /**
      * sorts a string alphabetically
      * probably better off just calling java.util.Arrays.sort
      */
-    public static String[] sortStrings(String[] array)
-    {
-        for(int i = array.length; --i >= 0;)
-        {
+    public static String[] sortStrings(String[] array) {
+        for (int i = array.length; --i >= 0; ) {
             boolean swapped = false;
 
-            for(int j = 0; j < i; j++)
-            {
-                if(array[j].compareTo(array[j + 1]) > 0)
-                {
+            for (int j = 0; j < i; j++) {
+                if (array[j].compareTo(array[j + 1]) > 0) {
                     String T = array[j];
                     array[j] = array[j + 1];
                     array[j + 1] = T;
@@ -41,8 +36,7 @@ public class LocalIO
                 }
             }
 
-            if(!swapped)
-            {
+            if (!swapped) {
                 break;
             }
         }
@@ -50,16 +44,15 @@ public class LocalIO
         return array;
     }
 
-    /** recursive removal of a local directoy */
-    public static void cleanLocalDir(String dir, String path)
-    {
-        if(dir.endsWith("\\"))
-        {
+    /**
+     * recursive removal of a local directoy
+     */
+    public static void cleanLocalDir(String dir, String path) {
+        if (dir.endsWith("\\")) {
             System.out.println("oops... fucked up, need to fix \\-problem!!!");
         }
 
-        if(!dir.endsWith("/"))
-        {
+        if (!dir.endsWith("/")) {
             dir = dir + "/";
         }
 
@@ -68,33 +61,27 @@ public class LocalIO
         File f2 = new File(path + dir);
         String[] tmp = f2.list();
 
-        for(int i = 0; i < tmp.length; i++)
-        {
+        for (int i = 0; i < tmp.length; i++) {
             File f3 = new File(path + dir + tmp[i]);
 
-            if(f3.isDirectory())
-            {
+            if (f3.isDirectory()) {
                 //System.out.println(dir);
                 cleanLocalDir(dir + tmp[i], path);
                 f3.delete();
-            }
-            else
-            {
+            } else {
                 //System.out.println(dir+tmp[i]);
                 f3.delete();
             }
         }
     }
 
-    /** sleep amount of time in millisconds */
-    public static void pause(int time)
-    {
-        try
-        {
+    /**
+     * sleep amount of time in millisconds
+     */
+    public static void pause(int time) {
+        try {
             Thread.sleep(time);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

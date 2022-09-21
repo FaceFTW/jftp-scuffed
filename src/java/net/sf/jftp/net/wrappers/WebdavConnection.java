@@ -15,16 +15,6 @@
  */
 package net.sf.jftp.net.wrappers;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StreamTokenizer;
-import java.util.Date;
-import java.util.Vector;
-
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
@@ -32,16 +22,19 @@ import net.sf.jftp.net.DataConnection;
 import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
-
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.webdav.lib.WebdavFile;
 import org.apache.webdav.lib.WebdavResource;
 
+import java.io.*;
+import java.util.Date;
+import java.util.Vector;
 
-public class WebdavConnection implements BasicConnection
-{
+
+public class WebdavConnection implements BasicConnection {
     public static int webdavBuffer = 32000;
+    private final String user;
+    private final String pass;
     private String path = "";
     private String pwd = "";
     private Vector listeners = new Vector();
@@ -51,12 +44,9 @@ public class WebdavConnection implements BasicConnection
     private String baseFile;
     private int fileCount;
     private boolean shortProgress = false;
-    private final String user;
-    private final String pass;
 
     public WebdavConnection(String path, String user, String pass,
-                            ConnectionListener l)
-    {
+                            ConnectionListener l) {
         this.user = user;
         this.pass = pass;
 
@@ -64,57 +54,46 @@ public class WebdavConnection implements BasicConnection
         chdir(path);
     }
 
-    public int removeFileOrDir(String file)
-    {
+    public int removeFileOrDir(String file) {
         Log.debug("Feature is not implemented yet");
 
-        if(true)
-        {
+        if (true) {
             return -1;
         }
 
-        try
-        {
-            if((file == null) || file.equals(""))
-            {
+        try {
+            if ((file == null) || file.equals("")) {
                 return -1;
             }
 
             String tmp = file;
 
-            if(StringUtils.isRelative(file))
-            {
+            if (StringUtils.isRelative(file)) {
                 tmp = getPWD() + file;
             }
 
             WebdavFile f = new WebdavFile(getURL(tmp));
 
-            if(!f.getAbsolutePath().equals(f.getCanonicalPath()))
-            {
+            if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
                 //Log.debug("WARNING: Symlink removed");//Skipping symlink, remove failed.");
                 //Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
                 //return -1;
-                if(!f.delete())
-                {
+                if (!f.delete()) {
                     return -1;
                 }
             }
 
-            if(f.exists() && f.isDirectory())
-            {
+            if (f.exists() && f.isDirectory()) {
                 cleanLocalDir(tmp);
             }
 
             //System.out.println(tmp);
-            if(!f.delete())
-            {
+            if (!f.delete()) {
                 Log.debug("Removal failed.");
 
                 return -1;
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex.toString());
             ex.printStackTrace();
         }
@@ -122,14 +101,11 @@ public class WebdavConnection implements BasicConnection
         return -1;
     }
 
-    private void cleanLocalDir(String dir)
-    {
-        try
-        {
+    private void cleanLocalDir(String dir) {
+        try {
             dir = dir.replace('\\', '/');
 
-            if(!dir.endsWith("/"))
-            {
+            if (!dir.endsWith("/")) {
                 dir = dir + "/";
             }
 
@@ -138,17 +114,14 @@ public class WebdavConnection implements BasicConnection
             WebdavFile f2 = new WebdavFile(getURL(dir));
             String[] tmp = f2.list();
 
-            if(tmp == null)
-            {
+            if (tmp == null) {
                 return;
             }
 
-            for(int i = 0; i < tmp.length; i++)
-            {
+            for (int i = 0; i < tmp.length; i++) {
                 WebdavFile f3 = new WebdavFile(getURL(dir + tmp[i]));
 
-                if(!f3.getAbsolutePath().equals(f3.getCanonicalPath()))
-                {
+                if (!f3.getAbsolutePath().equals(f3.getCanonicalPath())) {
                     //Log.debug("WARNING: Symlink remove");//Skipping symlink, remove may fail.");
                     f3.delete();
 
@@ -156,62 +129,48 @@ public class WebdavConnection implements BasicConnection
                     //continue;
                 }
 
-                if(f3.isDirectory())
-                {
+                if (f3.isDirectory()) {
                     //System.out.println(dir);
                     cleanLocalDir(dir + tmp[i]);
                     f3.delete();
-                }
-                else
-                {
+                } else {
                     //System.out.println(dir+tmp[i]);
                     f3.delete();
                 }
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex);
             ex.printStackTrace();
         }
     }
 
-    public void sendRawCommand(String cmd)
-    {
+    public void sendRawCommand(String cmd) {
     }
 
-    public void disconnect()
-    {
+    public void disconnect() {
     }
 
-    public boolean isConnected()
-    {
+    public boolean isConnected() {
         return true;
     }
 
-    public String getPWD()
-    {
+    public String getPWD() {
         return pwd;
     }
 
-    public boolean cdup()
-    {
+    public boolean cdup() {
         return chdir(pwd.substring(0, pwd.lastIndexOf("/") + 1));
     }
 
-    public boolean mkdir(String dirName)
-    {
+    public boolean mkdir(String dirName) {
         Log.debug("Feature is not implemented yet");
 
-        if(true)
-        {
+        if (true) {
             return false;
         }
 
-        try
-        {
-            if(StringUtils.isRelative(dirName))
-            {
+        try {
+            if (StringUtils.isRelative(dirName)) {
                 dirName = getPWD() + dirName;
             }
 
@@ -221,9 +180,7 @@ public class WebdavConnection implements BasicConnection
             fireDirectoryUpdate();
 
             return x;
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex.toString());
             ex.printStackTrace();
 
@@ -231,25 +188,21 @@ public class WebdavConnection implements BasicConnection
         }
     }
 
-    public void list() throws IOException
-    {
+    public void list() throws IOException {
     }
 
-    public boolean chdir(String p)
-    {
-        try
-        {
+    public boolean chdir(String p) {
+        try {
             String p2 = processPath(p);
 
-            if(p2 == null)
-            {
+            if (p2 == null) {
                 return false;
             }
 
             //WebdavFile f = new WebdavFile(getURL(p2));
             WebdavResource f = getResource(p2);
 
-            if(!f.exists() || !f.isCollection()) //!f.isDirectory() || !f.canRead())
+            if (!f.exists() || !f.isCollection()) //!f.isDirectory() || !f.canRead())
             {
                 Log.debug("Access denied.");
 
@@ -263,9 +216,7 @@ public class WebdavConnection implements BasicConnection
             fireDirectoryUpdate();
 
             return true;
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex);
             ex.printStackTrace();
 
@@ -273,12 +224,10 @@ public class WebdavConnection implements BasicConnection
         }
     }
 
-    public boolean chdirNoRefresh(String p)
-    {
+    public boolean chdirNoRefresh(String p) {
         String p2 = processPath(p);
 
-        if(p2 == null)
-        {
+        if (p2 == null) {
             return false;
         }
 
@@ -288,34 +237,27 @@ public class WebdavConnection implements BasicConnection
         return true;
     }
 
-    public String getLocalPath()
-    {
+    public String getLocalPath() {
         //System.out.println("local: " + path);
         return path;
     }
 
-    public String processPath(String p)
-    {
-        try
-        {
-            if(!p.startsWith("http://"))
-            {
+    public String processPath(String p) {
+        try {
+            if (!p.startsWith("http://")) {
                 p = pwd + p;
             }
 
-            if(!p.endsWith("/"))
-            {
+            if (!p.endsWith("/")) {
                 p = p + "/";
             }
 
-            while(p.endsWith("/../"))
-            {
+            while (p.endsWith("/../")) {
                 p = p.substring(0, p.lastIndexOf("/../") - 1);
                 p = p.substring(0, p.lastIndexOf("/"));
             }
 
-            while(p.endsWith("/./"))
-            {
+            while (p.endsWith("/./")) {
                 p = p.substring(0, p.lastIndexOf("/./") - 1);
                 p = p.substring(0, p.lastIndexOf("/"));
             }
@@ -327,36 +269,27 @@ public class WebdavConnection implements BasicConnection
             WebdavResource f = getResource(p);
             String p2 = p;
 
-            if(f.exists() && f.isCollection())
-            {
-                try
-                {
+            if (f.exists() && f.isCollection()) {
+                try {
                     //p2 = f.toURL(); //CanonicalPath();
-                    if(!p2.endsWith("/"))
-                    {
+                    if (!p2.endsWith("/")) {
                         p2 = p2 + "/";
                     }
 
                     //Log.out("processPath parsed URL: " + p);
                     //Log.out("processPath URL2: " + f.getPath());
                     return p2;
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.debug("Error: can not get pathname (processPath)!");
 
                     return null;
                 }
-            }
-            else
-            {
+            } else {
                 Log.debug("(processpPath) No such path: \"" + p + "\"");
 
                 return null;
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex);
             ex.printStackTrace();
 
@@ -364,15 +297,12 @@ public class WebdavConnection implements BasicConnection
         }
     }
 
-    public boolean setLocalPath(String p)
-    {
-        try
-        {
+    public boolean setLocalPath(String p) {
+        try {
             p = p.replace('\\', '/');
 
             //System.out.print("local 1:" + p);
-            if(StringUtils.isRelative(p))
-            {
+            if (StringUtils.isRelative(p)) {
                 p = path + p;
             }
 
@@ -381,38 +311,29 @@ public class WebdavConnection implements BasicConnection
             //System.out.println(", local 2:" + p);
             File f = new File(p);
 
-            if(f.exists())
-            {
-                try
-                {
+            if (f.exists()) {
+                try {
                     path = f.getCanonicalPath();
                     path = path.replace('\\', '/');
 
-                    if(!path.endsWith("/"))
-                    {
+                    if (!path.endsWith("/")) {
                         path = path + "/";
                     }
 
                     //System.out.println("localPath: "+path);
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     Log.debug("Error: can not get pathname (local)!");
 
                     return false;
                 }
-            }
-            else
-            {
+            } else {
                 Log.debug("(local) No such path: \"" + p + "\"");
 
                 return false;
             }
 
             return true;
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex);
             ex.printStackTrace();
 
@@ -420,10 +341,8 @@ public class WebdavConnection implements BasicConnection
         }
     }
 
-    public String[] sortLs()
-    {
-        try
-        {
+    public String[] sortLs() {
+        try {
             Log.out("sortLs PWD: " + pwd);
 
             //WebdavFile fl = new WebdavFile(new URL(pwd), user, pass);
@@ -441,8 +360,7 @@ public class WebdavConnection implements BasicConnection
 
             int accessible = 0;
 
-            for(int i = 0; i < f.length; i++)
-            {
+            for (int i = 0; i < f.length; i++) {
                 files[i] = f[i].getName();
 
                 /*
@@ -473,8 +391,7 @@ public class WebdavConnection implements BasicConnection
                 size[i] = "" + (int) f[i].getGetContentLength();
                 perms[i] = FtpConnection.R;
 
-                if(f[i].isCollection() && !files[i].endsWith("/"))
-                {
+                if (f[i].isCollection() && !files[i].endsWith("/")) {
                     files[i] = files[i] + "/";
                 }
 
@@ -495,9 +412,7 @@ public class WebdavConnection implements BasicConnection
             }
 
             return files;
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex);
             ex.printStackTrace();
 
@@ -505,48 +420,40 @@ public class WebdavConnection implements BasicConnection
         }
     }
 
-    public String[] sortSize()
-    {
+    public String[] sortSize() {
         return size;
     }
 
-    public int[] getPermissions()
-    {
+    public int[] getPermissions() {
         return perms;
     }
 
-    public int handleDownload(String file)
-    {
+    public int handleDownload(String file) {
         transfer(file);
 
         return 0;
     }
 
-    public int handleUpload(String file)
-    {
+    public int handleUpload(String file) {
         transfer(file, true);
 
         return 0;
     }
 
-    public int download(String file)
-    {
+    public int download(String file) {
         transfer(file);
 
         return 0;
     }
 
-    public int upload(String file)
-    {
+    public int upload(String file) {
         transfer(file, true);
 
         return 0;
     }
 
-    private void transferDir(String dir, String out)
-    {
-        try
-        {
+    private void transferDir(String dir, String out) {
+        try {
             fileCount = 0;
             shortProgress = true;
             baseFile = StringUtils.getDir(dir);
@@ -554,68 +461,55 @@ public class WebdavConnection implements BasicConnection
             WebdavFile f2 = new WebdavFile(getURL(dir));
             String[] tmp = f2.list();
 
-            if(tmp == null)
-            {
+            if (tmp == null) {
                 return;
             }
 
             WebdavFile fx = new WebdavFile(getURL(out));
 
-            if(!fx.mkdir())
-            {
+            if (!fx.mkdir()) {
                 Log.debug("Can not create directory: " + out +
-                          " - already exist or permission denied?");
+                        " - already exist or permission denied?");
             }
 
-            for(int i = 0; i < tmp.length; i++)
-            {
+            for (int i = 0; i < tmp.length; i++) {
                 tmp[i] = tmp[i].replace('\\', '/');
 
                 //System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
                 WebdavFile f3 = new WebdavFile(getURL(dir + tmp[i]));
 
-                if(f3.isDirectory())
-                {
-                    if(!tmp[i].endsWith("/"))
-                    {
+                if (f3.isDirectory()) {
+                    if (!tmp[i].endsWith("/")) {
                         tmp[i] = tmp[i] + "/";
                     }
 
                     transferDir(dir + tmp[i], out + tmp[i]);
-                }
-                else
-                {
+                } else {
                     fireProgressUpdate(baseFile,
-                                       DataConnection.GETDIR + ":" + fileCount,
-                                       -1);
+                            DataConnection.GETDIR + ":" + fileCount,
+                            -1);
                     work(dir + tmp[i], out + tmp[i]);
                 }
             }
 
             fireProgressUpdate(baseFile,
-                               DataConnection.DFINISHED + ":" + fileCount, -1);
+                    DataConnection.DFINISHED + ":" + fileCount, -1);
             shortProgress = false;
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error: " + ex);
             ex.printStackTrace();
         }
     }
 
-    private HttpURL getURL(String u)
-    {
-        try
-        {
+    private HttpURL getURL(String u) {
+        try {
             HttpURL url = new HttpURL(u);
 
             //System.out.println(user + ":"+ pass);
             url.setUserinfo(user, pass);
 
             return url;
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             Log.debug("ERROR: " + ex);
 
@@ -624,22 +518,18 @@ public class WebdavConnection implements BasicConnection
     }
 
     private WebdavResource getResource(String res)
-                                throws IOException
-    {
+            throws IOException {
         return new WebdavResource(getURL(res));
     }
 
-    private void transfer(String file)
-    {
+    private void transfer(String file) {
         transfer(file, false);
     }
 
-    private void transfer(String file, boolean up)
-    {
+    private void transfer(String file, boolean up) {
         String out = StringUtils.getDir(file);
 
-        if(StringUtils.isRelative(file))
-        {
+        if (StringUtils.isRelative(file)) {
             file = getPWD() + file;
         }
 
@@ -648,10 +538,8 @@ public class WebdavConnection implements BasicConnection
 
         String outfile = StringUtils.getFile(file);
 
-        if(file.endsWith("/"))
-        {
-            if(up)
-            {
+        if (file.endsWith("/")) {
+            if (up) {
                 Log.debug("Directory upload not implemented yet.");
 
                 return;
@@ -659,41 +547,33 @@ public class WebdavConnection implements BasicConnection
 
             transferDir(file, getLocalPath() + out);
 
-        }
-        else
-        {
-            if(up)
-            {
+        } else {
+            if (up) {
                 work(getLocalPath() + outfile, file);
-            }
-            else
-            {
+            } else {
                 work(file, getLocalPath() + outfile);
             }
         }
     }
 
-    private void work(String file, String outfile)
-    {
+    private void work(String file, String outfile) {
         Log.out("transfer started\nfile: " + file + "\noutfile: " + outfile);
 
         BufferedInputStream in = null;
         BufferedOutputStream out = null;
 
-        try
-        {
-            if(outfile.startsWith("http://"))
-            {
+        try {
+            if (outfile.startsWith("http://")) {
                 //out = new BufferedOutputStream(new FileOutputStream(new WebdavResource(new HttpURL(file)).getMethodData());
                 //new WebdavFile(new URL(outfile), user, pass)));
                 //in = new BufferedInputStream(new FileInputStream(file));
                 String resPath = outfile.substring(0,
-                                                   outfile.lastIndexOf("/") +
-                                                   1);
+                        outfile.lastIndexOf("/") +
+                                1);
                 String name = outfile.substring(outfile.lastIndexOf("/") + 1);
 
                 Log.debug("Uploading " + file + " to " + resPath + " as " +
-                          name);
+                        name);
 
                 //HttpURL url = getURL(resPath);
                 WebdavResource res = getResource(resPath);
@@ -710,12 +590,9 @@ public class WebdavConnection implements BasicConnection
                         Log.debug("Method: " + e.nextElement().toString());
                 }
                 */
-                if(res.putMethod(new File(file)))
-                {
+                if (res.putMethod(new File(file))) {
                     fireProgressUpdate(file, DataConnection.FINISHED, -1);
-                }
-                else
-                {
+                } else {
                     Log.debug("Upload failed.");
                     fireProgressUpdate(file, DataConnection.FAILED, -1);
                 }
@@ -734,13 +611,11 @@ public class WebdavConnection implements BasicConnection
             int reallen = 0;
 
             //System.out.println(file+":"+getLocalPath()+outfile);
-            while(true)
-            {
+            while (true) {
                 len = in.read(buf);
 
                 //System.out.print(".");
-                if(len == StreamTokenizer.TT_EOF)
-                {
+                if (len == StreamTokenizer.TT_EOF) {
                     break;
                 }
 
@@ -748,34 +623,26 @@ public class WebdavConnection implements BasicConnection
 
                 reallen += len;
                 fireProgressUpdate(StringUtils.getFile(file),
-                                   DataConnection.GET, reallen);
+                        DataConnection.GET, reallen);
             }
 
             fireProgressUpdate(file, DataConnection.FINISHED, -1);
-        }
-        catch(IOException ex)
-        {
+        } catch (IOException ex) {
             Log.debug("Error with file IO (" + ex + ")!");
             ex.printStackTrace();
             fireProgressUpdate(file, DataConnection.FAILED, -1);
-        }
-        finally
-        {
-            try
-            {
+        } finally {
+            try {
                 out.flush();
                 out.close();
                 in.close();
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
     }
 
-    public int upload(String file, InputStream in)
-    {
+    public int upload(String file, InputStream in) {
         /*
            if(StringUtils.isRelative(file)) file = getPWD() + file;
            file = file.replace('\\','/');
@@ -833,98 +700,76 @@ public class WebdavConnection implements BasicConnection
      }
     }
     */
-    public InputStream getDownloadInputStream(String file)
-    {
-        if(StringUtils.isRelative(file))
-        {
+    public InputStream getDownloadInputStream(String file) {
+        if (StringUtils.isRelative(file)) {
             file = getPWD() + file;
         }
 
         file = file.replace('\\', '/');
 
-        try
-        {
+        try {
             return getResource(file).getMethodData();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             Log.debug(ex +
-                      " @WebdavConnection::getDownloadInputStream");
+                    " @WebdavConnection::getDownloadInputStream");
 
             return null;
         }
     }
 
-    public void addConnectionListener(ConnectionListener l)
-    {
+    public void addConnectionListener(ConnectionListener l) {
         listeners.add(l);
     }
 
-    public void setConnectionListeners(Vector l)
-    {
+    public void setConnectionListeners(Vector l) {
         listeners = l;
     }
 
-    /** remote directory has changed */
-    public void fireDirectoryUpdate()
-    {
-        if(listeners == null)
-        {
-        }
-        else
-        {
-            for(int i = 0; i < listeners.size(); i++)
-            {
+    /**
+     * remote directory has changed
+     */
+    public void fireDirectoryUpdate() {
+        if (listeners == null) {
+        } else {
+            for (int i = 0; i < listeners.size(); i++) {
                 ((ConnectionListener) listeners.elementAt(i)).updateRemoteDirectory(this);
             }
         }
     }
 
-    public boolean login(String user, String pass)
-    {
+    public boolean login(String user, String pass) {
         return true;
     }
 
-    public void fireProgressUpdate(String file, String type, int bytes)
-    {
-        if(listeners == null)
-        {
-        }
-        else
-        {
-            for(int i = 0; i < listeners.size(); i++)
-            {
+    public void fireProgressUpdate(String file, String type, int bytes) {
+        if (listeners == null) {
+        } else {
+            for (int i = 0; i < listeners.size(); i++) {
                 ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
 
-                if(shortProgress && Settings.shortProgress)
-                {
-                    if(type.startsWith(DataConnection.DFINISHED))
-                    {
+                if (shortProgress && Settings.shortProgress) {
+                    if (type.startsWith(DataConnection.DFINISHED)) {
                         listener.updateProgress(baseFile,
-                                                DataConnection.DFINISHED + ":" +
-                                                fileCount, bytes);
+                                DataConnection.DFINISHED + ":" +
+                                        fileCount, bytes);
                     }
 
                     listener.updateProgress(baseFile,
-                                            DataConnection.GETDIR + ":" +
-                                            fileCount, bytes);
-                }
-                else
-                {
+                            DataConnection.GETDIR + ":" +
+                                    fileCount, bytes);
+                } else {
                     listener.updateProgress(file, type, bytes);
                 }
             }
         }
     }
 
-    public Date[] sortDates()
-    {
+    public Date[] sortDates() {
         return null;
     }
 
-    public boolean rename(String from, String to)
-    {
+    public boolean rename(String from, String to) {
         Log.debug("Not implemented!");
 
         return false;

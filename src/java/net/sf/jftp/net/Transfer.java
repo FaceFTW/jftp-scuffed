@@ -1,13 +1,11 @@
 package net.sf.jftp.net;
 
 
-
 /**
-* The basic Transfer interface.
-* You probably don't have to use it directly.
-*/
-public abstract class Transfer
-{
+ * The basic Transfer interface.
+ * You probably don't have to use it directly.
+ */
+public abstract class Transfer {
     public static final String PAUSED = "STOPPED";
     public static final String QUEUED = "QUEUED";
     public static final String REMOVED = "REMOVED";

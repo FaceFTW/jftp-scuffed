@@ -16,73 +16,55 @@
 package net.sf.jftp.net;
 
 
-
-public class FtpClient
-{
+public class FtpClient {
     private String name = "ftp";
     private String password = "ftp@sourceforge.net";
     private FtpConnection connection = null;
 
-    public FtpClient()
-    {
+    public FtpClient() {
     }
 
-    public void login(String host)
-    {
+    public void login(String host) {
         connection = new FtpConnection(host);
         connection.login(name, password);
     }
 
-    public void setUsername(String s)
-    {
+    public void setUsername(String s) {
         name = s;
     }
 
-    public void setPassword(String s)
-    {
+    public void setPassword(String s) {
         password = s;
     }
 
-    public void disconnect()
-    {
-        if(connection != null)
-        {
+    public void disconnect() {
+        if (connection != null) {
             connection.disconnect();
         }
     }
 
-    public void cd(String s)
-    {
-        if(connection != null)
-        {
+    public void cd(String s) {
+        if (connection != null) {
             connection.chdir(s);
         }
     }
 
-    public String pwd()
-    {
-        if(connection != null)
-        {
+    public String pwd() {
+        if (connection != null) {
             return connection.getPWD();
-        }
-        else
-        {
+        } else {
             return "";
         }
     }
 
-    public void get(String file)
-    {
-        if(connection != null)
-        {
+    public void get(String file) {
+        if (connection != null) {
             connection.handleDownload(file);
         }
     }
 
-    public void put(String file)
-    {
-        if(connection != null)
-        {
+    public void put(String file) {
+        if (connection != null) {
             connection.handleUpload(file);
         }
     }

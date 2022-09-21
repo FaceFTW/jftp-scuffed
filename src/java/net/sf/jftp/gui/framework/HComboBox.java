@@ -15,9 +15,8 @@
  */
 package net.sf.jftp.gui.framework;
 
-import java.awt.*;
-
 import javax.swing.*;
+import java.awt.*;
 
 
 public class HComboBox extends JPanel //implements ActionListener
@@ -25,8 +24,7 @@ public class HComboBox extends JPanel //implements ActionListener
     private final JLabel label;
     public JComboBox comboBox;
 
-    public HComboBox(String l)
-    {
+    public HComboBox(String l) {
         setLayout(new BorderLayout(5, 5));
 
         label = new JLabel(l + "  ");
@@ -39,8 +37,7 @@ public class HComboBox extends JPanel //implements ActionListener
         setVisible(true);
     }
 
-    public HComboBox(String l, String[] t)
-    {
+    public HComboBox(String l, String[] t) {
         setLayout(new BorderLayout(5, 5));
 
         label = new JLabel(l + "  ");
@@ -67,28 +64,23 @@ public class HComboBox extends JPanel //implements ActionListener
         setVisible(true);
     }
     */
-    public String getLabel()
-    {
+    public String getLabel() {
         return label.getText();
     }
 
-    public void setLabel(String l)
-    {
+    public void setLabel(String l) {
         label.setText(l + "  ");
     }
 
-    public Object getSelectedItem()
-    {
+    public Object getSelectedItem() {
         return comboBox.getSelectedItem();
     }
 
-    public void addItem(Object obj)
-    {
+    public void addItem(Object obj) {
         comboBox.addItem(obj);
     }
 
-    public void addActionListener(java.awt.event.ActionListener actListen)
-    {
+    public void addActionListener(java.awt.event.ActionListener actListen) {
         comboBox.addActionListener(actListen);
     }
 
@@ -109,8 +101,7 @@ public class HComboBox extends JPanel //implements ActionListener
         text.requestFocus();
     }
     */
-    public void setEditable(boolean yesno)
-    {
+    public void setEditable(boolean yesno) {
         comboBox.setEditable(yesno);
     }
 }

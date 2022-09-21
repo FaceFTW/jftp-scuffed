@@ -15,30 +15,26 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-import net.sf.jftp.util.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.BasicConnection;
 
 import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Create directory dialog.
- * 
- * @author David Hansmann
  *
+ * @author David Hansmann
  */
-public class Creator extends HFrame implements ActionListener
-{
+public class Creator extends HFrame implements ActionListener {
     private final HTextField text;
     private final HButton ok = new HButton("Create directory...");
     private final BasicConnection con;
 
-    public Creator(String l, BasicConnection con)
-    {
+    public Creator(String l, BasicConnection con) {
         this.con = con;
 
         setTitle("Choose...");
@@ -51,14 +47,12 @@ public class Creator extends HFrame implements ActionListener
         text.text.addActionListener(this);
 
         pack();
-	fixLocation();
+        fixLocation();
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == ok) || (e.getSource() == text.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
             setVisible(false);
             con.mkdir(text.getText());
         }

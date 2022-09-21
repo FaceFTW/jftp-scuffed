@@ -15,35 +15,26 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.net.*;
+import net.sf.jftp.JFtp;
 import net.sf.jftp.system.LocalIO;
-import net.sf.jftp.util.*;
 
-import java.io.*;
+import java.io.File;
 
 
-public class AutoRemover
-{
-    public AutoRemover(String file, String type)
-    {
-        if(type.equals("local"))
-        {
+public class AutoRemover {
+    public AutoRemover(String file, String type) {
+        if (type.equals("local")) {
             File f = new File(JFtp.localDir.getPath() + file);
 
-            if(f.isDirectory())
-            {
+            if (f.isDirectory()) {
                 LocalIO.cleanLocalDir(file, JFtp.localDir.getPath());
                 f.delete();
-            }
-            else
-            {
+            } else {
                 f.delete();
             }
         }
 
-        if(type.equals("remote"))
-        {
+        if (type.equals("remote")) {
             JFtp.remoteDir.lock(false);
 
             JFtp.remoteDir.getCon().removeFileOrDir(file);

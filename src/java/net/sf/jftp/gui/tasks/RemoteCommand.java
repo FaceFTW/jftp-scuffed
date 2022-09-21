@@ -15,27 +15,23 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-public class RemoteCommand extends HFrame implements ActionListener
-{
+public class RemoteCommand extends HFrame implements ActionListener {
     private final HTextField text;
     private final HButton ok = new HButton("Execute");
 
-    public RemoteCommand()
-    {
+    public RemoteCommand() {
         //setSize(400, 80);
         setTitle("Choose command...");
         setLocation(150, 150);
@@ -51,18 +47,15 @@ public class RemoteCommand extends HFrame implements ActionListener
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == ok) || (e.getSource() == text.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
             setVisible(false);
 
             String cmd = text.getText();
             Log.debug("-> " + cmd);
             JFtp.remoteDir.getCon().sendRawCommand(cmd);
 
-            if(cmd.toUpperCase().trim().startsWith("QUIT"))
-            {
+            if (cmd.toUpperCase().trim().startsWith("QUIT")) {
                 JFtp.safeDisconnect();
 
                 return;

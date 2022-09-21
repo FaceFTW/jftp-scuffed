@@ -15,26 +15,23 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.wrappers.HttpTransfer;
 
 import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-
-import java.util.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
 
-public class HttpDownloader extends HPanel implements ActionListener
-{
+public class HttpDownloader extends HPanel implements ActionListener {
     private final HTextField text;
     private final HButton ok = new HButton("Start");
 
-    public HttpDownloader()
-    {
+    public HttpDownloader() {
         //setSize(480,100);
         //setTitle("Download a file via an URL");
         //setLocation(150,150);
@@ -54,17 +51,15 @@ public class HttpDownloader extends HPanel implements ActionListener
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == ok) || (e.getSource() == text.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == ok) || (e.getSource() == text.text)) {
             Vector listeners = new Vector();
             listeners.add(JFtp.localDir);
 
             HttpTransfer t = new HttpTransfer(text.getText().trim(),
-                                              JFtp.localDir.getPath(),
-                                              listeners,
-                                              JFtp.getConnectionHandler());
+                    JFtp.localDir.getPath(),
+                    listeners,
+                    JFtp.getConnectionHandler());
 
             JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
 

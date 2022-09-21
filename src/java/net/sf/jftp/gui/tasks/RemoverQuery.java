@@ -15,22 +15,21 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.util.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-public class RemoverQuery extends HFrame implements ActionListener
-{
+public class RemoverQuery extends HFrame implements ActionListener {
     private final String file;
     private final String type;
     private final HButton ok = new HButton("Ok");
     private final HButton cancel = new HButton("Cancel");
 
-    public RemoverQuery(String file, String type)
-    {
+    public RemoverQuery(String file, String type) {
         this.file = file;
         this.type = type;
 
@@ -48,15 +47,11 @@ public class RemoverQuery extends HFrame implements ActionListener
         setVisible(true);
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == ok)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == ok) {
             AutoRemover armv = new AutoRemover(file, type);
             this.dispose();
-        }
-        else
-        {
+        } else {
             this.dispose();
         }
     }

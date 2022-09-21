@@ -15,26 +15,15 @@
  */
 package net.sf.jftp.util;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
-import net.sf.jftp.util.*;
+import net.sf.jftp.gui.framework.HTextField;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-import java.io.*;
-
-import java.util.*;
-
-import javax.swing.*;
-import javax.swing.event.*;
-
 
 public class RawConnection extends JFrame implements ActionListener,
-                                                     WindowListener
-{
+        WindowListener {
     public static HTextField host = new HTextField("Host:", "", 20);
     public static HTextField port = new HTextField("Port:", "", 5);
     public static JTextArea output = new JTextArea();
@@ -45,7 +34,6 @@ public class RawConnection extends JFrame implements ActionListener,
     private final HTextField com = new HTextField("Command:", "", 20);
     private final JPanel p2 = new JPanel();
     private final JButton send = new JButton("Send");
-    private JRawConnection c;
     private final JButton clear = new JButton("Clear");
     JMenuBar mb = new JMenuBar();
     JMenu file = new JMenu("Prog");
@@ -54,14 +42,13 @@ public class RawConnection extends JFrame implements ActionListener,
     JMenuItem close = new JMenuItem("ExIt");
     JMenuItem changeHost = new JMenuItem("Host...");
     JMenuItem info = new JMenuItem("Info");
+    private JRawConnection c;
 
-    public RawConnection()
-    {
+    public RawConnection() {
         this("localhost", 25);
     }
 
-    public RawConnection(String hostname, int p)
-    {
+    public RawConnection(String hostname, int p) {
         host.setText(hostname);
 
         setSize(550, 300);
@@ -79,16 +66,13 @@ public class RawConnection extends JFrame implements ActionListener,
 
         p2.add(com);
 
-        com.addKeyListener(new KeyAdapter()
-            {
-                public void keyReleased(KeyEvent e)
-                {
-                    if(e.getKeyCode() == KeyEvent.VK_ENTER)
-                    {
-                        transmit();
-                    }
+        com.addKeyListener(new KeyAdapter() {
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    transmit();
                 }
-            });
+            }
+        });
 
         p2.add(send);
         send.addActionListener(this);
@@ -126,31 +110,21 @@ public class RawConnection extends JFrame implements ActionListener,
         JHostChooser jhc = new JHostChooser();
     }
 
-    private void transmit()
-    {
-        if(!established)
-        {
+    private void transmit() {
+        if (!established) {
             c = new JRawConnection(host.getText(),
-                                   Integer.parseInt(port.getText()), true);
+                    Integer.parseInt(port.getText()), true);
 
-            if(c.isThere())
-            {
+            if (c.isThere()) {
                 c.send(com.getText());
                 established = true;
-            }
-            else
-            {
+            } else {
                 debugWrite("No connection!");
             }
-        }
-        else
-        {
-            if(c.isThere())
-            {
+        } else {
+            if (c.isThere()) {
                 c.send(com.getText());
-            }
-            else
-            {
+            } else {
                 debugWrite("No connection!");
             }
         }
@@ -158,63 +132,49 @@ public class RawConnection extends JFrame implements ActionListener,
         com.setText("");
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if((e.getSource() == send) || (e.getSource() == com.text))
-        {
+    public void actionPerformed(ActionEvent e) {
+        if ((e.getSource() == send) || (e.getSource() == com.text)) {
             transmit();
         }
 
-        if(e.getSource() == clear)
-        {
+        if (e.getSource() == clear) {
             output.setText("");
         }
 
-        if(e.getSource() == close)
-        {
+        if (e.getSource() == close) {
             this.dispose();
         }
 
-        if(e.getSource() == changeHost)
-        {
+        if (e.getSource() == changeHost) {
             JHostChooser jhc = new JHostChooser();
         }
     }
 
-    private void debugWrite(String str)
-    {
+    private void debugWrite(String str) {
         output.append(str + "\n");
     }
 
-    public void windowClosing(WindowEvent e)
-    {
-        if(mayDispose)
-        {
+    public void windowClosing(WindowEvent e) {
+        if (mayDispose) {
             this.dispose();
         }
     }
 
-    public void windowIconified(WindowEvent e)
-    {
+    public void windowIconified(WindowEvent e) {
     }
 
-    public void windowDeiconified(WindowEvent e)
-    {
+    public void windowDeiconified(WindowEvent e) {
     }
 
-    public void windowClosed(WindowEvent e)
-    {
+    public void windowClosed(WindowEvent e) {
     }
 
-    public void windowActivated(WindowEvent e)
-    {
+    public void windowActivated(WindowEvent e) {
     }
 
-    public void windowDeactivated(WindowEvent e)
-    {
+    public void windowDeactivated(WindowEvent e) {
     }
 
-    public void windowOpened(WindowEvent e)
-    {
+    public void windowOpened(WindowEvent e) {
     }
 }

@@ -30,13 +30,11 @@ import net.sf.jftp.system.logging.Log;
 // any protocol, this class is the intermediary between the GUI and the actual
 // connection establishing classes. This puts much common functionality into
 // one method (so in creating this I did some code cleanup.)
-public class StartConnection
-{
+public class StartConnection {
     public static FtpConnection con = null;
     public static String keyfile = null;
 
-    public static void setSshKeyfile(String file)
-    {
+    public static void setSshKeyfile(String file) {
         keyfile = file;
     }
 
@@ -52,8 +50,7 @@ public class StartConnection
     //entry, which is the protocol name)
     public static boolean startCon(String protocol, String htmp, String utmp,
                                    String ptmp, int potmp, String dtmp,
-                                   boolean useLocal)
-    {
+                                   boolean useLocal) {
         // I may need a series of If statements following this one
         // declaring con for each of the possible types of connections
         //FtpConnection con = null;
@@ -68,40 +65,32 @@ public class StartConnection
         String potmpString = potmpInt.toString();
         String useLocalString = "false";
 
-        if(useLocal)
-        {
+        if (useLocal) {
             useLocalString = "true";
         }
 
         //*** FTP section: deprecated
-        if(protocol.equals("FTP"))
-        {
-        }
-        else if(protocol.equals("SMB"))
-        {
+        if (protocol.equals("FTP")) {
+        } else if (protocol.equals("SMB")) {
             SmbConnection con = null;
 
-            try
-            {
+            try {
                 con = new SmbConnection(htmp, dtmp, utmp, ptmp,
-                                        ((ConnectionListener) JFtp.remoteDir));
+                        ((ConnectionListener) JFtp.remoteDir));
 
                 //JFtp.statusP.jftp.addConnection(htmp, con);
-                if(useLocal)
-                {
+                if (useLocal) {
                     JFtp.statusP.jftp.addLocalConnection(htmp, con);
-                    
-                    if(con.isConnected()) {
-                    	JFtp.localDir.setPath("");
-                    	JFtp.localDir.fresh();
+
+                    if (con.isConnected()) {
+                        JFtp.localDir.setPath("");
+                        JFtp.localDir.fresh();
                     }
-                }
-                else
-                {
-                    JFtp.statusP.jftp.addConnection(htmp, con);                   
-                    if(con.isConnected()) {
-                    	JFtp.remoteDir.setPath("");
-                    	JFtp.remoteDir.fresh();
+                } else {
+                    JFtp.statusP.jftp.addConnection(htmp, con);
+                    if (con.isConnected()) {
+                        JFtp.remoteDir.setPath("");
+                        JFtp.remoteDir.fresh();
                     }
                 }
 
@@ -115,12 +104,9 @@ public class StartConnection
                 searchValue[1] = htmp;
                 searchValue[2] = utmp;
 
-                if(Settings.getStorePasswords())
-                {
+                if (Settings.getStorePasswords()) {
                     searchValue[3] = ptmp;
-                }
-                else
-                {
+                } else {
                     searchValue[3] = "";
                 }
 
@@ -133,17 +119,14 @@ public class StartConnection
                 updateFileMenu(searchValue);
 
                 return true;
-            }
-            catch(Exception ex)
-            {
-            	ex.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
                 Log.debug("Could not create SMBConnection, does this distribution come with jcifs?");
             }
         }
 
         //can assume any other connection is NFS for now
-        else
-        {
+        else {
             NfsConnection con;
 
             //***
@@ -155,18 +138,14 @@ public class StartConnection
             //JFtp.remoteDir.setCon(con);
             //con.addConnectionListener(((ConnectionListener)JFtp.remoteDir));
             //JFtp.statusP.jftp.addConnection(htmp, con);
-            if(!utmp.equals("<anonymous>"))
-            {
+            if (!utmp.equals("<anonymous>")) {
                 status = con.login(utmp, ptmp);
             }
 
-            if(useLocal)
-            {
+            if (useLocal) {
                 con.setLocalPath("/");
                 JFtp.statusP.jftp.addLocalConnection(htmp, con);
-            }
-            else
-            {
+            } else {
                 JFtp.statusP.jftp.addConnection(htmp, con);
             }
 
@@ -179,12 +158,9 @@ public class StartConnection
             searchValue[1] = htmp;
             searchValue[2] = utmp;
 
-            if(Settings.getStorePasswords())
-            {
+            if (Settings.getStorePasswords()) {
                 searchValue[3] = ptmp;
-            }
-            else
-            {
+            } else {
                 searchValue[3] = "";
             }
 
@@ -223,15 +199,13 @@ public class StartConnection
     }
 
     public static int startFtpCon(String htmp, String utmp, String ptmp,
-                                  int potmp, String dtmp, boolean useLocal)
-    {
- 	return startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal, null);
+                                  int potmp, String dtmp, boolean useLocal) {
+        return startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal, null);
     }
 
     //startCon
     public static int startFtpCon(String htmp, String utmp, String ptmp,
-                                  int potmp, String dtmp, boolean useLocal, String crlf)
-    {
+                                  int potmp, String dtmp, boolean useLocal, String crlf) {
         boolean pasv = Settings.getFtpPasvMode();
         boolean threads = Settings.getEnableMultiThreading();
 
@@ -262,12 +236,9 @@ public class StartConnection
         //con.addConnectionListener((ConnectionListener) JFtp.localDir);
         //con.addConnectionListener((ConnectionListener) JFtp.remoteDir);
         //JFtp.remoteDir.setCon(con);
-        if(useLocal)
-        {
+        if (useLocal) {
             JFtp.statusP.jftp.addLocalConnection(htmp, con);
-        }
-        else
-        {
+        } else {
             JFtp.statusP.jftp.addConnection(htmp, con);
         }
 
@@ -276,8 +247,7 @@ public class StartConnection
         int response = con.login(utmp, ptmp);
 
         //boolean isConnected = false;
-        if(response == FtpConnection.LOGIN_OK)
-        {
+        if (response == FtpConnection.LOGIN_OK) {
             //System.out.println(htmp + " " + potmp + " " + dtmp);
 
             /*
@@ -295,8 +265,7 @@ public class StartConnection
             String potmpString = potmpInt.toString();
             String useLocalString = "false";
 
-            if(useLocal)
-            {
+            if (useLocal) {
                 useLocalString = "true";
             }
 
@@ -310,12 +279,9 @@ public class StartConnection
             searchValue[1] = htmp;
             searchValue[2] = utmp;
 
-            if(Settings.getStorePasswords())
-            {
+            if (Settings.getStorePasswords()) {
                 searchValue[3] = ptmp;
-            }
-            else
-            {
+            } else {
                 searchValue[3] = "";
             }
 
@@ -328,14 +294,10 @@ public class StartConnection
         }
 
         //*** JUST FOR NOW: if not connected, take out the tabs
-        else
-        {
-            if(useLocal)
-            {
+        else {
+            if (useLocal) {
                 JFtp.statusP.jftp.closeCurrentLocalTab();
-            }
-            else
-            {
+            } else {
                 JFtp.statusP.jftp.closeCurrentTab();
             }
         }
@@ -344,8 +306,7 @@ public class StartConnection
     }
 
     //startFtpCon 
-    private static void updateFileMenu(String[] searchValue)
-    {
+    private static void updateFileMenu(String[] searchValue) {
         int position;
 
         position = LastConnections.findString(searchValue, JFtp.CAPACITY);
@@ -353,15 +314,12 @@ public class StartConnection
         //bugfix: now a 2D array
         String[][] newVals = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 
-        if(position >= 0)
-        {
+        if (position >= 0) {
             //System.out.println(JFtp.CAPACITY);
             //System.out.println("IT WAS FOUND");
             //System.out.println(position);
             newVals = LastConnections.moveToFront(position, JFtp.CAPACITY);
-        }
-        else
-        {
+        } else {
             //System.out.println("IT WASN'T FOUND");
             newVals = LastConnections.prepend(searchValue, JFtp.CAPACITY, true);
         }

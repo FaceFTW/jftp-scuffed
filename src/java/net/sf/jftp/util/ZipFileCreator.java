@@ -15,52 +15,40 @@
  */
 package net.sf.jftp.util;
 
-import net.sf.jftp.*;
-import net.sf.jftp.net.*;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
 
 import java.io.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
-import java.util.zip.*;
-  
- 
-public class ZipFileCreator
-{
+
+public class ZipFileCreator {
     private final ZipOutputStream z;
 
-    public ZipFileCreator(String[] files, String path, String name) 
-                   throws Exception
-    {
+    public ZipFileCreator(String[] files, String path, String name)
+            throws Exception {
         z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path +
-                                                                              name)));
+                name)));
         perform(files, path, "");
         z.finish();
         z.flush();
         z.close();
     }
 
-    private void perform(String[] files, String path, String offset)
-    {
+    private void perform(String[] files, String path, String offset) {
         byte[] buf = new byte[4096];
 
-        for(int i = 0; i < files.length; i++)
-        {
-            try
-            {
+        for (int i = 0; i < files.length; i++) {
+            try {
                 File f = new File(path + offset + files[i]);
                 BufferedInputStream in = null;
 
-                if(f.exists() && !f.isDirectory())
-                {
+                if (f.exists() && !f.isDirectory()) {
                     in = new BufferedInputStream(new FileInputStream(path +
-                                                                     offset +
-                                                                     files[i]));
-                }
-                else if(f.exists())
-                {
-                    if(!files[i].endsWith("/"))
-                    {
+                            offset +
+                            files[i]));
+                } else if (f.exists()) {
+                    if (!files[i].endsWith("/")) {
                         files[i] = files[i] + "/";
                     }
 
@@ -72,12 +60,10 @@ public class ZipFileCreator
 
                 int len = 0;
 
-                while((in != null) && (len != StreamTokenizer.TT_EOF))
-                {
+                while ((in != null) && (len != StreamTokenizer.TT_EOF)) {
                     len = in.read(buf);
 
-                    if(len == StreamTokenizer.TT_EOF)
-                    {
+                    if (len == StreamTokenizer.TT_EOF) {
                         break;
                     }
 
@@ -85,9 +71,7 @@ public class ZipFileCreator
                 }
 
                 z.closeEntry();
-            }
-            catch(Exception ex)
-            {
+            } catch (Exception ex) {
                 Log.debug("Skipping a file (no permission?)");
             }
         }

@@ -15,22 +15,6 @@
  */
 package net.sf.jftp.gui.framework;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
-import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-
-import java.net.*;
-
-import javax.swing.*;
-
-
 // class is obsolete
-public class LoadPanel extends HPanel
-{
+public class LoadPanel extends HPanel {
 }

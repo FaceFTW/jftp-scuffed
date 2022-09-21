@@ -16,71 +16,63 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
 import net.sf.jftp.net.wrappers.SmbConnection;
 import net.sf.jftp.net.wrappers.StartConnection;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.util.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import java.io.*;
-
-import java.net.*;
-
-import java.util.*;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
 
 
 public class SmbHostChooser extends HFrame implements ActionListener,
-                                                      WindowListener
-{
+        WindowListener {
     public static HTextField host = new HTextField("URL:", "smb://localhost/");
     public static HTextField user = new HTextField("Username:", "guest");
     public static HPasswordField pass = new HPasswordField("Password:",
-                                                           "nopasswd");
-    JCheckBox lan = new JCheckBox("Browse LAN", true);
+            "nopasswd");
+    private final HButton ok = new HButton("Connect");
     public HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
     public HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
     public HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
 
     public JComboBox ip = new JComboBox();
-    private final HButton ok = new HButton("Connect");
+    JCheckBox lan = new JCheckBox("Browse LAN", true);
     private ComponentListener listener = null;
     private boolean useLocal = false;
 
-    public SmbHostChooser(ComponentListener l, boolean local)
-    {
+    public SmbHostChooser(ComponentListener l, boolean local) {
         listener = l;
         useLocal = local;
         init();
     }
 
-    public SmbHostChooser(ComponentListener l)
-    {
+    public SmbHostChooser(ComponentListener l) {
         listener = l;
         init();
     }
 
-    public SmbHostChooser()
-    {
+    public SmbHostChooser() {
         init();
     }
 
-    public void init()
-    {
+    public void init() {
         setPreferredSize(new Dimension(500, 320));
         setLocation(100, 150);
         setTitle("Smb Connection...");
         setBackground(new HPanel().getBackground());
 
-        try
-        {
+        try {
             File f = new File(Settings.appHomeDir);
             f.mkdir();
 
@@ -89,31 +81,24 @@ public class SmbHostChooser extends HFrame implements ActionListener,
 
             File f2 = new File(Settings.login_def_smb);
             f2.createNewFile();
-        }
-        catch(IOException ex)
-        {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
 
         String[] login = LoadSet.loadSet(Settings.login_def_smb);
 
-        if((login[0] != null) && (login.length > 1))
-        {
+        if ((login[0] != null) && (login.length > 1)) {
             host.setText(login[0]);
             user.setText(login[1]);
             domain.setText(login[5]);
         }
 
 
-        if(Settings.getStorePasswords())
-        {
-            if((login != null) && (login.length > 2) && (login[2] != null))
-            {
+        if (Settings.getStorePasswords()) {
+            if ((login != null) && (login.length > 2) && (login[2] != null)) {
                 pass.setText(login[2]);
             }
-        }
-        else
-        {
+        } else {
             pass.setText("");
         }
 
@@ -121,12 +106,12 @@ public class SmbHostChooser extends HFrame implements ActionListener,
 
         HInsetPanel root = new HInsetPanel();
         root.setLayout(new MigLayout());
-               
+
         root.add(host);
         root.add(lan, "wrap");
         root.add(user);
         root.add(pass, "wrap");
-        
+
         root.add(new JLabel(" "), "wrap");
 
         root.add(ip);
@@ -134,9 +119,9 @@ public class SmbHostChooser extends HFrame implements ActionListener,
 
         root.add(broadcast);
         root.add(wins, "wrap");
-        
+
         root.add(new JLabel(" "), "wrap");
-            
+
         root.add(new JLabel(" "));
         root.add(ok, "align right");
 
@@ -148,42 +133,36 @@ public class SmbHostChooser extends HFrame implements ActionListener,
         lan.addActionListener(this);
         pass.text.addActionListener(this);
 
-        getContentPane().setLayout(new BorderLayout(3,3));
+        getContentPane().setLayout(new BorderLayout(3, 3));
         getContentPane().add("Center", root);
-                
+
         JTextArea t = new JTextArea() {
-        	public Insets getInsets() 
-        	{ 
-        		return new Insets(7,7,7,7);
-        	}
-    	};
+            public Insets getInsets() {
+                return new Insets(7, 7, 7, 7);
+            }
+        };
         t.setLineWrap(true);
         t.setText("Note: Please use URL format \"smb://host/\"");
 
         getContentPane().add("North", t);
-        
+
         setModal(false);
         setVisible(false);
         addWindowListener(this);
 
         ip.addItem("<default>");
 
-        try
-        {
+        try {
             Enumeration e = NetworkInterface.getNetworkInterfaces();
 
-            while(e.hasMoreElements())
-            {
+            while (e.hasMoreElements()) {
                 Enumeration f = ((NetworkInterface) e.nextElement()).getInetAddresses();
 
-                while(f.hasMoreElements())
-                {
+                while (f.hasMoreElements()) {
                     ip.addItem(((InetAddress) f.nextElement()).getHostAddress());
                 }
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.debug("Error determining default network interface: " + ex);
 
             //ex.printStackTrace();
@@ -199,52 +178,38 @@ public class SmbHostChooser extends HFrame implements ActionListener,
         pack();
     }
 
-    private void setBCast()
-    {
-        try
-        {
+    private void setBCast() {
+        try {
             String tmp = ((String) ip.getSelectedItem()).trim();
             String x = tmp.substring(0, tmp.lastIndexOf(".") + 1) + "255";
             broadcast.setText(x);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             Log.out("Error (SMBHostChooser): " + ex);
         }
     }
 
-    public void update()
-    {
-    	fixLocation();
+    public void update() {
+        fixLocation();
         setVisible(true);
         toFront();
         user.requestFocus();
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == lan)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == lan) {
             host.setEnabled(!lan.isSelected());
-        }
-        else if(e.getSource() == ip)
-        {
-            if(ip.getSelectedItem().equals("<default>"))
-            {
+        } else if (e.getSource() == ip) {
+            if (ip.getSelectedItem().equals("<default>")) {
                 domain.setEnabled(false);
                 broadcast.setEnabled(false);
                 wins.setEnabled(false);
-            }
-            else
-            {
+            } else {
                 domain.setEnabled(true);
                 broadcast.setEnabled(true);
                 wins.setEnabled(true);
                 setBCast();
             }
-        }
-        else if((e.getSource() == ok) || (e.getSource() == pass.text))
-        {
+        } else if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
             // Switch windows
             //this.setVisible(false);
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -254,14 +219,12 @@ public class SmbHostChooser extends HFrame implements ActionListener,
             //System.out.println(jcifs.Config.getProperty("jcifs.smb.client.laddr"));
             String tmp = ((String) ip.getSelectedItem()).trim();
 
-            if(!tmp.equals("") && !tmp.equals("<default>"))
-            {
+            if (!tmp.equals("") && !tmp.equals("<default>")) {
                 String x = tmp.trim().substring(0, tmp.lastIndexOf(".") + 1) +
-                           "255";
+                        "255";
                 String bcast = broadcast.getText().trim();
 
-                if(!bcast.equals("AUTO"))
-                {
+                if (!bcast.equals("AUTO")) {
                     x = bcast;
                 }
 
@@ -272,8 +235,7 @@ public class SmbHostChooser extends HFrame implements ActionListener,
 
                 String y = wins.getText().trim();
 
-                if(!y.equals("NONE"))
-                {
+                if (!y.equals("NONE")) {
                     Log.debug("Setting WINS server IP to: " + y);
                     jcifs.Config.setProperty("jcifs.netbios.wins", y);
                 }
@@ -288,20 +250,18 @@ public class SmbHostChooser extends HFrame implements ActionListener,
 
             //***
             //if(dtmp.equals("")) dtmp = null;
-            if(dtmp.equals(""))
-            {
+            if (dtmp.equals("")) {
                 dtmp = "NONE";
             }
 
             //if(lan.isSelected()) htmp = null;
-            if(lan.isSelected())
-            {
+            if (lan.isSelected()) {
                 htmp = "(LAN)";
             }
 
             //***save the set of selected data
             SaveSet s = new SaveSet(Settings.login_def_smb, htmp, utmp, ptmp,
-                                    "", "", dtmp);
+                    "", "", dtmp);
 
             //*** Now make the function call to the methos for starting 
             //connections
@@ -309,7 +269,7 @@ public class SmbHostChooser extends HFrame implements ActionListener,
             int potmp = 0; //*** port number: unlikely to be needed in the future
 
             status = StartConnection.startCon("SMB", htmp, utmp, ptmp, potmp,
-                                              dtmp, useLocal);
+                    dtmp, useLocal);
 
             /*
             try
@@ -343,51 +303,39 @@ public class SmbHostChooser extends HFrame implements ActionListener,
             JFtp.mainFrame.setVisible(true);
             JFtp.mainFrame.toFront();
 
-            if(listener != null)
-            {
+            if (listener != null) {
                 listener.componentResized(new ComponentEvent(this, 0));
             }
         }
     }
 
-    public void windowClosing(WindowEvent e)
-    {
+    public void windowClosing(WindowEvent e) {
         //System.exit(0);
         this.dispose();
     }
 
-    public void windowClosed(WindowEvent e)
-    {
+    public void windowClosed(WindowEvent e) {
     }
 
-    public void windowActivated(WindowEvent e)
-    {
+    public void windowActivated(WindowEvent e) {
     }
 
-    public void windowDeactivated(WindowEvent e)
-    {
+    public void windowDeactivated(WindowEvent e) {
     }
 
-    public void windowIconified(WindowEvent e)
-    {
+    public void windowIconified(WindowEvent e) {
     }
 
-    public void windowDeiconified(WindowEvent e)
-    {
+    public void windowDeiconified(WindowEvent e) {
     }
 
-    public void windowOpened(WindowEvent e)
-    {
+    public void windowOpened(WindowEvent e) {
     }
 
-    public void pause(int time)
-    {
-        try
-        {
+    public void pause(int time) {
+        try {
             Thread.sleep(time);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
         }
     }
 }

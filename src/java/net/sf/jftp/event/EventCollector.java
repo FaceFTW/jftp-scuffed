@@ -18,18 +18,15 @@ package net.sf.jftp.event;
 import java.util.Vector;
 
 
-public class EventCollector implements Acceptor
-{
+public class EventCollector implements Acceptor {
     protected Vector buffer;
 
-    public EventCollector()
-    {
+    public EventCollector() {
         buffer = new Vector();
         new EventProcessor(buffer);
     }
 
-    public void accept(Event e)
-    {
+    public void accept(Event e) {
         buffer.addElement(e);
     }
 }

@@ -17,25 +17,20 @@
 //NOTE TO SELF: use setModal here somewhere?
 package net.sf.jftp.gui.tasks;
 
-import net.sf.jftp.*;
-import net.sf.jftp.config.*;
+import net.sf.jftp.JFtp;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.*;
-import net.sf.jftp.net.*;
 import net.sf.jftp.net.wrappers.StartConnection;
 import net.sf.jftp.system.StringUtils;
-import net.sf.jftp.util.*;
 
 import java.awt.*;
 import java.awt.event.*;
-
-import java.io.*;
-
-import javax.swing.*;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 
 public class AddBookmarks extends HFrame implements ActionListener,
-                                                    WindowListener
-{
+        WindowListener {
     private static JFtp jftp;
     private final HButton add = new HButton("Add Bookmark");
     private final HButton addAndConnect = new HButton("Add Bookmark and Connect to Server");
@@ -45,7 +40,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
     public HTextField host = new HTextField("Hostname:", "localhost");
     public HTextField user = new HTextField("Username:", "anonymous");
     public HPasswordField pass = new HPasswordField("Password:",
-                                                    "none@nowhere.no");
+            "none@nowhere.no");
     public HTextField port = new HTextField("Port:    ", "21");
     public HTextField dirOrDom = new HTextField("Directory/Domain:    ", "");
 
@@ -54,21 +49,18 @@ public class AddBookmarks extends HFrame implements ActionListener,
 
     //private ActionListener protocolListener = new ActionListener();
     //private FlowLayout fl = new FlowLayout(FlowLayout.RIGHT, 10, 5);
-    public AddBookmarks(ComponentListener l, JFtp jftp)
-    {
+    public AddBookmarks(ComponentListener l, JFtp jftp) {
         //listener = l;
         AddBookmarks.jftp = jftp;
         init();
     }
 
-    public AddBookmarks(JFtp jftp)
-    {
+    public AddBookmarks(JFtp jftp) {
         AddBookmarks.jftp = jftp;
         init();
     }
 
-    public void init()
-    {
+    public void init() {
         setSize(650, 400);
         setLocation(50, 150);
         setTitle("Add Bookmarks...");
@@ -118,57 +110,43 @@ public class AddBookmarks extends HFrame implements ActionListener,
         isLocal.addItem("Yes");
     }
 
-    public void update()
-    {
+    public void update() {
         setVisible(true);
         toFront();
     }
 
-    public void windowClosing(WindowEvent e)
-    {
+    public void windowClosing(WindowEvent e) {
         //System.exit(0);
         this.dispose();
     }
 
-    public void windowClosed(WindowEvent e)
-    {
+    public void windowClosed(WindowEvent e) {
     }
 
-    public void windowActivated(WindowEvent e)
-    {
+    public void windowActivated(WindowEvent e) {
     }
 
-    public void windowDeactivated(WindowEvent e)
-    {
+    public void windowDeactivated(WindowEvent e) {
     }
 
-    public void windowIconified(WindowEvent e)
-    {
+    public void windowIconified(WindowEvent e) {
     }
 
-    public void windowDeiconified(WindowEvent e)
-    {
+    public void windowDeiconified(WindowEvent e) {
     }
 
-    public void windowOpened(WindowEvent e)
-    {
+    public void windowOpened(WindowEvent e) {
     }
 
-    public void actionPerformed(ActionEvent e)
-    {
-        if(e.getSource() == add)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == add) {
             getData(false);
-        }
-
-        else if(e.getSource() == addAndConnect)
-        {
+        } else if (e.getSource() == addAndConnect) {
             getData(true);
         }
 
         //FOR NOW: only other possible event is update of the protocol ComboBox
-        else
-        {
+        else {
             String s = "";
 
             //s = (String) protocols.getSelectedItem()
@@ -178,23 +156,17 @@ public class AddBookmarks extends HFrame implements ActionListener,
             //need to put information on what each protocol accepts 
             //elsewhere to make it universally accessible to all routines 
             //that need this info?
-            if(s.equals("FTP"))
-            {
+            if (s.equals("FTP")) {
                 port.setEnabled(true);
                 user.setEnabled(true);
                 pass.setEnabled(true);
                 dirOrDom.setEnabled(true);
-            }
-            else if(s.equals("SFTP"))
-            {
+            } else if (s.equals("SFTP")) {
                 port.setEnabled(true);
                 user.setEnabled(true);
                 pass.setEnabled(true);
                 dirOrDom.setEnabled(false);
-            }
-
-            else if(s.equals("SMB"))
-            {
+            } else if (s.equals("SMB")) {
                 port.setEnabled(false);
                 user.setEnabled(true);
                 pass.setEnabled(true);
@@ -202,8 +174,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
             }
 
             //can assume this is NFS for now
-            else
-            {
+            else {
                 port.setEnabled(false);
                 user.setEnabled(true);
                 pass.setEnabled(true);
@@ -217,8 +188,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
     }
 
     //actionPerformed
-    private void getData(boolean andConnect)
-    {
+    private void getData(boolean andConnect) {
         String protocoltmp = "";
 
         //here, get the selected protocol
@@ -264,7 +234,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
         String potmp = checkIfEmpty(StringUtils.cut(port.getText(), " "));
 
         String dirOrDomtmp = checkIfEmpty(StringUtils.cut(dirOrDom.getText(),
-                                                          " "));
+                " "));
 
         String local = "";
 
@@ -277,13 +247,10 @@ public class AddBookmarks extends HFrame implements ActionListener,
 
         boolean localtmp = false;
 
-        if(local.equals("true"))
-        {
+        if (local.equals("true")) {
             localtmp = true;
             localString = "true";
-        }
-        else
-        {
+        } else {
             localtmp = false;
             localString = "false";
         }
@@ -304,8 +271,7 @@ public class AddBookmarks extends HFrame implements ActionListener,
 
         //here, start the routine for appending the line to the bookmark
         //file (SHOULD IT BE IN A SEPARATE ROUTINE?)
-        try
-        {
+        try {
             FileOutputStream fos;
             PrintStream out;
 
@@ -318,23 +284,17 @@ public class AddBookmarks extends HFrame implements ActionListener,
 
             //if it worked, update the menu
             JFtp.menuBar.loadBookmarks();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(andConnect)
-        {
-            if(protocoltmp.equals("FTP"))
-            {
+        if (andConnect) {
+            if (protocoltmp.equals("FTP")) {
                 StartConnection.startFtpCon(htmp, utmp, ptmp, potmpint,
-                                            dirOrDomtmp, localtmp);
-            }
-            else
-            {
+                        dirOrDomtmp, localtmp);
+            } else {
                 StartConnection.startCon(protocoltmp, htmp, utmp, ptmp,
-                                         potmpint, dirOrDomtmp, localtmp);
+                        potmpint, dirOrDomtmp, localtmp);
             }
         }
 
@@ -348,16 +308,12 @@ public class AddBookmarks extends HFrame implements ActionListener,
     }
 
     //getData
-    private String checkIfEmpty(String value)
-    {
+    private String checkIfEmpty(String value) {
         String retVal = "0";
 
-        if(value.equals(""))
-        {
+        if (value.equals("")) {
             return retVal;
-        }
-        else
-        {
+        } else {
             return value;
         }
     }

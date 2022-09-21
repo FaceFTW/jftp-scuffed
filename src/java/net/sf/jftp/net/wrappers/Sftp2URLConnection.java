@@ -15,34 +15,31 @@
  */
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.system.logging.Log;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
-import net.sf.jftp.system.logging.Log;
 
 
-public class Sftp2URLConnection extends URLConnection
-{
+public class Sftp2URLConnection extends URLConnection {
     private Sftp2Connection connection = null;
     private String username = "user";
     private String password = "none@no.no";
     private boolean loginFlag = false;
-   
-    public Sftp2URLConnection(URL u)
-    {
+
+    public Sftp2URLConnection(URL u) {
         super(u);
 
         int port = u.getPort() > 0 ? u.getPort() : 22;
-        connection = new Sftp2Connection(u.getHost(), ""+port, null);
+        connection = new Sftp2Connection(u.getHost(), "" + port, null);
 
         String userInfo = u.getUserInfo();
 
-        if(userInfo != null)
-        {
+        if (userInfo != null) {
             int index = userInfo.indexOf(":");
 
-            if(index != -1)
-            {
+            if (index != -1) {
                 username = userInfo.substring(0, index);
                 password = userInfo.substring(index + 1);
             }
@@ -51,53 +48,43 @@ public class Sftp2URLConnection extends URLConnection
         Log.debug("Connecting...");
     }
 
-    public void connect() throws IOException
-    {
+    public void connect() throws IOException {
         loginFlag = connection.login(username, password);
 
-        if(!loginFlag) {
+        if (!loginFlag) {
             return;
         }
 
         connection.chdir(url.getPath());
     }
 
-    public Sftp2Connection getSftp2Connection()
-    {
+    public Sftp2Connection getSftp2Connection() {
         return connection;
     }
 
-    public String getUser()
-    {
+    public String getUser() {
         return username;
     }
 
-    public String getPass()
-    {
+    public String getPass() {
         return password;
     }
 
-    public String getHost()
-    {
+    public String getHost() {
         return url.getHost();
     }
 
-    public int getPort()
-    {
+    public int getPort() {
         int ret = url.getPort();
 
-        if(ret <= 0)
-        {
+        if (ret <= 0) {
             return 22;
-        }
-        else
-        {
+        } else {
             return ret;
         }
     }
 
-    public boolean loginSucceeded()
-    {
+    public boolean loginSucceeded() {
         return loginFlag;
     }
 
