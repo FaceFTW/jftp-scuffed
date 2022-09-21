@@ -247,6 +247,26 @@ TableUtils --> TableColumnModel
 TableUtils --> TableModel
 TableUtils --> TableColumn
 
+AppMenuBar --> JCheckBoxMenuItem
+AppMenuBar -.-> Settings
+AppMenuBar --> JFtp
+AppMenuBar --> JMenu
+AppMenuBar --> JMenuItem
+AppMenuBar -.-> ProxyChooser
+AppMenuBar -.-> AddBookmarks
+AppMenuBar -.-> WebdavHostChooser
+AppMenuBar -.-> SmbHostChooser
+AppMenuBar -.-> SftpHostChooser
+AppMenuBar -.-> NfsHostChooser
+AppMenuBar -.-> LookAndFeel
+AppMenuBar -.-> BookMarkItem
+AppMenuBar -.-> UIUtils
+AppMenuBar -.-> HttpDownloader
+AppMenuBar -.-> AdvancedOptions
+AppMenuBar -.-> BookmarkManager
+AppMenuBar -.-> UIManager
+AppMenuBar -.-> Displayer
+AppMenuBar -.-> StartConnection
 
 
 
