@@ -18,7 +18,15 @@ package net.sf.jftp.tools;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.logging.Log;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -28,435 +36,425 @@ import java.util.Vector;
 
 public class FileSearch {
 
-    public static boolean quiet = true;
-    public static boolean ultraquiet = false;
-    private final Hashtable checked = new Hashtable();
-    String localDir = ".";
-    int MAX = 999999;
-    int MIN_TERM = 1;
-    int MIN_FACTOR = 1;
-    boolean LOAD = false;
-    String[] typeArray = {""};
-    String[] termArray = {""};
-    String[] optArray = {""};
-    String[] ignoreArray = {""};
-    String[] scanArray = {""};
-    private int currentDepth = 0;
+	public static boolean quiet = true;
+	public static boolean ultraquiet = false;
+	private final Hashtable checked = new Hashtable();
+	String localDir = ".";
+	int MAX = 999999;
+	int MIN_TERM = 1;
+	int MIN_FACTOR = 1;
+	boolean LOAD = false;
+	String[] typeArray = {""};
+	String[] termArray = {""};
+	String[] optArray = {""};
+	String[] ignoreArray = {""};
+	String[] scanArray = {""};
+	private int currentDepth = 0;
 
-    public static void main(String[] argv) {
-        String[] typeArray = {".gz", ".bz2", ".zip", ".rar"};
-        String[] termArray = {"linux", "kernel"};
-        String[] optArray = {"download", "file", "mirror", "location"};
-        String[] ignoreArray = {".gif", ".jpg", ".png", ".swf", ".jar", ".class", ".google."};
-        String[] scanArray = {".html", ".htm", "/", ".jsp", ".jhtml", ".phtml", ".asp", ".xml", ".js", ".cgi"};
-        String url = "http://www.google.de/search?hl=de&q=";
+	public static void main(String[] argv) {
+		String[] typeArray = {".gz", ".bz2", ".zip", ".rar"};
+		String[] termArray = {"linux", "kernel"};
+		String[] optArray = {"download", "file", "mirror", "location"};
+		String[] ignoreArray = {".gif", ".jpg", ".png", ".swf", ".jar", ".class", ".google."};
+		String[] scanArray = {".html", ".htm", "/", ".jsp", ".jhtml", ".phtml", ".asp", ".xml", ".js", ".cgi"};
+		String url = "http://www.google.de/search?hl=de&q=";
 
-        for (int i = 0; i < termArray.length; i++) {
-            url += termArray[i] + "+";
-        }
+		for (int i = 0; i < termArray.length; i++) {
+			url += termArray[i] + "+";
+		}
 
-        FileSearch search = new FileSearch();
+		FileSearch search = new FileSearch();
 
-        search.typeArray = typeArray;
-        search.termArray = termArray;
-        search.optArray = optArray;
-        search.ignoreArray = ignoreArray;
-        search.scanArray = scanArray;
-        search.MIN_TERM = 1;
+		search.typeArray = typeArray;
+		search.termArray = termArray;
+		search.optArray = optArray;
+		search.ignoreArray = ignoreArray;
+		search.scanArray = scanArray;
+		search.MIN_TERM = 1;
 
-        search.spider(url);
+		search.spider(url);
 
-    }
+	}
 
-    private void spider(String url) {
-        try {
-            if (url.indexOf("/") < 0) {
-                url = url + "/";
-            }
+	private void spider(String url) {
+		try {
+			if (url.indexOf("/") < 0) {
+				url = url + "/";
+			}
 
-            url = clear(url);
+			url = clear(url);
 
-            Log.out(">>> URL: " + url);
-            Log.out(">>> Scanning for ");
+			Log.out(">>> URL: " + url);
+			Log.out(">>> Scanning for ");
 
-            for (int i = 0; i < typeArray.length; i++) {
-                Log.out(typeArray[i] + " ");
-            }
+			for (int i = 0; i < typeArray.length; i++) {
+				Log.out(typeArray[i] + " ");
+			}
 
-            Log.out("");
+			Log.out("");
 
 
-            Log.out("Fetching initial HTML file...");
+			Log.out("Fetching initial HTML file...");
 
-            Getter urlGetter = new Getter(localDir);
-            urlGetter.fetch(url, true);
+			Getter urlGetter = new Getter(localDir);
+			urlGetter.fetch(url, true);
 
-            Log.out("Searching for links...");
-            LocalIO.pause(500);
+			Log.out("Searching for links...");
+			LocalIO.pause(500);
 
-            crawl(url);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+			crawl(url);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
-    private String clear(String url) {
-        int idx = url.indexOf("http://");
+	private String clear(String url) {
+		int idx = url.indexOf("http://");
 
-        if (idx >= 0) {
-            url = url.substring(7);
-        }
+		if (idx >= 0) {
+			url = url.substring(7);
+		}
 
-        return url;
-    }
-
-    private Vector addVector(Vector v, Vector x) {
-        Enumeration e = x.elements();
+		return url;
+	}
 
-        while (e.hasMoreElements()) {
-            String next = (String) e.nextElement();
-            v.add(next);
-        }
+	private Vector addVector(Vector v, Vector x) {
+		Enumeration e = x.elements();
 
-        return v;
-    }
+		while (e.hasMoreElements()) {
+			String next = (String) e.nextElement();
+			v.add(next);
+		}
 
-    private int rate(String content) {
-        int score = 0;
+		return v;
+	}
 
-        for (int i = 0; i < termArray.length; i++) {
-            if (content.indexOf(termArray[i]) >= 0) score += 3;
-        }
+	private int rate(String content) {
+		int score = 0;
 
-        if (score < MIN_TERM) return 0;
+		for (int i = 0; i < termArray.length; i++) {
+			if (content.indexOf(termArray[i]) >= 0) score += 3;
+		}
 
-        for (int i = 0; i < optArray.length; i++) {
-            if (content.indexOf(optArray[i]) >= 0) score++;
-        }
+		if (score < MIN_TERM) return 0;
 
-        return score;
-    }
+		for (int i = 0; i < optArray.length; i++) {
+			if (content.indexOf(optArray[i]) >= 0) score++;
+		}
 
-    private int checkForResult(String url) {
-        //for(int i=0; i<typeArray.length; i++) {
-        //	if(url.indexOf(typeArray[i]) >= 0) return 2;
-        //}
+		return score;
+	}
 
-        for (int i = 0; i < ignoreArray.length; i++) {
-            if (url.indexOf(ignoreArray[i]) >= 0) return -1;
-        }
+	private int checkForResult(String url) {
+		//for(int i=0; i<typeArray.length; i++) {
+		//	if(url.indexOf(typeArray[i]) >= 0) return 2;
+		//}
 
-        if (!checkForScanableUrl(url)) return -1;
+		for (int i = 0; i < ignoreArray.length; i++) {
+			if (url.indexOf(ignoreArray[i]) >= 0) return -1;
+		}
 
-        return 1;
-    }
+		if (!checkForScanableUrl(url)) return -1;
 
-    private boolean checkForScanableUrl(String url) {
+		return 1;
+	}
 
-        if (checked.containsKey(url)) {
-            return false;
-        } else {
-            checked.put(url, "");
-        }
+	private boolean checkForScanableUrl(String url) {
 
-        if (url.indexOf("/") > 0) {
-            String tmp = url.substring(0, url.indexOf("/"));
-        }
+		if (checked.containsKey(url)) {
+			return false;
+		} else {
+			checked.put(url, "");
+		}
 
-        for (int i = 0; i < scanArray.length; i++) {
-            if (url.endsWith(scanArray[i])) return true;
-        }
+		if (url.indexOf("/") > 0) {
+			String tmp = url.substring(0, url.indexOf("/"));
+		}
 
-        return false;
-    }
+		for (int i = 0; i < scanArray.length; i++) {
+			if (url.endsWith(scanArray[i])) return true;
+		}
 
-    private void crawl(String url) throws Exception {
-        url = clear(url);
+		return false;
+	}
 
-        int urlRating = checkForResult(url);
-        if (!quiet) Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + currentDepth);
+	private void crawl(String url) throws Exception {
+		url = clear(url);
 
-        if (urlRating > 0) {
-            //System.out.println("!!!");
-            //Getter.chill(1000);
-            //System.exit(0);
-        } else if (urlRating < 0 && currentDepth > 0) {
-            if (!quiet) Log.out("SKIP " + url);
-            return;
-        }
+		int urlRating = checkForResult(url);
+		if (!quiet) Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + currentDepth);
 
+		if (urlRating > 0) {
+			//System.out.println("!!!");
+			//Getter.chill(1000);
+			//System.exit(0);
+		} else if (urlRating < 0 && currentDepth > 0) {
+			if (!quiet) Log.out("SKIP " + url);
+			return;
+		}
 
-        Getter urlGetter = new Getter(localDir);
-        String content = urlGetter.fetch(url);
 
-        int factor = rate(content);
-        if (!quiet) Log.out("Content-Rating: " + url + " -> " + factor + " @" + currentDepth);
+		Getter urlGetter = new Getter(localDir);
+		String content = urlGetter.fetch(url);
 
-        if (factor < MIN_FACTOR) {
-            if (!quiet) Log.out("DROP: " + url);
-            return;
-        }
+		int factor = rate(content);
+		if (!quiet) Log.out("Content-Rating: " + url + " -> " + factor + " @" + currentDepth);
 
-        if (!ultraquiet) Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + currentDepth);
+		if (factor < MIN_FACTOR) {
+			if (!quiet) Log.out("DROP: " + url);
+			return;
+		}
 
-        Vector m = sort(content, url.substring(0, url.lastIndexOf("/")),
-                "href=\"");
-        m = addVector(m,
-                sort(content, url.substring(0, url.lastIndexOf("/")),
-                        "src=\""));
-        m = addVector(m,
-                sort(content, url.substring(0, url.lastIndexOf("/")),
-                        "HREF=\""));
-        m = addVector(m,
-                sort(content, url.substring(0, url.lastIndexOf("/")),
-                        "SRC=\""));
+		if (!ultraquiet) Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + currentDepth);
 
-        Enumeration links = m.elements();
+		Vector m = sort(content, url.substring(0, url.lastIndexOf("/")), "href=\"");
+		m = addVector(m, sort(content, url.substring(0, url.lastIndexOf("/")), "src=\""));
+		m = addVector(m, sort(content, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
+		m = addVector(m, sort(content, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
 
-        while (links.hasMoreElements()) {
+		Enumeration links = m.elements();
 
-            String next = (String) links.nextElement();
+		while (links.hasMoreElements()) {
 
-            if (!quiet) Log.out("PROCESS: " + next);
-            boolean skip = false;
+			String next = (String) links.nextElement();
 
-            while (!skip) {
-                for (int i = 0; i < typeArray.length; i++) {
-                    if (next.endsWith(typeArray[i]) ||
-                            typeArray[i].trim().equals("*")) {
-                        Log.out("HIT: " + url + " -> " + next);
-                        //Getter.chill(2000);
+			if (!quiet) Log.out("PROCESS: " + next);
+			boolean skip = false;
 
-                        if (!LOAD || !checkForScanableUrl(url)) continue;
+			while (!skip) {
+				for (int i = 0; i < typeArray.length; i++) {
+					if (next.endsWith(typeArray[i]) || typeArray[i].trim().equals("*")) {
+						Log.out("HIT: " + url + " -> " + next);
+						//Getter.chill(2000);
 
-                        int x = next.indexOf("/");
+						if (!LOAD || !checkForScanableUrl(url)) continue;
 
-                        if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-                            Getter urlGetter2 = new Getter(localDir);
-                            urlGetter2.fetch(next, false);
+						int x = next.indexOf("/");
 
-                            continue;
-                        }
-                    }
-                }
+						if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+							Getter urlGetter2 = new Getter(localDir);
+							urlGetter2.fetch(next, false);
 
-                skip = true;
-            }
+							continue;
+						}
+					}
+				}
 
-            if (currentDepth < MAX) {
+				skip = true;
+			}
 
-                int x = next.indexOf("/");
+			if (currentDepth < MAX) {
 
-                if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-                    currentDepth++;
-                    crawl(next);
-                    currentDepth--;
-                }
-            }
-        }
-    }
+				int x = next.indexOf("/");
 
-    private Vector sort(String content, String url, String index) {
-        Vector res = new Vector();
-        int wo = 0;
+				if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+					currentDepth++;
+					crawl(next);
+					currentDepth--;
+				}
+			}
+		}
+	}
 
-        while (true) {
-            wo = content.indexOf(index);
+	private Vector sort(String content, String url, String index) {
+		Vector res = new Vector();
+		int wo = 0;
 
-            if (wo < 0) {
-                return res;
-            }
+		while (true) {
+			wo = content.indexOf(index);
 
-            content = content.substring(wo + index.length());
+			if (wo < 0) {
+				return res;
+			}
 
-            String was = content.substring(0, content.indexOf("\""));
+			content = content.substring(wo + index.length());
 
-            was = createAbsoluteUrl(was, url);
-            res.add(was);
-            if (!quiet) Log.out("ADD: " + was);
-        }
-    }
+			String was = content.substring(0, content.indexOf("\""));
 
-    private String[] check(String auswahl) {
-        StringTokenizer tokenizer = new StringTokenizer(auswahl, "-", false);
-        String[] strArr = new String[tokenizer.countTokens()];
-        int tmp = 0;
+			was = createAbsoluteUrl(was, url);
+			res.add(was);
+			if (!quiet) Log.out("ADD: " + was);
+		}
+	}
 
-        while (tokenizer.hasMoreElements()) {
-            strArr[tmp] = (String) tokenizer.nextElement();
-            tmp++;
-        }
+	private String[] check(String auswahl) {
+		StringTokenizer tokenizer = new StringTokenizer(auswahl, "-", false);
+		String[] strArr = new String[tokenizer.countTokens()];
+		int tmp = 0;
 
-        return strArr;
-    }
+		while (tokenizer.hasMoreElements()) {
+			strArr[tmp] = (String) tokenizer.nextElement();
+			tmp++;
+		}
 
-    private String createAbsoluteUrl(String newLink, String baseUrl) {
-        newLink = clear(newLink);
+		return strArr;
+	}
 
-        if (newLink.startsWith(baseUrl)) {
-            return newLink;
-        }
+	private String createAbsoluteUrl(String newLink, String baseUrl) {
+		newLink = clear(newLink);
 
-        if (newLink.startsWith("/") && (baseUrl.indexOf("/") > 0)) {
-            newLink = baseUrl.substring(0, baseUrl.indexOf("/")) + newLink;
-        } else if (newLink.startsWith("/") && (baseUrl.indexOf("/") < 0)) {
-            newLink = baseUrl + newLink;
-        } else if ((newLink.indexOf(".") > 0)) {
-            int idx = newLink.indexOf("/");
-            String tmp = "";
+		if (newLink.startsWith(baseUrl)) {
+			return newLink;
+		}
 
-            if (idx >= 0) {
-                tmp = newLink.substring(0, idx);
-            }
+		if (newLink.startsWith("/") && (baseUrl.indexOf("/") > 0)) {
+			newLink = baseUrl.substring(0, baseUrl.indexOf("/")) + newLink;
+		} else if (newLink.startsWith("/") && (baseUrl.indexOf("/") < 0)) {
+			newLink = baseUrl + newLink;
+		} else if ((newLink.indexOf(".") > 0)) {
+			int idx = newLink.indexOf("/");
+			String tmp = "";
 
-            if ((tmp.indexOf(".") > 0)) {
-                return clear(newLink);
-            }
+			if (idx >= 0) {
+				tmp = newLink.substring(0, idx);
+			}
 
-            if (baseUrl.endsWith("/")) {
-                newLink = baseUrl + newLink;
-            } else {
-                newLink = baseUrl + "/" + newLink;
-            }
-        }
+			if ((tmp.indexOf(".") > 0)) {
+				return clear(newLink);
+			}
 
-        //Log.out("-> " + newLink);
+			if (baseUrl.endsWith("/")) {
+				newLink = baseUrl + newLink;
+			} else {
+				newLink = baseUrl + "/" + newLink;
+			}
+		}
 
-        return newLink;
-    }
+		//Log.out("-> " + newLink);
+
+		return newLink;
+	}
 
 }
 
 
 class Getter {
-    private String localDir = null;
+	private String localDir = null;
 
-    public Getter(String localDir) {
-        this.localDir = localDir;
-    }
+	public Getter(String localDir) {
+		this.localDir = localDir;
+	}
 
-    public static void chill(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (Exception ex) {
-        }
-    }
+	public static void chill(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (Exception ex) {
+		}
+	}
 
-    public String fetch(String url) {
-        try {
-            String host = url.substring(0, url.indexOf("/"));
-            String wo = url.substring(url.indexOf("/"));
-            String result = "";
+	public String fetch(String url) {
+		try {
+			String host = url.substring(0, url.indexOf("/"));
+			String wo = url.substring(url.indexOf("/"));
+			String result = "";
 
-            //Log.out(">> " + host + wo);
+			//Log.out(">> " + host + wo);
 
-            Socket deal = new Socket(host, 80);
-            deal.setSoTimeout(5000);
+			Socket deal = new Socket(host, 80);
+			deal.setSoTimeout(5000);
 
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-            BufferedReader in = new BufferedReader(new InputStreamReader(deal.getInputStream()));
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(deal.getInputStream()));
 
-            out.write("GET http://" + url + " HTTP/1.0\n\n");
-            out.flush();
+			out.write("GET http://" + url + " HTTP/1.0\n\n");
+			out.flush();
 
-            int len = 0;
+			int len = 0;
 
-            while (!in.ready() && (len < 5000)) {
-                chill(100);
-                len += 100;
-            }
+			while (!in.ready() && (len < 5000)) {
+				chill(100);
+				len += 100;
+			}
 
-            while (in.ready()) {
-                result = result + in.readLine();
-            }
+			while (in.ready()) {
+				result = result + in.readLine();
+			}
 
-            out.close();
-            in.close();
+			out.close();
+			in.close();
 
-            return result;
-        } catch (Exception ex) {
-            if (!FileSearch.quiet) ex.printStackTrace();
-        }
+			return result;
+		} catch (Exception ex) {
+			if (!FileSearch.quiet) ex.printStackTrace();
+		}
 
-        return "";
-    }
+		return "";
+	}
 
-    public void fetch(String url, boolean force) {
-        try {
-            String host = url.substring(0, url.indexOf("/"));
-            String wo = url.substring(url.indexOf("/"));
-            String result = "";
+	public void fetch(String url, boolean force) {
+		try {
+			String host = url.substring(0, url.indexOf("/"));
+			String wo = url.substring(url.indexOf("/"));
+			String result = "";
 
-            if (!FileSearch.quiet) Log.debug(">>> " + host + wo);
+			if (!FileSearch.quiet) Log.debug(">>> " + host + wo);
 
-            //JFtp.statusP.jftp.ensureLogging();
-            File d = new File(localDir);
-            d.mkdir();
+			//JFtp.statusP.jftp.ensureLogging();
+			File d = new File(localDir);
+			d.mkdir();
 
-            File f = new File(localDir + wo.substring(wo.lastIndexOf("/") + 1));
+			File f = new File(localDir + wo.substring(wo.lastIndexOf("/") + 1));
 
-            if (f.exists() && !force) {
-                if (!FileSearch.quiet) Log.debug(">>> file already exists...");
+			if (f.exists() && !force) {
+				if (!FileSearch.quiet) Log.debug(">>> file already exists...");
 
-                return;
-            } else {
-                f.delete();
-            }
+				return;
+			} else {
+				f.delete();
+			}
 
-            Socket deal = new Socket(host, 80);
-            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-            DataInputStream in = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
+			Socket deal = new Socket(host, 80);
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			DataInputStream in = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
 
-            BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(localDir +
-                    wo.substring(wo.lastIndexOf("/") +
-                            1)));
+			BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(localDir + wo.substring(wo.lastIndexOf("/") + 1)));
 
-            byte[] alu = new byte[2048];
+			byte[] alu = new byte[2048];
 
-            out.write("GET http://" + url + " HTTP/1.0\n\n");
-            out.flush();
+			out.write("GET http://" + url + " HTTP/1.0\n\n");
+			out.flush();
 
-            boolean line = true;
-            boolean bin = false;
+			boolean line = true;
+			boolean bin = false;
 
-            while (true) {
-                chill(10);
+			while (true) {
+				chill(10);
 
-                String tmp = "";
+				String tmp = "";
 
-                while (line) {
-                    String x = in.readLine();
+				while (line) {
+					String x = in.readLine();
 
-                    if (x == null) {
-                        break;
-                    }
+					if (x == null) {
+						break;
+					}
 
-                    tmp += (x + "\n");
+					tmp += (x + "\n");
 
-                    if (x.equals("")) {
-                        line = false;
-                    }
-                }
+					if (x.equals("")) {
+						line = false;
+					}
+				}
 
-                int x = in.read(alu);
+				int x = in.read(alu);
 
-                if (x == -1) {
-                    if (line) {
-                        localOut.write(tmp.getBytes(), 0, tmp.length());
-                    }
+				if (x == -1) {
+					if (line) {
+						localOut.write(tmp.getBytes(), 0, tmp.length());
+					}
 
-                    out.close();
-                    in.close();
-                    localOut.flush();
-                    localOut.close();
+					out.close();
+					in.close();
+					localOut.flush();
+					localOut.close();
 
-                    return;
-                } else {
-                    localOut.write(alu, 0, x);
-                }
-            }
-        } catch (Exception ex) {
-            if (!FileSearch.quiet) ex.printStackTrace();
-        }
-    }
+					return;
+				} else {
+					localOut.write(alu, 0, x);
+				}
+			}
+		} catch (Exception ex) {
+			if (!FileSearch.quiet) ex.printStackTrace();
+		}
+	}
 }

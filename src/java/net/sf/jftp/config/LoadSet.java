@@ -24,46 +24,45 @@ import java.io.FileReader;
 
 
 public class LoadSet {
-    public static String[] loadSet(String file, boolean ask) {
-        try {
-            BufferedReader breader = new BufferedReader(new FileReader(file));
-            String[] result = new String[6];
-            result[0] = breader.readLine();
-            result[1] = breader.readLine();
-            result[2] = breader.readLine();
-            result[3] = breader.readLine();
-            result[4] = breader.readLine();
-            result[5] = breader.readLine();
+	public static String[] loadSet(String file, boolean ask) {
+		try {
+			BufferedReader breader = new BufferedReader(new FileReader(file));
+			String[] result = new String[6];
+			result[0] = breader.readLine();
+			result[1] = breader.readLine();
+			result[2] = breader.readLine();
+			result[3] = breader.readLine();
+			result[4] = breader.readLine();
+			result[5] = breader.readLine();
 
-            if ((result[2].equals("") || !Settings.getStorePasswords()) && ask) {
-                result[2] = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
-                Log.debug("fetched: " + result[2] + ", storing: " +
-                        Settings.getStorePasswords());
-            } else if (!result[2].equals("") || Settings.getStorePasswords()) {
-                // need to decode
-                String decoded = Crypto.Decrypt(result[2]);
-                if (decoded.equals("")) {
-                    // failed to decode
-                    if (ask) {
-                        // ask for a password
-                        result[2] = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
-                    } else {
-                        // fallback to empty string
-                        result[2] = "";
-                    }
-                }
-            }
+			if ((result[2].equals("") || !Settings.getStorePasswords()) && ask) {
+				result[2] = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+				Log.debug("fetched: " + result[2] + ", storing: " + Settings.getStorePasswords());
+			} else if (!result[2].equals("") || Settings.getStorePasswords()) {
+				// need to decode
+				String decoded = Crypto.Decrypt(result[2]);
+				if (decoded.equals("")) {
+					// failed to decode
+					if (ask) {
+						// ask for a password
+						result[2] = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+					} else {
+						// fallback to empty string
+						result[2] = "";
+					}
+				}
+			}
 
-            return result;
-        } catch (Exception ex) {
-            // don't need this, occurs if first run
-            //Log.debug(ex.toString() + "@LoadSet::loadSet()");
-        }
+			return result;
+		} catch (Exception ex) {
+			// don't need this, occurs if first run
+			//Log.debug(ex.toString() + "@LoadSet::loadSet()");
+		}
 
-        return new String[1];
-    }
+		return new String[1];
+	}
 
-    public static String[] loadSet(String file) {
-        return loadSet(file, false);
-    }
+	public static String[] loadSet(String file) {
+		return loadSet(file, false);
+	}
 }

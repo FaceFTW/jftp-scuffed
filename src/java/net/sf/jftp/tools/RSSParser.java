@@ -22,73 +22,71 @@ import java.util.Vector;
 
 
 public class RSSParser {
-    URL file;
-    Vector titles = new Vector();
-    Vector descs = new Vector();
-    Vector links = new Vector();
-    Vector content = new Vector();
+	URL file;
+	Vector titles = new Vector();
+	Vector descs = new Vector();
+	Vector links = new Vector();
+	Vector content = new Vector();
 
-    public RSSParser(URL f) {
-        file = f;
-        parse();
-    }
+	public RSSParser(URL f) {
+		file = f;
+		parse();
+	}
 
-    private void parse() {
-        try {
-            DataInputStream in = new DataInputStream(new BufferedInputStream(file.openStream()));
+	private void parse() {
+		try {
+			DataInputStream in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-            String tmp;
-            String data = "";
+			String tmp;
+			String data = "";
 
-            while ((tmp = in.readLine()) != null) {
-                data += tmp;
-            }
+			while ((tmp = in.readLine()) != null) {
+				data += tmp;
+			}
 
-            add(data, content, "<title>", "</title>", "<description>",
-                    "</description>");
-            add(data, titles, "<title>", "</title>", null, null);
-            add(data, descs, "<description>", "</description>", null, null);
-            add(data, links, "<link>", "</link>", null, null);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+			add(data, content, "<title>", "</title>", "<description>", "</description>");
+			add(data, titles, "<title>", "</title>", null, null);
+			add(data, descs, "<description>", "</description>", null, null);
+			add(data, links, "<link>", "</link>", null, null);
+		} catch (Exception ex) {
+			ex.printStackTrace();
 
-        }
-    }
+		}
+	}
 
-    private void add(String tmp, Vector target, String start, String end,
-                     String s2, String e2) {
-        if (s2 == null) {
-            s2 = start;
-            e2 = end;
-        }
+	private void add(String tmp, Vector target, String start, String end, String s2, String e2) {
+		if (s2 == null) {
+			s2 = start;
+			e2 = end;
+		}
 
-        int x = tmp.indexOf(start);
-        int x2 = tmp.indexOf(s2);
+		int x = tmp.indexOf(start);
+		int x2 = tmp.indexOf(s2);
 
-        if (((x < 0) && (x2 < 0)) || ((x < 0) && start.equals(s2))) {
-            return;
-        }
+		if (((x < 0) && (x2 < 0)) || ((x < 0) && start.equals(s2))) {
+			return;
+		}
 
-        if ((x2 >= 0) && ((x2 < x) || (x < 0))) {
-            x = x2;
+		if ((x2 >= 0) && ((x2 < x) || (x < 0))) {
+			x = x2;
 
-            String t = start;
-            start = s2;
-            s2 = t;
+			String t = start;
+			start = s2;
+			s2 = t;
 
-            t = end;
-            end = e2;
-            e2 = t;
-        }
+			t = end;
+			end = e2;
+			e2 = t;
+		}
 
-        //System.out.println(tmp+":::"+x+":::"+x2);
-        String value = tmp.substring(x + start.length(), tmp.indexOf(end));
+		//System.out.println(tmp+":::"+x+":::"+x2);
+		String value = tmp.substring(x + start.length(), tmp.indexOf(end));
 
-        //System.out.println(value);
-        target.add(value);
+		//System.out.println(value);
+		target.add(value);
 
-        tmp = tmp.substring(tmp.indexOf(end) + end.length());
+		tmp = tmp.substring(tmp.indexOf(end) + end.length());
 
-        add(tmp, target, start, end, s2, e2);
-    }
+		add(tmp, target, start, end, s2, e2);
+	}
 }

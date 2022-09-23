@@ -25,7 +25,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
@@ -33,446 +41,425 @@ import java.util.Vector;
 
 
 public class HttpSpider extends HPanel implements Runnable, ActionListener {
-    private final HTextField host = new HTextField("Full URL:",
-            "http://j-ftp.sourceforge.net/index.html",
-            30);
-    private final HTextField type = new HTextField("Types (use * for all):",
-            "html-htm-css-gif-jpg-zip-gz-avi-mpg",
-            25);
-    private final HTextField depth = new HTextField("Search up to this many levels deeper:",
-            "1", 10);
-    private final HTextField dir = new HTextField("Store files in:", "", 25);
-    private final JPanel p1 = new JPanel();
-    private final JPanel okP = new JPanel();
-    private final JButton ok = new JButton("Start");
-    private final JButton stop = new JButton("Stop download (ASAP)");
-    private int currentDepth = 0;
-    private int MAX = 1;
-    private String[] typeArray = {"mpg", "avi", "mpeg", "mov", "rm", "wmv"};
-    private String localDir = ".";
-    private String[] argv;
-    private Thread runner;
-    private boolean stopflag = false;
-
-    public HttpSpider(String localDir) {
-        this.localDir = localDir;
-
-        //setSize(440,220);
-        //setLocation(200,250);
-        //setTitle("Http spider...");
-        //getContentPane().
-        setLayout(new BorderLayout());
-
-        //setBackground(Color.lightGray);
-        p1.setLayout(new GridLayout(4, 1, 5, 5));
-        p1.add(host);
-        p1.add(type);
-        p1.add(depth);
-        dir.setText(localDir);
-        p1.add(dir);
-
-        //getContentPane().
-        add("Center", p1);
-
-        //getContentPane().
-        add("South", okP);
-        okP.add(ok);
-        ok.addActionListener(this);
-
-        setVisible(true);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == ok) {
-            //this.dispose();
-            localDir = dir.getText();
-
-            if (!localDir.endsWith("/")) {
-                localDir = localDir + "/";
-            }
-
-            String[] argv2 =
-                    {
-                            host.getText().trim(), type.getText().trim(),
-                            depth.getText().trim()
-                    };
-            argv = argv2;
-
-            removeAll();
-            add("North",
-                    new JLabel("Starting download, please watch the log window for details"));
-            add("Center", stop);
-            stop.addActionListener(this);
-            JFtp.statusP.jftp.setClosable(this.hashCode(), false);
-            validate();
-
-            runner = new Thread(this);
-            runner.start();
-        } else if (e.getSource() == stop) {
-            stopflag = true;
-        }
-    }
-
-    public void run() {
-        spider(argv);
-
-        if (!stopflag) {
-            Log.debug("\nRecursive download finished.\nOuptut dir: " +
-                    localDir);
-        } else {
-            Log.debug("\nRecursive download aborted.");
-        }
-
-        JFtp.statusP.jftp.ensureLogging();
-        JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
-    }
-
-    private void spider(String[] argv) {
-        try {
-            String url = "http://j-ftp.sourceforge.net/index.html";
-
-            if (argv.length >= 2) {
-                url = clear(argv[0]);
-
-                if (url.indexOf("/") < 0) {
-                    url = url + "/";
-                }
+	private final HTextField host = new HTextField("Full URL:", "http://j-ftp.sourceforge.net/index.html", 30);
+	private final HTextField type = new HTextField("Types (use * for all):", "html-htm-css-gif-jpg-zip-gz-avi-mpg", 25);
+	private final HTextField depth = new HTextField("Search up to this many levels deeper:", "1", 10);
+	private final HTextField dir = new HTextField("Store files in:", "", 25);
+	private final JPanel p1 = new JPanel();
+	private final JPanel okP = new JPanel();
+	private final JButton ok = new JButton("Start");
+	private final JButton stop = new JButton("Stop download (ASAP)");
+	private int currentDepth = 0;
+	private int MAX = 1;
+	private String[] typeArray = {"mpg", "avi", "mpeg", "mov", "rm", "wmv"};
+	private String localDir = ".";
+	private String[] argv;
+	private Thread runner;
+	private boolean stopflag = false;
+
+	public HttpSpider(String localDir) {
+		this.localDir = localDir;
+
+		//setSize(440,220);
+		//setLocation(200,250);
+		//setTitle("Http spider...");
+		//getContentPane().
+		setLayout(new BorderLayout());
+
+		//setBackground(Color.lightGray);
+		p1.setLayout(new GridLayout(4, 1, 5, 5));
+		p1.add(host);
+		p1.add(type);
+		p1.add(depth);
+		dir.setText(localDir);
+		p1.add(dir);
+
+		//getContentPane().
+		add("Center", p1);
+
+		//getContentPane().
+		add("South", okP);
+		okP.add(ok);
+		ok.addActionListener(this);
+
+		setVisible(true);
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == ok) {
+			//this.dispose();
+			localDir = dir.getText();
+
+			if (!localDir.endsWith("/")) {
+				localDir = localDir + "/";
+			}
+
+			String[] argv2 = {host.getText().trim(), type.getText().trim(), depth.getText().trim()};
+			argv = argv2;
+
+			removeAll();
+			add("North", new JLabel("Starting download, please watch the log window for details"));
+			add("Center", stop);
+			stop.addActionListener(this);
+			JFtp.statusP.jftp.setClosable(this.hashCode(), false);
+			validate();
+
+			runner = new Thread(this);
+			runner.start();
+		} else if (e.getSource() == stop) {
+			stopflag = true;
+		}
+	}
+
+	public void run() {
+		spider(argv);
+
+		if (!stopflag) {
+			Log.debug("\nRecursive download finished.\nOuptut dir: " + localDir);
+		} else {
+			Log.debug("\nRecursive download aborted.");
+		}
+
+		JFtp.statusP.jftp.ensureLogging();
+		JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
+	}
+
+	private void spider(String[] argv) {
+		try {
+			String url = "http://j-ftp.sourceforge.net/index.html";
+
+			if (argv.length >= 2) {
+				url = clear(argv[0]);
+
+				if (url.indexOf("/") < 0) {
+					url = url + "/";
+				}
+
+				typeArray = check(argv[1]);
+
+				Log.debugRaw(">>> Scanning for ");
+
+				for (int i = 0; i < typeArray.length; i++) {
+					Log.debugRaw(typeArray[i] + " ");
+				}
 
-                typeArray = check(argv[1]);
+				Log.debug("");
+			}
 
-                Log.debugRaw(">>> Scanning for ");
+			if (argv.length > 2) {
+				MAX = Integer.parseInt(argv[2]);
+			}
 
-                for (int i = 0; i < typeArray.length; i++) {
-                    Log.debugRaw(typeArray[i] + " ");
-                }
+			//for(int i=0; i<typeArray.length; i++) Log.debug("+ "+typeArray[i]);
+			if (stopflag) {
+				return;
+			}
 
-                Log.debug("");
-            }
+			Log.debug("Fetching initial HTML file...");
 
-            if (argv.length > 2) {
-                MAX = Integer.parseInt(argv[2]);
-            }
+			Holer sammy = new Holer(localDir);
+			sammy.bringAnStart(url, true);
 
-            //for(int i=0; i<typeArray.length; i++) Log.debug("+ "+typeArray[i]);
-            if (stopflag) {
-                return;
-            }
+			if (stopflag) {
+				return;
+			}
 
-            Log.debug("Fetching initial HTML file...");
+			Log.debug("Searching for links...");
+			JFtp.statusP.jftp.ensureLogging();
+			LocalIO.pause(500);
 
-            Holer sammy = new Holer(localDir);
-            sammy.bringAnStart(url, true);
+			if (stopflag) {
+				return;
+			}
 
-            if (stopflag) {
-                return;
-            }
+			smoke(url);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
-            Log.debug("Searching for links...");
-            JFtp.statusP.jftp.ensureLogging();
-            LocalIO.pause(500);
+	private String clear(String url) {
+		int idx = url.indexOf("http://");
 
-            if (stopflag) {
-                return;
-            }
+		if (idx >= 0) {
+			url = url.substring(7);
+		}
 
-            smoke(url);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+		return url;
+	}
 
-    private String clear(String url) {
-        int idx = url.indexOf("http://");
+	private Vector addVector(Vector v, Vector x) {
+		Enumeration e = x.elements();
 
-        if (idx >= 0) {
-            url = url.substring(7);
-        }
+		while (e.hasMoreElements()) {
+			String next = (String) e.nextElement();
+			v.add(next);
+		}
 
-        return url;
-    }
+		return v;
+	}
 
-    private Vector addVector(Vector v, Vector x) {
-        Enumeration e = x.elements();
+	private void smoke(String url) throws Exception {
+		if (stopflag) {
+			return;
+		}
 
-        while (e.hasMoreElements()) {
-            String next = (String) e.nextElement();
-            v.add(next);
-        }
+		url = clear(url);
 
-        return v;
-    }
+		Holer sammy = new Holer(localDir);
+		String zeug = sammy.holZeug(url);
 
-    private void smoke(String url) throws Exception {
-        if (stopflag) {
-            return;
-        }
+		Vector m = sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "href=\"");
+		m = addVector(m, sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "src=\""));
+		m = addVector(m, sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
+		m = addVector(m, sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
 
-        url = clear(url);
+		Enumeration mischen = m.elements();
 
-        Holer sammy = new Holer(localDir);
-        String zeug = sammy.holZeug(url);
+		while (mischen.hasMoreElements()) {
+			if (stopflag) {
+				return;
+			}
 
-        Vector m = sortiermal(zeug, url.substring(0, url.lastIndexOf("/")),
-                "href=\"");
-        m = addVector(m,
-                sortiermal(zeug, url.substring(0, url.lastIndexOf("/")),
-                        "src=\""));
-        m = addVector(m,
-                sortiermal(zeug, url.substring(0, url.lastIndexOf("/")),
-                        "HREF=\""));
-        m = addVector(m,
-                sortiermal(zeug, url.substring(0, url.lastIndexOf("/")),
-                        "SRC=\""));
+			String next = (String) mischen.nextElement();
 
-        Enumeration mischen = m.elements();
+			Log.out("Processing: " + next);
 
-        while (mischen.hasMoreElements()) {
-            if (stopflag) {
-                return;
-            }
-
-            String next = (String) mischen.nextElement();
-
-            Log.out("Processing: " + next);
-
-            for (int i = 0; i < typeArray.length; i++) {
-                if (next.endsWith(typeArray[i]) ||
-                        typeArray[i].trim().equals("*")) {
-                    int x = next.indexOf("/");
+			for (int i = 0; i < typeArray.length; i++) {
+				if (next.endsWith(typeArray[i]) || typeArray[i].trim().equals("*")) {
+					int x = next.indexOf("/");
 
-                    if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-                        Holer nochnsammy = new Holer(localDir);
-                        nochnsammy.bringAnStart(next, false);
+					if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+						Holer nochnsammy = new Holer(localDir);
+						nochnsammy.bringAnStart(next, false);
 
-                        if (stopflag) {
-                            return;
-                        }
+						if (stopflag) {
+							return;
+						}
 
-                        continue;
-                    }
-                }
-            }
+						continue;
+					}
+				}
+			}
 
-            if (currentDepth < MAX) {
-                if (stopflag) {
-                    return;
-                }
+			if (currentDepth < MAX) {
+				if (stopflag) {
+					return;
+				}
 
-                int x = next.indexOf("/");
+				int x = next.indexOf("/");
 
-                if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-                    currentDepth++;
-                    smoke(next);
-                    currentDepth--;
-                }
-            }
-        }
-    }
+				if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+					currentDepth++;
+					smoke(next);
+					currentDepth--;
+				}
+			}
+		}
+	}
 
-    private Vector sortiermal(String zeug, String url, String index) {
-        Vector mischen = new Vector();
-        int wo = 0;
+	private Vector sortiermal(String zeug, String url, String index) {
+		Vector mischen = new Vector();
+		int wo = 0;
 
-        while (true) {
-            wo = zeug.indexOf(index);
+		while (true) {
+			wo = zeug.indexOf(index);
 
-            if (wo < 0) {
-                return mischen;
-            }
+			if (wo < 0) {
+				return mischen;
+			}
 
-            zeug = zeug.substring(wo + index.length());
+			zeug = zeug.substring(wo + index.length());
 
-            String was = zeug.substring(0, zeug.indexOf("\""));
+			String was = zeug.substring(0, zeug.indexOf("\""));
 
-            was = checker(was, url);
-            mischen.add(was);
-            Log.out("Added: " + was);
-        }
-    }
+			was = checker(was, url);
+			mischen.add(was);
+			Log.out("Added: " + was);
+		}
+	}
 
-    private String[] check(String auswahl) {
-        StringTokenizer flyer = new StringTokenizer(auswahl, "-", false);
-        String[] einkauf = new String[flyer.countTokens()];
-        int tmp = 0;
+	private String[] check(String auswahl) {
+		StringTokenizer flyer = new StringTokenizer(auswahl, "-", false);
+		String[] einkauf = new String[flyer.countTokens()];
+		int tmp = 0;
 
-        while (flyer.hasMoreElements()) {
-            einkauf[tmp] = (String) flyer.nextElement();
-            tmp++;
-        }
+		while (flyer.hasMoreElements()) {
+			einkauf[tmp] = (String) flyer.nextElement();
+			tmp++;
+		}
 
-        return einkauf;
-    }
+		return einkauf;
+	}
 
-    private String checker(String was, String url) {
-        was = clear(was);
+	private String checker(String was, String url) {
+		was = clear(was);
 
-        if (was.startsWith(url)) {
-            return was;
-        }
+		if (was.startsWith(url)) {
+			return was;
+		}
 
-        if (was.startsWith("/") && (url.indexOf("/") > 0)) {
-            was = url.substring(0, url.indexOf("/")) + was;
-        } else if (was.startsWith("/") && (url.indexOf("/") < 0)) {
-            was = url + was;
-        } else if ((was.indexOf(".") > 0)) {
-            int idx = was.indexOf("/");
-            String tmp = "";
+		if (was.startsWith("/") && (url.indexOf("/") > 0)) {
+			was = url.substring(0, url.indexOf("/")) + was;
+		} else if (was.startsWith("/") && (url.indexOf("/") < 0)) {
+			was = url + was;
+		} else if ((was.indexOf(".") > 0)) {
+			int idx = was.indexOf("/");
+			String tmp = "";
 
-            if (idx >= 0) {
-                tmp = was.substring(0, idx);
-            }
+			if (idx >= 0) {
+				tmp = was.substring(0, idx);
+			}
 
-            if ((tmp.indexOf(".") > 0)) {
-                return clear(was);
-            }
+			if ((tmp.indexOf(".") > 0)) {
+				return clear(was);
+			}
 
-            if (url.endsWith("/")) {
-                was = url + was;
-            } else {
-                was = url + "/" + was;
-            }
-        }
+			if (url.endsWith("/")) {
+				was = url + was;
+			} else {
+				was = url + "/" + was;
+			}
+		}
 
-        Log.out("-> " + was);
+		Log.out("-> " + was);
 
-        return was;
-    }
+		return was;
+	}
 
-    public Insets getInsets() {
-        return new Insets(5, 5, 5, 5);
-    }
+	public Insets getInsets() {
+		return new Insets(5, 5, 5, 5);
+	}
 }
 
 
 class Holer {
-    private String localDir = null;
+	private String localDir = null;
 
-    public Holer(String localDir) {
-        this.localDir = localDir;
-    }
+	public Holer(String localDir) {
+		this.localDir = localDir;
+	}
 
-    private static void chill(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (Exception ex) {
-        }
-    }
+	private static void chill(int time) {
+		try {
+			Thread.sleep(time);
+		} catch (Exception ex) {
+		}
+	}
 
-    public String holZeug(String wat) {
-        try {
-            String dealer = wat.substring(0, wat.indexOf("/"));
-            String wo = wat.substring(wat.indexOf("/"));
-            String zeug = "";
+	public String holZeug(String wat) {
+		try {
+			String dealer = wat.substring(0, wat.indexOf("/"));
+			String wo = wat.substring(wat.indexOf("/"));
+			String zeug = "";
 
-            Log.out(">> " + dealer + wo);
+			Log.out(">> " + dealer + wo);
 
-            Socket deal = new Socket(dealer, 80);
-            deal.setSoTimeout(5000);
+			Socket deal = new Socket(dealer, 80);
+			deal.setSoTimeout(5000);
 
-            BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-            BufferedReader checkung = new BufferedReader(new InputStreamReader(deal.getInputStream()));
+			BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			BufferedReader checkung = new BufferedReader(new InputStreamReader(deal.getInputStream()));
 
-            order.write("GET http://" + wat + " HTTP/1.0\n\n");
-            order.flush();
+			order.write("GET http://" + wat + " HTTP/1.0\n\n");
+			order.flush();
 
-            int len = 0;
+			int len = 0;
 
-            while (!checkung.ready() && (len < 5000)) {
-                chill(100);
-                len += 100;
-            }
+			while (!checkung.ready() && (len < 5000)) {
+				chill(100);
+				len += 100;
+			}
 
-            while (checkung.ready()) {
-                zeug = zeug + checkung.readLine();
-            }
+			while (checkung.ready()) {
+				zeug = zeug + checkung.readLine();
+			}
 
-            order.close();
-            checkung.close();
+			order.close();
+			checkung.close();
 
-            return zeug;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+			return zeug;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
-        return "";
-    }
+		return "";
+	}
 
-    public void bringAnStart(String wat, boolean force) {
-        try {
-            String dealer = wat.substring(0, wat.indexOf("/"));
-            String wo = wat.substring(wat.indexOf("/"));
-            String zeug = "";
+	public void bringAnStart(String wat, boolean force) {
+		try {
+			String dealer = wat.substring(0, wat.indexOf("/"));
+			String wo = wat.substring(wat.indexOf("/"));
+			String zeug = "";
 
-            Log.debug(">>> " + dealer + wo);
+			Log.debug(">>> " + dealer + wo);
 
-            //JFtp.statusP.jftp.ensureLogging();
-            File d = new File(localDir);
-            d.mkdir();
+			//JFtp.statusP.jftp.ensureLogging();
+			File d = new File(localDir);
+			d.mkdir();
 
-            File f = new File(localDir + wo.substring(wo.lastIndexOf("/") + 1));
+			File f = new File(localDir + wo.substring(wo.lastIndexOf("/") + 1));
 
-            if (f.exists() && !force) {
-                Log.debug(">>> file already exists...");
+			if (f.exists() && !force) {
+				Log.debug(">>> file already exists...");
 
-                return;
-            } else {
-                f.delete();
-            }
+				return;
+			} else {
+				f.delete();
+			}
 
-            Socket deal = new Socket(dealer, 80);
-            BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-            DataInputStream checkung = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
+			Socket deal = new Socket(dealer, 80);
+			BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			DataInputStream checkung = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
 
-            BufferedOutputStream vorrat = new BufferedOutputStream(new FileOutputStream(localDir +
-                    wo.substring(wo.lastIndexOf("/") +
-                            1)));
+			BufferedOutputStream vorrat = new BufferedOutputStream(new FileOutputStream(localDir + wo.substring(wo.lastIndexOf("/") + 1)));
 
-            byte[] alu = new byte[2048];
+			byte[] alu = new byte[2048];
 
-            order.write("GET http://" + wat + " HTTP/1.0\n\n");
-            order.flush();
+			order.write("GET http://" + wat + " HTTP/1.0\n\n");
+			order.flush();
 
-            boolean line = true;
-            boolean bin = false;
+			boolean line = true;
+			boolean bin = false;
 
-            while (true) {
-                chill(10);
+			while (true) {
+				chill(10);
 
-                String tmp = "";
+				String tmp = "";
 
-                while (line) {
-                    String x = checkung.readLine();
+				while (line) {
+					String x = checkung.readLine();
 
-                    if (x == null) {
-                        break;
-                    }
+					if (x == null) {
+						break;
+					}
 
-                    tmp += (x + "\n");
+					tmp += (x + "\n");
 
-                    if (x.equals("")) {
-                        line = false;
-                    }
-                }
+					if (x.equals("")) {
+						line = false;
+					}
+				}
 
-                int x = checkung.read(alu);
+				int x = checkung.read(alu);
 
-                if (x == -1) {
-                    if (line) {
-                        vorrat.write(tmp.getBytes(), 0, tmp.length());
-                    }
+				if (x == -1) {
+					if (line) {
+						vorrat.write(tmp.getBytes(), 0, tmp.length());
+					}
 
-                    order.close();
-                    checkung.close();
-                    vorrat.flush();
-                    vorrat.close();
+					order.close();
+					checkung.close();
+					vorrat.flush();
+					vorrat.close();
 
-                    return;
-                } else {
-                    vorrat.write(alu, 0, x);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+					return;
+				} else {
+					vorrat.write(alu, 0, x);
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

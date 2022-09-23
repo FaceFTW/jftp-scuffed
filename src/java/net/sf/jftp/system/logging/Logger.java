@@ -16,25 +16,25 @@
 package net.sf.jftp.system.logging;
 
 public interface Logger {
-    void debug(String msg);
+	void debug(String msg);
 
-    void debugRaw(String msg);
+	void debugRaw(String msg);
 
-    void debug(String msg, Throwable throwable);
+	void debug(String msg, Throwable throwable);
 
-    void warn(String msg);
+	void warn(String msg);
 
-    void warn(String msg, Throwable throwable);
+	void warn(String msg, Throwable throwable);
 
-    void error(String msg);
+	void error(String msg);
 
-    void error(String msg, Throwable throwable);
+	void error(String msg, Throwable throwable);
 
-    void info(String msg);
+	void info(String msg);
 
-    void info(String msg, Throwable throwable);
+	void info(String msg, Throwable throwable);
 
-    void fatal(String msg);
+	void fatal(String msg);
 
-    void fatal(String msg, Throwable throwable);
+	void fatal(String msg, Throwable throwable);
 }

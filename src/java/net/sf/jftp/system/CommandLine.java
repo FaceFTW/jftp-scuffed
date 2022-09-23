@@ -15,7 +15,13 @@
  */
 package net.sf.jftp.system;
 
-import net.sf.jftp.event.*;
+import net.sf.jftp.event.Event;
+import net.sf.jftp.event.EventCollector;
+import net.sf.jftp.event.EventHandler;
+import net.sf.jftp.event.EventProcessor;
+import net.sf.jftp.event.FtpEvent;
+import net.sf.jftp.event.FtpEventConstants;
+import net.sf.jftp.event.FtpEventHandler;
 import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.system.logging.SystemLogger;
 
@@ -25,40 +31,39 @@ import java.io.InputStreamReader;
 
 
 public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
-    private final EventCollector eventCollector;
+	private final EventCollector eventCollector;
 
-    public CommandLine() {
-        Log.setLogger(new SystemLogger());
-        eventCollector = new EventCollector();
-        EventProcessor.addHandler(FTPCommand, new FtpEventHandler());
-        EventProcessor.addHandler(FTPPrompt, this);
-        new Thread(this).start();
-    }
+	public CommandLine() {
+		Log.setLogger(new SystemLogger());
+		eventCollector = new EventCollector();
+		EventProcessor.addHandler(FTPCommand, new FtpEventHandler());
+		EventProcessor.addHandler(FTPPrompt, this);
+		new Thread(this).start();
+	}
 
-    public static void main(String[] argv) {
-        CommandLine ftp = new CommandLine();
-    }
+	public static void main(String[] argv) {
+		CommandLine ftp = new CommandLine();
+	}
 
-    public boolean handle(Event e) {
-        System.out.print("ftp> ");
+	public boolean handle(Event e) {
+		System.out.print("ftp> ");
 
-        return true;
-    }
+		return true;
+	}
 
-    public void run() {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String line = null;
+	public void run() {
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		String line = null;
 
-        do {
-            try {
-                eventCollector.accept(new FtpEvent(FTPPrompt));
-                line = in.readLine();
-                eventCollector.accept(new FtpEvent(FTPCommand, line));
-            } catch (IOException e) {
-            }
-        }
-        while (!line.toLowerCase().startsWith("quit"));
+		do {
+			try {
+				eventCollector.accept(new FtpEvent(FTPPrompt));
+				line = in.readLine();
+				eventCollector.accept(new FtpEvent(FTPCommand, line));
+			} catch (IOException e) {
+			}
+		} while (!line.toLowerCase().startsWith("quit"));
 
-        eventCollector.accept(new FtpEvent(FTPShutdown)); // make the quit command spawn this event?
-    }
+		eventCollector.accept(new FtpEvent(FTPShutdown)); // make the quit command spawn this event?
+	}
 }

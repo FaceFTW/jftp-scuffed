@@ -19,53 +19,52 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 
-public class EventProcessor implements Runnable, Acceptor, FtpEventConstants,
-        EventHandler {
-    private static final Hashtable table = new Hashtable();
-    private final Vector buffer;
-    private boolean done = false;
+public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, EventHandler {
+	private static final Hashtable table = new Hashtable();
+	private final Vector buffer;
+	private boolean done = false;
 
-    public EventProcessor(Vector b) {
-        buffer = b;
-        new Thread(this).start();
-        addHandler(FTPShutdown, this);
-    }
+	public EventProcessor(Vector b) {
+		buffer = b;
+		new Thread(this).start();
+		addHandler(FTPShutdown, this);
+	}
 
-    public static void addHandler(int eventCode, EventHandler h) {
-        Integer code = new Integer(eventCode);
-        Vector handlers = (Vector) (table.get(code));
+	public static void addHandler(int eventCode, EventHandler h) {
+		Integer code = new Integer(eventCode);
+		Vector handlers = (Vector) (table.get(code));
 
-        if (handlers == null) {
-            handlers = new Vector();
-            table.put(code, handlers);
-        }
+		if (handlers == null) {
+			handlers = new Vector();
+			table.put(code, handlers);
+		}
 
-        handlers.addElement(h);
-    }
+		handlers.addElement(h);
+	}
 
-    public void accept(Event e) {
-        Integer code = new Integer(e.eventCode());
-        Vector handlers = (Vector) (table.get(code));
+	public void accept(Event e) {
+		Integer code = new Integer(e.eventCode());
+		Vector handlers = (Vector) (table.get(code));
 
-        if (handlers != null) {
-            for (int i = 0, max = handlers.size(); i < max; i++) {
-                ((EventHandler) (handlers.elementAt(i))).handle(e);
-            }
-        }
-    }
+		if (handlers != null) {
+			for (int i = 0, max = handlers.size(); i < max; i++) {
+				((EventHandler) (handlers.elementAt(i))).handle(e);
+			}
+		}
+	}
 
-    public boolean handle(Event e) {
-        done = true;
+	public boolean handle(Event e) {
+		done = true;
 
-        return true;
-    }
+		return true;
+	}
 
-    public void run() {
-        while (!done) {
-            if (buffer.size() != 0) {
-                accept((Event) buffer.firstElement());
-                buffer.removeElementAt(0);
-            }
-        }
-    }
+	public void run() {
+		while (!done) {
+			if (buffer.size() != 0) {
+				accept((Event) buffer.firstElement());
+				buffer.removeElementAt(0);
+			}
+		}
+	}
 }

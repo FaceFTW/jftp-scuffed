@@ -19,57 +19,57 @@ import net.sf.jftp.config.Settings;
 
 
 public class Log {
-    private static final Log log = new Log();
-    private static Logger logger = new SystemLogger();
-    private static StringBuffer cache = new StringBuffer();
+	private static final Log log = new Log();
+	private static Logger logger = new SystemLogger();
+	private static StringBuffer cache = new StringBuffer();
 
-    private Log() {
-    }
+	private Log() {
+	}
 
-    public static void setLogger(Logger logger) {
-        Log.logger = logger;
-    }
+	public static void setLogger(Logger logger) {
+		Log.logger = logger;
+	}
 
-    public static void debug(String msg) {
-        if (Settings.getDisableLog()) {
-            return;
-        }
+	public static void debug(String msg) {
+		if (Settings.getDisableLog()) {
+			return;
+		}
 
-        //System.out.println(msg);
-        logger.debug(msg);
-        cache.append(msg + "\n");
+		//System.out.println(msg);
+		logger.debug(msg);
+		cache.append(msg + "\n");
 
-        if (!Settings.getEnableDebug()) System.out.println("> " + msg);
-    }
+		if (!Settings.getEnableDebug()) System.out.println("> " + msg);
+	}
 
-    public static void debugRaw(String msg) {
-        if (Settings.getDisableLog()) {
-            return;
-        }
+	public static void debugRaw(String msg) {
+		if (Settings.getDisableLog()) {
+			return;
+		}
 
-        logger.debugRaw(msg);
-        cache.append(msg);
+		logger.debugRaw(msg);
+		cache.append(msg);
 
-        if (Settings.getEnableDebug()) System.out.print(msg);
-    }
+		if (Settings.getEnableDebug()) System.out.print(msg);
+	}
 
-    public static void out(String msg) {
-        if (!Settings.getEnableDebug()) {
-            return;
-        }
+	public static void out(String msg) {
+		if (!Settings.getEnableDebug()) {
+			return;
+		}
 
-        System.out.println("> " + msg);
-    }
+		System.out.println("> " + msg);
+	}
 
-    public static void devnull(Object msg) {
-    }
+	public static void devnull(Object msg) {
+	}
 
 
-    public static String getCache() {
-        return cache.toString();
-    }
+	public static String getCache() {
+		return cache.toString();
+	}
 
-    public static void clearCache() {
-        cache = new StringBuffer();
-    }
+	public static void clearCache() {
+		cache = new StringBuffer();
+	}
 }

@@ -19,14 +19,14 @@ import java.util.Vector;
 
 
 public class EventCollector implements Acceptor {
-    protected Vector buffer;
+	protected Vector buffer;
 
-    public EventCollector() {
-        buffer = new Vector();
-        new EventProcessor(buffer);
-    }
+	public EventCollector() {
+		buffer = new Vector();
+		new EventProcessor(buffer);
+	}
 
-    public void accept(Event e) {
-        buffer.addElement(e);
-    }
+	public void accept(Event e) {
+		buffer.addElement(e);
+	}
 }
