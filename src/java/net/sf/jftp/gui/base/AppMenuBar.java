@@ -19,11 +19,7 @@ import javazoom.jl.player.Player;
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HImage;
-import net.sf.jftp.gui.hostchooser.HostChooser;
-import net.sf.jftp.gui.hostchooser.NfsHostChooser;
-import net.sf.jftp.gui.hostchooser.SftpHostChooser;
-import net.sf.jftp.gui.hostchooser.SmbHostChooser;
-import net.sf.jftp.gui.hostchooser.WebdavHostChooser;
+import net.sf.jftp.gui.hostchooser.*;
 import net.sf.jftp.gui.tasks.AddBookmarks;
 import net.sf.jftp.gui.tasks.AdvancedOptions;
 import net.sf.jftp.gui.tasks.BookmarkItem;
@@ -84,6 +80,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	JMenuItem closeLocalCon = new JMenuItem("Close Active Connection in Local Tab");
 	JMenuItem ftpCon = new JMenuItem("Connect to FTP Server...");
 	JMenuItem sftpCon = new JMenuItem("Connect to SFTP Server...");
+	JMenuItem rsyncCon = new JMenuItem("Connect to RSync server...");
 	JMenuItem smbCon = new JMenuItem("Connect to SMB Server / Browse LAN...");
 	JMenuItem nfsCon = new JMenuItem("Connect to NFS Server...");
 	JMenuItem webdavCon = new JMenuItem("Connect to WebDAV Server... (ALPHA)");
@@ -150,6 +147,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		smbCon.addActionListener(this);
 		clear.addActionListener(this);
 		sftpCon.addActionListener(this);
+		rsyncCon.addActionListener(this);
 		fadeMenu.addActionListener(this);
 		askToDelete.addActionListener(this);
 		smbThreads.addActionListener(this);
@@ -381,6 +379,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		file.add(ftpCon);
 		file.add(sftpCon);
+		file.add(rsyncCon);
 		file.add(smbCon);
 		file.add(nfsCon);
 		file.add(webdavCon);
@@ -589,6 +588,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				hc.toFront();
 
 				//hc.setModal(true);
+				hc.update();
+			} else if ((e.getSource() == rsyncCon) && (!JFtp.uiBlocked)){
+				RsyncHostChooser hc = new RsyncHostChooser();
+				hc.toFront();
+
 				hc.update();
 			} else if ((e.getSource() == nfsCon) && (!JFtp.uiBlocked)) {
 				// jftp.safeDisconnect();
