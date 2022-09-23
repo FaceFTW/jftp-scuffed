@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="jftp">
+  <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/build/jars/jftp.jar!/" />
+      <root url="file://$PROJECT_DIR$/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
