@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/src/j-ftp.iml" filepath="$PROJECT_DIR$/src/j-ftp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/j-ftp1.iml" filepath="$PROJECT_DIR$/j-ftp1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-ftp.iml" filepath="$PROJECT_DIR$/j-ftp.iml" />
     </modules>
   </component>
 </project>

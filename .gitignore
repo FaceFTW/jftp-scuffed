@@ -6,7 +6,8 @@
 /build/
 /.gradle/
 /bin/
-
+/out/
+/target/
 # Super Annoying file
 /.idea/$CACHE_FILE$
 

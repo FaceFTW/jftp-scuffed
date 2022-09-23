@@ -1,13 +1,9 @@
 import net.sf.jftp.net.ConnectionHandler;
 import net.sf.jftp.net.ConnectionListener;
-import net.sf.jftp.net.DataConnection;
 import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.system.logging.Logger;
-import net.sf.jftp.config.Settings;
-
-import java.io.*;
 
 /**
 * See FtpDownload.java for comments.
