@@ -22,9 +22,9 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
     - name: Ant Compile
-      run: ant -noinput -buildfile build.xml compile
+      run: ant -noinput -buildfile build.xml.no compile
     - name: Ant JAR
-      run: ant -noinput -buildfile build.xml jars
+      run: ant -noinput -buildfile build.xml.no jars
     - name: Upload Compiled JAR
       uses: actions/upload-artifact@v3.1.0
       with:

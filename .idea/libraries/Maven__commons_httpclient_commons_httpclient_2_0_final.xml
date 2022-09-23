@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: commons-httpclient:commons-httpclient:2.0-final">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-httpclient/commons-httpclient/2.0-final/commons-httpclient-2.0-final.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-httpclient/commons-httpclient/2.0-final/commons-httpclient-2.0-final-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/commons-httpclient/commons-httpclient/2.0-final/commons-httpclient-2.0-final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
