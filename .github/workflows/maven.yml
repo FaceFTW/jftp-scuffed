@@ -1,8 +1,4 @@
-# This workflow will build a Java project with Ant
-# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-ant
-
 name: Java CI
-
 on:
   push:
     branches: [ "main" ]
@@ -11,9 +7,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
@@ -21,13 +15,11 @@ jobs:
       with:
         java-version: '8'
         distribution: 'temurin'
-    - name: Ant Compile
-      run: ant -noinput -buildfile build.xml.no compile
-    - name: Ant JAR
-      run: ant -noinput -buildfile build.xml.no jars
+    - name: Invoke Maven
+      run: mvn package
     - name: Upload Compiled JAR
       uses: actions/upload-artifact@v3.1.0
       with:
         name: jFTP
-        path: build/jars/*.jar
+        path: target/*dependencies.jar
         retention-days: 7
