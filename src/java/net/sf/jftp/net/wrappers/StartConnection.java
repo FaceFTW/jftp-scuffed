@@ -320,7 +320,17 @@ public class StartConnection {
 		}
 	}
 
-	//updateFileMenu
+	public static int startRsyncCon(String htmp, String utmp, String ptmp, int port, String dtmp, String ltmp) {
+		RsyncConnection con;
+
+		//***
+		boolean status = true;
+
+		//***
+		con = new RsyncConnection(htmp, utmp, ptmp, port, dtmp, ltmp);
+//		con.start();
+		return 0;
+	}
 }
 
 
