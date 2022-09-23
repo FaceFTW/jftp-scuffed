@@ -19,7 +19,12 @@ import javazoom.jl.player.Player;
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HImage;
-import net.sf.jftp.gui.hostchooser.*;
+import net.sf.jftp.gui.hostchooser.HostChooser;
+import net.sf.jftp.gui.hostchooser.NfsHostChooser;
+import net.sf.jftp.gui.hostchooser.RsyncHostChooser;
+import net.sf.jftp.gui.hostchooser.SftpHostChooser;
+import net.sf.jftp.gui.hostchooser.SmbHostChooser;
+import net.sf.jftp.gui.hostchooser.WebdavHostChooser;
 import net.sf.jftp.gui.tasks.AddBookmarks;
 import net.sf.jftp.gui.tasks.AdvancedOptions;
 import net.sf.jftp.gui.tasks.BookmarkItem;
@@ -589,7 +594,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				//hc.setModal(true);
 				hc.update();
-			} else if ((e.getSource() == rsyncCon) && (!JFtp.uiBlocked)){
+			} else if ((e.getSource() == rsyncCon) && (!JFtp.uiBlocked)) {
 				RsyncHostChooser hc = new RsyncHostChooser();
 				hc.toFront();
 
