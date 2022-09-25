@@ -259,7 +259,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		// directory
 		int count = 0;
 
-		if (type.startsWith(DataConnection.GETDIR) || type.startsWith(DataConnection.PUTDIR) || type.startsWith(DataConnection.PUTDIR) || type.startsWith(DataConnection.DFINISHED)) {
+		if (type.startsWith(DataConnection.GETDIR) || type.startsWith(DataConnection.PUTDIR) || type.startsWith(DataConnection.DFINISHED)) {
 			//System.out.println(type);
 			String tmp = type.substring(type.indexOf(":") + 1);
 			type = type.substring(0, type.indexOf(":"));
