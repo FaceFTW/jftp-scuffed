@@ -114,7 +114,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				return;
 			}
 
-			if ((cmd.indexOf(Transfer.QUEUED) >= 0) || (cmd.indexOf(Transfer.PAUSED) >= 0)) {
+			if ((cmd.contains(net.sf.jftp.net.Transfer.QUEUED)) || (cmd.contains(net.sf.jftp.net.Transfer.PAUSED))) {
 				cmd = getFile(cmd);
 
 				try {
@@ -180,7 +180,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				return;
 			}
 
-			if ((cmd.indexOf(DataConnection.GET) >= 0) || (cmd.indexOf(DataConnection.PUT) >= 0)) {
+			if ((cmd.contains(net.sf.jftp.net.DataConnection.GET)) || (cmd.contains(net.sf.jftp.net.DataConnection.PUT))) {
 				cmd = getFile(cmd);
 
 				Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
@@ -215,7 +215,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				return;
 			}
 
-			if ((cmd.indexOf(Transfer.PAUSED) >= 0) || (cmd.indexOf(Transfer.QUEUED) >= 0)) {
+			if ((cmd.contains(net.sf.jftp.net.Transfer.PAUSED)) || (cmd.contains(net.sf.jftp.net.Transfer.QUEUED))) {
 				cmd = getFile(cmd);
 
 				try {
@@ -384,7 +384,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	private String getFile(String msg) {
 		String f = msg;
 
-		if (msg.indexOf("<") >= 0 && msg.indexOf(">") >= 0) {
+		if (msg.contains("<") && msg.contains(">")) {
 			f = msg.substring(msg.indexOf("<") + 1);
 			f = f.substring(0, f.lastIndexOf(">"));
 		}

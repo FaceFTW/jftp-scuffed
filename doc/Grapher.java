@@ -177,7 +177,7 @@ public int countRelations(File f, String what) throws IOException
 		tmp = in.readLine();
 		//System.out.println(f.getAbsolutePath() + ": " + tmp + ": " +what);
 		if(tmp == null) break;
-		if(tmp.indexOf(what) >= 0) x++;
+		if(tmp.contains(what)) x++;
 	}
 
 	in.close();

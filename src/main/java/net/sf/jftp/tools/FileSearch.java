@@ -75,7 +75,7 @@ public class FileSearch {
 
 	private void spider(String url) {
 		try {
-			if (url.indexOf("/") < 0) {
+			if (!url.contains("/")) {
 				url = url + "/";
 			}
 
@@ -130,13 +130,13 @@ public class FileSearch {
 		int score = 0;
 
 		for (String value : termArray) {
-			if (content.indexOf(value) >= 0) score += 3;
+			if (content.contains(value)) score += 3;
 		}
 
 		if (score < MIN_TERM) return 0;
 
 		for (String s : optArray) {
-			if (content.indexOf(s) >= 0) score++;
+			if (content.contains(s)) score++;
 		}
 
 		return score;
@@ -148,7 +148,7 @@ public class FileSearch {
 		//}
 
 		for (String s : ignoreArray) {
-			if (url.indexOf(s) >= 0) return -1;
+			if (url.contains(s)) return -1;
 		}
 
 		if (!checkForScanableUrl(url)) return -1;
@@ -296,7 +296,7 @@ public class FileSearch {
 
 		if (newLink.startsWith("/") && (baseUrl.indexOf("/") > 0)) {
 			newLink = baseUrl.substring(0, baseUrl.indexOf("/")) + newLink;
-		} else if (newLink.startsWith("/") && (baseUrl.indexOf("/") < 0)) {
+		} else if (newLink.startsWith("/") && (!baseUrl.contains("/"))) {
 			newLink = baseUrl + newLink;
 		} else if ((newLink.indexOf(".") > 0)) {
 			int idx = newLink.indexOf("/");

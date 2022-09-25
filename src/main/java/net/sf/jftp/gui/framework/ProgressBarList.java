@@ -86,7 +86,7 @@ public class ProgressBarList extends JPanel {
 
 	private String strip(String in) {
 		String tmp;
-		if (in.indexOf("<") >= 0) {
+		if (in.contains("<")) {
 			in = in.substring(in.lastIndexOf("<") + 1);
 			in = in.substring(0, in.lastIndexOf(">"));
 		}

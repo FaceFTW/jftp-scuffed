@@ -211,7 +211,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 			//autoconnect
 			if (argv.length > 0) {
-				if (argv[0].indexOf("sftp:") >= 0) {
+				if (argv[0].contains("sftp:")) {
 					new SftpHostChooser().update(argv[0]);
 				} else {
 					jftp.hc.update(argv[0]);
@@ -242,7 +242,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 					String path = null;
 					String file = argv[i];
 
-					if (argv[i].indexOf("/") >= 0) {
+					if (argv[i].contains("/")) {
 						path = argv[i].substring(0, argv[i].lastIndexOf("/"));
 						file = argv[i].substring(argv[i].lastIndexOf("/") + 1);
 					}
@@ -528,8 +528,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		String w = Settings.getProperty("jftp.iframes." + desc + ".width");
 		String h = Settings.getProperty("jftp.iframes." + desc + ".height");
 
-		if (x.indexOf(".") >= 0) x = x.substring(0, x.indexOf("."));
-		if (y.indexOf(".") >= 0) y = y.substring(0, y.indexOf("."));
+		if (x.contains(".")) x = x.substring(0, x.indexOf("."));
+		if (y.contains(".")) y = y.substring(0, y.indexOf("."));
 
 		try {
 			f.setLocation(Integer.parseInt(x), Integer.parseInt(y));
@@ -891,7 +891,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	private String parse(String what) {
-		if (what.indexOf("@") >= 0) {
+		if (what.contains("@")) {
 			return what.substring(what.lastIndexOf("@") + 1);
 		} else {
 			return what;
@@ -1099,7 +1099,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			}
 
 			//str = "[c:\\windows\\test.txt]";
-			if (str.indexOf("[") >= 0) {
+			if (str.contains("[")) {
 				Log.debug("Windows DnD detected");
 				name = str.substring(str.indexOf("[") + 1);
 				name = name.substring(0, name.lastIndexOf("]")); // last was str
@@ -1130,7 +1130,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		if ((f.length == 1) && f[0].isFile()) {
 			String path = "";
 
-			if (name.indexOf("/") >= 0) {
+			if (name.contains("/")) {
 				path = name.substring(0, name.lastIndexOf("/") + 1);
 				name = name.substring(name.lastIndexOf("/") + 1);
 			}

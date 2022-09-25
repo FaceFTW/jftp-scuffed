@@ -77,7 +77,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 					Vector listeners = new Vector();
 					listeners.add(net.sf.jftp.JFtp.localDir);
 
-					if (!url.endsWith(".htm") && !url.endsWith(".html") && (tmp.indexOf(".") >= 0)) {
+					if (!url.endsWith(".htm") && !url.endsWith(".html") && (tmp.contains("."))) {
 						net.sf.jftp.JFtp.statusP.startTransfer(url, net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
 					} else {
 						pane.setPage(e.getURL());

@@ -285,7 +285,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			//public variable with that constant there for it to refer to?)
 			String[] advSettings = new String[6];
 
-			if (getOsType().indexOf("OS/2") >= 0) {
+			if (getOsType().contains("OS/2")) {
 				LIST_DEFAULT = "LIST";
 			}
 
@@ -308,7 +308,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				}
 			}
 
-			if (getOsType().indexOf("MVS") >= 0) {
+			if (getOsType().contains("MVS")) {
 				LIST = "LIST";
 			}
 
@@ -339,8 +339,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			for (String tmp : currentListing) {
 				// ------------- VMS override -------------------
-				if (getOsType().indexOf("VMS") >= 0) {
-					if (tmp.indexOf(";") < 0) {
+				if (getOsType().contains("VMS")) {
+					if (!tmp.contains(";")) {
 						continue;
 					}
 
@@ -350,8 +350,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				}
 
 				// ------------- MVS override -------------------
-				if (getOsType().indexOf("MVS") >= 0) {
-					if (tmp.startsWith("Volume") || (tmp.indexOf(" ") < 0)) {
+				if (getOsType().contains("MVS")) {
+					if (tmp.startsWith("Volume") || (!tmp.contains(" "))) {
 						continue;
 					}
 
@@ -361,7 +361,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				}
 
 				// ------------------------------------------------
-				else if (getOsType().indexOf("WINDOW") >= 0) {
+				else if (getOsType().contains("WINDOW")) {
 					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 
 					if (to.countTokens() >= 4) {
@@ -385,7 +385,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				}
 
 				// ------------------------------------------------
-				else if (getOsType().indexOf("OS/2") >= 0) {
+				else if (getOsType().contains("OS/2")) {
 					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 					tmp = giveSize(to, 0);
 					net.sf.jftp.system.logging.Log.out("OS/2 parser (size): " + tmp);
@@ -442,8 +442,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			for (String tmp : currentListing) {
 				// ------------- VMS override -------------------
-				if (getOsType().indexOf("VMS") >= 0) {
-					if (tmp.indexOf(";") < 0) {
+				if (getOsType().contains("VMS")) {
+					if (!tmp.contains(";")) {
 						continue;
 					}
 
@@ -453,7 +453,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				}
 
 				// ------------- MVS override -------------------
-				if (getOsType().indexOf("MVS") >= 0) {
+				if (getOsType().contains("MVS")) {
 					if (tmp.startsWith("Volume")) {
 						continue;
 					}
@@ -538,7 +538,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			for (String tmp : currentListing) {
 				// ------------------- VMS override --------------------
-				if (getOsType().indexOf("VMS") >= 0) {
+				if (getOsType().contains("VMS")) {
 					int x = tmp.indexOf(";");
 
 					if (x < 0) {
@@ -556,17 +556,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					//Log.out("listing - (vms parser): " + tmp);
 
 					continue;
-				} else if (getOsType().indexOf("OS/2") >= 0) {
+				} else if (getOsType().contains("OS/2")) {
 					java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
-					if (giveFile(to2, 2).indexOf("DIR") >= 0) {
+					if (giveFile(to2, 2).contains("DIR")) {
 						to2 = new java.util.StringTokenizer(tmp, " ", true);
 						tmp = giveFile(to2, 5);
 						tmp = tmp + "/";
 					} else {
 						to2 = new java.util.StringTokenizer(tmp, " ", true);
 
-						if (giveFile(to2, 1).indexOf("DIR") >= 0) {
+						if (giveFile(to2, 1).contains("DIR")) {
 							//Log.out("OS/2 parser (DIRFIX): " + tmp);
 							to2 = new java.util.StringTokenizer(tmp, " ", true);
 							tmp = giveFile(to2, 4);
@@ -585,8 +585,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				// -------------------------------------------------------
 				// ------------------- MVS override --------------------
-				if (getOsType().indexOf("MVS") >= 0) {
-					if (tmp.startsWith("Volume") || (tmp.indexOf(" ") < 0)) {
+				if (getOsType().contains("MVS")) {
+					if (tmp.startsWith("Volume") || (!tmp.contains(" "))) {
 						net.sf.jftp.system.logging.Log.out("->" + tmp);
 
 						continue;
@@ -595,7 +595,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					String f = tmp.substring(tmp.lastIndexOf(" ")).trim();
 					String isDir = tmp.substring(tmp.lastIndexOf(" ") - 5, tmp.lastIndexOf(" "));
 
-					if (isDir.indexOf("PO") >= 0) {
+					if (isDir.contains("PO")) {
 						currentFiles.add(f + "/");
 					} else {
 						currentFiles.add(f);
@@ -603,17 +603,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 					net.sf.jftp.system.logging.Log.out("listing - (mvs parser): " + tmp + " -> " + f);
 					continue;
-				} else if (getOsType().indexOf("OS/2") >= 0) {
+				} else if (getOsType().contains("OS/2")) {
 					java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
-					if (giveFile(to2, 2).indexOf("DIR") >= 0) {
+					if (giveFile(to2, 2).contains("DIR")) {
 						to2 = new java.util.StringTokenizer(tmp, " ", true);
 						tmp = giveFile(to2, 5);
 						tmp = tmp + "/";
 					} else {
 						to2 = new java.util.StringTokenizer(tmp, " ", true);
 
-						if (giveFile(to2, 1).indexOf("DIR") >= 0) {
+						if (giveFile(to2, 1).contains("DIR")) {
 							//Log.out("OS/2 parser (DIRFIX): " + tmp);
 							to2 = new java.util.StringTokenizer(tmp, " ", true);
 							tmp = giveFile(to2, 4);
@@ -635,7 +635,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				boolean isDir = false;
 				boolean isLink = false;
 
-				if (tmp.startsWith("d") || (tmp.indexOf("<DIR>") >= 0)) {
+				if (tmp.startsWith("d") || (tmp.contains("<DIR>"))) {
 					isDir = true;
 				}
 
@@ -942,7 +942,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * parse a symlink
 	 */
 	private String parseSymlink(String file) {
-		if (file.indexOf("->") >= 0) {
+		if (file.contains("->")) {
 			//System.out.print(file+" :-> symlink converted to:");
 			file = file.substring(0, file.indexOf("->")).trim();
 			file = file + "###";
@@ -957,7 +957,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * parse a symlink and cut the back
 	 */
 	private String parseSymlinkBack(String file) {
-		if (file.indexOf("->") >= 0) {
+		if (file.contains("->")) {
 			//System.out.print(file+" :-> symlink converted to:");
 			file = file.substring(file.indexOf("->") + 2).trim();
 
@@ -971,7 +971,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * test for symlink
 	 */
 	private boolean isSymlink(String file) {
-		return file.indexOf("->") >= 0;
+		return file.contains("->");
 	}
 
 	/**
@@ -1820,12 +1820,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		String x1 = tmp;
 
-		if (x1.indexOf("\"") >= 0) {
+		if (x1.contains("\"")) {
 			x1 = tmp.substring(tmp.indexOf("\"") + 1);
 			x1 = x1.substring(0, x1.indexOf("\""));
 		}
 
-		if (getOsType().indexOf("MVS") >= 0) {
+		if (getOsType().contains("MVS")) {
 			//if(x1.indexOf("'") == 0) {
 			//        String x2 = x1.substring(1, x1.lastIndexOf("'"));
 			//        x1 = x2;
@@ -2007,9 +2007,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		p = parseSymlinkBack(p);
 
-		if (getOsType().indexOf("OS/2") >= 0) {
+		if (getOsType().contains("OS/2")) {
 			return chdirRaw(p);
-		} else if (getOsType().indexOf("MVS") >= 0) {
+		} else if (getOsType().contains("MVS")) {
 			boolean cdup = false;
 
 			System.out.print("MVS parser: " + p + " -> ");
@@ -2159,7 +2159,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		String dir = null;
 		String tmpPWD = getCachedPWD();
 
-		if (file.indexOf("/") >= 0) {
+		if (file.contains("/")) {
 			dir = file.substring(0, file.lastIndexOf("/") + 1);
 			net.sf.jftp.system.logging.Log.out("checking dir: " + dir);
 

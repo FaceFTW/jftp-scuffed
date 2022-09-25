@@ -69,7 +69,7 @@ public class DirEntry {
 	public void setFile() {
 		String f = file;
 
-		if ((f.indexOf("<") >= 0) && (f.indexOf(">") >= 0)) {
+		if ((f.contains("<")) && (f.contains(">"))) {
 			f = file.substring(file.indexOf("<") + 1);
 			f = f.substring(0, f.lastIndexOf(">"));
 		}

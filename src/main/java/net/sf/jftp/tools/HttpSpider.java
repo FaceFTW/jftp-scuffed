@@ -128,7 +128,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			if (argv.length >= 2) {
 				url = clear(argv[0]);
 
-				if (url.indexOf("/") < 0) {
+				if (!url.contains("/")) {
 					url = url + "/";
 				}
 
@@ -298,7 +298,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 		if (was.startsWith("/") && (url.indexOf("/") > 0)) {
 			was = url.substring(0, url.indexOf("/")) + was;
-		} else if (was.startsWith("/") && (url.indexOf("/") < 0)) {
+		} else if (was.startsWith("/") && (!url.contains("/"))) {
 			was = url + was;
 		} else if ((was.indexOf(".") > 0)) {
 			int idx = was.indexOf("/");

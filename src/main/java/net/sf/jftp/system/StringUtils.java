@@ -23,7 +23,7 @@ public class StringUtils {
 		int maxlabel = 64;
 
 		if (s.length() > maxlabel) {
-			while (s.indexOf("/") >= 0) {
+			while (s.contains("/")) {
 
 				s = StringUtils.cutAfter(s, '/');
 
