@@ -54,10 +54,10 @@ public class FileSearch {
 		String[] optArray = {"download", "file", "mirror", "location"};
 		String[] ignoreArray = {".gif", ".jpg", ".png", ".swf", ".jar", ".class", ".google."};
 		String[] scanArray = {".html", ".htm", "/", ".jsp", ".jhtml", ".phtml", ".asp", ".xml", ".js", ".cgi"};
-		String url = "http://www.google.de/search?hl=de&q=";
+		StringBuilder url = new StringBuilder("http://www.google.de/search?hl=de&q=");
 
 		for (String s : termArray) {
-			url += s + "+";
+			url.append(s).append("+");
 		}
 
 		FileSearch search = new FileSearch();
@@ -69,7 +69,7 @@ public class FileSearch {
 		search.scanArray = scanArray;
 		search.MIN_TERM = 1;
 
-		search.spider(url);
+		search.spider(url.toString());
 
 	}
 
@@ -343,7 +343,7 @@ class Getter {
 		try {
 			String host = url.substring(0, url.indexOf("/"));
 			String wo = url.substring(url.indexOf("/"));
-			String result = "";
+			StringBuilder result = new StringBuilder();
 
 			//Log.out(">> " + host + wo);
 
@@ -364,13 +364,13 @@ class Getter {
 			}
 
 			while (in.ready()) {
-				result = result + in.readLine();
+				result.append(in.readLine());
 			}
 
 			out.close();
 			in.close();
 
-			return result;
+			return result.toString();
 		} catch (Exception ex) {
 			if (!FileSearch.quiet) ex.printStackTrace();
 		}
@@ -417,7 +417,7 @@ class Getter {
 			while (true) {
 				chill(10);
 
-				String tmp = "";
+				StringBuilder tmp = new StringBuilder();
 
 				while (line) {
 					String x = in.readLine();
@@ -426,7 +426,7 @@ class Getter {
 						break;
 					}
 
-					tmp += (x + "\n");
+					tmp.append(x).append("\n");
 
 					if (x.equals("")) {
 						line = false;
@@ -437,7 +437,7 @@ class Getter {
 
 				if (x == -1) {
 					if (line) {
-						localOut.write(tmp.getBytes(), 0, tmp.length());
+						localOut.write(tmp.toString().getBytes(), 0, tmp.length());
 					}
 
 					out.close();

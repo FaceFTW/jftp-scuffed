@@ -38,16 +38,16 @@ public class RSSParser {
 			DataInputStream in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
 			String tmp;
-			String data = "";
+			StringBuilder data = new StringBuilder();
 
 			while ((tmp = in.readLine()) != null) {
-				data += tmp;
+				data.append(tmp);
 			}
 
-			add(data, content, "<title>", "</title>", "<description>", "</description>");
-			add(data, titles, "<title>", "</title>", null, null);
-			add(data, descs, "<description>", "</description>", null, null);
-			add(data, links, "<link>", "</link>", null, null);
+			add(data.toString(), content, "<title>", "</title>", "<description>", "</description>");
+			add(data.toString(), titles, "<title>", "</title>", null, null);
+			add(data.toString(), descs, "<description>", "</description>", null, null);
+			add(data.toString(), links, "<link>", "</link>", null, null);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 

@@ -78,19 +78,19 @@ public class Displayer extends JInternalFrame implements ActionListener {
 
 	private void load(java.net.URL file) {
 		String data = "";
-		String now = "";
+		StringBuilder now = new StringBuilder();
 
 		try {
 			DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
 			while ((data = in.readLine()) != null) {
-				now = now + data + "\n";
+				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
 			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
 		}
 
-		info.setText(now);
+		info.setText(now.toString());
 	}
 
 	public Insets getInsets() {

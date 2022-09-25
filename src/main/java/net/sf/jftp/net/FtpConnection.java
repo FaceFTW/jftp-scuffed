@@ -832,7 +832,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 		}
 
-		String tmp = "<error>";
+		StringBuilder tmp = new StringBuilder("<error>");
 
 		/*
         if(t2 != null)
@@ -840,20 +840,20 @@ public class FtpConnection implements BasicConnection, FtpConstants {
                 tmp = t2;
         }
 		 */
-		while (tmp.equals(" ") || tmp.equals("\t") || tmp.equals("<error>")) {
+		while (tmp.toString().equals(" ") || tmp.toString().equals("\t") || tmp.toString().equals("<error>")) {
 			if (to.hasMoreTokens()) {
-				tmp = to.nextToken();
+				tmp = new StringBuilder(to.nextToken());
 			} else {
 				break;
 			}
 		}
 
 		while (to.hasMoreTokens()) {
-			tmp = tmp + to.nextToken();
+			tmp.append(to.nextToken());
 		}
 
 		//Log.out(">>> "+tmp);
-		return tmp;
+		return tmp.toString();
 	}
 
 	/**
@@ -905,7 +905,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 	private int getPasvPort(String str) {
 		int start = str.lastIndexOf(",");
-		String lo = "";
+		StringBuilder lo = new StringBuilder();
 		start++;
 
 		while (start < str.length()) {
@@ -915,13 +915,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				break;
 			}
 
-			lo = lo + c;
+			lo.append(c);
 			start++;
 		}
 
 		System.out.println("\n\n\n" + str);
 
-		String hi = "";
+		StringBuilder hi = new StringBuilder();
 		start = str.lastIndexOf(",");
 		start--;
 
@@ -932,12 +932,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				break;
 			}
 
-			hi = c + hi;
+			hi.insert(0, c);
 			start--;
 		}
 
 		//System.out.print(hi+":"+lo+" - ");
-		return ((Integer.parseInt(hi) * 256) + Integer.parseInt(lo));
+		return ((Integer.parseInt(hi.toString()) * 256) + Integer.parseInt(lo.toString()));
 	}
 
 	private int getActivePort() {

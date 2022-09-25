@@ -58,10 +58,10 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 		Log.devnull(value); // prevents eclipse warning
 
 		if (!((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
-			String size = "";
+			StringBuilder size = new StringBuilder();
 
 			if (Settings.showFileSize) {
-				size = ((DirEntry) list.getModel().getElementAt(index)).getFileSize();
+				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getFileSize());
 			}
 
 			setFont(GUIDefaults.monospaced);
@@ -71,20 +71,20 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 			String date = "";
 
 			if (Settings.showDateNoSize && (((DirEntry) list.getModel().getElementAt(index)).who instanceof RemoteDir)) {
-				size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
+				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getDate());
 
 				int x = 12 - size.length();
 
 				for (int j = 0; j < x; j++) {
-					size += " ";
+					size.append(" ");
 				}
 			} else if (Settings.showLocalDateNoSize && (((DirEntry) list.getModel().getElementAt(index)).who instanceof LocalDir)) {
-				size = ((DirEntry) list.getModel().getElementAt(index)).getDate();
+				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getDate());
 
 				int x = 12 - size.length();
 
 				for (int j = 0; j < x; j++) {
-					size += " ";
+					size.append(" ");
 				}
 			}
 

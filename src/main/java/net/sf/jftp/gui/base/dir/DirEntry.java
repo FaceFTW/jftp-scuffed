@@ -186,10 +186,10 @@ public class DirEntry {
 			type = "gb";
 		}
 
-		String x = Long.toString(rsize);
+		StringBuilder x = new StringBuilder(Long.toString(rsize));
 
 		while (x.length() < 4) {
-			x = " " + x;
+			x.insert(0, " ");
 		}
 
 		return x + " " + type + " > ";

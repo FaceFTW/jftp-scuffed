@@ -1050,7 +1050,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 			data = t.getTransferData(flavor);
 
-			String str = "";
+			StringBuilder str = new StringBuilder();
 			int i = 0;
 
 			if (data instanceof Reader) {
@@ -1061,30 +1061,30 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 						//System.out.println("Applying charset bugfix");
 						i = -1;
 					} else {
-						str = str + (char) c;
+						str.append((char) c);
 					}
 
 					i++;
 				}
 			} else {
-				str = "" + data;
+				str = new StringBuilder("" + data);
 			}
 
 			System.out.println("Object data: \"" + str + "\"");
 
-			if (str.startsWith("<")) {
+			if (str.toString().startsWith("<")) {
 				Log.debug("Mozilla DnD detected (preparsing)");
-				str = str.substring(str.indexOf("\"") + 1);
-				str = str.substring(0, str.indexOf("\""));
+				str = new StringBuilder(str.substring(str.indexOf("\"") + 1));
+				str = new StringBuilder(str.substring(0, str.indexOf("\"")));
 				Log.debug("Parsed data: " + str);
 			}
 
 			//str = "[c:\\windows\\test.txt]";
-			if (str.contains("[")) {
+			if (str.toString().contains("[")) {
 				Log.debug("Windows DnD detected");
 				name = str.substring(str.indexOf("[") + 1);
 				name = name.substring(0, name.lastIndexOf("]")); // last was str
-			} else if (str.startsWith("file://")) {
+			} else if (str.toString().startsWith("file://")) {
 				name = str.substring(7);
 
 				name = name.replace("\r", "");

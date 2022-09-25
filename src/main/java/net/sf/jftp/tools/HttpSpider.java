@@ -347,7 +347,7 @@ class Holer {
 		try {
 			String dealer = wat.substring(0, wat.indexOf("/"));
 			String wo = wat.substring(wat.indexOf("/"));
-			String zeug = "";
+			StringBuilder zeug = new StringBuilder();
 
 			net.sf.jftp.system.logging.Log.out(">> " + dealer + wo);
 
@@ -368,13 +368,13 @@ class Holer {
 			}
 
 			while (checkung.ready()) {
-				zeug = zeug + checkung.readLine();
+				zeug.append(checkung.readLine());
 			}
 
 			order.close();
 			checkung.close();
 
-			return zeug;
+			return zeug.toString();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -421,7 +421,7 @@ class Holer {
 			while (true) {
 				chill(10);
 
-				String tmp = "";
+				StringBuilder tmp = new StringBuilder();
 
 				while (line) {
 					String x = checkung.readLine();
@@ -430,7 +430,7 @@ class Holer {
 						break;
 					}
 
-					tmp += (x + "\n");
+					tmp.append(x).append("\n");
 
 					if (x.equals("")) {
 						line = false;
@@ -441,7 +441,7 @@ class Holer {
 
 				if (x == -1) {
 					if (line) {
-						vorrat.write(tmp.getBytes(), 0, tmp.length());
+						vorrat.write(tmp.toString().getBytes(), 0, tmp.length());
 					}
 
 					order.close();

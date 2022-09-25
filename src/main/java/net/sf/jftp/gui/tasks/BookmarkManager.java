@@ -101,13 +101,13 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 
 	private void load(String file) {
 		String data = "";
-		String now = "";
+		StringBuilder now = new StringBuilder();
 
 		try {
 			DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 
 			while ((data = in.readLine()) != null) {
-				now = now + data + "\n";
+				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
 			net.sf.jftp.system.logging.Log.debug("No bookmarks.txt found, using defaults.");
@@ -117,7 +117,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 			return;
 		}
 
-		info.setText(now);
+		info.setText(now.toString());
 	}
 
 	private void save(String file) {
