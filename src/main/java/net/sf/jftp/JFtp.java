@@ -1061,7 +1061,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 						//System.out.println("Applying charset bugfix");
 						i = -1;
 					} else {
-						str = str + new Character((char) c);
+						str = str + (char) c;
 					}
 
 					i++;

@@ -124,7 +124,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	//BUGFIX
 	String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 	final String[] lastConData = new String[JFtp.CAPACITY];
-	final Character charTab = new Character('\t');
+	final Character charTab = '\t';
 	String tab = charTab.toString();
 	final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
 	final JMenuItem add = new JMenuItem("Add Bookmark...");
@@ -440,7 +440,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					}
 
 					//lastConnections[i] = new JMenuItem(cons[i]);
-					conNumberInt = new Integer(i + 1);
+					conNumberInt = i + 1;
 					conNumber = conNumberInt.toString();
 
 					//lastConData[i] = new String(conNumber + " " + protocol + ": Hostname: " + htmp + ";  Username: " + utmp);
@@ -873,7 +873,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				//BUGFIX 1.40
 				//if (!(cons[i].equals("null"))) {
 				if (!(cons[i][0].equals("null"))) {
-					intI = new Integer(i + 1);
+					intI = i + 1;
 					stringI = intI.toString();
 					charI = stringI.charAt(0);
 

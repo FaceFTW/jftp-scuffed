@@ -153,7 +153,7 @@ public class DirLister implements ActionListener {
 				sv.add(sizes[i]);
 
 				if (perms != null) {
-					pv.add(new Integer(perms[i]));
+					pv.add(perms[i]);
 				}
 			}
 
@@ -174,7 +174,7 @@ public class DirLister implements ActionListener {
 				sizes[i] = (String) sizesTmp[length - i - 1];
 
 				if (perms != null) {
-					perms[i] = ((Integer) permsTmp[length - i - 1]).intValue();
+					perms[i] = (Integer) permsTmp[length - i - 1];
 				}
 			}
 		} else if (type.startsWith("Size")) {
@@ -213,7 +213,7 @@ public class DirLister implements ActionListener {
 
 				//System.out.println(files[idx]+":"+sizes[idx]+":"+idx);
 				if (perms != null) {
-					pv.add(new Integer(perms[idx]));
+					pv.add(perms[idx]);
 				}
 
 				cnt++;
@@ -224,7 +224,7 @@ public class DirLister implements ActionListener {
 				sizes[i] = (String) sv.elementAt(i);
 
 				if (perms != null) {
-					perms[i] = ((Integer) pv.elementAt(i)).intValue();
+					perms[i] = (Integer) pv.elementAt(i);
 				}
 			}
 		} else if (type.equals("Date")) {

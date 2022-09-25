@@ -796,7 +796,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		long s = 0;
 
 		if (JFtp.dList.sizeCache.containsKey(file)) {
-			s = ((Long) JFtp.dList.sizeCache.get(file)).longValue();
+			s = (Long) net.sf.jftp.JFtp.dList.sizeCache.get(file);
 		} else {
 			for (net.sf.jftp.gui.base.dir.DirEntry entry : dirEntry) {
 				if (entry == null) {
@@ -805,7 +805,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 
 				if (entry.toString().equals(file)) {
 					s = entry.getRawSize();
-					net.sf.jftp.JFtp.dList.sizeCache.put(file, new Long(s));
+					net.sf.jftp.JFtp.dList.sizeCache.put(file, s);
 
 					break;
 				}
@@ -1016,7 +1016,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
                     file = file + "/";
                 } */
 				long s = entry.getRawSize();
-				JFtp.dList.sizeCache.put(entry.file, new Long(s));
+				JFtp.dList.sizeCache.put(entry.file, s);
 
 				// ---------------------------------
 				if ((entry.getRawSize() < Settings.smallSize) && !entry.isDirectory()) {
