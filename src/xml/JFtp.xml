@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<application type="normal" target="JFtp">
-    <display-name>JFtp</display-name>
-    <class>net.sf.jftp.JFtp</class>
-</application>  

@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<applications>
-    <default-application target-name="JFtp"/>
-    <appxml locn="JESKTOP-INF/JFtp.xml"/>
-</applications>
