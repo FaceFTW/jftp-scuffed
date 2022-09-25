@@ -13,9 +13,7 @@ public class FtpUpload implements Logger, ConnectionListener
 
  private boolean isThere = false;
 
- private final ConnectionHandler handler = new ConnectionHandler();
-
- public FtpUpload(String host, String dir, String file)
+	public FtpUpload(String host, String dir, String file)
  {
  	Log.setLogger(this);
 
@@ -23,7 +21,8 @@ public class FtpUpload implements Logger, ConnectionListener
 
 	con.addConnectionListener(this);
 
-	con.setConnectionHandler(handler);
+	 net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
+	 con.setConnectionHandler(handler);
 
 	con.login("anonymous","no@no.no");
 

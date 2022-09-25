@@ -31,7 +31,6 @@ import java.io.PrintStream;
 
 public class BookmarkManager extends JInternalFrame implements ActionListener {
 	private final JTextArea info = new JTextArea(25, 50);
-	private final JButton save = new JButton("Save and close");
 	private final JButton close = new JButton("Close");
 
 	public BookmarkManager() {
@@ -49,6 +48,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		//closeP.add(close);
+		javax.swing.JButton save = new javax.swing.JButton("Save and close");
 		closeP.add(save);
 
 		close.addActionListener(this);

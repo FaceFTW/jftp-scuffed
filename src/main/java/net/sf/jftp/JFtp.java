@@ -105,7 +105,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public final JTabbedPane localConnectionPanel = new JTabbedPane();
 	public HostChooser hc;
 	public RSSFeeder feeder;
-	private net.sf.jftp.gui.base.LogFlusher flusher;
 	private HDesktopBackground background;
 	private JInternalFrame j1;
 	private JInternalFrame j2;
@@ -114,7 +113,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	private JInternalFrame j5;
 	private String buffer = "";
 	private long oldtime = 0;
-	private UpdateDaemon daemon;
 
 	//***
 	public JFtp() {
@@ -466,8 +464,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			chooseHost();
 		}
 
-		flusher = new net.sf.jftp.gui.base.LogFlusher();
-		daemon = new UpdateDaemon(this);
+		net.sf.jftp.gui.base.LogFlusher flusher = new net.sf.jftp.gui.base.LogFlusher();
+		net.sf.jftp.system.UpdateDaemon daemon = new net.sf.jftp.system.UpdateDaemon(this);
 
 	}
 

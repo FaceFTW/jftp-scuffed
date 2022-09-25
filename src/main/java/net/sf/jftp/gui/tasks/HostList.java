@@ -25,17 +25,6 @@ import java.io.File;
 
 
 public class HostList extends JDialog {
-	private final String promptHost = " Host : ";
-	private final String promptUser = " User : ";
-	private final String promptPass = " Password : ";
-	private final String promptName = " Name : ";
-	private final String promptPort = " Port : ";
-	private final String promptButtonCancel = "Cancel";
-	private final String promptButtonOk = "  Ok  ";
-	private final String promptButtonSave = " Apply ";
-	private final String promptButtonNew = " New  ";
-	private final String promptButtonDelete = "Delete";
-	private final String promptDialogTitle = " J-FTP Host Selection ";
 
 	// has an ok, cancel button, and a save
 	// needs to load itself too.
@@ -45,13 +34,6 @@ public class HostList extends JDialog {
 	private JPasswordField jtfPass;
 	private JTextField jtfName;
 	private JTextField jtfPort;
-	private JLabel jlHost;
-	private JLabel jlUser;
-	private JLabel jlPass;
-	private JLabel jlName;
-	private JLabel jlPort;
-	private JSplitPane jsplitpane;
-	private JScrollPane jscrollpane;
 	private JPanel jpbuttons;
 	private JButton jbsave;
 	private JButton jbcancel;
@@ -76,6 +58,7 @@ public class HostList extends JDialog {
 	 */
 	public HostList(JDialog parent) {
 		super(parent);
+		String promptDialogTitle = " J-FTP Host Selection ";
 		setTitle(promptDialogTitle);
 		init();
 		setSize(600, 300);
@@ -142,10 +125,15 @@ public class HostList extends JDialog {
 	protected void initButtonPanel() {
 		jpbuttons = new JPanel();
 		jpbuttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		String promptButtonCancel = "Cancel";
 		jbcancel = new JButton(promptButtonCancel);
+		String promptButtonOk = "  Ok  ";
 		jbok = new JButton(promptButtonOk);
+		String promptButtonSave = " Apply ";
 		jbsave = new JButton(promptButtonSave);
+		String promptButtonNew = " New  ";
 		jbnew = new JButton(promptButtonNew);
+		String promptButtonDelete = "Delete";
 		jbdelete = new JButton(promptButtonDelete);
 		jpbuttons.add(jbsave);
 		jpbuttons.add(jbok);
@@ -161,11 +149,16 @@ public class HostList extends JDialog {
 		jtfPass = new JPasswordField(20);
 		jtfName = new JTextField(20);
 		jtfPort = new JTextField(20);
-		jlHost = new JLabel(promptHost);
-		jlUser = new JLabel(promptUser);
-		jlPass = new JLabel(promptPass);
-		jlName = new JLabel(promptName);
-		jlPort = new JLabel(promptPort);
+		String promptHost = " Host : ";
+		javax.swing.JLabel jlHost = new javax.swing.JLabel(promptHost);
+		String promptUser = " User : ";
+		javax.swing.JLabel jlUser = new javax.swing.JLabel(promptUser);
+		String promptPass = " Password : ";
+		javax.swing.JLabel jlPass = new javax.swing.JLabel(promptPass);
+		String promptName = " Name : ";
+		javax.swing.JLabel jlName = new javax.swing.JLabel(promptName);
+		String promptPort = " Port : ";
+		javax.swing.JLabel jlPort = new javax.swing.JLabel(promptPort);
 
 		jpHostInfo = new JPanel();
 
@@ -229,7 +222,7 @@ public class HostList extends JDialog {
 	protected void initHostListFrame() {
 		hostListModel = new DefaultListModel();
 		hostList = new JList(hostListModel);
-		jscrollpane = new JScrollPane(hostList);
+		javax.swing.JScrollPane jscrollpane = new javax.swing.JScrollPane(hostList);
 
 		JPanel jptempleft = new JPanel(new BorderLayout());
 		jptempleft.add(jscrollpane, BorderLayout.CENTER);
@@ -243,7 +236,7 @@ public class HostList extends JDialog {
 		jptemp.add(jpbuttons, BorderLayout.SOUTH);
 		jptemp.add(jpHostInfo, BorderLayout.CENTER);
 
-		jsplitpane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jptempleft, jptemp);
+		javax.swing.JSplitPane jsplitpane = new javax.swing.JSplitPane(javax.swing.JSplitPane.HORIZONTAL_SPLIT, jptempleft, jptemp);
 		getContentPane().add(jsplitpane);
 	}
 

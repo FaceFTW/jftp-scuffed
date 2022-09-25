@@ -19,11 +19,7 @@ public class FtpDownload implements Logger, ConnectionListener
 
  public static long time = 0;
 
- // connection pool, not necessary but you should take a look at this class
- // if you want to use multiple event based ftp transfers.
- private final ConnectionHandler handler = new ConnectionHandler();
-
-//creates a FtpConnection and downloads a file
+	//creates a FtpConnection and downloads a file
  public FtpDownload(String host, String file)
  {
 	// the ftp client default is very small, you may want to increase this
@@ -45,7 +41,10 @@ public class FtpDownload implements Logger, ConnectionListener
 	con.addConnectionListener(this);
 
 	// set handler
-	con.setConnectionHandler(handler);
+	 // connection pool, not necessary but you should take a look at this class
+	 // if you want to use multiple event based ftp transfers.
+	 net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
+	 con.setConnectionHandler(handler);
 
 	// connect and login. this is from where connectionFailed() may be called for example
 	con.login("anonymous","........");

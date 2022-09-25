@@ -33,7 +33,6 @@ public class FilesystemConnection implements BasicConnection {
 	private String path = "";
 	private String pwd = "";
 	private Vector<ConnectionListener> listeners = new Vector<>();
-	private String[] files;
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String baseFile;
@@ -283,7 +282,7 @@ public class FilesystemConnection implements BasicConnection {
 		dateVector = new Vector<>();
 
 		File f = new File(pwd);
-		files = f.list();
+		String[] files = f.list();
 
 		if (files == null) {
 			return new String[0];

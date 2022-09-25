@@ -42,8 +42,6 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	private final HTextField type = new HTextField("Types (use * for all):", "html-htm-css-gif-jpg-zip-gz-avi-mpg", 25);
 	private final HTextField depth = new HTextField("Search up to this many levels deeper:", "1", 10);
 	private final HTextField dir = new HTextField("Store files in:", "", 25);
-	private final JPanel p1 = new JPanel();
-	private final JPanel okP = new JPanel();
 	private final JButton ok = new JButton("Start");
 	private final JButton stop = new JButton("Stop download (ASAP)");
 	private int currentDepth = 0;
@@ -51,7 +49,6 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	private String[] typeArray = {"mpg", "avi", "mpeg", "mov", "rm", "wmv"};
 	private String localDir = ".";
 	private String[] argv;
-	private Thread runner;
 	private boolean stopflag = false;
 
 	public HttpSpider(String localDir) {
@@ -64,6 +61,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		setLayout(new BorderLayout());
 
 		//setBackground(Color.lightGray);
+		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.setLayout(new GridLayout(4, 1, 5, 5));
 		p1.add(host);
 		p1.add(type);
@@ -75,6 +73,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		add("Center", p1);
 
 		//getContentPane().
+		javax.swing.JPanel okP = new javax.swing.JPanel();
 		add("South", okP);
 		okP.add(ok);
 		ok.addActionListener(this);
@@ -101,7 +100,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			net.sf.jftp.JFtp.statusP.jftp.setClosable(this.hashCode(), false);
 			validate();
 
-			runner = new Thread(this);
+			Thread runner = new Thread(this);
 			runner.start();
 		} else if (e.getSource() == stop) {
 			stopflag = true;

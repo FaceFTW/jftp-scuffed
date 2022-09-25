@@ -24,13 +24,10 @@ import java.net.Socket;
 alternative connection class, used for raw tcp/ip connection
 */
 public class JRawConnection implements Runnable {
-	private final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 	private final String host;
 	private final int port;
-	private final Thread runner;
 	private PrintStream out;
 	private DataInputStream in;
-	private Socket s;
 	private JReciever jrcv;
 	private boolean isOk = false;
 	private boolean established = false;
@@ -45,13 +42,13 @@ public class JRawConnection implements Runnable {
 		this.port = port;
 		this.reciever = reciever;
 
-		runner = new Thread(this);
+		Thread runner = new Thread(this);
 		runner.start();
 	}
 
 	public void run() {
 		try {
-			s = new Socket(host, port);
+			java.net.Socket s = new java.net.Socket(host, port);
 
 			//  s.setSoTimeout(Resource.socketTimeout);
 			out = new PrintStream(s.getOutputStream());
@@ -72,6 +69,7 @@ public class JRawConnection implements Runnable {
 	public boolean isThere() {
 		int cnt = 0;
 
+		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 		while (!established && (cnt < timeout)) {
 			pause(100);
 			cnt = cnt + 100;

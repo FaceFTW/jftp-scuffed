@@ -28,23 +28,10 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 	private final net.sf.jftp.gui.framework.HTextField listCommand = new net.sf.jftp.gui.framework.HTextField("FTP LIST command:", net.sf.jftp.net.FtpConnection.LIST, 15);
 	private final JButton setListCommand = new JButton("Set");
 
-	//***
-	private final JButton saveCommand = new JButton("Set and Save");
-
-	//***
-	//*** should it really be set up so that the original message here on top
-	//*** is cleared out when events such as changing settings occurs
-	//*** (the text area which contains instructions at first has these
-	//*** instructions cleared out when some events occur.)
-	//*** So maybe should have a text box at the bottom? And a label at top
-	//*** with the instruction text?
-	//***this line may be deprecated
-	private final JLabel text = new JLabel();
 	//private JLabel note = new JLabel();
 
 	//***
 	private final JLabel statusText = new JLabel();
-	private String listOptionText = ""; //what the text in the box initially is
 
 	//***
 	public AdvancedOptions() {
@@ -52,6 +39,15 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 
 		//text.setText("You can override the default values here, but note that " +
 		//	     "the values are not saved\n and lost after closing the application.");
+		//***
+		//*** should it really be set up so that the original message here on top
+		//*** is cleared out when events such as changing settings occurs
+		//*** (the text area which contains instructions at first has these
+		//*** instructions cleared out when some events occur.)
+		//*** So maybe should have a text box at the bottom? And a label at top
+		//*** with the instruction text?
+		//***this line may be deprecated
+		javax.swing.JLabel text = new javax.swing.JLabel();
 		text.setText("Default values for commands can be overidden here.");
 		statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
 
@@ -65,6 +61,8 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		//***
 		//load initial advanced options here
 		//JUST FOR NOW: We just know that value 0 is the FTP LIST command
+		//what the text in the box initially is
+		String listOptionText = "";
 		if (listOptionSet) {
 			listOptionText = net.sf.jftp.net.FtpConnection.LIST;
 		} else {
@@ -87,6 +85,8 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		panel.add(setListCommand);
 
 		//***
+		//***
+		javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
 		panel.add(saveCommand);
 
 		//***

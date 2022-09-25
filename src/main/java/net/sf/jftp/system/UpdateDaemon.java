@@ -24,12 +24,11 @@ public class UpdateDaemon implements Runnable {
 	private static int reg;
 	private static int cal;
 	private final net.sf.jftp.JFtp jftp;
-	private Thread runner = null;
 
 	public UpdateDaemon(net.sf.jftp.JFtp jftp) {
 		this.jftp = jftp;
 
-		runner = new Thread(this);
+		Thread runner = new Thread(this);
 		runner.start();
 	}
 

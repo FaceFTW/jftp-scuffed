@@ -34,9 +34,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	public static boolean established = false;
 	public static boolean mayDispose = false;
 	public static JScrollPane outputPane;
-	private final JPanel p1 = new JPanel();
 	private final HTextField com = new HTextField("Command:", "", 20);
-	private final JPanel p2 = new JPanel();
 	private final JButton send = new JButton("Send");
 	private final JButton clear = new JButton("Clear");
 	final JMenuBar mb = new JMenuBar();
@@ -60,6 +58,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		setTitle("Direct TCP/IP connection");
 		getContentPane().setLayout(new BorderLayout(2, 2));
 
+		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.add(host);
 		p1.add(port);
 		host.text.setEditable(false);
@@ -68,6 +67,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 
 		com.text.addActionListener(this);
 
+		javax.swing.JPanel p2 = new javax.swing.JPanel();
 		p2.add(com);
 
 		com.addKeyListener(new KeyAdapter() {

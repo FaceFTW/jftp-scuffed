@@ -20,7 +20,6 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	public static final int buffer = 128000;
 	private final boolean dummy = false;
 	private String url = "";
-	private String host = "";
 	private String path = "";
 	private String pwd = "";
 	private java.util.Vector listeners = new java.util.Vector();
@@ -36,7 +35,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	public RsyncConnection(String url, String utmp, String ptmp, int port, String dtmp, String ltmp) {
 		this.url = url;
 
-		host = url.substring(6);
+		String host = url.substring(6);
 
 		int x = host.indexOf("/");
 

@@ -41,7 +41,6 @@ public class WebdavConnection implements BasicConnection {
 	private String path = "";
 	private String pwd = "";
 	private Vector listeners = new Vector();
-	private String[] files;
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String baseFile;
@@ -356,7 +355,7 @@ public class WebdavConnection implements BasicConnection {
 			WebdavResource[] f = fp.listWebdavResources();
 
 			//if(files == null) return new String[0];
-			files = new String[f.length];
+			String[] files = new String[f.length];
 			size = new String[f.length];
 			perms = new int[f.length];
 

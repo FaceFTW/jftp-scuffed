@@ -30,11 +30,8 @@ import java.net.Socket;
  * waits for the target host...
  */
 public class JConnection implements Runnable {
-	private final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 	private final String host;
 	private final int port;
-	//private boolean reciever = false;
-	private final Thread runner;
 	private PrintStream out;
 	private BufferedReader in;
 	private Socket s;
@@ -52,7 +49,8 @@ public class JConnection implements Runnable {
 		this.host = host;
 		this.port = port;
 
-		runner = new Thread(this);
+		//private boolean reciever = false;
+		Thread runner = new Thread(this);
 		runner.start();
 	}
 
@@ -162,6 +160,7 @@ public class JConnection implements Runnable {
 	public boolean isThere() {
 		int cnt = 0;
 
+		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 		while (!established && (cnt < timeout)) {
 			pause(10);
 			cnt = cnt + 10;

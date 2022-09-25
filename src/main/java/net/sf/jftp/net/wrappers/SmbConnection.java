@@ -43,7 +43,6 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private String path = "";
 	private String pwd = "smb://";
 	private Vector listeners = new Vector();
-	private String[] files;
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String user;
@@ -312,7 +311,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 			//Log.debug("sortLs: file is there and listed");
 			//if(f == null) System.out.println("Smb: f null");
-			files = new String[f.length];
+			String[] files = new String[f.length];
 			size = new String[f.length];
 			perms = new int[f.length];
 

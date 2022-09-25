@@ -45,14 +45,6 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	private final DefaultListModel liststr = new DefaultListModel();
 	private final JList list = new JList(liststr);
 	private final ArrayList queue = new ArrayList();
-	// private Vector listeners = new Vector();
-	private final HImageButton start = new HImageButton(Settings.resumeImage, "start", "Start queue download...", this);
-	private final HImageButton stop = new HImageButton(Settings.pauseImage, "stop", "Stop queue download...", this);
-	private final HImageButton save = new HImageButton(Settings.saveImage, "save", "Save queue list to file...", this);
-	private final HImageButton load = new HImageButton(Settings.cdImage, "load", "Load queue list from...", this);
-	private final HImageButton up = new HImageButton(Settings.downloadImage, "up", "Change order of queue", this);
-	private final HImageButton down = new HImageButton(Settings.uploadImage, "down", "Change order of queue", this);
-	private final HImageButton delete = new HImageButton(Settings.deleteImage, "del", "Delete item in queue", this);
 	private final boolean downloading = false;
 	private final ConnectionHandler handler = new ConnectionHandler();
 	private final JLabel statuslabel;
@@ -71,22 +63,30 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		// list.setCellRenderer(new DirCellRenderer());
 		HPanel cmdP = new HPanel();
 
+		// private Vector listeners = new Vector();
+		net.sf.jftp.gui.framework.HImageButton start = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "start", "Start queue download...", this);
 		cmdP.add(start);
 
+		net.sf.jftp.gui.framework.HImageButton stop = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.pauseImage, "stop", "Stop queue download...", this);
 		cmdP.add(stop);
 
 		cmdP.add(new JLabel("   "));
 
+		net.sf.jftp.gui.framework.HImageButton up = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.downloadImage, "up", "Change order of queue", this);
 		cmdP.add(up);
 
+		net.sf.jftp.gui.framework.HImageButton down = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.uploadImage, "down", "Change order of queue", this);
 		cmdP.add(down);
 
+		net.sf.jftp.gui.framework.HImageButton delete = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.deleteImage, "del", "Delete item in queue", this);
 		cmdP.add(delete);
 
 		cmdP.add(new JLabel("   "));
 
+		net.sf.jftp.gui.framework.HImageButton save = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.saveImage, "save", "Save queue list to file...", this);
 		cmdP.add(save);
 
+		net.sf.jftp.gui.framework.HImageButton load = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.cdImage, "load", "Load queue list from...", this);
 		cmdP.add(load);
 
 		start.setSize(24, 24);

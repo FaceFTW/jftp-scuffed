@@ -27,10 +27,8 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 	private final Image img;
 	private final String cmd = "default";
 	public ActionListener who = null;
-	private String image = null;
 
 	public HDesktopBackground(String image, ActionListener who) {
-		this.image = image;
 		this.who = who;
 
 		img = HImage.getImage(this, image);

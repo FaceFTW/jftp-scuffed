@@ -66,13 +66,10 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	private final HPanel listP = new HPanel();
 	//	private HButton list = new HButton("Choose from or edit list...");
 	private ComponentListener listener = null;
-	private int mode = 0;
-	private boolean useLocal = false;
 	private final boolean ext = Settings.showNewlineOption;
 
 	public RsyncHostChooser(ComponentListener l, boolean local) {
 		listener = l;
-		useLocal = local;
 		init();
 	}
 
@@ -350,7 +347,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 //		h.setVisible(false);
 //		;
 			} else if (e.getSource() == frontMode) {
-				mode = 2;
+				int mode = 2;
 				h.setVisible(false);
 			}
 		}

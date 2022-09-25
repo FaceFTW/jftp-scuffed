@@ -31,7 +31,6 @@ public class Properties extends HFrame implements ActionListener {
 	private final Label fileL = new Label("File:                      ");
 	private final Label sizeL = new Label("Size: ? bytes              ");
 	private final HButton ok = new HButton("Dismiss");
-	private final HPanel okP = new HPanel();
 	private String type = "";
 	private String file = "";
 
@@ -44,6 +43,7 @@ public class Properties extends HFrame implements ActionListener {
 		setLocation(150, 150);
 		setLayout(new GridLayout(3, 1));
 
+		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
 		okP.add(ok);
 		add(sizeL);
 		add(fileL);

@@ -45,7 +45,6 @@ public class Sftp2Connection implements BasicConnection {
 	private String path = "";
 	private String pwd = "/";
 	private Vector listeners = new Vector();
-	private String[] files;
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String user;
@@ -305,7 +304,7 @@ public class Sftp2Connection implements BasicConnection {
 			Vector v = channel.ls(pwd);
 
 			String[] tmp = new String[v.size()];
-			files = new String[tmp.length];
+			String[] files = new String[tmp.length];
 			size = new String[tmp.length];
 			perms = new int[tmp.length];
 

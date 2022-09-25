@@ -5,10 +5,9 @@ import net.sf.jftp.config.Settings;
 
 
 public class LogFlusher implements Runnable {
-	private final Thread runner;
 
 	public LogFlusher() {
-		runner = new Thread(this);
+		Thread runner = new Thread(this);
 
 		if (Settings.useLogFlusher) {
 			runner.start();

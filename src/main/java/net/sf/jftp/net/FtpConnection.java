@@ -73,7 +73,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	// active ftp ports
 	private static int porta = 5; // 5 * 256 + 1 = 1281
 	private static int portb = 1;
-	private final boolean msg = true;
 	private final String[] loginAck = new String[]{FTP331_USER_OK_NEED_PASSWORD, FTP230_LOGGED_IN};
 	private final List<FtpTransfer> transfers = new ArrayList<>();
 	/**
@@ -218,6 +217,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		int status = LOGIN_OK;
 
+		boolean msg = true;
 		if (msg) {
 			net.sf.jftp.system.logging.Log.debug("Connecting to " + host);
 		}

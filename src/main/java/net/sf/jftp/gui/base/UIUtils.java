@@ -51,13 +51,12 @@ public class UIUtils {
 }
 
 class Spawn implements Runnable {
-	private final Thread runner;
 	private String cmd;
 
 	public Spawn(String cmd) {
 		this.cmd = cmd;
 
-		runner = new Thread(this);
+		Thread runner = new Thread(this);
 		runner.start();
 	}
 

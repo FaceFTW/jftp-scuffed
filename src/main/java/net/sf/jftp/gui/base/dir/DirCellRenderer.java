@@ -30,7 +30,6 @@ import java.awt.*;
 public class DirCellRenderer extends DefaultListCellRenderer {
 	final static ImageIcon longIcon = new ImageIcon(Settings.dirImage);
 	final static ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
-	private Object value;
 
 	public DirCellRenderer() {
 	}
@@ -56,8 +55,7 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 			setIcon(i);
 		}
 
-		this.value = value;
-		Log.devnull(this.value); // prevents eclipse warning
+		Log.devnull(value); // prevents eclipse warning
 
 		if (!((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
 			String size = "";
