@@ -70,28 +70,21 @@ public class Crypto {
 		Cipher pbeCipher;
 		try {
 			pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
-		} catch (NoSuchPaddingException e) {
-			// We could try another algorithm, but it is highly unlikely that this would be the case
-			return "";
-		} catch (NoSuchAlgorithmException e) {
+		} catch (javax.crypto.NoSuchPaddingException | java.security.NoSuchAlgorithmException e) {
 			// We could try another algorithm, but it is highly unlikely that this would be the case
 			return "";
 		}
 
 		try {
 			pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-		} catch (InvalidKeyException e) {
-			return "";
-		} catch (InvalidAlgorithmParameterException e) {
+		} catch (java.security.InvalidKeyException | java.security.InvalidAlgorithmParameterException e) {
 			return "";
 		}
 
 		// encode & return encoded string
 		try {
 			return base64Encode(pbeCipher.doFinal(str.getBytes()));
-		} catch (IllegalBlockSizeException e) {
-			return "";
-		} catch (BadPaddingException e) {
+		} catch (javax.crypto.IllegalBlockSizeException | javax.crypto.BadPaddingException e) {
 			return "";
 		}
 	}
@@ -118,17 +111,13 @@ public class Crypto {
 		Cipher pbeCipher;
 		try {
 			pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
-		} catch (NoSuchAlgorithmException e) {
-			return "";
-		} catch (NoSuchPaddingException e) {
+		} catch (java.security.NoSuchAlgorithmException | javax.crypto.NoSuchPaddingException e) {
 			return "";
 		}
 
 		try {
 			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-		} catch (InvalidKeyException e) {
-			return "";
-		} catch (InvalidAlgorithmParameterException e) {
+		} catch (java.security.InvalidKeyException | java.security.InvalidAlgorithmParameterException e) {
 			return "";
 		}
 
@@ -137,11 +126,7 @@ public class Crypto {
 
 		try {
 			dec = new String(pbeCipher.doFinal(base64Decode(str)));
-		} catch (IllegalBlockSizeException e) {
-			return "";
-		} catch (BadPaddingException e) {
-			return "";
-		} catch (IOException e) {
+		} catch (javax.crypto.IllegalBlockSizeException | java.io.IOException | javax.crypto.BadPaddingException e) {
 			return "";
 		}
 

@@ -279,11 +279,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					tmp.addActionListener(this);
 					lf.add(tmp);
 				}
-			} catch (ClassNotFoundException cnfe) {
-				continue;
-			} catch (InstantiationException ie) {
-				continue;
-			} catch (IllegalAccessException iae) {
+			} catch (ClassNotFoundException | IllegalAccessException | InstantiationException cnfe) {
 				continue;
 			}
 		}
