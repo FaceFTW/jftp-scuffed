@@ -9,13 +9,11 @@ import java.security.PrivilegedAction;
 
 public class JFtpApplet extends Applet {
 	public JFtpApplet() {
-		AccessController.doPrivileged(new PrivilegedAction() {
-			public Object run() {
-				Settings.isStandalone = false;
-				JFtp.main(new String[0]);
+		AccessController.doPrivileged((java.security.PrivilegedAction) () -> {
+			net.sf.jftp.config.Settings.isStandalone = false;
+			net.sf.jftp.JFtp.main(new String[0]);
 
-				return new Object();
-			}
+			return new Object();
 		});
 	}
 

@@ -63,12 +63,10 @@ public class StatusCanvas extends JPanel {
 			slide = false;
 
 			if (AppMenuBar.fadeMenu.getState()) {
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						for (pos = 30; pos > 0; pos -= 1) {
-							paintImmediately(0, 0, getSize().width, getSize().height);
-							net.sf.jftp.system.LocalIO.pause(interval);
-						}
+				SwingUtilities.invokeLater(() -> {
+					for (pos = 30; pos > 0; pos -= 1) {
+						paintImmediately(0, 0, getSize().width, getSize().height);
+						net.sf.jftp.system.LocalIO.pause(interval);
 					}
 				});
 			} else {

@@ -313,11 +313,9 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		table.getSelectionModel().addListSelectionListener(this);
 		table.addMouseListener(mouseListener);
 
-		AdjustmentListener adjustmentListener = new AdjustmentListener() {
-			public void adjustmentValueChanged(AdjustmentEvent e) {
-				jsp.repaint();
-				jsp.revalidate();
-			}
+		AdjustmentListener adjustmentListener = e -> {
+			jsp.repaint();
+			jsp.revalidate();
 		};
 
 		jsp.getHorizontalScrollBar().addAdjustmentListener(adjustmentListener);
@@ -681,24 +679,22 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	public synchronized void blockedTransfer(int index) {
 		tmpindex = index;
 
-		Runnable r = new Runnable() {
-			public void run() {
-				boolean block = !Settings.getEnableMultiThreading();
+		Runnable r = () -> {
+			boolean block = !net.sf.jftp.config.Settings.getEnableMultiThreading();
 
-				if (!(con instanceof FtpConnection)) {
-					block = true;
-				}
+			if (!(con instanceof net.sf.jftp.net.FtpConnection)) {
+				block = true;
+			}
 
-				if (block) {
-					lock(false);
-				}
+			if (block) {
+				lock(false);
+			}
 
-				transfer(tmpindex);
+			transfer(tmpindex);
 
-				if (block) {
-					JFtp.localDir.fresh();
-					unlock(false);
-				}
+			if (block) {
+				net.sf.jftp.JFtp.localDir.fresh();
+				unlock(false);
 			}
 		};
 

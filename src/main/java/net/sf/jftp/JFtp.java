@@ -407,21 +407,11 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		j3 = new JInternalFrame("Log", true, false, true, true);
 
-		HImageButton clearButton = new HImageButton(Settings.clearLogImage, "clearLog", "Clear Log", new ActionListener() {
+		HImageButton clearButton = new HImageButton(Settings.clearLogImage, "clearLog", "Clear Log", e -> net.sf.jftp.JFtp.clearLog());
+		HImageButton lockButton = new HImageButton(Settings.scrollLockImage, "scrollLock", "Toggle Scroll Lock", e -> {
+			net.sf.jftp.JFtp.doScroll = !net.sf.jftp.JFtp.doScroll;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFtp.clearLog();
-			}
-		});
-		HImageButton lockButton = new HImageButton(Settings.scrollLockImage, "scrollLock", "Toggle Scroll Lock", new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFtp.doScroll = !JFtp.doScroll;
-
-				JFtp.statusP.status("Scroll lock " + (JFtp.doScroll ? "deactivated" : "activated"));
-			}
+			net.sf.jftp.JFtp.statusP.status("Scroll lock " + (net.sf.jftp.JFtp.doScroll ? "deactivated" : "activated"));
 		});
 
 		JPanel logSpPanel = new JPanel();
@@ -471,11 +461,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		setVisible(true);
 
 		if (!mainUsed) {
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					chooseHost();
-				}
-			});
+			SwingUtilities.invokeLater(() -> chooseHost());
 		} else {
 			chooseHost();
 		}
@@ -850,11 +836,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 				//invalidate();
 				//validate();
 				//repaint();
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						SwingUtilities.updateComponentTreeUI(mainFrame);
-						SwingUtilities.updateComponentTreeUI(JFtp.statusP);
-					}
+				SwingUtilities.invokeLater(() -> {
+					javax.swing.SwingUtilities.updateComponentTreeUI(mainFrame);
+					javax.swing.SwingUtilities.updateComponentTreeUI(net.sf.jftp.JFtp.statusP);
 				});
 			}
 		} catch (Exception ex) {

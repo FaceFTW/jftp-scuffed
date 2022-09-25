@@ -301,11 +301,9 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		table.getSelectionModel().addListSelectionListener(this);
 		table.addMouseListener(mouseListener);
 
-		AdjustmentListener adjustmentListener = new AdjustmentListener() {
-			public void adjustmentValueChanged(AdjustmentEvent e) {
-				jsp.repaint();
-				jsp.revalidate();
-			}
+		AdjustmentListener adjustmentListener = e -> {
+			jsp.repaint();
+			jsp.revalidate();
 		};
 
 		jsp.getHorizontalScrollBar().addAdjustmentListener(adjustmentListener);
@@ -766,30 +764,28 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	public synchronized void blockedTransfer(int index) {
 		tmpindex = index;
 
-		Runnable r = new Runnable() {
-			public void run() { // --------------- local -------------------
+		Runnable r = () -> { // --------------- local -------------------
 
-				boolean block = !Settings.getEnableMultiThreading();
+			boolean block = !net.sf.jftp.config.Settings.getEnableMultiThreading();
 
-				if (!(con instanceof FtpConnection)) {
-					block = true;
-				}
-
-				if (block || Settings.getNoUploadMultiThreading()) {
-					lock(false);
-				}
-
-				transfer(tmpindex);
-
-				if (block || Settings.getNoUploadMultiThreading()) {
-					unlock(false);
-				}
-
-				//{
-				//JFtp.remoteDir.fresh();
-				//unlock(false);
-				//}
+			if (!(con instanceof net.sf.jftp.net.FtpConnection)) {
+				block = true;
 			}
+
+			if (block || net.sf.jftp.config.Settings.getNoUploadMultiThreading()) {
+				lock(false);
+			}
+
+			transfer(tmpindex);
+
+			if (block || net.sf.jftp.config.Settings.getNoUploadMultiThreading()) {
+				unlock(false);
+			}
+
+			//{
+			//JFtp.remoteDir.fresh();
+			//unlock(false);
+			//}
 		};
 
 		Thread t = new Thread(r);

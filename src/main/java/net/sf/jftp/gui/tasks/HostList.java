@@ -85,36 +85,12 @@ public class HostList extends JDialog {
 	 * Adds listeners to any components that need them
 	 */
 	protected void initListeners() {
-		hostList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent lse) {
-				onSelectHost();
-			}
-		});
-		jbsave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				onSave();
-			}
-		});
-		jbok.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				onOk();
-			}
-		});
-		jbcancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				onCancel();
-			}
-		});
-		jbnew.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				onNew();
-			}
-		});
-		jbdelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				onDelete();
-			}
-		});
+		hostList.addListSelectionListener(lse -> onSelectHost());
+		jbsave.addActionListener(ae -> onSave());
+		jbok.addActionListener(ae -> onOk());
+		jbcancel.addActionListener(ae -> onCancel());
+		jbnew.addActionListener(ae -> onNew());
+		jbdelete.addActionListener(ae -> onDelete());
 	}
 
 	/**
