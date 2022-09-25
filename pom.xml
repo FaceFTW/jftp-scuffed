@@ -17,6 +17,10 @@
             <id>cringe</id>
             <url>file://${project.basedir}/lib</url>
         </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
     </repositories>
     <build>
         <plugins>
