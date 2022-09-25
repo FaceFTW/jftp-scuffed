@@ -136,8 +136,8 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 				net.sf.jftp.system.logging.Log.debugRaw(">>> Scanning for ");
 
-				for (int i = 0; i < typeArray.length; i++) {
-					net.sf.jftp.system.logging.Log.debugRaw(typeArray[i] + " ");
+				for (String s : typeArray) {
+					net.sf.jftp.system.logging.Log.debugRaw(s + " ");
 				}
 
 				net.sf.jftp.system.logging.Log.debug("");
@@ -222,12 +222,12 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			net.sf.jftp.system.logging.Log.out("Processing: " + next);
 
-			for (int i = 0; i < typeArray.length; i++) {
-				if (next.endsWith(typeArray[i]) || typeArray[i].trim().equals("*")) {
+			for (String s : typeArray) {
+				if (next.endsWith(s) || s.trim().equals("*")) {
 					int x = next.indexOf("/");
 
 					if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-						Holer nochnsammy = new Holer(localDir);
+						net.sf.jftp.tools.Holer nochnsammy = new net.sf.jftp.tools.Holer(localDir);
 						nochnsammy.bringAnStart(next, false);
 
 						if (stopflag) {

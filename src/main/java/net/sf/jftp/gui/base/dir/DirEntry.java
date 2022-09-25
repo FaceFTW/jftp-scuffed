@@ -36,8 +36,8 @@ public class DirEntry {
 	static Hashtable extensionMap = new Hashtable();
 
 	static {
-		for (int i = 0; i < extensions.length; i++) {
-			String[] temp = (String[]) extensions[i];
+		for (Object extension : extensions) {
+			String[] temp = (String[]) extension;
 
 			for (int j = 1; j < temp.length; j++) {
 				extensionMap.put(temp[j], temp[0]);

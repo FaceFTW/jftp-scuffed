@@ -105,8 +105,8 @@ public class NfsConnection implements BasicConnection {
 			return new String[0];
 		}
 
-		for (int i = 0; i < tmp.length; i++) {
-			net.sf.jftp.system.logging.Log.out("nfs export found: " + tmp[i]);
+		for (String s : tmp) {
+			net.sf.jftp.system.logging.Log.out("nfs export found: " + s);
 		}
 
 		return tmp;
@@ -163,12 +163,12 @@ public class NfsConnection implements BasicConnection {
 			return;
 		}
 
-		for (int i = 0; i < tmp.length; i++) {
-			XFile f3 = new XFile(dir + tmp[i]);
+		for (String s : tmp) {
+			com.sun.xfile.XFile f3 = new com.sun.xfile.XFile(dir + s);
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
-				cleanLocalDir(dir + tmp[i]);
+				cleanLocalDir(dir + s);
 				f3.delete();
 			} else {
 				//System.out.println(dir+tmp[i]);

@@ -337,9 +337,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		try {
 			currentSizes.removeAllElements();
 
-			for (int i = 0; i < currentListing.size(); i++) {
-				String tmp = currentListing.get(i);
-
+			for (String tmp : currentListing) {
 				// ------------- VMS override -------------------
 				if (getOsType().indexOf("VMS") >= 0) {
 					if (tmp.indexOf(";") < 0) {
@@ -364,7 +362,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				// ------------------------------------------------
 				else if (getOsType().indexOf("WINDOW") >= 0) {
-					StringTokenizer to = new StringTokenizer(tmp, " ", false);
+					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 
 					if (to.countTokens() >= 4) {
 						to.nextToken();
@@ -388,13 +386,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				// ------------------------------------------------
 				else if (getOsType().indexOf("OS/2") >= 0) {
-					StringTokenizer to = new StringTokenizer(tmp, " ", false);
+					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 					tmp = giveSize(to, 0);
 					net.sf.jftp.system.logging.Log.out("OS/2 parser (size): " + tmp);
 					currentSizes.add(tmp);
 				} else {
 					//Log.out("\n\nparser\n\n");
-					StringTokenizer to = new StringTokenizer(tmp, " ", false);
+					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 
 					if (to.countTokens() >= 8) // unix
 					{
@@ -442,9 +440,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		try {
 			currentPerms.removeAllElements();
 
-			for (int i = 0; i < currentListing.size(); i++) {
-				String tmp = currentListing.get(i);
-
+			for (String tmp : currentListing) {
 				// ------------- VMS override -------------------
 				if (getOsType().indexOf("VMS") >= 0) {
 					if (tmp.indexOf(";") < 0) {
@@ -469,7 +465,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				// ------------------------------------------------
 
-				StringTokenizer to = new StringTokenizer(tmp.trim(), " ", false);
+				java.util.StringTokenizer to = new java.util.StringTokenizer(tmp.trim(), " ", false);
 
 				if (!(to.countTokens() > 3) || (tmp.startsWith("/") && (tmp.indexOf("denied") > 0))) {
 					continue;
@@ -540,9 +536,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			dateVector = new Vector<Date>();
 			currentFiles.removeAllElements();
 
-			for (int i = 0; i < currentListing.size(); i++) {
-				String tmp = currentListing.get(i);
-
+			for (String tmp : currentListing) {
 				// ------------------- VMS override --------------------
 				if (getOsType().indexOf("VMS") >= 0) {
 					int x = tmp.indexOf(";");
@@ -563,22 +557,22 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 					continue;
 				} else if (getOsType().indexOf("OS/2") >= 0) {
-					StringTokenizer to2 = new StringTokenizer(tmp, " ", true);
+					java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
 					if (giveFile(to2, 2).indexOf("DIR") >= 0) {
-						to2 = new StringTokenizer(tmp, " ", true);
+						to2 = new java.util.StringTokenizer(tmp, " ", true);
 						tmp = giveFile(to2, 5);
 						tmp = tmp + "/";
 					} else {
-						to2 = new StringTokenizer(tmp, " ", true);
+						to2 = new java.util.StringTokenizer(tmp, " ", true);
 
 						if (giveFile(to2, 1).indexOf("DIR") >= 0) {
 							//Log.out("OS/2 parser (DIRFIX): " + tmp);
-							to2 = new StringTokenizer(tmp, " ", true);
+							to2 = new java.util.StringTokenizer(tmp, " ", true);
 							tmp = giveFile(to2, 4);
 							tmp = tmp + "/";
 						} else {
-							to2 = new StringTokenizer(tmp, " ", true);
+							to2 = new java.util.StringTokenizer(tmp, " ", true);
 							tmp = giveFile(to2, 4);
 						}
 					}
@@ -610,22 +604,22 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					net.sf.jftp.system.logging.Log.out("listing - (mvs parser): " + tmp + " -> " + f);
 					continue;
 				} else if (getOsType().indexOf("OS/2") >= 0) {
-					StringTokenizer to2 = new StringTokenizer(tmp, " ", true);
+					java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
 					if (giveFile(to2, 2).indexOf("DIR") >= 0) {
-						to2 = new StringTokenizer(tmp, " ", true);
+						to2 = new java.util.StringTokenizer(tmp, " ", true);
 						tmp = giveFile(to2, 5);
 						tmp = tmp + "/";
 					} else {
-						to2 = new StringTokenizer(tmp, " ", true);
+						to2 = new java.util.StringTokenizer(tmp, " ", true);
 
 						if (giveFile(to2, 1).indexOf("DIR") >= 0) {
 							//Log.out("OS/2 parser (DIRFIX): " + tmp);
-							to2 = new StringTokenizer(tmp, " ", true);
+							to2 = new java.util.StringTokenizer(tmp, " ", true);
 							tmp = giveFile(to2, 4);
 							tmp = tmp + "/";
 						} else {
-							to2 = new StringTokenizer(tmp, " ", true);
+							to2 = new java.util.StringTokenizer(tmp, " ", true);
 							tmp = giveFile(to2, 4);
 						}
 					}
@@ -653,8 +647,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					continue;
 				}
 
-				StringTokenizer to = new StringTokenizer(tmp, " ", false);
-				StringTokenizer to2 = new StringTokenizer(tmp, " ", true);
+				java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
+				java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
 				int tokens = to.countTokens();
 
@@ -666,7 +660,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				if (!newUnixDateStyle) {
 					try {
-						StringTokenizer tx = new StringTokenizer(tmp, " ", false);
+						java.util.StringTokenizer tx = new java.util.StringTokenizer(tmp, " ", false);
 						tx.nextToken();
 						tx.nextToken();
 						tx.nextToken();
@@ -699,7 +693,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					//------- date parser testing ---------
 					try {
 						//Log.out(">>> date parser: " + tmp);
-						StringTokenizer to3 = new StringTokenizer(tmp, " ", true);
+						java.util.StringTokenizer to3 = new java.util.StringTokenizer(tmp, " ", true);
 						String date = giveFile(to3, 5);
 						String date2 = date.substring(date.indexOf("-") + 1);
 						date2 = date2.substring(date.indexOf("-") + 2);
@@ -714,12 +708,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						String min = date2.substring(date2.indexOf(":") + 1, date2.indexOf(":") + 3);
 
 						//Log.out("day:"+day+"year:"+y+"mon:"+m+"hour:"+h+"m:"+min);
-						Calendar c = new GregorianCalendar();
-						c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(day));
-						c.set(Calendar.YEAR, Integer.parseInt(y));
-						c.set(Calendar.MONTH, Integer.parseInt(m) - 1);
-						c.set(Calendar.HOUR, Integer.parseInt(h));
-						c.set(Calendar.MINUTE, Integer.parseInt(min));
+						java.util.Calendar c = new java.util.GregorianCalendar();
+						c.set(java.util.Calendar.DAY_OF_MONTH, Integer.parseInt(day));
+						c.set(java.util.Calendar.YEAR, Integer.parseInt(y));
+						c.set(java.util.Calendar.MONTH, Integer.parseInt(m) - 1);
+						c.set(java.util.Calendar.HOUR, Integer.parseInt(h));
+						c.set(java.util.Calendar.MINUTE, Integer.parseInt(min));
 
 						dateVector.add(c.getTime());
 
@@ -734,7 +728,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					tmp = giveFile(to2, 7);
 
 					if (lcount > 1) {
-						dateVector = new Vector<Date>();
+						dateVector = new java.util.Vector<java.util.Date>();
 					}
 				} else if (tokens > 8) // unix
 				{
@@ -1203,16 +1197,16 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		setLocalPath(path);
 
-		for (int i = 0; i < tmp.length; i++) {
-			if (tmp[i].endsWith("/")) {
-				if (tmp[i].trim().equals("../") || tmp[i].trim().equals("./")) {
-					net.sf.jftp.system.logging.Log.debug("Skipping " + tmp[i].trim());
+		for (String s : tmp) {
+			if (s.endsWith("/")) {
+				if (s.trim().equals("../") || s.trim().equals("./")) {
+					net.sf.jftp.system.logging.Log.debug("Skipping " + s.trim());
 				} else {
 					if (!work) {
 						return TRANSFER_STOPPED;
 					}
 
-					if (downloadDir(tmp[i]) < 0) {
+					if (downloadDir(s) < 0) {
 						// return TRANSFER_FAILED;
 					}
 				}
@@ -1224,7 +1218,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				fileCount++;
 
-				if (rawDownload(getLocalPath() + tmp[i]) < 0) {
+				if (rawDownload(getLocalPath() + s) < 0) {
 					// return TRANSFER_FAILED;
 				}
 			}
@@ -1534,9 +1528,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		File f2 = new File(dir);
 		String[] tmp = f2.list();
 
-		for (int i = 0; i < tmp.length; i++) {
-			String res = dir + tmp[i];
-			File f3 = new File(res);
+		for (String s : tmp) {
+			String res = dir + s;
+			java.io.File f3 = new java.io.File(res);
 
 			if (f3.isDirectory()) {
 				if (!work) {
@@ -1753,8 +1747,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				if (((tmp.startsWith(NEGATIVE) || (tmp.startsWith(NEGATIVE2))) && (tmp.charAt(3) != MORE_LINES_APPENDED)) || tmp.startsWith(PROCEED)) {
 					return tmp;
 				} else {
-					for (int i = 0; i < until.length; i++) {
-						if (tmp.startsWith(until[i])) {
+					for (String s : until) {
+						if (tmp.startsWith(s)) {
 							//if(resultString == null) resultString = tmp;
 							//else resultString = resultString + "\n" + tmp;
 							if (tmp.charAt(3) != MORE_LINES_APPENDED) {

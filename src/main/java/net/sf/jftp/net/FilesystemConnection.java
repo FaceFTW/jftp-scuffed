@@ -106,8 +106,8 @@ public class FilesystemConnection implements BasicConnection {
 				return;
 			}
 
-			for (int i = 0; i < tmp.length; i++) {
-				File f3 = new File(dir + tmp[i]);
+			for (String s : tmp) {
+				java.io.File f3 = new java.io.File(dir + s);
 
 				if (!f3.getAbsolutePath().equals(f3.getCanonicalPath())) {
 					//Log.debug("WARNING: Symlink remove");//Skipping symlink, remove may fail.");
@@ -119,7 +119,7 @@ public class FilesystemConnection implements BasicConnection {
 
 				if (f3.isDirectory()) {
 					//System.out.println(dir);
-					cleanLocalDir(dir + tmp[i]);
+					cleanLocalDir(dir + s);
 					f3.delete();
 				} else {
 					//System.out.println(dir+tmp[i]);

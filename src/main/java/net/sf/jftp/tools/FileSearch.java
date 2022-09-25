@@ -56,8 +56,8 @@ public class FileSearch {
 		String[] scanArray = {".html", ".htm", "/", ".jsp", ".jhtml", ".phtml", ".asp", ".xml", ".js", ".cgi"};
 		String url = "http://www.google.de/search?hl=de&q=";
 
-		for (int i = 0; i < termArray.length; i++) {
-			url += termArray[i] + "+";
+		for (String s : termArray) {
+			url += s + "+";
 		}
 
 		FileSearch search = new FileSearch();
@@ -84,8 +84,8 @@ public class FileSearch {
 			net.sf.jftp.system.logging.Log.out(">>> URL: " + url);
 			net.sf.jftp.system.logging.Log.out(">>> Scanning for ");
 
-			for (int i = 0; i < typeArray.length; i++) {
-				net.sf.jftp.system.logging.Log.out(typeArray[i] + " ");
+			for (String s : typeArray) {
+				net.sf.jftp.system.logging.Log.out(s + " ");
 			}
 
 			net.sf.jftp.system.logging.Log.out("");
@@ -129,14 +129,14 @@ public class FileSearch {
 	private int rate(String content) {
 		int score = 0;
 
-		for (int i = 0; i < termArray.length; i++) {
-			if (content.indexOf(termArray[i]) >= 0) score += 3;
+		for (String value : termArray) {
+			if (content.indexOf(value) >= 0) score += 3;
 		}
 
 		if (score < MIN_TERM) return 0;
 
-		for (int i = 0; i < optArray.length; i++) {
-			if (content.indexOf(optArray[i]) >= 0) score++;
+		for (String s : optArray) {
+			if (content.indexOf(s) >= 0) score++;
 		}
 
 		return score;
@@ -147,8 +147,8 @@ public class FileSearch {
 		//	if(url.indexOf(typeArray[i]) >= 0) return 2;
 		//}
 
-		for (int i = 0; i < ignoreArray.length; i++) {
-			if (url.indexOf(ignoreArray[i]) >= 0) return -1;
+		for (String s : ignoreArray) {
+			if (url.indexOf(s) >= 0) return -1;
 		}
 
 		if (!checkForScanableUrl(url)) return -1;
@@ -168,8 +168,8 @@ public class FileSearch {
 			String tmp = url.substring(0, url.indexOf("/"));
 		}
 
-		for (int i = 0; i < scanArray.length; i++) {
-			if (url.endsWith(scanArray[i])) return true;
+		for (String s : scanArray) {
+			if (url.endsWith(s)) return true;
 		}
 
 		return false;
@@ -219,8 +219,8 @@ public class FileSearch {
 			boolean skip = false;
 
 			while (!skip) {
-				for (int i = 0; i < typeArray.length; i++) {
-					if (next.endsWith(typeArray[i]) || typeArray[i].trim().equals("*")) {
+				for (String s : typeArray) {
+					if (next.endsWith(s) || s.trim().equals("*")) {
 						net.sf.jftp.system.logging.Log.out("HIT: " + url + " -> " + next);
 						//Getter.chill(2000);
 
@@ -229,7 +229,7 @@ public class FileSearch {
 						int x = next.indexOf("/");
 
 						if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-							Getter urlGetter2 = new Getter(localDir);
+							net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(localDir);
 							urlGetter2.fetch(next, false);
 
 							continue;

@@ -71,10 +71,10 @@ public class StringUtils {
 	 * Returns the first one found
 	 */
 	public static String contains(String[] tmp, String[] str) {
-		for (int i = 0; i < tmp.length; i++) {
-			for (int j = 0; j < str.length; j++) {
-				if (tmp[i].startsWith(str[j])) {
-					return tmp[i];
+		for (String value : tmp) {
+			for (String s : str) {
+				if (value.startsWith(s)) {
+					return value;
 				}
 			}
 		}

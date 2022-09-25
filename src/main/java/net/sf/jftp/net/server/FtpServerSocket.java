@@ -97,11 +97,11 @@ public class FtpServerSocket extends Thread {
 		Method[] m = this.getClass().getDeclaredMethods();
 		String methodName = null;
 
-		for (int i = 0; i < m.length; i++) {
-			methodName = m[i].getName();
+		for (java.lang.reflect.Method method : m) {
+			methodName = method.getName();
 
 			if (commands.contains(methodName)) {
-				methods.put(methodName, m[i]);
+				methods.put(methodName, method);
 			}
 		}
 

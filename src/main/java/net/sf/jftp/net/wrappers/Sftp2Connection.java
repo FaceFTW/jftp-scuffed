@@ -146,18 +146,18 @@ public class Sftp2Connection implements BasicConnection {
 			return;
 		}
 
-		for (int i = 0; i < tmp.length; i++) {
-			if (tmp[i].equals("./") || tmp[i].equals("../")) {
+		for (String s : tmp) {
+			if (s.equals("./") || s.equals("../")) {
 				continue;
 			}
 
-			net.sf.jftp.system.logging.Log.out(">>>>>>>> remove file/dir: " + dir + tmp[i]);
+			net.sf.jftp.system.logging.Log.out(">>>>>>>> remove file/dir: " + dir + s);
 
-			if (tmp[i].endsWith("/")) {
-				cleanSftpDir(dir + tmp[i]);
-				channel.rmdir(dir + tmp[i]);
+			if (s.endsWith("/")) {
+				cleanSftpDir(dir + s);
+				channel.rmdir(dir + s);
 			} else {
-				channel.rm(dir + tmp[i]);
+				channel.rm(dir + s);
 			}
 		}
 	}

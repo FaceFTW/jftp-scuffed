@@ -13,8 +13,8 @@ public class SmbTest extends NtlmAuthenticator {
 
 		SmbFile[] files = file.listFiles();
 
-		for (int i = 0; i < files.length; i++) {
-			System.out.print("FILE: " + files[i].getName());
+		for (jcifs.smb.SmbFile smbFile : files) {
+			System.out.print("FILE: " + smbFile.getName());
 		}
 		System.out.println("EOL");
 	}

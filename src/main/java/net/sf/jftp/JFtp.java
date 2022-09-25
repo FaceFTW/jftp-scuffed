@@ -1055,8 +1055,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 			File[] f = (File[]) myList.toArray();
 
-			for (int i = 0; i < f.length; i++) {
-				name = f[i].getAbsolutePath();
+			for (java.io.File file : f) {
+				name = file.getAbsolutePath();
 				System.out.println("DnD file: " + name);
 
 				name = name.replace("\r", "");

@@ -61,12 +61,12 @@ public class LocalIO {
 		File f2 = new File(path + dir);
 		String[] tmp = f2.list();
 
-		for (int i = 0; i < tmp.length; i++) {
-			File f3 = new File(path + dir + tmp[i]);
+		for (String s : tmp) {
+			java.io.File f3 = new java.io.File(path + dir + s);
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
-				cleanLocalDir(dir + tmp[i], path);
+				cleanLocalDir(dir + s, path);
 				f3.delete();
 			} else {
 				//System.out.println(dir+tmp[i]);

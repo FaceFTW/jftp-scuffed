@@ -120,8 +120,8 @@ public class WebdavConnection implements BasicConnection {
 				return;
 			}
 
-			for (int i = 0; i < tmp.length; i++) {
-				WebdavFile f3 = new WebdavFile(getURL(dir + tmp[i]));
+			for (String s : tmp) {
+				org.apache.webdav.lib.WebdavFile f3 = new org.apache.webdav.lib.WebdavFile(getURL(dir + s));
 
 				if (!f3.getAbsolutePath().equals(f3.getCanonicalPath())) {
 					//Log.debug("WARNING: Symlink remove");//Skipping symlink, remove may fail.");
@@ -133,7 +133,7 @@ public class WebdavConnection implements BasicConnection {
 
 				if (f3.isDirectory()) {
 					//System.out.println(dir);
-					cleanLocalDir(dir + tmp[i]);
+					cleanLocalDir(dir + s);
 					f3.delete();
 				} else {
 					//System.out.println(dir+tmp[i]);

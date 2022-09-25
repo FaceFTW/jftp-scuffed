@@ -142,12 +142,12 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			return;
 		}
 
-		for (int i = 0; i < tmp.length; i++) {
-			SmbFile f3 = new SmbFile(dir + tmp[i], getAuth());
+		for (String s : tmp) {
+			jcifs.smb.SmbFile f3 = new jcifs.smb.SmbFile(dir + s, getAuth());
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
-				cleanSmbDir(dir + tmp[i]);
+				cleanSmbDir(dir + s);
 				f3.delete();
 			} else {
 				//System.out.println(dir+tmp[i]);

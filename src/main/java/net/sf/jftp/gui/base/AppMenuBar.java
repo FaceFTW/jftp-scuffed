@@ -755,11 +755,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 
-				for (int i = 0; i < m.length; i++) {
-					if (m[i].getName().equals(tmp)) {
-						JFtp.statusP.jftp.setLookAndFeel(m[i].getClassName());
-						Settings.setProperty("jftp.gui.look", m[i].getClassName());
-						Settings.save();
+				for (javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
+					if (lookAndFeelInfo.getName().equals(tmp)) {
+						net.sf.jftp.JFtp.statusP.jftp.setLookAndFeel(lookAndFeelInfo.getClassName());
+						net.sf.jftp.config.Settings.setProperty("jftp.gui.look", lookAndFeelInfo.getClassName());
+						net.sf.jftp.config.Settings.save();
 					}
 				}
 			}

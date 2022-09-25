@@ -803,14 +803,14 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		if (JFtp.dList.sizeCache.containsKey(file)) {
 			s = ((Long) JFtp.dList.sizeCache.get(file)).longValue();
 		} else {
-			for (int i = 0; i < dirEntry.length; i++) {
-				if (dirEntry[i] == null) {
+			for (net.sf.jftp.gui.base.dir.DirEntry entry : dirEntry) {
+				if (entry == null) {
 					continue;
 				}
 
-				if (dirEntry[i].toString().equals(file)) {
-					s = dirEntry[i].getRawSize();
-					JFtp.dList.sizeCache.put(file, new Long(s));
+				if (entry.toString().equals(file)) {
+					s = entry.getRawSize();
+					net.sf.jftp.JFtp.dList.sizeCache.put(file, new Long(s));
 
 					break;
 				}

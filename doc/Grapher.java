@@ -33,19 +33,16 @@ public Grapher()
 
  try
  {
-	for(int i=0; i<files.length; i++)
-	{
-		File f = getFile(files[i]);
+	 for (String s : files) {
+		 java.io.File f = getFile(s);
 
-		if(f != null && f.exists())
-		{
-			for(int j=0; j<files.length; j++)
-			{
-				int x = countRelations(f, files[j]);
-				if(x > 0) table.put(files[i] + ":" +files[j].substring(0, files[j].indexOf(".java")), "" + x);
-			}
-		}
-	}
+		 if (f != null && f.exists()) {
+			 for (String file : files) {
+				 int x = countRelations(f, file);
+				 if (x > 0) table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
+			 }
+		 }
+	 }
 
  show();
  repaint();
@@ -67,19 +64,16 @@ public void paint(Graphics g)
 	// points
  	Random r = new Random();
 
-	for(int i=0; i<files.length; i++)
-	{
-		while(true)
-		{
-			int x = r.nextInt(width-200);
-			int y = r.nextInt(height-20);
-			if(y<30) y=30;
+	for (String s : files) {
+		while (true) {
+			int x = r.nextInt(width - 200);
+			int y = r.nextInt(height - 20);
+			if (y < 30) y = 30;
 
-			if(check(x, y))
-			{
+			if (check(x, y)) {
 				//System.out.println("adding: " + files[i]);
-				String tmp = files[i].substring(0,files[i].indexOf(".java"));
-				Point p = new Point(x, y);
+				String tmp = s.substring(0, s.indexOf(".java"));
+				java.awt.Point p = new java.awt.Point(x, y);
 				pool.put(tmp, p);
 
 				linkPoints(g, p);
@@ -93,15 +87,14 @@ public void paint(Graphics g)
 
 	g.setColor(Color.blue);
 
-	for(int i=0; i<files.length; i++)
-	{
-		String tmp = files[i].substring(0,files[i].indexOf(".java"));
-		Point p2 = (Point) pool.get(tmp);
-		if(p2 == null) continue;
+	for (String file : files) {
+		String tmp = file.substring(0, file.indexOf(".java"));
+		java.awt.Point p2 = (java.awt.Point) pool.get(tmp);
+		if (p2 == null) continue;
 		//g.setColor(new Color(255,180,180));
 		//g.fillRect((int)  p2.getX(), (int)  p2.getY()-12, 80,  15);
 		//g.setColor(Color.blue);
-		g.drawString(tmp, (int)  p2.getX(), (int)  p2.getY());
+		g.drawString(tmp, (int) p2.getX(), (int) p2.getY());
 	}
 
 }
@@ -194,10 +187,9 @@ public int countRelations(File f, String what) throws IOException
 
 public File getFile(String name)
 {
-	for(int i=0; i<paths.length; i++)
-	{
-		File f = new File(paths[i]+name);
-		if(f.exists()) return f;
+	for (String path : paths) {
+		java.io.File f = new java.io.File(path + name);
+		if (f.exists()) return f;
 	}
 
 	return null;

@@ -271,9 +271,9 @@ public class DownloadList extends HPanel implements ActionListener {
 		if (type.equals(DataConnection.GET)) {
 			net.sf.jftp.gui.base.dir.DirEntry[] e = ((net.sf.jftp.gui.base.dir.DirPanel) JFtp.remoteDir).dirEntry;
 
-			for (int i = 0; i < e.length; i++) {
-				if (e[i].file.equals(file)) {
-					size = e[i].getRawSize();
+			for (net.sf.jftp.gui.base.dir.DirEntry dirEntry : e) {
+				if (dirEntry.file.equals(file)) {
+					size = dirEntry.getRawSize();
 				}
 			}
 		}

@@ -41,9 +41,9 @@ public class ProgressBarList extends JPanel {
 		removeAll();
 		//System.out.println("\n\n--------------------\n");
 
-		for (int i = 0; i < items.length; i++) {
-			ProgressbarItem p = new ProgressbarItem(items[i]);
-			p.update((int) items[i].getTransferred() / 1024, (int) items[i].getRawSize() / 1024, items[i].file);
+		for (net.sf.jftp.gui.base.dir.DirEntry item : items) {
+			net.sf.jftp.gui.framework.ProgressbarItem p = new net.sf.jftp.gui.framework.ProgressbarItem(item);
+			p.update((int) item.getTransferred() / 1024, (int) item.getRawSize() / 1024, item.file);
 
 			//System.out.println("add: "+items[i].file+" -> "+items[i].getTransferred()+"/"+items[i].getRawSize());
 
