@@ -160,11 +160,11 @@ public class TableUtils {
 	 */
 	private static synchronized TableModel generateTableModel(JList l) {
 
-		TableModel dataModel = new MaterializedTableModel(l) {
+		return new net.sf.jftp.gui.base.dir.MaterializedTableModel(l) {
 
 			public Class getColumnClass(int columnIndex) {
-				if (columnIndex == 0) return ImageIcon.class;
-				else if (columnIndex == 3) return JLabel.class;
+				if (columnIndex == 0) return javax.swing.ImageIcon.class;
+				else if (columnIndex == 3) return javax.swing.JLabel.class;
 				else return String.class;
 			}
 
@@ -181,14 +181,13 @@ public class TableUtils {
 
 				if (list.getModel().getSize() == 0) return "" + null;
 
-				DirEntry ret = (DirEntry) list.getModel().getElementAt(row);
+				net.sf.jftp.gui.base.dir.DirEntry ret = (net.sf.jftp.gui.base.dir.DirEntry) list.getModel().getElementAt(row);
 
 				if (col == 0) return ret.getImageIcon();
 				else if (col == 1) return ret.toString();
 				else if (col == 2) {
 					String tmp = "" + ret.getFileSize();
-					String r = tmp.replaceAll(" >", "");
-					return r;
+					return tmp.replaceAll(" >", "");
 				} else if (col == 3) {
 					return ret;
 				}
@@ -199,8 +198,6 @@ public class TableUtils {
 				return ret;
 			}
 		};
-
-		return dataModel;
 	}
 
 

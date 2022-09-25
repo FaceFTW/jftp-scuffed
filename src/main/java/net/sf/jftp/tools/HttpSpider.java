@@ -90,8 +90,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				localDir = localDir + "/";
 			}
 
-			String[] argv2 = {host.getText().trim(), type.getText().trim(), depth.getText().trim()};
-			argv = argv2;
+			argv = new String[]{host.getText().trim(), type.getText().trim(), depth.getText().trim()};
 
 			removeAll();
 			add("North", new JLabel("Starting download, please watch the log window for details"));

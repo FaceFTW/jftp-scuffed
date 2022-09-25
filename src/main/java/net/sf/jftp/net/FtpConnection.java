@@ -705,10 +705,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						date2 = date2.substring(date.indexOf("-") + 2);
 
 						//Log.out("date1: "+date+"/"+"date2: "+date2);
-						String t = date;
-						String y = t.substring(0, t.indexOf("-"));
-						String m = t.substring(t.indexOf("-") + 1, t.indexOf("-") + 3);
-						String m1 = t.substring(t.indexOf("-") + 1);
+						String y = date.substring(0, date.indexOf("-"));
+						String m = date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3);
+						String m1 = date.substring(date.indexOf("-") + 1);
 						String day = m1.substring(m1.indexOf("-") + 1, m1.indexOf("-") + 3);
 						String h = date2.substring(0, date2.indexOf(":"));
 						String min = date2.substring(date2.indexOf(":") + 1, date2.indexOf(":") + 3);
@@ -2279,10 +2278,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		aSock.close();
 		porta = availPort / 256;
 		portb = availPort % 256;
-		String ret = "PORT " + ip + "," + porta + "," + portb;
 
 		//    System.out.println(ret);
-		return ret;
+		return "PORT " + ip + "," + porta + "," + portb;
 	}
 
 	/**

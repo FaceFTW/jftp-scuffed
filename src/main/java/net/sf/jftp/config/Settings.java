@@ -321,15 +321,13 @@ public class Settings {
 	}
 
 	public static String getSocksProxyHost() {
-		String what = p.getProperty("jftp.socksProxyHost", "");
 
-		return what;
+		return p.getProperty("jftp.socksProxyHost", "");
 	}
 
 	public static String getSocksProxyPort() {
-		String what = p.getProperty("jftp.socksProxyPort", "");
 
-		return what;
+		return p.getProperty("jftp.socksProxyPort", "");
 	}
 
 	public static boolean getUseBackground() {
@@ -427,9 +425,8 @@ public class Settings {
 	}
 
 	public static String getRSSFeed() {
-		String what = p.getProperty("jftp.customRSSFeed", "http://slashdot.org/rss/slashdot.rss");
 
-		return what;
+		return p.getProperty("jftp.customRSSFeed", "http://slashdot.org/rss/slashdot.rss");
 	}
 
 	public static java.awt.Dimension getWindowSize() {

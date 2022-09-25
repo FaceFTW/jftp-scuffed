@@ -620,8 +620,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				JFtp.localUpdate();
 			} else if (e.getSource() == nl) {
-				boolean res = nl.getState();
-				Settings.showNewlineOption = res;
+				Settings.showNewlineOption = nl.getState();
 			} else if (e.getSource() == stdback) {
 				Settings.setProperty("jftp.useBackground", stdback.getState());
 				Settings.save();

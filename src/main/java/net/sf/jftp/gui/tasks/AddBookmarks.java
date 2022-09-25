@@ -237,8 +237,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 
 		String local = "";
 
-		Integer potmpInt = new Integer(potmp);
-		int potmpint = potmpInt;
+		int potmpint = new Integer(potmp);
 
 		local = isLocal.getSelectedItem().toString();
 

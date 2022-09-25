@@ -62,8 +62,7 @@ public class HImage {
 		}
 
 		//System.out.println(name + ":" + url);
-		ImageIcon img = (url != null) ? new ImageIcon(url) : null;
 
-		return img;
+		return (url != null) ? new javax.swing.ImageIcon(url) : null;
 	}
 }

@@ -263,8 +263,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
 			boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
 
-			int x = Integer.parseInt(dl.getText().trim());
-			net.sf.jftp.config.Settings.maxConnections = x;
+			net.sf.jftp.config.Settings.maxConnections = Integer.parseInt(dl.getText().trim());
 
 			net.sf.jftp.config.Settings.save();
 
