@@ -37,7 +37,7 @@ public class Log {
 
 		//System.out.println(msg);
 		logger.debug(msg);
-		cache.append(msg + "\n");
+		cache.append(msg).append("\n");
 
 		if (!Settings.getEnableDebug()) System.out.println("> " + msg);
 	}
