@@ -75,7 +75,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private static int portb = 1;
 	private final boolean msg = true;
 	private final String[] loginAck = new String[]{FTP331_USER_OK_NEED_PASSWORD, FTP230_LOGGED_IN};
-	private final List<FtpTransfer> transfers = new ArrayList<FtpTransfer>();
+	private final List<FtpTransfer> transfers = new ArrayList<>();
 	/**
 	 * Used to determine the type of transfer.
 	 */
@@ -84,11 +84,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * May contain date listing
 	 */
-	public Vector<Date> dateVector = new Vector<Date>();
-	public final Vector<String> currentListing = new Vector<String>();
-	public final Vector<String> currentFiles = new Vector<String>();
-	public final Vector<String> currentSizes = new Vector<String>();
-	public final Vector<String> currentPerms = new Vector<String>();
+	public Vector<Date> dateVector = new Vector<>();
+	public final Vector<String> currentListing = new Vector<>();
+	public final Vector<String> currentFiles = new Vector<>();
+	public final Vector<String> currentSizes = new Vector<>();
+	public final Vector<String> currentPerms = new Vector<>();
 	private boolean ok = true;
 	private String pwd = "";
 	private String initCWD = net.sf.jftp.config.Settings.defaultDir;
@@ -96,7 +96,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private String dataType;
 	private boolean modeStreamSet = false;
 	private DataConnection dcon = null;
-	private Vector<ConnectionListener> listeners = new Vector<ConnectionListener>();
+	private Vector<ConnectionListener> listeners = new Vector<>();
 	private ConnectionHandler handler = new ConnectionHandler();
 	private FtpKeepAliveThread keepAliveThread = null;
 	// directory downloaded to
@@ -533,7 +533,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	public String[] sortLs() {
 		try {
 			boolean newUnixDateStyle = false;
-			dateVector = new Vector<Date>();
+			dateVector = new Vector<>();
 			currentFiles.removeAllElements();
 
 			for (String tmp : currentListing) {
@@ -728,7 +728,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					tmp = giveFile(to2, 7);
 
 					if (lcount > 1) {
-						dateVector = new java.util.Vector<java.util.Date>();
+						dateVector = new java.util.Vector<>();
 					}
 				} else if (tokens > 8) // unix
 				{

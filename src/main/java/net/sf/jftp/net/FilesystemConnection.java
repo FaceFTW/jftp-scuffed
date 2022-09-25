@@ -29,10 +29,10 @@ import java.util.Vector;
 
 public class FilesystemConnection implements BasicConnection {
 	public static final int filesystemBuffer = 128000;
-	public Vector<Date> dateVector = new Vector<Date>();
+	public Vector<Date> dateVector = new Vector<>();
 	private String path = "";
 	private String pwd = "";
-	private Vector<ConnectionListener> listeners = new Vector<ConnectionListener>();
+	private Vector<ConnectionListener> listeners = new Vector<>();
 	private String[] files;
 	private String[] size = new String[0];
 	private int[] perms = null;
@@ -280,7 +280,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public String[] sortLs() {
-		dateVector = new Vector<Date>();
+		dateVector = new Vector<>();
 
 		File f = new File(pwd);
 		files = f.list();

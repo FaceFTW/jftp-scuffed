@@ -25,7 +25,7 @@ import java.util.Hashtable;
  * for each connection to make the connection recognize its handler.
  */
 public class ConnectionHandler {
-	private final Hashtable<String, Transfer> connections = new Hashtable<String, Transfer>();
+	private final Hashtable<String, Transfer> connections = new Hashtable<>();
 
 	public void addConnection(String file, Transfer t) {
 		connections.put(file, t);

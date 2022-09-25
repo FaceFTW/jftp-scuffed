@@ -70,7 +70,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static final int CONNECTION_DATA_LENGTH = 10;
 	//public static BasicConnection controlConnection = null;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
-	private static final Hashtable<String, JInternalFrame> internalFrames = new Hashtable<String, JInternalFrame>();
+	private static final Hashtable<String, JInternalFrame> internalFrames = new Hashtable<>();
 	public static boolean mainUsed = false;
 	public static net.sf.jftp.gui.base.StatusPanel statusP;
 	public static JLabel statusL = new JLabel("Welcome to JFtp...                                                            ");
