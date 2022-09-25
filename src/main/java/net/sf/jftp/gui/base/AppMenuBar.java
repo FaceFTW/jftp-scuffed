@@ -947,10 +947,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
         */
 
 		//
-		if (protocol.equals("FTP")) {
-			potmpString = cons[position][4];
-			dtmp = cons[position][5];
-			useLocalString = cons[position][6];
+		switch (protocol) {
+			case "FTP":
+				potmpString = cons[position][4];
+				dtmp = cons[position][5];
+				useLocalString = cons[position][6];
 
             /*
             potmpString = tokens.nextToken();
@@ -961,30 +962,33 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
             System.out.println(potmpString);
             System.out.println("FTP");
             */
-			potmp = Integer.parseInt(potmpString);
+				potmp = Integer.parseInt(potmpString);
 
-			useLocal = useLocalString.equals("true");
+				useLocal = useLocalString.equals("true");
 
-			StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal);
+				net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal);
 
-			//System.out.println(htmp + utmp + ptmp + potmpString +dtmp + useLocalString);
-		} else if (protocol.equals("SFTP")) {
+				//System.out.println(htmp + utmp + ptmp + potmpString +dtmp + useLocalString);
+				break;
+			case "SFTP":
             /*
                     htmp = tokens.nextToken();
                     utmp = tokens.nextToken();
                     ptmp = tokens.nextToken();
             */
 
-			//useLocalString = tokens.nextToken();
-			//System.out.println("SFTP");
-			potmpString = cons[position][4];
-			useLocalString = cons[position][5];
+				//useLocalString = tokens.nextToken();
+				//System.out.println("SFTP");
+				potmpString = cons[position][4];
+				useLocalString = cons[position][5];
 
-			//System.out.println(htmp + utmp + ptmp  + useLocalString);
-			//if (protocol == "SFTP")
-		} else if (protocol.equals("NFS")) {
-			useLocalString = cons[position][4];
-		} else if (protocol.equals("SMB")) {
+				//System.out.println(htmp + utmp + ptmp  + useLocalString);
+				//if (protocol == "SFTP")
+				break;
+			case "NFS":
+				useLocalString = cons[position][4];
+				break;
+			case "SMB":
             /*
             htmp = tokens.nextToken();
             utmp = tokens.nextToken();
@@ -994,10 +998,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
             dtmp = tokens.nextToken();
             useLocalString = tokens.nextToken();
             */
-			dtmp = cons[position][4];
-			useLocalString = cons[position][5];
+				dtmp = cons[position][4];
+				useLocalString = cons[position][5];
 
-			//System.out.println(htmp+utmp+ptmp+dtmp + useLocalString);
+				//System.out.println(htmp+utmp+ptmp+dtmp + useLocalString);
+				break;
 		}
 
 		//***StartConnection functionality to be put in each

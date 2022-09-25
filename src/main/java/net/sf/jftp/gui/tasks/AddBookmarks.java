@@ -152,29 +152,33 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 			//need to put information on what each protocol accepts
 			//elsewhere to make it universally accessible to all routines
 			//that need this info?
-			if (s.equals("FTP")) {
-				port.setEnabled(true);
-				user.setEnabled(true);
-				pass.setEnabled(true);
-				dirOrDom.setEnabled(true);
-			} else if (s.equals("SFTP")) {
-				port.setEnabled(true);
-				user.setEnabled(true);
-				pass.setEnabled(true);
-				dirOrDom.setEnabled(false);
-			} else if (s.equals("SMB")) {
-				port.setEnabled(false);
-				user.setEnabled(true);
-				pass.setEnabled(true);
-				dirOrDom.setEnabled(true);
-			}
+			switch (s) {
+				case "FTP":
+					port.setEnabled(true);
+					user.setEnabled(true);
+					pass.setEnabled(true);
+					dirOrDom.setEnabled(true);
+					break;
+				case "SFTP":
+					port.setEnabled(true);
+					user.setEnabled(true);
+					pass.setEnabled(true);
+					dirOrDom.setEnabled(false);
+					break;
+				case "SMB":
+					port.setEnabled(false);
+					user.setEnabled(true);
+					pass.setEnabled(true);
+					dirOrDom.setEnabled(true);
+					break;
 
-			//can assume this is NFS for now
-			else {
-				port.setEnabled(false);
-				user.setEnabled(true);
-				pass.setEnabled(true);
-				dirOrDom.setEnabled(false);
+				//can assume this is NFS for now
+				default:
+					port.setEnabled(false);
+					user.setEnabled(true);
+					pass.setEnabled(true);
+					dirOrDom.setEnabled(false);
+					break;
 			}
 
 			//System.out.println("yes!");

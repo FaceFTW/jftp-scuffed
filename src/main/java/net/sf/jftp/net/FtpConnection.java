@@ -184,9 +184,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (crlfx != null) {
 			if (crlfx.equals("\n") || crlfx.equals("\r") || crlfx.equals("\r\n")) this.crlf = crlfx;
 			crlfx = crlfx.trim().toUpperCase();
-			if (crlfx.equals("LF")) this.crlf = "\n";
-			else if (crlfx.equals("CR")) this.crlf = "\r";
-			else if (crlfx.equals("CRLF")) this.crlf = "\r\n";
+			switch (crlfx) {
+				case "LF":
+					this.crlf = "\n";
+					break;
+				case "CR":
+					this.crlf = "\r";
+					break;
+				case "CRLF":
+					this.crlf = "\r\n";
+					break;
+			}
 		}
 		//Log.out("\n\nCRLF:---"+crlf+"---\n\n");
 
