@@ -21,7 +21,7 @@ public class SmbTest extends NtlmAuthenticator {
 
 	public static String readLine() throws Exception {
 		int c;
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		while ((c = System.in.read()) != '\n') {
 			if (c == -1) return "";
 			sb.append((char) c);

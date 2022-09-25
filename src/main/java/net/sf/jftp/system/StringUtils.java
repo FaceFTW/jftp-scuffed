@@ -28,7 +28,7 @@ public class StringUtils {
 				s = StringUtils.cutAfter(s, '/');
 
 				if (s.length() < 16) {
-					StringBuffer sb = new StringBuffer(s);
+					StringBuilder sb = new StringBuilder(s);
 					sb.insert(0, ".../");
 
 					return sb.toString();
@@ -194,7 +194,7 @@ public class StringUtils {
 	}
 
 	public static String cut(String tmp, String where) {
-		StringBuffer ret = new StringBuffer();
+		StringBuilder ret = new StringBuilder();
 
 		for (int i = 0; i < tmp.length(); i++) {
 			if (!string(tmp.charAt(i)).equals(where)) {

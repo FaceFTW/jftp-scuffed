@@ -256,7 +256,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 
-		for (int i = 0; i < m.length; i++) {
+		for (javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
 			//JMenuItem tmp = new JMenuItem(m[i].getName());
 			//tmp.addActionListener(this);
 			//lf.add(tmp);
@@ -272,10 +272,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			 * menu item do?
 			 */
 			try {
-				LookAndFeel lnf = (LookAndFeel) Class.forName(m[i].getClassName()).newInstance();
+				javax.swing.LookAndFeel lnf = (javax.swing.LookAndFeel) Class.forName(lookAndFeelInfo.getClassName()).newInstance();
 
 				if (lnf.isSupportedLookAndFeel()) {
-					JMenuItem tmp = new JMenuItem(m[i].getName());
+					javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(lookAndFeelInfo.getName());
 					tmp.addActionListener(this);
 					lf.add(tmp);
 				}
