@@ -78,7 +78,7 @@ public class Shell extends HFrame implements Runnable {
 		HFrame.fixLocation(this);
 
 		textP = new JScrollPane(text);
-		text.setFont(new Font("Monospaced", Font.TRUETYPE_FONT, 10));
+		text.setFont(new Font("Monospaced", java.awt.Font.PLAIN, 10));
 
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		getContentPane().add("Center", textP);
