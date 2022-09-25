@@ -39,7 +39,7 @@ import java.util.Vector;
 
 
 public class SmbConnection extends NtlmAuthenticator implements BasicConnection {
-	public static int smbBuffer = 128000;
+	public static final int smbBuffer = 128000;
 	private String path = "";
 	private String pwd = "smb://";
 	private Vector listeners = new Vector();

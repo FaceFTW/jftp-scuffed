@@ -8,7 +8,7 @@ import java.util.Vector;
 
 public class DirComponent extends DirPanel implements ListSelectionListener {
 
-	public JTable table = new JTable();
+	public final JTable table = new JTable();
 	DirPanel target;
 
 	public DirComponent() {

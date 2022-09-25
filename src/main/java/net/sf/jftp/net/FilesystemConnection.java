@@ -28,7 +28,7 @@ import java.util.Vector;
 
 
 public class FilesystemConnection implements BasicConnection {
-	public static int filesystemBuffer = 128000;
+	public static final int filesystemBuffer = 128000;
 	public Vector<Date> dateVector = new Vector<Date>();
 	private String path = "";
 	private String pwd = "";

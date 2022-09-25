@@ -98,7 +98,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	HImageButton zipButton;
 	HImageButton cpButton;
 	HImageButton rnButton;
-	String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
+	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
 	private final JComboBox sorter = new JComboBox(sortTypes);
 	HImageButton cdUpButton;
 	private boolean pathChanged = true;

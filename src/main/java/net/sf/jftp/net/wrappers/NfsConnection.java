@@ -36,7 +36,7 @@ import java.util.Vector;
 
 
 public class NfsConnection implements BasicConnection {
-	public static int buffer = 128000;
+	public static final int buffer = 128000;
 	private final boolean dummy = false;
 	private String url = "";
 	private String host = "";

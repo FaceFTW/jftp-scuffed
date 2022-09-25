@@ -21,14 +21,14 @@ public class Shell extends HFrame implements Runnable {
 	//BufferedInputStream in;
 	BufferedReader in;
 	BufferedOutputStream err;
-	JTextArea text = new JTextArea(25, 101);
+	final JTextArea text = new JTextArea(25, 101);
 
 	//JTextField input = new JTextField();
 	long off;
 	Thread runner;
 	JScrollPane textP;
 	String input = "";
-	Vector commands = new Vector();
+	final Vector commands = new Vector();
 	int currCmd = 0;
 
 	public Shell(InputStream in, OutputStream out) {

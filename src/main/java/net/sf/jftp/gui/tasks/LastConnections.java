@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
 
 
 public class LastConnections {
-	public static String SENTINEL = "********************";
+	public static final String SENTINEL = "********************";
 	private static net.sf.jftp.JFtp jftp;
 
 	//*** changed this so that JFtp object is passed to it and

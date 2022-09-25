@@ -22,11 +22,11 @@ import java.util.Vector;
 
 
 public class RSSParser {
-	URL file;
-	Vector titles = new Vector();
-	Vector descs = new Vector();
-	Vector links = new Vector();
-	Vector content = new Vector();
+	final URL file;
+	final Vector titles = new Vector();
+	final Vector descs = new Vector();
+	final Vector links = new Vector();
+	final Vector content = new Vector();
 
 	public RSSParser(URL f) {
 		file = f;

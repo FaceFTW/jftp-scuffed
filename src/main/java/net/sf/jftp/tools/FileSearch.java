@@ -33,14 +33,14 @@ import java.util.Vector;
 
 public class FileSearch {
 
-	public static boolean quiet = true;
-	public static boolean ultraquiet = false;
+	public static final boolean quiet = true;
+	public static final boolean ultraquiet = false;
 	private final Hashtable checked = new Hashtable();
-	String localDir = ".";
-	int MAX = 999999;
+	final String localDir = ".";
+	final int MAX = 999999;
 	int MIN_TERM = 1;
-	int MIN_FACTOR = 1;
-	boolean LOAD = false;
+	final int MIN_FACTOR = 1;
+	final boolean LOAD = false;
 	String[] typeArray = {""};
 	String[] termArray = {""};
 	String[] optArray = {""};

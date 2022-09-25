@@ -43,14 +43,14 @@ import java.awt.event.WindowListener;
 public class RsyncHostChooser extends HFrame implements ActionListener, WindowListener {
 
 
-	public HTextField host = new HTextField("Hostname:", "localhost        ");
-	public HTextField user = new HTextField("Username:", "anonymous        ");
+	public final HTextField host = new HTextField("Hostname:", "localhost        ");
+	public final HTextField user = new HTextField("Username:", "anonymous        ");
 
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	public HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
-	public HTextField port = new HTextField("Port:    ", "21");
-	public HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
-	public HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
+	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
+	public final HTextField port = new HTextField("Port:    ", "21");
+	public final HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
+	public final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
 	//	public HTextField dl = new HTextField("Max. connections:    ", "3");
 	public HTextField crlf = new HTextField("Override server newline:    ", "<default>");
 	//	private JCheckBox anonBox = new JCheckBox("Use anonymous login", false);

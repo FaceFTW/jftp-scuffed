@@ -23,9 +23,9 @@ import java.awt.*;
 
 
 public class StatusCanvas extends JPanel {
-	JLabel host = new JLabel("");
+	final JLabel host = new JLabel("");
 	JLabel separator = new JLabel("   ");
-	JLabel text = new JLabel(Settings.greeting);
+	final JLabel text = new JLabel(Settings.greeting);
 	String drawText = "";
 	int pos = 0;
 	Image image;

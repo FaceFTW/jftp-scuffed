@@ -33,15 +33,15 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	private final net.sf.jftp.gui.framework.HButton addAndConnect = new net.sf.jftp.gui.framework.HButton("Add Bookmark and Connect to Server");
 
 	//public JComboBox protocols = new JComboBox();
-	public net.sf.jftp.gui.framework.HComboBox protocols = new net.sf.jftp.gui.framework.HComboBox("Protocol:");
-	public net.sf.jftp.gui.framework.HTextField host = new net.sf.jftp.gui.framework.HTextField("Hostname:", "localhost");
-	public net.sf.jftp.gui.framework.HTextField user = new net.sf.jftp.gui.framework.HTextField("Username:", "anonymous");
-	public net.sf.jftp.gui.framework.HPasswordField pass = new net.sf.jftp.gui.framework.HPasswordField("Password:", "none@nowhere.no");
-	public net.sf.jftp.gui.framework.HTextField port = new net.sf.jftp.gui.framework.HTextField("Port:    ", "21");
-	public net.sf.jftp.gui.framework.HTextField dirOrDom = new net.sf.jftp.gui.framework.HTextField("Directory/Domain:    ", "");
+	public final net.sf.jftp.gui.framework.HComboBox protocols = new net.sf.jftp.gui.framework.HComboBox("Protocol:");
+	public final net.sf.jftp.gui.framework.HTextField host = new net.sf.jftp.gui.framework.HTextField("Hostname:", "localhost");
+	public final net.sf.jftp.gui.framework.HTextField user = new net.sf.jftp.gui.framework.HTextField("Username:", "anonymous");
+	public final net.sf.jftp.gui.framework.HPasswordField pass = new net.sf.jftp.gui.framework.HPasswordField("Password:", "none@nowhere.no");
+	public final net.sf.jftp.gui.framework.HTextField port = new net.sf.jftp.gui.framework.HTextField("Port:    ", "21");
+	public final net.sf.jftp.gui.framework.HTextField dirOrDom = new net.sf.jftp.gui.framework.HTextField("Directory/Domain:    ", "");
 
 	//public JComboBox isLocal = new JComboBox();
-	public net.sf.jftp.gui.framework.HComboBox isLocal = new net.sf.jftp.gui.framework.HComboBox("Local Connection:");
+	public final net.sf.jftp.gui.framework.HComboBox isLocal = new net.sf.jftp.gui.framework.HComboBox("Local Connection:");
 
 	//private ActionListener protocolListener = new ActionListener();
 	//private FlowLayout fl = new FlowLayout(FlowLayout.RIGHT, 10, 5);

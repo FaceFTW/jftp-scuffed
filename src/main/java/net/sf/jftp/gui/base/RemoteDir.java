@@ -96,7 +96,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	HImageButton queueButton;
 	HImageButton cdUpButton;
 	HImageButton rnButton;
-	String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
+	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
 	private final JComboBox sorter = new JComboBox(sortTypes);
 	private boolean pathChanged = true;
 	private boolean firstGui = true;

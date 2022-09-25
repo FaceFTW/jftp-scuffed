@@ -8,7 +8,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public abstract class MaterializedTableModel extends AbstractTableModel {
 
-	protected JList list;
+	protected final JList list;
 
 	/**
 	 * Speichert eine JList auf die später in einem TableModel zugegriffen werden kann.

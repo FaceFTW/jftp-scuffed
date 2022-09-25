@@ -40,7 +40,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 public class Sftp2Connection implements BasicConnection {
-	public static int smbBuffer = 32000;
+	public static final int smbBuffer = 32000;
 	private final String host;
 	private String path = "";
 	private String pwd = "/";
@@ -814,7 +814,7 @@ public class Sftp2Connection implements BasicConnection {
 
 class MyUserInfo implements UserInfo {
 
-	String password;
+	final String password;
 
 	public MyUserInfo(String pass) {
 		this.password = pass;

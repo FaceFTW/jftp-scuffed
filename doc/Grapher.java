@@ -7,7 +7,7 @@ import javax.swing.*;
 public class Grapher extends Canvas
 {
 
-public String[] files = new String[] {"JFtp.java", "LoadSet.java","EventCollector.java", "EventProcessor.java", "FtpEvent.java","DirCellRenderer.java","DirPanel.java",
+public final String[] files = new String[] {"JFtp.java", "LoadSet.java","EventCollector.java", "EventProcessor.java", "FtpEvent.java","DirCellRenderer.java","DirPanel.java",
 "Displayer.java","HostChooser.java","HostList.java","Properties.java","Updater.java","GUIDefaults.java","HPasswordField.java",
 "DataConnection.java","FtpClient.java","FtpConnection.java","FtpConstants.java","FtpServerSocket.java","FtpURLConnection.java",
 "FtpURLStreamHandler.java","JConnection.java","LocalIO.java","Log.java","Log4JLogger.java","Logger.java","SystemLogger.java",
@@ -17,15 +17,15 @@ public String[] files = new String[] {"JFtp.java", "LoadSet.java","EventCollecto
 "StatusCanvas.java","StatusPanel.java","Template.java","HFrame.java","HImage.java","HImageButton.java","HPanel.java",
 "HTextField.java","ConnectionHandler.java","ConnectionListener.java","FtpServer.java","Transfer.java","StringUtils.java" };
 
-public String prefix =  "/home/cdemon/JFtp/j-ftp/src/java/net/sf/jftp/";
-public String[] paths = new String[] { prefix, prefix+"gui/", prefix+"net/", prefix+"util/", prefix+"config/", prefix+"gui/framework",
+public final String prefix =  "/home/cdemon/JFtp/j-ftp/src/java/net/sf/jftp/";
+public final String[] paths = new String[] { prefix, prefix+"gui/", prefix+"net/", prefix+"util/", prefix+"config/", prefix+"gui/framework",
 								   prefix+"event/" };
 
-public Hashtable table = new Hashtable();
-public Hashtable pool = new Hashtable();
+public final Hashtable table = new Hashtable();
+public final Hashtable pool = new Hashtable();
 
-public static int width = 800;
-public static int height = 600;
+public static final int width = 800;
+public static final int height = 600;
 
 public Grapher()
 {

@@ -44,7 +44,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	private final HImageButton cancel = new HImageButton(Settings.deleteImage, "delete", "Cancel selected transfer...", this);
 	private final HImageButton clear = new HImageButton(Settings.clearImage, "clear", "Remove old/stalled items from output...", this);
 	private final JScrollPane scroll;
-	public Hashtable sizeCache = new Hashtable();
+	public final Hashtable sizeCache = new Hashtable();
 	private Hashtable downloads = new Hashtable();
 	private long oldtime = 0;
 

@@ -19,7 +19,7 @@ import java.util.Vector;
 
 
 public class EventCollector implements Acceptor {
-	protected Vector buffer;
+	protected final Vector buffer;
 
 	public EventCollector() {
 		buffer = new Vector();

@@ -57,7 +57,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	private final ConnectionHandler handler = new ConnectionHandler();
 	private final JLabel statuslabel;
 	// Number of Retry
-	int NumRetry = 5;
+	final int NumRetry = 5;
 	private queueDownloader thread = new queueDownloader();
 	private QueueRecord lastDownload;
 	private BasicConnection con;

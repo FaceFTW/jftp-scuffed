@@ -30,12 +30,12 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	Thread runner;
 	URL url;
 	RSSParser parser;
-	net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
-	HImageButton next = new HImageButton(net.sf.jftp.config.Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
+	final net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
+	final HImageButton next = new HImageButton(net.sf.jftp.config.Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
 	boolean header = false;
 	boolean breakHeader = false;
-	int HEADER_IVAL = 4000;
-	int LOAD_IVAL = 31 * 60000;
+	final int HEADER_IVAL = 4000;
+	final int LOAD_IVAL = 31 * 60000;
 
 	//"http://www.spiegel.de/schlagzeilen/rss/0,5291,,00.xml";
 	public RSSFeeder() {

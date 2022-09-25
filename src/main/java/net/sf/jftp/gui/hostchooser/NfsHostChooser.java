@@ -37,12 +37,12 @@ import java.io.IOException;
 
 
 public class NfsHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static HTextField host = new HTextField("URL:", "nfs://localhost:v2m/tmp", 20);
-	public static HTextField user = new HTextField("Username:", "<anonymous>", 15);
+	public static final HTextField host = new HTextField("URL:", "nfs://localhost:v2m/tmp", 20);
+	public static final HTextField user = new HTextField("Username:", "<anonymous>", 15);
 
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	public static HPasswordField pass = new HPasswordField("Password:", "nopasswd");
-	public static HButton info = new HButton("Read me!");
+	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	public static final HButton info = new HButton("Read me!");
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
 	private ComponentListener listener = null;

@@ -39,16 +39,16 @@ import java.util.Enumeration;
 
 
 public class SmbHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static HTextField host = new HTextField("URL:", "smb://localhost/");
-	public static HTextField user = new HTextField("Username:", "guest");
-	public static HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	public static final HTextField host = new HTextField("URL:", "smb://localhost/");
+	public static final HTextField user = new HTextField("Username:", "guest");
+	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
 	private final HButton ok = new HButton("Connect");
-	public HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
-	public HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
-	public HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
+	public final HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
+	public final HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
+	public final HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
 
-	public JComboBox ip = new JComboBox();
-	JCheckBox lan = new JCheckBox("Browse LAN", true);
+	public final JComboBox ip = new JComboBox();
+	final JCheckBox lan = new JCheckBox("Browse LAN", true);
 	private ComponentListener listener = null;
 	private boolean useLocal = false;
 

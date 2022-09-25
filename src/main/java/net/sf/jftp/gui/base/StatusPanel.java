@@ -39,7 +39,7 @@ import java.util.Vector;
 
 
 public class StatusPanel extends HPanel implements ActionListener {
-	public static StatusCanvas status = new StatusCanvas();
+	public static final StatusCanvas status = new StatusCanvas();
 	private final HImageButton newcon = new HImageButton(Settings.hostImage, "newcon", "Add FTP Connection...", this);
 	private final HImageButton smbcon = new HImageButton(Settings.openImage, "smbcon", "Add SMB Connection...", this);
 	private final HImageButton sftpcon = new HImageButton(Settings.sftpImage, "sftpcon", "Add SFTP Connection...", this);
@@ -47,8 +47,8 @@ public class StatusPanel extends HPanel implements ActionListener {
 	private final HImageButton webdavcon = new HImageButton(Settings.webdavImage, "webdavcon", "Add WebDAV Connection...", this);
 	private final HImageButton go = new HImageButton(Settings.refreshImage, "go", "Download URL now...", this);
 	private final JTextField address = new JTextField("http://www.xkcd.com", 30);
-	public HImageButton close = new HImageButton(Settings.closeImage, "close", "Close active tab...", this);
-	public JFtp jftp;
+	public final HImageButton close = new HImageButton(Settings.closeImage, "close", "Close active tab...", this);
+	public final JFtp jftp;
 
 	public StatusPanel(JFtp jftp) {
 		this.jftp = jftp;

@@ -85,10 +85,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * May contain date listing
 	 */
 	public Vector<Date> dateVector = new Vector<Date>();
-	public Vector<String> currentListing = new Vector<String>();
-	public Vector<String> currentFiles = new Vector<String>();
-	public Vector<String> currentSizes = new Vector<String>();
-	public Vector<String> currentPerms = new Vector<String>();
+	public final Vector<String> currentListing = new Vector<String>();
+	public final Vector<String> currentFiles = new Vector<String>();
+	public final Vector<String> currentSizes = new Vector<String>();
+	public final Vector<String> currentPerms = new Vector<String>();
 	private boolean ok = true;
 	private String pwd = "";
 	private String initCWD = net.sf.jftp.config.Settings.defaultDir;

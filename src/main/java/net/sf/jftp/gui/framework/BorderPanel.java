@@ -20,7 +20,7 @@ import java.awt.*;
 
 
 public class BorderPanel extends JPanel {
-	public boolean left = true;
+	public final boolean left = true;
 
 	public void paintComponent(Graphics g) {
 		if (left) {

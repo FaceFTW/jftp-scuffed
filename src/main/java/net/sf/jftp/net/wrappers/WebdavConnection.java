@@ -35,7 +35,7 @@ import java.util.Vector;
 
 
 public class WebdavConnection implements BasicConnection {
-	public static int webdavBuffer = 32000;
+	public static final int webdavBuffer = 32000;
 	private final String user;
 	private final String pass;
 	private String path = "";

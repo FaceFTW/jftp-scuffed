@@ -22,7 +22,7 @@ import java.awt.*;
 public class HComboBox extends JPanel //implements ActionListener
 {
 	private final JLabel label;
-	public JComboBox comboBox;
+	public final JComboBox comboBox;
 
 	public HComboBox(String l) {
 		setLayout(new BorderLayout(5, 5));

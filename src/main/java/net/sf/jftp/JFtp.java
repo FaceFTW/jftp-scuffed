@@ -77,18 +77,18 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static JFrame mainFrame;
 	public static net.sf.jftp.gui.base.dir.Dir localDir;
 	public static net.sf.jftp.gui.base.dir.Dir remoteDir;
-	public static net.sf.jftp.gui.base.DownloadList dList = new net.sf.jftp.gui.base.DownloadList();
-	public static net.sf.jftp.gui.base.DownloadQueue dQueue = new net.sf.jftp.gui.base.DownloadQueue();
+	public static final net.sf.jftp.gui.base.DownloadList dList = new net.sf.jftp.gui.base.DownloadList();
+	public static final net.sf.jftp.gui.base.DownloadQueue dQueue = new net.sf.jftp.gui.base.DownloadQueue();
 	public static boolean uiBlocked = false;
-	public static HostInfo hostinfo = new HostInfo();
-	public static JDesktopPane desktop = new JDesktopPane();
+	public static final HostInfo hostinfo = new HostInfo();
+	public static final JDesktopPane desktop = new JDesktopPane();
 	public static JTextArea log;
 	public static boolean doScroll = true;
 	//***appMenuBar: this must now be a public object that JFtp refers to
 	public static net.sf.jftp.gui.base.AppMenuBar menuBar = null;
 	public static DropTarget dropTarget;
 	public static DropTargetListener dtListener;
-	public static int acceptableActions = DnDConstants.ACTION_COPY;
+	public static final int acceptableActions = DnDConstants.ACTION_COPY;
 	private static JScrollPane logSp;
 	private final boolean initSize = true;
 	private final String oldText = "";
@@ -101,8 +101,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	 * JSplitPane that holds the log download parts
 	 */
 	private final JSplitPane logP = null;
-	public JTabbedPane remoteConnectionPanel = new JTabbedPane();
-	public JTabbedPane localConnectionPanel = new JTabbedPane();
+	public final JTabbedPane remoteConnectionPanel = new JTabbedPane();
+	public final JTabbedPane localConnectionPanel = new JTabbedPane();
 	public HostChooser hc;
 	public RSSFeeder feeder;
 	private net.sf.jftp.gui.base.LogFlusher flusher;

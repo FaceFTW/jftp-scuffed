@@ -28,9 +28,9 @@ import java.awt.event.WindowListener;
 
 
 public class RawConnection extends JFrame implements ActionListener, WindowListener {
-	public static HTextField host = new HTextField("Host:", "", 20);
-	public static HTextField port = new HTextField("Port:", "", 5);
-	public static JTextArea output = new JTextArea();
+	public static final HTextField host = new HTextField("Host:", "", 20);
+	public static final HTextField port = new HTextField("Port:", "", 5);
+	public static final JTextArea output = new JTextArea();
 	public static boolean established = false;
 	public static boolean mayDispose = false;
 	public static JScrollPane outputPane;
@@ -39,13 +39,13 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	private final JPanel p2 = new JPanel();
 	private final JButton send = new JButton("Send");
 	private final JButton clear = new JButton("Clear");
-	JMenuBar mb = new JMenuBar();
-	JMenu file = new JMenu("Prog");
-	JMenu about = new JMenu("About");
-	JMenu session = new JMenu("Session");
-	JMenuItem close = new JMenuItem("ExIt");
-	JMenuItem changeHost = new JMenuItem("Host...");
-	JMenuItem info = new JMenuItem("Info");
+	final JMenuBar mb = new JMenuBar();
+	final JMenu file = new JMenu("Prog");
+	final JMenu about = new JMenu("About");
+	final JMenu session = new JMenu("Session");
+	final JMenuItem close = new JMenuItem("ExIt");
+	final JMenuItem changeHost = new JMenuItem("Host...");
+	final JMenuItem info = new JMenuItem("Info");
 	private JRawConnection c;
 
 	public RawConnection() {
