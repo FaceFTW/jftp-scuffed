@@ -55,9 +55,9 @@ public class StartConnection {
 
 		String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
-		Integer potmpInt = potmp;
+		int potmpInt = potmp;
 
-		String potmpString = potmpInt.toString();
+		String potmpString = Integer.toString(potmpInt);
 		String useLocalString = "false";
 
 		if (useLocal) {
@@ -252,9 +252,9 @@ public class StartConnection {
              */
 
 			//String searchValue = new String("");
-			Integer potmpInt = potmp;
+			int potmpInt = potmp;
 
-			String potmpString = potmpInt.toString();
+			String potmpString = Integer.toString(potmpInt);
 			String useLocalString = "false";
 
 			if (useLocal) {

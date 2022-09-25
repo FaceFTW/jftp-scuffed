@@ -414,7 +414,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 			String conNumber;
 			String usingLocal = "";
-			Integer conNumberInt;
+			int conNumberInt;
 
 			//lastConData = new String("");
 			//***
@@ -441,7 +441,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 					//lastConnections[i] = new JMenuItem(cons[i]);
 					conNumberInt = i + 1;
-					conNumber = conNumberInt.toString();
+					conNumber = Integer.toString(conNumberInt);
 
 					//lastConData[i] = new String(conNumber + " " + protocol + ": Hostname: " + htmp + ";  Username: " + utmp);
 					lastConData[i] = conNumber + " " + protocol + ": " + htmp + " " + usingLocal;
@@ -863,7 +863,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		try {
 			//*** end of new code section
-			Integer intI;
+			int intI;
 			String stringI;
 			char charI;
 
@@ -874,7 +874,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				//if (!(cons[i].equals("null"))) {
 				if (!(cons[i][0].equals("null"))) {
 					intI = i + 1;
-					stringI = intI.toString();
+					stringI = Integer.toString(intI);
 					charI = stringI.charAt(0);
 
 					lastConnections[i].setMnemonic(charI);
