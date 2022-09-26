@@ -167,11 +167,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Does also fire directory update and connection initialized event if successful or
 	 * connection failed event if failed.
 	 *
-	 * @param username The username
-	 * @param password The password
-	 * @param initCWD  The initial remote working directory
-	 * @param crlfx    \n, \r, \r\n, CR, LF or CRLF - line break style of the server
-	 * @return WRONG_LOGIN_DATA, OFFLINE, GENERIC_FAILED or LOGIN_OK status code
+	 * @param initCWD The initial remote working directory
+	 * @param crlfx   \n, \r, \r\n, CR, LF or CRLF - line break style of the server
 	 */
 	public FtpConnection(String host, int port, String initCWD, String crlfx) {
 		this.host = host;
@@ -439,7 +436,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * <p>
 	 * The Array should be in sync with the other sort*-Methods
 	 *
-	 * @param file The file containing the raw server listing, usually Settings.ls_out
 	 * @return An int-array of sizes containing W, R or DENIED for each file
 	 */
 	public int[] getPermissions() {
@@ -1920,8 +1916,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * List remote directory.
 	 * Note that you have to get the output using the
 	 * sort*-methods.
-	 *
-	 * @param outfile The file to save the output to, usually Settings.ls_out
 	 */
 	public void list() throws IOException {
 		String oldType = "";

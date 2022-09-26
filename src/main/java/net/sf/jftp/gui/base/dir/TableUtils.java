@@ -19,9 +19,8 @@ public class TableUtils {
 	/**
 	 * Setzt die Breite der TableColumns.
 	 * <p>
-	 * Quelle: http://www.chka.de/swing/table/cell-sizes.html
+	 * Quelle: <a href="http://www.chka.de/swing/table/cell-sizes.html">...</a>
 	 *
-	 * @param table
 	 */
 	public static void calcColumnWidths(JTable table) {
 		JTableHeader header = table.getTableHeader();
@@ -128,8 +127,6 @@ public class TableUtils {
 	 * <p>
 	 * Die Selections werden von dem Table auf die List kopiert.
 	 *
-	 * @param list
-	 * @param listTbl
 	 */
 	public static void copyTableSelectionsToJList(JList list, JTable listTbl) {
 
@@ -155,8 +152,6 @@ public class TableUtils {
 	 * <p>
 	 * JList muss Vektoren von im JTable anzeigbaren Objekten enthalten.
 	 *
-	 * @param l
-	 * @return
 	 */
 	private static synchronized TableModel generateTableModel(JList l) {
 
@@ -206,8 +201,6 @@ public class TableUtils {
 	 * <p>
 	 * list muss hierzu vom Typ Vector<String> sein.
 	 *
-	 * @param list
-	 * @param listTbl
 	 */
 	public static void layoutTable(JList list, JTable listTbl) {
 		layoutTable(list, listTbl, null);
@@ -218,7 +211,7 @@ public class TableUtils {
 	 * <p>
 	 * list muss hierzu vom Typ Vector<String> sein.
 	 */
-	public static void layoutTable(JList list, JTable listTbl, Vector names) {
+	public static void layoutTable(JList list, JTable listTbl, Vector<String> names) {
 		listTbl.setModel(generateTableModel(list));
 
 		if (Settings.useFixedTableWidths) {
@@ -246,8 +239,6 @@ public class TableUtils {
 	/**
 	 * Setzt den Header einer JTable
 	 *
-	 * @param head
-	 * @param columnNames
 	 */
 	public static void modifyTableHeader(JTableHeader head, Vector columnNames) {
 

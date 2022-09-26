@@ -20,7 +20,7 @@ package net.sf.jftp.net;
  * This class provides some constant used by FtpConnection.
  */
 public interface FtpConstants {
-	/** List */
+	/* List */
 
 	//public static final String LIST = "LIST -laL";
 
