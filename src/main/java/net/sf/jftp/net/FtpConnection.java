@@ -940,7 +940,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	}
 
 	private int getActivePort() {
-		return (getPortA() * 256) + getPortB();
+		return (porta * 256) + portb;
 	}
 
 	/**
@@ -990,7 +990,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (net.sf.jftp.config.Settings.getEnableMultiThreading()) {
 			net.sf.jftp.system.logging.Log.out("spawning new thread for this download.");
 
-			FtpTransfer t = new FtpTransfer(host, port, getLocalPath(), getCachedPWD(), file, username, password, Transfer.DOWNLOAD, handler, listeners, crlf);
+			FtpTransfer t = new FtpTransfer(host, port, localPath, pwd, file, username, password, Transfer.DOWNLOAD, handler, listeners, crlf);
 			transfers.add(t);
 
 			return NEW_TRANSFER_SPAWNED;
@@ -1064,7 +1064,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			dataType = DataConnection.GET;
 			file = net.sf.jftp.system.StringUtils.getFile(file);
 
-			String path = getLocalPath() + file;
+			String path = localPath + file;
 
 			//BufferedReader in = jcon.getReader();
 
@@ -1098,7 +1098,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			//if(isRelative(file)) path = getLocalPath() + file;
 			file = net.sf.jftp.system.StringUtils.getFile(file);
 
-			String path = getLocalPath() + file;
+			String path = localPath + file;
 
 			//System.out.println(file + " : " + path);
 			//BufferedReader in = jcon.getReader();
@@ -1165,16 +1165,16 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 
 		if (net.sf.jftp.system.StringUtils.isRelative(dir)) {
-			dir = getCachedPWD() + dir;
+			dir = pwd + dir;
 		}
 
-		String path = getLocalPath() + net.sf.jftp.system.StringUtils.getDir(dir);
+		String path = localPath + net.sf.jftp.system.StringUtils.getDir(dir);
 
 		//System.out.println("path: "+path);
-		String pwd = getCachedPWD() + net.sf.jftp.system.StringUtils.getDir(dir);
+		String pwd = this.pwd + net.sf.jftp.system.StringUtils.getDir(dir);
 
-		String oldDir = getLocalPath();
-		String oldPwd = getCachedPWD();
+		String oldDir = localPath;
+		String oldPwd = this.pwd;
 
 		File f = new File(path);
 
@@ -1223,7 +1223,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				fileCount++;
 
-				if (rawDownload(getLocalPath() + s) < 0) {
+				if (rawDownload(localPath + s) < 0) {
 					// return TRANSFER_FAILED;
 				}
 			}
@@ -1261,9 +1261,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			FtpTransfer t;
 
 			if (realName != null) {
-				t = new FtpTransfer(host, port, getLocalPath(), getCachedPWD(), file, username, password, Transfer.UPLOAD, handler, listeners, realName, crlf);
+				t = new FtpTransfer(host, port, localPath, pwd, file, username, password, Transfer.UPLOAD, handler, listeners, realName, crlf);
 			} else {
-				t = new FtpTransfer(host, port, getLocalPath(), getCachedPWD(), file, username, password, Transfer.UPLOAD, handler, listeners, crlf);
+				t = new FtpTransfer(host, port, localPath, pwd, file, username, password, Transfer.UPLOAD, handler, listeners, crlf);
 			}
 
 			transfers.add(t);
@@ -1392,7 +1392,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			int p = 0;
 
 			if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-				path = getLocalPath() + file;
+				path = localPath + file;
 			}
 
 			file = net.sf.jftp.system.StringUtils.getFile(file);
@@ -1505,14 +1505,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 
 		if (net.sf.jftp.system.StringUtils.isRelative(dir)) {
-			dir = getLocalPath() + dir;
+			dir = localPath + dir;
 		}
 
 		String single = net.sf.jftp.system.StringUtils.getDir(dir);
 		//String path = dir.substring(0, dir.indexOf(single));
 
-		String remoteDir = getCachedPWD() + single; //StringUtils.removeStart(dir,path);
-		String oldDir = getCachedPWD();
+		String remoteDir = pwd + single; //StringUtils.removeStart(dir,path);
+		String oldDir = pwd;
 
 		if (net.sf.jftp.config.Settings.safeMode) {
 			noop();
@@ -1670,7 +1670,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		file = parseSymlink(file);
 
 		if (file.endsWith("/")) {
-			int ret = cleanDir(file, getCachedPWD());
+			int ret = cleanDir(file, pwd);
 
 			if (ret < 0) {
 				return ret;
@@ -1933,7 +1933,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			modeStream();
 
-			oldType = getTypeNow();
+			oldType = typeNow;
 			ascii();
 
 			p = negotiatePort();
@@ -2162,7 +2162,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	public int exists(String file) {
 		String dir = null;
-		String tmpPWD = getCachedPWD();
+		String tmpPWD = pwd;
 
 		if (file.contains("/")) {
 			dir = file.substring(0, file.lastIndexOf("/") + 1);

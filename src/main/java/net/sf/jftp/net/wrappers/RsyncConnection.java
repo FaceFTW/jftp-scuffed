@@ -358,13 +358,13 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		if (file.endsWith("/")) {
 			String out = net.sf.jftp.system.StringUtils.getDir(file);
-			uploadDir(file, getLocalPath() + out);
+			uploadDir(file, path + out);
 			fireActionFinished(this);
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			work(getLocalPath() + outfile, file);
+			work(path + outfile, file);
 			fireActionFinished(this);
 		}
 
@@ -376,13 +376,13 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		if (file.endsWith("/")) {
 			String out = net.sf.jftp.system.StringUtils.getDir(file);
-			downloadDir(file, getLocalPath() + out);
+			downloadDir(file, path + out);
 			fireActionFinished(this);
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			work(file, getLocalPath() + outfile);
+			work(file, path + outfile);
 			fireActionFinished(this);
 		}
 

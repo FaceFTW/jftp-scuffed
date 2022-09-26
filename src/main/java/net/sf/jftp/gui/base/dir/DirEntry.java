@@ -163,7 +163,7 @@ public class DirEntry {
 	}
 
 	public String getFileSize() {
-		if (isDirectory() || (size < 0)) {
+		if (isDirectory || (size < 0)) {
 			return "          ";
 		}
 

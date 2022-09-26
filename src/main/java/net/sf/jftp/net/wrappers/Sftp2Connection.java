@@ -358,7 +358,7 @@ public class Sftp2Connection implements BasicConnection {
 	public int handleUpload(String f) {
 		if (net.sf.jftp.config.Settings.getEnableSftpMultiThreading()) {
 
-			Sftp2Transfer t = new Sftp2Transfer(getLocalPath(), getPWD(), f, user, pass, listeners, Transfer.UPLOAD, keyfile, host, "" + port);
+			Sftp2Transfer t = new Sftp2Transfer(path, getPWD(), f, user, pass, listeners, Transfer.UPLOAD, keyfile, host, "" + port);
 		} else {
 			upload(f);
 		}
@@ -368,7 +368,7 @@ public class Sftp2Connection implements BasicConnection {
 
 	public int handleDownload(String f) {
 		if (net.sf.jftp.config.Settings.getEnableSftpMultiThreading()) {
-			Sftp2Transfer t = new Sftp2Transfer(getLocalPath(), getPWD(), f, user, pass, listeners, Transfer.DOWNLOAD, keyfile, host, "" + port);
+			Sftp2Transfer t = new Sftp2Transfer(path, getPWD(), f, user, pass, listeners, Transfer.DOWNLOAD, keyfile, host, "" + port);
 		} else {
 			download(f);
 		}
@@ -381,13 +381,13 @@ public class Sftp2Connection implements BasicConnection {
 
 		if (file.endsWith("/")) {
 			String out = net.sf.jftp.system.StringUtils.getDir(file);
-			uploadDir(file, getLocalPath() + out);
+			uploadDir(file, path + out);
 			fireActionFinished(this);
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			work(getLocalPath() + outfile, file, true);
+			work(path + outfile, file, true);
 			fireActionFinished(this);
 		}
 
@@ -399,13 +399,13 @@ public class Sftp2Connection implements BasicConnection {
 
 		if (file.endsWith("/")) {
 			String out = net.sf.jftp.system.StringUtils.getDir(file);
-			downloadDir(file, getLocalPath() + out);
+			downloadDir(file, path + out);
 			fireActionFinished(this);
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			work(file, getLocalPath() + outfile, false);
+			work(file, path + outfile, false);
 			fireActionFinished(this);
 		}
 

@@ -70,7 +70,7 @@ public class WebdavConnection implements BasicConnection {
 			String tmp = file;
 
 			if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-				tmp = getPWD() + file;
+				tmp = pwd + file;
 			}
 
 			WebdavFile f = new WebdavFile(getURL(tmp));
@@ -172,7 +172,7 @@ public class WebdavConnection implements BasicConnection {
 
 		try {
 			if (net.sf.jftp.system.StringUtils.isRelative(dirName)) {
-				dirName = getPWD() + dirName;
+				dirName = pwd + dirName;
 			}
 
 			WebdavFile f = new WebdavFile(getURL(dirName));
@@ -526,7 +526,7 @@ public class WebdavConnection implements BasicConnection {
 		String out = net.sf.jftp.system.StringUtils.getDir(file);
 
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = getPWD() + file;
+			file = pwd + file;
 		}
 
 		file = file.replace('\\', '/');
@@ -541,13 +541,13 @@ public class WebdavConnection implements BasicConnection {
 				return;
 			}
 
-			transferDir(file, getLocalPath() + out);
+			transferDir(file, path + out);
 
 		} else {
 			if (up) {
-				work(getLocalPath() + outfile, file);
+				work(path + outfile, file);
 			} else {
-				work(file, getLocalPath() + outfile);
+				work(file, path + outfile);
 			}
 		}
 	}
@@ -694,7 +694,7 @@ public class WebdavConnection implements BasicConnection {
 	*/
 	public InputStream getDownloadInputStream(String file) {
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = getPWD() + file;
+			file = pwd + file;
 		}
 
 		file = file.replace('\\', '/');

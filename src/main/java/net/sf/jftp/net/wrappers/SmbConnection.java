@@ -372,7 +372,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 	public int handleUpload(String f) {
 		if (net.sf.jftp.config.Settings.getEnableSmbMultiThreading()) {
-			SmbTransfer t = new SmbTransfer(getPWD(), getLocalPath(), f, user, pass, domain, listeners, Transfer.UPLOAD);
+			SmbTransfer t = new SmbTransfer(getPWD(), path, f, user, pass, domain, listeners, Transfer.UPLOAD);
 		} else {
 			upload(f);
 		}
@@ -382,7 +382,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 	public int handleDownload(String f) {
 		if (net.sf.jftp.config.Settings.getEnableSmbMultiThreading()) {
-			SmbTransfer t = new SmbTransfer(getPWD(), getLocalPath(), f, user, pass, domain, listeners, Transfer.DOWNLOAD);
+			SmbTransfer t = new SmbTransfer(getPWD(), path, f, user, pass, domain, listeners, Transfer.DOWNLOAD);
 		} else {
 			download(f);
 		}
@@ -395,13 +395,13 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 		if (file.endsWith("/")) {
 			String out = net.sf.jftp.system.StringUtils.getDir(file);
-			uploadDir(file, getLocalPath() + out);
+			uploadDir(file, path + out);
 			fireActionFinished(this);
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			work(getLocalPath() + outfile, file);
+			work(path + outfile, file);
 			fireActionFinished(this);
 		}
 
@@ -413,13 +413,13 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 		if (file.endsWith("/")) {
 			String out = net.sf.jftp.system.StringUtils.getDir(file);
-			downloadDir(file, getLocalPath() + out);
+			downloadDir(file, path + out);
 			fireActionFinished(this);
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			work(file, getLocalPath() + outfile);
+			work(file, path + outfile);
 			fireActionFinished(this);
 		}
 

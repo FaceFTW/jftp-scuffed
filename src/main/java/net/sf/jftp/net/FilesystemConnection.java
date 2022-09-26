@@ -56,7 +56,7 @@ public class FilesystemConnection implements BasicConnection {
 			String tmp = file;
 
 			if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-				tmp = getPWD() + file;
+				tmp = pwd + file;
 			}
 
 			File f = new File(tmp);
@@ -151,7 +151,7 @@ public class FilesystemConnection implements BasicConnection {
 
 	public boolean mkdir(String dirName) {
 		if (net.sf.jftp.system.StringUtils.isRelative(dirName)) {
-			dirName = getPWD() + dirName;
+			dirName = pwd + dirName;
 		}
 
 		File f = new File(dirName);
@@ -398,7 +398,7 @@ public class FilesystemConnection implements BasicConnection {
 		String out = net.sf.jftp.system.StringUtils.getDir(file);
 
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = getPWD() + file;
+			file = pwd + file;
 		}
 
 		file = file.replace('\\', '/');
@@ -407,10 +407,10 @@ public class FilesystemConnection implements BasicConnection {
 		String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 		if (file.endsWith("/")) {
-			transferDir(file, getLocalPath() + out);
+			transferDir(file, path + out);
 
 		} else {
-			work(file, getLocalPath() + outfile);
+			work(file, path + outfile);
 		}
 	}
 
@@ -449,7 +449,7 @@ public class FilesystemConnection implements BasicConnection {
 
 	public int upload(String file, InputStream in) {
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = getPWD() + file;
+			file = pwd + file;
 		}
 
 		file = file.replace('\\', '/');
@@ -499,7 +499,7 @@ public class FilesystemConnection implements BasicConnection {
 
 	public InputStream getDownloadInputStream(String file) {
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = getPWD() + file;
+			file = pwd + file;
 		}
 
 		file = file.replace('\\', '/');
@@ -569,7 +569,7 @@ public class FilesystemConnection implements BasicConnection {
 
 	public boolean rename(String file, String to) {
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = getPWD() + file;
+			file = pwd + file;
 		}
 
 		file = file.replace('\\', '/');
@@ -577,7 +577,7 @@ public class FilesystemConnection implements BasicConnection {
 		File f = new File(file);
 
 		if (net.sf.jftp.system.StringUtils.isRelative(to)) {
-			to = getPWD() + to;
+			to = pwd + to;
 		}
 
 		to = to.replace('\\', '/');
