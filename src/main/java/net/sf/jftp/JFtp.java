@@ -458,7 +458,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		setVisible(true);
 
 		if (!mainUsed) {
-			SwingUtilities.invokeLater(() -> chooseHost());
+			SwingUtilities.invokeLater(this::chooseHost);
 		} else {
 			chooseHost();
 		}

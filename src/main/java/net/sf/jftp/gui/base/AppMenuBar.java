@@ -124,7 +124,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	//BUGFIX
 	String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 	final String[] lastConData = new String[JFtp.CAPACITY];
-	final Character charTab = Character.valueOf('\t');
+	final Character charTab = '\t';
 	String tab = charTab.toString();
 	final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
 	final JMenuItem add = new JMenuItem("Add Bookmark...");
