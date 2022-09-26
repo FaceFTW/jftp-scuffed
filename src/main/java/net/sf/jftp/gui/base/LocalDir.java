@@ -973,10 +973,10 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		long s = 0;
 
 		if (JFtp.dList.sizeCache.containsKey(file)) {
-			s = (Long) net.sf.jftp.JFtp.dList.sizeCache.get(file);
+			s = ((Long) net.sf.jftp.JFtp.dList.sizeCache.get(file)).longValue();
 		} else {
 			s = new File(getPath() + file).length();
-			JFtp.dList.sizeCache.put(file, s);
+			JFtp.dList.sizeCache.put(file, Long.valueOf(s));
 		}
 
 		dList.updateList(file, type, bytes, s);

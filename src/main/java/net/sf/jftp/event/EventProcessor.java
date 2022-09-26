@@ -31,7 +31,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	}
 
 	public static void addHandler(int eventCode, EventHandler h) {
-		Integer code = eventCode;
+		Integer code = Integer.valueOf(eventCode);
 		Vector handlers = (Vector) (table.get(code));
 
 		if (handlers == null) {
@@ -43,7 +43,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	}
 
 	public void accept(Event e) {
-		Integer code = e.eventCode();
+		Integer code = Integer.valueOf(e.eventCode());
 		Vector handlers = (Vector) (table.get(code));
 
 		if (handlers != null) {
