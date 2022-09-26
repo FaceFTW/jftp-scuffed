@@ -428,7 +428,7 @@ class Getter {
 
 					tmp.append(x).append("\n");
 
-					if (x.equals("")) {
+					if (x.isEmpty()) {
 						line = false;
 					}
 				}

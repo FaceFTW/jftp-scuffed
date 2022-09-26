@@ -31,13 +31,13 @@ public class LoadSet {
 			result[4] = breader.readLine();
 			result[5] = breader.readLine();
 
-			if ((result[2].equals("") || !Settings.getStorePasswords()) && ask) {
+			if ((result[2].isEmpty() || !Settings.getStorePasswords()) && ask) {
 				result[2] = net.sf.jftp.gui.base.UIUtils.getPasswordFromUser(net.sf.jftp.JFtp.statusP.jftp);
 				net.sf.jftp.system.logging.Log.debug("fetched: " + result[2] + ", storing: " + Settings.getStorePasswords());
-			} else if (!result[2].equals("") || Settings.getStorePasswords()) {
+			} else if (!result[2].isEmpty() || Settings.getStorePasswords()) {
 				// need to decode
 				String decoded = Crypto.Decrypt(result[2]);
-				if (decoded.equals("")) {
+				if (decoded.isEmpty()) {
 					// failed to decode
 					if (ask) {
 						// ask for a password

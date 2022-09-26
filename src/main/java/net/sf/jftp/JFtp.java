@@ -173,7 +173,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	private static void setSocksProxyOptions(String proxy, String port) {
-		if (proxy.equals("") || port.equals("")) {
+		if (proxy.isEmpty() || port.isEmpty()) {
 			return;
 		}
 
@@ -702,7 +702,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			return;
 		}
 
-		if (!msg.equals("")) {
+		if (!msg.isEmpty()) {
 			buffer = buffer + " " + msg;
 		}
 
@@ -796,7 +796,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void ensureLogging() {
-		if (buffer.equals("")) {
+		if (buffer.isEmpty()) {
 			JScrollBar bar;
 
 			if ((logSp == null) || ((bar = logSp.getVerticalScrollBar()) == null) || bar == null || (bar.getValue() == bar.getMaximum()) || bar.getValueIsAdjusting()) {
@@ -1119,7 +1119,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			Log.debug("DnD: " + path + " -> " + name);
 
 			//TODO: parse "\\"
-			if (!path.trim().equals("")) {
+			if (!path.trim().isEmpty()) {
 				((net.sf.jftp.gui.base.LocalDir) localDir).chdir(path);
 			}
 

@@ -1573,7 +1573,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * recursive delete remote directory
 	 */
 	private int cleanDir(String dir, String path) {
-		if (dir.equals("")) {
+		if (dir.isEmpty()) {
 			return 0;
 		}
 
@@ -1952,7 +1952,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			while ((line = input.readLine()) != null) {
 				//System.out.println("-> "+line);
-				if (!line.trim().equals("")) {
+				if (!line.trim().isEmpty()) {
 					currentListing.add(line);
 				}
 			}

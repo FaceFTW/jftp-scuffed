@@ -513,7 +513,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	 * Change the directory of this connection and update the gui
 	 */
 	public boolean chdir(String p) {
-		if ((JFtp.remoteDir == null) || (p == null) || p.trim().equals("")) {
+		if ((JFtp.remoteDir == null) || (p == null) || p.trim().isEmpty()) {
 			return false;
 		}
 

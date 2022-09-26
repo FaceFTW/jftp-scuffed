@@ -220,7 +220,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			//System.out.println(jcifs.Config.getProperty("jcifs.smb.client.laddr"));
 			String tmp = ((String) ip.getSelectedItem()).trim();
 
-			if (!tmp.equals("") && !tmp.equals("<default>")) {
+			if (!tmp.isEmpty() && !tmp.equals("<default>")) {
 				String x = tmp.trim().substring(0, tmp.lastIndexOf(".") + 1) + "255";
 				String bcast = broadcast.getText().trim();
 
@@ -250,7 +250,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 			//***
 			//if(dtmp.equals("")) dtmp = null;
-			if (dtmp.equals("")) {
+			if (dtmp.isEmpty()) {
 				dtmp = "NONE";
 			}
 

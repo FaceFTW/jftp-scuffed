@@ -307,7 +307,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	private String checkIfEmpty(String value) {
 		String retVal = "0";
 
-		if (value.equals("")) {
+		if (value.isEmpty()) {
 			return retVal;
 		} else {
 			return value;

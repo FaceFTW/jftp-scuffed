@@ -49,7 +49,7 @@ public class FilesystemConnection implements BasicConnection {
 
 	public int removeFileOrDir(String file) {
 		try {
-			if ((file == null) || file.equals("")) {
+			if ((file == null) || file.isEmpty()) {
 				return -1;
 			}
 

@@ -317,7 +317,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(Settings.bookmarks)));
 
 			while ((data = in.readLine()) != null) {
-				if (!data.startsWith("#") && !data.trim().equals("")) {
+				if (!data.startsWith("#") && !data.trim().isEmpty()) {
 					addBookmarkLine(data);
 				}
 			}
@@ -636,7 +636,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				JFtp.statusP.jftp.fireUpdate();
 
 				String feed = Settings.getProperty("jftp.customRSSFeed");
-				if (feed != null && !feed.equals("")) feed = "http://slashdot.org/rss/slashdot.rss";
+				if (feed != null && !feed.isEmpty()) feed = "http://slashdot.org/rss/slashdot.rss";
 
 				switchRSS(feed);
 			} else if (e.getSource() == loadRss) {
@@ -923,7 +923,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		utmp = cons[position][2];
 		ptmp = cons[position][3];
 
-		if (ptmp.equals("")) {
+		if (ptmp.isEmpty()) {
 			ptmp = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 		}
 

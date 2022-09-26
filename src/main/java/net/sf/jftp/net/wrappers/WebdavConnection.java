@@ -63,7 +63,7 @@ public class WebdavConnection implements BasicConnection {
 		}
 
 		try {
-			if ((file == null) || file.equals("")) {
+			if ((file == null) || file.isEmpty()) {
 				return -1;
 			}
 

@@ -73,7 +73,7 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 
 			net.sf.jftp.system.logging.Log.out("proxy vars: " + h + ":" + p);
 
-			if (h.equals("") || p.equals("")) {
+			if (h.isEmpty() || p.isEmpty()) {
 				return;
 			}
 

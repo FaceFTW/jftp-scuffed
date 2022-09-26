@@ -72,7 +72,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		//this.host = host;
 
 		//***
-		if (domain.equals("NONE") || domain.equals("")) {
+		if (domain.equals("NONE") || domain.isEmpty()) {
 			domain = null;
 		}
 
