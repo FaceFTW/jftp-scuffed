@@ -53,11 +53,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	public final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
 	//	public HTextField dl = new HTextField("Max. connections:    ", "3");
 	public HTextField crlf = new HTextField("Override server newline:    ", "<default>");
-	//	private JCheckBox anonBox = new JCheckBox("Use anonymous login", false);
-//	private JCheckBox listBox = new JCheckBox("LIST compatibility mode", false);
-//	private JCheckBox dirBox = new JCheckBox("Use default directories", Settings.getUseDefaultDir());
-//	private JCheckBox modeBox = new JCheckBox("Use active Ftp (no need to)", false);
-//	private JCheckBox threadBox = new JCheckBox("Multiple connections", false);
+
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
 	private final HButton backMode = new HButton("Yes");
@@ -135,28 +131,19 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 		root.add(new JLabel(" "), "wrap");
 
-//		root.add(dirBox, "wrap");
 		root.add(cwd, "wrap");
 		root.add(lcwd, "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
-//		root.add(listBox);
-//		root.add(modeBox, "wrap");
-//		root.add(threadBox);
-//		root.add(dl, "wrap");
-
 		root.add(new JLabel(" "), "wrap");
 
 		root.add(listP);
-//		listP.add(list);
-//		list.addActionListener(this);
 
 		root.add(okP, "align right");
 		okP.add(ok);
 		ok.addActionListener(this);
 
-//		dirBox.addActionListener(this);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
 		lcwd.setEnabled(true);
@@ -183,13 +170,6 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 	public void update(String url) {
 		try {
-//			Scanner sc = new Scanner(System.in);
-//			String sourcePath = sc.nextLine();
-//			String destinationUserHost = sc.nextLine();
-//			String destinationPath = sc.nextLine();
-//			SshPass rpass = new SshPass().password(sc.nextLine());
-
-
 			System.out.println(lcwd.getText());
 			System.out.println(cwd.getText());
 			System.out.println(host.getText());

@@ -16,6 +16,9 @@
 package net.sf.jftp.net.wrappers;
 
 
+import com.github.fracpete.rsync4j.SshPass;
+
+
 public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	public static final int buffer = 128000;
 	private final boolean dummy = false;
@@ -347,6 +350,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return 0;
 	}
 
+	@Override
+	public int download(String file) {
+		return 0;
+	}
+
 	public int handleDownload(String f) {
 		download(f);
 
@@ -371,180 +379,62 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return 0;
 	}
 
-	public int download(String f) {
-		String file = toNFS(f);
-
-		if (file.endsWith("/")) {
-			String out = net.sf.jftp.system.StringUtils.getDir(file);
-			downloadDir(file, path + out);
-			fireActionFinished(this);
-		} else {
-			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
-
-			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			work(file, path + outfile);
-			fireActionFinished(this);
-		}
-
-		return 0;
-	}
-
-	private void downloadDir(String dir, String out) {
-		try {
-			//System.out.println("downloadDir: " + dir + "," + out);
-			fileCount = 0;
-			shortProgress = true;
-			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
-
-			com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir);
-			String[] tmp = f2.list();
-
-			if (tmp == null) {
-				return;
-			}
-
-			java.io.File fx = new java.io.File(out);
-			fx.mkdir();
-
-			for (int i = 0; i < tmp.length; i++) {
-				tmp[i] = tmp[i].replace('\\', '/');
-
-				//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
-				com.sun.xfile.XFile f3 = new com.sun.xfile.XFile(dir + tmp[i]);
-
-				if (f3.isDirectory()) {
-					if (!tmp[i].endsWith("/")) {
-						tmp[i] = tmp[i] + "/";
-					}
-
-					downloadDir(dir + tmp[i], out + tmp[i]);
-				} else {
-					fileCount++;
-					fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.GETDIR + ":" + fileCount, -1);
-					work(dir + tmp[i], out + tmp[i]);
-				}
-			}
-
-			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + fileCount, -1);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-
-			//System.out.println(dir + ", " + out);
-			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
-			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.FAILED + ":" + fileCount, -1);
-		}
-
-		shortProgress = false;
-	}
-
 	private void uploadDir(String dir, String out) {
-		try {
-			//System.out.println("uploadDir: " + dir + "," + out);
-			isDirUpload = true;
-			fileCount = 0;
-			shortProgress = true;
-			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
-
-			java.io.File f2 = new java.io.File(out);
-			String[] tmp = f2.list();
-
-			if (tmp == null) {
-				return;
-			}
-
-			com.sun.xfile.XFile fx = new com.sun.xfile.XFile(dir);
-			fx.mkdir();
-
-			for (int i = 0; i < tmp.length; i++) {
-				tmp[i] = tmp[i].replace('\\', '/');
-
-				//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
-				java.io.File f3 = new java.io.File(out + tmp[i]);
-
-				if (f3.isDirectory()) {
-					if (!tmp[i].endsWith("/")) {
-						tmp[i] = tmp[i] + "/";
-					}
-
-					uploadDir(dir + tmp[i], out + tmp[i]);
-				} else {
-					fileCount++;
-					fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.PUTDIR + ":" + fileCount, -1);
-					work(out + tmp[i], dir + tmp[i]);
-				}
-			}
-
-			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + fileCount, -1);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-
-			//System.out.println(dir + ", " + out);
-			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
-			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.FAILED + ":" + fileCount, -1);
-		}
-
-		isDirUpload = false;
-		shortProgress = true;
+		System.out.println(dir + "," + out);
+//		try {
+//			//System.out.println("uploadDir: " + dir + "," + out);
+//			isDirUpload = true;
+//			fileCount = 0;
+//			shortProgress = true;
+//			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
+//
+//			java.io.File f2 = new java.io.File(out);
+//			String[] tmp = f2.list();
+//
+//			if (tmp == null) {
+//				return;
+//			}
+//
+//			com.sun.xfile.XFile fx = new com.sun.xfile.XFile(dir);
+//			fx.mkdir();
+//
+//			for (int i = 0; i < tmp.length; i++) {
+//				tmp[i] = tmp[i].replace('\\', '/');
+//
+//				//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
+//				java.io.File f3 = new java.io.File(out + tmp[i]);
+//
+//				if (f3.isDirectory()) {
+//					if (!tmp[i].endsWith("/")) {
+//						tmp[i] = tmp[i] + "/";
+//					}
+//
+//					uploadDir(dir + tmp[i], out + tmp[i]);
+//				} else {
+//					fileCount++;
+//					fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.PUTDIR + ":" + fileCount, -1);
+//					work(out + tmp[i], dir + tmp[i]);
+//				}
+//			}
+//
+//			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + fileCount, -1);
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//
+//			//System.out.println(dir + ", " + out);
+//			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
+//			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.FAILED + ":" + fileCount, -1);
+//		}
+//
+//		isDirUpload = false;
+//		shortProgress = true;
 	}
 
 	private void work(String file, String outfile) {
 		java.io.BufferedOutputStream out = null;
 		java.io.BufferedInputStream in = null;
 
-		try {
-			boolean outflag = false;
 
-			if (outfile.startsWith("nfs://")) {
-				outflag = true;
-				out = new java.io.BufferedOutputStream(new com.sun.xfile.XFileOutputStream(outfile));
-			} else {
-				out = new java.io.BufferedOutputStream(new java.io.FileOutputStream(outfile));
-			}
-
-			//System.out.println("out: " + outfile + ", in: " + file);
-			if (file.startsWith("nfs://")) {
-				in = new java.io.BufferedInputStream(new com.sun.xfile.XFileInputStream(file));
-			} else {
-				in = new java.io.BufferedInputStream(new java.io.FileInputStream(file));
-			}
-
-			byte[] buf = new byte[buffer];
-			int len = 0;
-			int reallen = 0;
-
-			//System.out.println(file+":"+getLocalPath()+outfile);
-			while (true) {
-				len = in.read(buf);
-
-				//System.out.print(".");
-				if (len == java.io.StreamTokenizer.TT_EOF) {
-					break;
-				}
-
-				out.write(buf, 0, len);
-				reallen += len;
-
-				//System.out.println(file + ":" + StringUtils.getFile(file));
-				if (outflag) {
-					fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(outfile), net.sf.jftp.net.DataConnection.PUT, reallen);
-				} else {
-					fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), net.sf.jftp.net.DataConnection.GET, reallen);
-				}
-			}
-
-			fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FINISHED, -1);
-		} catch (java.io.IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
-			fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
-		} finally {
-			try {
-				out.flush();
-				out.close();
-				in.close();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
 	}
 
 	private void update(String file, String type, int bytes) {
@@ -679,5 +569,27 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		net.sf.jftp.system.logging.Log.debug("Not implemented!");
 
 		return false;
+	}
+
+	public void transfer(String ltmp, String htmp, String dtmp, String ptmp) {
+		String sourcePath = ltmp;
+		String destinationUserHost = htmp;
+		String destinationPath = dtmp;
+		String password = ptmp;
+
+		SshPass pass = new SshPass().password(password);
+
+		String source = sourcePath;
+		String destination = destinationUserHost + ":" + destinationPath;
+
+		com.github.fracpete.rsync4j.RSync rsync = null;
+		try {
+			rsync = new com.github.fracpete.rsync4j.RSync().sshPass(pass).source(source).destination(destination).verbose(true).rsh(com.github.fracpete.rsync4j.core.Binaries.sshBinary() + "-o StrictHostKeyChecking=no");
+
+			com.github.fracpete.processoutput4j.output.ConsoleOutputProcessOutput output = new com.github.fracpete.processoutput4j.output.ConsoleOutputProcessOutput();
+			output.monitor(rsync.builder());
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
