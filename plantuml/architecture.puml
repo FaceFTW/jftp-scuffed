@@ -127,7 +127,26 @@ package gui{
         }
     }
     package framework{
-        class NEEDTOADD
+        class BorderPanel
+        class FileTransferable
+        class GUIDefaults
+        class HButton
+        class HComboBox
+        class HDesktopBackground
+        class HFrame
+        class HImage
+        class HImageButton
+        class HInsetPanel
+        class HPanel
+        class HPasswordField
+        class HTextField
+        class LoadPanel
+        class ProgressbarItem
+        class ProgressBarList
+        class Template
+        class TransferComponent
+        class Updater
+
     }
     package hostchooser{
         class HostChooser
@@ -137,7 +156,27 @@ package gui{
         class WebdavHostChooser
     }
     package tasks{
-        class NEEDTOADD2
+       class AddBookmarks
+               class AdvancedOptions
+               class AutoRemover
+               class BookmarkManager
+               class Creator
+               class Displayer
+               class ExternalDisplayer
+               class HostInfo
+               class HostList
+               class HttpBrowser
+               class HttpDownloader
+               class ImageViewer
+               class LastConnections
+               class NameChooser
+               class NativeHttpBrowser
+               class PathChanger
+               class ProxyChooser
+               class RemoteCommand
+               class Remover
+               class RemoverQuery
+               class Renamer
     }
 }
 package net{
@@ -210,6 +249,17 @@ package util{
 class JFtp
 class JFtpApplet
 
+JFtp --> Dir
+JFtp --> DownloadList
+JFtp --> HostInfo
+JFtp --> ConnectionHandler
+JFtp --> AppMenuBar
+JFtp -.-> LocalDir
+JFtp -.-> StatusPanel
+
+JFtpApplet -.-> Settings
+
+
 LoadSet -.-> Settings
 LoadSet -.-> UIUtils
 LoadSet -.-> Crypto
@@ -268,7 +318,221 @@ AppMenuBar -.-> UIManager
 AppMenuBar -.-> Displayer
 AppMenuBar -.-> StartConnection
 
+DownloadList --> ProgressBarList
+DownloadList --> HImageButton
+DownloadList -.-> ImageIcon
+DownloadList --> HPanel
+DownloadList -.-> AppMenuBar
+DownloadList -.-> JFtp
+DownloadList -.-> ConnectionHandler
+DownloadList -.-> Log
+DownloadList -.-> Transfer
+DownloadList -.-> DataConnection
+DownloadList -.-> UpdateDaemon
+DownloadList -.-> DirEntry
+
+DownloadQueue --> DefaultListModel
+DownloadQueue --> QueueRecord
+DownloadQueue --> BasicConnection
+DownloadQueue --> HImageButton
+DownloadQueue --> ConnectionHandler
+DownloadQueue -.-> HPanel
+DownloadQueue -.-> QueueRecord
+DownloadQueue -.-> JFtp
+DownloadQueue -.-> FtpConnection
+DownloadQueue -.-> DataConnection
+DownloadQueue -.-> JFileChooser
+DownloadQueue -.-> File
+
+LocalDir --> HImageButton
+LocalDir --> DirCanvas
+LocalDir --> DefaultListModel
+LocalDir --> JScrollPane
+LocalDir --> JPopupMenu
+LocalDir --> JMenuItem
+LocalDir --> DirEntry
+LocalDir -.-> Settings
+LocalDir -.-> TableUtils
+LocalDir -.-> JFtp
+LocalDir -.-> StringUtils
+LocalDir -.-> DirLister
+LocalDir -.-> BasicConnection
+LocalDir -.-> FtpConnection
+LocalDir -.-> RemoteCommand
+LocalDir -.-> UITool
+LocalDir -.-> NameChooser
+LocalDir -.-> ZipFileCreator
+LocalDir -.-> FilesystemConnection
+LocalDir -.-> Log
+LocalDir -.-> UpdateDaemon
+LocalDir -.-> ZipEntry
+
+LogFlusher -.-> Settings
+LogFlusher -.-> JFtp
+
+Properties --> HPanel
+
+RemoteDir --> HImageButton
+RemoteDir --> DirCanvas
+RemoteDir --> DefaultListModel
+RemoteDir --> DirEntry
+RemoteDir -.-> FilesystemConnection
+RemoteDir -.-> Settings
+RemoteDir -.-> DirCellRenderer
+RemoteDir -.-> JFtp
+RemoteDir -.-> TableUtils
+RemoteDir -.-> AdjustmentListener
+RemoteDir -.-> FtpConnection
+RemoteDir -.-> Sftp2Connection
+RemoteDir -.-> DirLister
+RemoteDir -.-> UITools
+RemoteDir -.-> Creator
+
+RemoteDir -.-> RemoteCommand
+RemoteDir -.-> PathChanger
+RemoteDir -.-> Log
+RemoteDir -.-> UpdateDaemon
+RemoteDir -.-> ResumeDialog
+
+ResumeDialog --> DirEntry
+
+StatusCanvas -.-> AppMenuBar
+StatusCanvas -.-> GUIDefaults
+
+StatusPanel --> StatusCanvas
+StatusPanel --> HImageButton
+StatusPanel --> JFtp
+StatusPanel -.-> SmbHostChooser
+StatusPanel -.-> SftpHostChooser
+StatusPanel -.-> NfsHostChooser
+StatusPanel -.-> WebdavHostChooser
+StatusPanel -.-> HostChooser
+StatusPanel -.-> Log
 
 
+UIUtils -.-> Desktop
 
+FileTransferable --> DataFlavor
+
+HDesktopBackground -.-> Settings
+
+HFrame -.-> Toolkit
+
+HImage -.-> ClassLoader
+HImage -.-> ImageIcon
+
+HPanel -.-> GUIDefaults
+
+DirEntry --> DirEntry
+
+ProgressBarList -.-> ProgressbarItem
+
+
+HostChooser --> HTextField
+HostChooser --> HPanel
+HostChooser --> HButton
+HostChooser --> HFrame
+HostChooser -.-> Settings
+
+HostChooser -.-> Log
+HostChooser -.-> HInsetPanel
+HostChooser -.-> FtpURLConnection
+HostChooser -.-> FtpConnection
+HostChooser -.-> JFtp
+HostChooser -.-> FilesystemConnection
+HostChooser -.-> StartConnection
+HostChooser -.-> HostList
+HostChooser -.->FtpHost
+
+NfsHostChooser --> HTextField
+NfsHostChooser --> HPasswordField
+NfsHostChooser --> HButton
+NfsHostChooser -.-> HInsetPanel
+NfsHostChooser -.-> HImage
+NfsHostChooser -.-> ExternalDisplayer
+NfsHostChooser -.-> NfsConnection
+NfsHostChooser -.-> StartConnection
+
+SftpHostChooser --> HTextField
+SftpHostChooser --> HPasswordField
+SftpHostChooser --> HButton
+SftpHostChooser -.-> Settings
+SftpHostChooser -.-> HInsetPanel
+SftpHostChooser -.-> Sftp2URLConnection
+SftpHostChooser -.-> Sftp2Connection
+SftpHostChooser -.-> JFtp
+SftpHostChooser -.-> Log
+
+SmbHostChooser --> HTextField
+SmbHostChooser --> HPasswordField
+SmbHostChooser --> HButton
+SmbHostChooser -.-> Settings
+SmbHostChooser -.-> HPanel
+SmbHostChooser -.-> HInsetPanel
+SmbHostChooser -.-> NetworkInterface
+SmbHostChooser -.-> Log
+SmbHostChooser -.-> SmbConnection
+SmbHostChooser -.-> StartConnection
+
+WebdavHostChooser --> HTextField
+WebdavHostChooser --> HPasswordField
+WebdavHostChooser --> HButton
+WebdavHostChooser -.-> HPanel
+WebdavHostChooser -.-> JFtp
+
+AddBookmarks --> HButton
+AddBookmarks --> HComboBox
+AddBookmarks --> HTextField
+AddBookmarks --> HPasswordField
+AddBookmarks -.-> JFtp
+AddBookmarks -.-> System
+AddBookmarks -.-> StringUtils
+AddBookmarks -.-> StartConnection
+
+AdvancedOptions --> HTextField
+AdvancedOptions --> FtpConnection
+AdvancedOptions -.-> HPanel
+AdvancedOptions --> Settings
+
+AutoRemover --> JFtp
+BookMarkItem -.-> Settings
+BookMarkItem -.-> UIUtils
+BookMarkItem -.-> StartConnection
+
+BookmarkManager -.-> JFtp
+BookmarkManager -.-> Settings
+BookmarkManager -.-> Log
+
+Creator --> HTextField
+Creator --> HButton
+Creator --> BasicConnection
+
+Displayer -.-> Log
+
+HostList -.-> FtpHost
+HttpBrowser -.-> Log
+HttpDownloader --> HTextField
+HttpDownloader --> HButton
+HttpDownloader -.-> HttpTransfer
+
+ImageViewer -.-> MediaTracker
+
+LastConnections -.-> Settings
+LastConnections -.-> JFtp
+
+NameChooser --> HTextField
+NameChooser --> HButton
+NameChooser --> HPanel
+
+PathChanger -->HTextField
+PathChanger --> HButton
+
+ProxyChooser --> HTextField
+ProxyChooser --> HButton
+ProxyChooser -.-> Settings
+
+RemoteCommand -.-> HTextField
+RemoteCommand -.->HButton
+
+skinparam linetype ortho
 @enduml
