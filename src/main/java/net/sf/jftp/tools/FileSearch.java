@@ -143,10 +143,6 @@ public class FileSearch {
 	}
 
 	private int checkForResult(String url) {
-		//for(int i=0; i<typeArray.length; i++) {
-		//	if(url.indexOf(typeArray[i]) >= 0) return 2;
-		//}
-
 		for (String s : ignoreArray) {
 			if (url.contains(s)) return -1;
 		}
@@ -164,10 +160,6 @@ public class FileSearch {
 			checked.put(url, "");
 		}
 
-		if (url.indexOf("/") > 0) {
-			String tmp = url.substring(0, url.indexOf("/"));
-		}
-
 		for (String s : scanArray) {
 			if (url.endsWith(s)) return true;
 		}
@@ -182,9 +174,6 @@ public class FileSearch {
 		if (!quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + currentDepth);
 
 		if (urlRating > 0) {
-			//System.out.println("!!!");
-			//Getter.chill(1000);
-			//System.exit(0);
 		} else if (urlRating < 0 && currentDepth > 0) {
 			if (!quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
 			return;
@@ -222,7 +211,6 @@ public class FileSearch {
 				for (String s : typeArray) {
 					if (next.endsWith(s) || s.trim().equals("*")) {
 						net.sf.jftp.system.logging.Log.out("HIT: " + url + " -> " + next);
-						//Getter.chill(2000);
 
 						if (!LOAD || !checkForScanableUrl(url)) continue;
 
@@ -274,19 +262,6 @@ public class FileSearch {
 		}
 	}
 
-	private String[] check(String auswahl) {
-		StringTokenizer tokenizer = new StringTokenizer(auswahl, "-", false);
-		String[] strArr = new String[tokenizer.countTokens()];
-		int tmp = 0;
-
-		while (tokenizer.hasMoreElements()) {
-			strArr[tmp] = (String) tokenizer.nextElement();
-			tmp++;
-		}
-
-		return strArr;
-	}
-
 	private String createAbsoluteUrl(String newLink, String baseUrl) {
 		newLink = clear(newLink);
 
@@ -317,8 +292,6 @@ public class FileSearch {
 			}
 		}
 
-		//Log.out("-> " + newLink);
-
 		return newLink;
 	}
 
@@ -342,10 +315,7 @@ class Getter {
 	public String fetch(String url) {
 		try {
 			String host = url.substring(0, url.indexOf("/"));
-			String wo = url.substring(url.indexOf("/"));
 			StringBuilder result = new StringBuilder();
-
-			//Log.out(">> " + host + wo);
 
 			Socket deal = new Socket(host, 80);
 			deal.setSoTimeout(5000);
@@ -382,11 +352,9 @@ class Getter {
 		try {
 			String host = url.substring(0, url.indexOf("/"));
 			String wo = url.substring(url.indexOf("/"));
-			String result = "";
 
 			if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> " + host + wo);
 
-			//JFtp.statusP.jftp.ensureLogging();
 			File d = new File(localDir);
 			d.mkdir();
 

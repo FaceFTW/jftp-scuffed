@@ -28,9 +28,9 @@ public class Settings {
 	public static final String defaultHeight = "740";
 	public static final String defaultX = "20";
 	public static final String defaultY = "20";
-	// title of the app
+
 	public static final String title = "JFtp - The Java Network Browser";
-	// overridden title for insomniac client
+
 	public static final String insomniacTitle = ">>> Insomniac client BETA 1 <<< Based on JFtp ";
 	public static final int visibleFileRows = 15;
 	public static final int connectionTimeout = 30000;
@@ -306,7 +306,6 @@ public class Settings {
 		} catch (Exception e) {
 			System.out.println("Cannot save properties...");
 
-			//e.printStackTrace();
 		}
 	}
 

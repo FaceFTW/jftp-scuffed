@@ -64,10 +64,4 @@ public class JReciever implements Runnable {
 		}
 	}
 
-	public void reset(DataInputStream in) {
-		reciever.destroy();
-		this.in = in;
-		reciever = new Thread(this);
-		reciever.start();
-	}
 }

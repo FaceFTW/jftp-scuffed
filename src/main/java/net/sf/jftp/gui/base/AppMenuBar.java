@@ -52,8 +52,6 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
-
-//***
 public class AppMenuBar extends JMenuBar implements ActionListener {
 	public static final JCheckBoxMenuItem fadeMenu = new JCheckBoxMenuItem("Enable Status Animation", Settings.getEnableStatusAnimation());
 	public static final JCheckBoxMenuItem askToDelete = new JCheckBoxMenuItem("Confirm Remove", Settings.getAskToDelete());
@@ -132,11 +130,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	JMenu current = bookmarks;
 	JMenu last = bookmarks;
 
-	/*
-	String[] lastProtocols;
-	String[] lastHosts;
-	String[] lastUnames;
-	*/
 	public AppMenuBar(JFtp jftp) {
 		this.jftp = jftp;
 
@@ -196,8 +189,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		readme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
 		todo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, java.awt.event.InputEvent.ALT_MASK));
 
-		//*** setMnemonics(); was here
-		//*** BELOW, ADDITIONS FOR THE FILE MENU ARE PUT IN PUBLIC METHOD
 		resetFileItems();
 
 		ftp.add(resuming);
@@ -257,9 +248,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 
 		for (javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
-			//JMenuItem tmp = new JMenuItem(m[i].getName());
-			//tmp.addActionListener(this);
-			//lf.add(tmp);
 
 			/*
 			 * Don't add menu items for unsupported look and feel's.
@@ -291,7 +279,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		manage.addActionListener(this);
 
-		//UIManager.setLookAndFeel();
 		add(file);
 		add(opt);
 		add(view);
@@ -301,7 +288,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		loadBookmarks();
 
-		//add(experimental);
 	}
 
 	public void loadBookmarks() {
@@ -338,7 +324,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			if (tmp.toLowerCase().trim().startsWith("<dir>")) {
 				String dir = tmp.substring(tmp.indexOf(">") + 1, tmp.lastIndexOf("<"));
 
-				//Log.debug("Dir: " + dir);
 				JMenu m = new JMenu(dir);
 				current.add(m);
 
@@ -373,7 +358,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		x.addActionListener(this);
 	}
 
-	//*** Where changes to the file menu are made (iniitalization done here too)
 	public void resetFileItems() {
 		file.removeAll();
 
@@ -392,12 +376,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		file.add(localSmbCon);
 		file.add(localNfsCon);
 
-		//file.add(localWebdavCon); -> not yet
 		file.addSeparator();
 		file.add(closeLocalCon);
 		file.addSeparator();
 
-		//*** ADDITION OF THE REMEMBERED CONNECTIONS
 		boolean connectionsExist = false;
 
 		try {
@@ -416,8 +398,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			String usingLocal = "";
 			int conNumberInt;
 
-			//lastConData = new String("");
-			//***
 			for (int i = 0; i < JFtp.CAPACITY; i++) {
 				if (!(cons[i][0].equals("null"))) {
 					protocol = cons[i][0];
@@ -430,7 +410,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 						j++;
 					}
 
-					//usingLocal is always last piece of data!
 					usingLocal = cons[i][j - 1];
 
 					if (usingLocal.equals("true")) {
@@ -439,11 +418,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 						usingLocal = "";
 					}
 
-					//lastConnections[i] = new JMenuItem(cons[i]);
 					conNumberInt = i + 1;
 					conNumber = Integer.toString(conNumberInt);
 
-					//lastConData[i] = new String(conNumber + " " + protocol + ": Hostname: " + htmp + ";  Username: " + utmp);
 					lastConData[i] = conNumber + " " + protocol + ": " + htmp + " " + usingLocal;
 
 					lastConnections[i] = new JMenuItem(lastConData[i]);
@@ -451,9 +428,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 					connectionsExist = true;
 
-					//*** code repetition: maybe getting these tokens
-					//*** should be in a separate private method
-					//file.add(protocol + ": Hostname: " + htmp + ";  Username: " + utmp);
 					file.add(lastConnections[i]);
 				}
 			}
@@ -471,11 +445,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		setMnemonics();
 	}
 
-	//resetFileItems
+
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getSource() == proxy) {
-				//ProxyChooser p =
 				JFtp.statusP.jftp.addToDesktop("Proxy Settings", new ProxyChooser(), 500, 110);
 			} else if (e.getSource() == add) {
 				Log.out("add called");
@@ -490,31 +463,26 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				HostChooser hc = new HostChooser(null, true);
 				hc.toFront();
 
-				//hc.setModal(true);
 				hc.update();
 			} else if ((e.getSource() == localSmbCon) && (!JFtp.uiBlocked)) {
 				SmbHostChooser hc = new SmbHostChooser(null, true);
 				hc.toFront();
 
-				//hc.setModal(true);
 				hc.update();
 			} else if ((e.getSource() == localSftpCon) && (!JFtp.uiBlocked)) {
 				SftpHostChooser hc = new SftpHostChooser(null, true);
 				hc.toFront();
 
-				//hc.setModal(true);
 				hc.update();
 			} else if ((e.getSource() == localNfsCon) && (!JFtp.uiBlocked)) {
 				NfsHostChooser hc = new NfsHostChooser(null, true);
 				hc.toFront();
 
-				//hc.setModal(true);
 				hc.update();
 			} else if ((e.getSource() == localWebdavCon) && (!JFtp.uiBlocked)) {
 				WebdavHostChooser hc = new WebdavHostChooser(null, true);
 				hc.toFront();
 
-				//hc.setModal(true);
 				hc.update();
 			} else if (e.getSource() == closeLocalCon) {
 				JFtp.statusP.jftp.closeCurrentLocalTab();
@@ -560,34 +528,24 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				jftp.windowClosing(null); // handles everything
 			} else if (e.getSource() == close) {
 				JFtp.statusP.jftp.closeCurrentTab();
-	
-	            /*
-	            jftp.safeDisconnect();
-	            FilesystemConnection con = new FilesystemConnection();
-	            jftp.remoteDir.setCon(con);
-	            con.addConnectionListener((ConnectionListener)jftp.remoteDir);
-	            if(!con.chdir("/")) con.chdir("C:\\");
-	            */
+
 			} else if ((e.getSource() == ftpCon) && (!JFtp.uiBlocked)) {
-				//jftp.safeDisconnect();
+
 				HostChooser hc = new HostChooser();
 				hc.toFront();
 
-				//hc.setModal(true);
+
 				hc.update();
 			} else if ((e.getSource() == smbCon) && (!JFtp.uiBlocked)) {
-				//jftp.safeDisconnect();
+
 				SmbHostChooser hc = new SmbHostChooser();
 				hc.toFront();
 
-				//hc.setModal(true);
 				hc.update();
 			} else if ((e.getSource() == sftpCon) && (!JFtp.uiBlocked)) {
-				//jftp.safeDisconnect();
+
 				SftpHostChooser hc = new SftpHostChooser();
 				hc.toFront();
-
-				//hc.setModal(true);
 				hc.update();
 			} else if ((e.getSource() == rsyncCon) && (!JFtp.uiBlocked)) {
 				RsyncHostChooser hc = new RsyncHostChooser();
@@ -595,11 +553,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				hc.update();
 			} else if ((e.getSource() == nfsCon) && (!JFtp.uiBlocked)) {
-				// jftp.safeDisconnect();
+
 				NfsHostChooser hc = new NfsHostChooser();
 				hc.toFront();
 
-				//hc.setModal(true);
 				hc.update();
 			} else if (e.getSource() == resuming) {
 				boolean res = resuming.getState();
@@ -681,8 +638,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				Settings.save();
 			}
 
-			//***MY ADDITIONS (***how can I make this flexible enough to
-			//*** easily add > 5 connections?)
 			else if ((e.getSource() == lastConnections[0]) && (!JFtp.uiBlocked)) {
 				connectionSelected(0);
 			} else if ((e.getSource() == lastConnections[1]) && (!JFtp.uiBlocked)) {
@@ -744,7 +699,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				Settings.save();
 			}
 
-			//*** END OF NEW LISTENERS
 			else {
 				String tmp = ((JMenuItem) e.getSource()).getLabel();
 
@@ -789,10 +743,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 	// by jake
 	private void setMnemonics() {
-		//*** I added accelerators for more menu items
-		//*** (issue: should ALL accelerators have the CTRL modifier (so that
-		//*** the ALT modifier is for mnemonics only?)
-		//*** I added mnemonics for the main menu items
 		file.setMnemonic('F');
 		opt.setMnemonic('O');
 		view.setMnemonic('V');
@@ -800,47 +750,21 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		bookmarks.setMnemonic('B');
 		info.setMnemonic('I');
 
-		//*** set accelerators for the remote connection window
 		ftpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
 		sftpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
 		smbCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
 		nfsCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
 
-		//*** IMPORTANT NOTE: Adding an accelerator for disconnecting could
-		//*** be something of a "gotcha" that we may not want
 		close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
 
-		//*** These next five lines can be commented out if we decide against having accelerators
-		//*** starting with the shift key
-		//*** version 1.44: we have chosen not to have shift as a modifier
-		//***               as we've found this is a "gotcha"
-        /*
-        localFtpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F,
-                                                          ActionEvent.SHIFT_MASK));
-        localSftpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-                                                           ActionEvent.SHIFT_MASK));
-        localSmbCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L,
-                                                          ActionEvent.SHIFT_MASK));
-        localNfsCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-                                                          ActionEvent.SHIFT_MASK));
 
-        closeLocalCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-                                                            ActionEvent.SHIFT_MASK));
-
-        */
-		//*** I have decided to get areound the problem by having mnemonics within the menu
-		//*** as accelerators. So to quickly start an FTP connection in the local window,
-		//*** the user can enter Alt+f+f, and Alt+f+s for SFTP,etc.
 		localFtpCon.setMnemonic('F');
 		localSftpCon.setMnemonic('S');
 		localSmbCon.setMnemonic('L');
 		localNfsCon.setMnemonic('N');
 
-		//localNfsCon.setMnemonic('N');
 		closeLocalCon.setMnemonic('C');
 
-		//*** and here are some other menu mnemonics I thought I'd include:
-		//*** (I'll add more if more are wanted)
 		exit.setMnemonic('X');
 
 		proxy.setMnemonic('P');
@@ -861,28 +785,21 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		clearItems.setMnemonic('F');
 
 		try {
-			//*** end of new code section
 			int intI;
 			String stringI;
 			char charI;
 
 			for (int i = 0; i < JFtp.CAPACITY; i++) {
-				//*** I should note that functionality below only allows
-				//*** a maximum of nine connections to be remembered
-				//BUGFIX 1.40
-				//if (!(cons[i].equals("null"))) {
+
 				if (!(cons[i][0].equals("null"))) {
 					intI = i + 1;
 					stringI = Integer.toString(intI);
 					charI = stringI.charAt(0);
 
 					lastConnections[i].setMnemonic(charI);
-
-					//lastConnections[i].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
 				}
 			}
 
-			//for
 		} catch (Exception ex) {
 			Log.out("WARNING: AppMenuBar produced Exception, ignored it");
 			ex.printStackTrace();
@@ -891,12 +808,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 	//setMnemonics
 	private void connectionSelected(int position) {
-		//*** tokenize the string to extract the required data
-		//*** or is this the thing done elsewhere in the code,
-		//*** when the menu is being set up?
-		//String connectionInfo = cons[position];
-		//StringTokenizer tokens = new StringTokenizer(connectionInfo);
-		//StringTokenizer tokens = new StringTokenizer(cons[position], " ", false); // tab);
 		String protocol;
 		int numTokens;
 
@@ -909,15 +820,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		String potmpString = "0";
 		String useLocalString = "false";
 
-        /*
-        //numTokens = tokens.countTokens();
-        protocol = tokens.nextToken();
 
-        htmp = tokens.nextToken();
-        utmp = tokens.nextToken();
-        ptmp = tokens.nextToken();
-
-        */
 		protocol = cons[position][0];
 		htmp = cons[position][1];
 		utmp = cons[position][2];
@@ -927,94 +830,44 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			ptmp = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 		}
 
-		//int j=4;
-		//while (cons[i][j].equals(LastConnections.SENTINEL)) {
-		//        j++;
-		//}
-		//usingLocal = cons[i][j-1];
-
-        /*
-        System.out.println(position);
-        System.out.println(protocol);
-        System.out.println(cons[position][1]);
-        System.out.println(cons[position][2]);
-        System.out.println(cons[position][3]);
-        */
-
-		//
 		switch (protocol) {
 			case "FTP":
 				potmpString = cons[position][4];
 				dtmp = cons[position][5];
 				useLocalString = cons[position][6];
 
-            /*
-            potmpString = tokens.nextToken();
-            dtmp = tokens.nextToken();
-            useLocalString = tokens.nextToken();
-
-
-            System.out.println(potmpString);
-            System.out.println("FTP");
-            */
 				potmp = Integer.parseInt(potmpString);
 
 				useLocal = useLocalString.equals("true");
 
 				net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal);
 
-				//System.out.println(htmp + utmp + ptmp + potmpString +dtmp + useLocalString);
 				break;
 			case "SFTP":
-            /*
-                    htmp = tokens.nextToken();
-                    utmp = tokens.nextToken();
-                    ptmp = tokens.nextToken();
-            */
 
-				//useLocalString = tokens.nextToken();
-				//System.out.println("SFTP");
 				potmpString = cons[position][4];
 				useLocalString = cons[position][5];
-
-				//System.out.println(htmp + utmp + ptmp  + useLocalString);
-				//if (protocol == "SFTP")
-				break;
+break;
 			case "NFS":
 				useLocalString = cons[position][4];
 				break;
 			case "SMB":
-            /*
-            htmp = tokens.nextToken();
-            utmp = tokens.nextToken();
-            ptmp = tokens.nextToken();
-            */
-            /*
-            dtmp = tokens.nextToken();
-            useLocalString = tokens.nextToken();
-            */
+
 				dtmp = cons[position][4];
 				useLocalString = cons[position][5];
-
-				//System.out.println(htmp+utmp+ptmp+dtmp + useLocalString);
-				break;
+break;
 		}
 
-		//***StartConnection functionality to be put in each
-		//***if statement
 		potmp = Integer.parseInt(potmpString);
 
 		useLocal = useLocalString.equals("true");
 
 		if (protocol.equals("SFTP")) {
-			//BUGFIX 1.40: no longer setting port #
-			//to 22, now potmp
+
 			StartConnection.startCon(protocol, htmp, utmp, ptmp, potmp, dtmp, useLocal);
 		} else if (!(protocol.equals("FTP"))) {
-			//System.out.println(protocol);
+
 			StartConnection.startCon(protocol, htmp, utmp, ptmp, potmp, dtmp, useLocal);
 		}
 	}
-
-	//connectionSelected
 }

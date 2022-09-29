@@ -22,7 +22,6 @@ public class LogFlusher implements Runnable {
 				ex.printStackTrace();
 			}
 
-			//System.out.println("logflush");
 			JFtp.statusP.jftp.ensureLogging();
 		}
 	}

@@ -50,13 +50,6 @@ public class StatusPanel extends HPanel implements ActionListener {
 
 		JToolBar bar = new JToolBar();
 
-        /*
-                FlowLayout f = new FlowLayout(FlowLayout.LEFT);
-                f.setHgap(1);
-                f.setVgap(2);
-                bar.setLayout(f);
-                bar.setMargin(new Insets(0,0,0,0));
-        */
 		Insets in = bar.getMargin();
 		bar.setMargin(new Insets(in.top + 2, in.left + 4, in.bottom + 2, in.right + 4));
 
@@ -102,13 +95,12 @@ public class StatusPanel extends HPanel implements ActionListener {
 		net.sf.jftp.gui.framework.HImageButton go = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.refreshImage, "go", "Download URL now...", this);
 		bar.add(go);
 
-		//***
+
 		go.setToolTipText("Download URL Now...");
 
-		//***
+
 		bar.add(new JLabel("    "));
 
-		//bar.add(status);
 		add("North", bar);
 
 		validate();
@@ -137,43 +129,33 @@ public class StatusPanel extends HPanel implements ActionListener {
 
 			startTransfer(url, JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
 		} else if (e.getActionCommand().equals("smbcon")) {
-			//jftp.safeDisconnect();
+
 			SmbHostChooser hc = new SmbHostChooser();
 			hc.toFront();
 
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("sftpcon")) {
-			//jftp.safeDisconnect();
+
 			SftpHostChooser hc = new SftpHostChooser();
 			hc.toFront();
 
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("nfscon")) {
-			//jftp.safeDisconnect();
 			NfsHostChooser hc = new NfsHostChooser();
 			hc.toFront();
 
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("webdavcon")) {
-			//jftp.safeDisconnect();
+
 			WebdavHostChooser hc = new WebdavHostChooser();
 			hc.toFront();
-
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("close")) {
 			jftp.closeCurrentTab();
 		} else if (e.getActionCommand().equals("newcon") && (!JFtp.uiBlocked)) {
-			// jftp.safeDisconnect();
-			// Switch windows
-			// jftp.mainFrame.setVisible(false);
+
 			HostChooser hc = new HostChooser();
 			hc.toFront();
-
-			//hc.setModal(true);
 			hc.update();
 		}
 	}

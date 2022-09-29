@@ -37,13 +37,10 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	final int HEADER_IVAL = 4000;
 	final int LOAD_IVAL = 31 * 60000;
 
-	//"http://www.spiegel.de/schlagzeilen/rss/0,5291,,00.xml";
 	public RSSFeeder() {
 		setLayout(new BorderLayout(0, 0));
 		next.setPreferredSize(new Dimension(22, 22));
 		next.setMaximumSize(new Dimension(22, 22));
-
-		//next.addActionListener(this);
 		add("West", next);
 		add("Center", can);
 		setPreferredSize(new Dimension(500, 25));

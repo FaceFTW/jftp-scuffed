@@ -33,22 +33,18 @@ public class UpdateDaemon implements Runnable {
 	}
 
 	public static void updateRemoteDirGUI() {
-		//System.out.print("+");
 		reg++;
 	}
 
 	public static void updateRemoteDir() {
-		//System.out.print("-");
 		rem++;
 	}
 
 	public static void updateLocalDir() {
-		//System.out.print("#");
 		loc++;
 	}
 
 	public static void updateLog() {
-		//System.out.print(".");
 		log++;
 	}
 
@@ -59,27 +55,21 @@ public class UpdateDaemon implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				//System.out.print(":");
 				if (rem > 0) {
 					net.sf.jftp.JFtp.remoteDir.fresh();
 
-					//System.out.print("R");
 					rem = 0;
 					Thread.sleep(100);
 				}
 
 				if (reg > 0) {
 					((net.sf.jftp.gui.base.RemoteDir) net.sf.jftp.JFtp.remoteDir).gui(true);
-
-					//System.out.print("r");
 					reg = 0;
 					Thread.sleep(100);
 				}
 
 				if (loc > 0) {
 					net.sf.jftp.JFtp.localDir.fresh();
-
-					//System.out.print("L");
 					loc = 0;
 					Thread.sleep(100);
 				}
@@ -92,8 +82,6 @@ public class UpdateDaemon implements Runnable {
 
 				if (log > 0) {
 					jftp.ensureLogging();
-
-					//System.out.print("O");
 					log = 0;
 					Thread.sleep(500);
 				}

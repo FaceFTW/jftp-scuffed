@@ -155,8 +155,6 @@ public class DownloadList extends HPanel implements ActionListener {
 					try {
 						con.sock.close();
 
-						//con.getCon().abort();
-						//if(Settings.getEnableMultiThreading()) con.getCon().disconnect();
 					} catch (Exception ex) {
 						ex.printStackTrace();
 					}
@@ -171,7 +169,6 @@ public class DownloadList extends HPanel implements ActionListener {
 		}
 	}
 
-	// fake pause, it disconnects instead
 	private void pauseCon() {
 		try {
 			String cmd = getActiveItem();
@@ -267,7 +264,6 @@ public class DownloadList extends HPanel implements ActionListener {
 			message = type + ": <" + file + "> ";
 		}
 
-		// fetch size from remote panel
 		if (type.equals(DataConnection.GET)) {
 			net.sf.jftp.gui.base.dir.DirEntry[] e = ((net.sf.jftp.gui.base.dir.DirPanel) JFtp.remoteDir).dirEntry;
 
@@ -278,8 +274,6 @@ public class DownloadList extends HPanel implements ActionListener {
 			}
 		}
 
-		// ---------------
-		//System.out.print(size+":");
 		String tmp;
 		long s = size / 1024;
 
@@ -289,7 +283,6 @@ public class DownloadList extends HPanel implements ActionListener {
 			tmp = "?";
 		}
 
-		//System.out.println(message);
 		if (type.equals(DataConnection.GET) || type.equals(DataConnection.PUT)) {
 			message = message + (bytes / 1024) + " / " + tmp + " kb";
 			list.setTransferred(file, (bytes / 1024), message, s);
@@ -304,15 +297,12 @@ public class DownloadList extends HPanel implements ActionListener {
 			try {
 				JFtp.getConnectionHandler().removeConnection(file);
 			} catch (Exception ex) {
-				// SMB does not need this
 			}
 
 			UpdateDaemon.updateCall();
 		} else if (type.equals(DataConnection.FAILED)) {
 			UpdateDaemon.updateCall();
 		}
-
-//        downloads.put(file, message);
 
 		net.sf.jftp.gui.base.dir.DirEntry d = null;
 		if (downloads.containsKey(message)) {
@@ -389,25 +379,21 @@ public class DownloadList extends HPanel implements ActionListener {
 			f = f.substring(0, f.lastIndexOf(">"));
 		}
 
-		//System.out.println(f);
 		return getRealName(f);
 	}
 
 	private String getRealName(String file) {
-		//System.out.println(">>>"+file);
 		try {
 			Enumeration e = JFtp.getConnectionHandler().getConnections().keys();
 
 			while (e.hasMoreElements()) {
 				String tmp = (String) e.nextElement();
 
-				//System.out.println(tmp);
 				if (tmp.endsWith(file)) {
 					return tmp;
 				}
 			}
 		} catch (Exception ex) {
-			// SMB does not need this
 		}
 
 		return file;
@@ -417,7 +403,6 @@ public class DownloadList extends HPanel implements ActionListener {
 		String f = msg.substring(msg.indexOf("<") + 1);
 		f = f.substring(0, f.lastIndexOf(">"));
 
-		//System.out.println(f);
 		return f;
 	}
 

@@ -79,10 +79,8 @@ public class RSSParser {
 			e2 = t;
 		}
 
-		//System.out.println(tmp+":::"+x+":::"+x2);
 		String value = tmp.substring(x + start.length(), tmp.indexOf(end));
 
-		//System.out.println(value);
 		target.add(value);
 
 		tmp = tmp.substring(tmp.indexOf(end) + end.length());

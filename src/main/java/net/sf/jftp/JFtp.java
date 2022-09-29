@@ -65,9 +65,8 @@ import java.util.Hashtable;
 
 
 public class JFtp extends JPanel implements WindowListener, ComponentListener, Logger, ChangeListener, InternalFrameListener {
-	public static final int CAPACITY = 9; //number of connections remembered
+	public static final int CAPACITY = 9;
 	public static final int CONNECTION_DATA_LENGTH = 10;
-	//public static BasicConnection controlConnection = null;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final Hashtable<String, JInternalFrame> internalFrames = new Hashtable<>();
 	public static boolean mainUsed = false;
@@ -83,7 +82,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static final JDesktopPane desktop = new JDesktopPane();
 	public static JTextArea log;
 	public static boolean doScroll = true;
-	//***appMenuBar: this must now be a public object that JFtp refers to
 	public static net.sf.jftp.gui.base.AppMenuBar menuBar = null;
 	public static DropTarget dropTarget;
 	public static DropTargetListener dtListener;
@@ -92,13 +90,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	private final boolean initSize = true;
 	private final String oldText = "";
 	private final JToolBar bottomBar = new JToolBar();
-	/**
-	 * JSplitPane that holds the directory panes and the log/dl JSplitPane
-	 */
+
 	private final JSplitPane workP = null;
-	/**
-	 * JSplitPane that holds the log download parts
-	 */
+
 	private final JSplitPane logP = null;
 	public final JTabbedPane remoteConnectionPanel = new JTabbedPane();
 	public final JTabbedPane localConnectionPanel = new JTabbedPane();
@@ -113,11 +107,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	private String buffer = "";
 	private long oldtime = 0;
 
-	//***
 	public JFtp() {
 		Log.setLogger(this);
 
-		// we have jesktop-environment
 		if (statusP != null) {
 			statusP.remove(statusP.close);
 		}
@@ -179,11 +171,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		java.util.Properties sysprops = System.getProperties();
 
-		// Remove previous values
 		sysprops.remove("socksProxyHost");
 		sysprops.remove("socksProxyPort");
 
-		// Set your values
 		sysprops.put("socksProxyHost", proxy);
 		sysprops.put("socksProxyPort", port);
 
@@ -206,7 +196,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			JFtp jftp = new JFtp(true);
 
 
-			//autoconnect
 			if (argv.length > 0) {
 				if (argv[0].contains("sftp:")) {
 					new SftpHostChooser().update(argv[0]);
@@ -292,16 +281,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public static void setAppCursor(Cursor cursor) {
-    	/*
-    	Enumeration e = internalFrames.keys();
-    	while(e.hasMoreElements()) {
-    		JInternalFrame f = internalFrames.get((String) e.nextElement());
-
-    		f.setCursor(cursor);
-
-    		System.out.println(f);
-    	}
-    	*/
 
 		if (JFtp.mainFrame != null) {
 			if (cursor.getType() != Cursor.DEFAULT_CURSOR) {
@@ -320,9 +299,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 	}
 
-	//*** REFRESH MENU BAR
 	public static void updateMenuBar() {
-		//mainFrame.setJMenuBar(new AppMenuBar(this));
 		menuBar.resetFileItems();
 	}
 
@@ -343,7 +320,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		remoteDir = new net.sf.jftp.gui.base.RemoteDir();
 		remoteDir.setDownloadList(dList);
-		//desktop.setDropTarget(this.dropTarget);
 
 		Dimension d = Settings.getWindowSize();
 		setPreferredSize(d);
@@ -453,7 +429,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		addComponentListener(this);
 		componentResized(new ComponentEvent(log, 0));
 
-		//restoreInternalPositions();
 		validate();
 		setVisible(true);
 
@@ -474,7 +449,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		bottomBar.validate();
 
 		System.out.println("dfdfsgsd");
-		//add("South", bottomBar);
 	}
 
 	protected void chooseHost() {
@@ -519,7 +493,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			f.setSize(Integer.parseInt(w), Integer.parseInt(h));
 		} catch (Exception ex) {
 			Log.out("Can not set internal fram position for: " + desc);
-			//ex.printStackTrace();
 		}
 	}
 
@@ -608,37 +581,14 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	protected void displayGUI() {
 		UIManager.getLookAndFeelDefaults().put("ClassLoader", getClass().getClassLoader());
 
-		//boolean lookSet = false;
 		String tmp = Settings.getLookAndFeel();
-
-		//UIManager.installLookAndFeel("Metouia", "net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
 		if (tmp != null) {
 			setLookAndFeel(Settings.getLookAndFeel());
 		} else {
 			setLookAndFeel("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
 		}
 
-		//else
-		//{
-		//	jftp.setLookAndFeel("com.incors.plaf.kunststoff.KunststoffLookAndFeel");
-		//	lookSet = true;
-		//}
-		//if(!lookSet) UIManager.installLookAndFeel("Kunststoff", "com.incors.plaf.kunststoff.KunststoffLookAndFeel");
-
-		/*
-		 * Don't try to add the Kunststoff look and feel if it has
-		 * already been added.
-		 */
 		if ((Settings.getLookAndFeel() == null) || !Settings.getLookAndFeel().equals("com.incors.plaf.kunststoff.KunststoffLookAndFeel")) {
-			/*
-			 * Somehow even though UIManager.installLookAndFeel throws a
-			 * ClassNotFoundException, it ends up getting added to the
-			 * list of installed look and feels anyway. What we do here is
-			 * make Java throw a ClassNotFoundException before then by
-			 * checking whether or not the class exists, and only if the
-			 * class exists does it then get added to the list of
-			 * available look and feel's.
-			 */
 			try {
 				Class.forName("com.incors.plaf.kunststoff.KunststoffLookAndFeel");
 				UIManager.installLookAndFeel("Kunststoff", "com.incors.plaf.kunststoff.KunststoffLookAndFeel");
@@ -646,20 +596,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			}
 		}
 
-		/*
-		 * Don't try to add the Metouia look and feel if it has
-		 * already been added.
-		 */
 		if ((Settings.getLookAndFeel() == null) || !Settings.getLookAndFeel().equals("net.sourceforge.mlf.metouia.MetouiaLookAndFeel")) {
-			/*
-			 * Somehow even though UIManager.installLookAndFeel throws a
-			 * ClassNotFoundException, it ends up getting added to the
-			 * list of installed look and feels anyway. What we do here is
-			 * make Java throw a ClassNotFoundException before then by
-			 * checking whether or not the class exists, and only if the
-			 * class exists does it then get added to the list of
-			 * available look and feel's.
-			 */
+
 			try {
 				Class.forName("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
 				UIManager.installLookAndFeel("Metouia", "net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
@@ -733,7 +671,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		Log.out("NOTE: logRaw called");
 		paintImmediately(0, 0, getSize().width, getSize().height);
 
-		//logSp.paintImmediately(0,0,logSp.getSize().width,logSp.getSize().height);
 	}
 
 	private void log(String msg, Throwable throwable) {
@@ -829,10 +766,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			UIManager.setLookAndFeel(name);
 
 			if (mainFrame != null) {
-				//SwingUtilities.updateComponentTreeUI(mainFrame);
-				//invalidate();
-				//validate();
-				//repaint();
 				SwingUtilities.invokeLater(() -> {
 					javax.swing.SwingUtilities.updateComponentTreeUI(mainFrame);
 					javax.swing.SwingUtilities.updateComponentTreeUI(net.sf.jftp.JFtp.statusP);
@@ -884,7 +817,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		localDir = (net.sf.jftp.gui.base.dir.Dir) localConnectionPanel.getSelectedComponent();
 		remoteDir.getCon().setLocalPath(localDir.getPath());
 
-		//localDir.getCon().setLocalPath(remoteDir.getPath());
 	}
 
 	public void closeCurrentTab() {
@@ -948,7 +880,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		if (f != null) {
 			f.dispose();
 
-			//internalFrames.remove(component);
 		} else {
 			Log.debug("ERROR: " + component + " not found in Hashtable!");
 		}
@@ -1058,7 +989,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 				while ((c = ((Reader) data).read()) != -1) {
 					if (((i == 1) && (c == 0))) {
-						//System.out.println("Applying charset bugfix");
 						i = -1;
 					} else {
 						str.append((char) c);
@@ -1079,11 +1009,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 				Log.debug("Parsed data: " + str);
 			}
 
-			//str = "[c:\\windows\\test.txt]";
 			if (str.toString().contains("[")) {
 				Log.debug("Windows DnD detected");
 				name = str.substring(str.indexOf("[") + 1);
-				name = name.substring(0, name.lastIndexOf("]")); // last was str
+				name = name.substring(0, name.lastIndexOf("]"));
 			} else if (str.toString().startsWith("file://")) {
 				name = str.substring(7);
 
@@ -1118,7 +1047,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 			Log.debug("DnD: " + path + " -> " + name);
 
-			//TODO: parse "\\"
 			if (!path.trim().isEmpty()) {
 				((net.sf.jftp.gui.base.LocalDir) localDir).chdir(path);
 			}
@@ -1144,7 +1072,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		public void dragExit(DropTargetEvent e) {
 		}
-
 		public void drop(DropTargetDropEvent e) {
 			try {
 				handleDrop(e, e.getTransferable());

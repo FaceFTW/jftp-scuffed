@@ -51,8 +51,6 @@ public class LoadSet {
 
 			return result;
 		} catch (Exception ex) {
-			// don't need this, occurs if first run
-			//Log.debug(ex.toString() + "@LoadSet::loadSet()");
 		}
 
 		return new String[1];

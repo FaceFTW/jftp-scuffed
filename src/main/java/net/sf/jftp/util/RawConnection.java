@@ -101,11 +101,9 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		about.add(info);
 		info.addActionListener(this);
 
-		//mb.add(file);
 		session.add(close);
 		mb.add(session);
 
-		//mb.add(about);
 		setJMenuBar(mb);
 
 		addWindowListener(this);

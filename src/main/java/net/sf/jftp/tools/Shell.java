@@ -18,12 +18,10 @@ import java.util.Vector;
 
 public class Shell extends HFrame implements Runnable {
 	BufferedOutputStream out;
-	//BufferedInputStream in;
 	BufferedReader in;
 	BufferedOutputStream err;
 	final JTextArea text = new JTextArea(25, 101);
 
-	//JTextField input = new JTextField();
 	long off;
 	Thread runner;
 	JScrollPane textP;
@@ -35,9 +33,6 @@ public class Shell extends HFrame implements Runnable {
 		try {
 			this.in = new BufferedReader(new InputStreamReader(in));
 			this.out = new BufferedOutputStream(out);
-			//in = new BufferedInputStream(System.in);
-			//out = new BufferedOutputStream(System.out);
-			//err = new BufferedOutputStream(System.err);
 			init();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -50,9 +45,6 @@ public class Shell extends HFrame implements Runnable {
 		try {
 			this.in = in;
 			this.out = new BufferedOutputStream(out);
-			//in = new BufferedInputStream(System.in);
-			//out = new BufferedOutputStream(System.out);
-			//err = new BufferedOutputStream(System.err);
 			init();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -73,8 +65,6 @@ public class Shell extends HFrame implements Runnable {
 		setTitle("Shell");
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		//setLocation(150, 150);
 		HFrame.fixLocation(this);
 
 		textP = new JScrollPane(text);
@@ -82,8 +72,6 @@ public class Shell extends HFrame implements Runnable {
 
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		getContentPane().add("Center", textP);
-
-		//getContentPane().add("South", input);
 		text.setEditable(false);
 		setBackground(text.getBackground());
 
@@ -127,7 +115,6 @@ public class Shell extends HFrame implements Runnable {
 						text.setText(t + input);
 					}
 				} else if (e.getKeyCode() != KeyEvent.VK_SHIFT) {
-					//Char c = new Char(e.getKeyChar());
 					if (!e.isActionKey()) {
 						input += e.getKeyChar();
 						text.append("" + e.getKeyChar());
@@ -159,19 +146,11 @@ public class Shell extends HFrame implements Runnable {
 			while ((i = in.read(b, 0, b.length)) != StreamTokenizer.TT_EOF) {
 				text.append(new String(b, 0, i));
 
-				//Log.out("recv: "+i+" -> "+new String(b));
-				//while(err.available() > 0)
-				//{
-				//    err.read(b);
-				//    text.append(new String(b, 0, i));
-				//}
-
 				while (text.getRows() > 500) {
 					String t = text.getText();
 					t = t.substring(250);
 
 					text.setText(t);
-					// text.setCaretPosition(-250);
 				}
 
 				try {
@@ -182,10 +161,7 @@ public class Shell extends HFrame implements Runnable {
 
 				JScrollBar bar = textP.getVerticalScrollBar();
 				bar.setValue(bar.getMaximum());
-
-				// text.setCaretPosition(i);
 				text.setCaretPosition(text.getText().length());
-				//text.getCaret().setDot(1);
 			}
 
 			text.setEnabled(false);
@@ -207,7 +183,6 @@ public class Shell extends HFrame implements Runnable {
 			commands.add(msg);
 			currCmd = commands.size();
 
-			//Log.out("send: "+msg);
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());

@@ -15,13 +15,6 @@ import java.util.Vector;
 
 public class TableUtils {
 
-
-	/**
-	 * Setzt die Breite der TableColumns.
-	 * <p>
-	 * Quelle: <a href="http://www.chka.de/swing/table/cell-sizes.html">...</a>
-	 *
-	 */
 	public static void calcColumnWidths(JTable table) {
 		JTableHeader header = table.getTableHeader();
 
@@ -32,7 +25,7 @@ public class TableUtils {
 		TableColumnModel columns = table.getColumnModel();
 		TableModel data = table.getModel();
 
-		int margin = columns.getColumnMargin(); // only JDK1.3
+		int margin = columns.getColumnMargin();
 
 		int rowCount = data.getRowCount();
 
@@ -49,7 +42,7 @@ public class TableUtils {
 
 			if (h == null) h = defaultHeaderRenderer;
 
-			if (h != null) // Not explicitly impossible
+			if (h != null)
 			{
 				Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, -1, i);
 
@@ -64,28 +57,12 @@ public class TableUtils {
 				width = Math.max(width, c.getPreferredSize().width);
 			}
 
-			if (width >= 0) column.setPreferredWidth(width + margin); // <1.3: without margin
-			else ; // ???
+			if (width >= 0) column.setPreferredWidth(width + margin);
 
 			totalWidth += column.getPreferredWidth();
 		}
 
-//	 only <1.3:   totalWidth += columns.getColumnCount() * columns.getColumnMargin();
-
-
-	    /* If you like; This does not make sense for two many columns!
-	    Dimension size = table.getPreferredScrollableViewportSize();
-
-	    size.width = totalWidth;
-
-	    table.setPreferredScrollableViewportSize(size);
-	    */
-
-		// table.sizeColumnsToFit(-1); <1.3; possibly even table.revalidate()
-
-		// if (header != null)
-		//     header.repaint(); only makes sense when the header is visible (only <1.3)
-	}
+}
 
 	public static void setFixedWidths(JTable table) {
 		JTableHeader header = table.getTableHeader();
@@ -113,21 +90,14 @@ public class TableUtils {
 			} else if (i == 2) {
 				column.setMinWidth(60);
 				column.setPreferredWidth(80);
-				//column.setMaxWidth(90);
+
 			} else if (i == 3) {
 				column.setMinWidth(25);
 				column.setPreferredWidth(25);
-				//column.setMaxWidth(90);
 			}
 		}
 	}
 
-	/**
-	 * Synchronisiert eine JList mit einem JTable.
-	 * <p>
-	 * Die Selections werden von dem Table auf die List kopiert.
-	 *
-	 */
 	public static void copyTableSelectionsToJList(JList list, JTable listTbl) {
 
 		list.setSelectedIndices(new int[0]);
@@ -147,12 +117,7 @@ public class TableUtils {
 		list.setSelectedIndices(tmp);
 	}
 
-	/**
-	 * Generisches Modell erzeugen.
-	 * <p>
-	 * JList muss Vektoren von im JTable anzeigbaren Objekten enthalten.
-	 *
-	 */
+
 	private static synchronized TableModel generateTableModel(JList l) {
 
 		return new net.sf.jftp.gui.base.dir.MaterializedTableModel(l) {
@@ -164,7 +129,6 @@ public class TableUtils {
 			}
 
 			public int getColumnCount() {
-				//return (list.getModel().getSize() > 0 ? ((Vector)list.getModel().getElementAt(0)).size() : 0);
 				return 4;
 			}
 
@@ -186,31 +150,16 @@ public class TableUtils {
 				} else if (col == 3) {
 					return ret;
 				}
-
-				//System.out.println(">>> "+ret.get(col)+" -> "+(ret.get(col) instanceof Status));
-
-				//return ret.size() > col ? ret.get(col) : "<ERROR>";
-				return ret;
+return ret;
 			}
 		};
 	}
 
 
-	/**
-	 * F?hrt Updates auf einen beliebigen JTable durch.
-	 * <p>
-	 * list muss hierzu vom Typ Vector<String> sein.
-	 *
-	 */
 	public static void layoutTable(JList list, JTable listTbl) {
 		layoutTable(list, listTbl, null);
 	}
 
-	/**
-	 * F?hrt Updates auf einen beliebigen JTable durch.
-	 * <p>
-	 * list muss hierzu vom Typ Vector<String> sein.
-	 */
 	public static void layoutTable(JList list, JTable listTbl, Vector<String> names) {
 		listTbl.setModel(generateTableModel(list));
 
@@ -222,10 +171,8 @@ public class TableUtils {
 
 		if (names != null) modifyTableHeader(listTbl.getTableHeader(), names);
 
-		// 1.6+ only
 		tryToEnableRowSorting(listTbl);
 
-		//listTbl.doLayout();
 	}
 
 
@@ -236,10 +183,6 @@ public class TableUtils {
 
 	}
 
-	/**
-	 * Setzt den Header einer JTable
-	 *
-	 */
 	public static void modifyTableHeader(JTableHeader head, Vector columnNames) {
 
 		TableColumnModel m = head.getColumnModel();
@@ -256,9 +199,6 @@ public class TableUtils {
 		}
 	}
 
-	/**
-	 * Erzeugt einen Panel mit View und Header eines JTables.
-	 */
 	public static JComponent makeTable(JTable table, JComponent cont) {
 		JTableHeader header = table.getTableHeader();
 

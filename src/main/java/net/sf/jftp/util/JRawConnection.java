@@ -17,12 +17,8 @@ package net.sf.jftp.util;
 
 import java.io.DataInputStream;
 import java.io.PrintStream;
-import java.net.Socket;
 
 
-/*
-alternative connection class, used for raw tcp/ip connection
-*/
 public class JRawConnection implements Runnable {
 	private final String host;
 	private final int port;
@@ -32,10 +28,6 @@ public class JRawConnection implements Runnable {
 	private boolean isOk = false;
 	private boolean established = false;
 	private boolean reciever = false;
-
-	public JRawConnection(String host, int port) {
-		this(host, port, false);
-	}
 
 	public JRawConnection(String host, int port, boolean reciever) {
 		this.host = host;
@@ -50,7 +42,6 @@ public class JRawConnection implements Runnable {
 		try {
 			java.net.Socket s = new java.net.Socket(host, port);
 
-			//  s.setSoTimeout(Resource.socketTimeout);
 			out = new PrintStream(s.getOutputStream());
 			in = new DataInputStream(s.getInputStream());
 
@@ -84,14 +75,6 @@ public class JRawConnection implements Runnable {
 		} catch (Exception ex) {
 			System.out.println(ex + "@JConnection.send()");
 		}
-	}
-
-	public PrintStream getInetOutputStream() {
-		return out;
-	}
-
-	public DataInputStream getInetInputStream() {
-		return in;
 	}
 
 	private void pause(int time) {

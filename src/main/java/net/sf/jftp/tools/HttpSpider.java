@@ -53,14 +53,8 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 	public HttpSpider(String localDir) {
 		this.localDir = localDir;
-
-		//setSize(440,220);
-		//setLocation(200,250);
-		//setTitle("Http spider...");
-		//getContentPane().
 		setLayout(new BorderLayout());
 
-		//setBackground(Color.lightGray);
 		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.setLayout(new GridLayout(4, 1, 5, 5));
 		p1.add(host);
@@ -68,11 +62,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		p1.add(depth);
 		dir.setText(localDir);
 		p1.add(dir);
-
-		//getContentPane().
 		add("Center", p1);
-
-		//getContentPane().
 		javax.swing.JPanel okP = new javax.swing.JPanel();
 		add("South", okP);
 		okP.add(ok);
@@ -83,7 +73,6 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == ok) {
-			//this.dispose();
 			localDir = dir.getText();
 
 			if (!localDir.endsWith("/")) {
@@ -145,7 +134,6 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				MAX = Integer.parseInt(argv[2]);
 			}
 
-			//for(int i=0; i<typeArray.length; i++) Log.debug("+ "+typeArray[i]);
 			if (stopflag) {
 				return;
 			}
@@ -385,11 +373,9 @@ class Holer {
 		try {
 			String dealer = wat.substring(0, wat.indexOf("/"));
 			String wo = wat.substring(wat.indexOf("/"));
-			String zeug = "";
 
 			net.sf.jftp.system.logging.Log.debug(">>> " + dealer + wo);
 
-			//JFtp.statusP.jftp.ensureLogging();
 			File d = new File(localDir);
 			d.mkdir();
 
@@ -415,7 +401,6 @@ class Holer {
 			order.flush();
 
 			boolean line = true;
-			boolean bin = false;
 
 			while (true) {
 				chill(10);

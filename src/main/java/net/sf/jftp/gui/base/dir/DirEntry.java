@@ -28,7 +28,6 @@ import java.util.Hashtable;
 
 
 public class DirEntry {
-	// to check file permissions
 	public static final int R = FtpConnection.R;
 	public static final int W = FtpConnection.W;
 	public static final int DENIED = FtpConnection.DENIED;
@@ -81,7 +80,7 @@ public class DirEntry {
 			String ext = f.substring(lastIndex);
 			String tmp = (String) extensionMap.get(ext.toLowerCase());
 
-			if (tmp != null) // we found an extension, let's use it's image
+			if (tmp != null)
 			{
 				image = tmp;
 			}

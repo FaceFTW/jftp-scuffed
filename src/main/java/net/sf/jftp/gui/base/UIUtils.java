@@ -69,9 +69,6 @@ class Spawn implements Runnable {
 			Process p = Runtime.getRuntime().exec(cmd);
 			new Shell(p.getInputStream(), p.getOutputStream());
 
-			//while ((str = stdout.readLine()) !=null) {
-			//	Log.debug(str);
-			//}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

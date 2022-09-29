@@ -38,11 +38,6 @@ public class StatusCanvas extends JPanel {
 		setMinimumSize(new Dimension(200, 25));
 		setPreferredSize(new Dimension(320, 25));
 		setLayout(null);
-
-		//setLayout(new FlowLayout(FlowLayout.LEFT));
-		//add(host);
-		//add(separator);
-		//add(text);
 		setVisible(true);
 	}
 
@@ -90,12 +85,9 @@ public class StatusCanvas extends JPanel {
 					if (fwd) {
 						break;
 					}
-
-					//paintImmediately(0, 0, getSize().width, getSize().height);
-					repaint();
+repaint();
 					net.sf.jftp.system.LocalIO.pause(interval);
 
-					//JFtp.statusP.jftp.validate();
 				}
 			} else {
 				repaint();

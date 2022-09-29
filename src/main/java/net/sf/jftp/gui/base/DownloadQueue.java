@@ -41,29 +41,22 @@ import java.util.ArrayList;
 
 public class DownloadQueue extends HPanel implements ActionListener {
 	private static final String SEP = "--> ";
-	//private JTextArea text = new JTextArea();
 	private final DefaultListModel liststr = new DefaultListModel();
 	private final JList list = new JList(liststr);
 	private final ArrayList queue = new ArrayList();
 	private final boolean downloading = false;
 	private final ConnectionHandler handler = new ConnectionHandler();
 	private final JLabel statuslabel;
-	// Number of Retry
 	final int NumRetry = 5;
 	private queueDownloader thread = new queueDownloader();
 	private QueueRecord lastDownload;
 	private BasicConnection con;
-	//private HImageButton rotate = new HImageButton(Settings.cmdImage,"rotate","Toggle selected transfer...",this);
-	// connection established?
 	private boolean isThere = false;
 
 	public DownloadQueue() {
 		setLayout(new BorderLayout());
-
-		// list.setCellRenderer(new DirCellRenderer());
 		HPanel cmdP = new HPanel();
 
-		// private Vector listeners = new Vector();
 		net.sf.jftp.gui.framework.HImageButton start = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "start", "Start queue download...", this);
 		cmdP.add(start);
 
@@ -99,8 +92,6 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 		JScrollPane dP = new JScrollPane(list);
 
-		//add("South",cmdP);
-		//add("North",dP);
 		add(cmdP, BorderLayout.SOUTH);
 		add(dP, BorderLayout.CENTER);
 
@@ -111,7 +102,6 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		status.add(statuslabel);
 		add(status, BorderLayout.NORTH);
 
-		//*** MY ADDITIONS
 		start.setToolTipText("Start queue download...");
 		stop.setToolTipText("Stop queue download...");
 		save.setToolTipText("Save queue list to file...");
@@ -120,7 +110,6 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		down.setToolTipText("Change order of queue");
 		delete.setToolTipText("Delete item in queue");
 
-		//***
 	}
 
 	/*

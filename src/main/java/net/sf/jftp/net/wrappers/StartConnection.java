@@ -35,23 +35,9 @@ public class StartConnection {
 		keyfile = file;
 	}
 
-	//data sent to startCon: protocol: (ie. FTP, SFTP, etc.)
-	//                       htmp: hostname
-	//                       utmp: username
-	//                       ptmp: password
-	//	                 potmp: port
-	//			 dtmp: domain
-	// (null data is sent if it is ever not applicable)
-	//maybe it should just take an array of strings instead? (What's
-	//stored in the array can then be determined by reading the 1st
-	//entry, which is the protocol name)
 	public static boolean startCon(String protocol, String htmp, String utmp, String ptmp, int potmp, String dtmp, boolean useLocal) {
-		// I may need a series of If statements following this one
-		// declaring con for each of the possible types of connections
-		//FtpConnection con = null;
-		// ie.: if (protocol=="SFTP) SftpConnection con = null;
-		//NfsConnection con = null;
-		String conType; // this is for error msgs: may not be needed
+
+		String conType;
 
 		String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
@@ -70,7 +56,6 @@ public class StartConnection {
 			try {
 				con = new SmbConnection(htmp, dtmp, utmp, ptmp, ((ConnectionListener) net.sf.jftp.JFtp.remoteDir));
 
-				//JFtp.statusP.jftp.addConnection(htmp, con);
 				if (useLocal) {
 					net.sf.jftp.JFtp.statusP.jftp.addLocalConnection(htmp, con);
 
@@ -86,12 +71,6 @@ public class StartConnection {
 					}
 				}
 
-				//JFtp.remoteDir.setCon(con);
-				//con.setLocalPath(JFtp.localDir.getCon().getPWD());
-				//con.addConnectionListener((ConnectionListener) JFtp.localDir);
-				//con.addConnectionListener((ConnectionListener) JFtp.remoteDir);
-				//JFtp.remoteDir.fresh();
-				//BUGFIX
 				searchValue[0] = "SMB";
 				searchValue[1] = htmp;
 				searchValue[2] = utmp;
@@ -106,8 +85,6 @@ public class StartConnection {
 				searchValue[5] = useLocalString;
 				searchValue[6] = LastConnections.SENTINEL;
 
-				//searchValue = "SMB " + htmp + " " + utmp + " " +
-				//      ptmp + " " + dtmp + " " + useLocalString;
 				updateFileMenu(searchValue);
 
 				return true;
@@ -117,7 +94,6 @@ public class StartConnection {
 			}
 		}
 
-		//can assume any other connection is NFS for now
 		else {
 			NfsConnection con;
 
@@ -127,9 +103,6 @@ public class StartConnection {
 			//***
 			con = new NfsConnection(htmp);
 
-			//JFtp.remoteDir.setCon(con);
-			//con.addConnectionListener(((ConnectionListener)JFtp.remoteDir));
-			//JFtp.statusP.jftp.addConnection(htmp, con);
 			if (!utmp.equals("<anonymous>")) {
 				status = con.login(utmp, ptmp);
 			}
@@ -143,9 +116,6 @@ public class StartConnection {
 
 			con.chdir(htmp);
 
-			//con.setLocalPath(JFtp.localDir.getCon().getPWD());
-			//con.addConnectionListener((ConnectionListener) JFtp.localDir);
-			//BUGFIX
 			searchValue[0] = "NFS";
 			searchValue[1] = htmp;
 			searchValue[2] = utmp;
@@ -158,35 +128,11 @@ public class StartConnection {
 
 			searchValue[4] = useLocalString;
 			searchValue[5] = LastConnections.SENTINEL;
-
-			//searchValue = "NFS " + htmp + " " + utmp + " " +
-			//              ptmp + " " + useLocalString;
-            /*
-            searchValue = "NFS " + htmp + " " + utmp + " " +
-                          ptmp + " " + potmpString + " " + dtmp
-                          + " " + useLocalString;
-            */
 			updateFileMenu(searchValue);
 
 			return status;
 		}
 
-        /*
-        //Common functionality goes here
-
-        try {
-                //if statement here, select connection type (or should
-                // a superclass be used?)
-                con = new NfsConnection(htmp);
-
-                JFtp.statusP.jftp.addConnection(htmp, con);
-        } catch (Exception ex) {
-                Log.debug("Could not create " + protocol + "Connection!");
-        }
-
-        */
-
-		//return true only if all has executed as expected
 		return true;
 	}
 
@@ -199,57 +145,23 @@ public class StartConnection {
 		boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
 		boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
 
-		//BUGFIX: this is now an array
-		//String searchValue = new String("");
+
 		String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
-		//BELOW IS GUI-related stuff... should put in separate
-		//method in GUI dir?
-        /*
-        if(!pasv && threads)
-        { // only passive ftp threading works
-            //Settings.setProperty("jftp.enableMultiThreading", false);
 
-            JDialog j = new JDialog();
-            j.setTitle("Warning");
-            j.setLocation(150, 150);
-            j.setSize(450, 100);
-            j.getContentPane().add(new JLabel(" Multithreading in active mode is EXPERIMENTAL"));
-            j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            j.setModal(true);
-            j.show();
-        }
-        */
-		//***also need to get max connections!!
 		con = new FtpConnection(htmp, potmp, dtmp, crlf);
 
-		//con.addConnectionListener((ConnectionListener) JFtp.localDir);
-		//con.addConnectionListener((ConnectionListener) JFtp.remoteDir);
-		//JFtp.remoteDir.setCon(con);
+
 		if (useLocal) {
 			net.sf.jftp.JFtp.statusP.jftp.addLocalConnection(htmp, con);
 		} else {
 			net.sf.jftp.JFtp.statusP.jftp.addConnection(htmp, con);
 		}
 
-		//System.out.println("**" + htmp + potmp + dtmp);
-		//System.out.println("**" + utmp + ptmp);
 		int response = con.login(utmp, ptmp);
 
 		//boolean isConnected = false;
 		if (response == FtpConnection.LOGIN_OK) {
-			//System.out.println(htmp + " " + potmp + " " + dtmp);
-
-            /*
-            if (useLocal)
-                    JFtp.statusP.jftp.addLocalConnection(
-                            htmp, con);
-            else
-                    JFtp.statusP.jftp.addConnection(htmp, con);
-
-             */
-
-			//String searchValue = new String("");
 
 			String potmpString = Integer.toString(potmp);
 			String useLocalString = "false";
@@ -258,12 +170,6 @@ public class StartConnection {
 				useLocalString = "true";
 			}
 
-			//BUGFIX
-            /*
-            searchValue = "FTP " + htmp + " " + utmp + " " +
-                          ptmp + " " + potmpString + " " + dtmp
-                          + " " + useLocalString;
-            */
 			searchValue[0] = "FTP";
 			searchValue[1] = htmp;
 			searchValue[2] = utmp;
@@ -282,7 +188,6 @@ public class StartConnection {
 			updateFileMenu(searchValue);
 		}
 
-		//*** JUST FOR NOW: if not connected, take out the tabs
 		else {
 			if (useLocal) {
 				net.sf.jftp.JFtp.statusP.jftp.closeCurrentLocalTab();
@@ -291,7 +196,7 @@ public class StartConnection {
 			}
 		}
 
-		return response; //*** code that indicates successful connection
+		return response;
 	}
 
 	//startFtpCon
@@ -300,16 +205,12 @@ public class StartConnection {
 
 		position = LastConnections.findString(searchValue, net.sf.jftp.JFtp.CAPACITY);
 
-		//bugfix: now a 2D array
 		String[][] newVals = new String[net.sf.jftp.JFtp.CAPACITY][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		if (position >= 0) {
-			//System.out.println(JFtp.CAPACITY);
-			//System.out.println("IT WAS FOUND");
-			//System.out.println(position);
+
 			newVals = LastConnections.moveToFront(position, net.sf.jftp.JFtp.CAPACITY);
 		} else {
-			//System.out.println("IT WASN'T FOUND");
 			newVals = LastConnections.prepend(searchValue, net.sf.jftp.JFtp.CAPACITY, true);
 		}
 	}

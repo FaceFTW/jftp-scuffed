@@ -42,20 +42,20 @@ public class DirLister implements ActionListener {
 	private String sortMode = null;
 	private Date[] dates = null;
 
-	public DirLister(BasicConnection con) //String type)
+	public DirLister(BasicConnection con)
 	{
 		this.con = con;
 		init();
 	}
 
-	public DirLister(BasicConnection con, String sortMode) //String type)
+	public DirLister(BasicConnection con, String sortMode)
 	{
 		this.con = con;
 		this.sortMode = sortMode;
 		init();
 	}
 
-	public DirLister(BasicConnection con, String sortMode, boolean hide) //String type)
+	public DirLister(BasicConnection con, String sortMode, boolean hide)
 	{
 		this.con = con;
 		this.sortMode = sortMode;
@@ -98,40 +98,21 @@ public class DirLister implements ActionListener {
 		try {
 			String outfile = Settings.ls_out;
 
-			//BasicConnection con = JFtp.getControlConnection();
 			con.list();
 			files = con.sortLs();
 			sizes = con.sortSize();
 
-
-			//Log.debug("sizes: " + sizes.length);
-            /*
-            for(int i=0; i<files.length; i++)
-            {
-                    Log.out("parser: "+files[i]+":"+sizes[i]);
-            }
-            */
 			length = files.length;
 			perms = con.getPermissions();
 			isDirectory = true;
-            /*
-            for(int i=0; i<files.length; i++)
-            {
-                    if((con instanceof FtpConnection) && sortMode.equals("Date"))
-                {
-                        Vector v = ((FtpConnection)con).dateVector;
-                        if(v.size() > 0) Log.out(files[i]+":"+v.elementAt(i));
-                }
-            }*/
+
 			if (sortMode != null) {
 				if (!sortMode.equals("Date")) {
-					//Log.out("0"+sortMode);
 					sortFirst();
 				}
 
 				sort(sortMode);
 			} else if (sortMode == null) {
-				//Log.out("1"+sortMode);
 				sortFirst();
 			}
 		} catch (Exception ex) {
@@ -159,8 +140,6 @@ public class DirLister implements ActionListener {
 
 			fv.sort(java.util.Collections.reverseOrder());
 
-			//	Collections.sort(sv, Collections.reverseOrder());
-			//	if(perms != null) Collections.sort(pv, Collections.reverseOrder());
 			Object[] filesTmp = fv.toArray();
 			Object[] sizesTmp = sv.toArray();
 			Object[] permsTmp = null;
@@ -198,7 +177,6 @@ public class DirLister implements ActionListener {
 					int si = Integer.parseInt(sizes[i]);
 
 					if (!reverse && (si >= current)) {
-						//Log.out(sizes[i]+"/"+i);
 						idx = i;
 						current = si;
 					} else if (reverse && (si <= current)) {
@@ -211,7 +189,6 @@ public class DirLister implements ActionListener {
 				fv.add(files[idx]);
 				sv.add(sizes[idx]);
 
-				//System.out.println(files[idx]+":"+sizes[idx]+":"+idx);
 				if (perms != null) {
 					pv.add(perms[idx]);
 				}
@@ -243,12 +220,6 @@ public class DirLister implements ActionListener {
 			if (style.equals("ftp")) {
 				date = ((FtpConnection) con).dateVector.toArray();
 
-                /*
-                        for(int v=0; v<date.length; v++)
-                        {
-                                System.out.println(files[v]+":"+((Date)date[v]).toString());
-                        }
-                */
 			} else {
 				date = ((FilesystemConnection) con).dateVector.toArray();
 			}
@@ -262,7 +233,6 @@ public class DirLister implements ActionListener {
 					}
 
 					if (comp(x, (Date) date[i + 1])) {
-						//Log.debug("switch");
 						Date swp = (Date) date[i + 1];
 						date[i + 1] = x;
 						date[i] = swp;
@@ -272,7 +242,6 @@ public class DirLister implements ActionListener {
 						files[i] = s1;
 						files[i + 1] = s2;
 
-						//if(files[i].startsWith(".cross")) Log.out(files[i]+" / "+ ((Date)date[i]).toString());
 						s1 = sizes[i + 1];
 						s2 = sizes[i];
 						sizes[i] = s1;
@@ -292,19 +261,6 @@ public class DirLister implements ActionListener {
 				dates[i] = (Date) date[i];
 			}
 
-            /*
-            try
-            {
-            for(int k=0; k<date.length; k++)
-            {
-                    Log.out("+++ " + date[k].toString());
-            }
-            }
-            catch(Exception ex)
-            {
-                    ex.printStackTrace();
-            }
-            */
 		} else if (type.equals("Normal")) {
 			// already done.
 		}
@@ -319,7 +275,6 @@ public class DirLister implements ActionListener {
 		c2.clear();
 		c2.setTime(two);
 
-		// c.compareTo(c2) > 0)
 		return c.getTime().compareTo(c2.getTime()) > 0;
 	}
 
@@ -330,7 +285,6 @@ public class DirLister implements ActionListener {
 			if (perms != null) {
 				tmpx[x] = files[x] + "@@@" + sizes[x] + "@@@" + perms[x];
 
-				//Log.debug(tmpx[x]);
 			} else {
 				tmpx[x] = files[x] + "@@@" + sizes[x];
 			}

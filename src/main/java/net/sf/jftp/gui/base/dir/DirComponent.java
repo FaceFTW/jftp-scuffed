@@ -16,7 +16,6 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 		table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
 		table.getSelectionModel().addListSelectionListener(this);
 
-		//table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setRowSelectionAllowed(true);
 		table.setColumnSelectionAllowed(false);
 	}
@@ -38,7 +37,6 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 		if (!e.getValueIsAdjusting()) {
 			TableUtils.copyTableSelectionsToJList(jl, table);
 
-			//  ui refresh bugfix
 			int index = jl.getSelectedIndex() - 1;
 
 			if ((index < 0) || (dirEntry == null) || (dirEntry.length < index) || (dirEntry[index] == null)) {
