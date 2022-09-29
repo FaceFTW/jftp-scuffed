@@ -17,7 +17,9 @@ package net.sf.jftp.net.wrappers;
 
 
 import com.github.fracpete.rsync4j.SshPass;
-
+import com.github.fracpete.rsync4j.RSync;
+import com.github.fracpete.rsync4j.core.Binaries;
+import com.github.fracpete.processoutput4j.output.ConsoleOutputProcessOutput;
 
 public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	public static final int buffer = 128000;
@@ -571,9 +573,9 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return false;
 	}
 
-	public void transfer(String ltmp, String htmp, String dtmp, String ptmp) {
+	public void transfer(String ltmp, String htmp, String dtmp,String utmp, String ptmp) {
 		String sourcePath = ltmp;
-		String destinationUserHost = htmp;
+		String destinationUserHost = utmp + "@" + htmp;
 		String destinationPath = dtmp;
 		String password = ptmp;
 
@@ -582,11 +584,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		String source = sourcePath;
 		String destination = destinationUserHost + ":" + destinationPath;
 
-		com.github.fracpete.rsync4j.RSync rsync = null;
+		RSync rsync = null;
 		try {
-			rsync = new com.github.fracpete.rsync4j.RSync().sshPass(pass).source(source).destination(destination).verbose(true).rsh(com.github.fracpete.rsync4j.core.Binaries.sshBinary() + "-o StrictHostKeyChecking=no");
+			rsync = new RSync().recursive(true).sshPass(pass).source(source).destination(destination).verbose(true).rsh(Binaries.sshBinary() + " -o StrictHostKeyChecking=no");
 
-			com.github.fracpete.processoutput4j.output.ConsoleOutputProcessOutput output = new com.github.fracpete.processoutput4j.output.ConsoleOutputProcessOutput();
+			ConsoleOutputProcessOutput output = new ConsoleOutputProcessOutput();
 			output.monitor(rsync.builder());
 		} catch (Exception e) {
 			throw new RuntimeException(e);

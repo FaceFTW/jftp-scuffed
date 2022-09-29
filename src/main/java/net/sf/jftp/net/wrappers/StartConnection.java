@@ -322,7 +322,7 @@ public class StartConnection {
 
 		//***
 		con = new RsyncConnection(htmp, utmp, ptmp, port, dtmp, ltmp);
-	con.transfer(ltmp, htmp, dtmp, ptmp);
+		con.transfer(ltmp, htmp, dtmp, utmp ,ptmp);
 
 		return 0;
 	}
