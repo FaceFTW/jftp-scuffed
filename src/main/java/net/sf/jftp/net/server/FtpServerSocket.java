@@ -78,11 +78,10 @@ public class FtpServerSocket extends Thread {
 	private BufferedReader in = null;
 	private PrintWriter out = null;
 	private File directory = new File(".");
-	private ServerSocket pasvSocket = null;
-	private boolean passive = false;
+	private final ServerSocket pasvSocket = null;
 	private int activePort = 0;
-	private String rootDir = null;
-	private String currentDir = null;
+	private final String rootDir = null;
+	private final String currentDir = null;
 
 	public FtpServerSocket(Socket s) throws IOException {
 		socket = s;
@@ -134,20 +133,10 @@ public class FtpServerSocket extends Thread {
 		send("230pass");
 	}
 
-	public void syst(String line) {
-		send("215syst");
-	}
-
 	public void type(String line) { // needs work A, E, I, L, C, T, N
 
 		Object[] args = {"I"};
 		send("200type", args);
-	}
-
-	public void stru(String line) { // needs work - check for F, R, or P
-
-		Object[] args = {line.toUpperCase()};
-		send("200ok", args);
 	}
 
 	public void mode(String line) { // check for S, B, or C
@@ -156,52 +145,9 @@ public class FtpServerSocket extends Thread {
 		send("200ok", args);
 	}
 
-	public void rein(String line) {
-		Object[] args = {"REIN"};
-		send("502", args);
-	}
-
-	public void smnt(String line) {
-		Object[] args = {"SMNT"};
-		send("502", args);
-	}
-
-	public void quit(String line) {
-		out.print("221-You have transferred 0 bytes in 0 files.\r\n");
-		out.print("221-Total traffic for this session was 0 bytes in 0 transfers.\r\n");
-		out.print("221 Thank you for using the FTP service on pikachu.\r\n");
-		out.flush();
-
-		try {
-			socket.close();
-		} catch (Exception e) {
-		}
-	}
-
 	public void pwd(String line) {
 		Object[] args = {currentDir};
 		send("257pwd", args);
-	}
-
-	public void cwd(String line) {
-		String arg = line.substring(4);
-		String tmpDir;
-
-		if (arg.startsWith("/")) {
-			tmpDir = removeTrailingSlash(rootDir) + arg;
-		} else {
-			tmpDir = addTrailingSlash(currentDir) + arg;
-		}
-
-		File tmp = new File(tmpDir);
-
-		if (tmp.exists() && tmp.isDirectory()) {
-			currentDir = tmpDir;
-			send("250cwd");
-		} else {
-			out.print("550 " + arg + ": No such file or directory.\r\n");
-			out.flush();
-		}
 	}
 
 	public void cdup(String line) {
@@ -215,47 +161,6 @@ public class FtpServerSocket extends Thread {
 		send("200", args);
 	}
 
-	public void noop(String line) {
-		Object[] args = {"NOOP"};
-		send("200", args);
-	}
-
-	public void help(String line) {
-		out.print("214-The following commands are recognized.\r\n");
-
-        /*
-           USER    PORT    STOR    RNTO    NLST    MKD     CDUP
-           PASS    PASV    APPE    ABOR    SITE    XMKD    XCUP
-           TYPE    DELE    SYST    RMD     STOU
-           STRU    ALLO    CWD     STAT    XRMD    SIZE
-           MODE    REST    XCWD    HELP    PWD     MDTM
-           QUIT    RETR    RNFR    LIST    NOOP    XPWD
-        */
-		out.print("214 Direct comments to root@localhost.\r\n");
-		out.flush();
-	}
-
-	public void stat(String line) {
-		out.print("211-FTP server status:\r\n");
-
-        /*
-             Version wu-2.6.1-16
-             Connected to pikachu (127.0.0.1)
-             Logged in as gary
-             TYPE: ASCII, FORM: Nonprint; STRUcture: File; transfer MODE: Stream
-             No data connection
-             0 data bytes received in 0 files
-             0 data bytes transmitted in 0 files
-             0 data bytes total in 0 files
-             82 traffic bytes received in 0 transfers
-             2502 traffic bytes transmitted in 1 transfers
-             2634 traffic bytes total in 1 transfers
-             Disk quota: 0 disk blocks in use, 0 quota, 0 limit - time left
-             Inode quota: 0 inodes in use, 0 quota, 0 limit - time left
-        */
-		out.print("211 End of status\r\n");
-		out.flush();
-	}
 
 	private String addTrailingSlash(String s) {
 		if (s.endsWith("/")) {
@@ -273,53 +178,11 @@ public class FtpServerSocket extends Thread {
 		}
 	}
 
-	public void mkd(String line) {
-		String arg = line.substring(4);
-
-		if (arg.startsWith("/")) {
-			arg = removeTrailingSlash(rootDir) + arg;
-		} else {
-			arg = addTrailingSlash(currentDir) + arg;
-		}
-
-		File f = new File(arg);
-		MessageFormat fmt = null;
-		Object[] args = {f.getAbsolutePath()};
-
-		if (f.exists()) {
-			send("521mkd", args);
-		} else if (f.mkdirs()) {
-			send("257mkd", args);
-		} else {
-			send("550mkd", args);
-		}
-	}
-
-	public void feat(String line) {
-		out.print("211-Extensions supported\r\n");
-		out.print(" LANG EN*;FR\r\n");
-		out.print("211 END\r\n");
-		out.flush();
-	}
-
-	public void pasv(String line) {
-		InetAddress address = socket.getLocalAddress();
-		String pasvAddress = address.getHostAddress().replace('.', ',');
-
-		try {
-			pasvSocket = new ServerSocket(0, 5, address);
-			passive = true;
-		} catch (IOException ioe) {
-		}
-
-		int pasvPort = pasvSocket.getLocalPort();
-		Object[] args = {pasvAddress + "," + (pasvPort / 256) + "," + (pasvPort % 256)};
-		send("227pasv", args);
-	}
 
 	public void list(String line) {
 		send("150list");
 
+		boolean passive = false;
 		if (!passive) {
 			try {
 				Socket activeSocket = new Socket(socket.getInetAddress(), activePort);
@@ -337,25 +200,6 @@ public class FtpServerSocket extends Thread {
 		}
 	}
 
-	public void nlst(String line) {
-		send("150nlst");
-
-		if (!passive) {
-			try {
-				Socket activeSocket = new Socket(socket.getInetAddress(), activePort);
-				PrintStream ps = new PrintStream(activeSocket.getOutputStream());
-				ps.print("bleah\r\n");
-				ps.print("bleah\r\n");
-				ps.print("bleah\r\n");
-				ps.print("bleah\r\n");
-				ps.print("bleah\r\n");
-				ps.flush();
-				ps.close();
-				send("225");
-			} catch (Exception e) {
-			}
-		}
-	}
 
 	public void port(String line) {
 		int start = line.lastIndexOf(",");
@@ -379,26 +223,6 @@ public class FtpServerSocket extends Thread {
 
 		Object[] args = {"PORT"};
 		send("200", args);
-	}
-
-	public void opts(String line) {
-		// return 200, 451 or 501
-	}
-
-	public void lang(String line) {
-		out.print("200 Responses changed to english\r\n");
-		out.flush();
-	}
-
-	public void auth(String line) {
-	}
-
-	public void setRoot(String line) {
-		if (new File(line).exists()) {
-			rootDir = line;
-		} else {
-			System.err.println("invalid root directory");
-		}
 	}
 
 	public void run() {

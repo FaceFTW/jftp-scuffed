@@ -34,8 +34,6 @@ public class Log {
 		if (Settings.getDisableLog()) {
 			return;
 		}
-
-		//System.out.println(msg);
 		logger.debug(msg);
 		cache.append(msg).append("\n");
 

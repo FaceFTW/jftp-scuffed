@@ -264,19 +264,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			connected = true;
 			system();
 
-			//if(getOsType().indexOf("MVS") < 0)
 			binary();
 
 			if (initCWD.trim().equals(net.sf.jftp.config.Settings.defaultDir) || !chdirNoRefresh(initCWD)) {
-				//System.out.println("default dir...");
-				//if(!chdirNoRefresh(getPWD()))
-				//{
-				//System.out.println("FtpConnection should not do this...");
-				//	if(!chdirNoRefresh("~"))
-				//	{
-				//  		chdirNoRefresh("/");
-				//	}
-				//}
+
 				updatePWD();
 			}
 
@@ -284,8 +275,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				keepAliveThread = new FtpKeepAliveThread(this);
 			}
 
-			//Array of length 6 created, as that is maximum LoadSet size (need
-			//public variable with that constant there for it to refer to?)
 			String[] advSettings = new String[6];
 
 			if (getOsType().contains("OS/2")) {
@@ -293,11 +282,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 
 			if (LIST.equals("default")) {
-				//just get the first item (somehow it knows first is the
-				//FTP list command)
 				advSettings = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings);
 
-				//*** IF FILE NOT FOUND, CREATE IT AND SET IT TO LIST_DEFAULT
 				if (advSettings == null) {
 					LIST = LIST_DEFAULT;
 
@@ -681,26 +667,19 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						net.sf.jftp.system.logging.Log.out("could not preparse line: " + tmp);
 						lcount++;
 
-						//ex.printStackTrace();
 					}
 				}
 
-				//--------------------
-				//Log.out("tmp: " + tmp);
 				if (newUnixDateStyle) // unix, too
 				{
 					set = true;
 
-					//Log.out("listing - (unix parser #2, token 7): " + tmp);
-					//------- date parser testing ---------
 					try {
-						//Log.out(">>> date parser: " + tmp);
 						java.util.StringTokenizer to3 = new java.util.StringTokenizer(tmp, " ", true);
 						String date = giveFile(to3, 5);
 						String date2 = date.substring(date.indexOf("-") + 1);
 						date2 = date2.substring(date.indexOf("-") + 2);
 
-						//Log.out("date1: "+date+"/"+"date2: "+date2);
 						String y = date.substring(0, date.indexOf("-"));
 						String m = date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3);
 						String m1 = date.substring(date.indexOf("-") + 1);
@@ -778,8 +757,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			for (int i = 0; i < files.length; i++) {
 				files[i] = parseSymlink(files[i]);
 
-				//System.out.println("> " + files[i]+":"+dateVector.elementAt(i));
-				//System.out.println("> " + files.length+":"+dateVector.size());
 			}
 
 			return files;
@@ -788,40 +765,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			ex.printStackTrace();
 		}
 
-		//------- date parser test ------
-
-		/*
-        String[] x = (String[]) dateVector.toArray();
-        for(int i=0; i<x.length; i++)
-        {
-                Log.out(":"+x[i]);
-        }
-		 */
-
-		//-------------------------------
 		return new String[0];
 	}
 
-	/**
-	 * get a filename
-	 */
 	private String giveFile(StringTokenizer to, int lev) {
 
 		for (int i = 0; i < lev; i++) {
 			if (to.hasMoreTokens()) {
 				String t = to.nextToken();
 
-				//Log.out("> "+t);
 				if (t.equals(" ") || t.equals("\t")) {
-					// -
 
-					/*
-                       while(to.hasMoreTokens())
-                       {
-                               t2 = to.nextToken();
-                           if(!t.equals(" ") && !t.equals("\t")) break;
-                       }
-					 */
 					i--;
 				}
 			}
@@ -829,12 +783,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		StringBuilder tmp = new StringBuilder("<error>");
 
-		/*
-        if(t2 != null)
-        {
-                tmp = t2;
-        }
-		 */
 		while (tmp.toString().equals(" ") || tmp.toString().equals("\t") || tmp.toString().equals("<error>")) {
 			if (to.hasMoreTokens()) {
 				tmp = new StringBuilder(to.nextToken());
@@ -1096,8 +1044,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			String path = localPath + file;
 
-			//System.out.println(file + " : " + path);
-			//BufferedReader in = jcon.getReader();
 			modeStream();
 
 			//binary();
@@ -1459,8 +1405,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			while (!dcon.isThere()) {
 				pause(10);
 			}
-
-			//System.out.println(path + " : " + file);
 			if (realName != null) {
 				jcon.send(STOR + " " + realName);
 			} else {
@@ -1540,8 +1484,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				uploadDir(res);
 			} else {
-				//System.out.println(">>>\nlp: "+path+single + "\nrp: ");
-				//System.out.println(remoteDir +"\nres: "+res);
 				if (!work) {
 					return TRANSFER_STOPPED;
 				}
@@ -1611,14 +1553,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 
 			if ((tmp[i] == null) || tmp[i].equals("./") || tmp[i].equals("../")) {
-				//System.out.println(tmp[i]+"\n\n\n");
-				continue;
+			continue;
 			}
 
-			//System.out.println(tmp[i]);
-			//pause(500);
 			if (tmp[i].endsWith("/")) {
-				//   System.out.println(dir);
 				cleanDir(dir + tmp[i], path);
 
 				int x = removeFileOrDir(dir + tmp[i]);
@@ -1627,7 +1565,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					return x;
 				}
 			} else {
-				//   System.out.println(dir+tmp[i]);
 				int x = removeFileOrDir(dir + tmp[i]);
 
 				if (x < 0) {
@@ -1750,8 +1687,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				} else {
 					for (String s : until) {
 						if (tmp.startsWith(s)) {
-							//if(resultString == null) resultString = tmp;
-							//else resultString = resultString + "\n" + tmp;
 							if (tmp.charAt(3) != MORE_LINES_APPENDED) {
 								return tmp;
 							}
@@ -1827,10 +1762,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 
 		if (getOsType().contains("MVS")) {
-			//if(x1.indexOf("'") == 0) {
-			//        String x2 = x1.substring(1, x1.lastIndexOf("'"));
-			//        x1 = x2;
-			//}
+
 			net.sf.jftp.system.logging.Log.out("pwd: " + x1);
 		} else if (!x1.endsWith("/")) {
 			x1 = x1 + "/";
@@ -1976,8 +1908,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return True is successful, false otherwise
 	 */
 	public boolean chdir(String p) {
-		//Log.out("Change directory to: "+p);
-		//String tmpPath = p;
 
 		boolean tmp = chdirWork(p);
 
@@ -2239,29 +2169,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		return portb;
 	}
 
-	/*
-    private void incrementPort()
-    {
-        portb++;
-    }
-	 */
-
-	/*
-    private String getActivePortCmd() throws UnknownHostException, IOException
-    {
-        InetAddress ipaddr = jcon.getLocalAddress();
-        String ip = ipaddr.getHostAddress().replace('.', ',');
-
-        incrementPort();
-
-        int a = getPortA();
-        int b = getPortB();
-        String ret = "PORT " + ip + "," + a + "," + b;
-
-        //System.out.println(ret);
-        return ret;
-    }
-	 */
 
 	private String getActivePortCmd() throws IOException {
 		InetAddress ipaddr = jcon.getLocalAddress();
@@ -2273,29 +2180,16 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		porta = availPort / 256;
 		portb = availPort % 256;
 
-		//    System.out.println(ret);
 		return "PORT " + ip + "," + porta + "," + portb;
 	}
 
-	/**
-	 * Tell server we want binary data connections.
-	 */
-	public void binary() { // possible responses 200, 500, 501, 504, 421 and 530
-		type(BINARY);
+	public void binary() { type(BINARY);
 	}
 
-	/**
-	 * Tell server we want ascii data connections.
-	 */
 	public void ascii() {
 		type(ASCII);
 	}
 
-	/**
-	 * Set type (L8,I,A for example).
-	 *
-	 * @return True if the type was changed successfully, false otherwise
-	 */
 	public boolean type(String code) {
 		jcon.send(TYPE + " " + code);
 
@@ -2350,13 +2244,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		String response = getLine(POSITIVE);//FTP215_SYSTEM_TYPE);
 
 		if (response != null) {
-			//StringTokenizer st = new StringTokenizer(response);
-			//if (st.countTokens() >= 2)
-			//{
-			//     st.nextToken();
-			//     String os = st.nextToken();
-			//     setOsType(os);
-			//}
 			setOsType(response);
 		} else {
 			setOsType("UNIX");

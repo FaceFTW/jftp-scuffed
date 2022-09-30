@@ -39,10 +39,6 @@ public class ImageViewer extends JInternalFrame {
 
 		setVisible(true);
 
-		//doLayout();
-		//validate();
-		//p.repaint();
-		//Log.out(""+p.getSize().width);
 	}
 }
 
@@ -60,11 +56,8 @@ class ImagePanel extends JPanel {
 			mt.addImage(img, 1);
 			mt.waitForAll();
 
-			//System.out.println(img);
-			//setVisible(true);
 			repaint();
 
-			//validate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

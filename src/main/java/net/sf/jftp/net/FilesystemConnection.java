@@ -62,9 +62,7 @@ public class FilesystemConnection implements BasicConnection {
 			File f = new File(tmp);
 
 			if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
-				//Log.debug("WARNING: Symlink removed");//Skipping symlink, remove failed.");
-				//Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
-				//return -1;
+
 				if (!f.delete()) {
 					return -1;
 				}
@@ -74,7 +72,6 @@ public class FilesystemConnection implements BasicConnection {
 				cleanLocalDir(tmp);
 			}
 
-			//System.out.println(tmp);
 			if (!f.delete()) {
 				net.sf.jftp.system.logging.Log.debug("Removal failed.");
 
@@ -96,8 +93,6 @@ public class FilesystemConnection implements BasicConnection {
 				dir = dir + "/";
 			}
 
-			//String remoteDir = StringUtils.removeStart(dir,path);
-			//System.out.println(">>> " + dir);
 			File f2 = new File(dir);
 			String[] tmp = f2.list();
 
@@ -109,11 +104,9 @@ public class FilesystemConnection implements BasicConnection {
 				java.io.File f3 = new java.io.File(dir + s);
 
 				if (!f3.getAbsolutePath().equals(f3.getCanonicalPath())) {
-					//Log.debug("WARNING: Symlink remove");//Skipping symlink, remove may fail.");
 					f3.delete();
 
-					//Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
-					//continue;
+
 				}
 
 				if (f3.isDirectory()) {

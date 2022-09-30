@@ -112,11 +112,6 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 	}
 
-	/*
-	public void fresh()
-	{
-	}
-	*/
 	public void addFtp(String file) {
 		Log.debug("Remote File" + JFtp.remoteDir.getPath() + file + "Local File" + JFtp.localDir.getPath() + file + "HostName" + JFtp.hostinfo.hostname);
 
@@ -140,21 +135,16 @@ public class DownloadQueue extends HPanel implements ActionListener {
 					thread = new queueDownloader();
 					thread.start();
 
-					//listeners.add(thread);
 				}
 			} else {
 				thread = new queueDownloader();
 				thread.start();
 
-				//listeners.add(thread);
 			}
 		} else if (e.getActionCommand().equals("stop")) {
 			if (thread != null) {
 				thread.block = true;
 
-				//QueueRecord rec = (QueueRecord)queue.get(0);
-				//Transfer d = (Transfer)handler.getConnections().get(rec.file);
-				//DataConnection dcon = d.getDataConnection();
 				FtpConnection ftpcon = (FtpConnection) con;
 				DataConnection dcon = ftpcon.getDataConnection();
 				dcon.getCon().work = false;

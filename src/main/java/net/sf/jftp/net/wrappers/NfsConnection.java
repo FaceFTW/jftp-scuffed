@@ -46,7 +46,6 @@ public class NfsConnection implements BasicConnection {
 	private String[] files;
 	private String[] size = new String[0];
 	private int[] perms = null;
-	//private NfsHandler handler = new NfsHandler();
 	private String baseFile;
 	private int fileCount;
 	private boolean isDirUpload = false;
@@ -80,7 +79,6 @@ public class NfsConnection implements BasicConnection {
 
 			com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
-			//Log.out("nfs extension accessor: " + nfsx);
 			if (!nfsx.loginPCNFSD(host, user, pass)) {
 				net.sf.jftp.system.logging.Log.out("login failed!");
 
@@ -129,7 +127,6 @@ public class NfsConnection implements BasicConnection {
 				cleanLocalDir(tmp);
 			}
 
-			//System.out.println(tmp);
 			if (!f.delete()) {
 				return -1;
 			} else {
@@ -154,8 +151,6 @@ public class NfsConnection implements BasicConnection {
 			dir = dir + "/";
 		}
 
-		//String remoteDir = StringUtils.removeStart(dir,path);
-		//System.out.println(">>> " + dir);
 		XFile f2 = new XFile(dir);
 		String[] tmp = f2.list();
 
@@ -167,11 +162,9 @@ public class NfsConnection implements BasicConnection {
 			com.sun.xfile.XFile f3 = new com.sun.xfile.XFile(dir + s);
 
 			if (f3.isDirectory()) {
-				//System.out.println(dir);
 				cleanLocalDir(dir + s);
 				f3.delete();
 			} else {
-				//System.out.println(dir+tmp[i]);
 				f3.delete();
 			}
 		}
@@ -266,19 +259,10 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public boolean chdirNoRefresh(String p) {
-        /*
-                String p2 = toNFS(p);
-            if(p2 == null) return false;
-
-            pwd = p2;
-
-            return true;
-        */
 		return chdir(p, false);
 	}
 
 	public String getLocalPath() {
-		//System.out.println("local: " + path);
 		return path;
 	}
 
@@ -318,7 +302,6 @@ public class NfsConnection implements BasicConnection {
 					path = path + "/";
 				}
 
-				//System.out.println("2:"+path+":"+getPWD());
 			} catch (IOException ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
 
@@ -375,8 +358,6 @@ public class NfsConnection implements BasicConnection {
 			}
 
 			perms[i] = accessible;
-
-			//System.out.println(pwd+files[i] +" : " +accessible + " : " + size[i]);
 		}
 
 		return files;
@@ -412,7 +393,6 @@ public class NfsConnection implements BasicConnection {
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
-			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
 			work(path + outfile, file);
 			fireActionFinished(this);
 		}
@@ -429,8 +409,6 @@ public class NfsConnection implements BasicConnection {
 			fireActionFinished(this);
 		} else {
 			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
-
-			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
 			work(file, path + outfile);
 			fireActionFinished(this);
 		}
@@ -440,7 +418,6 @@ public class NfsConnection implements BasicConnection {
 
 	private void downloadDir(String dir, String out) {
 		try {
-			//System.out.println("downloadDir: " + dir + "," + out);
 			fileCount = 0;
 			shortProgress = true;
 			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
@@ -457,8 +434,6 @@ public class NfsConnection implements BasicConnection {
 
 			for (int i = 0; i < tmp.length; i++) {
 				tmp[i] = tmp[i].replace('\\', '/');
-
-				//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
 				XFile f3 = new XFile(dir + tmp[i]);
 
 				if (f3.isDirectory()) {
@@ -477,8 +452,6 @@ public class NfsConnection implements BasicConnection {
 			fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-
-			//System.out.println(dir + ", " + out);
 			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
 			fireProgressUpdate(baseFile, DataConnection.FAILED + ":" + fileCount, -1);
 		}
@@ -488,7 +461,6 @@ public class NfsConnection implements BasicConnection {
 
 	private void uploadDir(String dir, String out) {
 		try {
-			//System.out.println("uploadDir: " + dir + "," + out);
 			isDirUpload = true;
 			fileCount = 0;
 			shortProgress = true;

@@ -25,10 +25,7 @@ import java.net.Socket;
  */
 public class FtpServer extends Thread {
 	private final int dataPort = 20;
-	private int port = 21;
-
-	public FtpServer() {
-	}
+	private int port;
 
 	public FtpServer(int port) {
 		this.port = port;

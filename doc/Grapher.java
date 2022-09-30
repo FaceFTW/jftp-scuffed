@@ -91,9 +91,6 @@ public void paint(Graphics g)
 		String tmp = file.substring(0, file.indexOf(".java"));
 		java.awt.Point p2 = (java.awt.Point) pool.get(tmp);
 		if (p2 == null) continue;
-		//g.setColor(new Color(255,180,180));
-		//g.fillRect((int)  p2.getX(), (int)  p2.getY()-12, 80,  15);
-		//g.setColor(Color.blue);
 		g.drawString(tmp, (int) p2.getX(), (int) p2.getY());
 	}
 
@@ -101,13 +98,11 @@ public void paint(Graphics g)
 
 public void linkPoints(Graphics g, Point p)
 {
-	// fill
 
 	Enumeration k = table.keys();
 	Enumeration e = table.elements();
 	String xk = null;
 	String file = null;
-	String link = null;
 
 	while(k.hasMoreElements())
 	{
@@ -116,7 +111,6 @@ public void linkPoints(Graphics g, Point p)
 
 		file = xk.substring(0, xk.indexOf(":"));
 		file = file.substring(0,file.indexOf(".java"));
-		link = xk.substring( xk.indexOf(":")+1);
 
 		//System.out.println("<" + file + "> " + "(" + link + ")" + " - " + x);
 		Point x2 = (Point) pool.get(file);

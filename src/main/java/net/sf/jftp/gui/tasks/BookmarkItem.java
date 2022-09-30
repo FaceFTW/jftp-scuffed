@@ -72,14 +72,6 @@ public class BookmarkItem extends JMenuItem {
 				pass = Settings.hiddenPassword;
 			}
 
-            /*
-            FtpConnection con = StartConnection.con;
-
-            if(con != null)
-            {
-                    con.chdir(dirOrDom);
-            }
-            */
 		} else {
 			if (pass.equals(Settings.hiddenPassword)) {
 				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);

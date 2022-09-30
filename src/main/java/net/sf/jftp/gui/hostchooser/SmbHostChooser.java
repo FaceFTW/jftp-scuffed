@@ -241,8 +241,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 				}
 			}
 
-			//System.out.println(jcifs.Config.getProperty("jcifs.smb.client.laddr"));
-			//JFtp.setHost(host.getText());
+
 			String htmp = host.getText().trim();
 			String utmp = user.getText().trim();
 			String ptmp = pass.getText();

@@ -70,67 +70,10 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		HPanel p = new HPanel();
 		p.setLayout(new GridLayout(2, 2, 5, 3));
 
-		//***MY CHANGES
-        /*
-        try {
-                File f = new File(Settings.appHomeDir);
-                f.mkdir();
-                File f1 = new File(Settings.login);
-                f1.createNewFile();
-                File f2 = new File(Settings.login_def_sftp);
-                f2.createNewFile();
-                File f3 = new File(Settings.ls_out);
-                f3.createNewFile();
-                File f4 = new File(Settings.sortls_out);
-                f4.createNewFile();
-                File f5 = new File(Settings.sortsize_out);
-                f5.createNewFile();
-                File f6 = new File(Settings.permissions_out);
-                f6.createNewFile();
-        } catch (IOException ex) {
-                ex.printStackTrace();
-        }
 
-        LoadSet l = new LoadSet();
-        String login[] = l.loadSet(Settings.login_def_sftp);
-
-
-        if (login[0] != null) {
-                host.setText(login[0]);
-                user.setText(login[1]);
-
-        }
-        */
-        /*
-        else {
-                host.setText("localhost");
-                user.setText("guest");
-
-        }
-        */
-        /*
-        if (Settings.getStorePasswords()) {
-                if (login != null) {
-                        pass.setText(login[2]);
-                }
-
-        } else
-                pass.setText("");
-
-        */
-		//***end of my changes (for this section)
-		//getContentPane().add(host);
-		//getContentPane().add(new JLabel(" "));//port);
-		//getContentPane()
 		p.add(user);
-
-		//getContentPane()
 		p.add(pass);
-
-		//getContentPane()
 		p.add(new JLabel(""));
-
-		//getContentPane()
 		p.add(okP);
 
 		okP.add(ok);
@@ -146,8 +89,6 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		setModal(false);
 		setVisible(false);
 		addWindowListener(this);
-
-		//novell webdav test site
 		host.setText("http://www.planetpdf.com/planetpdf/webdavdemo/");
 		user.setText("guest");
 		pass.setText("guest");
@@ -215,15 +156,6 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	public void windowOpened(WindowEvent e) {
 	}
 
-    /*
-    public Insets getInsets()
-    {
-        Insets std = super.getInsets();
-
-        return new Insets(std.top + 10, std.left + 10, std.bottom + 10,
-                          std.right + 10);
-    }
-    */
 
 	public void pause(int time) {
 		try {

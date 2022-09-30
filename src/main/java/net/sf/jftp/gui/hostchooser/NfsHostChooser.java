@@ -95,8 +95,6 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		}
 
         /*
-        else {
-                System.out.println("made it here");
                 host.setText("nfs://localhost:v2m/tmp");
                 user.setText("guest");
 

@@ -453,8 +453,6 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				net.sf.jftp.JFtp.statusP.jftp.closeCurrentTab();
 			}
 
-			//this.setVisible(true);
-			//this.toFront();
 		}
 	}
 

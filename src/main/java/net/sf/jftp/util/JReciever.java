@@ -21,12 +21,11 @@ import java.io.DataInputStream;
 
 public class JReciever implements Runnable {
 	private final byte[] buf = new byte[4048];
-	private DataInputStream in;
-	private Thread reciever;
+	private final DataInputStream in;
 
 	public JReciever(DataInputStream in) {
 		this.in = in;
-		reciever = new Thread(this);
+		Thread reciever = new Thread(this);
 		reciever.start();
 	}
 

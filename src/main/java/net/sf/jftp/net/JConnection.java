@@ -38,89 +38,18 @@ public class JConnection implements Runnable {
 	private boolean isOk = false;
 	private boolean established = false;
 	private int localPort = -1;
-	//private int time = 0;
 
-	/*
-	private boolean useSocks4 = false;
-	private String socks4Host = "192.168.0.1";
-	private int socks4Port = 1080;
-	*/
 	public JConnection(String host, int port) {
 		this.host = host;
 		this.port = port;
-
-		//private boolean reciever = false;
 		Thread runner = new Thread(this);
 		runner.start();
 	}
 
-	/*
-		public JConnection(String host, int port, int time)
-		{
-			this.host = host;
-			this.port = port;
-			this.timeout = time;
-			this.time = time;
 
-			runner = new Thread(this);
-			runner.start();
-		}
-	*/
-    /*
-    private int swabInt(int v)
-    {
-            return  (v >>> 24) | (v << 24) |
-      ((v << 8) & 0x00FF0000) | ((v >> 8) & 0x0000FF00);
-    }
-    */
 	public void run() {
 		try {
-            /*
-                if(useSocks4)
-                {
-                        s = new Socket(socks4Host, socks4Port);
 
-                    Log.debug("\nsending socks4-request...");
-
-                    OutputStream o = s.getOutputStream();
-
-                    byte buf[] = new byte[9];
-
-                    buf[0] = (byte) 4;
-                    buf[1] = (byte) 0x1;
-                    buf[2] = (byte) 1;
-                    buf[3] = (byte) 1;
-                    buf[4] = (byte) 1;
-                    buf[5] = (byte) 1;
-                    buf[6] = (byte) 1;
-                    buf[7] = (byte) 1;
-                    buf[8] = (byte) 0;
-
-                    o.write(buf);
-                    o.flush();
-
-                        Log.debug("reading response...");
-                    byte ret[] = new byte[8];
-                    int bytes = s.getInputStream().read(ret);
-
-                    if(ret[1] == 90)
-                    {
-                            Log.debug("connection accepted");
-
-                                localPort = s.getLocalPort();
-                                out = new PrintStream(new BufferedOutputStream(s.getOutputStream(), Settings.bufferSize));
-                                in = new BufferedReader(new InputStreamReader(s.getInputStream()), Settings.bufferSize);
-                            isOk = true;
-                    }
-                    else
-                    {
-                            Log.debug("socks-connection refused (returncode " + ret[1] + ")");
-                            isOk = false;
-                    }
-                }
-                else
-                {
-                */
 			s = new Socket(host, port);
 
 			localPort = s.getLocalPort();
@@ -164,8 +93,6 @@ public class JConnection implements Runnable {
 		while (!established && (cnt < timeout)) {
 			pause(10);
 			cnt = cnt + 10;
-
-			//System.out.println(cnt + "/" + timeout);
 		}
 
 		return isOk;

@@ -23,7 +23,6 @@ public class JRawConnection implements Runnable {
 	private final String host;
 	private final int port;
 	private PrintStream out;
-	private DataInputStream in;
 	private JReciever jrcv;
 	private boolean isOk = false;
 	private boolean established = false;
@@ -43,7 +42,7 @@ public class JRawConnection implements Runnable {
 			java.net.Socket s = new java.net.Socket(host, port);
 
 			out = new PrintStream(s.getOutputStream());
-			in = new DataInputStream(s.getInputStream());
+			java.io.DataInputStream in = new java.io.DataInputStream(s.getInputStream());
 
 			if (reciever) {
 				JReciever jrcv = new JReciever(in);

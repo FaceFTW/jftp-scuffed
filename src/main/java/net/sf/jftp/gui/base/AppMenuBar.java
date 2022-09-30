@@ -241,8 +241,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		info.add(readme);
 		info.add(changelog);
-		//info.add(todo);
-		//info.addSeparator();
 		info.add(hp);
 
 		UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();

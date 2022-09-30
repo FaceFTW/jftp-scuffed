@@ -232,9 +232,6 @@ public class Sftp2Connection implements BasicConnection {
 			if (refresh) {
 				fireDirectoryUpdate();
 			}
-
-			//System.out.println("chdir2: " + getPWD());
-			//Log.debug("Changed path to: " + tmp);
 			return true;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -615,9 +612,7 @@ public class Sftp2Connection implements BasicConnection {
 				}
 			}
 
-			//if(up) {
-			//	channel.chmod(744, outfile);
-			//}
+
 
 			fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (IOException ex) {
@@ -824,17 +819,6 @@ class MyUserInfo implements UserInfo {
 	}
 
 	public boolean promptYesNo(String str) {
-			/*
-			Object[] options={ "yes", "no" };
-			int foo=JOptionPane.showOptionDialog(null, 
-					str, 
-					"Warning", 
-					JOptionPane.DEFAULT_OPTION, 
-					JOptionPane.WARNING_MESSAGE,
-					null, options, options[0]);
-			return foo==0;
-			*/
-
 		return true;
 	}
 

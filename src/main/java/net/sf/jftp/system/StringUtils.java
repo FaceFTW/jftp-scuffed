@@ -122,18 +122,9 @@ public class StringUtils {
 		if (x >= 0) {
 			file = file.substring(x + 1);
 		}
-
-		// may work, but can test the other method better
-		//int x  = file.lastIndexOf(File.separatorChar);
-		//if(x >= 0) file = file.substring(x+1);
-		//System.out.println(file);
 		return file;
 	}
 
-	/**
-	 * Returns a string representing a relative directory path.
-	 * Examples: "/tmp/dir/" -> "dir/" and "/tmp/dir" -> "dir"
-	 */
 	public static String getDir(String tmp) {
 		int x;
 
@@ -160,25 +151,14 @@ public class StringUtils {
 		return tmp;
 	}
 
-	/*
-	 * Returns true if the string represents a relative filename, false otherwise
-	 */
 	public static boolean isRelative(String file) {
-		// unix
 		if (file.startsWith("/")) {
 			return false;
 		}
 
-		// windows
 		return (file.length() <= 2) || (file.charAt(1) != ':');
 
-		//System.out.println("true: " + file);
-		// default
 	}
-
-	/**
-	 * Main method containing a few testcases for getFile() / isRelative()
-	 */
 	public static void main(String[] argv) {
 		String a1 = "E:\\programme\\test.html";
 		String a2 = "programme\\test.html";

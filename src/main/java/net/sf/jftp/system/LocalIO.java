@@ -56,8 +56,6 @@ public class LocalIO {
 			dir = dir + "/";
 		}
 
-		//String remoteDir = StringUtils.removeStart(dir,path);
-		//System.out.println(">>> " + dir);
 		File f2 = new File(path + dir);
 		String[] tmp = f2.list();
 

@@ -24,11 +24,4 @@ public class HPanel extends JPanel {
 		setBackground(new JLabel().getBackground());
 	}
 
-    /*
-    public Insets getInsets()
-    {
-        Insets in = super.getInsets();
-        return new Insets(in.top+2,in.left+2,in.bottom+2,in.right+2);
-    }
-    */
 }

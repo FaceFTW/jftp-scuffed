@@ -50,20 +50,6 @@ public class HComboBox extends JPanel //implements ActionListener
 		setVisible(true);
 	}
 
-	/*
-	public HComboBox(String l, String t, int size)
-	{
-		setLayout(new BorderLayout(5, 5));
-
-		label = new JLabel(l + "  ");
-		add("West", label);
-
-		comboBox = new JComboBox(t, size);
-		add("East", comboBox);
-
-		setVisible(true);
-	}
-	*/
 	public String getLabel() {
 		return label.getText();
 	}
@@ -84,23 +70,6 @@ public class HComboBox extends JPanel //implements ActionListener
 		comboBox.addActionListener(actListen);
 	}
 
-	/*
-	public String getText()
-	{
-		return comboBox.getText();
-	}
-
-	public void setText(String t)
-	{
-		comboBox.setText(t);
-	}
-
-	/*
-	public void requestFocus()
-	{
-		text.requestFocus();
-	}
-	*/
 	public void setEditable(boolean yesno) {
 		comboBox.setEditable(yesno);
 	}

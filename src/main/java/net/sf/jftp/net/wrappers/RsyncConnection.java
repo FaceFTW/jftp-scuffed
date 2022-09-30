@@ -34,8 +34,6 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	//private NfsHandler handler = new NfsHandler();
 	private String baseFile;
 	private int fileCount;
-	private boolean isDirUpload = false;
-	private boolean shortProgress = false;
 
 	public RsyncConnection(String url, String utmp, String ptmp, int port, String dtmp, String ltmp) {
 		this.url = url;
@@ -222,19 +220,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public boolean chdirNoRefresh(String p) {
-        /*
-                String p2 = toNFS(p);
-            if(p2 == null) return false;
 
-            pwd = p2;
-
-            return true;
-        */
 		return chdir(p, false);
 	}
 
 	public String getLocalPath() {
-		//System.out.println("local: " + path);
 		return path;
 	}
 
@@ -274,7 +264,6 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 					path = path + "/";
 				}
 
-				//System.out.println("2:"+path+":"+getPWD());
 			} catch (java.io.IOException ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
 
@@ -479,7 +468,9 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			for (int i = 0; i < listeners.size(); i++) {
 				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) listeners.elementAt(i);
 
+				boolean shortProgress = false;
 				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
+					boolean isDirUpload = false;
 					if (type.startsWith(net.sf.jftp.net.DataConnection.DFINISHED)) {
 						listener.updateProgress(baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + fileCount, bytes);
 					} else if (isDirUpload) {

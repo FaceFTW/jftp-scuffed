@@ -46,8 +46,6 @@ public class HImage {
 			net.sf.jftp.system.logging.Log.debug("\n\n\nError fetching image!");
 			ex.printStackTrace();
 
-			//System.exit(1);
-			//System.out.println(ex);
 			return img;
 		}
 
@@ -60,9 +58,6 @@ public class HImage {
 		if (url == null) {
 			url = HImage.class.getResource("/" + name);
 		}
-
-		//System.out.println(name + ":" + url);
-
 		return (url != null) ? new javax.swing.ImageIcon(url) : null;
 	}
 }

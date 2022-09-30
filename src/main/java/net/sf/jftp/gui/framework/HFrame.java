@@ -42,12 +42,4 @@ public class HFrame extends JDialog {
 		setLocation((tk.getScreenSize().width - getSize().width) / 2, (tk.getScreenSize().height - getSize().height) / 2);
 	}
 
-	/*
-	public Insets getInsets()
-	{
-		Insets in = super.getInsets();
-
-		return new Insets(in.top + 5, in.left + 5, in.bottom + 5, in.right + 5);
-	}
-	*/
 }
