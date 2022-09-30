@@ -29,7 +29,7 @@ public class NativeHttpBrowser extends Composite {
 
 	public NativeHttpBrowser(Composite parent, String url) throws Exception {
 		super(parent, SWT.NONE);
-		setLayout(new GridLayout());
+		this.setLayout(new GridLayout());
 		Group webBrowserPanel = new Group(this, SWT.NONE);
 		webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		webBrowserPanel.setLayout(new FillLayout());

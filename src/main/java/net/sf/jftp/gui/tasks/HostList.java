@@ -55,21 +55,21 @@ public class HostList extends JDialog {
 	public HostList(JDialog parent) {
 		super(parent);
 		String promptDialogTitle = " J-FTP Host Selection ";
-		setTitle(promptDialogTitle);
-		init();
-		setSize(600, 300);
+		this.setTitle(promptDialogTitle);
+		this.init();
+		this.setSize(600, 300);
 	}
 
 	/**
 	 * Adds listeners to any components that need them
 	 */
 	protected void initListeners() {
-		hostList.addListSelectionListener(lse -> onSelectHost());
-		jbsave.addActionListener(ae -> onSave());
-		jbok.addActionListener(ae -> onOk());
-		jbcancel.addActionListener(ae -> onCancel());
-		jbnew.addActionListener(ae -> onNew());
-		jbdelete.addActionListener(ae -> onDelete());
+		hostList.addListSelectionListener(lse -> this.onSelectHost());
+		jbsave.addActionListener(ae -> this.onSave());
+		jbok.addActionListener(ae -> this.onOk());
+		jbcancel.addActionListener(ae -> this.onCancel());
+		jbnew.addActionListener(ae -> this.onNew());
+		jbdelete.addActionListener(ae -> this.onDelete());
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class HostList extends JDialog {
 	 */
 	public net.sf.jftp.gui.base.FtpHost getFtpHost() {
 		selectedHostInfo = null;
-		setVisible(true);
+		this.setVisible(true);
 
 		return selectedHostInfo;
 	}
@@ -94,16 +94,16 @@ public class HostList extends JDialog {
 		this.initButtonPanel();
 		this.initHostListFrame();
 		this.loadHostList();
-		initListeners();
+		this.initListeners();
 
 		if (hostListModel.size() > 0) {
 			hostList.setSelectedIndex(0);
 		} else {
-			updateHostInfoPanel();
+			this.updateHostInfoPanel();
 		}
 
-		selectedHostInfo = getSelected();
-		setModal(true);
+		selectedHostInfo = this.getSelected();
+		this.setModal(true);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class HostList extends JDialog {
 		jptemp.add(jpHostInfo, BorderLayout.CENTER);
 
 		javax.swing.JSplitPane jsplitpane = new javax.swing.JSplitPane(javax.swing.JSplitPane.HORIZONTAL_SPLIT, jptempleft, jptemp);
-		getContentPane().add(jsplitpane);
+		this.getContentPane().add(jsplitpane);
 	}
 
 	/**
@@ -274,9 +274,9 @@ public class HostList extends JDialog {
 
 	public void onSelectHost() {
 		// update the old one, then show the new one
-		updateHostInfoObject();
-		selectedHostInfo = getSelected();
-		updateHostInfoPanel();
+		this.updateHostInfoObject();
+		selectedHostInfo = this.getSelected();
+		this.updateHostInfoPanel();
 	}
 
 	/**
@@ -290,10 +290,10 @@ public class HostList extends JDialog {
 		if (hostListModel.size() > 0) {
 			hostList.setSelectedIndex(0);
 		} else {
-			updateHostInfoPanel();
+			this.updateHostInfoPanel();
 		}
 
-		onSave();
+		this.onSave();
 		hostList.repaint();
 	}
 
@@ -301,7 +301,7 @@ public class HostList extends JDialog {
 	 * Save button handler
 	 */
 	public void onSave() {
-		updateHostInfoObject();
+		this.updateHostInfoObject();
 
 		// remove all previously saved hosts
 		int i = 0;
@@ -336,9 +336,9 @@ public class HostList extends JDialog {
 	 * OK Button handler
 	 */
 	public void onOk() {
-		selectedHostInfo = getSelected();
-		onSave();
-		dispose();
+		selectedHostInfo = this.getSelected();
+		this.onSave();
+		this.dispose();
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class HostList extends JDialog {
 	 */
 	public void onCancel() {
 		selectedHostInfo = null;
-		dispose();
+		this.dispose();
 	}
 
 	/**

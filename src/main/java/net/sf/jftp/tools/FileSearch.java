@@ -79,7 +79,7 @@ public class FileSearch {
 				url = url + "/";
 			}
 
-			url = clear(url);
+			url = this.clear(url);
 
 			net.sf.jftp.system.logging.Log.out(">>> URL: " + url);
 			net.sf.jftp.system.logging.Log.out(">>> Scanning for ");
@@ -99,7 +99,7 @@ public class FileSearch {
 			net.sf.jftp.system.logging.Log.out("Searching for links...");
 			net.sf.jftp.system.LocalIO.pause(500);
 
-			crawl(url);
+			this.crawl(url);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -147,7 +147,7 @@ public class FileSearch {
 			if (url.contains(s)) return -1;
 		}
 
-		if (!checkForScanableUrl(url)) return -1;
+		if (!this.checkForScanableUrl(url)) return -1;
 
 		return 1;
 	}
@@ -168,9 +168,9 @@ public class FileSearch {
 	}
 
 	private void crawl(String url) throws Exception {
-		url = clear(url);
+		url = this.clear(url);
 
-		int urlRating = checkForResult(url);
+		int urlRating = this.checkForResult(url);
 		if (!quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + currentDepth);
 
 		if (urlRating > 0) {
@@ -183,7 +183,7 @@ public class FileSearch {
 		Getter urlGetter = new Getter(localDir);
 		String content = urlGetter.fetch(url);
 
-		int factor = rate(content);
+		int factor = this.rate(content);
 		if (!quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + currentDepth);
 
 		if (factor < MIN_FACTOR) {
@@ -193,10 +193,10 @@ public class FileSearch {
 
 		if (!ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + currentDepth);
 
-		Vector m = sort(content, url.substring(0, url.lastIndexOf("/")), "href=\"");
-		m = addVector(m, sort(content, url.substring(0, url.lastIndexOf("/")), "src=\""));
-		m = addVector(m, sort(content, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
-		m = addVector(m, sort(content, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
+		Vector m = this.sort(content, url.substring(0, url.lastIndexOf("/")), "href=\"");
+		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "src=\""));
+		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
+		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
 
 		Enumeration links = m.elements();
 
@@ -212,7 +212,7 @@ public class FileSearch {
 					if (next.endsWith(s) || s.trim().equals("*")) {
 						net.sf.jftp.system.logging.Log.out("HIT: " + url + " -> " + next);
 
-						if (!LOAD || !checkForScanableUrl(url)) continue;
+						if (!LOAD || !this.checkForScanableUrl(url)) continue;
 
 						int x = next.indexOf("/");
 
@@ -234,7 +234,7 @@ public class FileSearch {
 
 				if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
 					currentDepth++;
-					crawl(next);
+					this.crawl(next);
 					currentDepth--;
 				}
 			}
@@ -256,14 +256,14 @@ public class FileSearch {
 
 			String was = content.substring(0, content.indexOf("\""));
 
-			was = createAbsoluteUrl(was, url);
+			was = this.createAbsoluteUrl(was, url);
 			res.add(was);
 			if (!quiet) net.sf.jftp.system.logging.Log.out("ADD: " + was);
 		}
 	}
 
 	private String createAbsoluteUrl(String newLink, String baseUrl) {
-		newLink = clear(newLink);
+		newLink = this.clear(newLink);
 
 		if (newLink.startsWith(baseUrl)) {
 			return newLink;
@@ -282,7 +282,7 @@ public class FileSearch {
 			}
 
 			if ((tmp.indexOf(".") > 0)) {
-				return clear(newLink);
+				return this.clear(newLink);
 			}
 
 			if (baseUrl.endsWith("/")) {

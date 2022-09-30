@@ -35,10 +35,10 @@ public class StatusCanvas extends JPanel {
 	boolean fwd = false;
 
 	public StatusCanvas() {
-		setMinimumSize(new Dimension(200, 25));
-		setPreferredSize(new Dimension(320, 25));
-		setLayout(null);
-		setVisible(true);
+		this.setMinimumSize(new Dimension(200, 25));
+		this.setPreferredSize(new Dimension(320, 25));
+		this.setLayout(null);
+		this.setVisible(true);
 	}
 
 	public void setInterval(int x) {
@@ -60,16 +60,16 @@ public class StatusCanvas extends JPanel {
 			if (AppMenuBar.fadeMenu.getState()) {
 				SwingUtilities.invokeLater(() -> {
 					for (pos = 30; pos > 0; pos -= 1) {
-						paintImmediately(0, 0, getSize().width, getSize().height);
+						this.paintImmediately(0, 0, this.getSize().width, this.getSize().height);
 						net.sf.jftp.system.LocalIO.pause(interval);
 					}
 				});
 			} else {
-				repaint();
+				this.repaint();
 			}
 		}
 
-		validate();
+		this.validate();
 	}
 
 	public void scrollText(String msg) {
@@ -85,18 +85,18 @@ public class StatusCanvas extends JPanel {
 					if (fwd) {
 						break;
 					}
-repaint();
+					this.repaint();
 					net.sf.jftp.system.LocalIO.pause(interval);
 
 				}
 			} else {
-				repaint();
+				this.repaint();
 			}
 
 			fwd = false;
 		}
 
-		validate();
+		this.validate();
 	}
 
 	public String getHost() {
@@ -105,19 +105,19 @@ repaint();
 
 	public void setHost(String h) {
 		host.setText(h);
-		validate();
+		this.validate();
 	}
 
 	public void fresh() {
 		image = null;
 		offg = null;
 
-		repaint();
+		this.repaint();
 	}
 
 	public void paintComponent(Graphics g) {
 		if (image == null) {
-			image = createImage(getWidth(), getHeight());
+			image = this.createImage(this.getWidth(), this.getHeight());
 		}
 
 		if (offg == null) {
@@ -126,7 +126,7 @@ repaint();
 
 		offg.setColor(GUIDefaults.light);
 		offg.setFont(GUIDefaults.status);
-		offg.fillRect(0, 0, getSize().width, getSize().height);
+		offg.fillRect(0, 0, this.getSize().width, this.getSize().height);
 		offg.setColor(new Color(125, 125, 175));
 
 		if (!slide) {
@@ -136,12 +136,12 @@ repaint();
 		}
 
 		offg.setColor(GUIDefaults.front);
-		offg.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
-		offg.drawRect(0, 0, getSize().width - 2, getSize().height - 2);
+		offg.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		offg.drawRect(0, 0, this.getSize().width - 2, this.getSize().height - 2);
 		g.drawImage(image, 0, 0, this);
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 }

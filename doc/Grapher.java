@@ -29,23 +29,23 @@ public static final int height = 600;
 
 public Grapher()
 {
- setSize(width,height);
+	this.setSize(width,height);
 
  try
  {
 	 for (String s : files) {
-		 java.io.File f = getFile(s);
+		 java.io.File f = this.getFile(s);
 
 		 if (f != null && f.exists()) {
 			 for (String file : files) {
-				 int x = countRelations(f, file);
+				 int x = this.countRelations(f, file);
 				 if (x > 0) table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
 			 }
 		 }
 	 }
 
- show();
- repaint();
+	 this.show();
+	 this.repaint();
  }
  catch(Exception ex)
  {
@@ -57,7 +57,7 @@ public void paint(Graphics g)
 {
 	// init
 	g.setColor(Color.white);
-	g.fillRect(0,0,getSize().width, getSize().height);
+	g.fillRect(0,0, this.getSize().width, this.getSize().height);
 	g.setColor(Color.blue);
 	g.setFont(new Font("serif", Font.BOLD, 14));
 
@@ -70,13 +70,13 @@ public void paint(Graphics g)
 			int y = r.nextInt(height - 20);
 			if (y < 30) y = 30;
 
-			if (check(x, y)) {
+			if (this.check(x, y)) {
 				//System.out.println("adding: " + files[i]);
 				String tmp = s.substring(0, s.indexOf(".java"));
 				java.awt.Point p = new java.awt.Point(x, y);
 				pool.put(tmp, p);
 
-				linkPoints(g, p);
+				this.linkPoints(g, p);
 
 				//g.drawString(tmp, x, y);
 

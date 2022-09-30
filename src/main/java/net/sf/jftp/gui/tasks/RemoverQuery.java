@@ -29,19 +29,19 @@ public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements Ac
 		this.file = file;
 		this.type = type;
 
-		setSize(200, 70);
-		setTitle("Really?");
-		setLayout(new FlowLayout());
-		setLocation(150, 150);
+		this.setSize(200, 70);
+		this.setTitle("Really?");
+		this.setLayout(new FlowLayout());
+		this.setLocation(150, 150);
 
-		add(ok);
+		this.add(ok);
 		net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
-		add(cancel);
+		this.add(cancel);
 
 		ok.addActionListener(this);
 		cancel.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {

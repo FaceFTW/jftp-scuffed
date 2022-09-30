@@ -33,7 +33,7 @@ public class Shell extends HFrame implements Runnable {
 		try {
 			this.in = new BufferedReader(new InputStreamReader(in));
 			this.out = new BufferedOutputStream(out);
-			init();
+			this.init();
 		} catch (Exception e) {
 			e.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
@@ -45,7 +45,7 @@ public class Shell extends HFrame implements Runnable {
 		try {
 			this.in = in;
 			this.out = new BufferedOutputStream(out);
-			init();
+			this.init();
 		} catch (Exception e) {
 			e.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
@@ -62,18 +62,18 @@ public class Shell extends HFrame implements Runnable {
 	}
 
 	public void init() throws Exception {
-		setTitle("Shell");
+		this.setTitle("Shell");
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		HFrame.fixLocation(this);
 
 		textP = new JScrollPane(text);
 		text.setFont(new Font("Monospaced", java.awt.Font.PLAIN, 10));
 
-		getContentPane().setLayout(new BorderLayout(5, 5));
-		getContentPane().add("Center", textP);
+		this.getContentPane().setLayout(new BorderLayout(5, 5));
+		this.getContentPane().add("Center", textP);
 		text.setEditable(false);
-		setBackground(text.getBackground());
+		this.setBackground(text.getBackground());
 
 		DefaultCaret c = new DefaultCaret();
 		c.setBlinkRate(1000);
@@ -122,19 +122,19 @@ public class Shell extends HFrame implements Runnable {
 				}
 
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					send();
+					net.sf.jftp.tools.Shell.this.send();
 				}
 			}
 		});
 
-		pack();
+		this.pack();
 		HFrame.fixLocation(this);
-		setVisible(true);
+		this.setVisible(true);
 
 		runner = new Thread(this);
 		runner.start();
 
-		toFront();
+		this.toFront();
 		text.requestFocus();
 	}
 

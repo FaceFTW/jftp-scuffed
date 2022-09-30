@@ -46,7 +46,7 @@ public class StatusPanel extends HPanel implements ActionListener {
 
 	public StatusPanel(JFtp jftp) {
 		this.jftp = jftp;
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		JToolBar bar = new JToolBar();
 
@@ -101,11 +101,11 @@ public class StatusPanel extends HPanel implements ActionListener {
 
 		bar.add(new JLabel("    "));
 
-		add("North", bar);
+		this.add("North", bar);
 
-		validate();
-		setFont(GUIDefaults.menuFont);
-		setVisible(true);
+		this.validate();
+		this.setFont(GUIDefaults.menuFont);
+		this.setVisible(true);
 	}
 
 	public void status(String msg) {
@@ -127,7 +127,7 @@ public class StatusPanel extends HPanel implements ActionListener {
 
 			String url = address.getText().trim();
 
-			startTransfer(url, JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
+			this.startTransfer(url, JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
 		} else if (e.getActionCommand().equals("smbcon")) {
 
 			SmbHostChooser hc = new SmbHostChooser();

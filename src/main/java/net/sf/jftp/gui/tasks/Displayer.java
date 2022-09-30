@@ -40,11 +40,11 @@ public class Displayer extends JInternalFrame implements ActionListener {
 
 	public Displayer(java.net.URL file, Font font) {
 		super(file.getFile(), true, true, true, true);
-		setLocation(50, 50);
-		setSize(600, 540);
-		getContentPane().setLayout(new BorderLayout());
+		this.setLocation(50, 50);
+		this.setSize(600, 540);
+		this.getContentPane().setLayout(new BorderLayout());
 
-		load(file);
+		this.load(file);
 		if (font != null) {
 			info.setFont(font);
 		} else {
@@ -53,7 +53,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		info.setEditable(false);
 
 		JScrollPane jsp = new JScrollPane(info);
-		getContentPane().add("Center", jsp);
+		this.getContentPane().add("Center", jsp);
 
 		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -62,12 +62,12 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		close.addActionListener(this);
 
 		if (showCloseButton) {
-			getContentPane().add("South", closeP);
+			this.getContentPane().add("South", closeP);
 		}
 
 		info.setCaretPosition(0);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {

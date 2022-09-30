@@ -32,21 +32,21 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 	private final JButton close = new JButton("Close");
 
 	public ExternalDisplayer(java.net.URL file) {
-		setTitle("Info...");
-		setLocation(50, 50);
-		setSize(600, 540);
-		getContentPane().setLayout(new BorderLayout());
+		this.setTitle("Info...");
+		this.setLocation(50, 50);
+		this.setSize(600, 540);
+		this.getContentPane().setLayout(new BorderLayout());
 
-		addWindowListener(new WindowAdapter() {
+		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				dispose();
+				net.sf.jftp.gui.tasks.ExternalDisplayer.this.dispose();
 			}
 		});
-		load(file);
+		this.load(file);
 		info.setEditable(false);
 
 		JScrollPane jsp = new JScrollPane(info);
-		getContentPane().add("Center", jsp);
+		this.getContentPane().add("Center", jsp);
 
 		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -54,11 +54,11 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 
 		close.addActionListener(this);
 
-		getContentPane().add("South", closeP);
+		this.getContentPane().add("South", closeP);
 
 		info.setCaretPosition(0);
-		setVisible(true);
-		pack();
+		this.setVisible(true);
+		this.pack();
 	}
 
 	public void actionPerformed(ActionEvent e) {

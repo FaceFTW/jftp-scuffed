@@ -122,32 +122,32 @@ public class FtpServerSocket extends Thread {
 	}
 
 	public void motd() {
-		send("220motd");
+		this.send("220motd");
 	}
 
 	public void user(String line) {
-		send("331user");
+		this.send("331user");
 	}
 
 	public void pass(String line) {
-		send("230pass");
+		this.send("230pass");
 	}
 
 	public void type(String line) { // needs work A, E, I, L, C, T, N
 
 		Object[] args = {"I"};
-		send("200type", args);
+		this.send("200type", args);
 	}
 
 	public void mode(String line) { // check for S, B, or C
 
 		Object[] args = {line.toUpperCase()};
-		send("200ok", args);
+		this.send("200ok", args);
 	}
 
 	public void pwd(String line) {
 		Object[] args = {currentDir};
-		send("257pwd", args);
+		this.send("257pwd", args);
 	}
 
 	public void cdup(String line) {
@@ -158,7 +158,7 @@ public class FtpServerSocket extends Thread {
 			directory = tmp;
 		}
 
-		send("200", args);
+		this.send("200", args);
 	}
 
 
@@ -180,7 +180,7 @@ public class FtpServerSocket extends Thread {
 
 
 	public void list(String line) {
-		send("150list");
+		this.send("150list");
 
 		boolean passive = false;
 		if (!passive) {
@@ -194,7 +194,7 @@ public class FtpServerSocket extends Thread {
 				ps.print("bleah\r\n");
 				ps.flush();
 				ps.close();
-				send("226");
+				this.send("226");
 			} catch (Exception e) {
 			}
 		}
@@ -222,13 +222,13 @@ public class FtpServerSocket extends Thread {
 		activePort = ((Integer.parseInt(hi) * 256) + Integer.parseInt(lo));
 
 		Object[] args = {"PORT"};
-		send("200", args);
+		this.send("200", args);
 	}
 
 	public void run() {
 		try {
 			String line = null;
-			motd();
+			this.motd();
 
 			while ((line = in.readLine()) != null) {
 				System.out.println(line);
@@ -248,7 +248,7 @@ public class FtpServerSocket extends Thread {
 					} catch (Exception e) {
 					}
 				} else {
-					send("500");
+					this.send("500");
 				}
 			}
 		} catch (IOException ioe) {

@@ -52,7 +52,7 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 		if (i == null) {
 			System.out.println("Img null: " + value.toString() + "/" + ((DirEntry) value).getImage());
 		} else {
-			setIcon(i);
+			this.setIcon(i);
 		}
 
 		Log.devnull(value); // prevents eclipse warning
@@ -64,7 +64,7 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getFileSize());
 			}
 
-			setFont(GUIDefaults.monospaced);
+			this.setFont(GUIDefaults.monospaced);
 
 			String s = value.toString();
 
@@ -88,26 +88,26 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 				}
 			}
 
-			setText(size + s);
+			this.setText(size + s);
 		} else {
-			setFont(GUIDefaults.small);
+			this.setFont(GUIDefaults.small);
 
 			String s = value.toString();
-			setText(s);
+			this.setText(s);
 		}
 
 		int ok = ((DirEntry) value).getPermission();
 
 		if (ok == DirEntry.DENIED) {
-			setForeground(GUIDefaults.deniedColor);
+			this.setForeground(GUIDefaults.deniedColor);
 		} else if (ok == DirEntry.W) {
-			setForeground(GUIDefaults.writableColor);
+			this.setForeground(GUIDefaults.writableColor);
 		} else {
-			setForeground(GUIDefaults.defaultColor);
+			this.setForeground(GUIDefaults.defaultColor);
 		}
 
 		if (((DirEntry) value).file.equals("..")) {
-			setBackground(GUIDefaults.cdColor);
+			this.setBackground(GUIDefaults.cdColor);
 		}
 
 		return this;

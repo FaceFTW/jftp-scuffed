@@ -134,7 +134,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	 * Creates the gui and adds the MouseListener etc.
 	 */
 	public void gui_init() {
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 		currDirPanel.setFloatable(false);
 		buttonPanel.setFloatable(false);
 
@@ -182,10 +182,10 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		cdUpButton.setToolTipText("Go to Parent Directory");
 
 		label.setText("Filesystem: " + StringUtils.cutPath(path));
-		label.setSize(getSize().width - 10, 24);
+		label.setSize(this.getSize().width - 10, 24);
 		currDirPanel.add(label);
-		currDirPanel.setSize(getSize().width - 10, 32);
-		label.setSize(getSize().width - 20, 24);
+		currDirPanel.setSize(this.getSize().width - 10, 32);
+		label.setSize(this.getSize().width - 20, 24);
 
 		p.setLayout(new BorderLayout());
 		p.add("North", currDirPanel);
@@ -211,7 +211,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 		buttonPanel.setVisible(true);
 
-		buttonPanel.setSize(getSize().width - 10, 32);
+		buttonPanel.setSize(this.getSize().width - 10, 32);
 
 		sorter.addActionListener(this);
 
@@ -225,10 +225,10 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		uploadButton.setMaximumSize(new Dimension(50, 50));
 		second.add("East", uploadButton);
 
-		add("North", second);
+		this.add("North", second);
 
 
-		setDirList(true);
+		this.setDirList(true);
 		jlm = new DefaultListModel();
 		jl = new JList(jlm);
 		jl.setCellRenderer(new net.sf.jftp.gui.base.dir.DirCellRenderer());
@@ -275,12 +275,12 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 					String tgt = jl.getSelectedValue().toString();
 
 					if (index < 0) {
-						doChdir(path + tgt);
+						net.sf.jftp.gui.base.LocalDir.this.doChdir(path + tgt);
 					} else if ((dirEntry == null) || (dirEntry.length < index) || (dirEntry[index] == null)) {
 					} else if (dirEntry[index].isDirectory()) {
-						doChdir(path + tgt);
+						net.sf.jftp.gui.base.LocalDir.this.doChdir(path + tgt);
 					} else {
-						showContentWindow(path + dirEntry[index].toString(), dirEntry[index]);
+						net.sf.jftp.gui.base.LocalDir.this.showContentWindow(path + dirEntry[index].toString(), dirEntry[index]);
 
 					}
 				}
@@ -301,8 +301,8 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		jsp.getVerticalScrollBar().addAdjustmentListener(adjustmentListener);
 
 
-		jsp.setSize(getSize().width - 20, getSize().height - 72);
-		add("Center", jsp);
+		jsp.setSize(this.getSize().width - 20, this.getSize().height - 72);
+		this.add("Center", jsp);
 		jsp.setVisible(true);
 
 		net.sf.jftp.gui.base.dir.TableUtils.tryToEnableRowSorting(table);
@@ -311,7 +311,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			buttonPanel.remove(sorter);
 		}
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void doChdir(String path) {
@@ -323,7 +323,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 	public void gui(boolean fakeInit) {
 		if (firstGui) {
-			gui_init();
+			this.gui_init();
 			firstGui = false;
 		}
 
@@ -334,11 +334,11 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		}
 
 		if (!fakeInit) {
-			setDirList(false);
+			this.setDirList(false);
 		}
 
-		invalidate();
-		validate();
+		this.invalidate();
+		this.validate();
 	}
 
 	public void setDirList(boolean fakeInit) {
@@ -423,7 +423,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 		jl.setModel(jlm);
 
-		update();
+		this.update();
 	}
 
 	public boolean chdir(String p) {
@@ -445,11 +445,11 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			if (con instanceof FilesystemConnection) {
 				JFtp.remoteDir.getCon().setLocalPath(path);
 
-				setDate();
+				this.setDate();
 			}
 
 			pathChanged = true;
-			gui(false);
+			this.gui(false);
 
 			return true;
 		}
@@ -466,11 +466,11 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		}
 
 		if (e.getActionCommand().equals("rm")) {
-			lock(false);
+			this.lock(false);
 
 			if (Settings.getAskToDelete()) {
 				if (!UITool.askToDelete(this)) {
-					unlock(false);
+					this.unlock(false);
 
 					return;
 				}
@@ -482,8 +482,8 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 				}
 			}
 
-			unlock(false);
-			fresh();
+			this.unlock(false);
+			this.fresh();
 		} else if (e.getActionCommand().equals("mkdir")) {
 			net.sf.jftp.gui.tasks.Creator c = new net.sf.jftp.gui.tasks.Creator("Create:", con);
 
@@ -492,9 +492,9 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 		} else if (e.getActionCommand().equals("cd")) {
 			String tmp = UITool.getPathFromDialog(path);
-			chdir(tmp);
+			this.chdir(tmp);
 		} else if (e.getActionCommand().equals("fresh")) {
-			fresh();
+			this.fresh();
 		} else if (e.getActionCommand().equals("cp")) {
 			Object[] o = jl.getSelectedValues();
 
@@ -513,7 +513,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			}
 
 			try {
-				copy(o, path, "", tmp);
+				this.copy(o, path, "", tmp);
 
 				Log.debug("Copy finished...");
 			} catch (Exception ex) {
@@ -537,14 +537,14 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 				NameChooser n = new NameChooser();
 				String name = n.text.getText();
 				ZipFileCreator z = new ZipFileCreator(tmp, path, name);
-				fresh();
+				this.fresh();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		} else if (e.getActionCommand().equals("->")) {
-			blockedTransfer(-2);
+			this.blockedTransfer(-2);
 		} else if (e.getActionCommand().equals("<-")) {
-			blockedTransfer(-2);
+			this.blockedTransfer(-2);
 		} else if (e.getActionCommand().equals("rn")) {
 			Object[] target = jl.getSelectedValues();
 
@@ -565,7 +565,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 					Log.debug("Rename failed.");
 				} else {
 					Log.debug("Successfully renamed.");
-					fresh();
+					this.fresh();
 				}
 			}
 		} else if (e.getSource() == props) {
@@ -594,7 +594,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			}
 
 			String url = JFtp.localDir.getPath() + currentPopup.toString();
-			showContentWindow(url, currentPopup);
+			this.showContentWindow(url, currentPopup);
 		} else if (e.getSource() == runFile) {
 			if (currentPopup.isDirectory()) {
 				Log.debug("This is a directory, not a file.");
@@ -603,15 +603,15 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			}
 
 			String url = JFtp.localDir.getPath() + currentPopup.toString();
-			showContentWindow("popup-run@" + url, currentPopup);
+			this.showContentWindow("popup-run@" + url, currentPopup);
 		} else if (e.getSource() == sorter) {
 			sortMode = (String) sorter.getSelectedItem();
 
 			Settings.showLocalDateNoSize = sortMode.equals("Date");
 
-			fresh();
+			this.fresh();
 		} else if (e.getActionCommand().equals("cdUp")) {
-			chdir("..");
+			this.chdir("..");
 		}
 	}
 
@@ -657,7 +657,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 					f.mkdir();
 				}
 
-				copy(f.list(), path, offset + files[i], target);
+				this.copy(f.list(), path, offset + files[i], target);
 			}
 		}
 	}
@@ -674,13 +674,13 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			}
 
 			if (block || net.sf.jftp.config.Settings.getNoUploadMultiThreading()) {
-				lock(false);
+				this.lock(false);
 			}
 
-			transfer(tmpindex);
+			this.transfer(tmpindex);
 
 			if (block || net.sf.jftp.config.Settings.getNoUploadMultiThreading()) {
-				unlock(false);
+				this.unlock(false);
 			}
 
 		};
@@ -727,7 +727,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			}
 		}
 
-		chdir(path);
+		this.chdir(path);
 
 		if ((idx >= 0) && (idx < jl.getModel().getSize())) {
 			if (jl.getModel().getElementAt(idx).toString().equals(i)) {
@@ -737,7 +737,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			}
 		}
 
-		update();
+		this.update();
 
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
@@ -757,7 +757,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 		for (int i = 0; i < cacheEntry.length; i++) {
 			if (bFileSelected[i]) {
-				startTransfer(cacheEntry[i]);
+				this.startTransfer(cacheEntry[i]);
 			}
 		}
 	}
@@ -802,10 +802,10 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 	public void transfer(int i) {
 		if (i == -2) {
-			transfer();
+			this.transfer();
 
 		} else if (dirEntry[i].selected) {
-			startTransfer(dirEntry[i]);
+			this.startTransfer(dirEntry[i]);
 		}
 	}
 
@@ -814,7 +814,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	}
 
 	public void actionPerformed(Object target, String msg) {
-		safeUpdate();
+		this.safeUpdate();
 	}
 
 	public void updateProgress(String file, String type, long bytes) {
@@ -840,7 +840,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		if (JFtp.dList.sizeCache.containsKey(file)) {
 			s = (Long) net.sf.jftp.JFtp.dList.sizeCache.get(file);
 		} else {
-			s = new File(getPath() + file).length();
+			s = new File(this.getPath() + file).length();
 			JFtp.dList.sizeCache.put(file, s);
 		}
 
@@ -852,7 +852,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 	public void actionFinished(BasicConnection con) {
 		//fresh();
-		safeUpdate();
+		this.safeUpdate();
 	}
 
 	public void connectionFailed(BasicConnection con, String reason) {
@@ -900,7 +900,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			path = con.getPWD();
 		}
 
-		safeUpdate();
+		this.safeUpdate();
 	}
 
 	private void setZipFilePath(net.sf.jftp.gui.base.dir.DirEntry entry) {
@@ -934,7 +934,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 					in.close();
 				}
 
-				chdir(tmp);
+				this.chdir(tmp);
 			} catch (IOException ex) {
 				ex.printStackTrace();
 				Log.debug("ERROR: " + ex);
@@ -962,7 +962,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		}
 
 		if (d.toString().endsWith(".zip")) {
-			setZipFilePath(d);
+			this.setZipFilePath(d);
 		} else {
 			try {
 				url = "file://" + url;
@@ -1024,9 +1024,9 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			String tmp = o.toString();
 
 			if (tmp.endsWith("/") || tmp.equals("..")) {
-				chdir(tmp);
+				this.chdir(tmp);
 			} else {
-				showContentWindow(path + tmp, (net.sf.jftp.gui.base.dir.DirEntry) o);
+				this.showContentWindow(path + tmp, (net.sf.jftp.gui.base.dir.DirEntry) o);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			int x = ((net.sf.jftp.gui.base.dir.DirPanel) JFtp.remoteDir).jl.getSelectedIndex();

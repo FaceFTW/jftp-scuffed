@@ -38,20 +38,20 @@ public class Properties extends HFrame implements ActionListener {
 		this.file = file;
 		this.type = type;
 
-		setSize(300, 110);
-		setTitle("File properties...");
-		setLocation(150, 150);
-		setLayout(new GridLayout(3, 1));
+		this.setSize(300, 110);
+		this.setTitle("File properties...");
+		this.setLocation(150, 150);
+		this.setLayout(new GridLayout(3, 1));
 
 		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
 		okP.add(ok);
-		add(sizeL);
-		add(fileL);
-		add(okP);
+		this.add(sizeL);
+		this.add(fileL);
+		this.add(okP);
 		ok.addActionListener(this);
 
-		process();
-		setVisible(true);
+		this.process();
+		this.setVisible(true);
 	}
 
 	private void process() {
@@ -75,7 +75,7 @@ public class Properties extends HFrame implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == ok) {
-			setVisible(false);
+			this.setVisible(false);
 		}
 	}
 }

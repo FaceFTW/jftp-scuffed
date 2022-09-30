@@ -40,7 +40,7 @@ public class BookmarkItem extends JMenuItem {
 
 	public void setProtocol(String proto) {
 		protocol = proto;
-		setLabel(proto + ": " + getLabel());
+		this.setLabel(proto + ": " + this.getLabel());
 	}
 
 	public void setDirectory(String dir) {

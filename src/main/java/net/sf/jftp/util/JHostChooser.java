@@ -29,11 +29,11 @@ public class JHostChooser extends HFrame implements ActionListener {
 	private final JButton ok = new JButton("Use these settings");
 
 	public JHostChooser() {
-		setSize(400, 120);
-		setLocation(200, 250);
-		setTitle("Connection...");
-		getContentPane().setLayout(new BorderLayout());
-		setBackground(Color.lightGray);
+		this.setSize(400, 120);
+		this.setLocation(200, 250);
+		this.setTitle("Connection...");
+		this.getContentPane().setLayout(new BorderLayout());
+		this.setBackground(Color.lightGray);
 
 		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		javax.swing.JLabel hostL = new javax.swing.JLabel("Host:");
@@ -46,13 +46,13 @@ public class JHostChooser extends HFrame implements ActionListener {
 		host.setText(RawConnection.host.getText());
 		port.setText(RawConnection.port.getText());
 
-		getContentPane().add("Center", p1);
+		this.getContentPane().add("Center", p1);
 		javax.swing.JPanel okP = new javax.swing.JPanel();
-		getContentPane().add("South", okP);
+		this.getContentPane().add("South", okP);
 		okP.add(ok);
 		ok.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {

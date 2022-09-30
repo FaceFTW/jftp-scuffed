@@ -36,8 +36,8 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	public ResumeDialog(net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
 		this.dirEntry = dirEntry;
 
-		setLocation(150, 150);
-		setTitle("Question");
+		this.setLocation(150, 150);
+		this.setTitle("Question");
 
 		resume.setEnabled(false);
 
@@ -58,29 +58,29 @@ public class ResumeDialog extends HFrame implements ActionListener {
 			resume.setEnabled(true);
 		}
 
-		getContentPane().setLayout(new BorderLayout(5, 5));
-		getContentPane().add("Center", text);
+		this.getContentPane().setLayout(new BorderLayout(5, 5));
+		this.getContentPane().add("Center", text);
 
 		HPanel p = new HPanel();
 		p.add(resume);
 		p.add(skip);
 		p.add(over);
 
-		getContentPane().add("South", p);
+		this.getContentPane().add("South", p);
 
 		resume.addActionListener(this);
 		skip.addActionListener(this);
 		over.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == resume) {
 			this.dispose();
-			transfer();
+			this.transfer();
 		} else if (e.getSource() == skip) {
 			this.dispose();
 		} else if (e.getSource() == over) {
@@ -89,7 +89,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 			File f = new File(JFtp.localDir.getPath() + dirEntry.file);
 			f.delete();
 
-			transfer();
+			this.transfer();
 		}
 	}
 

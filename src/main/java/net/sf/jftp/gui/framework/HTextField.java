@@ -26,22 +26,22 @@ public class HTextField extends JPanel {
 	private JLabel label;
 
 	public HTextField(String l, String t, int size) {
-		init(l, t, size, false);
+		this.init(l, t, size, false);
 	}
 
 	public HTextField(String l, String t) {
-		init(l, t, 12, false);
+		this.init(l, t, 12, false);
 	}
 
 	public HTextField(String l, String t, boolean isPw) {
-		init(l, t, 12, isPw);
+		this.init(l, t, 12, isPw);
 	}
 
 	public void init(String l, String t, int size, boolean isPw) {
-		setLayout(new MigLayout());
+		this.setLayout(new MigLayout());
 
 		label = new JLabel(l);
-		add(label);
+		this.add(label);
 
 		text = isPw ? new JPasswordField(t, size) {
 			public Insets getInsets() {
@@ -53,9 +53,9 @@ public class HTextField extends JPanel {
 			}
 		};
 
-		add(text, "align right");
+		this.add(text, "align right");
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 

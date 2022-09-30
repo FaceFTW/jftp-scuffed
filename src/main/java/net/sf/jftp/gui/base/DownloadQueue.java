@@ -54,7 +54,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	private boolean isThere = false;
 
 	public DownloadQueue() {
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 		HPanel cmdP = new HPanel();
 
 		net.sf.jftp.gui.framework.HImageButton start = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "start", "Start queue download...", this);
@@ -92,15 +92,15 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 		JScrollPane dP = new JScrollPane(list);
 
-		add(cmdP, BorderLayout.SOUTH);
-		add(dP, BorderLayout.CENTER);
+		this.add(cmdP, BorderLayout.SOUTH);
+		this.add(dP, BorderLayout.CENTER);
 
 		HPanel status = new HPanel();
 		statuslabel = new JLabel("");
 		statuslabel.setSize(100, 100);
 
 		status.add(statuslabel);
-		add(status, BorderLayout.NORTH);
+		this.add(status, BorderLayout.NORTH);
 
 		start.setToolTipText("Start queue download...");
 		stop.setToolTipText("Stop queue download...");
@@ -200,7 +200,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File f = chooser.getSelectedFile();
-				saveList(f);
+				this.saveList(f);
 			}
 		} else if (e.getActionCommand().equals("load")) {
 			JFileChooser chooser = new JFileChooser();
@@ -211,7 +211,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				File f = chooser.getSelectedFile();
-				loadList(f);
+				this.loadList(f);
 			}
 		}
 	}

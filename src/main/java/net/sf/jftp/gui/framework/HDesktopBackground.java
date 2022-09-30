@@ -32,8 +32,8 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 		this.who = who;
 
 		img = HImage.getImage(this, image);
-		addMouseListener(this);
-		setVisible(true);
+		this.addMouseListener(this);
+		this.setVisible(true);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -54,7 +54,7 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 
 	public void mouseClicked(MouseEvent e) {

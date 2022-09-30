@@ -37,23 +37,23 @@ public class Creator extends HFrame implements ActionListener {
 	public Creator(String l, BasicConnection con) {
 		this.con = con;
 
-		setTitle("Choose...");
-		getContentPane().setLayout(new FlowLayout());
+		this.setTitle("Choose...");
+		this.getContentPane().setLayout(new FlowLayout());
 
 		text = new HTextField(l, "");
-		getContentPane().add(text);
-		getContentPane().add(ok);
+		this.getContentPane().add(text);
+		this.getContentPane().add(ok);
 		ok.addActionListener(this);
 		text.text.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
+			this.setVisible(false);
 			con.mkdir(text.getText());
 		}
 	}

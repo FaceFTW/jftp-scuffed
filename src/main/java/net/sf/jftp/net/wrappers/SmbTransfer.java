@@ -27,7 +27,7 @@ public class SmbTransfer implements Runnable {
 		this.domain = domain;
 		this.listeners = listeners;
 
-		prepare();
+		this.prepare();
 	}
 
 	public void prepare() {

@@ -47,7 +47,7 @@ public class Log4JLogger implements Logger {
 
 	public void debug(String msg, Throwable throwable) {
 		cat.debug(msg);
-		cat.debug(stacktrace(throwable));
+		cat.debug(this.stacktrace(throwable));
 	}
 
 	public void warn(String msg) {
@@ -56,7 +56,7 @@ public class Log4JLogger implements Logger {
 
 	public void warn(String msg, Throwable throwable) {
 		cat.warn(msg);
-		cat.warn(stacktrace(throwable));
+		cat.warn(this.stacktrace(throwable));
 	}
 
 	public void error(String msg) {
@@ -65,7 +65,7 @@ public class Log4JLogger implements Logger {
 
 	public void error(String msg, Throwable throwable) {
 		cat.error(msg);
-		cat.error(stacktrace(throwable));
+		cat.error(this.stacktrace(throwable));
 	}
 
 	public void info(String msg) {
@@ -74,7 +74,7 @@ public class Log4JLogger implements Logger {
 
 	public void info(String msg, Throwable throwable) {
 		cat.info(msg);
-		cat.info(stacktrace(throwable));
+		cat.info(this.stacktrace(throwable));
 	}
 
 	public void fatal(String msg) {
@@ -83,6 +83,6 @@ public class Log4JLogger implements Logger {
 
 	public void fatal(String msg, Throwable throwable) {
 		cat.fatal(msg);
-		cat.fatal(stacktrace(throwable));
+		cat.fatal(this.stacktrace(throwable));
 	}
 }

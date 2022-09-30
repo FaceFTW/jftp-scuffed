@@ -10,17 +10,17 @@ public class ProgressBarList extends JPanel {
 	private int index = -1;
 
 	public ProgressBarList() {
-		setLayout(new GridLayout(0, 1));
+		this.setLayout(new GridLayout(0, 1));
 
-		addMouseListener(new MouseAdapter() {
+		this.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
-				Component c = getComponentAt(e.getX(), e.getY());
+				Component c = net.sf.jftp.gui.framework.ProgressBarList.this.getComponentAt(e.getX(), e.getY());
 
-				deselectAll();
+				net.sf.jftp.gui.framework.ProgressBarList.this.deselectAll();
 
-				for (int i = 0; i < getComponentCount(); i++) {
-					if (getComponent(i) instanceof ProgressbarItem) {
-						ProgressbarItem item = (ProgressbarItem) getComponent(i);
+				for (int i = 0; i < net.sf.jftp.gui.framework.ProgressBarList.this.getComponentCount(); i++) {
+					if (net.sf.jftp.gui.framework.ProgressBarList.this.getComponent(i) instanceof ProgressbarItem) {
+						ProgressbarItem item = (ProgressbarItem) net.sf.jftp.gui.framework.ProgressBarList.this.getComponent(i);
 
 						if (item == c) {
 							item.select();
@@ -38,7 +38,7 @@ public class ProgressBarList extends JPanel {
 
 	public void setListData(net.sf.jftp.gui.base.dir.DirEntry[] items) {
 
-		removeAll();
+		this.removeAll();
 		//System.out.println("\n\n--------------------\n");
 
 		for (net.sf.jftp.gui.base.dir.DirEntry item : items) {
@@ -47,19 +47,19 @@ public class ProgressBarList extends JPanel {
 
 			//System.out.println("add: "+items[i].file+" -> "+items[i].getTransferred()+"/"+items[i].getRawSize());
 
-			add(p);
+			this.add(p);
 		}
 
-		while (getComponentCount() < 10) {
-			add(new JLabel(" "));
+		while (this.getComponentCount() < 10) {
+			this.add(new JLabel(" "));
 		}
 
-		revalidate();
-		setSelectedIndex(index);
+		this.revalidate();
+		this.setSelectedIndex(index);
 	}
 
 	public ProgressbarItem getSelectedValue() {
-		return (ProgressbarItem) getComponent(index);
+		return (ProgressbarItem) this.getComponent(index);
 	}
 
 	public int getSelectedIndex() {
@@ -68,18 +68,18 @@ public class ProgressBarList extends JPanel {
 
 	public void setSelectedIndex(int idx) {
 
-		deselectAll();
+		this.deselectAll();
 
 		index = idx;
-		if (index >= 0 && getComponentCount() > index && getComponent(index) instanceof ProgressbarItem) {
-			((ProgressbarItem) getComponent(index)).select();
+		if (index >= 0 && this.getComponentCount() > index && this.getComponent(index) instanceof ProgressbarItem) {
+			((ProgressbarItem) this.getComponent(index)).select();
 		}
 	}
 
 	private void deselectAll() {
-		for (int i = 0; i < getComponentCount(); i++) {
-			if (getComponent(i) instanceof ProgressbarItem) {
-				((ProgressbarItem) getComponent(i)).deselect();
+		for (int i = 0; i < this.getComponentCount(); i++) {
+			if (this.getComponent(i) instanceof ProgressbarItem) {
+				((ProgressbarItem) this.getComponent(i)).deselect();
 			}
 		}
 	}
@@ -99,10 +99,10 @@ public class ProgressBarList extends JPanel {
 
 		//System.out.println(file+":"+bytes+":"+max);
 
-		for (int i = 0; i < getComponentCount() && !ok; i++) {
-			if (getComponent(i) instanceof ProgressbarItem) {
-				ProgressbarItem item = ((ProgressbarItem) getComponent(i));
-				String f = strip(item.getDirEntry().file);
+		for (int i = 0; i < this.getComponentCount() && !ok; i++) {
+			if (this.getComponent(i) instanceof ProgressbarItem) {
+				ProgressbarItem item = ((ProgressbarItem) this.getComponent(i));
+				String f = this.strip(item.getDirEntry().file);
 
 				if (f.equals(file)) {
 					item.update(bytes, max, message);

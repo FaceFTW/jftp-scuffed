@@ -30,7 +30,7 @@ public class ZipFileCreator {
 
 	public ZipFileCreator(String[] files, String path, String name) throws Exception {
 		z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path + name)));
-		perform(files, path, "");
+		this.perform(files, path, "");
 		z.finish();
 		z.flush();
 		z.close();
@@ -51,7 +51,7 @@ public class ZipFileCreator {
 						files[i] = files[i] + "/";
 					}
 
-					perform(f.list(), path, offset + files[i]);
+					this.perform(f.list(), path, offset + files[i]);
 				}
 
 				ZipEntry tmp = new ZipEntry(offset + files[i]);

@@ -33,7 +33,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 
 		file = net.sf.jftp.system.StringUtils.getFile(url);
 
-		prepare();
+		this.prepare();
 	}
 
 	public void prepare() {
@@ -74,21 +74,21 @@ public class HttpTransfer extends Transfer implements Runnable {
 				f.write(buf, 0, stat);
 
 				len += stat;
-				fireProgressUpdate(file, DataConnection.GET, len);
+				this.fireProgressUpdate(file, DataConnection.GET, len);
 			}
 
 			f.flush();
 			f.close();
 			in.close();
 
-			fireProgressUpdate(file, DataConnection.FINISHED, len);
+			this.fireProgressUpdate(file, DataConnection.FINISHED, len);
 		} catch (Exception ex) {
 			work = false;
 			net.sf.jftp.system.logging.Log.debug("Download failed: " + ex);
 
 			File f = new File(localPath + file);
 			f.delete();
-			fireProgressUpdate(file, DataConnection.FAILED, -1);
+			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 
 			ex.printStackTrace();
 

@@ -29,26 +29,26 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 	public Remover(String l, String type) {
 		this.type = type;
 
-		setSize(350, 100);
-		setTitle("Choose...");
-		setLocation(150, 150);
-		getContentPane().setLayout(new BorderLayout(10, 10));
+		this.setSize(350, 100);
+		this.setTitle("Choose...");
+		this.setLocation(150, 150);
+		this.getContentPane().setLayout(new BorderLayout(10, 10));
 
 		text = new net.sf.jftp.gui.framework.HTextField(l, "");
 		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
 		okP.add(ok);
 		okP.add(cancel);
-		getContentPane().add("North", text);
-		getContentPane().add("South", okP);
+		this.getContentPane().add("North", text);
+		this.getContentPane().add("South", okP);
 		ok.addActionListener(this);
 		cancel.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == ok) {
-			setVisible(false);
+			this.setVisible(false);
 
 			String tmp = text.getText();
 

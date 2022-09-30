@@ -29,7 +29,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 		super("Http Browser", true, true, true, true);
 
 		try {
-			setTitle(url);
+			this.setTitle(url);
 
 			JEditorPane pane = new JEditorPane(url);
 			pane.setEditable(false);
@@ -48,13 +48,13 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 
 			JScrollPane jsp = new JScrollPane(pane);
 
-			getContentPane().setLayout(new BorderLayout());
-			getContentPane().add("Center", jsp);
+			this.getContentPane().setLayout(new BorderLayout());
+			this.getContentPane().add("Center", jsp);
 
-			setLocation(50, 50);
-			setSize(800, 500);
-			show();
-			requestFocus();
+			this.setLocation(50, 50);
+			this.setSize(800, 500);
+			this.show();
+			this.requestFocus();
 		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error fetching URL: " + ex);
 			ex.printStackTrace();

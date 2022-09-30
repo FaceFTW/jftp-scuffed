@@ -10,15 +10,15 @@ public class ProgressbarItem extends JPanel {
 
 	public ProgressbarItem(net.sf.jftp.gui.base.dir.DirEntry d) {
 		this.d = d;
-		setLayout(new BorderLayout(2, 2));
+		this.setLayout(new BorderLayout(2, 2));
 
-		add("Center", bar);
+		this.add("Center", bar);
 
 		bar.setStringPainted(true);
 		bar.setString(d.file);
 
-		setBackground(Color.WHITE);
-		setSize(300, 25);
+		this.setBackground(Color.WHITE);
+		this.setSize(300, 25);
 	}
 
 	public void update(long size, long max, String lbl) {
@@ -46,13 +46,13 @@ public class ProgressbarItem extends JPanel {
 	}
 
 	public void deselect() {
-		setBackground(Color.WHITE);
-		repaint();
+		this.setBackground(Color.WHITE);
+		this.repaint();
 	}
 
 	public void select() {
-		setBackground(Color.LIGHT_GRAY);
-		repaint();
+		this.setBackground(Color.LIGHT_GRAY);
+		this.repaint();
 	}
 
 	public Insets getInsets() {

@@ -33,23 +33,23 @@ public class RemoteCommand extends HFrame implements ActionListener {
 
 	public RemoteCommand() {
 		//setSize(400, 80);
-		setTitle("Choose command...");
-		setLocation(150, 150);
-		getContentPane().setLayout(new FlowLayout());
+		this.setTitle("Choose command...");
+		this.setLocation(150, 150);
+		this.getContentPane().setLayout(new FlowLayout());
 
 		text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
-		getContentPane().add(text);
-		getContentPane().add(ok);
+		this.getContentPane().add(text);
+		this.getContentPane().add(ok);
 		ok.addActionListener(this);
 		text.text.addActionListener(this);
 
-		pack();
-		setVisible(true);
+		this.pack();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
+			this.setVisible(false);
 
 			String cmd = text.getText();
 			Log.debug("-> " + cmd);

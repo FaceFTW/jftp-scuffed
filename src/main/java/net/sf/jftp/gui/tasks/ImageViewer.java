@@ -23,21 +23,21 @@ import java.net.URL;
 public class ImageViewer extends JInternalFrame {
 	public ImageViewer(String img) {
 		super(img, true, true, true, true);
-		setLocation(150, 50);
-		setSize(400, 300);
+		this.setLocation(150, 50);
+		this.setSize(400, 300);
 
-		setLayout(new BorderLayout(2, 2));
+		this.setLayout(new BorderLayout(2, 2));
 
 		ImagePanel p = new ImagePanel(img);
 		JScrollPane scroll = new JScrollPane(p);
 
-		getContentPane().add("Center", scroll);
+		this.getContentPane().add("Center", scroll);
 
 		p.setMinimumSize(new Dimension(1500, 1500));
 		p.setPreferredSize(new Dimension(1500, 1500));
 		p.setMaximumSize(new Dimension(1500, 1500));
 
-		setVisible(true);
+		this.setVisible(true);
 
 	}
 }
@@ -48,7 +48,7 @@ class ImagePanel extends JPanel {
 
 	public ImagePanel(String url) {
 		try {
-			setBackground(Color.white);
+			this.setBackground(Color.white);
 
 			img = Toolkit.getDefaultToolkit().getImage(new URL(url));
 
@@ -56,7 +56,7 @@ class ImagePanel extends JPanel {
 			mt.addImage(img, 1);
 			mt.waitForAll();
 
-			repaint();
+			this.repaint();
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -70,6 +70,6 @@ class ImagePanel extends JPanel {
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 }

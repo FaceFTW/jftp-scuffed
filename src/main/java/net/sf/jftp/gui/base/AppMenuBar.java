@@ -189,7 +189,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		readme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
 		todo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, java.awt.event.InputEvent.ALT_MASK));
 
-		resetFileItems();
+		this.resetFileItems();
 
 		ftp.add(resuming);
 		ftp.add(ask);
@@ -277,14 +277,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		manage.addActionListener(this);
 
-		add(file);
-		add(opt);
-		add(view);
-		add(tools);
-		add(bookmarks);
-		add(info);
+		this.add(file);
+		this.add(opt);
+		this.add(view);
+		this.add(tools);
+		this.add(bookmarks);
+		this.add(info);
 
-		loadBookmarks();
+		this.loadBookmarks();
 
 	}
 
@@ -302,15 +302,15 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 			while ((data = in.readLine()) != null) {
 				if (!data.startsWith("#") && !data.trim().isEmpty()) {
-					addBookmarkLine(data);
+					this.addBookmarkLine(data);
 				}
 			}
 		} catch (IOException e) {
 			Log.out("No bookmarks.txt found, using defaults.");
 
-			addBookmark("FTP", "ftp.kernel.org", "anonymous", "j-ftp@sf.net", 21, "/pub/linux/kernel", "false");
-			addBookmark("FTP", "upload.sourceforge.net", "anonymous", "j-ftp@sf.net", 21, "/incoming", "false");
-			addBookmark("SMB", "(LAN)", "guest", "guest", -1, "-", "false");
+			this.addBookmark("FTP", "ftp.kernel.org", "anonymous", "j-ftp@sf.net", 21, "/pub/linux/kernel", "false");
+			this.addBookmark("FTP", "upload.sourceforge.net", "anonymous", "j-ftp@sf.net", 21, "/incoming", "false");
+			this.addBookmark("SMB", "(LAN)", "guest", "guest", -1, "-", "false");
 
 		}
 	}
@@ -330,7 +330,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (tmp.toLowerCase().trim().startsWith("<enddir>")) {
 				current = last;
 			} else {
-				addBookmark(t.nextToken(), t.nextToken(), t.nextToken(), t.nextToken(), Integer.parseInt(t.nextToken()), t.nextToken(), t.nextToken());
+				this.addBookmark(t.nextToken(), t.nextToken(), t.nextToken(), t.nextToken(), Integer.parseInt(t.nextToken()), t.nextToken(), t.nextToken());
 			}
 		} catch (Exception ex) {
 			Log.debug("Broken line: " + tmp);
@@ -440,7 +440,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		file.add(exit);
 
-		setMnemonics();
+		this.setMnemonics();
 	}
 
 
@@ -501,11 +501,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (e.getSource() == raw) {
 				RawConnection c = new RawConnection();
 			} else if (e.getSource() == readme) {
-				show(Settings.readme);
+				this.show(Settings.readme);
 			} else if (e.getSource() == changelog) {
-				show(Settings.changelog);
+				this.show(Settings.changelog);
 			} else if (e.getSource() == todo) {
-				show(Settings.todo);
+				this.show(Settings.todo);
 			} else if (e.getSource() == shell) {
 				UIUtils.runCommand("/bin/bash");
 			} else if (e.getSource() == loadAudio) {
@@ -593,7 +593,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				String feed = Settings.getProperty("jftp.customRSSFeed");
 				if (feed != null && !feed.isEmpty()) feed = "http://slashdot.org/rss/slashdot.rss";
 
-				switchRSS(feed);
+				this.switchRSS(feed);
 			} else if (e.getSource() == loadRss) {
 				String what = JOptionPane.showInputDialog("Enter URL", "http://");
 
@@ -601,15 +601,15 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					return;
 				}
 
-				switchRSS(what);
+				this.switchRSS(what);
 			} else if (e.getSource() == loadSlash) {
-				switchRSS("http://slashdot.org/rss/slashdot.rss");
+				this.switchRSS("http://slashdot.org/rss/slashdot.rss");
 			} else if (e.getSource() == loadCNN1) {
-				switchRSS("http://rss.cnn.com/rss/cnn_topstories.rss");
+				this.switchRSS("http://rss.cnn.com/rss/cnn_topstories.rss");
 			} else if (e.getSource() == loadCNN2) {
-				switchRSS("http://rss.cnn.com/rss/cnn_world.rss");
+				this.switchRSS("http://rss.cnn.com/rss/cnn_world.rss");
 			} else if (e.getSource() == loadCNN3) {
-				switchRSS("http://rss.cnn.com/rss/cnn_tech.rss");
+				this.switchRSS("http://rss.cnn.com/rss/cnn_tech.rss");
 			} else if (e.getSource() == debug) {
 				Settings.setProperty("jftp.enableDebug", debug.getState());
 				Settings.save();
@@ -637,23 +637,23 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			}
 
 			else if ((e.getSource() == lastConnections[0]) && (!JFtp.uiBlocked)) {
-				connectionSelected(0);
+				this.connectionSelected(0);
 			} else if ((e.getSource() == lastConnections[1]) && (!JFtp.uiBlocked)) {
-				connectionSelected(1);
+				this.connectionSelected(1);
 			} else if ((e.getSource() == lastConnections[2]) && (!JFtp.uiBlocked)) {
-				connectionSelected(2);
+				this.connectionSelected(2);
 			} else if ((e.getSource() == lastConnections[3]) && (!JFtp.uiBlocked)) {
-				connectionSelected(3);
+				this.connectionSelected(3);
 			} else if ((e.getSource() == lastConnections[4]) && (!JFtp.uiBlocked)) {
-				connectionSelected(4);
+				this.connectionSelected(4);
 			} else if ((e.getSource() == lastConnections[5]) && (!JFtp.uiBlocked)) {
-				connectionSelected(5);
+				this.connectionSelected(5);
 			} else if ((e.getSource() == lastConnections[6]) && (!JFtp.uiBlocked)) {
-				connectionSelected(6);
+				this.connectionSelected(6);
 			} else if ((e.getSource() == lastConnections[7]) && (!JFtp.uiBlocked)) {
-				connectionSelected(7);
+				this.connectionSelected(7);
 			} else if ((e.getSource() == lastConnections[8]) && (!JFtp.uiBlocked)) {
-				connectionSelected(8);
+				this.connectionSelected(8);
 			} else if (e.getSource() == opts) {
 				AdvancedOptions adv = new AdvancedOptions();
 				jftp.addToDesktop("Advanced Options", adv, 500, 180);

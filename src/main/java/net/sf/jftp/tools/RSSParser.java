@@ -30,7 +30,7 @@ public class RSSParser {
 
 	public RSSParser(URL f) {
 		file = f;
-		parse();
+		this.parse();
 	}
 
 	private void parse() {
@@ -44,10 +44,10 @@ public class RSSParser {
 				data.append(tmp);
 			}
 
-			add(data.toString(), content, "<title>", "</title>", "<description>", "</description>");
-			add(data.toString(), titles, "<title>", "</title>", null, null);
-			add(data.toString(), descs, "<description>", "</description>", null, null);
-			add(data.toString(), links, "<link>", "</link>", null, null);
+			this.add(data.toString(), content, "<title>", "</title>", "<description>", "</description>");
+			this.add(data.toString(), titles, "<title>", "</title>", null, null);
+			this.add(data.toString(), descs, "<description>", "</description>", null, null);
+			this.add(data.toString(), links, "<link>", "</link>", null, null);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 
@@ -85,6 +85,6 @@ public class RSSParser {
 
 		tmp = tmp.substring(tmp.indexOf(end) + end.length());
 
-		add(tmp, target, start, end, s2, e2);
+		this.add(tmp, target, start, end, s2, e2);
 	}
 }

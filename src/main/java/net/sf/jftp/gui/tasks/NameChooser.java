@@ -27,24 +27,24 @@ public class NameChooser extends net.sf.jftp.gui.framework.HFrame implements Act
 
 	public NameChooser() {
 		//setSize(400, 80);
-		setTitle("Enter a name for the file...");
+		this.setTitle("Enter a name for the file...");
 		//setLocation(150, 150);
-		getContentPane().setLayout(new FlowLayout());
+		this.getContentPane().setLayout(new FlowLayout());
 
 		text = new net.sf.jftp.gui.framework.HTextField("Filename: ", "tmp.zip");
-		getContentPane().add(text);
-		getContentPane().add(ok);
+		this.getContentPane().add(text);
+		this.getContentPane().add(ok);
 		ok.addActionListener(this);
 		text.text.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
+			this.setVisible(false);
 		}
 	}
 }

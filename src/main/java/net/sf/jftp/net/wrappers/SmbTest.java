@@ -34,7 +34,7 @@ public class SmbTest extends NtlmAuthenticator {
 	}
 
 	protected NtlmPasswordAuthentication getNtlmPasswordAuthentication() {
-		System.out.println(getRequestingException().getMessage() + " for " + getRequestingURL());
+		System.out.println(this.getRequestingException().getMessage() + " for " + this.getRequestingURL());
 
 		try {
 			String username = "guest";

@@ -61,7 +61,7 @@ public class JRawConnection implements Runnable {
 
 		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 		while (!established && (cnt < timeout)) {
-			pause(100);
+			this.pause(100);
 			cnt = cnt + 100;
 		}
 

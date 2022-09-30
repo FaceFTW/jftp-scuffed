@@ -66,23 +66,23 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 	public RsyncHostChooser(ComponentListener l, boolean local) {
 		listener = l;
-		init();
+		this.init();
 	}
 
 	public RsyncHostChooser(ComponentListener l) {
 		listener = l;
-		init();
+		this.init();
 	}
 
 	public RsyncHostChooser() {
-		init();
+		this.init();
 	}
 
 	public void init() {
 
 
-		setTitle("RSync Connection...");
-		setBackground(okP.getBackground());
+		this.setTitle("RSync Connection...");
+		this.setBackground(okP.getBackground());
 
 //		anonBox.setSelected(false);
 		user.setEnabled(true);
@@ -144,27 +144,27 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		okP.add(ok);
 		ok.addActionListener(this);
 
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
 		lcwd.setEnabled(true);
 		cwd.setEnabled(true);
 		pass.text.addActionListener(this);
 
-		getContentPane().setLayout(new BorderLayout(10, 10));
-		getContentPane().add("Center", root);
+		this.getContentPane().setLayout(new BorderLayout(10, 10));
+		this.getContentPane().add("Center", root);
 
-		pack();
-		setModal(false);
-		setVisible(false);
+		this.pack();
+		this.setModal(false);
+		this.setVisible(false);
 
-		addWindowListener(this);
-		prepareBackgroundMessage();
+		this.addWindowListener(this);
+		this.prepareBackgroundMessage();
 	}
 
 	public void update() {
-		fixLocation();
-		setVisible(true);
-		toFront();
+		this.fixLocation();
+		this.setVisible(true);
+		this.toFront();
 		host.requestFocus();
 	}
 
@@ -232,7 +232,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 //			FtpConnection con = null;
 			net.sf.jftp.JFtp.setHost(host.getText());
@@ -271,7 +271,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 			int response = StartConnection.startRsyncCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, ltmp);
 
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);

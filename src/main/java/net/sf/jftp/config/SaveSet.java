@@ -30,7 +30,7 @@ public class SaveSet {
 			out.println(user);
 
 			if (Settings.getStorePasswords()) {
-				savePW(pass, out);
+				this.savePW(pass, out);
 			} else {
 				out.println();
 			}
@@ -50,7 +50,7 @@ public class SaveSet {
 			out.println(user);
 
 			if (Settings.getStorePasswords()) {
-				savePW(pass, out);
+				this.savePW(pass, out);
 			} else {
 				out.println();
 			}

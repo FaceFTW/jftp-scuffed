@@ -53,10 +53,10 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	public RawConnection(String hostname, int p) {
 		host.setText(hostname);
 
-		setSize(550, 300);
-		setLocation(150, 150);
-		setTitle("Direct TCP/IP connection");
-		getContentPane().setLayout(new BorderLayout(2, 2));
+		this.setSize(550, 300);
+		this.setLocation(150, 150);
+		this.setTitle("Direct TCP/IP connection");
+		this.getContentPane().setLayout(new BorderLayout(2, 2));
 
 		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.add(host);
@@ -73,7 +73,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		com.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					transmit();
+					net.sf.jftp.util.RawConnection.this.transmit();
 				}
 			}
 		});
@@ -88,9 +88,9 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		outputPane = new JScrollPane(output);
 		outputPane.setMinimumSize(new Dimension(400, 300));
 
-		getContentPane().add("North", p1);
-		getContentPane().add("Center", outputPane);
-		getContentPane().add("South", p2);
+		this.getContentPane().add("North", p1);
+		this.getContentPane().add("Center", outputPane);
+		this.getContentPane().add("South", p2);
 
 		com.setText("");
 
@@ -104,10 +104,10 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		session.add(close);
 		mb.add(session);
 
-		setJMenuBar(mb);
+		this.setJMenuBar(mb);
 
-		addWindowListener(this);
-		setVisible(true);
+		this.addWindowListener(this);
+		this.setVisible(true);
 
 		JHostChooser jhc = new JHostChooser();
 	}
@@ -120,13 +120,13 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 				c.send(com.getText());
 				established = true;
 			} else {
-				debugWrite("No connection!");
+				this.debugWrite("No connection!");
 			}
 		} else {
 			if (c.isThere()) {
 				c.send(com.getText());
 			} else {
-				debugWrite("No connection!");
+				this.debugWrite("No connection!");
 			}
 		}
 
@@ -135,7 +135,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == send) || (e.getSource() == com.text)) {
-			transmit();
+			this.transmit();
 		}
 
 		if (e.getSource() == clear) {

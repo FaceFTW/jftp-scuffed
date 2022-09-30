@@ -135,7 +135,7 @@ public class FtpEventHandler implements EventHandler {
 	}
 
 	public void quit(Vector args) {
-		disconnect(args);
+		this.disconnect(args);
 	}
 
 	public boolean handle(Event e) {

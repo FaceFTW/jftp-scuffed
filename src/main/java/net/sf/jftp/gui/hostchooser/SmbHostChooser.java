@@ -55,23 +55,23 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 	public SmbHostChooser(ComponentListener l, boolean local) {
 		listener = l;
 		useLocal = local;
-		init();
+		this.init();
 	}
 
 	public SmbHostChooser(ComponentListener l) {
 		listener = l;
-		init();
+		this.init();
 	}
 
 	public SmbHostChooser() {
-		init();
+		this.init();
 	}
 
 	public void init() {
-		setPreferredSize(new Dimension(500, 320));
-		setLocation(100, 150);
-		setTitle("Smb Connection...");
-		setBackground(new HPanel().getBackground());
+		this.setPreferredSize(new Dimension(500, 320));
+		this.setLocation(100, 150);
+		this.setTitle("Smb Connection...");
+		this.setBackground(new HPanel().getBackground());
 
 		try {
 			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
@@ -129,13 +129,13 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		ok.addActionListener(this);
 
 		host.setEnabled(!lan.isSelected());
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
 		lan.addActionListener(this);
 		pass.text.addActionListener(this);
 
-		getContentPane().setLayout(new BorderLayout(3, 3));
-		getContentPane().add("Center", root);
+		this.getContentPane().setLayout(new BorderLayout(3, 3));
+		this.getContentPane().add("Center", root);
 
 		JTextArea t = new JTextArea() {
 			public Insets getInsets() {
@@ -145,11 +145,11 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		t.setLineWrap(true);
 		t.setText("Note: Please use URL format \"smb://host/\"");
 
-		getContentPane().add("North", t);
+		this.getContentPane().add("North", t);
 
-		setModal(false);
-		setVisible(false);
-		addWindowListener(this);
+		this.setModal(false);
+		this.setVisible(false);
+		this.addWindowListener(this);
 
 		ip.addItem("<default>");
 
@@ -176,7 +176,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 		ip.addActionListener(this);
 
-		pack();
+		this.pack();
 	}
 
 	private void setBCast() {
@@ -190,9 +190,9 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 	}
 
 	public void update() {
-		fixLocation();
-		setVisible(true);
-		toFront();
+		this.fixLocation();
+		this.setVisible(true);
+		this.toFront();
 		user.requestFocus();
 	}
 
@@ -208,12 +208,12 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 				domain.setEnabled(true);
 				broadcast.setEnabled(true);
 				wins.setEnabled(true);
-				setBCast();
+				this.setBCast();
 			}
 		} else if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 			net.sf.jftp.net.wrappers.SmbConnection con = null;
 
@@ -295,7 +295,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
             {
                     Log.debug("Could not create SMBConnection, does this distribution come with jcifs?");
             } */
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();

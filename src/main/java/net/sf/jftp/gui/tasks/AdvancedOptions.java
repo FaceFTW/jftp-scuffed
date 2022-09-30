@@ -29,7 +29,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 	private final JLabel statusText = new JLabel();
 
 	public AdvancedOptions() {
-		setLayout(new BorderLayout(5, 5));
+		this.setLayout(new BorderLayout(5, 5));
 
 		javax.swing.JLabel text = new javax.swing.JLabel();
 		text.setText("Default values for commands can be overridden here.");
@@ -65,10 +65,10 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 
 		content.add(panel);
 
-		add("North", text);
-		add("Center", content);
+		this.add("North", text);
+		this.add("Center", content);
 
-		add("South", statusText);
+		this.add("South", statusText);
 
 		setListCommand.addActionListener(this);
 		saveCommand.addActionListener(this);

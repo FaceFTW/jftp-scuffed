@@ -30,19 +30,19 @@ public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements 
 		//setTitle("Download a file via an URL");
 		//setLocation(150,150);
 		//getContentPane().
-		setLayout(new FlowLayout());
+		this.setLayout(new FlowLayout());
 
 		text = new net.sf.jftp.gui.framework.HTextField("URL:", "http://", 25);
 
 		//getContentPane().
-		add(text);
+		this.add(text);
 
 		//getContentPane().
-		add(ok);
+		this.add(ok);
 		ok.addActionListener(this);
 		text.text.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {

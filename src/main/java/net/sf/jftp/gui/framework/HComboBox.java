@@ -25,29 +25,29 @@ public class HComboBox extends JPanel //implements ActionListener
 	public final JComboBox comboBox;
 
 	public HComboBox(String l) {
-		setLayout(new BorderLayout(5, 5));
+		this.setLayout(new BorderLayout(5, 5));
 
 		label = new JLabel(l + "  ");
-		add("West", label);
+		this.add("West", label);
 
 		//comboBox = new JComboBox(t, 12);
 		comboBox = new JComboBox();
-		add("East", comboBox);
+		this.add("East", comboBox);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public HComboBox(String l, String[] t) {
-		setLayout(new BorderLayout(5, 5));
+		this.setLayout(new BorderLayout(5, 5));
 
 		label = new JLabel(l + "  ");
-		add("West", label);
+		this.add("West", label);
 
 		//comboBox = new JComboBox(t, 12);
 		comboBox = new JComboBox(t);
-		add("East", comboBox);
+		this.add("East", comboBox);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public String getLabel() {

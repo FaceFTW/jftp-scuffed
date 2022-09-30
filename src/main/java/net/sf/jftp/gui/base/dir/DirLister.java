@@ -45,21 +45,21 @@ public class DirLister implements ActionListener {
 	public DirLister(BasicConnection con)
 	{
 		this.con = con;
-		init();
+		this.init();
 	}
 
 	public DirLister(BasicConnection con, String sortMode)
 	{
 		this.con = con;
 		this.sortMode = sortMode;
-		init();
+		this.init();
 	}
 
 	public DirLister(BasicConnection con, String sortMode, boolean hide)
 	{
 		this.con = con;
 		this.sortMode = sortMode;
-		init();
+		this.init();
 
 		int cnt = files.length;
 
@@ -108,12 +108,12 @@ public class DirLister implements ActionListener {
 
 			if (sortMode != null) {
 				if (!sortMode.equals("Date")) {
-					sortFirst();
+					this.sortFirst();
 				}
 
-				sort(sortMode);
+				this.sort(sortMode);
 			} else if (sortMode == null) {
-				sortFirst();
+				this.sortFirst();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -232,7 +232,7 @@ public class DirLister implements ActionListener {
 						break;
 					}
 
-					if (comp(x, (Date) date[i + 1])) {
+					if (this.comp(x, (Date) date[i + 1])) {
 						Date swp = (Date) date[i + 1];
 						date[i + 1] = x;
 						date[i] = swp;

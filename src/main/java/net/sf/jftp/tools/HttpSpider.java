@@ -53,7 +53,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 	public HttpSpider(String localDir) {
 		this.localDir = localDir;
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.setLayout(new GridLayout(4, 1, 5, 5));
@@ -62,13 +62,13 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		p1.add(depth);
 		dir.setText(localDir);
 		p1.add(dir);
-		add("Center", p1);
+		this.add("Center", p1);
 		javax.swing.JPanel okP = new javax.swing.JPanel();
-		add("South", okP);
+		this.add("South", okP);
 		okP.add(ok);
 		ok.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -81,12 +81,12 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			argv = new String[]{host.getText().trim(), type.getText().trim(), depth.getText().trim()};
 
-			removeAll();
-			add("North", new JLabel("Starting download, please watch the log window for details"));
-			add("Center", stop);
+			this.removeAll();
+			this.add("North", new JLabel("Starting download, please watch the log window for details"));
+			this.add("Center", stop);
 			stop.addActionListener(this);
 			net.sf.jftp.JFtp.statusP.jftp.setClosable(this.hashCode(), false);
-			validate();
+			this.validate();
 
 			Thread runner = new Thread(this);
 			runner.start();
@@ -96,7 +96,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	}
 
 	public void run() {
-		spider(argv);
+		this.spider(argv);
 
 		if (!stopflag) {
 			net.sf.jftp.system.logging.Log.debug("\nRecursive download finished.\nOuptut dir: " + localDir);
@@ -113,13 +113,13 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			String url = "http://j-ftp.sourceforge.net/index.html";
 
 			if (argv.length >= 2) {
-				url = clear(argv[0]);
+				url = this.clear(argv[0]);
 
 				if (!url.contains("/")) {
 					url = url + "/";
 				}
 
-				typeArray = check(argv[1]);
+				typeArray = this.check(argv[1]);
 
 				net.sf.jftp.system.logging.Log.debugRaw(">>> Scanning for ");
 
@@ -155,7 +155,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				return;
 			}
 
-			smoke(url);
+			this.smoke(url);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -187,15 +187,15 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			return;
 		}
 
-		url = clear(url);
+		url = this.clear(url);
 
 		Holer sammy = new Holer(localDir);
 		String zeug = sammy.holZeug(url);
 
-		Vector m = sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "href=\"");
-		m = addVector(m, sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "src=\""));
-		m = addVector(m, sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
-		m = addVector(m, sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
+		Vector m = this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "href=\"");
+		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "src=\""));
+		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
+		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
 
 		Enumeration mischen = m.elements();
 
@@ -234,7 +234,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 				if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
 					currentDepth++;
-					smoke(next);
+					this.smoke(next);
 					currentDepth--;
 				}
 			}
@@ -256,7 +256,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			String was = zeug.substring(0, zeug.indexOf("\""));
 
-			was = checker(was, url);
+			was = this.checker(was, url);
 			mischen.add(was);
 			net.sf.jftp.system.logging.Log.out("Added: " + was);
 		}
@@ -276,7 +276,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	}
 
 	private String checker(String was, String url) {
-		was = clear(was);
+		was = this.clear(was);
 
 		if (was.startsWith(url)) {
 			return was;
@@ -295,7 +295,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			}
 
 			if ((tmp.indexOf(".") > 0)) {
-				return clear(was);
+				return this.clear(was);
 			}
 
 			if (url.endsWith("/")) {

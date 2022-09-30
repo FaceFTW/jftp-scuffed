@@ -62,7 +62,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	public void run() {
 		while (!done) {
 			if (buffer.size() != 0) {
-				accept((Event) buffer.firstElement());
+				this.accept((Event) buffer.firstElement());
 				buffer.removeElementAt(0);
 			}
 		}

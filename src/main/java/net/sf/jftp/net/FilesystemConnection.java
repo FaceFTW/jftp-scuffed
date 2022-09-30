@@ -44,7 +44,7 @@ public class FilesystemConnection implements BasicConnection {
 
 	public FilesystemConnection(String path, ConnectionListener l) {
 		listeners.add(l);
-		chdir(path);
+		this.chdir(path);
 	}
 
 	public int removeFileOrDir(String file) {
@@ -69,7 +69,7 @@ public class FilesystemConnection implements BasicConnection {
 			}
 
 			if (f.exists() && f.isDirectory()) {
-				cleanLocalDir(tmp);
+				this.cleanLocalDir(tmp);
 			}
 
 			if (!f.delete()) {
@@ -111,7 +111,7 @@ public class FilesystemConnection implements BasicConnection {
 
 				if (f3.isDirectory()) {
 					//System.out.println(dir);
-					cleanLocalDir(dir + s);
+					this.cleanLocalDir(dir + s);
 					f3.delete();
 				} else {
 					//System.out.println(dir+tmp[i]);
@@ -139,7 +139,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public boolean cdup() {
-		return chdir(pwd.substring(0, pwd.lastIndexOf("/") + 1));
+		return this.chdir(pwd.substring(0, pwd.lastIndexOf("/") + 1));
 	}
 
 	public boolean mkdir(String dirName) {
@@ -150,7 +150,7 @@ public class FilesystemConnection implements BasicConnection {
 		File f = new File(dirName);
 
 		boolean x = f.mkdir();
-		fireDirectoryUpdate();
+		this.fireDirectoryUpdate();
 
 		return x;
 	}
@@ -159,7 +159,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public boolean chdir(String p) {
-		String p2 = processPath(p);
+		String p2 = this.processPath(p);
 
 		if (p2 == null) {
 			return false;
@@ -175,13 +175,13 @@ public class FilesystemConnection implements BasicConnection {
 
 		pwd = p2;
 
-		fireDirectoryUpdate();
+		this.fireDirectoryUpdate();
 
 		return true;
 	}
 
 	public boolean chdirNoRefresh(String p) {
-		String p2 = processPath(p);
+		String p2 = this.processPath(p);
 
 		if (p2 == null) {
 			return false;
@@ -324,25 +324,25 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public int handleDownload(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
 
 	public int handleUpload(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
 
 	public int download(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
 
 	public int upload(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
@@ -376,14 +376,14 @@ public class FilesystemConnection implements BasicConnection {
 					tmp[i] = tmp[i] + "/";
 				}
 
-				transferDir(dir + tmp[i], out + tmp[i]);
+				this.transferDir(dir + tmp[i], out + tmp[i]);
 			} else {
-				fireProgressUpdate(baseFile, DataConnection.GETDIR + ":" + fileCount, -1);
-				work(dir + tmp[i], out + tmp[i]);
+				this.fireProgressUpdate(baseFile, DataConnection.GETDIR + ":" + fileCount, -1);
+				this.work(dir + tmp[i], out + tmp[i]);
 			}
 		}
 
-		fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
+		this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
 		shortProgress = false;
 	}
 
@@ -400,10 +400,10 @@ public class FilesystemConnection implements BasicConnection {
 		String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 		if (file.endsWith("/")) {
-			transferDir(file, path + out);
+			this.transferDir(file, path + out);
 
 		} else {
-			work(file, path + outfile);
+			this.work(file, path + outfile);
 		}
 	}
 
@@ -427,16 +427,16 @@ public class FilesystemConnection implements BasicConnection {
 				out.write(buf, 0, len);
 
 				reallen += len;
-				fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
+				this.fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
 			}
 
 			out.flush();
 			out.close();
 			in.close();
-			fireProgressUpdate(file, DataConnection.FINISHED, -1);
+			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
-			fireProgressUpdate(file, DataConnection.FAILED, -1);
+			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
 	}
 
@@ -448,7 +448,7 @@ public class FilesystemConnection implements BasicConnection {
 		file = file.replace('\\', '/');
 
 		try {
-			work(new BufferedInputStream(in), file, file);
+			this.work(new BufferedInputStream(in), file, file);
 
 			return 0;
 		} catch (Exception ex) {
@@ -477,16 +477,16 @@ public class FilesystemConnection implements BasicConnection {
 				out.write(buf, 0, len);
 
 				reallen += len;
-				fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
+				this.fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
 			}
 
 			out.flush();
 			out.close();
 			in.close();
-			fireProgressUpdate(file, DataConnection.FINISHED, -1);
+			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
-			fireProgressUpdate(file, DataConnection.FAILED, -1);
+			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
 	}
 
@@ -509,12 +509,12 @@ public class FilesystemConnection implements BasicConnection {
 
 	public void addConnectionListener(ConnectionListener l) {
 		listeners.add(l);
-		fireDirectoryUpdate();
+		this.fireDirectoryUpdate();
 	}
 
 	public void setConnectionListeners(Vector<ConnectionListener> l) {
 		listeners = l;
-		fireDirectoryUpdate();
+		this.fireDirectoryUpdate();
 	}
 
 	/**

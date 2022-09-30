@@ -29,24 +29,24 @@ public class PathChanger extends net.sf.jftp.gui.framework.HFrame implements Act
 		this.type = type;
 
 		//setSize(400, 80);
-		setTitle("Choose path...");
+		this.setTitle("Choose path...");
 		//setLocation(150, 150);
-		getContentPane().setLayout(new FlowLayout());
+		this.getContentPane().setLayout(new FlowLayout());
 
 		text = new net.sf.jftp.gui.framework.HTextField("Path:", "");
-		getContentPane().add(text);
-		getContentPane().add(ok);
+		this.getContentPane().add(text);
+		this.getContentPane().add(ok);
 		ok.addActionListener(this);
 		text.text.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
+			this.setVisible(false);
 
 			if (type.equals("remote")) {
 				net.sf.jftp.JFtp.remoteDir.getCon().chdir(text.getText());

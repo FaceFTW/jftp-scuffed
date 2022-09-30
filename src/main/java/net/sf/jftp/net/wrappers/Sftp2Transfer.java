@@ -30,7 +30,7 @@ public class Sftp2Transfer implements Runnable {
 		this.host = host;
 		this.port = port;
 
-		prepare();
+		this.prepare();
 	}
 
 	public void prepare() {

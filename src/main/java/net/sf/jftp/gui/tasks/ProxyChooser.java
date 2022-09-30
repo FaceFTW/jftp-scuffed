@@ -31,7 +31,7 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 		//setTitle("Proxy settings...");
 		//setLocation(50,150);
 		//getContentPane().
-		setLayout(new FlowLayout(FlowLayout.LEFT));
+		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		proxy = new net.sf.jftp.gui.framework.HTextField("Socks proxy:", "");
 		port = new net.sf.jftp.gui.framework.HTextField("Port:", "");
@@ -40,16 +40,16 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 		port.setText(net.sf.jftp.config.Settings.getSocksProxyPort());
 
 		//getContentPane().
-		add(proxy);
+		this.add(proxy);
 
 		//getContentPane().
-		add(port);
+		this.add(port);
 
 		//getContentPane().
-		add(ok);
+		this.add(ok);
 
 		//getContentPane().
-		add(new JLabel("Please note that you have to restart JFtp to apply the changes!"));
+		this.add(new JLabel("Please note that you have to restart JFtp to apply the changes!"));
 		ok.addActionListener(this);
 
 		//setVisible(true);
@@ -83,10 +83,10 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 
 			net.sf.jftp.system.logging.Log.out("new proxy vars set.");
 
-			remove(3);
-			add(new JLabel("Options set. Please restart JFtp."));
-			validate();
-			setVisible(true);
+			this.remove(3);
+			this.add(new JLabel("Options set. Please restart JFtp."));
+			this.validate();
+			this.setVisible(true);
 		}
 	}
 }

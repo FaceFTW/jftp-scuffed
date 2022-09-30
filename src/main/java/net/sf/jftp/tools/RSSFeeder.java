@@ -38,12 +38,12 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	final int LOAD_IVAL = 31 * 60000;
 
 	public RSSFeeder() {
-		setLayout(new BorderLayout(0, 0));
+		this.setLayout(new BorderLayout(0, 0));
 		next.setPreferredSize(new Dimension(22, 22));
 		next.setMaximumSize(new Dimension(22, 22));
-		add("West", next);
-		add("Center", can);
-		setPreferredSize(new Dimension(500, 25));
+		this.add("West", next);
+		this.add("Center", can);
+		this.setPreferredSize(new Dimension(500, 25));
 		runner = new Thread(this);
 		runner.start();
 	}

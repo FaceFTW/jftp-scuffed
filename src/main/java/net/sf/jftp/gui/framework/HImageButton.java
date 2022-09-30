@@ -34,21 +34,21 @@ public class HImageButton extends JButton implements MouseListener {
 		this.who = who;
 
 		try {
-			setIcon(new ImageIcon(HImage.getImage(this, image)));
+			this.setIcon(new ImageIcon(HImage.getImage(this, image)));
 		} catch (Exception ex) {
 			System.out.println("Image file: " + image);
 			ex.printStackTrace();
 		}
-		addMouseListener(this);
+		this.addMouseListener(this);
 
-		setVisible(true);
-		setMinimumSize(new Dimension(25, 25));
-		setPreferredSize(new Dimension(25, 25));
-		setMaximumSize(new Dimension(25, 25));
+		this.setVisible(true);
+		this.setMinimumSize(new Dimension(25, 25));
+		this.setPreferredSize(new Dimension(25, 25));
+		this.setMaximumSize(new Dimension(25, 25));
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -63,13 +63,13 @@ public class HImageButton extends JButton implements MouseListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 		net.sf.jftp.JFtp.statusP.status(label);
 	}
 
 	public void mouseExited(MouseEvent e) {
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 		net.sf.jftp.JFtp.statusP.status("");
 	}

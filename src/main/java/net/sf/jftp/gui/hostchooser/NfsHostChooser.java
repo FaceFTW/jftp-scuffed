@@ -51,23 +51,23 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 	public NfsHostChooser(ComponentListener l, boolean local) {
 		listener = l;
 		useLocal = local;
-		init();
+		this.init();
 	}
 
 	public NfsHostChooser(ComponentListener l) {
 		listener = l;
-		init();
+		this.init();
 	}
 
 	public NfsHostChooser() {
-		init();
+		this.init();
 	}
 
 	public void init() {
 		//setSize(600, 220);
-		setLocation(100, 150);
-		setTitle("NFS Connection...");
-		setBackground(okP.getBackground());
+		this.setLocation(100, 150);
+		this.setTitle("NFS Connection...");
+		this.setBackground(okP.getBackground());
 
 		JPanel p = new JPanel();
 		p.add(info);
@@ -121,24 +121,24 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
 		okP.add(ok);
 
-		getContentPane().setLayout(new BorderLayout(10, 10));
-		getContentPane().add("Center", root);
+		this.getContentPane().setLayout(new BorderLayout(10, 10));
+		this.getContentPane().add("Center", root);
 
 		ok.addActionListener(this);
 		info.addActionListener(this);
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		pass.text.addActionListener(this);
 
-		pack();
-		setModal(false);
-		setVisible(false);
-		addWindowListener(this);
+		this.pack();
+		this.setModal(false);
+		this.setVisible(false);
+		this.addWindowListener(this);
 	}
 
 	public void update() {
-		fixLocation();
-		setVisible(true);
-		toFront();
+		this.fixLocation();
+		this.setVisible(true);
+		this.toFront();
 		host.requestFocus();
 	}
 
@@ -154,7 +154,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		} else if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 			net.sf.jftp.net.wrappers.NfsConnection con = null;
 
@@ -201,7 +201,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 				net.sf.jftp.system.logging.Log.debug("Could not create NfsConnection!");
 			}
 
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();

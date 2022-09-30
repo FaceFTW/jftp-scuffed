@@ -91,7 +91,7 @@ public class JConnection implements Runnable {
 
 		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 		while (!established && (cnt < timeout)) {
-			pause(10);
+			this.pause(10);
 			cnt = cnt + 10;
 		}
 

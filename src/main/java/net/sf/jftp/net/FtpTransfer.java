@@ -45,7 +45,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 			handler = new ConnectionHandler();
 		}
 
-		prepare();
+		this.prepare();
 	}
 
 	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, Vector<ConnectionListener> listeners, String crlf) {
@@ -65,7 +65,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 			handler = new ConnectionHandler();
 		}
 
-		prepare();
+		this.prepare();
 	}
 
 	public void prepare() {

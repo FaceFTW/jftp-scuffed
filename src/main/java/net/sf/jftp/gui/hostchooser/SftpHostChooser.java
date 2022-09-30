@@ -57,22 +57,22 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	public SftpHostChooser(ComponentListener l, boolean local) {
 		listener = l;
 		useLocal = local;
-		init();
+		this.init();
 	}
 
 	public SftpHostChooser(ComponentListener l) {
 		listener = l;
-		init();
+		this.init();
 	}
 
 	public SftpHostChooser() {
-		init();
+		this.init();
 	}
 
 	public void init() {
-		setLocation(100, 150);
-		setTitle("Sftp Connection...");
-		setBackground(new HPanel().getBackground());
+		this.setLocation(100, 150);
+		this.setTitle("Sftp Connection...");
+		this.setBackground(new HPanel().getBackground());
 
 		try {
 			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
@@ -146,18 +146,18 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		root.add(new JLabel(" "));
 		root.add(ok, "align right");
 
-		getContentPane().setLayout(new BorderLayout(10, 10));
-		getContentPane().add("Center", root);
+		this.getContentPane().setLayout(new BorderLayout(10, 10));
+		this.getContentPane().add("Center", root);
 
 		ok.addActionListener(this);
 		keyfile.addActionListener(this);
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		pass.text.addActionListener(this);
 
-		pack();
-		setModal(false);
-		setVisible(false);
-		addWindowListener(this);
+		this.pack();
+		this.setModal(false);
+		this.setVisible(false);
+		this.addWindowListener(this);
 	}
 
 	public void stateChanged(ChangeEvent e) {
@@ -167,9 +167,9 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	}
 
 	public void update() {
-		fixLocation();
-		setVisible(true);
-		toFront();
+		this.fixLocation();
+		this.setVisible(true);
+		this.toFront();
 		host.requestFocus();
 	}
 
@@ -184,13 +184,13 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			uc.connect();
 
 			if (!uc.loginSucceeded()) {
-				setTitle("Wrong password!");
+				this.setTitle("Wrong password!");
 				host.setText(uc.getHost());
 				port.setText(Integer.toString(uc.getPort()));
 				user.setText(uc.getUser());
 				pass.setText(uc.getPass());
-				setVisible(true);
-				toFront();
+				this.setVisible(true);
+				this.toFront();
 				host.requestFocus();
 			} else {
 				this.dispose();
@@ -210,7 +210,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 			String htmp = host.getText().trim();
 			String utmp = user.getText().trim();
@@ -247,7 +247,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			}
 
 
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();

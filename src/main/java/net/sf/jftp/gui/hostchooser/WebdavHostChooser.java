@@ -45,27 +45,27 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	public WebdavHostChooser(ComponentListener l, boolean local) {
 		listener = l;
 		useLocal = local;
-		init();
+		this.init();
 	}
 
 	public WebdavHostChooser(ComponentListener l) {
 		listener = l;
-		init();
+		this.init();
 	}
 
 	public WebdavHostChooser() {
-		init();
+		this.init();
 	}
 
 	public void init() {
 		//setSize(500, 200);
-		setLocation(100, 150);
-		setTitle("WebDAV Connection... (ALPHA STATE)");
-		setBackground(okP.getBackground());
+		this.setLocation(100, 150);
+		this.setTitle("WebDAV Connection... (ALPHA STATE)");
+		this.setBackground(okP.getBackground());
 
 		host.setMinimumSize(new Dimension(500, 50));
-		getContentPane().setLayout(new BorderLayout(5, 5));
-		getContentPane().add("North", host);
+		this.getContentPane().setLayout(new BorderLayout(5, 5));
+		this.getContentPane().add("North", host);
 
 		HPanel p = new HPanel();
 		p.setLayout(new GridLayout(2, 2, 5, 3));
@@ -78,33 +78,33 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 
 		okP.add(ok);
 
-		getContentPane().add("South", p);
+		this.getContentPane().add("South", p);
 
 		ok.addActionListener(this);
 
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
 		pass.text.addActionListener(this);
 
-		setModal(false);
-		setVisible(false);
-		addWindowListener(this);
+		this.setModal(false);
+		this.setVisible(false);
+		this.addWindowListener(this);
 		host.setText("http://www.planetpdf.com/planetpdf/webdavdemo/");
 		user.setText("guest");
 		pass.setText("guest");
 
-		pack();
+		this.pack();
 	}
 
 	public void update() {
-		setVisible(true);
-		toFront();
+		this.setVisible(true);
+		this.toFront();
 		host.requestFocus();
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 			String htmp = host.getText().trim();
 			String utmp = user.getText().trim();
@@ -122,7 +122,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 				con.chdir(htmp);
 			}
 
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();

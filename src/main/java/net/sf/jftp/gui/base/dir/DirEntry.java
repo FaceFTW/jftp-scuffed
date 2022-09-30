@@ -62,7 +62,7 @@ public class DirEntry {
 	public DirEntry(String file, ActionListener who) {
 		this.file = file;
 		this.who = who;
-		setFile();
+		this.setFile();
 	}
 
 	public void setFile() {

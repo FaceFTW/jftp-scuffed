@@ -45,36 +45,36 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	public AddBookmarks(ComponentListener l, net.sf.jftp.JFtp jftp) {
 
 		AddBookmarks.jftp = jftp;
-		init();
+		this.init();
 	}
 
 	public AddBookmarks(net.sf.jftp.JFtp jftp) {
 		AddBookmarks.jftp = jftp;
-		init();
+		this.init();
 	}
 
 	public void init() {
-		setSize(650, 400);
-		setLocation(50, 150);
-		setTitle("Add Bookmarks...");
+		this.setSize(650, 400);
+		this.setLocation(50, 150);
+		this.setTitle("Add Bookmarks...");
 
 		//setBackground(okP.getBackground());
-		getContentPane().setLayout(new GridLayout(8, 1));
+		this.getContentPane().setLayout(new GridLayout(8, 1));
 
-		getContentPane().add(protocols);
-		getContentPane().add(host);
-		getContentPane().add(port);
+		this.getContentPane().add(protocols);
+		this.getContentPane().add(host);
+		this.getContentPane().add(port);
 
-		getContentPane().add(user);
-		getContentPane().add(pass);
+		this.getContentPane().add(user);
+		this.getContentPane().add(pass);
 
-		getContentPane().add(dirOrDom);
+		this.getContentPane().add(dirOrDom);
 
-		getContentPane().add(isLocal);
+		this.getContentPane().add(isLocal);
 
 		Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
-		getContentPane().add(buttonPanel);
+		this.getContentPane().add(buttonPanel);
 		buttonPanel.add(add);
 		buttonPanel.add(addAndConnect);
 
@@ -96,8 +96,8 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	}
 
 	public void update() {
-		setVisible(true);
-		toFront();
+		this.setVisible(true);
+		this.toFront();
 	}
 
 	public void windowClosing(WindowEvent e) {
@@ -124,9 +124,9 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == add) {
-			getData(false);
+			this.getData(false);
 		} else if (e.getSource() == addAndConnect) {
-			getData(true);
+			this.getData(true);
 		}
 
 		//FOR NOW: only other possible event is update of the protocol ComboBox
@@ -204,12 +204,12 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		//NFS: Don;t get port or dirOrDom
 		//FOR NOW: just get all data
 
-		String htmp = checkIfEmpty(net.sf.jftp.system.StringUtils.cut(host.getText(), " "));
-		String utmp = checkIfEmpty(net.sf.jftp.system.StringUtils.cut(user.getText(), " "));
-		String ptmp = checkIfEmpty(net.sf.jftp.system.StringUtils.cut(pass.getText(), " "));
-		String potmp = checkIfEmpty(net.sf.jftp.system.StringUtils.cut(port.getText(), " "));
+		String htmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(host.getText(), " "));
+		String utmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(user.getText(), " "));
+		String ptmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(pass.getText(), " "));
+		String potmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(port.getText(), " "));
 
-		String dirOrDomtmp = checkIfEmpty(net.sf.jftp.system.StringUtils.cut(dirOrDom.getText(), " "));
+		String dirOrDomtmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(dirOrDom.getText(), " "));
 
 		String local = "";
 
