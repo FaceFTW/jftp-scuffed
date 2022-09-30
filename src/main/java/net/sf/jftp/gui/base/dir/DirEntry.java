@@ -35,11 +35,11 @@ public class DirEntry {
 	static final Hashtable extensionMap = new Hashtable();
 
 	static {
-		for (final Object extension : extensions) {
+		for (final Object extension : net.sf.jftp.gui.base.dir.DirEntry.extensions) {
 			final String[] temp = (String[]) extension;
 
 			for (int j = 1; j < temp.length; j++) {
-				extensionMap.put(temp[j], temp[0]);
+				net.sf.jftp.gui.base.dir.DirEntry.extensionMap.put(temp[j], temp[0]);
 			}
 		}
 	}
@@ -78,7 +78,7 @@ public class DirEntry {
 
 		if (lastIndex != -1) {
 			final String ext = f.substring(lastIndex);
-			final String tmp = (String) extensionMap.get(ext.toLowerCase());
+			final String tmp = (String) net.sf.jftp.gui.base.dir.DirEntry.extensionMap.get(ext.toLowerCase());
 
 			if (tmp != null)
 			{

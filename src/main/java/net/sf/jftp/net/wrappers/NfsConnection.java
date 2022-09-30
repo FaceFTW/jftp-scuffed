@@ -529,7 +529,7 @@ public class NfsConnection implements BasicConnection {
 				in = new BufferedInputStream(new FileInputStream(file));
 			}
 
-			final byte[] buf = new byte[buffer];
+			final byte[] buf = new byte[net.sf.jftp.net.wrappers.NfsConnection.buffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -642,7 +642,7 @@ public class NfsConnection implements BasicConnection {
 			out = new BufferedOutputStream(new XFileOutputStream(file));
 			in = new BufferedInputStream(i);
 
-			final byte[] buf = new byte[buffer];
+			final byte[] buf = new byte[net.sf.jftp.net.wrappers.NfsConnection.buffer];
 			int len = 0;
 			int reallen = 0;
 

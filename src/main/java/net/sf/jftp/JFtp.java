@@ -110,8 +110,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public JFtp() {
 		Log.setLogger(this);
 
-		if (statusP != null) {
-			statusP.remove(statusP.close);
+		if (net.sf.jftp.JFtp.statusP != null) {
+			net.sf.jftp.JFtp.statusP.remove(net.sf.jftp.JFtp.statusP.close);
 		}
 
 		this.init();
@@ -126,23 +126,23 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public static String getHost() {
-		return statusP.getHost();
+		return net.sf.jftp.JFtp.statusP.getHost();
 	}
 
 	public static void setHost(final String which) {
-		statusP.setHost(which);
+		net.sf.jftp.JFtp.statusP.setHost(which);
 	}
 
 	public static void localUpdate() {
-		localDir.fresh();
+		net.sf.jftp.JFtp.localDir.fresh();
 	}
 
 	public static void remoteUpdate() {
-		remoteDir.fresh();
+		net.sf.jftp.JFtp.remoteDir.fresh();
 	}
 
 	public static void safeDisconnect() {
-		final BasicConnection con = remoteDir.getCon();
+		final BasicConnection con = net.sf.jftp.JFtp.remoteDir.getCon();
 
 		if ((con != null) && con.isConnected()) {
 			try {
@@ -153,8 +153,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		try {
 			final FilesystemConnection c = new FilesystemConnection();
-			c.addConnectionListener((ConnectionListener) remoteDir);
-			remoteDir.setCon(c);
+			c.addConnectionListener((ConnectionListener) net.sf.jftp.JFtp.remoteDir);
+			net.sf.jftp.JFtp.remoteDir.setCon(c);
 
 			if (!c.chdir("/")) {
 				c.chdir("C:\\");
@@ -191,7 +191,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			Settings.enableUploadResuming = true;
 			Settings.noUploadResumingQuestion = false;
 
-			setSocksProxyOptions(Settings.getSocksProxyHost(), Settings.getSocksProxyPort());
+			net.sf.jftp.JFtp.setSocksProxyOptions(Settings.getSocksProxyHost(), Settings.getSocksProxyPort());
 
 			final JFtp jftp = new JFtp(true);
 
@@ -214,13 +214,13 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 				if (argv[idx].startsWith("localDir=")) {
 					final String path = argv[idx].substring("localDir=".length());
 					Log.debug("Setting local Dir: " + path);
-					localDir.getCon().chdir(path);
+					net.sf.jftp.JFtp.localDir.getCon().chdir(path);
 					idx++;
 
-					remoteDir.getCon().setLocalPath(localDir.getCon().getPWD());
+					net.sf.jftp.JFtp.remoteDir.getCon().setLocalPath(net.sf.jftp.JFtp.localDir.getCon().getPWD());
 				}
 
-				while (!remoteDir.getCon().isConnected()) {
+				while (!net.sf.jftp.JFtp.remoteDir.getCon().isConnected()) {
 					LocalIO.pause(50);
 				}
 
@@ -235,9 +235,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 					Log.debug("Download: " + path + ":" + file);
 
 					if (path != null) {
-						remoteDir.getCon().chdir(path);
+						net.sf.jftp.JFtp.remoteDir.getCon().chdir(path);
 					}
-					remoteDir.getCon().download(file);
+					net.sf.jftp.JFtp.remoteDir.getCon().download(file);
 				}
 			}
 		} catch (final Error ex) {
@@ -246,8 +246,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public static void clearLog() {
-		log.setText("");
-		logSp.paintImmediately(0, 0, logSp.getSize().width, logSp.getSize().height);
+		net.sf.jftp.JFtp.log.setText("");
+		net.sf.jftp.JFtp.logSp.paintImmediately(0, 0, net.sf.jftp.JFtp.logSp.getSize().width, net.sf.jftp.JFtp.logSp.getSize().height);
 	}
 
 	public static String getVersion() {
@@ -271,12 +271,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public static ConnectionHandler getConnectionHandler() {
-		final BasicConnection con = remoteDir.getCon();
+		final BasicConnection con = net.sf.jftp.JFtp.remoteDir.getCon();
 
 		if ((con != null) && con instanceof FtpConnection) {
 			return ((FtpConnection) con).getConnectionHandler();
 		} else {
-			return defaultConnectionHandler;
+			return net.sf.jftp.JFtp.defaultConnectionHandler;
 		}
 	}
 
@@ -284,42 +284,42 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		if (JFtp.mainFrame != null) {
 			if (cursor.getType() != Cursor.DEFAULT_CURSOR) {
-				mainFrame.getGlassPane().addMouseListener(new MouseAdapter() {
+				net.sf.jftp.JFtp.mainFrame.getGlassPane().addMouseListener(new MouseAdapter() {
 				});
-				mainFrame.getGlassPane().setCursor(cursor);
-				mainFrame.getGlassPane().setVisible(true);
+				net.sf.jftp.JFtp.mainFrame.getGlassPane().setCursor(cursor);
+				net.sf.jftp.JFtp.mainFrame.getGlassPane().setVisible(true);
 			} else {
-				mainFrame.getGlassPane().setCursor(cursor);
-				for (int i = 0; i < mainFrame.getGlassPane().getMouseListeners().length; i++) {
-					mainFrame.getGlassPane().removeMouseListener(mainFrame.getGlassPane().getMouseListeners()[i]);
+				net.sf.jftp.JFtp.mainFrame.getGlassPane().setCursor(cursor);
+				for (int i = 0; i < net.sf.jftp.JFtp.mainFrame.getGlassPane().getMouseListeners().length; i++) {
+					net.sf.jftp.JFtp.mainFrame.getGlassPane().removeMouseListener(net.sf.jftp.JFtp.mainFrame.getGlassPane().getMouseListeners()[i]);
 				}
-				mainFrame.getGlassPane().setVisible(false);
+				net.sf.jftp.JFtp.mainFrame.getGlassPane().setVisible(false);
 			}
 		}
 
 	}
 
 	public static void updateMenuBar() {
-		menuBar.resetFileItems();
+		net.sf.jftp.JFtp.menuBar.resetFileItems();
 	}
 
 	public void init() {
-		dtListener = new DTListener();
-		dropTarget = new DropTarget(this, acceptableActions, dtListener, true);
+		net.sf.jftp.JFtp.dtListener = new DTListener();
+		net.sf.jftp.JFtp.dropTarget = new DropTarget(this, net.sf.jftp.JFtp.acceptableActions, net.sf.jftp.JFtp.dtListener, true);
 
 		this.setLayout(new BorderLayout());
 
 		this.setBackground(GUIDefaults.mainBack);
 		this.setForeground(GUIDefaults.front);
 
-		statusP = new net.sf.jftp.gui.base.StatusPanel(this);
-		this.add("North", statusP);
+		net.sf.jftp.JFtp.statusP = new net.sf.jftp.gui.base.StatusPanel(this);
+		this.add("North", net.sf.jftp.JFtp.statusP);
 
-		localDir = new net.sf.jftp.gui.base.LocalDir(Settings.defaultWorkDir);
-		localDir.setDownloadList(dList);
+		net.sf.jftp.JFtp.localDir = new net.sf.jftp.gui.base.LocalDir(Settings.defaultWorkDir);
+		net.sf.jftp.JFtp.localDir.setDownloadList(net.sf.jftp.JFtp.dList);
 
-		remoteDir = new net.sf.jftp.gui.base.RemoteDir();
-		remoteDir.setDownloadList(dList);
+		net.sf.jftp.JFtp.remoteDir = new net.sf.jftp.gui.base.RemoteDir();
+		net.sf.jftp.JFtp.remoteDir.setDownloadList(net.sf.jftp.JFtp.dList);
 
 		final Dimension d = Settings.getWindowSize();
 		this.setPreferredSize(d);
@@ -328,22 +328,22 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		final int width = (int) d.getWidth();
 		final int height = (int) d.getHeight();
 
-		dList.setMinimumSize(new Dimension((int) (width / 2.2), (int) (height * 0.20)));
-		dList.setPreferredSize(new Dimension((int) (width / 2.2), (int) (height * 0.25)));
-		dList.setSize(new Dimension((int) (width / 2.2), (int) (height * 0.25)));
+		net.sf.jftp.JFtp.dList.setMinimumSize(new Dimension((int) (width / 2.2), (int) (height * 0.20)));
+		net.sf.jftp.JFtp.dList.setPreferredSize(new Dimension((int) (width / 2.2), (int) (height * 0.25)));
+		net.sf.jftp.JFtp.dList.setSize(new Dimension((int) (width / 2.2), (int) (height * 0.25)));
 
-		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+		net.sf.jftp.JFtp.desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		this.addBackgroundImage();
 
 		j1 = new JInternalFrame("Local filesystem", true, false, true, true);
 		j1.setMinimumSize(new Dimension(300, 300));
 		j1.setLocation(5, 5);
-		localConnectionPanel.addTab("file://", null, (Component) localDir, "Filesystem");
+		localConnectionPanel.addTab("file://", null, (Component) net.sf.jftp.JFtp.localDir, "Filesystem");
 		localConnectionPanel.setSelectedIndex(0);
 		localConnectionPanel.addChangeListener(this);
 		j1.getContentPane().add(localConnectionPanel);
-		localDir.fresh();
-		desktop.add(j1);
+		net.sf.jftp.JFtp.localDir.fresh();
+		net.sf.jftp.JFtp.desktop.add(j1);
 		j1.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 		j1.addInternalFrameListener(this);
 		j1.pack();
@@ -352,28 +352,28 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		j2 = new JInternalFrame("Remote connections", true, false, true, true);
 		j2.setLocation(470, 5);
-		remoteConnectionPanel.addTab("file://", null, (Component) remoteDir, "Filesystem");
+		remoteConnectionPanel.addTab("file://", null, (Component) net.sf.jftp.JFtp.remoteDir, "Filesystem");
 		remoteConnectionPanel.setSelectedIndex(0);
 		remoteConnectionPanel.addChangeListener(this);
 		j2.getContentPane().add(remoteConnectionPanel);
-		desktop.add(j2);
+		net.sf.jftp.JFtp.desktop.add(j2);
 		j2.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
 		j2.addInternalFrameListener(this);
 		j2.pack();
 		j2.setSize(new Dimension(460, j1.getSize().height));
 		j2.show();
 
-		log = new JTextArea();
-		log.setBackground(GUIDefaults.light);
-		log.setForeground(GUIDefaults.front);
-		log.setEditable(false);
-		logSp = new JScrollPane(log);
-		logSp.setSize(new Dimension(428, 148));
+		net.sf.jftp.JFtp.log = new JTextArea();
+		net.sf.jftp.JFtp.log.setBackground(GUIDefaults.light);
+		net.sf.jftp.JFtp.log.setForeground(GUIDefaults.front);
+		net.sf.jftp.JFtp.log.setEditable(false);
+		net.sf.jftp.JFtp.logSp = new JScrollPane(net.sf.jftp.JFtp.log);
+		net.sf.jftp.JFtp.logSp.setSize(new Dimension(428, 148));
 
 		j5 = new JInternalFrame("Queue System", true, false, true, true);
 		j5.setLocation(5, 500);
-		j5.getContentPane().add(dQueue, BorderLayout.CENTER);
-		desktop.add(j5);
+		j5.getContentPane().add(net.sf.jftp.JFtp.dQueue, BorderLayout.CENTER);
+		net.sf.jftp.JFtp.desktop.add(j5);
 		j5.pack();
 		j5.setSize(new Dimension(440, 150));
 		j5.show();
@@ -394,20 +394,20 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		logButtonPanel.add(lockButton);
 		logSpPanel.setLayout(new BorderLayout(2, 2));
 		logSpPanel.add("West", logButtonPanel);
-		logSpPanel.add("Center", logSp);
+		logSpPanel.add("Center", net.sf.jftp.JFtp.logSp);
 
-		final int x = desktop.getSize().width / 2;
+		final int x = net.sf.jftp.JFtp.desktop.getSize().width / 2;
 		j3.setLocation(5, 525);
 		j3.getContentPane().add(logSpPanel, BorderLayout.CENTER);
-		desktop.add(j3);
+		net.sf.jftp.JFtp.desktop.add(j3);
 		j3.pack();
 		j3.setSize(new Dimension(440, 150));
 		j3.show();
 
 		j4 = new JInternalFrame("Download Manager", true, false, true, true);
 		j4.setLocation(450, 500);
-		j4.getContentPane().add(dList, BorderLayout.CENTER);
-		desktop.add(j4);
+		j4.getContentPane().add(net.sf.jftp.JFtp.dList, BorderLayout.CENTER);
+		net.sf.jftp.JFtp.desktop.add(j4);
 		j4.pack();
 		j4.setSize(new Dimension(480, 175));
 		j4.show();
@@ -415,7 +415,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		j1.toFront();
 		j2.toFront();
 
-		this.add("Center", desktop);
+		this.add("Center", net.sf.jftp.JFtp.desktop);
 
 		bottomBar.setFloatable(false);
 		bottomBar.add(net.sf.jftp.gui.base.StatusPanel.status, FlowLayout.LEFT);
@@ -427,12 +427,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		this.add("South", bottomBar);
 
 		this.addComponentListener(this);
-		this.componentResized(new ComponentEvent(log, 0));
+		this.componentResized(new ComponentEvent(net.sf.jftp.JFtp.log, 0));
 
 		this.validate();
 		this.setVisible(true);
 
-		if (!mainUsed) {
+		if (!net.sf.jftp.JFtp.mainUsed) {
 			SwingUtilities.invokeLater(this::chooseHost);
 		} else {
 			this.chooseHost();
@@ -454,7 +454,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	protected void chooseHost() {
 		hc = new HostChooser(this);
 
-		if (!mainUsed) {
+		if (!net.sf.jftp.JFtp.mainUsed) {
 			hc.update();
 		}
 	}
@@ -511,21 +511,21 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		Settings.setProperty("jftp.window.width", this.getWidth());
 		Settings.setProperty("jftp.window.height", this.getHeight());
 
-		if (!mainUsed) {
+		if (!net.sf.jftp.JFtp.mainUsed) {
 			Settings.setProperty("jftp.window.x", (int) this.getLocationOnScreen().getX());
 			Settings.setProperty("jftp.window.y", (int) this.getLocationOnScreen().getY());
 		} else {
-			Settings.setProperty("jftp.window.x", (int) mainFrame.getLocationOnScreen().getX());
-			Settings.setProperty("jftp.window.y", (int) mainFrame.getLocationOnScreen().getY());
+			Settings.setProperty("jftp.window.x", (int) net.sf.jftp.JFtp.mainFrame.getLocationOnScreen().getX());
+			Settings.setProperty("jftp.window.y", (int) net.sf.jftp.JFtp.mainFrame.getLocationOnScreen().getY());
 		}
 
 		Settings.save();
-		safeDisconnect();
+		net.sf.jftp.JFtp.safeDisconnect();
 
 		if (Settings.isStandalone) {
 			System.exit(0);
 		} else {
-			mainFrame.dispose();
+			net.sf.jftp.JFtp.mainFrame.dispose();
 		}
 	}
 
@@ -557,9 +557,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void componentResized(final ComponentEvent e) {
-		localDir.actionPerformed(this, "local");
-		remoteDir.actionPerformed(this, "remote");
-		desktop.remove(background);
+		net.sf.jftp.JFtp.localDir.actionPerformed(this, "local");
+		net.sf.jftp.JFtp.remoteDir.actionPerformed(this, "remote");
+		net.sf.jftp.JFtp.desktop.remove(background);
 		this.addBackgroundImage();
 
 		this.validate();
@@ -572,7 +572,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		try {
 			background = new HDesktopBackground(Settings.background, null);
 			background.setBounds(0, 0, this.getSize().width, this.getSize().height);
-			desktop.add(background, new Integer(Integer.MIN_VALUE));
+			net.sf.jftp.JFtp.desktop.add(background, new Integer(Integer.MIN_VALUE));
 		} catch (final Exception ex) {
 			Log.out(Settings.background + " missing, no background image used");
 		}
@@ -605,28 +605,28 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			}
 		}
 
-		mainFrame = new JFrame();
-		mainFrame.setLocation(Settings.getWindowLocation());
+		net.sf.jftp.JFtp.mainFrame = new JFrame();
+		net.sf.jftp.JFtp.mainFrame.setLocation(Settings.getWindowLocation());
 
-		mainFrame.setTitle(Settings.title + " - Version " + getVersion());
+		net.sf.jftp.JFtp.mainFrame.setTitle(Settings.title + " - Version " + net.sf.jftp.JFtp.getVersion());
 
-		mainFrame.setResizable(Settings.resize);
-		mainFrame.addWindowListener(this);
+		net.sf.jftp.JFtp.mainFrame.setResizable(Settings.resize);
+		net.sf.jftp.JFtp.mainFrame.addWindowListener(this);
 
 		final Image icon = HImage.getImage(this, Settings.iconImage);
-		mainFrame.setIconImage(icon);
-		mainFrame.setFont(GUIDefaults.font);
+		net.sf.jftp.JFtp.mainFrame.setIconImage(icon);
+		net.sf.jftp.JFtp.mainFrame.setFont(GUIDefaults.font);
 
-		menuBar = new net.sf.jftp.gui.base.AppMenuBar(this);
-		mainFrame.setJMenuBar(menuBar);
+		net.sf.jftp.JFtp.menuBar = new net.sf.jftp.gui.base.AppMenuBar(this);
+		net.sf.jftp.JFtp.mainFrame.setJMenuBar(net.sf.jftp.JFtp.menuBar);
 
-		mainFrame.getContentPane().setLayout(new BorderLayout());
-		mainFrame.getContentPane().add("Center", this);
-		SwingUtilities.updateComponentTreeUI(mainFrame);
-		mainFrame.pack();
-		mainFrame.validate();
-		mainFrame.setVisible(true);
-		JOptionPane.showMessageDialog(mainFrame, "Welcome to jFTP!");
+		net.sf.jftp.JFtp.mainFrame.getContentPane().setLayout(new BorderLayout());
+		net.sf.jftp.JFtp.mainFrame.getContentPane().add("Center", this);
+		SwingUtilities.updateComponentTreeUI(net.sf.jftp.JFtp.mainFrame);
+		net.sf.jftp.JFtp.mainFrame.pack();
+		net.sf.jftp.JFtp.mainFrame.validate();
+		net.sf.jftp.JFtp.mainFrame.setVisible(true);
+		JOptionPane.showMessageDialog(net.sf.jftp.JFtp.mainFrame, "Welcome to jFTP!");
 	}
 
 	private void log(final String msg) {
@@ -636,7 +636,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 					return;
 				}
 			}
-		} else if (log == null) {
+		} else if (net.sf.jftp.JFtp.log == null) {
 			return;
 		}
 
@@ -644,7 +644,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			buffer = buffer + " " + msg;
 		}
 
-		log.append(buffer);
+		net.sf.jftp.JFtp.log.append(buffer);
 		buffer = "";
 
 		final long time = System.currentTimeMillis();
@@ -657,8 +657,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		oldtime = time;
 
-		if (doScroll) {
-			final JScrollBar bar = logSp.getVerticalScrollBar();
+		if (net.sf.jftp.JFtp.doScroll) {
+			final JScrollBar bar = net.sf.jftp.JFtp.logSp.getVerticalScrollBar();
 			bar.setValue(bar.getMaximum());
 		}
 
@@ -667,7 +667,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	private void logRaw(final String msg) {
-		log.append(" " + msg);
+		net.sf.jftp.JFtp.log.append(" " + msg);
 		Log.out("NOTE: logRaw called");
 		this.paintImmediately(0, 0, this.getSize().width, this.getSize().height);
 
@@ -736,14 +736,14 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		if (buffer.isEmpty()) {
 			final JScrollBar bar;
 
-			if ((logSp == null) || ((bar = logSp.getVerticalScrollBar()) == null) || bar == null || (bar.getValue() == bar.getMaximum()) || bar.getValueIsAdjusting()) {
+			if ((net.sf.jftp.JFtp.logSp == null) || ((bar = net.sf.jftp.JFtp.logSp.getVerticalScrollBar()) == null) || bar == null || (bar.getValue() == bar.getMaximum()) || bar.getValueIsAdjusting()) {
 				return;
 			} else {
-				if (doScroll) {
+				if (net.sf.jftp.JFtp.doScroll) {
 					bar.setValue(bar.getMaximum());
 				}
 
-				logSp.repaint();
+				net.sf.jftp.JFtp.logSp.repaint();
 
 				this.repaint();
 				this.revalidate();
@@ -765,9 +765,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		try {
 			UIManager.setLookAndFeel(name);
 
-			if (mainFrame != null) {
+			if (net.sf.jftp.JFtp.mainFrame != null) {
 				SwingUtilities.invokeLater(() -> {
-					javax.swing.SwingUtilities.updateComponentTreeUI(mainFrame);
+					javax.swing.SwingUtilities.updateComponentTreeUI(net.sf.jftp.JFtp.mainFrame);
 					javax.swing.SwingUtilities.updateComponentTreeUI(net.sf.jftp.JFtp.statusP);
 				});
 			}
@@ -777,10 +777,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void addConnection(final String name, final BasicConnection con) {
-		con.addConnectionListener((ConnectionListener) localDir);
+		con.addConnectionListener((ConnectionListener) net.sf.jftp.JFtp.localDir);
 
 		final net.sf.jftp.gui.base.dir.Dir tmp = new net.sf.jftp.gui.base.RemoteDir();
-		tmp.setDownloadList(dList);
+		tmp.setDownloadList(net.sf.jftp.JFtp.dList);
 		con.addConnectionListener((ConnectionListener) tmp);
 		tmp.setCon(con);
 
@@ -791,10 +791,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void addLocalConnection(final String name, final BasicConnection con) {
-		con.addConnectionListener((ConnectionListener) remoteDir);
+		con.addConnectionListener((ConnectionListener) net.sf.jftp.JFtp.remoteDir);
 
 		final net.sf.jftp.gui.base.dir.Dir tmp = new net.sf.jftp.gui.base.LocalDir();
-		tmp.setDownloadList(dList);
+		tmp.setDownloadList(net.sf.jftp.JFtp.dList);
 		con.addConnectionListener((ConnectionListener) tmp);
 		tmp.setCon(con);
 
@@ -813,9 +813,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void stateChanged(final ChangeEvent e) {
-		remoteDir = (net.sf.jftp.gui.base.dir.Dir) remoteConnectionPanel.getSelectedComponent();
-		localDir = (net.sf.jftp.gui.base.dir.Dir) localConnectionPanel.getSelectedComponent();
-		remoteDir.getCon().setLocalPath(localDir.getPath());
+		net.sf.jftp.JFtp.remoteDir = (net.sf.jftp.gui.base.dir.Dir) remoteConnectionPanel.getSelectedComponent();
+		net.sf.jftp.JFtp.localDir = (net.sf.jftp.gui.base.dir.Dir) localConnectionPanel.getSelectedComponent();
+		net.sf.jftp.JFtp.remoteDir.getCon().setLocalPath(net.sf.jftp.JFtp.localDir.getPath());
 
 	}
 
@@ -823,7 +823,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		final int x = remoteConnectionPanel.getSelectedIndex();
 
 		if (x > 0) {
-			safeDisconnect();
+			net.sf.jftp.JFtp.safeDisconnect();
 			remoteConnectionPanel.remove(x);
 			remoteConnectionPanel.setSelectedIndex(x - 1);
 		}
@@ -837,7 +837,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		final int x = localConnectionPanel.getSelectedIndex();
 
 		if (x > 0) {
-			final BasicConnection con = localDir.getCon();
+			final BasicConnection con = net.sf.jftp.JFtp.localDir.getCon();
 
 			if ((con != null) && con.isConnected()) {
 				try {
@@ -865,9 +865,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		}
 
 		jt.getContentPane().add(c);
-		desktop.add(jt);
+		net.sf.jftp.JFtp.desktop.add(jt);
 
-		internalFrames.put("" + c.hashCode(), jt);
+		net.sf.jftp.JFtp.internalFrames.put("" + c.hashCode(), jt);
 
 		jt.pack();
 		jt.setSize(new Dimension(w, h));
@@ -875,7 +875,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void removeFromDesktop(final int component) {
-		final JInternalFrame f = internalFrames.get("" + component);
+		final JInternalFrame f = net.sf.jftp.JFtp.internalFrames.get("" + component);
 
 		if (f != null) {
 			f.dispose();
@@ -886,7 +886,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void setClosable(final int component, final boolean ok) {
-		final JInternalFrame f = internalFrames.get("" + component);
+		final JInternalFrame f = net.sf.jftp.JFtp.internalFrames.get("" + component);
 
 		if (f != null) {
 			f.setClosable(ok);
@@ -896,7 +896,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void setLocation(final int component, final int x, final int y) {
-		final JInternalFrame f = internalFrames.get("" + component);
+		final JInternalFrame f = net.sf.jftp.JFtp.internalFrames.get("" + component);
 
 		if (f != null) {
 			f.setLocation(x, y);
@@ -949,7 +949,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		if (e != null) {
 			flavor = e.getCurrentDataFlavors()[0];
-			e.acceptDrop(acceptableActions);
+			e.acceptDrop(net.sf.jftp.JFtp.acceptableActions);
 
 			final Class c = flavor.getDefaultRepresentationClass();
 		}
@@ -1048,10 +1048,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			Log.debug("DnD: " + path + " -> " + name);
 
 			if (!path.trim().isEmpty()) {
-				((net.sf.jftp.gui.base.LocalDir) localDir).chdir(path);
+				((net.sf.jftp.gui.base.LocalDir) net.sf.jftp.JFtp.localDir).chdir(path);
 			}
 
-			((net.sf.jftp.gui.base.LocalDir) localDir).startTransfer(new net.sf.jftp.gui.base.dir.DirEntry(name, ((ActionListener) localDir)));
+			((net.sf.jftp.gui.base.LocalDir) net.sf.jftp.JFtp.localDir).startTransfer(new net.sf.jftp.gui.base.dir.DirEntry(name, ((ActionListener) net.sf.jftp.JFtp.localDir)));
 		} else {
 			Log.debug("Dragging multiple files or dirs is not yet supported.");
 		}

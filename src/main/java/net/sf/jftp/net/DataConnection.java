@@ -214,7 +214,7 @@ public class DataConnection implements Runnable {
 				long buflen = 0;
 
 				//---------------download----------------------
-				if (type.equals(GET) || type.equals(GETDIR)) {
+				if (type.equals(net.sf.jftp.net.DataConnection.GET) || type.equals(net.sf.jftp.net.DataConnection.GETDIR)) {
 					if (!justStream) {
 						try {
 							if (resume) {
@@ -273,7 +273,7 @@ public class DataConnection implements Runnable {
 											ok = false;
 											fOut.close();
 											finished = true;
-											con.fireProgressUpdate(file, FAILED, -1);
+											con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
 
 											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
@@ -319,7 +319,7 @@ public class DataConnection implements Runnable {
 											ok = false;
 											bOut.close();
 											finished = true;
-											con.fireProgressUpdate(file, FAILED, -1);
+											con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
 
 											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
@@ -358,7 +358,7 @@ public class DataConnection implements Runnable {
 							} catch (final IOException ex) {
 								ok = false;
 								this.debug("Old connection removed");
-								con.fireProgressUpdate(file, FAILED, -1);
+								con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
 
 								//debug(ex + ": " + ex.getMessage());
 								ex.printStackTrace();
@@ -368,7 +368,7 @@ public class DataConnection implements Runnable {
 				}
 
 				//---------------upload----------------------
-				if (type.equals(PUT) || type.equals(PUTDIR)) {
+				if (type.equals(net.sf.jftp.net.DataConnection.PUT) || type.equals(net.sf.jftp.net.DataConnection.PUTDIR)) {
 					if (in == null) {
 						try {
 							fIn = new RandomAccessFile(file, "r");
@@ -436,7 +436,7 @@ public class DataConnection implements Runnable {
 							} catch (final IOException ex) {
 								ok = false;
 								this.debug("Error: Data connection closed.");
-								con.fireProgressUpdate(file, FAILED, -1);
+								con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
 								ex.printStackTrace();
 							}
 						}
@@ -503,9 +503,9 @@ public class DataConnection implements Runnable {
 		finished = true;
 
 		if (ok) {
-			con.fireProgressUpdate(file, FINISHED, -1);
+			con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FINISHED, -1);
 		} else {
-			con.fireProgressUpdate(file, FAILED, -1);
+			con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
 		}
 	}
 
@@ -557,7 +557,7 @@ public class DataConnection implements Runnable {
 	}
 
 	public void interrupt() {
-		if (net.sf.jftp.config.Settings.getFtpPasvMode() && (type.equals(GET) || type.equals(GETDIR))) {
+		if (net.sf.jftp.config.Settings.getFtpPasvMode() && (type.equals(net.sf.jftp.net.DataConnection.GET) || type.equals(net.sf.jftp.net.DataConnection.GETDIR))) {
 			try {
 				reciever.join();
 			} catch (final InterruptedException ex) {

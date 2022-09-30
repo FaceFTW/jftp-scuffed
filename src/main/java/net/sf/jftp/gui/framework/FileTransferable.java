@@ -13,14 +13,14 @@ public class FileTransferable implements Transferable //, ClipboardOwner
 {
 	public static final DataFlavor plainTextFlavor = DataFlavor.plainTextFlavor;
 	public static final DataFlavor[] flavors = {FileTransferable.plainTextFlavor,};
-	private static final List flavorList = Arrays.asList(flavors);
+	private static final List flavorList = Arrays.asList(net.sf.jftp.gui.framework.FileTransferable.flavors);
 
 	public synchronized DataFlavor[] getTransferDataFlavors() {
-		return flavors;
+		return net.sf.jftp.gui.framework.FileTransferable.flavors;
 	}
 
 	public boolean isDataFlavorSupported(final DataFlavor flavor) {
-		return (flavorList.contains(flavor));
+		return (net.sf.jftp.gui.framework.FileTransferable.flavorList.contains(flavor));
 	}
 
 	public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {

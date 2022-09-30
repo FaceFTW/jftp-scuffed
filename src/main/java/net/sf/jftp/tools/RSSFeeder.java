@@ -53,7 +53,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 			return;
 		}
 
-		urlstring = u;
+		net.sf.jftp.tools.RSSFeeder.urlstring = u;
 
 		runner.stop();
 		runner = new Thread(this);
@@ -69,7 +69,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		try {
 			can.setInterval(10);
-			url = new URL(urlstring);
+			url = new URL(net.sf.jftp.tools.RSSFeeder.urlstring);
 			parser = new RSSParser(url);
 			time = System.currentTimeMillis();
 		} catch (final Exception ex) {

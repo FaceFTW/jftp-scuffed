@@ -152,33 +152,33 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		popupMenu.add(viewFile);
 		popupMenu.add(props);
 
-		deleteButton = new HImageButton(Settings.deleteImage, deleteString, "Delete selected", this);
+		deleteButton = new HImageButton(Settings.deleteImage, net.sf.jftp.gui.base.LocalDir.deleteString, "Delete selected", this);
 		deleteButton.setToolTipText("Delete selected");
 
-		mkdirButton = new HImageButton(Settings.mkdirImage, mkdirString, "Create a new directory", this);
+		mkdirButton = new HImageButton(Settings.mkdirImage, net.sf.jftp.gui.base.LocalDir.mkdirString, "Create a new directory", this);
 		mkdirButton.setToolTipText("Create directory");
 
-		refreshButton = new HImageButton(Settings.refreshImage, refreshString, "Refresh current directory", this);
+		refreshButton = new HImageButton(Settings.refreshImage, net.sf.jftp.gui.base.LocalDir.refreshString, "Refresh current directory", this);
 		refreshButton.setToolTipText("Refresh directory");
 		refreshButton.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.refreshImage2)));
 		refreshButton.setRolloverEnabled(true);
 
-		cdButton = new HImageButton(Settings.cdImage, cdString, "Change directory", this);
+		cdButton = new HImageButton(Settings.cdImage, net.sf.jftp.gui.base.LocalDir.cdString, "Change directory", this);
 		cdButton.setToolTipText("Change directory");
 
-		uploadButton = new HImageButton(Settings.uploadImage, uploadString, "Upload selected", this);
+		uploadButton = new HImageButton(Settings.uploadImage, net.sf.jftp.gui.base.LocalDir.uploadString, "Upload selected", this);
 		uploadButton.setToolTipText("Upload selected");
 
-		zipButton = new HImageButton(Settings.zipFileImage, zipString, "Add selected to new zip file", this);
+		zipButton = new HImageButton(Settings.zipFileImage, net.sf.jftp.gui.base.LocalDir.zipString, "Add selected to new zip file", this);
 		zipButton.setToolTipText("Create zip");
 
-		cpButton = new HImageButton(Settings.copyImage, cpString, "Copy selected files to another local dir", this);
+		cpButton = new HImageButton(Settings.copyImage, net.sf.jftp.gui.base.LocalDir.cpString, "Copy selected files to another local dir", this);
 		cpButton.setToolTipText("Local copy selected");
 
-		rnButton = new HImageButton(Settings.textFileImage, rnString, "Rename selected file or directory", this);
+		rnButton = new HImageButton(Settings.textFileImage, net.sf.jftp.gui.base.LocalDir.rnString, "Rename selected file or directory", this);
 		rnButton.setToolTipText("Rename selected");
 
-		cdUpButton = new HImageButton(Settings.cdUpImage, cdUpString, "Go to Parent Directory", this);
+		cdUpButton = new HImageButton(Settings.cdUpImage, net.sf.jftp.gui.base.LocalDir.cdUpString, "Go to Parent Directory", this);
 		cdUpButton.setToolTipText("Go to Parent Directory");
 
 		label.setText("Filesystem: " + StringUtils.cutPath(path));

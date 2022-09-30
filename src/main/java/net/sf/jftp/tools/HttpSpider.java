@@ -350,7 +350,7 @@ class Holer {
 			int len = 0;
 
 			while (!checkung.ready() && (len < 5000)) {
-				chill(100);
+				net.sf.jftp.tools.Holer.chill(100);
 				len += 100;
 			}
 
@@ -403,7 +403,7 @@ class Holer {
 			boolean line = true;
 
 			while (true) {
-				chill(10);
+				net.sf.jftp.tools.Holer.chill(10);
 
 				final StringBuilder tmp = new StringBuilder();
 

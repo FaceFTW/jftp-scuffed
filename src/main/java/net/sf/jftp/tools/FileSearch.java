@@ -171,11 +171,11 @@ public class FileSearch {
 		url = this.clear(url);
 
 		final int urlRating = this.checkForResult(url);
-		if (!quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + currentDepth);
+		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + currentDepth);
 
 		if (urlRating > 0) {
 		} else if (urlRating < 0 && currentDepth > 0) {
-			if (!quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
+			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
 			return;
 		}
 
@@ -184,14 +184,14 @@ public class FileSearch {
 		final String content = urlGetter.fetch(url);
 
 		final int factor = this.rate(content);
-		if (!quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + currentDepth);
+		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + currentDepth);
 
 		if (factor < MIN_FACTOR) {
-			if (!quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
+			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
 			return;
 		}
 
-		if (!ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + currentDepth);
+		if (!net.sf.jftp.tools.FileSearch.ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + currentDepth);
 
 		Vector m = this.sort(content, url.substring(0, url.lastIndexOf("/")), "href=\"");
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "src=\""));
@@ -204,7 +204,7 @@ public class FileSearch {
 
 			final String next = (String) links.nextElement();
 
-			if (!quiet) net.sf.jftp.system.logging.Log.out("PROCESS: " + next);
+			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("PROCESS: " + next);
 			boolean skip = false;
 
 			while (!skip) {
@@ -258,7 +258,7 @@ public class FileSearch {
 
 			was = this.createAbsoluteUrl(was, url);
 			res.add(was);
-			if (!quiet) net.sf.jftp.system.logging.Log.out("ADD: " + was);
+			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("ADD: " + was);
 		}
 	}
 
@@ -329,7 +329,7 @@ class Getter {
 			int len = 0;
 
 			while (!in.ready() && (len < 5000)) {
-				chill(100);
+				net.sf.jftp.tools.Getter.chill(100);
 				len += 100;
 			}
 
@@ -383,7 +383,7 @@ class Getter {
 			final boolean bin = false;
 
 			while (true) {
-				chill(10);
+				net.sf.jftp.tools.Getter.chill(10);
 
 				final StringBuilder tmp = new StringBuilder();
 

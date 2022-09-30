@@ -57,6 +57,6 @@ public class LoadSet {
 	}
 
 	public static String[] loadSet(final String file) {
-		return loadSet(file, false);
+		return net.sf.jftp.config.LoadSet.loadSet(file, false);
 	}
 }

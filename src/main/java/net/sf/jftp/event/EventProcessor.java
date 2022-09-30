@@ -27,16 +27,16 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	public EventProcessor(final Vector b) {
 		buffer = b;
 		new Thread(this).start();
-		addHandler(FTPShutdown, this);
+		net.sf.jftp.event.EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPShutdown, this);
 	}
 
 	public static void addHandler(final int eventCode, final EventHandler h) {
 		final Integer code = eventCode;
-		Vector handlers = (Vector) (table.get(code));
+		Vector handlers = (Vector) (net.sf.jftp.event.EventProcessor.table.get(code));
 
 		if (handlers == null) {
 			handlers = new Vector();
-			table.put(code, handlers);
+			net.sf.jftp.event.EventProcessor.table.put(code, handlers);
 		}
 
 		handlers.addElement(h);
@@ -44,7 +44,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 	public void accept(final Event e) {
 		final Integer code = e.eventCode();
-		final Vector handlers = (Vector) (table.get(code));
+		final Vector handlers = (Vector) (net.sf.jftp.event.EventProcessor.table.get(code));
 
 		if (handlers != null) {
 			for (int i = 0, max = handlers.size(); i < max; i++) {

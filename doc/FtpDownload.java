@@ -71,9 +71,9 @@ public class FtpDownload implements Logger, ConnectionListener
 	
 	con.download(file);
 
-	time = (System.currentTimeMillis()-current);
+	 FtpDownload.time = (System.currentTimeMillis()-current);
 
-	System.out.println("Download took "+time+"ms.");
+	System.out.println("Download took "+ FtpDownload.time +"ms.");
  }
 
  // download welcome.msg from sourceforge or any other given file

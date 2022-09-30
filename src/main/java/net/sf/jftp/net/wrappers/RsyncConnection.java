@@ -504,7 +504,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			out = new java.io.BufferedOutputStream(new com.sun.xfile.XFileOutputStream(file));
 			in = new java.io.BufferedInputStream(i);
 
-			final byte[] buf = new byte[buffer];
+			final byte[] buf = new byte[net.sf.jftp.net.wrappers.RsyncConnection.buffer];
 			int len = 0;
 			int reallen = 0;
 

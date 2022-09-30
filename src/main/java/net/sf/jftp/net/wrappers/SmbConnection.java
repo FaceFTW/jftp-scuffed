@@ -564,7 +564,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				in = new BufferedInputStream(new FileInputStream(file));
 			}
 
-			final byte[] buf = new byte[smbBuffer];
+			final byte[] buf = new byte[net.sf.jftp.net.wrappers.SmbConnection.smbBuffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -681,7 +681,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			out = new BufferedOutputStream(new SmbFileOutputStream(new SmbFile(file, this.getAuth())));
 			in = new BufferedInputStream(i);
 
-			final byte[] buf = new byte[smbBuffer];
+			final byte[] buf = new byte[net.sf.jftp.net.wrappers.SmbConnection.smbBuffer];
 			int len = 0;
 			int reallen = 0;
 

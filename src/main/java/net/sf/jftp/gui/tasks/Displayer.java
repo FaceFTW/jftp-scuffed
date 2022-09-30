@@ -61,7 +61,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 
 		close.addActionListener(this);
 
-		if (showCloseButton) {
+		if (net.sf.jftp.gui.tasks.Displayer.showCloseButton) {
 			this.getContentPane().add("South", closeP);
 		}
 

@@ -70,7 +70,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.setBackground(okP.getBackground());
 
 		final JPanel p = new JPanel();
-		p.add(info);
+		p.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.info);
 
 		//*** MY ADDITIONS
 		try {
@@ -90,8 +90,8 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_nfs);
 
 		if ((login[0] != null) && (login.length > 1)) {
-			host.setText(login[0]);
-			user.setText(login[1]);
+			net.sf.jftp.gui.hostchooser.NfsHostChooser.host.setText(login[0]);
+			net.sf.jftp.gui.hostchooser.NfsHostChooser.user.setText(login[1]);
 		}
 
         /*
@@ -102,19 +102,19 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
         */
 		if (net.sf.jftp.config.Settings.getStorePasswords()) {
 			if ((login[0] != null) && (login.length > 2) && (login[2] != null)) {
-				pass.setText(login[2]);
+				net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.setText(login[2]);
 			}
 		} else {
-			pass.setText("");
+			net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.setText("");
 		}
 
 		final HInsetPanel root = new HInsetPanel();
 		root.setLayout(new GridLayout(4, 2, 5, 3));
 
-		root.add(host);
+		root.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.host);
 		root.add(p);
-		root.add(user);
-		root.add(pass);
+		root.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.user);
+		root.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.pass);
 
 		root.add(new JLabel(""));
 		root.add(okP);
@@ -125,9 +125,9 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.getContentPane().add("Center", root);
 
 		ok.addActionListener(this);
-		info.addActionListener(this);
+		net.sf.jftp.gui.hostchooser.NfsHostChooser.info.addActionListener(this);
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		pass.text.addActionListener(this);
+		net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.text.addActionListener(this);
 
 		this.pack();
 		this.setModal(false);
@@ -139,11 +139,11 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.fixLocation();
 		this.setVisible(true);
 		this.toFront();
-		host.requestFocus();
+		net.sf.jftp.gui.hostchooser.NfsHostChooser.host.requestFocus();
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == info) {
+		if (e.getSource() == net.sf.jftp.gui.hostchooser.NfsHostChooser.info) {
 			java.net.URL url = ClassLoader.getSystemResource(net.sf.jftp.config.Settings.nfsinfo);
 
 			if (url == null) {
@@ -151,21 +151,21 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 			}
 
 			final ExternalDisplayer d = new ExternalDisplayer(url);
-		} else if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
+		} else if ((e.getSource() == ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 			final net.sf.jftp.net.wrappers.NfsConnection con = null;
 
-			final String htmp = host.getText().trim();
-			final String utmp = user.getText().trim();
-			final String ptmp = pass.getText();
+			final String htmp = net.sf.jftp.gui.hostchooser.NfsHostChooser.host.getText().trim();
+			final String utmp = net.sf.jftp.gui.hostchooser.NfsHostChooser.user.getText().trim();
+			final String ptmp = net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.getText();
 
 			//*** MY ADDITIONS
 			final int potmp = 0; //*** just filler for the port number
 
-			final String userName = user.text.getText();
+			final String userName = net.sf.jftp.gui.hostchooser.NfsHostChooser.user.text.getText();
 
 			//***
 			try {

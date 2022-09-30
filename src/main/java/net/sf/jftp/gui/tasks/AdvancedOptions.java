@@ -40,7 +40,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		statusText.setPreferredSize(new Dimension(400, 30));
 
 		String listOptionText = "";
-		if (listOptionSet) {
+		if (net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet) {
 			listOptionText = net.sf.jftp.net.FtpConnection.LIST;
 		} else {
 			if (net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings) != null) {
@@ -79,14 +79,14 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 			net.sf.jftp.net.FtpConnection.LIST = listCommand.getText().trim();
 
 			statusText.setText("LIST command set.");
-			listOptionSet = true;
+			net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet = true;
 
 		}
 
 		else {
 			net.sf.jftp.net.FtpConnection.LIST = listCommand.getText().trim();
 
-			listOptionSet = true;
+			net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet = true;
 
 			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, listCommand.getText().trim());
 

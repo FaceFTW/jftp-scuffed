@@ -29,7 +29,7 @@ public static final int height = 600;
 
 public Grapher()
 {
-	this.setSize(width,height);
+	this.setSize(Grapher.width, Grapher.height);
 
  try
  {
@@ -66,8 +66,8 @@ public void paint(final Graphics g)
 
 	for (final String s : files) {
 		while (true) {
-			final int x = r.nextInt(width - 200);
-			int y = r.nextInt(height - 20);
+			final int x = r.nextInt(Grapher.width - 200);
+			int y = r.nextInt(Grapher.height - 20);
 			if (y < 30) y = 30;
 
 			if (this.check(x, y)) {
@@ -195,7 +195,7 @@ public static void main(final String[] argv)
 	final JFrame j = new JFrame();
 	j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	j.getContentPane().setLayout(new BorderLayout(5,5));
-	j.setSize(width+10,height+25);
+	j.setSize(Grapher.width +10, Grapher.height +25);
 	j.getContentPane().add("Center",g);
 	j.show();
 }

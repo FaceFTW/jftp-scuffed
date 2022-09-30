@@ -24,7 +24,7 @@ public class GUIDefaults {
 	public static final Font active = new Font("Arial", Font.PLAIN, 14);
 	public static final Font menuFont = new Font("Arial", Font.PLAIN, 12);
 	public static final Font status = new Font("Arial", Font.BOLD, 12);
-	public static final Font monospaced = font;
+	public static final Font monospaced = net.sf.jftp.gui.framework.GUIDefaults.font;
 	public static final Color mainBack = Color.lightGray;
 	public static Color back = new Color(230, 230, 230);
 	public static Color sizeBack = new Color(255, 200, 0);

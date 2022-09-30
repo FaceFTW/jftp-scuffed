@@ -51,7 +51,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	}
 
 	public RawConnection(final String hostname, final int p) {
-		host.setText(hostname);
+		net.sf.jftp.util.RawConnection.host.setText(hostname);
 
 		this.setSize(550, 300);
 		this.setLocation(150, 150);
@@ -59,11 +59,11 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this.getContentPane().setLayout(new BorderLayout(2, 2));
 
 		final javax.swing.JPanel p1 = new javax.swing.JPanel();
-		p1.add(host);
-		p1.add(port);
-		host.text.setEditable(false);
-		port.text.setEditable(false);
-		port.setText(Integer.toString(p));
+		p1.add(net.sf.jftp.util.RawConnection.host);
+		p1.add(net.sf.jftp.util.RawConnection.port);
+		net.sf.jftp.util.RawConnection.host.text.setEditable(false);
+		net.sf.jftp.util.RawConnection.port.text.setEditable(false);
+		net.sf.jftp.util.RawConnection.port.setText(Integer.toString(p));
 
 		com.text.addActionListener(this);
 
@@ -83,13 +83,13 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		p2.add(clear);
 		clear.addActionListener(this);
 
-		output.setEditable(false);
+		net.sf.jftp.util.RawConnection.output.setEditable(false);
 
-		outputPane = new JScrollPane(output);
-		outputPane.setMinimumSize(new Dimension(400, 300));
+		net.sf.jftp.util.RawConnection.outputPane = new JScrollPane(net.sf.jftp.util.RawConnection.output);
+		net.sf.jftp.util.RawConnection.outputPane.setMinimumSize(new Dimension(400, 300));
 
 		this.getContentPane().add("North", p1);
-		this.getContentPane().add("Center", outputPane);
+		this.getContentPane().add("Center", net.sf.jftp.util.RawConnection.outputPane);
 		this.getContentPane().add("South", p2);
 
 		com.setText("");
@@ -113,12 +113,12 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	}
 
 	private void transmit() {
-		if (!established) {
-			c = new JRawConnection(host.getText(), Integer.parseInt(port.getText()), true);
+		if (!net.sf.jftp.util.RawConnection.established) {
+			c = new JRawConnection(net.sf.jftp.util.RawConnection.host.getText(), Integer.parseInt(net.sf.jftp.util.RawConnection.port.getText()), true);
 
 			if (c.isThere()) {
 				c.send(com.getText());
-				established = true;
+				net.sf.jftp.util.RawConnection.established = true;
 			} else {
 				this.debugWrite("No connection!");
 			}
@@ -139,7 +139,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		}
 
 		if (e.getSource() == clear) {
-			output.setText("");
+			net.sf.jftp.util.RawConnection.output.setText("");
 		}
 
 		if (e.getSource() == close) {
@@ -152,11 +152,11 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	}
 
 	private void debugWrite(final String str) {
-		output.append(str + "\n");
+		net.sf.jftp.util.RawConnection.output.append(str + "\n");
 	}
 
 	public void windowClosing(final WindowEvent e) {
-		if (mayDispose) {
+		if (net.sf.jftp.util.RawConnection.mayDispose) {
 			this.dispose();
 		}
 	}

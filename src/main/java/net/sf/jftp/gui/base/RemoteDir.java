@@ -140,36 +140,36 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		props.addActionListener(this);
 		popupMenu.add(props);
 
-		rnButton = new HImageButton(Settings.textFileImage, rnString, "Rename selected file or directory", this);
+		rnButton = new HImageButton(Settings.textFileImage, net.sf.jftp.gui.base.RemoteDir.rnString, "Rename selected file or directory", this);
 		rnButton.setToolTipText("Rename selected");
 
 		list.setToolTipText("Show remote listing...");
 		transferType.setToolTipText("Toggle transfer type...");
 
-		deleteButton = new HImageButton(Settings.deleteImage, deleteString, "Delete  selected", this);
+		deleteButton = new HImageButton(Settings.deleteImage, net.sf.jftp.gui.base.RemoteDir.deleteString, "Delete  selected", this);
 		deleteButton.setToolTipText("Delete selected");
 
-		mkdirButton = new HImageButton(Settings.mkdirImage, mkdirString, "Create a new directory", this);
+		mkdirButton = new HImageButton(Settings.mkdirImage, net.sf.jftp.gui.base.RemoteDir.mkdirString, "Create a new directory", this);
 		mkdirButton.setToolTipText("Create directory");
 
-		refreshButton = new HImageButton(Settings.refreshImage, refreshString, "Refresh current directory", this);
+		refreshButton = new HImageButton(Settings.refreshImage, net.sf.jftp.gui.base.RemoteDir.refreshString, "Refresh current directory", this);
 		refreshButton.setToolTipText("Refresh directory");
 		refreshButton.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.refreshImage2)));
 		refreshButton.setRolloverEnabled(true);
 
-		cdButton = new HImageButton(Settings.cdImage, cdString, "Change directory", this);
+		cdButton = new HImageButton(Settings.cdImage, net.sf.jftp.gui.base.RemoteDir.cdString, "Change directory", this);
 		cdButton.setToolTipText("Change directory");
 
-		cmdButton = new HImageButton(Settings.cmdImage, cmdString, "Execute remote command", this);
+		cmdButton = new HImageButton(Settings.cmdImage, net.sf.jftp.gui.base.RemoteDir.cmdString, "Execute remote command", this);
 		cmdButton.setToolTipText("Execute remote command");
 
-		downloadButton = new HImageButton(Settings.downloadImage, downloadString, "Download selected", this);
+		downloadButton = new HImageButton(Settings.downloadImage, net.sf.jftp.gui.base.RemoteDir.downloadString, "Download selected", this);
 		downloadButton.setToolTipText("Download selected");
 
-		queueButton = new HImageButton(Settings.queueImage, queueString, "Queue selected", this);
+		queueButton = new HImageButton(Settings.queueImage, net.sf.jftp.gui.base.RemoteDir.queueString, "Queue selected", this);
 		queueButton.setToolTipText("Queue selected");
 
-		cdUpButton = new HImageButton(Settings.cdUpImage, cdUpString, "Go to Parent Directory", this);
+		cdUpButton = new HImageButton(Settings.cdUpImage, net.sf.jftp.gui.base.RemoteDir.cdUpString, "Go to Parent Directory", this);
 		cdUpButton.setToolTipText("Go to Parent Directory");
 
 		this.setLabel();

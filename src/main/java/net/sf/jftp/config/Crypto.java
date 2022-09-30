@@ -55,7 +55,7 @@ public class Crypto {
 		final SecretKey key;
 
 		try {
-			key = factory.generateSecret(new PBEKeySpec(PASSWORD));
+			key = factory.generateSecret(new PBEKeySpec(net.sf.jftp.config.Crypto.PASSWORD));
 		} catch (final InvalidKeySpecException e) {
 			// The password is hard coded - this exception can't be the case
 			return "";
@@ -71,14 +71,14 @@ public class Crypto {
 		}
 
 		try {
-			pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
+			pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(net.sf.jftp.config.Crypto.SALT, 20));
 		} catch (final java.security.InvalidKeyException | java.security.InvalidAlgorithmParameterException e) {
 			return "";
 		}
 
 		// encode & return encoded string
 		try {
-			return base64Encode(pbeCipher.doFinal(str.getBytes()));
+			return net.sf.jftp.config.Crypto.base64Encode(pbeCipher.doFinal(str.getBytes()));
 		} catch (final javax.crypto.IllegalBlockSizeException | javax.crypto.BadPaddingException e) {
 			return "";
 		}
@@ -97,7 +97,7 @@ public class Crypto {
 		// init key
 		final SecretKey key;
 		try {
-			key = keyFactory.generateSecret(new PBEKeySpec(PASSWORD));
+			key = keyFactory.generateSecret(new PBEKeySpec(net.sf.jftp.config.Crypto.PASSWORD));
 		} catch (final InvalidKeySpecException e) {
 			return "";
 		}
@@ -111,7 +111,7 @@ public class Crypto {
 		}
 
 		try {
-			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
+			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(net.sf.jftp.config.Crypto.SALT, 20));
 		} catch (final java.security.InvalidKeyException | java.security.InvalidAlgorithmParameterException e) {
 			return "";
 		}
@@ -120,7 +120,7 @@ public class Crypto {
 		final String dec;
 
 		try {
-			dec = new String(pbeCipher.doFinal(base64Decode(str)));
+			dec = new String(pbeCipher.doFinal(net.sf.jftp.config.Crypto.base64Decode(str)));
 		} catch (final javax.crypto.IllegalBlockSizeException | java.io.IOException | javax.crypto.BadPaddingException e) {
 			return "";
 		}

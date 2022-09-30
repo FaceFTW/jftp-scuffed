@@ -32,7 +32,7 @@ public class StartConnection {
 	public static String keyfile = null;
 
 	public static void setSshKeyfile(final String file) {
-		keyfile = file;
+		net.sf.jftp.net.wrappers.StartConnection.keyfile = file;
 	}
 
 	public static boolean startCon(final String protocol, final String htmp, final String utmp, final String ptmp, final int potmp, final String dtmp, final boolean useLocal) {
@@ -85,7 +85,7 @@ public class StartConnection {
 				searchValue[5] = useLocalString;
 				searchValue[6] = LastConnections.SENTINEL;
 
-				updateFileMenu(searchValue);
+				net.sf.jftp.net.wrappers.StartConnection.updateFileMenu(searchValue);
 
 				return true;
 			} catch (final Exception ex) {
@@ -128,7 +128,7 @@ public class StartConnection {
 
 			searchValue[4] = useLocalString;
 			searchValue[5] = LastConnections.SENTINEL;
-			updateFileMenu(searchValue);
+			net.sf.jftp.net.wrappers.StartConnection.updateFileMenu(searchValue);
 
 			return status;
 		}
@@ -137,7 +137,7 @@ public class StartConnection {
 	}
 
 	public static int startFtpCon(final String htmp, final String utmp, final String ptmp, final int potmp, final String dtmp, final boolean useLocal) {
-		return startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal, null);
+		return net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal, null);
 	}
 
 	//startCon
@@ -149,16 +149,16 @@ public class StartConnection {
 		final String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 
-		con = new FtpConnection(htmp, potmp, dtmp, crlf);
+		net.sf.jftp.net.wrappers.StartConnection.con = new FtpConnection(htmp, potmp, dtmp, crlf);
 
 
 		if (useLocal) {
-			net.sf.jftp.JFtp.statusP.jftp.addLocalConnection(htmp, con);
+			net.sf.jftp.JFtp.statusP.jftp.addLocalConnection(htmp, net.sf.jftp.net.wrappers.StartConnection.con);
 		} else {
-			net.sf.jftp.JFtp.statusP.jftp.addConnection(htmp, con);
+			net.sf.jftp.JFtp.statusP.jftp.addConnection(htmp, net.sf.jftp.net.wrappers.StartConnection.con);
 		}
 
-		final int response = con.login(utmp, ptmp);
+		final int response = net.sf.jftp.net.wrappers.StartConnection.con.login(utmp, ptmp);
 
 		//boolean isConnected = false;
 		if (response == FtpConnection.LOGIN_OK) {
@@ -185,7 +185,7 @@ public class StartConnection {
 			searchValue[6] = useLocalString;
 
 			searchValue[7] = LastConnections.SENTINEL;
-			updateFileMenu(searchValue);
+			net.sf.jftp.net.wrappers.StartConnection.updateFileMenu(searchValue);
 		}
 
 		else {

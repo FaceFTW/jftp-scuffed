@@ -166,22 +166,22 @@ public class StringUtils {
 		final String a4 = "/programme/test.html";
 		final String a5 = "programme/test.html";
 
-		System.out.println("getfile: " + getFile(a1) + " - false, " + isRelative(a1));
-		System.out.println("getfile: " + getFile(a2) + " - true, " + isRelative(a2));
-		System.out.println("getfile: " + getFile(a3) + " - true, " + isRelative(a3));
-		System.out.println("getfile: " + getFile(a4) + " - false, " + isRelative(a4));
-		System.out.println("getfile: " + getFile(a5) + " - true, " + isRelative(a5));
+		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a1) + " - false, " + net.sf.jftp.system.StringUtils.isRelative(a1));
+		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a2) + " - true, " + net.sf.jftp.system.StringUtils.isRelative(a2));
+		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a3) + " - true, " + net.sf.jftp.system.StringUtils.isRelative(a3));
+		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a4) + " - false, " + net.sf.jftp.system.StringUtils.isRelative(a4));
+		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a5) + " - true, " + net.sf.jftp.system.StringUtils.isRelative(a5));
 	}
 
 	public static String cut(final String tmp, final String where) {
 		final StringBuilder ret = new StringBuilder();
 
 		for (int i = 0; i < tmp.length(); i++) {
-			if (!string(tmp.charAt(i)).equals(where)) {
-				ret.append(string(tmp.charAt(i)));
+			if (!net.sf.jftp.system.StringUtils.string(tmp.charAt(i)).equals(where)) {
+				ret.append(net.sf.jftp.system.StringUtils.string(tmp.charAt(i)));
 			}
 
-			if (string(tmp.charAt(i)).equals(where)) {
+			if (net.sf.jftp.system.StringUtils.string(tmp.charAt(i)).equals(where)) {
 				return ret.toString();
 			}
 		}

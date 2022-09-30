@@ -34,8 +34,8 @@ public class Log {
 		if (Settings.getDisableLog()) {
 			return;
 		}
-		logger.debug(msg);
-		cache.append(msg).append("\n");
+		net.sf.jftp.system.logging.Log.logger.debug(msg);
+		net.sf.jftp.system.logging.Log.cache.append(msg).append("\n");
 
 		if (!Settings.getEnableDebug()) System.out.println("> " + msg);
 	}
@@ -45,8 +45,8 @@ public class Log {
 			return;
 		}
 
-		logger.debugRaw(msg);
-		cache.append(msg);
+		net.sf.jftp.system.logging.Log.logger.debugRaw(msg);
+		net.sf.jftp.system.logging.Log.cache.append(msg);
 
 		if (Settings.getEnableDebug()) System.out.print(msg);
 	}
@@ -64,10 +64,10 @@ public class Log {
 
 
 	public static String getCache() {
-		return cache.toString();
+		return net.sf.jftp.system.logging.Log.cache.toString();
 	}
 
 	public static void clearCache() {
-		cache = new StringBuffer();
+		net.sf.jftp.system.logging.Log.cache = new StringBuffer();
 	}
 }

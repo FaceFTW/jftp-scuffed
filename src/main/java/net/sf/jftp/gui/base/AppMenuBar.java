@@ -145,12 +145,12 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		clear.addActionListener(this);
 		sftpCon.addActionListener(this);
 		rsyncCon.addActionListener(this);
-		fadeMenu.addActionListener(this);
-		askToDelete.addActionListener(this);
+		net.sf.jftp.gui.base.AppMenuBar.fadeMenu.addActionListener(this);
+		net.sf.jftp.gui.base.AppMenuBar.askToDelete.addActionListener(this);
 		smbThreads.addActionListener(this);
 		sftpThreads.addActionListener(this);
-		debug.addActionListener(this);
-		disableLog.addActionListener(this);
+		net.sf.jftp.gui.base.AppMenuBar.debug.addActionListener(this);
+		net.sf.jftp.gui.base.AppMenuBar.disableLog.addActionListener(this);
 		http.addActionListener(this);
 		hp.addActionListener(this);
 		raw.addActionListener(this);
@@ -181,10 +181,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		useNewIcons.addActionListener(this);
 		hideHidden.addActionListener(this);
 
-		clearItems.addActionListener(JFtp.dList);
+		net.sf.jftp.gui.base.AppMenuBar.clearItems.addActionListener(JFtp.dList);
 
 		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, java.awt.event.InputEvent.ALT_MASK));
-		clearItems.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK));
+		net.sf.jftp.gui.base.AppMenuBar.clearItems.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK));
 		changelog.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, java.awt.event.InputEvent.ALT_MASK));
 		readme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
 		todo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, java.awt.event.InputEvent.ALT_MASK));
@@ -197,7 +197,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		smb.add(smbThreads);
 		sftp.add(sftpThreads);
 		sftp.add(sshKeys);
-		security.add(askToDelete);
+		security.add(net.sf.jftp.gui.base.AppMenuBar.askToDelete);
 		security.add(storePasswords);
 
 		cnn.add(loadCNN1);
@@ -228,13 +228,13 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		view.add(hideHidden);
 		view.addSeparator();
 		view.add(useNewIcons);
-		view.add(fadeMenu);
+		view.add(net.sf.jftp.gui.base.AppMenuBar.fadeMenu);
 		view.add(clear);
-		view.add(clearItems);
+		view.add(net.sf.jftp.gui.base.AppMenuBar.clearItems);
 
 		view.addSeparator();
-		view.add(debug);
-		view.add(disableLog);
+		view.add(net.sf.jftp.gui.base.AppMenuBar.debug);
+		view.add(net.sf.jftp.gui.base.AppMenuBar.disableLog);
 		view.addSeparator();
 		view.add(rss);
 		view.addSeparator();
@@ -610,11 +610,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				this.switchRSS("http://rss.cnn.com/rss/cnn_world.rss");
 			} else if (e.getSource() == loadCNN3) {
 				this.switchRSS("http://rss.cnn.com/rss/cnn_tech.rss");
-			} else if (e.getSource() == debug) {
-				Settings.setProperty("jftp.enableDebug", debug.getState());
+			} else if (e.getSource() == net.sf.jftp.gui.base.AppMenuBar.debug) {
+				Settings.setProperty("jftp.enableDebug", net.sf.jftp.gui.base.AppMenuBar.debug.getState());
 				Settings.save();
-			} else if (e.getSource() == disableLog) {
-				Settings.setProperty("jftp.disableLog", disableLog.getState());
+			} else if (e.getSource() == net.sf.jftp.gui.base.AppMenuBar.disableLog) {
+				Settings.setProperty("jftp.disableLog", net.sf.jftp.gui.base.AppMenuBar.disableLog.getState());
 				Settings.save();
 			} else if (e.getSource() == smbThreads) {
 				Settings.setProperty("jftp.enableSmbMultiThreading", smbThreads.getState());
@@ -628,11 +628,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				final HttpDownloader dl = new HttpDownloader();
 				jftp.addToDesktop("Http download", dl, 480, 100);
 				jftp.setLocation(dl.hashCode(), 100, 150);
-			} else if (e.getSource() == fadeMenu) {
-				Settings.setProperty("jftp.gui.enableStatusAnimation", fadeMenu.getState());
+			} else if (e.getSource() == net.sf.jftp.gui.base.AppMenuBar.fadeMenu) {
+				Settings.setProperty("jftp.gui.enableStatusAnimation", net.sf.jftp.gui.base.AppMenuBar.fadeMenu.getState());
 				Settings.save();
-			} else if (e.getSource() == askToDelete) {
-				Settings.setProperty("jftp.gui.askToDelete", askToDelete.getState());
+			} else if (e.getSource() == net.sf.jftp.gui.base.AppMenuBar.askToDelete) {
+				Settings.setProperty("jftp.gui.askToDelete", net.sf.jftp.gui.base.AppMenuBar.askToDelete.getState());
 				Settings.save();
 			}
 
@@ -780,7 +780,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		manage.setMnemonic('M');
 
 		clear.setMnemonic('C');
-		clearItems.setMnemonic('F');
+		net.sf.jftp.gui.base.AppMenuBar.clearItems.setMnemonic('F');
 
 		try {
 			int intI;

@@ -89,18 +89,18 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_smb);
 
 		if ((login[0] != null) && (login.length > 1)) {
-			host.setText(login[0]);
-			user.setText(login[1]);
+			net.sf.jftp.gui.hostchooser.SmbHostChooser.host.setText(login[0]);
+			net.sf.jftp.gui.hostchooser.SmbHostChooser.user.setText(login[1]);
 			domain.setText(login[5]);
 		}
 
 
 		if (net.sf.jftp.config.Settings.getStorePasswords()) {
 			if ((login != null) && (login.length > 2) && (login[2] != null)) {
-				pass.setText(login[2]);
+				net.sf.jftp.gui.hostchooser.SmbHostChooser.pass.setText(login[2]);
 			}
 		} else {
-			pass.setText("");
+			net.sf.jftp.gui.hostchooser.SmbHostChooser.pass.setText("");
 		}
 
 		ip.setEditable(true);
@@ -108,10 +108,10 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		final HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
 
-		root.add(host);
+		root.add(net.sf.jftp.gui.hostchooser.SmbHostChooser.host);
 		root.add(lan, "wrap");
-		root.add(user);
-		root.add(pass, "wrap");
+		root.add(net.sf.jftp.gui.hostchooser.SmbHostChooser.user);
+		root.add(net.sf.jftp.gui.hostchooser.SmbHostChooser.pass, "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
@@ -128,11 +128,11 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 		ok.addActionListener(this);
 
-		host.setEnabled(!lan.isSelected());
+		net.sf.jftp.gui.hostchooser.SmbHostChooser.host.setEnabled(!lan.isSelected());
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
 		lan.addActionListener(this);
-		pass.text.addActionListener(this);
+		net.sf.jftp.gui.hostchooser.SmbHostChooser.pass.text.addActionListener(this);
 
 		this.getContentPane().setLayout(new BorderLayout(3, 3));
 		this.getContentPane().add("Center", root);
@@ -193,12 +193,12 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		this.fixLocation();
 		this.setVisible(true);
 		this.toFront();
-		user.requestFocus();
+		net.sf.jftp.gui.hostchooser.SmbHostChooser.user.requestFocus();
 	}
 
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == lan) {
-			host.setEnabled(!lan.isSelected());
+			net.sf.jftp.gui.hostchooser.SmbHostChooser.host.setEnabled(!lan.isSelected());
 		} else if (e.getSource() == ip) {
 			if (ip.getSelectedItem().equals("<default>")) {
 				domain.setEnabled(false);
@@ -210,7 +210,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 				wins.setEnabled(true);
 				this.setBCast();
 			}
-		} else if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
+		} else if ((e.getSource() == ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.SmbHostChooser.pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -242,9 +242,9 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			}
 
 
-			String htmp = host.getText().trim();
-			final String utmp = user.getText().trim();
-			final String ptmp = pass.getText();
+			String htmp = net.sf.jftp.gui.hostchooser.SmbHostChooser.host.getText().trim();
+			final String utmp = net.sf.jftp.gui.hostchooser.SmbHostChooser.user.getText().trim();
+			final String ptmp = net.sf.jftp.gui.hostchooser.SmbHostChooser.pass.getText();
 			String dtmp = domain.getText().trim();
 
 			//***

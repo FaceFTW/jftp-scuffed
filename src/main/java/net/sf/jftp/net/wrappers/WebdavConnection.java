@@ -518,7 +518,7 @@ final WebdavResource res = this.getResource(resPath);
 
 			out = new BufferedOutputStream(new FileOutputStream(outfile));
 			in = new BufferedInputStream(this.getResource(file).getMethodData());
-final byte[] buf = new byte[webdavBuffer];
+final byte[] buf = new byte[net.sf.jftp.net.wrappers.WebdavConnection.webdavBuffer];
 			int len = 0;
 			int reallen = 0;
 while (true) {

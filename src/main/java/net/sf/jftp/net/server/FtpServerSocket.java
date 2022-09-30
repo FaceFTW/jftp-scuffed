@@ -41,32 +41,32 @@ public class FtpServerSocket extends Thread {
 	private static ArrayList commands = null;
 
 	static {
-		commands = new ArrayList();
-		commands.add("auth");
-		commands.add("cdup");
-		commands.add("cwd");
-		commands.add("feat");
-		commands.add("help");
-		commands.add("lang");
-		commands.add("list");
-		commands.add("mkd");
-		commands.add("mode");
-		commands.add("motd");
-		commands.add("nlst");
-		commands.add("noop");
-		commands.add("opts");
-		commands.add("pass");
-		commands.add("pasv");
-		commands.add("port");
-		commands.add("pwd");
-		commands.add("quit");
-		commands.add("rein");
-		commands.add("smnt");
-		commands.add("stat");
-		commands.add("stru");
-		commands.add("syst");
-		commands.add("type");
-		commands.add("user");
+		net.sf.jftp.net.server.FtpServerSocket.commands = new ArrayList();
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("auth");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("cdup");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("cwd");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("feat");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("help");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("lang");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("list");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("mkd");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("mode");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("motd");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("nlst");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("noop");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("opts");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("pass");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("pasv");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("port");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("pwd");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("quit");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("rein");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("smnt");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("stat");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("stru");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("syst");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("type");
+		net.sf.jftp.net.server.FtpServerSocket.commands.add("user");
 	}
 
 	private final Hashtable methods = new Hashtable();
@@ -99,7 +99,7 @@ public class FtpServerSocket extends Thread {
 		for (final java.lang.reflect.Method method : m) {
 			methodName = method.getName();
 
-			if (commands.contains(methodName)) {
+			if (net.sf.jftp.net.server.FtpServerSocket.commands.contains(methodName)) {
 				methods.put(methodName, method);
 			}
 		}

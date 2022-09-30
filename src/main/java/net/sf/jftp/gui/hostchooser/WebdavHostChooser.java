@@ -63,16 +63,16 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		this.setTitle("WebDAV Connection... (ALPHA STATE)");
 		this.setBackground(okP.getBackground());
 
-		host.setMinimumSize(new Dimension(500, 50));
+		net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.setMinimumSize(new Dimension(500, 50));
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
-		this.getContentPane().add("North", host);
+		this.getContentPane().add("North", net.sf.jftp.gui.hostchooser.WebdavHostChooser.host);
 
 		final HPanel p = new HPanel();
 		p.setLayout(new GridLayout(2, 2, 5, 3));
 
 
-		p.add(user);
-		p.add(pass);
+		p.add(net.sf.jftp.gui.hostchooser.WebdavHostChooser.user);
+		p.add(net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass);
 		p.add(new JLabel(""));
 		p.add(okP);
 
@@ -84,14 +84,14 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-		pass.text.addActionListener(this);
+		net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.text.addActionListener(this);
 
 		this.setModal(false);
 		this.setVisible(false);
 		this.addWindowListener(this);
-		host.setText("http://www.planetpdf.com/planetpdf/webdavdemo/");
-		user.setText("guest");
-		pass.setText("guest");
+		net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.setText("http://www.planetpdf.com/planetpdf/webdavdemo/");
+		net.sf.jftp.gui.hostchooser.WebdavHostChooser.user.setText("guest");
+		net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.setText("guest");
 
 		this.pack();
 	}
@@ -99,16 +99,16 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	public void update() {
 		this.setVisible(true);
 		this.toFront();
-		host.requestFocus();
+		net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.requestFocus();
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
+		if ((e.getSource() == ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			final String htmp = host.getText().trim();
-			final String utmp = user.getText().trim();
-			final String ptmp = pass.getText();
+			final String htmp = net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.getText().trim();
+			final String utmp = net.sf.jftp.gui.hostchooser.WebdavHostChooser.user.getText().trim();
+			final String ptmp = net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.getText();
 
 			final net.sf.jftp.net.wrappers.WebdavConnection con;
 

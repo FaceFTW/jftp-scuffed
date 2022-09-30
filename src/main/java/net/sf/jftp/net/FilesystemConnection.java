@@ -411,7 +411,7 @@ public class FilesystemConnection implements BasicConnection {
 		try {
 			final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(outfile));
 			final BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-			final byte[] buf = new byte[filesystemBuffer];
+			final byte[] buf = new byte[net.sf.jftp.net.FilesystemConnection.filesystemBuffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -462,7 +462,7 @@ public class FilesystemConnection implements BasicConnection {
 	private void work(final BufferedInputStream in, final String outfile, final String file) {
 		try {
 			final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(outfile));
-			final byte[] buf = new byte[filesystemBuffer];
+			final byte[] buf = new byte[net.sf.jftp.net.FilesystemConnection.filesystemBuffer];
 			int len = 0;
 			int reallen = 0;
 

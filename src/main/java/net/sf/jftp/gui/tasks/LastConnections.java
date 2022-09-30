@@ -62,7 +62,7 @@ public class LastConnections {
 				int j = 0;
 				out.println(a[i][j]);
 
-				while ((j < net.sf.jftp.JFtp.CAPACITY) && !(a[i][j].equals(SENTINEL))) {
+				while ((j < net.sf.jftp.JFtp.CAPACITY) && !(a[i][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 					j++;
 					out.println(a[i][j]);
 
@@ -88,7 +88,7 @@ public class LastConnections {
 			final File f2 = new File(net.sf.jftp.config.Settings.last_cons);
 
 			if (!f2.exists()) {
-				init(capacity);
+				net.sf.jftp.gui.tasks.LastConnections.init(capacity);
 			}
 
 			RandomAccessFile raf = new RandomAccessFile(f2, "r");
@@ -125,7 +125,7 @@ public class LastConnections {
 					oldValues[i] = raf.readLine();
 				}
 
-				changeFile(oldValues);
+				net.sf.jftp.gui.tasks.LastConnections.changeFile(oldValues);
 			}
 
 			//reset to read start of file
@@ -135,7 +135,7 @@ public class LastConnections {
 				int j = 0;
 				retVal[i][j] = raf.readLine();
 
-				while ((j < net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH) && !(retVal[i][j].equals(SENTINEL))) {
+				while ((j < net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH) && !(retVal[i][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 					j++;
 					retVal[i][j] = raf.readLine();
 
@@ -156,12 +156,12 @@ public class LastConnections {
 	public static String[][] prepend(final String[] newString, final int capacity, final boolean newConnection) {
 		String[][] lastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
-		lastCons = readFromFile(capacity);
+		lastCons = net.sf.jftp.gui.tasks.LastConnections.readFromFile(capacity);
 
 		for (int i = 0; i < capacity; i++) {
 			int j = 0;
 
-			while (!(lastCons[i][j].equals(SENTINEL))) {
+			while (!(lastCons[i][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 				j++;
 			}
 		}
@@ -169,22 +169,22 @@ public class LastConnections {
 		final String[] temp = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		int j = 0;
-		while (!(lastCons[0][j].equals(SENTINEL))) {
+		while (!(lastCons[0][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 			temp[j] = lastCons[0][j];
 
 			j++;
 		}
 
-		temp[j] = SENTINEL;
+		temp[j] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 
 		j = 0;
 
-		while (!(newString[j].equals(SENTINEL))) {
+		while (!(newString[j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 			lastCons[0][j] = newString[j];
 			j++;
 		}
 
-		lastCons[0][j] = SENTINEL;
+		lastCons[0][j] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 		j++;
 
 		while (j < net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH) {
@@ -196,17 +196,17 @@ public class LastConnections {
 			if ((i + 1) != capacity) {
 				j = 0;
 
-				while (!(temp[j].equals(SENTINEL))) {
+				while (!(temp[j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 					newString[j] = temp[j];
 					j++;
 				}
 
-				newString[j] = SENTINEL;
+				newString[j] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 
 				j = 0;
 
 				//while (!(temp[j].equals(SENTINEL))) {
-				while (!(lastCons[i + 1][j].equals(SENTINEL))) {
+				while (!(lastCons[i + 1][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 
 					temp[j] = lastCons[i + 1][j];
 
@@ -214,19 +214,19 @@ public class LastConnections {
 				}
 
 				//while
-				temp[j] = SENTINEL;
+				temp[j] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 
 				j = 0;
 
 				//while (!(lastCons[i+1][j].equals(SENTINEL))) {
-				while (!(newString[j].equals(SENTINEL))) {
+				while (!(newString[j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 					lastCons[i + 1][j] = newString[j];
 
 					//System.out.println(lastCons[i+1][j]);
 					j++;
 				}
 
-				lastCons[i + 1][j] = SENTINEL;
+				lastCons[i + 1][j] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 
 			}
 
@@ -237,9 +237,9 @@ public class LastConnections {
 		for (int i = 0; i < capacity; i++) {
 			j = 0;
 
-			while (!lastCons[i][j].equals(SENTINEL)) {
+			while (!lastCons[i][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL)) {
 				//System.out.println(lastCons[i][j]);
-				if (lastCons[i][j].equals(SENTINEL)) {
+				if (lastCons[i][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL)) {
 					break;
 				}
 
@@ -250,7 +250,7 @@ public class LastConnections {
 
 		//***
 		if (newConnection) {
-			writeToFile(lastCons, capacity);
+			net.sf.jftp.gui.tasks.LastConnections.writeToFile(lastCons, capacity);
 		}
 
 		return lastCons;
@@ -261,14 +261,14 @@ public class LastConnections {
 		String[][] lastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 		String[][] newLastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
-		lastCons = readFromFile(capacity);
+		lastCons = net.sf.jftp.gui.tasks.LastConnections.readFromFile(capacity);
 
 		final String[] temp = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		int j = 0;
 		temp[j] = lastCons[position][j];
 
-		while (!(lastCons[position][j].equals(SENTINEL))) {
+		while (!(lastCons[position][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 			j++;
 			temp[j] = lastCons[position][j];
 		}
@@ -276,28 +276,28 @@ public class LastConnections {
 		j = 0;
 
 		//System.out.println("START");
-		while (!(lastCons[position][j].equals(SENTINEL))) {
+		while (!(lastCons[position][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 			//System.out.println(lastCons[position][j]);
 			j++;
 		}
 
-		newLastCons = prepend(temp, position + 1, false);
+		newLastCons = net.sf.jftp.gui.tasks.LastConnections.prepend(temp, position + 1, false);
 
 		for (int i = 0; i <= position; i++) {
 			j = 0;
 
 			//while (!(lastCons[position][i].equals(SENTINEL))) {
 			//while (!(lastCons[i][j].equals(SENTINEL))) {
-			while (!(newLastCons[i][j].equals(SENTINEL))) {
+			while (!(newLastCons[i][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 				lastCons[i][j] = newLastCons[i][j];
 				j++;
 			}
 
-			lastCons[i][j] = SENTINEL;
+			lastCons[i][j] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 		}
 
 		//for
-		writeToFile(lastCons, capacity);
+		net.sf.jftp.gui.tasks.LastConnections.writeToFile(lastCons, capacity);
 
 		return lastCons;
 	}
@@ -308,12 +308,12 @@ public class LastConnections {
 		//String[] lastCons = new String[capacity];
 		String[][] lastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
-		lastCons = readFromFile(capacity);
+		lastCons = net.sf.jftp.gui.tasks.LastConnections.readFromFile(capacity);
 
 		for (int i = 0; i < capacity; i++) {
 			int j = 0;
 
-			while ((j < net.sf.jftp.JFtp.CAPACITY) && findVal[j].equals(lastCons[i][j]) && !(lastCons[i][j].equals(SENTINEL)) && !(findVal[j].equals(SENTINEL))) {
+			while ((j < net.sf.jftp.JFtp.CAPACITY) && findVal[j].equals(lastCons[i][j]) && !(lastCons[i][j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL)) && !(findVal[j].equals(net.sf.jftp.gui.tasks.LastConnections.SENTINEL))) {
 
 				j++;
 
@@ -341,7 +341,7 @@ public class LastConnections {
 
 			for (int i = 0; i < capacity; i++) {
 				out.println("null");
-				out.println(SENTINEL);
+				out.println(net.sf.jftp.gui.tasks.LastConnections.SENTINEL);
 			}
 
 			fos.close();
@@ -371,7 +371,7 @@ public class LastConnections {
 				j++;
 			}
 
-			newData[i][j] = SENTINEL;
+			newData[i][j] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 
 			if (newData[i][0].equals("SFTP") && (j == 5)) {
 				String temp = "";
@@ -385,7 +385,7 @@ public class LastConnections {
 				newData[i][5] = temp;
 
 
-				newData[i][6] = SENTINEL;
+				newData[i][6] = net.sf.jftp.gui.tasks.LastConnections.SENTINEL;
 
 			}
 
@@ -393,7 +393,7 @@ public class LastConnections {
 		}
 
 		//for
-		writeToFile(newData, net.sf.jftp.JFtp.CAPACITY);
+		net.sf.jftp.gui.tasks.LastConnections.writeToFile(newData, net.sf.jftp.JFtp.CAPACITY);
 	}
 
 	//changeFile

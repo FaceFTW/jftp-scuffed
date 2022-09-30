@@ -94,14 +94,14 @@ public class FtpTransfer extends Transfer implements Runnable {
 
 				if (listeners != null) {
 					for (int i = 0; i < listeners.size(); i++) {
-						listeners.elementAt(i).updateProgress(file, PAUSED, -1);
+						listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.PAUSED, -1);
 					}
 				}
 
 				if (!work) {
 					if (listeners != null) {
 						for (int i = 0; i < listeners.size(); i++) {
-							listeners.elementAt(i).updateProgress(file, REMOVED, -1);
+							listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.REMOVED, -1);
 						}
 					}
 				}
@@ -118,7 +118,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 
 				if (!hasPaused && (listeners != null)) {
 					for (int i = 0; i < listeners.size(); i++) {
-						listeners.elementAt(i).updateProgress(file, QUEUED, -1);
+						listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.QUEUED, -1);
 					}
 				} else {
 					break;
@@ -131,7 +131,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 		if (!work) {
 			if (listeners != null) {
 				for (int i = 0; i < listeners.size(); i++) {
-					listeners.elementAt(i).updateProgress(file, REMOVED, -1);
+					listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.REMOVED, -1);
 				}
 			}
 
@@ -159,7 +159,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 			final File f = new File(localPath);
 			con.setLocalPath(f.getAbsolutePath());
 
-			if (type.equals(UPLOAD)) {
+			if (type.equals(net.sf.jftp.net.Transfer.UPLOAD)) {
 				if (newName != null) {
 					transferStatus = con.upload(file, newName);
 				} else {

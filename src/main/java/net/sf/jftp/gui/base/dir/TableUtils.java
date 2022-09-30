@@ -157,21 +157,21 @@ return ret;
 
 
 	public static void layoutTable(final JList list, final JTable listTbl) {
-		layoutTable(list, listTbl, null);
+		net.sf.jftp.gui.base.dir.TableUtils.layoutTable(list, listTbl, null);
 	}
 
 	public static void layoutTable(final JList list, final JTable listTbl, final Vector<String> names) {
-		listTbl.setModel(generateTableModel(list));
+		listTbl.setModel(net.sf.jftp.gui.base.dir.TableUtils.generateTableModel(list));
 
 		if (Settings.useFixedTableWidths) {
-			setFixedWidths(listTbl);
+			net.sf.jftp.gui.base.dir.TableUtils.setFixedWidths(listTbl);
 		} else {
-			calcColumnWidths(listTbl);
+			net.sf.jftp.gui.base.dir.TableUtils.calcColumnWidths(listTbl);
 		}
 
-		if (names != null) modifyTableHeader(listTbl.getTableHeader(), names);
+		if (names != null) net.sf.jftp.gui.base.dir.TableUtils.modifyTableHeader(listTbl.getTableHeader(), names);
 
-		tryToEnableRowSorting(listTbl);
+		net.sf.jftp.gui.base.dir.TableUtils.tryToEnableRowSorting(listTbl);
 
 	}
 

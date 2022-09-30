@@ -109,15 +109,15 @@ public class StatusPanel extends HPanel implements ActionListener {
 	}
 
 	public void status(final String msg) {
-		status.setText(msg);
+		net.sf.jftp.gui.base.StatusPanel.status.setText(msg);
 	}
 
 	public String getHost() {
-		return status.getHost();
+		return net.sf.jftp.gui.base.StatusPanel.status.getHost();
 	}
 
 	public void setHost(final String host) {
-		status.setHost(host);
+		net.sf.jftp.gui.base.StatusPanel.status.setHost(host);
 	}
 
 	public void actionPerformed(final ActionEvent e) {

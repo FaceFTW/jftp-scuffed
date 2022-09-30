@@ -64,7 +64,7 @@ public class LocalIO {
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
-				cleanLocalDir(dir + s, path);
+				net.sf.jftp.system.LocalIO.cleanLocalDir(dir + s, path);
 				f3.delete();
 			} else {
 				//System.out.println(dir+tmp[i]);

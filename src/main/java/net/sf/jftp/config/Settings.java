@@ -38,19 +38,19 @@ public class Settings {
 	public static final String defaultDir = "<default>";
 	public static final String defaultWorkDir = System.getProperty("user.home");
 	public static final String userHomeDir = System.getProperty("user.home");
-	public static final String appHomeDir = userHomeDir + "/.jftp/".replace('/', File.separatorChar);
-	public static final String bookmarks = appHomeDir + "bookmarks.txt".replace('/', File.separatorChar);
-	public static final String ls_out = appHomeDir + ".ls_out".replace('/', File.separatorChar);
-	public static final String login_def = appHomeDir + ".login_default".replace('/', File.separatorChar);
-	public static final String login = appHomeDir + ".login".replace('/', File.separatorChar);
+	public static final String appHomeDir = net.sf.jftp.config.Settings.userHomeDir + "/.jftp/".replace('/', File.separatorChar);
+	public static final String bookmarks = net.sf.jftp.config.Settings.appHomeDir + "bookmarks.txt".replace('/', File.separatorChar);
+	public static final String ls_out = net.sf.jftp.config.Settings.appHomeDir + ".ls_out".replace('/', File.separatorChar);
+	public static final String login_def = net.sf.jftp.config.Settings.appHomeDir + ".login_default".replace('/', File.separatorChar);
+	public static final String login = net.sf.jftp.config.Settings.appHomeDir + ".login".replace('/', File.separatorChar);
 	//*** The new files that I have created
-	public static final String last_cons = appHomeDir + ".last_cons".replace('/', File.separatorChar);
-	public static final String login_def_sftp = appHomeDir + ".last_cons_sftp".replace('/', File.separatorChar);
-	public static final String login_def_smb = appHomeDir + ".last_cons_smb".replace('/', File.separatorChar);
-	public static final String login_def_nfs = appHomeDir + ".last_cons_nfs".replace('/', File.separatorChar);
+	public static final String last_cons = net.sf.jftp.config.Settings.appHomeDir + ".last_cons".replace('/', File.separatorChar);
+	public static final String login_def_sftp = net.sf.jftp.config.Settings.appHomeDir + ".last_cons_sftp".replace('/', File.separatorChar);
+	public static final String login_def_smb = net.sf.jftp.config.Settings.appHomeDir + ".last_cons_smb".replace('/', File.separatorChar);
+	public static final String login_def_nfs = net.sf.jftp.config.Settings.appHomeDir + ".last_cons_nfs".replace('/', File.separatorChar);
 	//***
 	//*** added in version 1.44
-	public static final String adv_settings = appHomeDir + ".adv_settings".replace('/', File.separatorChar);
+	public static final String adv_settings = net.sf.jftp.config.Settings.appHomeDir + ".adv_settings".replace('/', File.separatorChar);
 	public static final String greeting = "Have a lot of fun...";
 	//***
 	public static final String readme = "docs/readme";
@@ -173,120 +173,120 @@ public class Settings {
 
 	static {
 		try {
-			p.load(new FileInputStream(propertyFilename));
+			net.sf.jftp.config.Settings.p.load(new FileInputStream(net.sf.jftp.config.Settings.propertyFilename));
 		} catch (final Exception e) {
 			System.out.println("no property file loaded, using defaults... (" + e + ")");
 		}
 
-		if (!getUseNewIcons()) {
-			iconImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
-			hostImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
-			closeImage = "images/org/javalobby/icons/20x20/Error.gif";
-			infoImage = "images/org/javalobby/icons/20x20/Inform.gif";
-			listImage = "images/org/javalobby/icons/20x20/List.gif";
-			deleteImage = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
-			deleteImage2 = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
-			rmdirImage = "images/org/javalobby/icons/16x16/DeleteFolder.gif";
-			mkdirImage = "images/org/javalobby/icons/16x16/NewFolder.gif";
-			refreshImage = "images/org/javalobby/icons/16x16/Undo.gif";
-			refreshImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
-			cdImage = "images/org/javalobby/icons/16x16/Open.gif";
-			cmdImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
-			downloadImage = "images/org/javalobby/icons/16x16/Left.gif";
-			uploadImage = "images/org/javalobby/icons/16x16/Right.gif";
-			queueImage = "images/org/javalobby/icons/16x16/Left.gif";
-			fileImage = "images/org/javalobby/icons/16x16/Document.gif";
-			dirImage = "images/org/javalobby/icons/16x16/Folder.gif";
-			codeFileImage = "images/org/javalobby/icons/16x16/List.gif";
-			textFileImage = "images/org/javalobby/icons/16x16/DocumentDraw.gif";
-			execFileImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
-			audioFileImage = "images/org/javalobby/icons/16x16/cd.gif";
-			videoFileImage = "images/org/javalobby/icons/16x16/CameraFlash.gif";
-			htmlFileImage = "images/org/javalobby/icons/16x16/World2.gif";
-			zipFileImage = "images/org/javalobby/icons/16x16/DataStore.gif";
-			imageFileImage = "images/org/javalobby/icons/16x16/Camera.gif";
-			presentationFileImage = "images/org/javalobby/icons/16x16/DocumentDiagram.gif";
-			spreadsheetFileImage = "images/org/javalobby/icons/16x16/DatePicker.gif";
-			bookFileImage = "images/org/javalobby/icons/16x16/Book.gif";
-			copyImage = "images/org/javalobby/icons/16x16/Copy.gif";
-			openImage = "images/org/javalobby/icons/16x16/World2.gif";
-			sftpImage = "images/org/javalobby/icons/16x16/NewEnvelope.gif";
-			nfsImage = "images/org/javalobby/icons/16x16/TrafficGreen.gif";
-			webdavImage = "images/org/javalobby/icons/16x16/DataStore.gif";
-			linkImage = "images/org/javalobby/icons/16x16/Right.gif";
-			typeImage = "images/org/javalobby/icons/20x20/Type.gif";
-			clearImage = "images/org/javalobby/icons/16x16/Undo.gif";
-			resumeImage = "images/org/javalobby/icons/16x16/GreenCircle.gif";
-			pauseImage = "images/org/javalobby/icons/16x16/RedCircle.gif";
-			clearImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
-			resumeImage2 = "images/org/javalobby/icons/16x16/GreenCircle.gif";
-			pauseImage2 = "images/org/javalobby/icons/16x16/RedCircle.gif";
-			saveImage = "images/org/javalobby/icons/16x16/Save.gif";
-			cdUpImage = "images/org/javalobby/icons/16x16/Exit.gif";
-			nextRSSImage = "images/org/javalobby/icons/16x16/Forward.gif";
-			helpImage = "images/current/help.png";
+		if (!net.sf.jftp.config.Settings.getUseNewIcons()) {
+			net.sf.jftp.config.Settings.iconImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
+			net.sf.jftp.config.Settings.hostImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
+			net.sf.jftp.config.Settings.closeImage = "images/org/javalobby/icons/20x20/Error.gif";
+			net.sf.jftp.config.Settings.infoImage = "images/org/javalobby/icons/20x20/Inform.gif";
+			net.sf.jftp.config.Settings.listImage = "images/org/javalobby/icons/20x20/List.gif";
+			net.sf.jftp.config.Settings.deleteImage = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
+			net.sf.jftp.config.Settings.deleteImage2 = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
+			net.sf.jftp.config.Settings.rmdirImage = "images/org/javalobby/icons/16x16/DeleteFolder.gif";
+			net.sf.jftp.config.Settings.mkdirImage = "images/org/javalobby/icons/16x16/NewFolder.gif";
+			net.sf.jftp.config.Settings.refreshImage = "images/org/javalobby/icons/16x16/Undo.gif";
+			net.sf.jftp.config.Settings.refreshImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
+			net.sf.jftp.config.Settings.cdImage = "images/org/javalobby/icons/16x16/Open.gif";
+			net.sf.jftp.config.Settings.cmdImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
+			net.sf.jftp.config.Settings.downloadImage = "images/org/javalobby/icons/16x16/Left.gif";
+			net.sf.jftp.config.Settings.uploadImage = "images/org/javalobby/icons/16x16/Right.gif";
+			net.sf.jftp.config.Settings.queueImage = "images/org/javalobby/icons/16x16/Left.gif";
+			net.sf.jftp.config.Settings.fileImage = "images/org/javalobby/icons/16x16/Document.gif";
+			net.sf.jftp.config.Settings.dirImage = "images/org/javalobby/icons/16x16/Folder.gif";
+			net.sf.jftp.config.Settings.codeFileImage = "images/org/javalobby/icons/16x16/List.gif";
+			net.sf.jftp.config.Settings.textFileImage = "images/org/javalobby/icons/16x16/DocumentDraw.gif";
+			net.sf.jftp.config.Settings.execFileImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
+			net.sf.jftp.config.Settings.audioFileImage = "images/org/javalobby/icons/16x16/cd.gif";
+			net.sf.jftp.config.Settings.videoFileImage = "images/org/javalobby/icons/16x16/CameraFlash.gif";
+			net.sf.jftp.config.Settings.htmlFileImage = "images/org/javalobby/icons/16x16/World2.gif";
+			net.sf.jftp.config.Settings.zipFileImage = "images/org/javalobby/icons/16x16/DataStore.gif";
+			net.sf.jftp.config.Settings.imageFileImage = "images/org/javalobby/icons/16x16/Camera.gif";
+			net.sf.jftp.config.Settings.presentationFileImage = "images/org/javalobby/icons/16x16/DocumentDiagram.gif";
+			net.sf.jftp.config.Settings.spreadsheetFileImage = "images/org/javalobby/icons/16x16/DatePicker.gif";
+			net.sf.jftp.config.Settings.bookFileImage = "images/org/javalobby/icons/16x16/Book.gif";
+			net.sf.jftp.config.Settings.copyImage = "images/org/javalobby/icons/16x16/Copy.gif";
+			net.sf.jftp.config.Settings.openImage = "images/org/javalobby/icons/16x16/World2.gif";
+			net.sf.jftp.config.Settings.sftpImage = "images/org/javalobby/icons/16x16/NewEnvelope.gif";
+			net.sf.jftp.config.Settings.nfsImage = "images/org/javalobby/icons/16x16/TrafficGreen.gif";
+			net.sf.jftp.config.Settings.webdavImage = "images/org/javalobby/icons/16x16/DataStore.gif";
+			net.sf.jftp.config.Settings.linkImage = "images/org/javalobby/icons/16x16/Right.gif";
+			net.sf.jftp.config.Settings.typeImage = "images/org/javalobby/icons/20x20/Type.gif";
+			net.sf.jftp.config.Settings.clearImage = "images/org/javalobby/icons/16x16/Undo.gif";
+			net.sf.jftp.config.Settings.resumeImage = "images/org/javalobby/icons/16x16/GreenCircle.gif";
+			net.sf.jftp.config.Settings.pauseImage = "images/org/javalobby/icons/16x16/RedCircle.gif";
+			net.sf.jftp.config.Settings.clearImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
+			net.sf.jftp.config.Settings.resumeImage2 = "images/org/javalobby/icons/16x16/GreenCircle.gif";
+			net.sf.jftp.config.Settings.pauseImage2 = "images/org/javalobby/icons/16x16/RedCircle.gif";
+			net.sf.jftp.config.Settings.saveImage = "images/org/javalobby/icons/16x16/Save.gif";
+			net.sf.jftp.config.Settings.cdUpImage = "images/org/javalobby/icons/16x16/Exit.gif";
+			net.sf.jftp.config.Settings.nextRSSImage = "images/org/javalobby/icons/16x16/Forward.gif";
+			net.sf.jftp.config.Settings.helpImage = "images/current/help.png";
 		} else {
-			iconImage = "images/current/server_add.png";
-			hostImage = "images/current/server_add.png";
-			closeImage = "images/current/cancel.png";
-			infoImage = "images/current/information.png";
-			listImage = "images/current/page_white_text.png";
+			net.sf.jftp.config.Settings.iconImage = "images/current/server_add.png";
+			net.sf.jftp.config.Settings.hostImage = "images/current/server_add.png";
+			net.sf.jftp.config.Settings.closeImage = "images/current/cancel.png";
+			net.sf.jftp.config.Settings.infoImage = "images/current/information.png";
+			net.sf.jftp.config.Settings.listImage = "images/current/page_white_text.png";
 
-			rmdirImage = "images/current/folder_delete.png";
-			mkdirImage = "images/current/folder_add.png";
-			refreshImage = "images/current/control_repeat.png";
-			refreshImage2 = "images/current/control_repeat_blue.png";
-			cdImage = "images/current/folder_explore.png";
-			cmdImage = "images/current/application_xp_terminal.png";
-			downloadImage = "images/graphicsfuel/arrow-left.png";
-			uploadImage = "images/graphicsfuel/arrow-right.png";
-			queueImage = "images/current/arrow_left.png";
-			fileImage = "images/current/page_white.png";
-			dirImage = "images/current/folder.png";
-			codeFileImage = "images/current/page_white_wrench.png";
-			textFileImage = "images/current/page_white_text.png";
-			execFileImage = "images/current/cog.png";
-			audioFileImage = "images/current/ipod.png";
-			videoFileImage = "images/current/camera.png";
-			htmlFileImage = "images/current/html.png";
-			zipFileImage = "images/current/page_white_zip.png";
-			imageFileImage = "images/current/image.png";
-			presentationFileImage = "images/current/page_white_powerpoint.png";
-			spreadsheetFileImage = "images/current/page_excel.png";
-			bookFileImage = "images/current/book.png";
-			copyImage = "images/current/disk_multiple.png";
-			openImage = "images/current/drive_web.png";
-			sftpImage = "images/current/drive_link.png";
-			nfsImage = "images/current/drive_network.png";
-			webdavImage = "images/current/house_go.png";
-			linkImage = "images/current/arrow_right.png";
-			typeImage = "images/current/email_go.png";
-			deleteImage = "images/current/control_stop.png";
-			deleteImage2 = "images/current/control_stop_blue.png";
-			clearImage = "images/current/control_eject.png";
-			clearImage2 = "images/current/control_eject_blue.png";
-			resumeImage = "images/current/control_play.png";
-			resumeImage2 = "images/current/control_play_blue.png";
-			pauseImage = "images/current/control_pause.png";
-			pauseImage2 = "images/current/control_pause_blue.png";
-			saveImage = "images/current/disk.png";
-			cdUpImage = "images/current/arrow_up.png";
-			nextRSSImage = "images/current/rss_go.png";
-			helpImage = "images/current/help.png";
+			net.sf.jftp.config.Settings.rmdirImage = "images/current/folder_delete.png";
+			net.sf.jftp.config.Settings.mkdirImage = "images/current/folder_add.png";
+			net.sf.jftp.config.Settings.refreshImage = "images/current/control_repeat.png";
+			net.sf.jftp.config.Settings.refreshImage2 = "images/current/control_repeat_blue.png";
+			net.sf.jftp.config.Settings.cdImage = "images/current/folder_explore.png";
+			net.sf.jftp.config.Settings.cmdImage = "images/current/application_xp_terminal.png";
+			net.sf.jftp.config.Settings.downloadImage = "images/graphicsfuel/arrow-left.png";
+			net.sf.jftp.config.Settings.uploadImage = "images/graphicsfuel/arrow-right.png";
+			net.sf.jftp.config.Settings.queueImage = "images/current/arrow_left.png";
+			net.sf.jftp.config.Settings.fileImage = "images/current/page_white.png";
+			net.sf.jftp.config.Settings.dirImage = "images/current/folder.png";
+			net.sf.jftp.config.Settings.codeFileImage = "images/current/page_white_wrench.png";
+			net.sf.jftp.config.Settings.textFileImage = "images/current/page_white_text.png";
+			net.sf.jftp.config.Settings.execFileImage = "images/current/cog.png";
+			net.sf.jftp.config.Settings.audioFileImage = "images/current/ipod.png";
+			net.sf.jftp.config.Settings.videoFileImage = "images/current/camera.png";
+			net.sf.jftp.config.Settings.htmlFileImage = "images/current/html.png";
+			net.sf.jftp.config.Settings.zipFileImage = "images/current/page_white_zip.png";
+			net.sf.jftp.config.Settings.imageFileImage = "images/current/image.png";
+			net.sf.jftp.config.Settings.presentationFileImage = "images/current/page_white_powerpoint.png";
+			net.sf.jftp.config.Settings.spreadsheetFileImage = "images/current/page_excel.png";
+			net.sf.jftp.config.Settings.bookFileImage = "images/current/book.png";
+			net.sf.jftp.config.Settings.copyImage = "images/current/disk_multiple.png";
+			net.sf.jftp.config.Settings.openImage = "images/current/drive_web.png";
+			net.sf.jftp.config.Settings.sftpImage = "images/current/drive_link.png";
+			net.sf.jftp.config.Settings.nfsImage = "images/current/drive_network.png";
+			net.sf.jftp.config.Settings.webdavImage = "images/current/house_go.png";
+			net.sf.jftp.config.Settings.linkImage = "images/current/arrow_right.png";
+			net.sf.jftp.config.Settings.typeImage = "images/current/email_go.png";
+			net.sf.jftp.config.Settings.deleteImage = "images/current/control_stop.png";
+			net.sf.jftp.config.Settings.deleteImage2 = "images/current/control_stop_blue.png";
+			net.sf.jftp.config.Settings.clearImage = "images/current/control_eject.png";
+			net.sf.jftp.config.Settings.clearImage2 = "images/current/control_eject_blue.png";
+			net.sf.jftp.config.Settings.resumeImage = "images/current/control_play.png";
+			net.sf.jftp.config.Settings.resumeImage2 = "images/current/control_play_blue.png";
+			net.sf.jftp.config.Settings.pauseImage = "images/current/control_pause.png";
+			net.sf.jftp.config.Settings.pauseImage2 = "images/current/control_pause_blue.png";
+			net.sf.jftp.config.Settings.saveImage = "images/current/disk.png";
+			net.sf.jftp.config.Settings.cdUpImage = "images/current/arrow_up.png";
+			net.sf.jftp.config.Settings.nextRSSImage = "images/current/rss_go.png";
+			net.sf.jftp.config.Settings.helpImage = "images/current/help.png";
 		}
 
 	}
 
 	public static Object setProperty(final String key, final String value) {
-		return p.setProperty(key, value);
+		return net.sf.jftp.config.Settings.p.setProperty(key, value);
 	}
 
 	public static String getProperty(final String key) {
-		return "" + p.getProperty(key);
+		return "" + net.sf.jftp.config.Settings.p.getProperty(key);
 	}
 
 	public static Object setProperty(final String key, final int value) {
-		return p.setProperty(key, Integer.toString(value));
+		return net.sf.jftp.config.Settings.p.setProperty(key, Integer.toString(value));
 	}
 
 	public static Object setProperty(final String key, final boolean value) {
@@ -296,13 +296,13 @@ public class Settings {
 			val = "true";
 		}
 
-		return p.setProperty(key, val);
+		return net.sf.jftp.config.Settings.p.setProperty(key, val);
 	}
 
 	public static void save() {
 		try {
 			new File(System.getProperty("user.home") + File.separator + ".jftp").mkdir();
-			p.store(new FileOutputStream(propertyFilename), "jftp.properties");
+			net.sf.jftp.config.Settings.p.store(new FileOutputStream(net.sf.jftp.config.Settings.propertyFilename), "jftp.properties");
 		} catch (final Exception e) {
 			System.out.println("Cannot save properties...");
 
@@ -310,139 +310,139 @@ public class Settings {
 	}
 
 	public static boolean getHideLocalDotNames() {
-		final String what = p.getProperty("jftp.hideHiddenDotNames", "false");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.hideHiddenDotNames", "false");
 
 		return !what.trim().equals("false");
 	}
 
 	public static int getMaxConnections() {
-		return maxConnections;
+		return net.sf.jftp.config.Settings.maxConnections;
 	}
 
 	public static String getSocksProxyHost() {
 
-		return p.getProperty("jftp.socksProxyHost", "");
+		return net.sf.jftp.config.Settings.p.getProperty("jftp.socksProxyHost", "");
 	}
 
 	public static String getSocksProxyPort() {
 
-		return p.getProperty("jftp.socksProxyPort", "");
+		return net.sf.jftp.config.Settings.p.getProperty("jftp.socksProxyPort", "");
 	}
 
 	public static boolean getUseBackground() {
-		final String what = p.getProperty("jftp.useBackground", "true");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.useBackground", "true");
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableSshKeys() {
-		final String what = p.getProperty("jftp.useSshKeyVerification", "false");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.useSshKeyVerification", "false");
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableResuming() {
-		final String what = p.getProperty("jftp.enableResuming", "true");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.enableResuming", "true");
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableDebug() {
-		final String what = p.getProperty("jftp.enableDebug", defaultEnableDebug);
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.enableDebug", net.sf.jftp.config.Settings.defaultEnableDebug);
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getDisableLog() {
-		final String what = p.getProperty("jftp.disableLog", "false");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.disableLog", "false");
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableStatusAnimation() {
-		final String what = p.getProperty("jftp.gui.enableStatusAnimation", "false");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.gui.enableStatusAnimation", "false");
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getAskToDelete() {
-		final String what = p.getProperty("jftp.gui.askToDelete", "true");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.gui.askToDelete", "true");
 
 		return !what.trim().equals("false");
 	}
 
 	public static String getLookAndFeel() {
-		return p.getProperty("jftp.gui.look", null);
+		return net.sf.jftp.config.Settings.p.getProperty("jftp.gui.look", null);
 	}
 
 	public static boolean getUseNewIcons() {
-		final String what = p.getProperty("jftp.gui.look.newIcons", "true");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.gui.look.newIcons", "true");
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableMultiThreading() {
-		final String what = p.getProperty("jftp.enableMultiThreading", enableMultiThreading);
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.enableMultiThreading", net.sf.jftp.config.Settings.enableMultiThreading);
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableSmbMultiThreading() {
-		final String what = p.getProperty("jftp.enableSmbMultiThreading", enableSmbMultiThreading);
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.enableSmbMultiThreading", net.sf.jftp.config.Settings.enableSmbMultiThreading);
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableSftpMultiThreading() {
-		final String what = p.getProperty("jftp.enableSftpMultiThreading", enableSftpMultiThreading);
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.enableSftpMultiThreading", net.sf.jftp.config.Settings.enableSftpMultiThreading);
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getNoUploadMultiThreading() {
-		final String what = p.getProperty("jftp.noUploadMultiThreading", noUploadMultiThreading);
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.noUploadMultiThreading", net.sf.jftp.config.Settings.noUploadMultiThreading);
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getFtpPasvMode() {
-		final String what = p.getProperty("jftp.ftpPasvMode", defaultFtpPasvMode);
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.ftpPasvMode", net.sf.jftp.config.Settings.defaultFtpPasvMode);
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getUseDefaultDir() {
-		final String what = p.getProperty("jftp.useDefaultDir", "true");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.useDefaultDir", "true");
 
 		return !what.trim().equals("false");
 	}
 
 	public static boolean getEnableRSS() {
-		final String what = p.getProperty("jftp.enableRSS", "false");
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.enableRSS", "false");
 
 		return !what.trim().equals("false");
 	}
 
 	public static String getRSSFeed() {
 
-		return p.getProperty("jftp.customRSSFeed", "http://slashdot.org/rss/slashdot.rss");
+		return net.sf.jftp.config.Settings.p.getProperty("jftp.customRSSFeed", "http://slashdot.org/rss/slashdot.rss");
 	}
 
 	public static java.awt.Dimension getWindowSize() {
-		int width = Integer.parseInt(p.getProperty("jftp.window.width", defaultWidth));
-		int height = Integer.parseInt(p.getProperty("jftp.window.height", defaultHeight));
+		int width = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.width", net.sf.jftp.config.Settings.defaultWidth));
+		int height = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.height", net.sf.jftp.config.Settings.defaultHeight));
 
 		if (width < 100 || height < 100) {
-			width = Integer.parseInt(defaultWidth);
-			height = Integer.parseInt(defaultHeight);
+			width = Integer.parseInt(net.sf.jftp.config.Settings.defaultWidth);
+			height = Integer.parseInt(net.sf.jftp.config.Settings.defaultHeight);
 		}
 
 		return new java.awt.Dimension(width, height);
 	}
 
 	public static java.awt.Point getWindowLocation() {
-		int x = Integer.parseInt(p.getProperty("jftp.window.x", defaultX));
-		int y = Integer.parseInt(p.getProperty("jftp.window.y", defaultY));
+		int x = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.x", net.sf.jftp.config.Settings.defaultX));
+		int y = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.y", net.sf.jftp.config.Settings.defaultY));
 
 		if (x < 0 || y < 0) {
 			x = 0;
@@ -452,10 +452,10 @@ public class Settings {
 		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		if (x >= screenSize.height) {
-			x = Integer.parseInt(defaultX);
+			x = Integer.parseInt(net.sf.jftp.config.Settings.defaultX);
 		}
 		if (y >= screenSize.height) {
-			y = Integer.parseInt(defaultY);
+			y = Integer.parseInt(net.sf.jftp.config.Settings.defaultY);
 		}
 
 		return new java.awt.Point(x, y);
@@ -466,7 +466,7 @@ public class Settings {
 	}
 
 	public static boolean getStorePasswords() {
-		final String what = p.getProperty("jftp.security.storePasswords", storePasswords);
+		final String what = net.sf.jftp.config.Settings.p.getProperty("jftp.security.storePasswords", net.sf.jftp.config.Settings.storePasswords);
 
 		return !what.trim().equals("false");
 	}

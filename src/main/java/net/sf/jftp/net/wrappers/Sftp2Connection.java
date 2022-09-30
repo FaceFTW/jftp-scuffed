@@ -588,7 +588,7 @@ public class Sftp2Connection implements BasicConnection {
 			}
 
 			//System.out.println("out: " + outfile + ", in: " + file);
-			final byte[] buf = new byte[smbBuffer];
+			final byte[] buf = new byte[net.sf.jftp.net.wrappers.Sftp2Connection.smbBuffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -742,7 +742,7 @@ public class Sftp2Connection implements BasicConnection {
 			in = new BufferedInputStream(i);
 
 			//Log.debug(getLocalPath() + ":" + file+ ":"+getPWD());
-			final byte[] buf = new byte[smbBuffer];
+			final byte[] buf = new byte[net.sf.jftp.net.wrappers.Sftp2Connection.smbBuffer];
 			int len = 0;
 			int reallen = 0;
 
