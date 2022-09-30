@@ -300,7 +300,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		try {
 			final DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(Settings.bookmarks)));
 
-			while ((data = in.readLine()) != null) {
+			while (null != (data = in.readLine())) {
 				if (!data.startsWith("#") && !data.trim().isEmpty()) {
 					this.addBookmarkLine(data);
 				}
@@ -396,7 +396,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			String usingLocal = "";
 			int conNumberInt;
 
-			for (int i = 0; i < JFtp.CAPACITY; i++) {
+			for (int i = 0; net.sf.jftp.JFtp.CAPACITY > i; i++) {
 				if (!(this.cons[i][0].equals("null"))) {
 					protocol = this.cons[i][0];
 					htmp = this.cons[i][1];
@@ -591,13 +591,13 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				JFtp.statusP.jftp.fireUpdate();
 
 				String feed = Settings.getProperty("jftp.customRSSFeed");
-				if (feed != null && !feed.isEmpty()) feed = "http://slashdot.org/rss/slashdot.rss";
+				if (null != feed && !feed.isEmpty()) feed = "http://slashdot.org/rss/slashdot.rss";
 
 				this.switchRSS(feed);
 			} else if (e.getSource() == this.loadRss) {
 				final String what = JOptionPane.showInputDialog("Enter URL", "http://");
 
-				if (what == null) {
+				if (null == what) {
 					return;
 				}
 
@@ -670,7 +670,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					final JOptionPane j = new JOptionPane();
 					final int x = JOptionPane.showConfirmDialog(this.storePasswords, "You chose not to Save passwords.\n" + "Do you want your old login data to be deleted?", "Delete old passwords?", JOptionPane.YES_NO_OPTION);
 
-					if (x == JOptionPane.YES_OPTION) {
+					if (javax.swing.JOptionPane.YES_OPTION == x) {
 						File f = new File(Settings.login_def);
 						f.delete();
 
@@ -721,7 +721,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		Settings.save();
 
 
-		if (JFtp.statusP.jftp.feeder == null) {
+		if (null == net.sf.jftp.JFtp.statusP.jftp.feeder) {
 			JFtp.statusP.jftp.addRSS();
 		}
 
@@ -731,7 +731,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private void show(final String file) {
 		java.net.URL url = ClassLoader.getSystemResource(file);
 
-		if (url == null) {
+		if (null == url) {
 			url = HImage.class.getResource("/" + file);
 		}
 
@@ -787,7 +787,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			String stringI;
 			char charI;
 
-			for (int i = 0; i < JFtp.CAPACITY; i++) {
+			for (int i = 0; net.sf.jftp.JFtp.CAPACITY > i; i++) {
 
 				if (!(this.cons[i][0].equals("null"))) {
 					intI = i + 1;

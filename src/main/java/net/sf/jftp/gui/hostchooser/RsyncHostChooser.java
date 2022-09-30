@@ -92,25 +92,25 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 			final LoadSet l = new LoadSet();
 			final String[] login = net.sf.jftp.config.LoadSet.loadSet(Settings.login_def);
 
-			if ((login != null) && (login[0] != null)) {
+			if ((null != login) && (null != login[0])) {
 				this.host.setText(login[0]);
 				this.user.setText(login[1]);
 
-				if (login[3] != null) {
+				if (null != login[3]) {
 					this.port.setText(login[3]);
 				}
 
-				if (login[4] != null) {
+				if (null != login[4]) {
 					this.cwd.setText(login[4]);
 				}
 
-				if (login[5] != null) {
+				if (null != login[5]) {
 					this.lcwd.setText(login[5]);
 				}
 			}
 
 			if (Settings.getStorePasswords()) {
-				if (login != null && login[2] != null) {
+				if (null != login && null != login[2]) {
 					this.pass.setText(login[2]);
 				}
 			} else {
@@ -277,7 +277,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (this.listener != null) {
+			if (null != this.listener) {
 				this.listener.componentResized(new ComponentEvent(this, 0));
 //		} else if (e.getSource() == list) {
 //			HostList hl = new HostList(this);

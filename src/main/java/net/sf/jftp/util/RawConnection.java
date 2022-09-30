@@ -72,7 +72,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 
 		this.com.addKeyListener(new KeyAdapter() {
 			public void keyReleased(final KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (java.awt.event.KeyEvent.VK_ENTER == e.getKeyCode()) {
 					net.sf.jftp.util.RawConnection.this.transmit();
 				}
 			}

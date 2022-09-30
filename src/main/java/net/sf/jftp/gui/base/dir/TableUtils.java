@@ -20,7 +20,7 @@ public class TableUtils {
 
 		TableCellRenderer defaultHeaderRenderer = null;
 
-		if (header != null) defaultHeaderRenderer = header.getDefaultRenderer();
+		if (null != header) defaultHeaderRenderer = header.getDefaultRenderer();
 
 		final TableColumnModel columns = table.getColumnModel();
 		final TableModel data = table.getModel();
@@ -31,7 +31,7 @@ public class TableUtils {
 
 		int totalWidth = 0;
 
-		for (int i = columns.getColumnCount() - 1; i >= 0; --i) {
+		for (int i = columns.getColumnCount() - 1; 0 <= i; --i) {
 			final TableColumn column = columns.getColumn(i);
 
 			final int columnIndex = column.getModelIndex();
@@ -40,16 +40,16 @@ public class TableUtils {
 
 			TableCellRenderer h = column.getHeaderRenderer();
 
-			if (h == null) h = defaultHeaderRenderer;
+			if (null == h) h = defaultHeaderRenderer;
 
-			if (h != null)
+			if (null != h)
 			{
 				final Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, -1, i);
 
 				width = c.getPreferredSize().width;
 			}
 
-			for (int row = rowCount - 1; row >= 0; --row) {
+			for (int row = rowCount - 1; 0 <= row; --row) {
 				final TableCellRenderer r = table.getCellRenderer(row, i);
 
 				final Component c = r.getTableCellRendererComponent(table, data.getValueAt(row, columnIndex), false, false, row, i);
@@ -57,7 +57,7 @@ public class TableUtils {
 				width = Math.max(width, c.getPreferredSize().width);
 			}
 
-			if (width >= 0) column.setPreferredWidth(width + margin);
+			if (0 <= width) column.setPreferredWidth(width + margin);
 
 			totalWidth += column.getPreferredWidth();
 		}
@@ -69,7 +69,7 @@ public class TableUtils {
 
 		TableCellRenderer defaultHeaderRenderer = null;
 
-		if (header != null) defaultHeaderRenderer = header.getDefaultRenderer();
+		if (null != header) defaultHeaderRenderer = header.getDefaultRenderer();
 
 		final TableColumnModel columns = table.getColumnModel();
 		final TableModel data = table.getModel();
@@ -81,17 +81,17 @@ public class TableUtils {
 			final int columnIndex = column.getModelIndex();
 			final int width = -1;
 
-			if (i == 0) {
+			if (0 == i) {
 				column.setPreferredWidth(20);
 				column.setMaxWidth(20);
-			} else if (i == 1) {
+			} else if (1 == i) {
 				column.setMinWidth(100);
 				column.setPreferredWidth(400);
-			} else if (i == 2) {
+			} else if (2 == i) {
 				column.setMinWidth(60);
 				column.setPreferredWidth(80);
 
-			} else if (i == 3) {
+			} else if (3 == i) {
 				column.setMinWidth(25);
 				column.setPreferredWidth(25);
 			}
@@ -123,8 +123,8 @@ public class TableUtils {
 		return new net.sf.jftp.gui.base.dir.MaterializedTableModel(l) {
 
 			public Class getColumnClass(final int columnIndex) {
-				if (columnIndex == 0) return javax.swing.ImageIcon.class;
-				else if (columnIndex == 3) return javax.swing.JLabel.class;
+				if (0 == columnIndex) return javax.swing.ImageIcon.class;
+				else if (3 == columnIndex) return javax.swing.JLabel.class;
 				else return String.class;
 			}
 
@@ -138,16 +138,16 @@ public class TableUtils {
 
 			public Object getValueAt(final int row, final int col) {
 
-				if (this.list.getModel().getSize() == 0) return "" + null;
+				if (0 == this.list.getModel().getSize()) return "" + null;
 
 				final net.sf.jftp.gui.base.dir.DirEntry ret = (net.sf.jftp.gui.base.dir.DirEntry) this.list.getModel().getElementAt(row);
 
-				if (col == 0) return ret.getImageIcon();
-				else if (col == 1) return ret.toString();
-				else if (col == 2) {
+				if (0 == col) return ret.getImageIcon();
+				else if (1 == col) return ret.toString();
+				else if (2 == col) {
 					final String tmp = "" + ret.getFileSize();
 					return tmp.replaceAll(" >", "");
-				} else if (col == 3) {
+				} else if (3 == col) {
 					return ret;
 				}
 return ret;
@@ -169,7 +169,7 @@ return ret;
 			net.sf.jftp.gui.base.dir.TableUtils.calcColumnWidths(listTbl);
 		}
 
-		if (names != null) net.sf.jftp.gui.base.dir.TableUtils.modifyTableHeader(listTbl.getTableHeader(), names);
+		if (null != names) net.sf.jftp.gui.base.dir.TableUtils.modifyTableHeader(listTbl.getTableHeader(), names);
 
 		net.sf.jftp.gui.base.dir.TableUtils.tryToEnableRowSorting(listTbl);
 

@@ -22,8 +22,8 @@ public class SmbTest extends NtlmAuthenticator {
 	public static String readLine() throws Exception {
 		int c;
 		final StringBuilder sb = new StringBuilder();
-		while ((c = System.in.read()) != '\n') {
-			if (c == -1) return "";
+		while ('\n' != (c = System.in.read())) {
+			if (-1 == c) return "";
 			sb.append((char) c);
 		}
 		return sb.toString().trim();
@@ -40,7 +40,7 @@ public class SmbTest extends NtlmAuthenticator {
 			final String username = "guest";
 			final String password = "";
 
-			if (password.length() == 0) {
+			if (0 == password.length()) {
 				return null;
 			}
 			return new NtlmPasswordAuthentication(null, username, password);

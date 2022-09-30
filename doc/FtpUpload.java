@@ -39,7 +39,7 @@ public class FtpUpload implements Logger, ConnectionListener
 
  public static void main(final String[] argv)
  {
-    if(argv.length == 3)
+    if(3 == argv.length)
     { 
 	    final FtpUpload f = new FtpUpload(argv[0], argv[2], argv[1]);
     }

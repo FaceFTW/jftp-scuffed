@@ -79,7 +79,7 @@ public class FtpDownload implements Logger, ConnectionListener
  // download welcome.msg from sourceforge or any other given file
  public static void main(final String[] argv)
  {
- 	if(argv.length < 2)
+ 	if(2 > argv.length)
 	{
 		final FtpDownload f = new FtpDownload("ftp.kernel.org", "CREDITS");
 	}

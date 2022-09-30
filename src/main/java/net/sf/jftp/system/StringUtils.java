@@ -27,7 +27,7 @@ public class StringUtils {
 
 				s = StringUtils.cutAfter(s, '/');
 
-				if (s.length() < 16) {
+				if (16 > s.length()) {
 					final StringBuilder sb = new StringBuilder(s);
 					sb.insert(0, ".../");
 
@@ -112,14 +112,14 @@ public class StringUtils {
 		int x = file.lastIndexOf("/");
 
 		// unix
-		if (x >= 0) {
+		if (0 <= x) {
 			file = file.substring(x + 1);
 		}
 
 		// windows
 		x = file.lastIndexOf("\\");
 
-		if (x >= 0) {
+		if (0 <= x) {
 			file = file.substring(x + 1);
 		}
 		return file;
@@ -131,7 +131,7 @@ public class StringUtils {
 		while (true) {
 			x = tmp.indexOf("/");
 
-			if ((x == (tmp.length() - 1)) || (x < 0)) {
+			if ((x == (tmp.length() - 1)) || (0 > x)) {
 				break;
 			} else {
 				tmp = tmp.substring(x + 1);
@@ -141,7 +141,7 @@ public class StringUtils {
 		while (true) {
 			x = tmp.indexOf("\\");
 
-			if ((x == (tmp.length() - 1)) || (x < 0)) {
+			if ((x == (tmp.length() - 1)) || (0 > x)) {
 				break;
 			} else {
 				tmp = tmp.substring(x + 1);
@@ -156,7 +156,7 @@ public class StringUtils {
 			return false;
 		}
 
-		return (file.length() <= 2) || (file.charAt(1) != ':');
+		return (2 >= file.length()) || (':' != file.charAt(1));
 
 	}
 	public static void main(final String[] argv) {

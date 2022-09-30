@@ -45,7 +45,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		this.getContentPane().setLayout(new BorderLayout());
 
 		this.load(file);
-		if (font != null) {
+		if (null != font) {
 			this.info.setFont(font);
 		} else {
 			this.info.setFont(new Font("monospaced", Font.PLAIN, 11));
@@ -83,7 +83,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		try {
 			final DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-			while ((data = in.readLine()) != null) {
+			while (null != (data = in.readLine())) {
 				now.append(data).append("\n");
 			}
 		} catch (final IOException e) {

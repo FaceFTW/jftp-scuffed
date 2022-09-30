@@ -23,13 +23,13 @@ public class UITool {
 	public static boolean askToDelete(final JComponent parent) {
 		final int res = JOptionPane.showConfirmDialog(parent, "Do you really want to continue?");
 
-		return res == JOptionPane.OK_OPTION;
+		return javax.swing.JOptionPane.OK_OPTION == res;
 	}
 
 	public static boolean askToRun(final JComponent parent) {
 		final int res = JOptionPane.showConfirmDialog(parent, "Do you want to launch this file?");
 
-		return res == JOptionPane.OK_OPTION;
+		return javax.swing.JOptionPane.OK_OPTION == res;
 	}
 
 	public static String getPathFromDialog(final String path) {
@@ -39,7 +39,7 @@ public class UITool {
 
 		final int returnVal = chooser.showOpenDialog(new JDialog());
 
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
+		if (javax.swing.JFileChooser.APPROVE_OPTION == returnVal) {
 			final File f = chooser.getSelectedFile();
 
 			return f.getPath();

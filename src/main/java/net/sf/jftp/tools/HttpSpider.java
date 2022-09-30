@@ -112,7 +112,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		try {
 			String url = "http://j-ftp.sourceforge.net/index.html";
 
-			if (argv.length >= 2) {
+			if (2 <= argv.length) {
 				url = this.clear(argv[0]);
 
 				if (!url.contains("/")) {
@@ -130,7 +130,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				net.sf.jftp.system.logging.Log.debug("");
 			}
 
-			if (argv.length > 2) {
+			if (2 < argv.length) {
 				this.MAX = Integer.parseInt(argv[2]);
 			}
 
@@ -164,7 +164,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	private String clear(String url) {
 		final int idx = url.indexOf("http://");
 
-		if (idx >= 0) {
+		if (0 <= idx) {
 			url = url.substring(7);
 		}
 
@@ -212,7 +212,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				if (next.endsWith(s) || s.trim().equals("*")) {
 					final int x = next.indexOf("/");
 
-					if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+					if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
 						final net.sf.jftp.tools.Holer nochnsammy = new net.sf.jftp.tools.Holer(this.localDir);
 						nochnsammy.bringAnStart(next, false);
 
@@ -232,7 +232,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 				final int x = next.indexOf("/");
 
-				if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+				if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
 					this.currentDepth++;
 					this.smoke(next);
 					this.currentDepth--;
@@ -248,7 +248,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		while (true) {
 			wo = zeug.indexOf(index);
 
-			if (wo < 0) {
+			if (0 > wo) {
 				return mischen;
 			}
 
@@ -282,19 +282,19 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			return was;
 		}
 
-		if (was.startsWith("/") && (url.indexOf("/") > 0)) {
+		if (was.startsWith("/") && (0 < url.indexOf("/"))) {
 			was = url.substring(0, url.indexOf("/")) + was;
 		} else if (was.startsWith("/") && (!url.contains("/"))) {
 			was = url + was;
-		} else if ((was.indexOf(".") > 0)) {
+		} else if ((0 < was.indexOf("."))) {
 			final int idx = was.indexOf("/");
 			String tmp = "";
 
-			if (idx >= 0) {
+			if (0 <= idx) {
 				tmp = was.substring(0, idx);
 			}
 
-			if ((tmp.indexOf(".") > 0)) {
+			if ((0 < tmp.indexOf("."))) {
 				return this.clear(was);
 			}
 
@@ -349,7 +349,7 @@ class Holer {
 
 			int len = 0;
 
-			while (!checkung.ready() && (len < 5000)) {
+			while (!checkung.ready() && (5000 > len)) {
 				net.sf.jftp.tools.Holer.chill(100);
 				len += 100;
 			}
@@ -410,7 +410,7 @@ class Holer {
 				while (line) {
 					final String x = checkung.readLine();
 
-					if (x == null) {
+					if (null == x) {
 						break;
 					}
 
@@ -423,7 +423,7 @@ class Holer {
 
 				final int x = checkung.read(alu);
 
-				if (x == -1) {
+				if (-1 == x) {
 					if (line) {
 						vorrat.write(tmp.toString().getBytes(), 0, tmp.length());
 					}

@@ -89,7 +89,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		final net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
 		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_nfs);
 
-		if ((login[0] != null) && (login.length > 1)) {
+		if ((null != login[0]) && (1 < login.length)) {
 			net.sf.jftp.gui.hostchooser.NfsHostChooser.host.setText(login[0]);
 			net.sf.jftp.gui.hostchooser.NfsHostChooser.user.setText(login[1]);
 		}
@@ -101,7 +101,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
         }
         */
 		if (net.sf.jftp.config.Settings.getStorePasswords()) {
-			if ((login[0] != null) && (login.length > 2) && (login[2] != null)) {
+			if ((null != login[0]) && (2 < login.length) && (null != login[2])) {
 				net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.setText(login[2]);
 			}
 		} else {
@@ -146,7 +146,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		if (e.getSource() == net.sf.jftp.gui.hostchooser.NfsHostChooser.info) {
 			java.net.URL url = ClassLoader.getSystemResource(net.sf.jftp.config.Settings.nfsinfo);
 
-			if (url == null) {
+			if (null == url) {
 				url = HImage.class.getResource("/" + net.sf.jftp.config.Settings.nfsinfo);
 			}
 
@@ -206,7 +206,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (this.listener != null) {
+			if (null != this.listener) {
 				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}

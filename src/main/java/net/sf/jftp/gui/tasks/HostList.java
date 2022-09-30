@@ -96,7 +96,7 @@ public class HostList extends JDialog {
 		this.loadHostList();
 		this.initListeners();
 
-		if (this.hostListModel.size() > 0) {
+		if (0 < this.hostListModel.size()) {
 			this.hostList.setSelectedIndex(0);
 		} else {
 			this.updateHostInfoPanel();
@@ -244,11 +244,11 @@ public class HostList extends JDialog {
 		// current host number
 		int i = 0;
 
-		while (i >= 0) {
+		while (0 <= i) {
 			final String filename = net.sf.jftp.config.Settings.login.concat(String.valueOf(i));
 			final String[] host_info = net.sf.jftp.config.LoadSet.loadSet(filename);
 
-			if ((host_info == null) || (host_info.length == 1)) {
+			if ((null == host_info) || (1 == host_info.length)) {
 				// no file was loaded, break out.
 				i = -1;
 
@@ -287,7 +287,7 @@ public class HostList extends JDialog {
 		this.hostListModel.removeElement(selected);
 		this.selectedHostInfo = null;
 
-		if (this.hostListModel.size() > 0) {
+		if (0 < this.hostListModel.size()) {
 			this.hostList.setSelectedIndex(0);
 		} else {
 			this.updateHostInfoPanel();
@@ -370,7 +370,7 @@ public class HostList extends JDialog {
 	private net.sf.jftp.gui.base.FtpHost getSelected() {
 		final int sel = this.hostList.getSelectedIndex();
 
-		if ((sel < 0) || (sel > (this.hostListModel.size() - 1))) {
+		if ((0 > sel) || (sel > (this.hostListModel.size() - 1))) {
 			return null;
 		} else {
 			return (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(this.hostList.getSelectedIndex());
@@ -383,7 +383,7 @@ public class HostList extends JDialog {
 	 * it clears the panel
 	 */
 	private void updateHostInfoPanel() {
-		if (this.selectedHostInfo == null) {
+		if (null == this.selectedHostInfo) {
 			this.jtfName.setText("");
 			this.jtfUser.setText("");
 			this.jtfPass.setText("");
@@ -413,7 +413,7 @@ public class HostList extends JDialog {
 	 * "selectedHostInfo" from the contents of the screen
 	 */
 	private void updateHostInfoObject() {
-		if (this.selectedHostInfo == null) {
+		if (null == this.selectedHostInfo) {
 			return;
 		}
 

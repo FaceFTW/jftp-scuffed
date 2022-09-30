@@ -432,7 +432,7 @@ public class Settings {
 		int width = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.width", net.sf.jftp.config.Settings.defaultWidth));
 		int height = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.height", net.sf.jftp.config.Settings.defaultHeight));
 
-		if (width < 100 || height < 100) {
+		if (100 > width || 100 > height) {
 			width = Integer.parseInt(net.sf.jftp.config.Settings.defaultWidth);
 			height = Integer.parseInt(net.sf.jftp.config.Settings.defaultHeight);
 		}
@@ -444,7 +444,7 @@ public class Settings {
 		int x = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.x", net.sf.jftp.config.Settings.defaultX));
 		int y = Integer.parseInt(net.sf.jftp.config.Settings.p.getProperty("jftp.window.y", net.sf.jftp.config.Settings.defaultY));
 
-		if (x < 0 || y < 0) {
+		if (0 > x || 0 > y) {
 			x = 0;
 			y = 0;
 		}

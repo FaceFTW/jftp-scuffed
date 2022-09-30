@@ -45,7 +45,7 @@ public class DirCanvas extends JPanel implements MouseListener {
 		if (this.target.getType().equals("local") || this.target.getCon() instanceof FilesystemConnection) {
 			final String tmp = UITool.getPathFromDialog(Settings.defaultWorkDir);
 
-			if (tmp != null) {
+			if (null != tmp) {
 				this.target.setPath(tmp);
 				this.target.fresh();
 			}

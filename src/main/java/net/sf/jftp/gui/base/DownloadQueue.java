@@ -130,7 +130,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("start")) {
-			if (this.thread != null) {
+			if (null != this.thread) {
 				if (!this.thread.isAlive()) {
 					this.thread = new queueDownloader();
 					this.thread.start();
@@ -142,7 +142,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 			}
 		} else if (e.getActionCommand().equals("stop")) {
-			if (this.thread != null) {
+			if (null != this.thread) {
 				this.thread.block = true;
 
 				final FtpConnection ftpcon = (FtpConnection) this.con;
@@ -156,7 +156,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				}
 			}
 		} else if (e.getActionCommand().equals("down")) {
-			if (this.list.getSelectedIndex() != -1) {
+			if (-1 != this.list.getSelectedIndex()) {
 				final int a = this.list.getSelectedIndex();
 				final int b = a + 1;
 
@@ -171,7 +171,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				this.list.setSelectedIndex(b);
 			}
 		} else if (e.getActionCommand().equals("up")) {
-			if (this.list.getSelectedIndex() != -1) {
+			if (-1 != this.list.getSelectedIndex()) {
 				final int a = this.list.getSelectedIndex() - 1;
 				final int b = a + 1;
 
@@ -186,7 +186,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				this.list.setSelectedIndex(a);
 			}
 		} else if (e.getActionCommand().equals("del")) {
-			if (this.list.getSelectedIndex() != -1) {
+			if (-1 != this.list.getSelectedIndex()) {
 				this.queue.remove(this.list.getSelectedIndex());
 				this.liststr.remove(this.list.getSelectedIndex());
 				this.list.setSelectedIndex(0);
@@ -198,7 +198,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 			final int returnVal = chooser.showSaveDialog(new JDialog());
 
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (javax.swing.JFileChooser.APPROVE_OPTION == returnVal) {
 				final File f = chooser.getSelectedFile();
 				this.saveList(f);
 			}
@@ -209,7 +209,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 			final int returnVal = chooser.showOpenDialog(new JDialog());
 
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (javax.swing.JFileChooser.APPROVE_OPTION == returnVal) {
 				final File f = chooser.getSelectedFile();
 				this.loadList(f);
 			}
@@ -265,7 +265,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				rec.localip = breader.readLine();
 				rec.domain = breader.readLine();
 
-				if (rec.hostname == null) {
+				if (null == rec.hostname) {
 					Eof = true;
 				} else {
 					this.queue.add(rec);
@@ -347,7 +347,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 		public void run() {
 			try {
-				while ((net.sf.jftp.gui.base.DownloadQueue.this.queue.size() >= 1) && !this.block) {
+				while ((1 <= DownloadQueue.this.queue.size()) && !this.block) {
 					QueueRecord rec = (QueueRecord) net.sf.jftp.gui.base.DownloadQueue.this.queue.get(0);
 					this.last = rec;
 
@@ -369,7 +369,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 					while (!net.sf.jftp.gui.base.DownloadQueue.this.isThere) {
 						i++;
 
-						if (i > net.sf.jftp.gui.base.DownloadQueue.this.NumRetry) {
+						if (DownloadQueue.this.NumRetry < i) {
 							return;
 						}
 
@@ -384,10 +384,10 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 					net.sf.jftp.gui.base.DownloadQueue.this.statuslabel.setText("");
 
-					if (net.sf.jftp.gui.base.DownloadQueue.this.queue.size() >= 1) {
+					if (1 <= DownloadQueue.this.queue.size()) {
 						rec = (QueueRecord) net.sf.jftp.gui.base.DownloadQueue.this.queue.get(0);
 
-						if ((rec.hostname.compareTo(this.last.hostname) == 0) && (rec.port.compareTo(this.last.port) == 0) && (rec.username.compareTo(this.last.username) == 0) && (rec.password.compareTo(this.last.password) == 0)) {
+						if ((0 == rec.hostname.compareTo(this.last.hostname)) && (0 == rec.port.compareTo(this.last.port)) && (0 == rec.username.compareTo(this.last.username)) && (0 == rec.password.compareTo(this.last.password))) {
 							this.connected = true;
 						} else {
 							this.conFtp.disconnect();
@@ -422,7 +422,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		public void updateProgress(final String file, final String type, final long bytes) {
 			final String strtmp;
 
-			if (StringUtils.getFile(file).compareTo("") == 0) {
+			if (0 == net.sf.jftp.system.StringUtils.getFile(file).compareTo("")) {
 				strtmp = "directory " + file;
 			} else {
 				strtmp = "file " + StringUtils.getFile(file);
@@ -432,13 +432,13 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 			final String tmp;
 
-			if (type.length() >= 10) {
+			if (10 <= type.length()) {
 				tmp = type.substring(0, 9);
 			} else {
 				tmp = " ";
 			}
 
-			if (((type.compareTo(DataConnection.FINISHED) == 0) || (tmp.compareTo(DataConnection.DFINISHED) == 0)) && !this.block) {
+			if (((0 == type.compareTo(net.sf.jftp.net.DataConnection.FINISHED)) || (0 == tmp.compareTo(net.sf.jftp.net.DataConnection.DFINISHED))) && !this.block) {
 				net.sf.jftp.gui.base.DownloadQueue.this.queue.remove(0);
 				net.sf.jftp.gui.base.DownloadQueue.this.liststr.remove(0);
 			}

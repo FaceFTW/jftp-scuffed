@@ -34,7 +34,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 		final Integer code = eventCode;
 		Vector handlers = (Vector) (net.sf.jftp.event.EventProcessor.table.get(code));
 
-		if (handlers == null) {
+		if (null == handlers) {
 			handlers = new Vector();
 			net.sf.jftp.event.EventProcessor.table.put(code, handlers);
 		}
@@ -46,7 +46,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 		final Integer code = e.eventCode();
 		final Vector handlers = (Vector) (net.sf.jftp.event.EventProcessor.table.get(code));
 
-		if (handlers != null) {
+		if (null != handlers) {
 			for (int i = 0, max = handlers.size(); i < max; i++) {
 				((EventHandler) (handlers.elementAt(i))).handle(e);
 			}
@@ -61,7 +61,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 	public void run() {
 		while (!this.done) {
-			if (this.buffer.size() != 0) {
+			if (0 != this.buffer.size()) {
 				this.accept((Event) this.buffer.firstElement());
 				this.buffer.removeElementAt(0);
 			}

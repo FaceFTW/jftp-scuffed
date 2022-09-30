@@ -35,10 +35,10 @@ public Grapher()
 	 for (final String s : this.files) {
 		 final java.io.File f = this.getFile(s);
 
-		 if (f != null && f.exists()) {
+		 if (null != f && f.exists()) {
 			 for (final String file : this.files) {
 				 final int x = this.countRelations(f, file);
-				 if (x > 0) this.table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
+				 if (0 < x) this.table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
 			 }
 		 }
 	 }
@@ -67,7 +67,7 @@ public void paint(final Graphics g)
 		while (true) {
 			final int x = r.nextInt(Grapher.width - 200);
 			int y = r.nextInt(Grapher.height - 20);
-			if (y < 30) y = 30;
+			if (30 > y) y = 30;
 
 			if (this.check(x, y)) {
 				//System.out.println("adding: " + files[i]);
@@ -89,7 +89,7 @@ public void paint(final Graphics g)
 	for (final String file : this.files) {
 		final String tmp = file.substring(0, file.indexOf(".java"));
 		final java.awt.Point p2 = (java.awt.Point) this.pool.get(tmp);
-		if (p2 == null) continue;
+		if (null == p2) continue;
 		g.drawString(tmp, (int) p2.getX(), (int) p2.getY());
 	}
 
@@ -113,18 +113,18 @@ public void linkPoints(final Graphics g, final Point p)
 
 		//System.out.println("<" + file + "> " + "(" + link + ")" + " - " + x);
 		final Point x2 = (Point) this.pool.get(file);
-		if(x2 == null) continue;
+		if(null == x2) continue;
 
-		if(x > 0)
+		if(0 < x)
 		{
 			//for(int y=0; y<x; y++)
 			//{
 				int color = 255 - x*10 +40;
-				if(color < 0) color=0;
-				if(color > 255) color = 255;
+				if(0 > color) color=0;
+				if(255 < color) color = 255;
 
 				g.setColor(new Color(color,color,color));
-				if(color < 255) g.drawLine(((int)p.getX()+20),((int)p.getY()+15),((int)x2.getX()+20),((int)x2.getY()+15));
+				if(255 > color) g.drawLine(((int)p.getX()+20),((int)p.getY()+15),((int)x2.getX()+20),((int)x2.getY()+15));
 			//}
 		}
 
@@ -169,7 +169,7 @@ public int countRelations(final File f, String what) throws IOException
 	{
 		tmp = in.readLine();
 		//System.out.println(f.getAbsolutePath() + ": " + tmp + ": " +what);
-		if(tmp == null) break;
+		if(null == tmp) break;
 		if(tmp.contains(what)) x++;
 	}
 

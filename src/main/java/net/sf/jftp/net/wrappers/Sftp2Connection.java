@@ -70,7 +70,7 @@ public class Sftp2Connection implements BasicConnection {
 	private boolean login() {
 		try {
 			final JSch jsch = new JSch();
-			if (this.keyfile != null) {
+			if (null != this.keyfile) {
 				jsch.addIdentity(this.keyfile);
 			}
 			this.session = jsch.getSession(this.user, this.host, this.port);
@@ -141,7 +141,7 @@ public class Sftp2Connection implements BasicConnection {
 			x++;
 		}
 
-		if (tmp == null) {
+		if (null == tmp) {
 			return;
 		}
 
@@ -483,7 +483,7 @@ public class Sftp2Connection implements BasicConnection {
 			final File f2 = new File(out);
 			final String[] tmp = f2.list();
 
-			if (tmp == null) {
+			if (null == tmp) {
 				return;
 			}
 
@@ -597,7 +597,7 @@ public class Sftp2Connection implements BasicConnection {
 				len = in.read(buf);
 
 				//System.out.print(".");
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
@@ -651,7 +651,7 @@ public class Sftp2Connection implements BasicConnection {
 	}
 
 	private void update(final String file, final String type, final int bytes) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
@@ -672,7 +672,7 @@ public class Sftp2Connection implements BasicConnection {
 	 * remote directory has changed
 	 */
 	public void fireDirectoryUpdate() {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
@@ -701,7 +701,7 @@ public class Sftp2Connection implements BasicConnection {
 	 * progress update
 	 */
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 			return;
 		}
 
@@ -723,7 +723,7 @@ public class Sftp2Connection implements BasicConnection {
 	}
 
 	public void fireActionFinished(final Sftp2Connection con) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				((ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
@@ -750,7 +750,7 @@ public class Sftp2Connection implements BasicConnection {
 				len = in.read(buf);
 
 				//System.out.print(".");
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 

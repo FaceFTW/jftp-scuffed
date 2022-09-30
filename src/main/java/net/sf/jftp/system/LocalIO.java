@@ -24,11 +24,11 @@ public class LocalIO {
 	 * probably better off just calling java.util.Arrays.sort
 	 */
 	public static String[] sortStrings(final String[] array) {
-		for (int i = array.length; --i >= 0; ) {
+		for (int i = array.length; 0 <= --i; ) {
 			boolean swapped = false;
 
 			for (int j = 0; j < i; j++) {
-				if (array[j].compareTo(array[j + 1]) > 0) {
+				if (0 < array[j].compareTo(array[j + 1])) {
 					final String T = array[j];
 					array[j] = array[j + 1];
 					array[j + 1] = T;

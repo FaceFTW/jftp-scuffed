@@ -68,7 +68,7 @@ public class BookmarkItem extends JMenuItem {
 
 			final int i = StartConnection.startFtpCon(this.host, this.user, this.pass, this.port, this.dirOrDom, this.useLocal);
 
-			if (i < 0) {
+			if (0 > i) {
 				this.pass = Settings.hiddenPassword;
 			}
 

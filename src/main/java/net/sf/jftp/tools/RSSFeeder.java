@@ -49,7 +49,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	}
 
 	public void switchTo(final String u) {
-		if (u == null) {
+		if (null == u) {
 			return;
 		}
 
@@ -91,7 +91,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 					int i = 0;
 
-					while (!this.breakHeader && (i < 100)) {
+					while (!this.breakHeader && (100 > i)) {
 						net.sf.jftp.system.LocalIO.pause(this.HEADER_IVAL / 100);
 						i++;
 					}

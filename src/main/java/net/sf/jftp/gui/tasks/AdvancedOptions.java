@@ -43,7 +43,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		if (net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet) {
 			listOptionText = net.sf.jftp.net.FtpConnection.LIST;
 		} else {
-			if (net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings) != null) {
+			if (null != net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings)) {
 				listOptionText = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings)[0];
 			} else {
 				listOptionText = net.sf.jftp.net.FtpConnection.LIST_DEFAULT;

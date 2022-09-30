@@ -50,7 +50,7 @@ public class ProgressBarList extends JPanel {
 			this.add(p);
 		}
 
-		while (this.getComponentCount() < 10) {
+		while (10 > this.getComponentCount()) {
 			this.add(new JLabel(" "));
 		}
 
@@ -71,7 +71,7 @@ public class ProgressBarList extends JPanel {
 		this.deselectAll();
 
 		this.index = idx;
-		if (this.index >= 0 && this.getComponentCount() > this.index && this.getComponent(this.index) instanceof ProgressbarItem) {
+		if (0 <= this.index && this.getComponentCount() > this.index && this.getComponent(this.index) instanceof ProgressbarItem) {
 			((ProgressbarItem) this.getComponent(this.index)).select();
 		}
 	}

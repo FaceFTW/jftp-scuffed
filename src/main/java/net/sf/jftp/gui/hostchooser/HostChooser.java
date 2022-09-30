@@ -89,25 +89,25 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			final net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
 			final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def);
 
-			if ((login != null) && (login[0] != null)) {
+			if ((null != login) && (null != login[0])) {
 				this.host.setText(login[0]);
 				this.user.setText(login[1]);
 
-				if (login[3] != null) {
+				if (null != login[3]) {
 					this.port.setText(login[3]);
 				}
 
-				if (login[4] != null) {
+				if (null != login[4]) {
 					this.cwd.setText(login[4]);
 				}
 
-				if (login[5] != null) {
+				if (null != login[5]) {
 					this.lcwd.setText(login[5]);
 				}
 			}
 
 			if (net.sf.jftp.config.Settings.getStorePasswords()) {
-				if (login != null && login[2] != null) {
+				if (null != login && null != login[2]) {
 					this.pass.setText(login[2]);
 				}
 			} else {
@@ -206,7 +206,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 			final int response = uc.getLoginResponse();
 
-			if (response != net.sf.jftp.net.FtpConnection.LOGIN_OK) {
+			if (net.sf.jftp.net.FtpConnection.LOGIN_OK != response) {
 				this.setTitle("Wrong password!");
 				this.host.setText(uc.getHost());
 				this.port.setText(Integer.toString(uc.getPort()));
@@ -218,7 +218,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			} else {
 				this.dispose();
 
-				if (this.listener != null) {
+				if (null != this.listener) {
 					this.listener.componentResized(new ComponentEvent(this, 0));
 				}
 
@@ -296,7 +296,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (this.listener != null) {
+			if (null != this.listener) {
 				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 
@@ -304,7 +304,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			final HostList hl = new HostList(this);
 			final net.sf.jftp.gui.base.FtpHost selectedHost = hl.getFtpHost();
 
-			if (selectedHost == null) {
+			if (null == selectedHost) {
 				return;
 			}
 
@@ -403,19 +403,19 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		//System.out.println(htmp + " " + ptmp + " " + utmp);
 		//System.out.println(potmp + " " + dtmp);
 		//***
-		if ((response == net.sf.jftp.net.FtpConnection.OFFLINE) && net.sf.jftp.config.Settings.reconnect) {
+		if ((net.sf.jftp.net.FtpConnection.OFFLINE == response) && net.sf.jftp.config.Settings.reconnect) {
 			//FtpConnection con;
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 			this.h.setVisible(true);
 
-			while (this.mode == 0) {
+			while (0 == this.mode) {
 				this.pause(10);
 			}
 
 			net.sf.jftp.JFtp.mainFrame.setVisible(false);
 
-			while ((response == net.sf.jftp.net.FtpConnection.OFFLINE) && (this.mode == 1)) {
+			while ((net.sf.jftp.net.FtpConnection.OFFLINE == response) && (1 == this.mode)) {
 				System.out.print("Server is full, next attempt in ");
 
 				int r = 5;
@@ -434,7 +434,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				response = net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, useLocal);
 			}
 
-			if (this.mode == 1) {
+			if (1 == this.mode) {
 				net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			} else {
 				// Switch windows
@@ -443,7 +443,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				this.toFront();
 
 			}
-		} else if ((response != net.sf.jftp.net.FtpConnection.LOGIN_OK) || ((response == net.sf.jftp.net.FtpConnection.OFFLINE) && (!net.sf.jftp.config.Settings.reconnect))) {
+		} else if ((net.sf.jftp.net.FtpConnection.LOGIN_OK != response) || ((net.sf.jftp.net.FtpConnection.OFFLINE == response) && (!net.sf.jftp.config.Settings.reconnect))) {
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 			//setFilesystemConnection();

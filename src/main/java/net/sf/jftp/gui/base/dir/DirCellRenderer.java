@@ -49,7 +49,7 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 
 		final ImageIcon i = new ImageIcon(((DirEntry) value).getImage());
 
-		if (i == null) {
+		if (null == i) {
 			System.out.println("Img null: " + value.toString() + "/" + ((DirEntry) value).getImage());
 		} else {
 			this.setIcon(i);
@@ -98,9 +98,9 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 
 		final int ok = ((DirEntry) value).getPermission();
 
-		if (ok == DirEntry.DENIED) {
+		if (net.sf.jftp.gui.base.dir.DirEntry.DENIED == ok) {
 			this.setForeground(GUIDefaults.deniedColor);
-		} else if (ok == DirEntry.W) {
+		} else if (net.sf.jftp.gui.base.dir.DirEntry.W == ok) {
 			this.setForeground(GUIDefaults.writableColor);
 		} else {
 			this.setForeground(GUIDefaults.defaultColor);

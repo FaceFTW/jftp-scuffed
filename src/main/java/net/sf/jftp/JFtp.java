@@ -110,7 +110,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public JFtp() {
 		Log.setLogger(this);
 
-		if (net.sf.jftp.JFtp.statusP != null) {
+		if (null != JFtp.statusP) {
 			net.sf.jftp.JFtp.statusP.remove(net.sf.jftp.JFtp.statusP.close);
 		}
 
@@ -144,7 +144,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static void safeDisconnect() {
 		final BasicConnection con = net.sf.jftp.JFtp.remoteDir.getCon();
 
-		if ((con != null) && con.isConnected()) {
+		if ((null != con) && con.isConnected()) {
 			try {
 				con.disconnect();
 			} catch (final Exception ex) {
@@ -196,7 +196,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			final JFtp jftp = new JFtp(true);
 
 
-			if (argv.length > 0) {
+			if (0 < argv.length) {
 				if (argv[0].contains("sftp:")) {
 					new SftpHostChooser().update(argv[0]);
 				} else {
@@ -209,7 +209,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			Log.out("startup time: " + (end - start) + "ms.");
 
 			//batch processing
-			if (argv.length > 1) {
+			if (1 < argv.length) {
 				int idx = 1;
 				if (argv[idx].startsWith("localDir=")) {
 					final String path = argv[idx].substring("localDir=".length());
@@ -234,7 +234,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 					}
 					Log.debug("Download: " + path + ":" + file);
 
-					if (path != null) {
+					if (null != path) {
 						net.sf.jftp.JFtp.remoteDir.getCon().chdir(path);
 					}
 					net.sf.jftp.JFtp.remoteDir.getCon().download(file);
@@ -254,7 +254,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		try {
 			URL u = ClassLoader.getSystemResource(Settings.readme);
 
-			if (u == null) {
+			if (null == u) {
 				u = HImage.class.getResource("/" + Settings.readme);
 			}
 
@@ -273,7 +273,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static ConnectionHandler getConnectionHandler() {
 		final BasicConnection con = net.sf.jftp.JFtp.remoteDir.getCon();
 
-		if ((con != null) && con instanceof FtpConnection) {
+		if ((null != con) && con instanceof FtpConnection) {
 			return ((FtpConnection) con).getConnectionHandler();
 		} else {
 			return net.sf.jftp.JFtp.defaultConnectionHandler;
@@ -282,8 +282,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 	public static void setAppCursor(final Cursor cursor) {
 
-		if (JFtp.mainFrame != null) {
-			if (cursor.getType() != Cursor.DEFAULT_CURSOR) {
+		if (null != net.sf.jftp.JFtp.mainFrame) {
+			if (java.awt.Cursor.DEFAULT_CURSOR != cursor.getType()) {
 				net.sf.jftp.JFtp.mainFrame.getGlassPane().addMouseListener(new MouseAdapter() {
 				});
 				net.sf.jftp.JFtp.mainFrame.getGlassPane().setCursor(cursor);
@@ -582,13 +582,13 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		UIManager.getLookAndFeelDefaults().put("ClassLoader", this.getClass().getClassLoader());
 
 		final String tmp = Settings.getLookAndFeel();
-		if (tmp != null) {
+		if (null != tmp) {
 			this.setLookAndFeel(Settings.getLookAndFeel());
 		} else {
 			this.setLookAndFeel("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
 		}
 
-		if ((Settings.getLookAndFeel() == null) || !Settings.getLookAndFeel().equals("com.incors.plaf.kunststoff.KunststoffLookAndFeel")) {
+		if ((null == net.sf.jftp.config.Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("com.incors.plaf.kunststoff.KunststoffLookAndFeel")) {
 			try {
 				Class.forName("com.incors.plaf.kunststoff.KunststoffLookAndFeel");
 				UIManager.installLookAndFeel("Kunststoff", "com.incors.plaf.kunststoff.KunststoffLookAndFeel");
@@ -596,7 +596,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			}
 		}
 
-		if ((Settings.getLookAndFeel() == null) || !Settings.getLookAndFeel().equals("net.sourceforge.mlf.metouia.MetouiaLookAndFeel")) {
+		if ((null == net.sf.jftp.config.Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("net.sourceforge.mlf.metouia.MetouiaLookAndFeel")) {
 
 			try {
 				Class.forName("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
@@ -631,12 +631,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 	private void log(final String msg) {
 		if (msg.startsWith("200") || msg.startsWith("227")) {
-			if ((msg.indexOf("NOOP") > 0) || (msg.indexOf("Type") > 0) || (msg.indexOf("MODE") > 0) || (msg.indexOf("Passive") > 0)) {
+			if ((0 < msg.indexOf("NOOP")) || (0 < msg.indexOf("Type")) || (0 < msg.indexOf("MODE")) || (0 < msg.indexOf("Passive"))) {
 				if (Settings.hideStatus) {
 					return;
 				}
 			}
-		} else if (net.sf.jftp.JFtp.log == null) {
+		} else if (null == JFtp.log) {
 			return;
 		}
 
@@ -649,7 +649,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		final long time = System.currentTimeMillis();
 
-		if (((time - this.oldtime) < Settings.uiRefresh)) {
+		if ((net.sf.jftp.config.Settings.uiRefresh > (time - this.oldtime))) {
 			UpdateDaemon.updateLog();
 
 			return;
@@ -736,7 +736,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		if (this.buffer.isEmpty()) {
 			final JScrollBar bar;
 
-			if ((net.sf.jftp.JFtp.logSp == null) || ((bar = net.sf.jftp.JFtp.logSp.getVerticalScrollBar()) == null) || bar == null || (bar.getValue() == bar.getMaximum()) || bar.getValueIsAdjusting()) {
+			if ((null == JFtp.logSp) || (null == (bar = JFtp.logSp.getVerticalScrollBar())) || null == bar || (bar.getValue() == bar.getMaximum()) || bar.getValueIsAdjusting()) {
 				return;
 			} else {
 				if (net.sf.jftp.JFtp.doScroll) {
@@ -758,14 +758,14 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void setLookAndFeel(final String name) {
-		if (name == null) {
+		if (null == name) {
 			return;
 		}
 
 		try {
 			UIManager.setLookAndFeel(name);
 
-			if (net.sf.jftp.JFtp.mainFrame != null) {
+			if (null != JFtp.mainFrame) {
 				SwingUtilities.invokeLater(() -> {
 					javax.swing.SwingUtilities.updateComponentTreeUI(net.sf.jftp.JFtp.mainFrame);
 					javax.swing.SwingUtilities.updateComponentTreeUI(net.sf.jftp.JFtp.statusP);
@@ -822,13 +822,13 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void closeCurrentTab() {
 		final int x = this.remoteConnectionPanel.getSelectedIndex();
 
-		if (x > 0) {
+		if (0 < x) {
 			net.sf.jftp.JFtp.safeDisconnect();
 			this.remoteConnectionPanel.remove(x);
 			this.remoteConnectionPanel.setSelectedIndex(x - 1);
 		}
 
-		if (this.remoteConnectionPanel.getTabCount() < 2) {
+		if (2 > this.remoteConnectionPanel.getTabCount()) {
 			this.j2.setClosable(false);
 		}
 	}
@@ -836,10 +836,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void closeCurrentLocalTab() {
 		final int x = this.localConnectionPanel.getSelectedIndex();
 
-		if (x > 0) {
+		if (0 < x) {
 			final BasicConnection con = net.sf.jftp.JFtp.localDir.getCon();
 
-			if ((con != null) && con.isConnected()) {
+			if ((null != con) && con.isConnected()) {
 				try {
 					con.disconnect();
 				} catch (final Exception ex) {
@@ -850,7 +850,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			this.localConnectionPanel.setSelectedIndex(x - 1);
 		}
 
-		if (this.localConnectionPanel.getTabCount() < 2) {
+		if (2 > this.localConnectionPanel.getTabCount()) {
 			this.j1.setClosable(false);
 		}
 	}
@@ -858,7 +858,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void addToDesktop(final String title, final Component c, final int w, final int h) {
 		final JInternalFrame jt = new JInternalFrame(title, false, true, false, true);
 
-		if (w < 500) {
+		if (500 > w) {
 			jt.setLocation(200, 100);
 		} else {
 			jt.setLocation(80, 100);
@@ -877,7 +877,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void removeFromDesktop(final int component) {
 		final JInternalFrame f = net.sf.jftp.JFtp.internalFrames.get("" + component);
 
-		if (f != null) {
+		if (null != f) {
 			f.dispose();
 
 		} else {
@@ -888,7 +888,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void setClosable(final int component, final boolean ok) {
 		final JInternalFrame f = net.sf.jftp.JFtp.internalFrames.get("" + component);
 
-		if (f != null) {
+		if (null != f) {
 			f.setClosable(ok);
 		} else {
 			Log.debug("ERROR: " + component + " not found in Hashtable!");
@@ -898,7 +898,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void setLocation(final int component, final int x, final int y) {
 		final JInternalFrame f = net.sf.jftp.JFtp.internalFrames.get("" + component);
 
-		if (f != null) {
+		if (null != f) {
 			f.setLocation(x, y);
 		} else {
 			Log.debug("ERROR: " + component + " not found in Hashtable!");
@@ -947,14 +947,14 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		DataFlavor flavor = null;
 		Object data = null;
 
-		if (e != null) {
+		if (null != e) {
 			flavor = e.getCurrentDataFlavors()[0];
 			e.acceptDrop(net.sf.jftp.JFtp.acceptableActions);
 
 			final Class c = flavor.getDefaultRepresentationClass();
 		}
 
-		if (flavor == null) {
+		if (null == flavor) {
 			flavor = second;
 		}
 
@@ -987,8 +987,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			if (data instanceof Reader) {
 				int c;
 
-				while ((c = ((Reader) data).read()) != -1) {
-					if (((i == 1) && (c == 0))) {
+				while (-1 != (c = ((java.io.Reader) data).read())) {
+					if (((1 == i) && (0 == c))) {
 						i = -1;
 					} else {
 						str.append((char) c);
@@ -1037,7 +1037,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	private void draggedTransfer(final File[] f, String name) {
-		if ((f.length == 1) && f[0].isFile()) {
+		if ((1 == f.length) && f[0].isFile()) {
 			String path = "";
 
 			if (name.contains("/")) {

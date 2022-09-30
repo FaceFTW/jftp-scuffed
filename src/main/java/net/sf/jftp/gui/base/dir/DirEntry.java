@@ -76,11 +76,11 @@ public class DirEntry {
 		final int lastIndex = f.lastIndexOf(".");
 		String image = Settings.fileImage; // default
 
-		if (lastIndex != -1) {
+		if (-1 != lastIndex) {
 			final String ext = f.substring(lastIndex);
 			final String tmp = (String) net.sf.jftp.gui.base.dir.DirEntry.extensionMap.get(ext.toLowerCase());
 
-			if (tmp != null)
+			if (null != tmp)
 			{
 				image = tmp;
 			}
@@ -89,7 +89,7 @@ public class DirEntry {
 		// else use the default
 		this.img = HImage.getImage(this.c, image);
 
-		if (this.img == null) {
+		if (null == this.img) {
 			this.img = HImage.getImage(this.c, Settings.fileImage);
 		}
 
@@ -148,7 +148,7 @@ public class DirEntry {
 	}
 
 	public String getDate() {
-		if (this.date == null) {
+		if (null == this.date) {
 			return "";
 		}
 
@@ -162,7 +162,7 @@ public class DirEntry {
 	}
 
 	public String getFileSize() {
-		if (this.isDirectory || (this.size < 0)) {
+		if (this.isDirectory || (0 > this.size)) {
 			return "          ";
 		}
 
@@ -170,24 +170,24 @@ public class DirEntry {
 
 		String type = "bs";
 
-		if (rsize > 1024) {
+		if (1024 < rsize) {
 			rsize = rsize / 1024;
 			type = "kb";
 		}
 
-		if (rsize > 1024) {
+		if (1024 < rsize) {
 			rsize = rsize / 1024;
 			type = "mb";
 		}
 
-		if (rsize > 1024) {
+		if (1024 < rsize) {
 			rsize = rsize / 1024;
 			type = "gb";
 		}
 
 		final StringBuilder x = new StringBuilder(Long.toString(rsize));
 
-		while (x.length() < 4) {
+		while (4 > x.length()) {
 			x.insert(0, " ");
 		}
 

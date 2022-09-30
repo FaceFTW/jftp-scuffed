@@ -135,7 +135,7 @@ public class DataConnection implements Runnable {
 		this.resume = resume;
 		this.skiplen = skiplen;
 
-		if (i != null) {
+		if (null != i) {
 			this.in = new BufferedInputStream(i);
 		}
 
@@ -184,7 +184,7 @@ public class DataConnection implements Runnable {
 			if (!net.sf.jftp.config.Settings.getFtpPasvMode()) {
 				int retry = 0;
 
-				while ((retry++ < 5) && (this.sock == null)) {
+				while ((5 > retry++) && (null == this.sock)) {
 					try {
 						this.ssock.setSoTimeout(net.sf.jftp.config.Settings.connectionTimeout);
 						this.sock = this.ssock.accept();
@@ -192,7 +192,7 @@ public class DataConnection implements Runnable {
 						this.sock = null;
 						this.debug("Got IOException while trying to open a socket!");
 
-						if (retry == 5) {
+						if (5 == retry) {
 							this.debug("Connection failed, tried 5 times - maybe try a higher timeout in Settings.java...");
 						}
 
@@ -223,7 +223,7 @@ public class DataConnection implements Runnable {
 								fOut.seek(f.length());
 								buflen = f.length();
 							} else {
-								if (this.localfile == null) {
+								if (null == this.localfile) {
 									this.localfile = this.file;
 								}
 
@@ -261,7 +261,7 @@ public class DataConnection implements Runnable {
 							try {
 								long len = buflen;
 
-								if (fOut != null) {
+								if (null != fOut) {
 									while (true) {
 										// resuming
 										int read = -2;
@@ -283,11 +283,11 @@ public class DataConnection implements Runnable {
 
 										len += read;
 
-										if (read == -1) {
+										if (-1 == read) {
 											break;
 										}
 
-										if (this.newLine != null) {
+										if (null != this.newLine) {
 											final byte[] buf2 = this.modifyGet(buf, read);
 											fOut.write(buf2, 0, buf2.length);
 										} else {
@@ -300,7 +300,7 @@ public class DataConnection implements Runnable {
 											// Log.debugSize(len, true, false, file);
 										}
 
-										if (read == StreamTokenizer.TT_EOF) {
+										if (java.io.StreamTokenizer.TT_EOF == read) {
 											break;
 										}
 									}
@@ -329,11 +329,11 @@ public class DataConnection implements Runnable {
 
 										len += read;
 
-										if (read == -1) {
+										if (-1 == read) {
 											break;
 										}
 
-										if (this.newLine != null) {
+										if (null != this.newLine) {
 											final byte[] buf2 = this.modifyGet(buf, read);
 											bOut.write(buf2, 0, buf2.length);
 										} else {
@@ -346,7 +346,7 @@ public class DataConnection implements Runnable {
 											//Log.debugSize(len, true, false, file);
 										}
 
-										if (read == StreamTokenizer.TT_EOF) {
+										if (java.io.StreamTokenizer.TT_EOF == read) {
 											break;
 										}
 									}
@@ -369,7 +369,7 @@ public class DataConnection implements Runnable {
 
 				//---------------upload----------------------
 				if (this.type.equals(net.sf.jftp.net.DataConnection.PUT) || this.type.equals(net.sf.jftp.net.DataConnection.PUTDIR)) {
-					if (this.in == null) {
+					if (null == this.in) {
 						try {
 							fIn = new RandomAccessFile(this.file, "r");
 
@@ -399,7 +399,7 @@ public class DataConnection implements Runnable {
 								while (true) {
 									final int read;
 
-									if (this.in != null) {
+									if (null != this.in) {
 										read = this.in.read(buf);
 									} else {
 										read = fIn.read(buf);
@@ -408,11 +408,11 @@ public class DataConnection implements Runnable {
 									len += read;
 
 									//System.out.println(file + " " + type+ " " + len + " " + read);
-									if (read == -1) {
+									if (-1 == read) {
 										break;
 									}
 
-									if (this.newLine != null) {
+									if (null != this.newLine) {
 										final byte[] buf2 = this.modifyPut(buf, read);
 										this.out.write(buf2, 0, buf2.length);
 									} else {
@@ -425,7 +425,7 @@ public class DataConnection implements Runnable {
 										//   Log.debugSize(len, false, false, file);
 									}
 
-									if (read == StreamTokenizer.TT_EOF) {
+									if (java.io.StreamTokenizer.TT_EOF == read) {
 										break;
 									}
 								}
@@ -448,7 +448,7 @@ public class DataConnection implements Runnable {
 			ex.printStackTrace();
 		} finally {
 			try {
-				if (this.out != null) {
+				if (null != this.out) {
 					this.out.flush();
 					this.out.close();
 				}
@@ -457,7 +457,7 @@ public class DataConnection implements Runnable {
 			}
 
 			try {
-				if (bOut != null) {
+				if (null != bOut) {
 					bOut.flush();
 					bOut.close();
 				}
@@ -466,7 +466,7 @@ public class DataConnection implements Runnable {
 			}
 
 			try {
-				if (fOut != null) {
+				if (null != fOut) {
 					fOut.close();
 				}
 			} catch (final Exception ex) {
@@ -474,11 +474,11 @@ public class DataConnection implements Runnable {
 			}
 
 			try {
-				if (this.in != null && !this.justStream) {
+				if (null != this.in && !this.justStream) {
 					this.in.close();
 				}
 
-				if (fIn != null) {
+				if (null != fIn) {
 					fIn.close();
 				}
 			} catch (final Exception ex) {
@@ -531,7 +531,7 @@ public class DataConnection implements Runnable {
 		final long now = System.currentTimeMillis();
 		final long offset = now - this.start;
 
-		if (offset > net.sf.jftp.config.Settings.statusMessageAfterMillis) {
+		if (net.sf.jftp.config.Settings.statusMessageAfterMillis < offset) {
 			this.start = now;
 
 			return true;
@@ -568,7 +568,7 @@ public class DataConnection implements Runnable {
 
 	private byte[] modifyPut(final byte[] buf, final int len) {
 		//Log.debug("\n\n\n\nNewline: "+newLine);
-		if (this.newLine == null) return buf;
+		if (null == this.newLine) return buf;
 
 		String s = (new String(buf)).substring(0, len);
 		s = s.replaceAll(this.LINEEND, this.newLine);
@@ -579,7 +579,7 @@ public class DataConnection implements Runnable {
 
 	private byte[] modifyGet(final byte[] buf, final int len) {
 		//Log.debug("\n\n\n\nNewline: "+newLine);
-		if (this.newLine == null) return buf;
+		if (null == this.newLine) return buf;
 
 		String s = (new String(buf)).substring(0, len);
 		s = s.replaceAll(this.newLine, this.LINEEND);

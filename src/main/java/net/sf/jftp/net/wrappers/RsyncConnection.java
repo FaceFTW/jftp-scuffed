@@ -42,7 +42,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		final int x = host.indexOf("/");
 
-		if (x >= 0) {
+		if (0 <= x) {
 			host = host.substring(0, x);
 		}
 
@@ -55,7 +55,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		final String[] tmp = nfsx.getExports();
 
-		if (tmp == null) {
+		if (null == tmp) {
 			return new String[0];
 		}
 
@@ -113,7 +113,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		final com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir);
 		final String[] tmp = f2.list();
 
-		if (tmp == null) {
+		if (null == tmp) {
 			return;
 		}
 
@@ -194,7 +194,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			tmp = tmp + "/";
 		}
 
-		if (this.check(tmp) < 3) {
+		if (3 > this.check(tmp)) {
 			return false;
 		}
 
@@ -211,7 +211,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		int x = 0;
 
 		for (int j = 0; j < url.length(); j++) {
-			if (url.charAt(j) == '/') {
+			if ('/' == url.charAt(j)) {
 				x++;
 			}
 		}
@@ -231,7 +231,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	private String toNFS(String f) {
 		String file;
 
-		if (f.lastIndexOf("nfs://") > 0) {
+		if (0 < f.lastIndexOf("nfs://")) {
 			f = f.substring(f.lastIndexOf("nfs://"));
 		}
 
@@ -281,7 +281,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	public String[] sortLs() {
 		final String dir = this.getPWD();
 
-		if (this.check(this.toNFS(dir)) == 3) {
+		if (3 == this.check(this.toNFS(dir))) {
 			try {
 				this.files = this.getExports();
 			} catch (final Exception ex) {
@@ -293,7 +293,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			this.files = f.list();
 		}
 
-		if (this.files == null) {
+		if (null == this.files) {
 			return new String[0];
 		}
 
@@ -429,7 +429,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	private void update(final String file, final String type, final int bytes) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
@@ -450,7 +450,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	 * remote directory has changed
 	 */
 	public void fireDirectoryUpdate() {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				((net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
@@ -463,7 +463,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	 */
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		//System.out.println(listener);
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
@@ -486,7 +486,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public void fireActionFinished(final net.sf.jftp.net.wrappers.RsyncConnection con) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				((net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
@@ -511,7 +511,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			while (true) {
 				len = in.read(buf);
 
-				if (len == java.io.StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 

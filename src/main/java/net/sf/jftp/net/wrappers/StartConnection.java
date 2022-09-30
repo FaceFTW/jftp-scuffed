@@ -161,7 +161,7 @@ public class StartConnection {
 		final int response = net.sf.jftp.net.wrappers.StartConnection.con.login(utmp, ptmp);
 
 		//boolean isConnected = false;
-		if (response == FtpConnection.LOGIN_OK) {
+		if (net.sf.jftp.net.FtpConnection.LOGIN_OK == response) {
 
 			final String potmpString = Integer.toString(potmp);
 			String useLocalString = "false";
@@ -207,7 +207,7 @@ public class StartConnection {
 
 		String[][] newVals = new String[net.sf.jftp.JFtp.CAPACITY][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
-		if (position >= 0) {
+		if (0 <= position) {
 
 			newVals = LastConnections.moveToFront(position, net.sf.jftp.JFtp.CAPACITY);
 		} else {

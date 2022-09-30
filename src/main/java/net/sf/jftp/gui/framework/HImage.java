@@ -26,17 +26,17 @@ public class HImage {
 		try {
 			java.net.URL url = ClassLoader.getSystemResource(name);
 
-			if (url == null) {
+			if (null == url) {
 				url = HImage.class.getResource("/" + name);
 			}
 
 			//System.out.println(name + ":" + url);
 			// this is used in case the image not found, and we are packaged as a jar.
-			if (url == null) {
+			if (null == url) {
 				url = HImage.class.getResource("/" + name.replace('\\', '/'));
 			}
 
-			img = (url != null) ? Toolkit.getDefaultToolkit().getImage(url) : null;
+			img = (null != url) ? Toolkit.getDefaultToolkit().getImage(url) : null;
 
 			//Image img = Toolkit.getDefaultToolkit().getImage(name);
 			final MediaTracker mt = new MediaTracker(c);
@@ -55,9 +55,9 @@ public class HImage {
 	public static synchronized ImageIcon getImageIcon(final String name, final String desc) {
 		java.net.URL url = ClassLoader.getSystemResource(name);
 
-		if (url == null) {
+		if (null == url) {
 			url = HImage.class.getResource("/" + name);
 		}
-		return (url != null) ? new javax.swing.ImageIcon(url) : null;
+		return (null != url) ? new javax.swing.ImageIcon(url) : null;
 	}
 }

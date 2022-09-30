@@ -40,7 +40,7 @@ public class RSSParser {
 			String tmp;
 			final StringBuilder data = new StringBuilder();
 
-			while ((tmp = in.readLine()) != null) {
+			while (null != (tmp = in.readLine())) {
 				data.append(tmp);
 			}
 
@@ -55,7 +55,7 @@ public class RSSParser {
 	}
 
 	private void add(String tmp, final Vector target, String start, String end, String s2, String e2) {
-		if (s2 == null) {
+		if (null == s2) {
 			s2 = start;
 			e2 = end;
 		}
@@ -63,11 +63,11 @@ public class RSSParser {
 		int x = tmp.indexOf(start);
 		final int x2 = tmp.indexOf(s2);
 
-		if (((x < 0) && (x2 < 0)) || ((x < 0) && start.equals(s2))) {
+		if (((0 > x) && (0 > x2)) || ((0 > x) && start.equals(s2))) {
 			return;
 		}
 
-		if ((x2 >= 0) && ((x2 < x) || (x < 0))) {
+		if ((0 <= x2) && ((x2 < x) || (0 > x))) {
 			x = x2;
 
 			String t = start;

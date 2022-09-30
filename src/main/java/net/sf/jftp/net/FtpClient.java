@@ -38,19 +38,19 @@ public class FtpClient {
 	}
 
 	public void disconnect() {
-		if (this.connection != null) {
+		if (null != this.connection) {
 			this.connection.disconnect();
 		}
 	}
 
 	public void cd(final String s) {
-		if (this.connection != null) {
+		if (null != this.connection) {
 			this.connection.chdir(s);
 		}
 	}
 
 	public String pwd() {
-		if (this.connection != null) {
+		if (null != this.connection) {
 			return this.connection.getPWD();
 		} else {
 			return "";
@@ -58,13 +58,13 @@ public class FtpClient {
 	}
 
 	public void get(final String file) {
-		if (this.connection != null) {
+		if (null != this.connection) {
 			this.connection.handleDownload(file);
 		}
 	}
 
 	public void put(final String file) {
-		if (this.connection != null) {
+		if (null != this.connection) {
 			this.connection.handleUpload(file);
 		}
 	}

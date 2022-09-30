@@ -88,7 +88,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_smb);
 
-		if ((login[0] != null) && (login.length > 1)) {
+		if ((null != login[0]) && (1 < login.length)) {
 			net.sf.jftp.gui.hostchooser.SmbHostChooser.host.setText(login[0]);
 			net.sf.jftp.gui.hostchooser.SmbHostChooser.user.setText(login[1]);
 			this.domain.setText(login[5]);
@@ -96,7 +96,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 
 		if (net.sf.jftp.config.Settings.getStorePasswords()) {
-			if ((login != null) && (login.length > 2) && (login[2] != null)) {
+			if ((null != login) && (2 < login.length) && (null != login[2])) {
 				net.sf.jftp.gui.hostchooser.SmbHostChooser.pass.setText(login[2]);
 			}
 		} else {
@@ -300,7 +300,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (this.listener != null) {
+			if (null != this.listener) {
 				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}

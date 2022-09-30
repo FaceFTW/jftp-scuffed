@@ -127,7 +127,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (this.listener != null) {
+			if (null != this.listener) {
 				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}

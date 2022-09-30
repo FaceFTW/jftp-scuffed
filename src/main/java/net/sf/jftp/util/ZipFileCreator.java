@@ -59,10 +59,10 @@ public class ZipFileCreator {
 
 				int len = 0;
 
-				while ((in != null) && (len != StreamTokenizer.TT_EOF)) {
+				while ((null != in) && (java.io.StreamTokenizer.TT_EOF != len)) {
 					len = in.read(buf);
 
-					if (len == StreamTokenizer.TT_EOF) {
+					if (java.io.StreamTokenizer.TT_EOF == len) {
 						break;
 					}
 

@@ -66,15 +66,15 @@ public class JConnection implements Runnable {
 			this.isOk = false;
 
 			try {
-				if ((this.s != null) && !this.s.isClosed()) {
+				if ((null != this.s) && !this.s.isClosed()) {
 					this.s.close();
 				}
 
-				if (this.out != null) {
+				if (null != this.out) {
 					this.out.close();
 				}
 
-				if (this.in != null) {
+				if (null != this.in) {
 					this.in.close();
 				}
 			} catch (final Exception ex2) {

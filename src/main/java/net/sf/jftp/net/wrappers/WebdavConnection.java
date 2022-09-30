@@ -63,7 +63,7 @@ public class WebdavConnection implements BasicConnection {
 		}
 
 		try {
-			if ((file == null) || file.isEmpty()) {
+			if ((null == file) || file.isEmpty()) {
 				return -1;
 			}
 
@@ -110,7 +110,7 @@ public class WebdavConnection implements BasicConnection {
 			final WebdavFile f2 = new WebdavFile(this.getURL(dir));
 			final String[] tmp = f2.list();
 
-			if (tmp == null) {
+			if (null == tmp) {
 				return;
 			}
 
@@ -187,7 +187,7 @@ public class WebdavConnection implements BasicConnection {
 		try {
 			final String p2 = this.processPath(p);
 
-			if (p2 == null) {
+			if (null == p2) {
 				return false;
 			}
 
@@ -219,7 +219,7 @@ public class WebdavConnection implements BasicConnection {
 	public boolean chdirNoRefresh(final String p) {
 		final String p2 = this.processPath(p);
 
-		if (p2 == null) {
+		if (null == p2) {
 			return false;
 		}
 
@@ -403,7 +403,7 @@ public class WebdavConnection implements BasicConnection {
 			final WebdavFile f2 = new WebdavFile(this.getURL(dir));
 			final String[] tmp = f2.list();
 
-			if (tmp == null) {
+			if (null == tmp) {
 				return;
 			}
 
@@ -523,7 +523,7 @@ final byte[] buf = new byte[net.sf.jftp.net.wrappers.WebdavConnection.webdavBuff
 			int reallen = 0;
 while (true) {
 				len = in.read(buf);
-if (len == StreamTokenizer.TT_EOF) {
+if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
@@ -580,7 +580,7 @@ if (len == StreamTokenizer.TT_EOF) {
 		this.listeners = l;
 	}
 	public void fireDirectoryUpdate() {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
@@ -593,7 +593,7 @@ if (len == StreamTokenizer.TT_EOF) {
 	}
 
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);

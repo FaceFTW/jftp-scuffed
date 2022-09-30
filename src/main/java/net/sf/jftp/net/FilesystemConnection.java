@@ -49,7 +49,7 @@ public class FilesystemConnection implements BasicConnection {
 
 	public int removeFileOrDir(final String file) {
 		try {
-			if ((file == null) || file.isEmpty()) {
+			if ((null == file) || file.isEmpty()) {
 				return -1;
 			}
 
@@ -96,7 +96,7 @@ public class FilesystemConnection implements BasicConnection {
 			final File f2 = new File(dir);
 			final String[] tmp = f2.list();
 
-			if (tmp == null) {
+			if (null == tmp) {
 				return;
 			}
 
@@ -161,7 +161,7 @@ public class FilesystemConnection implements BasicConnection {
 	public boolean chdir(final String p) {
 		final String p2 = this.processPath(p);
 
-		if (p2 == null) {
+		if (null == p2) {
 			return false;
 		}
 
@@ -183,7 +183,7 @@ public class FilesystemConnection implements BasicConnection {
 	public boolean chdirNoRefresh(final String p) {
 		final String p2 = this.processPath(p);
 
-		if (p2 == null) {
+		if (null == p2) {
 			return false;
 		}
 
@@ -277,7 +277,7 @@ public class FilesystemConnection implements BasicConnection {
 		final File f = new File(this.pwd);
 		final String[] files = f.list();
 
-		if (files == null) {
+		if (null == files) {
 			return new String[0];
 		}
 
@@ -355,7 +355,7 @@ public class FilesystemConnection implements BasicConnection {
 		final File f2 = new File(dir);
 		final String[] tmp = f2.list();
 
-		if (tmp == null) {
+		if (null == tmp) {
 			return;
 		}
 
@@ -420,7 +420,7 @@ public class FilesystemConnection implements BasicConnection {
 				len = in.read(buf);
 
 				//System.out.print(".");
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
@@ -470,7 +470,7 @@ public class FilesystemConnection implements BasicConnection {
 				len = in.read(buf);
 				System.out.print(".");
 
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
@@ -521,7 +521,7 @@ public class FilesystemConnection implements BasicConnection {
 	 * remote directory has changed
 	 */
 	public void fireDirectoryUpdate() {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				this.listeners.elementAt(i).updateRemoteDirectory(this);
@@ -534,7 +534,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				final ConnectionListener listener = this.listeners.elementAt(i);
@@ -553,7 +553,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public Date[] sortDates() {
-		if (this.dateVector.size() > 0) {
+		if (0 < this.dateVector.size()) {
 			return (Date[]) this.dateVector.toArray();
 		} else {
 			return null;

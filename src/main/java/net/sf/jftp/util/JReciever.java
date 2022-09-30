@@ -34,7 +34,7 @@ public class JReciever implements Runnable {
 			while (true) {
 				final int cnt = this.in.read(this.buf);
 
-				if (cnt == -1) {
+				if (-1 == cnt) {
 					RawConnection.output.append(">>> Connection closed...");
 
 					net.sf.jftp.system.LocalIO.pause(100);

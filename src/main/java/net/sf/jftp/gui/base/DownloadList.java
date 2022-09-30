@@ -110,7 +110,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		try {
 			String cmd = this.getActiveItem();
 
-			if (cmd == null) {
+			if (null == cmd) {
 				return;
 			}
 
@@ -120,7 +120,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				try {
 					final Transfer d = JFtp.getConnectionHandler().getConnections().get(cmd);
 
-					if (d == null) {
+					if (null == d) {
 						return;
 					}
 
@@ -173,7 +173,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		try {
 			String cmd = this.getActiveItem();
 
-			if (cmd == null) {
+			if (null == cmd) {
 				return;
 			}
 
@@ -182,7 +182,7 @@ public class DownloadList extends HPanel implements ActionListener {
 
 				final Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
 
-				if (o == null) {
+				if (null == o) {
 					return;
 				}
 
@@ -208,7 +208,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		try {
 			String cmd = this.getActiveItem();
 
-			if (cmd == null) {
+			if (null == cmd) {
 				return;
 			}
 
@@ -218,7 +218,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				try {
 					final Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
 
-					if (o == null) {
+					if (null == o) {
 						return;
 					}
 
@@ -237,7 +237,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	private String getActiveItem() {
 		final String tmp = this.list.getSelectedValue().getDirEntry().toString();
 
-		if (tmp == null) {
+		if (null == tmp) {
 			return "";
 		} else {
 			return tmp;
@@ -277,7 +277,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		final String tmp;
 		final long s = size / 1024;
 
-		if (s > 0) {
+		if (0 < s) {
 			tmp = Long.toString(s);
 		} else {
 			tmp = "?";
@@ -360,7 +360,7 @@ public class DownloadList extends HPanel implements ActionListener {
 
 		this.list.setListData(f);
 
-		if ((f.length == 1) && (idx < 0)) {
+		if ((1 == f.length) && (0 > idx)) {
 			this.list.setSelectedIndex(0);
 		} else {
 			this.list.setSelectedIndex(idx);
@@ -409,7 +409,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	private boolean safeUpdate() {
 		final long time = System.currentTimeMillis();
 
-		if ((time - this.oldtime) < Settings.refreshDelay) {
+		if (net.sf.jftp.config.Settings.refreshDelay > (time - this.oldtime)) {
 			return false;
 		}
 

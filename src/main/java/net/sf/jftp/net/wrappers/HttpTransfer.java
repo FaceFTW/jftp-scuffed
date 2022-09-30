@@ -44,7 +44,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 
 	public void run() {
 		try {
-			if (this.handler.getConnections().get(this.file) == null) {
+			if (null == this.handler.getConnections().get(this.file)) {
 				net.sf.jftp.system.logging.Log.out("download started: " + this.url);
 				net.sf.jftp.system.logging.Log.out("connection handler present: " + this.handler + ", poll size: " + this.handler.getConnections().size());
 				net.sf.jftp.system.logging.Log.out("local file: " + this.localPath + this.file);
@@ -64,10 +64,10 @@ public class HttpTransfer extends Transfer implements Runnable {
 			final byte[] buf = new byte[4096];
 			int len = 0;
 
-			while ((this.stat > 0) && this.work) {
+			while ((0 < this.stat) && this.work) {
 				this.stat = in.read(buf);
 
-				if (this.stat == -1) {
+				if (-1 == this.stat) {
 					break;
 				}
 
@@ -103,7 +103,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 	}
 
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 			return;
 		}
 

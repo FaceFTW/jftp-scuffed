@@ -62,7 +62,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	public SmbConnection(final String url, String domain, final String user, final String pass, final ConnectionListener l) {
 		NtlmAuthenticator.setDefault(this);
 
-		if (l != null) {
+		if (null != l) {
 			this.listeners.add(l);
 		}
 
@@ -137,7 +137,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		final SmbFile f2 = new SmbFile(dir, this.getAuth());
 		final String[] tmp = f2.list();
 
-		if (tmp == null) {
+		if (null == tmp) {
 			return;
 		}
 
@@ -237,7 +237,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 			return true;
 		} catch (final Exception ex) {
-			if (ex.getMessage() != null && (ex.getMessage().indexOf("MSBROWSE") > 0) && !this.dummy) // MSBROWSE is not in the message (anymore)
+			if (null != ex.getMessage() && (0 < ex.getMessage().indexOf("MSBROWSE")) && !this.dummy) // MSBROWSE is not in the message (anymore)
 			{
 				net.sf.jftp.system.logging.Log.debug("\nCould not find a master server.");
 				net.sf.jftp.system.logging.Log.debug("Please make sure you have the local IP set to the interface you want to use, netbios enabled, and if");
@@ -323,14 +323,14 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				int x = 0;
 
 				for (int j = 0; j < files[i].length(); j++) {
-					if (files[i].charAt(j) == '/') {
+					if ('/' == files[i].charAt(j)) {
 						x++;
 					}
 				}
 
-				if (files[i].endsWith("/") && (x > 3)) {
+				if (files[i].endsWith("/") && (3 < x)) {
 					files[i] = net.sf.jftp.system.StringUtils.getDir(files[i]);
-				} else if (x > 3) {
+				} else if (3 < x) {
 					files[i] = net.sf.jftp.system.StringUtils.getFile(files[i]);
 				}
 
@@ -436,7 +436,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			final SmbFile f2 = new SmbFile(dir, this.getAuth());
 			final String[] tmp = f2.list();
 
-			if (tmp == null) {
+			if (null == tmp) {
 				return;
 			}
 
@@ -485,7 +485,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			final File f2 = new File(out);
 			final String[] tmp = f2.list();
 
-			if (tmp == null) {
+			if (null == tmp) {
 				return;
 			}
 
@@ -527,7 +527,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private String toSMB(String f) {
 		String file;
 
-		if (f.lastIndexOf("smb://") > 0) {
+		if (0 < f.lastIndexOf("smb://")) {
 			f = f.substring(f.lastIndexOf("smb://"));
 		}
 
@@ -573,7 +573,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				len = in.read(buf);
 
 				//System.out.print(".");
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
@@ -604,7 +604,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	}
 
 	private void update(final String file, final String type, final int bytes) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
@@ -625,7 +625,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	 * remote directory has changed
 	 */
 	public void fireDirectoryUpdate() {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
@@ -642,7 +642,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	 */
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		//System.out.println(listener);
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
@@ -663,7 +663,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	}
 
 	public void fireActionFinished(final SmbConnection con) {
-		if (this.listeners == null) {
+		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
 				((ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
@@ -688,7 +688,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			while (true) {
 				len = in.read(buf);
 
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 

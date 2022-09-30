@@ -54,7 +54,7 @@ public class Shell extends HFrame implements Runnable {
 
 	public static void main(final String[] argv) {
 		try {
-			final Process p = Runtime.getRuntime().exec(argv.length > 0 ? argv[0] : "/bin/bash");
+			final Process p = Runtime.getRuntime().exec(0 < argv.length ? argv[0] : "/bin/bash");
 			new Shell(p.getInputStream(), p.getOutputStream());
 		} catch (final Exception ex) {
 			ex.printStackTrace();
@@ -86,42 +86,42 @@ public class Shell extends HFrame implements Runnable {
 
 		this.text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(final KeyEvent e) {
-				if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (net.sf.jftp.tools.Shell.this.input.length() > 0)) {
+				if ((java.awt.event.KeyEvent.VK_BACK_SPACE == e.getKeyCode()) && (0 < Shell.this.input.length())) {
 					net.sf.jftp.tools.Shell.this.input = net.sf.jftp.tools.Shell.this.input.substring(0, net.sf.jftp.tools.Shell.this.input.length() - 1);
 
 					String t = net.sf.jftp.tools.Shell.this.text.getText();
 					t = t.substring(0, t.length() - 1);
 					net.sf.jftp.tools.Shell.this.text.setText(t);
-				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
+				} else if (java.awt.event.KeyEvent.VK_UP == e.getKeyCode()) {
 					String t = net.sf.jftp.tools.Shell.this.text.getText();
 					t = t.substring(0, t.length() - net.sf.jftp.tools.Shell.this.input.length());
 
-					if ((net.sf.jftp.tools.Shell.this.currCmd <= net.sf.jftp.tools.Shell.this.commands.size()) && (net.sf.jftp.tools.Shell.this.currCmd > 0)) {
+					if ((net.sf.jftp.tools.Shell.this.currCmd <= net.sf.jftp.tools.Shell.this.commands.size()) && (0 < Shell.this.currCmd)) {
 						net.sf.jftp.tools.Shell.this.currCmd--;
 
 						final String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
 						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
 						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
 					}
-				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+				} else if (java.awt.event.KeyEvent.VK_DOWN == e.getKeyCode()) {
 					String t = net.sf.jftp.tools.Shell.this.text.getText();
 					t = t.substring(0, t.length() - net.sf.jftp.tools.Shell.this.input.length());
 
-					if (((net.sf.jftp.tools.Shell.this.currCmd + 1) < net.sf.jftp.tools.Shell.this.commands.size()) && (net.sf.jftp.tools.Shell.this.currCmd >= 0)) {
+					if (((net.sf.jftp.tools.Shell.this.currCmd + 1) < net.sf.jftp.tools.Shell.this.commands.size()) && (0 <= Shell.this.currCmd)) {
 						net.sf.jftp.tools.Shell.this.currCmd++;
 
 						final String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
 						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
 						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
 					}
-				} else if (e.getKeyCode() != KeyEvent.VK_SHIFT) {
+				} else if (java.awt.event.KeyEvent.VK_SHIFT != e.getKeyCode()) {
 					if (!e.isActionKey()) {
 						net.sf.jftp.tools.Shell.this.input += e.getKeyChar();
 						net.sf.jftp.tools.Shell.this.text.append("" + e.getKeyChar());
 					}
 				}
 
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+				if (java.awt.event.KeyEvent.VK_ENTER == e.getKeyCode()) {
 					net.sf.jftp.tools.Shell.this.send();
 				}
 			}
@@ -143,10 +143,10 @@ public class Shell extends HFrame implements Runnable {
 			final char[] b = new char[4096];
 			int i;
 
-			while ((i = this.in.read(b, 0, b.length)) != StreamTokenizer.TT_EOF) {
+			while (java.io.StreamTokenizer.TT_EOF != (i = this.in.read(b, 0, b.length))) {
 				this.text.append(new String(b, 0, i));
 
-				while (this.text.getRows() > 500) {
+				while (500 < this.text.getRows()) {
 					String t = this.text.getText();
 					t = t.substring(250);
 

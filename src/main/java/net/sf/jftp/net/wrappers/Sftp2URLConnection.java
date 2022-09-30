@@ -29,15 +29,15 @@ public class Sftp2URLConnection extends URLConnection {
 	public Sftp2URLConnection(final URL u) {
 		super(u);
 
-		final int port = u.getPort() > 0 ? u.getPort() : 22;
+		final int port = 0 < u.getPort() ? u.getPort() : 22;
 		this.connection = new Sftp2Connection(u.getHost(), "" + port, null);
 
 		final String userInfo = u.getUserInfo();
 
-		if (userInfo != null) {
+		if (null != userInfo) {
 			final int index = userInfo.indexOf(":");
 
-			if (index != -1) {
+			if (-1 != index) {
 				this.username = userInfo.substring(0, index);
 				this.password = userInfo.substring(index + 1);
 			}
@@ -75,7 +75,7 @@ public class Sftp2URLConnection extends URLConnection {
 	public int getPort() {
 		final int ret = this.url.getPort();
 
-		if (ret <= 0) {
+		if (0 >= ret) {
 			return 22;
 		} else {
 			return ret;

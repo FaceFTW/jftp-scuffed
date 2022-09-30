@@ -108,7 +108,7 @@ public class FileSearch {
 	private String clear(String url) {
 		final int idx = url.indexOf("http://");
 
-		if (idx >= 0) {
+		if (0 <= idx) {
 			url = url.substring(7);
 		}
 
@@ -173,8 +173,8 @@ public class FileSearch {
 		final int urlRating = this.checkForResult(url);
 		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
 
-		if (urlRating > 0) {
-		} else if (urlRating < 0 && this.currentDepth > 0) {
+		if (0 < urlRating) {
+		} else if (0 > urlRating && 0 < this.currentDepth) {
 			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
 			return;
 		}
@@ -186,7 +186,7 @@ public class FileSearch {
 		final int factor = this.rate(content);
 		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
 
-		if (factor < this.MIN_FACTOR) {
+		if (this.MIN_FACTOR > factor) {
 			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
 			return;
 		}
@@ -216,7 +216,7 @@ public class FileSearch {
 
 						final int x = next.indexOf("/");
 
-						if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+						if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
 							final net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(this.localDir);
 							urlGetter2.fetch(next, false);
 
@@ -228,11 +228,11 @@ public class FileSearch {
 				skip = true;
 			}
 
-			if (this.currentDepth < this.MAX) {
+			if (this.MAX > this.currentDepth) {
 
 				final int x = next.indexOf("/");
 
-				if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
+				if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
 					this.currentDepth++;
 					this.crawl(next);
 					this.currentDepth--;
@@ -248,7 +248,7 @@ public class FileSearch {
 		while (true) {
 			wo = content.indexOf(index);
 
-			if (wo < 0) {
+			if (0 > wo) {
 				return res;
 			}
 
@@ -269,19 +269,19 @@ public class FileSearch {
 			return newLink;
 		}
 
-		if (newLink.startsWith("/") && (baseUrl.indexOf("/") > 0)) {
+		if (newLink.startsWith("/") && (0 < baseUrl.indexOf("/"))) {
 			newLink = baseUrl.substring(0, baseUrl.indexOf("/")) + newLink;
 		} else if (newLink.startsWith("/") && (!baseUrl.contains("/"))) {
 			newLink = baseUrl + newLink;
-		} else if ((newLink.indexOf(".") > 0)) {
+		} else if ((0 < newLink.indexOf("."))) {
 			final int idx = newLink.indexOf("/");
 			String tmp = "";
 
-			if (idx >= 0) {
+			if (0 <= idx) {
 				tmp = newLink.substring(0, idx);
 			}
 
-			if ((tmp.indexOf(".") > 0)) {
+			if ((0 < tmp.indexOf("."))) {
 				return this.clear(newLink);
 			}
 
@@ -328,7 +328,7 @@ class Getter {
 
 			int len = 0;
 
-			while (!in.ready() && (len < 5000)) {
+			while (!in.ready() && (5000 > len)) {
 				net.sf.jftp.tools.Getter.chill(100);
 				len += 100;
 			}
@@ -390,7 +390,7 @@ class Getter {
 				while (line) {
 					final String x = in.readLine();
 
-					if (x == null) {
+					if (null == x) {
 						break;
 					}
 
@@ -403,7 +403,7 @@ class Getter {
 
 				final int x = in.read(alu);
 
-				if (x == -1) {
+				if (-1 == x) {
 					if (line) {
 						localOut.write(tmp.toString().getBytes(), 0, tmp.length());
 					}

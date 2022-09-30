@@ -89,17 +89,17 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 
 		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_sftp);
 
-		if ((login[0] != null) && (login.length > 1)) {
+		if ((null != login[0]) && (1 < login.length)) {
 			this.host.setText(login[0]);
 			this.user.setText(login[1]);
 
-			if (login.length > 3) {
+			if (3 < login.length) {
 				this.port.setText(login[3]);
 			}
 		}
 
 		if (net.sf.jftp.config.Settings.getStorePasswords()) {
-			if ((login != null) && (login.length > 2) && (login[2] != null)) {
+			if ((null != login) && (2 < login.length) && (null != login[2])) {
 				this.pass.setText(login[2]);
 			}
 		} else {
@@ -195,7 +195,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			} else {
 				this.dispose();
 
-				if (this.listener != null) {
+				if (null != this.listener) {
 					this.listener.componentResized(new ComponentEvent(this, 0));
 				}
 
@@ -252,23 +252,23 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (this.listener != null) {
+			if (null != this.listener) {
 				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		} else if (e.getSource() == this.keyfile) {
 			final JFileChooser chooser = new JFileChooser();
 			final int returnVal = chooser.showOpenDialog(this);
 
-			if (returnVal == JFileChooser.APPROVE_OPTION) {
+			if (javax.swing.JFileChooser.APPROVE_OPTION == returnVal) {
 				this.keyfileName = chooser.getSelectedFile().getPath();
 
-				if (this.keyfileName != null) {
+				if (null != this.keyfileName) {
 					this.keyfileL.setText("(File present)");
 				}
 			} else {
 				this.keyfileName = null;
 
-				if (this.keyfileName != null) {
+				if (null != this.keyfileName) {
 					this.keyfileL.setText("(No File)");
 				}
 			}

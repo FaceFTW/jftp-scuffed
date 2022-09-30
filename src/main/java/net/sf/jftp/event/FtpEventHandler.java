@@ -149,11 +149,11 @@ public class FtpEventHandler implements EventHandler {
 			list.addElement(st.nextToken());
 		}
 
-		if (list.size() != 0) {
+		if (0 != list.size()) {
 			final String command = (String) list.elementAt(0);
 			final Method o = (Method) this.methods.get(command.toLowerCase());
 
-			if (o != null) {
+			if (null != o) {
 				try {
 					o.invoke(this, list);
 				} catch (final Exception ex) {

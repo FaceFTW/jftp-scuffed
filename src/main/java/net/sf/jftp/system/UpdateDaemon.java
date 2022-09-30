@@ -55,32 +55,32 @@ public class UpdateDaemon implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				if (net.sf.jftp.system.UpdateDaemon.rem > 0) {
+				if (0 < UpdateDaemon.rem) {
 					net.sf.jftp.JFtp.remoteDir.fresh();
 
 					net.sf.jftp.system.UpdateDaemon.rem = 0;
 					Thread.sleep(100);
 				}
 
-				if (net.sf.jftp.system.UpdateDaemon.reg > 0) {
+				if (0 < UpdateDaemon.reg) {
 					((net.sf.jftp.gui.base.RemoteDir) net.sf.jftp.JFtp.remoteDir).gui(true);
 					net.sf.jftp.system.UpdateDaemon.reg = 0;
 					Thread.sleep(100);
 				}
 
-				if (net.sf.jftp.system.UpdateDaemon.loc > 0) {
+				if (0 < UpdateDaemon.loc) {
 					net.sf.jftp.JFtp.localDir.fresh();
 					net.sf.jftp.system.UpdateDaemon.loc = 0;
 					Thread.sleep(100);
 				}
 
-				if (net.sf.jftp.system.UpdateDaemon.cal > 0) {
+				if (0 < UpdateDaemon.cal) {
 					this.jftp.fireUpdate();
 					net.sf.jftp.system.UpdateDaemon.cal = 0;
 					Thread.sleep(100);
 				}
 
-				if (net.sf.jftp.system.UpdateDaemon.log > 0) {
+				if (0 < UpdateDaemon.log) {
 					this.jftp.ensureLogging();
 					net.sf.jftp.system.UpdateDaemon.log = 0;
 					Thread.sleep(500);

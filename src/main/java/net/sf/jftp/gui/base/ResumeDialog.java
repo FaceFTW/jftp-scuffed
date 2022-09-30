@@ -49,9 +49,9 @@ public class ResumeDialog extends HFrame implements ActionListener {
 
 		diff = dirEntry.getRawSize() - f.length();
 
-		if (diff == 0) {
+		if (0 == diff) {
 			text.append("It has exactly the same size as the remote file.\n\n");
-		} else if (diff < 0) {
+		} else if (0 > diff) {
 			text.append("It is bigger than the remote file.\n\n");
 		} else {
 			text.append("It is smaller than the remote file.\n\n");
@@ -94,7 +94,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	}
 
 	private void transfer() {
-		if ((this.dirEntry.getRawSize() < Settings.smallSize) && !this.dirEntry.isDirectory()) {
+		if ((net.sf.jftp.config.Settings.smallSize > this.dirEntry.getRawSize()) && !this.dirEntry.isDirectory()) {
 			JFtp.remoteDir.getCon().download(this.dirEntry.file);
 		} else {
 			JFtp.remoteDir.getCon().handleDownload(this.dirEntry.file);

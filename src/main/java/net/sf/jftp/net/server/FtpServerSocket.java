@@ -154,7 +154,7 @@ public class FtpServerSocket extends Thread {
 		final Object[] args = {"CDUP"};
 		final File tmp = this.directory.getParentFile();
 
-		if (tmp != null) {
+		if (null != tmp) {
 			this.directory = tmp;
 		}
 
@@ -206,7 +206,7 @@ public class FtpServerSocket extends Thread {
 		int end = line.length();
 		String lo = null; // lo-ordered byte
 
-		if ((start != -1) && (end != -1)) {
+		if ((-1 != start) && (-1 != end)) {
 			lo = line.substring(start + 1, end);
 		}
 
@@ -215,7 +215,7 @@ public class FtpServerSocket extends Thread {
 
 		String hi = null; // hi-ordered byte
 
-		if ((start != -1) && (end != -1)) {
+		if ((-1 != start) && (-1 != end)) {
 			hi = line.substring(start + 1, end);
 		}
 
@@ -230,19 +230,19 @@ public class FtpServerSocket extends Thread {
 			String line = null;
 			this.motd();
 
-			while ((line = this.in.readLine()) != null) {
+			while (null != (line = this.in.readLine())) {
 				System.out.println(line);
 
 				int index = line.indexOf(' ');
 
-				if (index == -1) {
+				if (-1 == index) {
 					index = line.length();
 				}
 
 				final String command = line.substring(0, index).toLowerCase();
 				final Method o = (Method) this.methods.get(command);
 
-				if (o != null) {
+				if (null != o) {
 					try {
 						o.invoke(this, line);
 					} catch (final Exception e) {

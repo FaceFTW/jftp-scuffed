@@ -23,12 +23,12 @@ public class ProgressbarItem extends JPanel {
 
 	public void update(long size, long max, final String lbl) {
 
-		while (max > Integer.MAX_VALUE) {
+		while (Integer.MAX_VALUE < max) {
 			max = max / 1000;
 			size = size / 1000;
 		}
 
-		if (max > 0 && max >= size) {
+		if (0 < max && max >= size) {
 			this.bar.setMaximum((int) max);
 			this.bar.setValue((int) size);
 		} else {

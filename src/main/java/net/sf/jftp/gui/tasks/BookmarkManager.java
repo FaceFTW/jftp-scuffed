@@ -106,7 +106,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		try {
 			final DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 
-			while ((data = in.readLine()) != null) {
+			while (null != (data = in.readLine())) {
 				now.append(data).append("\n");
 			}
 		} catch (final IOException e) {

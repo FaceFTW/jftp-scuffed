@@ -18,21 +18,21 @@ public class ColoredCellRenderer extends DefaultTableCellRenderer {
 
 		((JComponent) cell).setBorder(new CompoundBorder(new EmptyBorder(new Insets(2, 4, 2, 4)), ((JComponent) cell).getBorder()));
 
-		if (column == 2 || column == 3) {
+		if (2 == column || 3 == column) {
 			this.setHorizontalAlignment(JLabel.RIGHT);
 		} else {
 			this.setHorizontalAlignment(JLabel.LEFT);
 		}
 
-		if (column == 3) {
+		if (3 == column) {
 			final int x = ((DirEntry) value).getPermission();
-			if (x == DirEntry.R) {
+			if (net.sf.jftp.gui.base.dir.DirEntry.R == x) {
 				cell.setBackground(Color.WHITE);
 				((JLabel) cell).setText("r-");
-			} else if (x == DirEntry.W) {
+			} else if (net.sf.jftp.gui.base.dir.DirEntry.W == x) {
 				cell.setBackground(new Color(230, 255, 230));
 				((JLabel) cell).setText("rw");
-			} else if (x == DirEntry.DENIED) {
+			} else if (net.sf.jftp.gui.base.dir.DirEntry.DENIED == x) {
 				cell.setBackground(new Color(255, 230, 230));
 				((JLabel) cell).setText("--");
 			}

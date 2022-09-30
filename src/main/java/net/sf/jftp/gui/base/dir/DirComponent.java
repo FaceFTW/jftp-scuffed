@@ -39,7 +39,7 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 
 			final int index = this.jl.getSelectedIndex() - 1;
 
-			if ((index < 0) || (this.dirEntry == null) || (this.dirEntry.length < index) || (this.dirEntry[index] == null)) {
+			if ((0 > index) || (null == this.dirEntry) || (this.dirEntry.length < index) || (null == this.dirEntry[index])) {
 			} else { // -------------------- local --------------------------
 
 				final String tgt = this.jl.getSelectedValue().toString();

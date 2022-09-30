@@ -74,7 +74,7 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 		try {
 			final DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-			while ((data = in.readLine()) != null) {
+			while (null != (data = in.readLine())) {
 				now.append(data).append("\n");
 			}
 		} catch (final IOException e) {

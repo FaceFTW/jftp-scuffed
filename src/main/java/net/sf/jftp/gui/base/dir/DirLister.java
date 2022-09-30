@@ -77,7 +77,7 @@ public class DirLister implements ActionListener {
 
 			int idx = 0;
 			for (int i = 0; i < this.files.length; i++) {
-				if (this.files[i] == null) {
+				if (null == this.files[i]) {
 					continue;
 				} else {
 					newFiles[idx] = this.files[i];
@@ -106,13 +106,13 @@ public class DirLister implements ActionListener {
 			this.perms = this.con.getPermissions();
 			this.isDirectory = true;
 
-			if (this.sortMode != null) {
+			if (null != this.sortMode) {
 				if (!this.sortMode.equals("Date")) {
 					this.sortFirst();
 				}
 
 				this.sort(this.sortMode);
-			} else if (this.sortMode == null) {
+			} else if (null == this.sortMode) {
 				this.sortFirst();
 			}
 		} catch (final Exception ex) {
@@ -133,7 +133,7 @@ public class DirLister implements ActionListener {
 				fv.add(this.files[i]);
 				sv.add(this.sizes[i]);
 
-				if (this.perms != null) {
+				if (null != this.perms) {
 					pv.add(this.perms[i]);
 				}
 			}
@@ -144,7 +144,7 @@ public class DirLister implements ActionListener {
 			final Object[] sizesTmp = sv.toArray();
 			Object[] permsTmp = null;
 
-			if (this.perms != null) {
+			if (null != this.perms) {
 				permsTmp = pv.toArray();
 			}
 
@@ -152,7 +152,7 @@ public class DirLister implements ActionListener {
 				this.files[i] = (String) filesTmp[i];
 				this.sizes[i] = (String) sizesTmp[this.length - i - 1];
 
-				if (this.perms != null) {
+				if (null != this.perms) {
 					this.perms[i] = (Integer) permsTmp[this.length - i - 1];
 				}
 			}
@@ -189,7 +189,7 @@ public class DirLister implements ActionListener {
 				fv.add(this.files[idx]);
 				sv.add(this.sizes[idx]);
 
-				if (this.perms != null) {
+				if (null != this.perms) {
 					pv.add(this.perms[idx]);
 				}
 
@@ -200,7 +200,7 @@ public class DirLister implements ActionListener {
 				this.files[i] = (String) fv.elementAt(i);
 				this.sizes[i] = (String) sv.elementAt(i);
 
-				if (this.perms != null) {
+				if (null != this.perms) {
 					this.perms[i] = (Integer) pv.elementAt(i);
 				}
 			}
@@ -208,8 +208,8 @@ public class DirLister implements ActionListener {
 			String style = "ftp";
 
 			//TODO: may be slow
-			if (!(this.con instanceof FtpConnection) || (((FtpConnection) this.con).dateVector == null) || (((FtpConnection) this.con).dateVector.size() < 1)) {
-				if (!(this.con instanceof FilesystemConnection) || (((FilesystemConnection) this.con).dateVector == null) || (((FilesystemConnection) this.con).dateVector.size() < 1)) {
+			if (!(this.con instanceof FtpConnection) || (null == ((net.sf.jftp.net.FtpConnection) this.con).dateVector) || (1 > ((net.sf.jftp.net.FtpConnection) this.con).dateVector.size())) {
+				if (!(this.con instanceof FilesystemConnection) || (null == ((net.sf.jftp.net.FilesystemConnection) this.con).dateVector) || (1 > ((net.sf.jftp.net.FilesystemConnection) this.con).dateVector.size())) {
 				} else {
 					style = "file";
 				}
@@ -275,14 +275,14 @@ public class DirLister implements ActionListener {
 		c2.clear();
 		c2.setTime(two);
 
-		return c.getTime().compareTo(c2.getTime()) > 0;
+		return 0 < c.getTime().compareTo(c2.getTime());
 	}
 
 	public void sortFirst() {
 		final String[] tmpx = new String[this.length];
 
 		for (int x = 0; x < this.length; x++) {
-			if (this.perms != null) {
+			if (null != this.perms) {
 				tmpx[x] = this.files[x] + "@@@" + this.sizes[x] + "@@@" + this.perms[x];
 
 			} else {
@@ -298,7 +298,7 @@ public class DirLister implements ActionListener {
 			final String tmp = tmpx[y].substring(tmpx[y].indexOf("@@@") + 3);
 			this.sizes[y] = tmp.substring(0, tmp.lastIndexOf("@@@"));
 
-			if (this.perms != null) {
+			if (null != this.perms) {
 				this.perms[y] = Integer.parseInt(tmpx[y].substring(tmpx[y].lastIndexOf("@@@") + 3));
 			}
 		}
