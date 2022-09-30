@@ -31,89 +31,89 @@ public class HttpTransfer extends Transfer implements Runnable {
 		this.listeners = listeners;
 		this.handler = handler;
 
-		file = net.sf.jftp.system.StringUtils.getFile(url);
+		this.file = net.sf.jftp.system.StringUtils.getFile(url);
 
 		this.prepare();
 	}
 
 	public void prepare() {
-		runner = new Thread(this);
-		runner.setPriority(Thread.MIN_PRIORITY);
-		runner.start();
+		this.runner = new Thread(this);
+		this.runner.setPriority(Thread.MIN_PRIORITY);
+		this.runner.start();
 	}
 
 	public void run() {
 		try {
-			if (handler.getConnections().get(file) == null) {
-				net.sf.jftp.system.logging.Log.out("download started: " + url);
-				net.sf.jftp.system.logging.Log.out("connection handler present: " + handler + ", poll size: " + handler.getConnections().size());
-				net.sf.jftp.system.logging.Log.out("local file: " + localPath + file);
-				handler.addConnection(file, this);
+			if (this.handler.getConnections().get(this.file) == null) {
+				net.sf.jftp.system.logging.Log.out("download started: " + this.url);
+				net.sf.jftp.system.logging.Log.out("connection handler present: " + this.handler + ", poll size: " + this.handler.getConnections().size());
+				net.sf.jftp.system.logging.Log.out("local file: " + this.localPath + this.file);
+				this.handler.addConnection(this.file, this);
 			} else {
-				net.sf.jftp.system.logging.Log.debug("Transfer already in progress: " + file);
-				work = false;
-				stat = 2;
+				net.sf.jftp.system.logging.Log.debug("Transfer already in progress: " + this.file);
+				this.work = false;
+				this.stat = 2;
 
 				return;
 			}
 
-			final URL u = new URL(url);
+			final URL u = new URL(this.url);
 
-			final BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(localPath + file));
+			final BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(this.localPath + this.file));
 			final BufferedInputStream in = new BufferedInputStream(u.openStream());
 			final byte[] buf = new byte[4096];
 			int len = 0;
 
-			while ((stat > 0) && work) {
-				stat = in.read(buf);
+			while ((this.stat > 0) && this.work) {
+				this.stat = in.read(buf);
 
-				if (stat == -1) {
+				if (this.stat == -1) {
 					break;
 				}
 
-				f.write(buf, 0, stat);
+				f.write(buf, 0, this.stat);
 
-				len += stat;
-				this.fireProgressUpdate(file, DataConnection.GET, len);
+				len += this.stat;
+				this.fireProgressUpdate(this.file, DataConnection.GET, len);
 			}
 
 			f.flush();
 			f.close();
 			in.close();
 
-			this.fireProgressUpdate(file, DataConnection.FINISHED, len);
+			this.fireProgressUpdate(this.file, DataConnection.FINISHED, len);
 		} catch (final Exception ex) {
-			work = false;
+			this.work = false;
 			net.sf.jftp.system.logging.Log.debug("Download failed: " + ex);
 
-			final File f = new File(localPath + file);
+			final File f = new File(this.localPath + this.file);
 			f.delete();
-			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
+			this.fireProgressUpdate(this.file, DataConnection.FAILED, -1);
 
 			ex.printStackTrace();
 
 			return;
 		}
 
-		if (!work) {
-			final File f = new File(localPath + file);
+		if (!this.work) {
+			final File f = new File(this.localPath + this.file);
 			f.delete();
-			net.sf.jftp.system.logging.Log.out("download aborted: " + file);
+			net.sf.jftp.system.logging.Log.out("download aborted: " + this.file);
 		}
 	}
 
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 			return;
 		}
 
-		for (int i = 0; i < listeners.size(); i++) {
-			((ConnectionListener) listeners.elementAt(i)).updateProgress(file, type, bytes);
+		for (int i = 0; i < this.listeners.size(); i++) {
+			((ConnectionListener) this.listeners.elementAt(i)).updateProgress(file, type, bytes);
 		}
 	}
 
 	public int getStatus() {
-		return stat;
+		return this.stat;
 	}
 
 	public boolean hasStarted() {

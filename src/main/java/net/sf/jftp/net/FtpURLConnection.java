@@ -35,7 +35,7 @@ public class FtpURLConnection extends URLConnection {
 		super(u);
 
 		final int port = u.getPort() > 0 ? u.getPort() : 21;
-		connection = new FtpConnection(u.getHost(), port, net.sf.jftp.config.Settings.defaultDir);
+		this.connection = new FtpConnection(u.getHost(), port, net.sf.jftp.config.Settings.defaultDir);
 
 		final String userInfo = u.getUserInfo();
 
@@ -43,8 +43,8 @@ public class FtpURLConnection extends URLConnection {
 			final int index = userInfo.indexOf(":");
 
 			if (index != -1) {
-				username = userInfo.substring(0, index);
-				password = userInfo.substring(index + 1);
+				this.username = userInfo.substring(0, index);
+				this.password = userInfo.substring(index + 1);
 			}
 		}
 
@@ -60,18 +60,18 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public void connect() throws IOException {
-		loginFlag = connection.login(username, password);
+		this.loginFlag = this.connection.login(this.username, this.password);
 
-		if (loginFlag != FtpConnection.LOGIN_OK) {
+		if (this.loginFlag != FtpConnection.LOGIN_OK) {
 			return;
 		}
 
 		//System.out.println(url.getPath());
-		connection.chdir(url.getPath());
+		this.connection.chdir(this.url.getPath());
 	}
 
 	public FtpConnection getFtpConnection() {
-		return connection;
+		return this.connection;
 	}
 
 	public InputStream getInputStream() throws IOException {
@@ -83,19 +83,19 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public String getUser() {
-		return username;
+		return this.username;
 	}
 
 	public String getPass() {
-		return password;
+		return this.password;
 	}
 
 	public String getHost() {
-		return url.getHost();
+		return this.url.getHost();
 	}
 
 	public int getPort() {
-		final int ret = url.getPort();
+		final int ret = this.url.getPort();
 
 		if (ret <= 0) {
 			return 21;
@@ -105,10 +105,10 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public int getLoginResponse() {
-		return loginFlag;
+		return this.loginFlag;
 	}
 
 	public boolean loginSucceeded() {
-		return loginFlag == FtpConnection.LOGIN_OK;
+		return this.loginFlag == FtpConnection.LOGIN_OK;
 	}
 }

@@ -70,23 +70,23 @@ public class Sftp2Connection implements BasicConnection {
 	private boolean login() {
 		try {
 			final JSch jsch = new JSch();
-			if (keyfile != null) {
-				jsch.addIdentity(keyfile);
+			if (this.keyfile != null) {
+				jsch.addIdentity(this.keyfile);
 			}
-			session = jsch.getSession(user, host, this.port);
-			final UserInfo ui = new MyUserInfo(pass);
-			session.setUserInfo(ui);
-			session.connect();
+			this.session = jsch.getSession(this.user, this.host, this.port);
+			final UserInfo ui = new MyUserInfo(this.pass);
+			this.session.setUserInfo(ui);
+			this.session.connect();
 
 
-			channel = (ChannelSftp) session.openChannel("sftp");
-			channel.connect();
+			this.channel = (ChannelSftp) this.session.openChannel("sftp");
+			this.channel.connect();
 
-			net.sf.jftp.system.logging.Log.debug("Host: " + host + ":" + port);
+			net.sf.jftp.system.logging.Log.debug("Host: " + this.host + ":" + this.port);
 
-			pwd = channel.pwd();
+			this.pwd = this.channel.pwd();
 
-			connected = true;
+			this.connected = true;
 			return true;
 		} catch (final Exception ex) {
 			ex.printStackTrace();
@@ -103,11 +103,11 @@ public class Sftp2Connection implements BasicConnection {
 
 			if (!file.endsWith("/")) {
 				net.sf.jftp.system.logging.Log.out(">>>>>>>> remove file: " + file);
-				channel.rm(file);
+				this.channel.rm(file);
 			} else {
 				net.sf.jftp.system.logging.Log.out(">>>>>>>> remove dir: " + file);
 				this.cleanSftpDir(file);
-				channel.rmdir(file);
+				this.channel.rmdir(file);
 			}
 		} catch (final Exception ex) {
 			ex.printStackTrace();
@@ -123,7 +123,7 @@ public class Sftp2Connection implements BasicConnection {
 	private void cleanSftpDir(final String dir) throws Exception {
 		net.sf.jftp.system.logging.Log.out(">>>>>>>> cleanSftpDir: " + dir);
 
-		final Vector v = channel.ls(dir);
+		final Vector v = this.channel.ls(dir);
 
 		final String[] tmp = new String[v.size()];
 		final Enumeration e = v.elements();
@@ -154,9 +154,9 @@ public class Sftp2Connection implements BasicConnection {
 
 			if (s.endsWith("/")) {
 				this.cleanSftpDir(dir + s);
-				channel.rmdir(dir + s);
+				this.channel.rmdir(dir + s);
 			} else {
-				channel.rm(dir + s);
+				this.channel.rm(dir + s);
 			}
 		}
 	}
@@ -166,23 +166,23 @@ public class Sftp2Connection implements BasicConnection {
 
 	public void disconnect() {
 		try {
-			channel.disconnect();
-			session.disconnect();
+			this.channel.disconnect();
+			this.session.disconnect();
 		} catch (final Exception e) {
 			e.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("Sftp2Connection.disconnect()" + e);
 		}
 
-		connected = false;
+		this.connected = false;
 	}
 
 	public boolean isConnected() {
-		return connected;
+		return this.connected;
 	}
 
 	public String getPWD() {
 		//Log.debug("PWD: " + pwd);
-		return this.toSFTPDir(pwd);
+		return this.toSFTPDir(this.pwd);
 	}
 
 	public boolean mkdir(String dirName) {
@@ -193,7 +193,7 @@ public class Sftp2Connection implements BasicConnection {
 
 			dirName = this.toSFTP(dirName);
 
-			channel.mkdir(dirName);
+			this.channel.mkdir(dirName);
 
 			this.fireDirectoryUpdate();
 
@@ -223,10 +223,10 @@ public class Sftp2Connection implements BasicConnection {
 				return this.cdup();
 			}
 
-			System.out.println("sftp path: " + tmp + ", chan: " + channel);
-			channel.cd(tmp);
+			System.out.println("sftp path: " + tmp + ", chan: " + this.channel);
+			this.channel.cd(tmp);
 
-			pwd = tmp;
+			this.pwd = tmp;
 
 			//Log.debug("chdir: " + getPWD());
 			if (refresh) {
@@ -244,10 +244,10 @@ public class Sftp2Connection implements BasicConnection {
 	}
 
 	public boolean cdup() {
-		String tmp = pwd;
+		String tmp = this.pwd;
 
-		if (pwd.endsWith("/")) {
-			tmp = pwd.substring(0, pwd.lastIndexOf("/"));
+		if (this.pwd.endsWith("/")) {
+			tmp = this.pwd.substring(0, this.pwd.lastIndexOf("/"));
 		}
 
 		return this.chdir(tmp.substring(0, tmp.lastIndexOf("/") + 1));
@@ -258,12 +258,12 @@ public class Sftp2Connection implements BasicConnection {
 	}
 
 	public String getLocalPath() {
-		return path;
+		return this.path;
 	}
 
 	public boolean setLocalPath(String p) {
 		if (net.sf.jftp.system.StringUtils.isRelative(p)) {
-			p = path + p;
+			p = this.path + p;
 		}
 
 		p = p.replace('\\', '/');
@@ -273,11 +273,11 @@ public class Sftp2Connection implements BasicConnection {
 
 		if (f.exists()) {
 			try {
-				path = f.getCanonicalPath();
-				path = path.replace('\\', '/');
+				this.path = f.getCanonicalPath();
+				this.path = this.path.replace('\\', '/');
 
-				if (!path.endsWith("/")) {
-					path = path + "/";
+				if (!this.path.endsWith("/")) {
+					this.path = this.path + "/";
 				}
 
 				//System.out.println("localPath: "+path);
@@ -297,13 +297,13 @@ public class Sftp2Connection implements BasicConnection {
 
 	public String[] sortLs() {
 		try {
-			System.out.println(pwd);
-			final Vector v = channel.ls(pwd);
+			System.out.println(this.pwd);
+			final Vector v = this.channel.ls(this.pwd);
 
 			final String[] tmp = new String[v.size()];
 			final String[] files = new String[tmp.length];
-			size = new String[tmp.length];
-			perms = new int[tmp.length];
+			this.size = new String[tmp.length];
+			this.perms = new int[tmp.length];
 
 			final Enumeration e = v.elements();
 			int x = 0;
@@ -312,7 +312,7 @@ public class Sftp2Connection implements BasicConnection {
 				final LsEntry entry = ((LsEntry) e.nextElement());
 				tmp[x] = entry.getFilename();
 
-				size[x] = "" + entry.getAttrs().getSize();
+				this.size[x] = "" + entry.getAttrs().getSize();
 
 				//Log.debug("Perms: "+entry.getAttrs().getPermissionsString());
                 
@@ -323,7 +323,7 @@ public class Sftp2Connection implements BasicConnection {
                 }
                 else
                 {*/
-				perms[x] = FtpConnection.R;
+				this.perms[x] = FtpConnection.R;
 				//}
 
 				//Log.debugRaw(".");
@@ -345,17 +345,17 @@ public class Sftp2Connection implements BasicConnection {
 	}
 
 	public String[] sortSize() {
-		return size;
+		return this.size;
 	}
 
 	public int[] getPermissions() {
-		return perms;
+		return this.perms;
 	}
 
 	public int handleUpload(final String f) {
 		if (net.sf.jftp.config.Settings.getEnableSftpMultiThreading()) {
 
-			final Sftp2Transfer t = new Sftp2Transfer(path, this.getPWD(), f, user, pass, listeners, Transfer.UPLOAD, keyfile, host, "" + port);
+			final Sftp2Transfer t = new Sftp2Transfer(this.path, this.getPWD(), f, this.user, this.pass, this.listeners, Transfer.UPLOAD, this.keyfile, this.host, "" + this.port);
 		} else {
 			this.upload(f);
 		}
@@ -365,7 +365,7 @@ public class Sftp2Connection implements BasicConnection {
 
 	public int handleDownload(final String f) {
 		if (net.sf.jftp.config.Settings.getEnableSftpMultiThreading()) {
-			final Sftp2Transfer t = new Sftp2Transfer(path, this.getPWD(), f, user, pass, listeners, Transfer.DOWNLOAD, keyfile, host, "" + port);
+			final Sftp2Transfer t = new Sftp2Transfer(this.path, this.getPWD(), f, this.user, this.pass, this.listeners, Transfer.DOWNLOAD, this.keyfile, this.host, "" + this.port);
 		} else {
 			this.download(f);
 		}
@@ -378,13 +378,13 @@ public class Sftp2Connection implements BasicConnection {
 
 		if (file.endsWith("/")) {
 			final String out = net.sf.jftp.system.StringUtils.getDir(file);
-			this.uploadDir(file, path + out);
+			this.uploadDir(file, this.path + out);
 			this.fireActionFinished(this);
 		} else {
 			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			this.work(path + outfile, file, true);
+			this.work(this.path + outfile, file, true);
 			this.fireActionFinished(this);
 		}
 
@@ -396,13 +396,13 @@ public class Sftp2Connection implements BasicConnection {
 
 		if (file.endsWith("/")) {
 			final String out = net.sf.jftp.system.StringUtils.getDir(file);
-			this.downloadDir(file, path + out);
+			this.downloadDir(file, this.path + out);
 			this.fireActionFinished(this);
 		} else {
 			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			this.work(file, path + outfile, false);
+			this.work(file, this.path + outfile, false);
 			this.fireActionFinished(this);
 		}
 
@@ -412,11 +412,11 @@ public class Sftp2Connection implements BasicConnection {
 	private void downloadDir(final String dir, final String out) {
 		try {
 			//System.out.println("downloadDir: " + dir + "," + out);
-			fileCount = 0;
-			shortProgress = true;
-			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
+			this.fileCount = 0;
+			this.shortProgress = true;
+			this.baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-			final Vector v = channel.ls(dir);
+			final Vector v = this.channel.ls(dir);
 
 			final String[] tmp = new String[v.size()];
 			final Enumeration e = v.elements();
@@ -452,8 +452,8 @@ public class Sftp2Connection implements BasicConnection {
 
 					this.downloadDir(dir + tmp[i], out + tmp[i]);
 				} else {
-					fileCount++;
-					this.fireProgressUpdate(baseFile, DataConnection.GETDIR + ":" + fileCount, -1);
+					this.fileCount++;
+					this.fireProgressUpdate(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, -1);
 					this.work(dir + tmp[i], out + tmp[i], false);
 				}
 
@@ -461,24 +461,24 @@ public class Sftp2Connection implements BasicConnection {
 
 			//System.out.println("enddir");
 
-			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, -1);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			System.out.println(dir + ", " + out);
 			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
-			this.fireProgressUpdate(baseFile, DataConnection.FAILED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.FAILED + ":" + this.fileCount, -1);
 		}
 
-		shortProgress = false;
+		this.shortProgress = false;
 	}
 
 	private void uploadDir(final String dir, final String out) {
 		try {
 			//System.out.println("uploadDir: " + dir + "," + out);
-			isDirUpload = true;
-			fileCount = 0;
-			shortProgress = true;
-			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
+			this.isDirUpload = true;
+			this.fileCount = 0;
+			this.shortProgress = true;
+			this.baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
 			final File f2 = new File(out);
 			final String[] tmp = f2.list();
@@ -487,7 +487,7 @@ public class Sftp2Connection implements BasicConnection {
 				return;
 			}
 
-			channel.mkdir(dir);
+			this.channel.mkdir(dir);
 			//channel.chmod(744, dir);
 
 			for (int i = 0; i < tmp.length; i++) {
@@ -507,22 +507,22 @@ public class Sftp2Connection implements BasicConnection {
 
 					this.uploadDir(dir + tmp[i], out + tmp[i]);
 				} else {
-					fileCount++;
-					this.fireProgressUpdate(baseFile, DataConnection.PUTDIR + ":" + fileCount, -1);
+					this.fileCount++;
+					this.fireProgressUpdate(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, -1);
 					this.work(out + tmp[i], dir + tmp[i], true);
 				}
 			}
 
-			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, -1);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			System.out.println(dir + ", " + out);
 			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
-			this.fireProgressUpdate(baseFile, DataConnection.FAILED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.FAILED + ":" + this.fileCount, -1);
 		}
 
-		isDirUpload = false;
-		shortProgress = true;
+		this.isDirUpload = false;
+		this.shortProgress = true;
 	}
 
 	private String toSFTP(final String f) {
@@ -546,7 +546,7 @@ public class Sftp2Connection implements BasicConnection {
 		if (f.startsWith("/")) {
 			file = f;
 		} else {
-			file = pwd + f;
+			file = this.pwd + f;
 		}
 
 		file = file.replace('\\', '/');
@@ -571,18 +571,18 @@ public class Sftp2Connection implements BasicConnection {
 			if (up) {
 				in = new BufferedInputStream(new FileInputStream(file));
 			} else {
-				in = new BufferedInputStream(channel.get(file));
+				in = new BufferedInputStream(this.channel.get(file));
 			}
 
 			if (up) {
 				outflag = true;
 
 				try {
-					channel.rm(outfile);
+					this.channel.rm(outfile);
 				} catch (final Exception ex) {
 
 				}
-				out = new BufferedOutputStream(channel.put(outfile));
+				out = new BufferedOutputStream(this.channel.put(outfile));
 			} else {
 				out = new BufferedOutputStream(new FileOutputStream(outfile));
 			}
@@ -638,7 +638,7 @@ public class Sftp2Connection implements BasicConnection {
 			oldName = this.toSFTP(oldName);
 			newName = this.toSFTP(newName);
 
-			channel.rename(oldName, newName);
+			this.channel.rename(oldName, newName);
 
 			return true;
 		} catch (final Exception ex) {
@@ -651,31 +651,31 @@ public class Sftp2Connection implements BasicConnection {
 	}
 
 	private void update(final String file, final String type, final int bytes) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
 	}
 
 	public void addConnectionListener(final ConnectionListener l) {
-		listeners.add(l);
+		this.listeners.add(l);
 	}
 
 	public void setConnectionListeners(final Vector l) {
-		listeners = l;
+		this.listeners = l;
 	}
 
 	/**
 	 * remote directory has changed
 	 */
 	public void fireDirectoryUpdate() {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				((ConnectionListener) listeners.elementAt(i)).updateRemoteDirectory(this);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -701,20 +701,20 @@ public class Sftp2Connection implements BasicConnection {
 	 * progress update
 	 */
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 			return;
 		}
 
-		for (int i = 0; i < listeners.size(); i++) {
-			final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+		for (int i = 0; i < this.listeners.size(); i++) {
+			final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
 
-			if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
+			if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 				if (type.startsWith(DataConnection.DFINISHED)) {
-					listener.updateProgress(baseFile, DataConnection.DFINISHED + ":" + fileCount, bytes);
-				} else if (isDirUpload) {
-					listener.updateProgress(baseFile, DataConnection.PUTDIR + ":" + fileCount, bytes);
+					listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
+				} else if (this.isDirUpload) {
+					listener.updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
 				} else {
-					listener.updateProgress(baseFile, DataConnection.GETDIR + ":" + fileCount, bytes);
+					listener.updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
 				}
 			} else {
 				listener.updateProgress(file, type, bytes);
@@ -723,10 +723,10 @@ public class Sftp2Connection implements BasicConnection {
 	}
 
 	public void fireActionFinished(final Sftp2Connection con) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				((ConnectionListener) listeners.elementAt(i)).actionFinished(con);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				((ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
 			}
 		}
 	}
@@ -738,7 +738,7 @@ public class Sftp2Connection implements BasicConnection {
 		try {
 			file = this.toSFTP(file);
 
-			out = new BufferedOutputStream(channel.put(file));
+			out = new BufferedOutputStream(this.channel.put(file));
 			in = new BufferedInputStream(i);
 
 			//Log.debug(getLocalPath() + ":" + file+ ":"+getPWD());
@@ -791,7 +791,7 @@ public class Sftp2Connection implements BasicConnection {
 	public InputStream getDownloadInputStream(final String file) {
 		try {
 
-			return channel.get(file);
+			return this.channel.get(file);
 		} catch (final SftpException ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @Sftp2Connection::getDownloadInputStream");
@@ -814,7 +814,7 @@ class MyUserInfo implements UserInfo {
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public boolean promptYesNo(final String str) {
@@ -822,7 +822,7 @@ class MyUserInfo implements UserInfo {
 	}
 
 	public String getPassphrase() {
-		return password;
+		return this.password;
 	}
 
 	public boolean promptPassphrase(final String message) {

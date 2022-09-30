@@ -46,32 +46,32 @@ public class Displayer extends JInternalFrame implements ActionListener {
 
 		this.load(file);
 		if (font != null) {
-			info.setFont(font);
+			this.info.setFont(font);
 		} else {
-			info.setFont(new Font("monospaced", Font.PLAIN, 11));
+			this.info.setFont(new Font("monospaced", Font.PLAIN, 11));
 		}
-		info.setEditable(false);
+		this.info.setEditable(false);
 
-		final JScrollPane jsp = new JScrollPane(info);
+		final JScrollPane jsp = new JScrollPane(this.info);
 		this.getContentPane().add("Center", jsp);
 
 		final net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
-		closeP.add(close);
+		closeP.add(this.close);
 
-		close.addActionListener(this);
+		this.close.addActionListener(this);
 
 		if (net.sf.jftp.gui.tasks.Displayer.showCloseButton) {
 			this.getContentPane().add("South", closeP);
 		}
 
-		info.setCaretPosition(0);
+		this.info.setCaretPosition(0);
 
 		this.setVisible(true);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == close) {
+		if (e.getSource() == this.close) {
 			this.dispose();
 		}
 	}
@@ -90,7 +90,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
 		}
 
-		info.setText(now.toString());
+		this.info.setText(now.toString());
 	}
 
 	public Insets getInsets() {

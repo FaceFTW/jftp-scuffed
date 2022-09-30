@@ -36,22 +36,22 @@ public class DirCanvas extends JPanel implements MouseListener {
 	public DirCanvas(final Dir target) {
 		this.target = target;
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
-		this.add(text);
+		this.add(this.text);
 		this.addMouseListener(this);
 		this.setVisible(true);
 	}
 
 	public void mouseClicked(final MouseEvent e) {
-		if (target.getType().equals("local") || target.getCon() instanceof FilesystemConnection) {
+		if (this.target.getType().equals("local") || this.target.getCon() instanceof FilesystemConnection) {
 			final String tmp = UITool.getPathFromDialog(Settings.defaultWorkDir);
 
 			if (tmp != null) {
-				target.setPath(tmp);
-				target.fresh();
+				this.target.setPath(tmp);
+				this.target.fresh();
 			}
 		} else {
 			final PathChanger p = new PathChanger("remote");
-			target.fresh();
+			this.target.fresh();
 		}
 	}
 
@@ -63,23 +63,23 @@ public class DirCanvas extends JPanel implements MouseListener {
 
 	public void mouseEntered(final MouseEvent e) {
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		active = true;
+		this.active = true;
 		this.repaint();
 	}
 
 	public void mouseExited(final MouseEvent e) {
 		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		active = false;
+		this.active = false;
 		this.repaint();
 	}
 
 	public void setText(final String msg) {
-		text.setText(msg);
+		this.text.setText(msg);
 		this.validate();
 	}
 
 	public void paintComponent(final Graphics g) {
-		if (!active) {
+		if (!this.active) {
 			g.setColor(GUIDefaults.light);
 		} else {
 			g.setColor(GUIDefaults.lightActive);

@@ -33,11 +33,11 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 
 		final javax.swing.JLabel text = new javax.swing.JLabel();
 		text.setText("Default values for commands can be overridden here.");
-		statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
+		this.statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
 
 		text.setPreferredSize(new Dimension(400, 30));
 
-		statusText.setPreferredSize(new Dimension(400, 30));
+		this.statusText.setPreferredSize(new Dimension(400, 30));
 
 		String listOptionText = "";
 		if (net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet) {
@@ -52,12 +52,12 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 			}
 		}
 
-		listCommand.setText(listOptionText);
+		this.listCommand.setText(listOptionText);
 
 		final net.sf.jftp.gui.framework.HPanel content = new net.sf.jftp.gui.framework.HPanel();
 		final net.sf.jftp.gui.framework.HPanel panel = new net.sf.jftp.gui.framework.HPanel();
-		panel.add(listCommand);
-		panel.add(setListCommand);
+		panel.add(this.listCommand);
+		panel.add(this.setListCommand);
 
 		final javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
 		panel.add(saveCommand);
@@ -68,29 +68,29 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		this.add("North", text);
 		this.add("Center", content);
 
-		this.add("South", statusText);
+		this.add("South", this.statusText);
 
-		setListCommand.addActionListener(this);
+		this.setListCommand.addActionListener(this);
 		saveCommand.addActionListener(this);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == setListCommand) {
-			net.sf.jftp.net.FtpConnection.LIST = listCommand.getText().trim();
+		if (e.getSource() == this.setListCommand) {
+			net.sf.jftp.net.FtpConnection.LIST = this.listCommand.getText().trim();
 
-			statusText.setText("LIST command set.");
+			this.statusText.setText("LIST command set.");
 			net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet = true;
 
 		}
 
 		else {
-			net.sf.jftp.net.FtpConnection.LIST = listCommand.getText().trim();
+			net.sf.jftp.net.FtpConnection.LIST = this.listCommand.getText().trim();
 
 			net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet = true;
 
-			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, listCommand.getText().trim());
+			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, this.listCommand.getText().trim());
 
-			statusText.setText("LIST command set and saved.");
+			this.statusText.setText("LIST command set and saved.");
 
 
 		}

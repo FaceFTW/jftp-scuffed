@@ -29,10 +29,10 @@ public class FtpEvent extends Event {
 	}
 
 	public String eventMsg() {
-		return message;
+		return this.message;
 	}
 
 	public int eventCode() {
-		return code;
+		return this.code;
 	}
 }

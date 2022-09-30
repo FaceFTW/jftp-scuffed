@@ -54,22 +54,22 @@ public class NfsConnection implements BasicConnection {
 	public NfsConnection(final String url) {
 		this.url = url;
 
-		host = url.substring(6);
+		this.host = url.substring(6);
 
-		final int x = host.indexOf("/");
+		final int x = this.host.indexOf("/");
 
 		if (x >= 0) {
-			host = host.substring(0, x);
+			this.host = this.host.substring(0, x);
 		}
 
-		net.sf.jftp.system.logging.Log.out("nfs host is: " + host);
+		net.sf.jftp.system.logging.Log.out("nfs host is: " + this.host);
 	}
 
 	public boolean login(final String user, final String pass) {
-		net.sf.jftp.system.logging.Log.out("nfs login called: " + url);
+		net.sf.jftp.system.logging.Log.out("nfs login called: " + this.url);
 
 		try {
-			final XFile xf = new XFile(url);
+			final XFile xf = new XFile(this.url);
 
 			if (xf.exists()) {
 				net.sf.jftp.system.logging.Log.out("nfs url ok");
@@ -79,7 +79,7 @@ public class NfsConnection implements BasicConnection {
 
 			final com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
-			if (!nfsx.loginPCNFSD(host, user, pass)) {
+			if (!nfsx.loginPCNFSD(this.host, user, pass)) {
 				net.sf.jftp.system.logging.Log.out("login failed!");
 
 				return false;
@@ -94,7 +94,7 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public String[] getExports() throws Exception {
-		final XFile xf = new XFile(url);
+		final XFile xf = new XFile(this.url);
 		final com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
 		final String[] tmp = nfsx.getExports();
@@ -181,7 +181,7 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public String getPWD() {
-		String tmp = this.toNFS(pwd);
+		String tmp = this.toNFS(this.pwd);
 
 		if (!tmp.endsWith("/")) {
 			tmp = tmp + "/";
@@ -191,10 +191,10 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public boolean cdup() {
-		String tmp = pwd;
+		String tmp = this.pwd;
 
-		if (pwd.endsWith("/") && !pwd.equals("nfs://")) {
-			tmp = pwd.substring(0, pwd.lastIndexOf("/"));
+		if (this.pwd.endsWith("/") && !this.pwd.equals("nfs://")) {
+			tmp = this.pwd.substring(0, this.pwd.lastIndexOf("/"));
 		}
 
 		return this.chdir(tmp.substring(0, tmp.lastIndexOf("/") + 1));
@@ -237,7 +237,7 @@ public class NfsConnection implements BasicConnection {
 			return false;
 		}
 
-		pwd = tmp;
+		this.pwd = tmp;
 
 		if (refresh) {
 			this.fireDirectoryUpdate();
@@ -263,7 +263,7 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public String getLocalPath() {
-		return path;
+		return this.path;
 	}
 
 	private String toNFS(String f) {
@@ -288,18 +288,18 @@ public class NfsConnection implements BasicConnection {
 
 	public boolean setLocalPath(String p) {
 		if (!p.startsWith("/") && !p.startsWith(":", 1)) {
-			p = path + p;
+			p = this.path + p;
 		}
 
 		final File f = new File(p);
 
 		if (f.exists()) {
 			try {
-				path = f.getCanonicalPath();
-				path = path.replace('\\', '/');
+				this.path = f.getCanonicalPath();
+				this.path = this.path.replace('\\', '/');
 
-				if (!path.endsWith("/")) {
-					path = path + "/";
+				if (!this.path.endsWith("/")) {
+					this.path = this.path + "/";
 				}
 
 			} catch (final IOException ex) {
@@ -321,33 +321,33 @@ public class NfsConnection implements BasicConnection {
 
 		if (this.check(this.toNFS(dir)) == 3) {
 			try {
-				files = this.getExports();
+				this.files = this.getExports();
 			} catch (final Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Can not list exports:" + ex);
 				ex.printStackTrace();
 			}
 		} else {
 			final XFile f = new XFile(dir);
-			files = f.list();
+			this.files = f.list();
 		}
 
-		if (files == null) {
+		if (this.files == null) {
 			return new String[0];
 		}
 
-		size = new String[files.length];
-		perms = new int[files.length];
+		this.size = new String[this.files.length];
+		this.perms = new int[this.files.length];
 
 		int accessible = 0;
 
-		for (int i = 0; i < files.length; i++) {
-			final XFile f2 = new XFile(dir + files[i]);
+		for (int i = 0; i < this.files.length; i++) {
+			final XFile f2 = new XFile(dir + this.files[i]);
 
-			if (f2.isDirectory() && !files[i].endsWith("/")) {
-				files[i] = files[i] + "/";
+			if (f2.isDirectory() && !this.files[i].endsWith("/")) {
+				this.files[i] = this.files[i] + "/";
 			}
 
-			size[i] = "" + f2.length();
+			this.size[i] = "" + f2.length();
 
 			if (f2.canWrite()) {
 				accessible = FtpConnection.W;
@@ -357,18 +357,18 @@ public class NfsConnection implements BasicConnection {
 				accessible = FtpConnection.DENIED;
 			}
 
-			perms[i] = accessible;
+			this.perms[i] = accessible;
 		}
 
-		return files;
+		return this.files;
 	}
 
 	public String[] sortSize() {
-		return size;
+		return this.size;
 	}
 
 	public int[] getPermissions() {
-		return perms;
+		return this.perms;
 	}
 
 	public int handleUpload(final String f) {
@@ -388,12 +388,12 @@ public class NfsConnection implements BasicConnection {
 
 		if (file.endsWith("/")) {
 			final String out = net.sf.jftp.system.StringUtils.getDir(file);
-			this.uploadDir(file, path + out);
+			this.uploadDir(file, this.path + out);
 			this.fireActionFinished(this);
 		} else {
 			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
-			this.work(path + outfile, file);
+			this.work(this.path + outfile, file);
 			this.fireActionFinished(this);
 		}
 
@@ -405,11 +405,11 @@ public class NfsConnection implements BasicConnection {
 
 		if (file.endsWith("/")) {
 			final String out = net.sf.jftp.system.StringUtils.getDir(file);
-			this.downloadDir(file, path + out);
+			this.downloadDir(file, this.path + out);
 			this.fireActionFinished(this);
 		} else {
 			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
-			this.work(file, path + outfile);
+			this.work(file, this.path + outfile);
 			this.fireActionFinished(this);
 		}
 
@@ -418,9 +418,9 @@ public class NfsConnection implements BasicConnection {
 
 	private void downloadDir(final String dir, final String out) {
 		try {
-			fileCount = 0;
-			shortProgress = true;
-			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
+			this.fileCount = 0;
+			this.shortProgress = true;
+			this.baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
 			final XFile f2 = new XFile(dir);
 			final String[] tmp = f2.list();
@@ -443,28 +443,28 @@ public class NfsConnection implements BasicConnection {
 
 					this.downloadDir(dir + tmp[i], out + tmp[i]);
 				} else {
-					fileCount++;
-					this.fireProgressUpdate(baseFile, DataConnection.GETDIR + ":" + fileCount, -1);
+					this.fileCount++;
+					this.fireProgressUpdate(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, -1);
 					this.work(dir + tmp[i], out + tmp[i]);
 				}
 			}
 
-			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, -1);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
-			this.fireProgressUpdate(baseFile, DataConnection.FAILED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.FAILED + ":" + this.fileCount, -1);
 		}
 
-		shortProgress = false;
+		this.shortProgress = false;
 	}
 
 	private void uploadDir(final String dir, final String out) {
 		try {
-			isDirUpload = true;
-			fileCount = 0;
-			shortProgress = true;
-			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
+			this.isDirUpload = true;
+			this.fileCount = 0;
+			this.shortProgress = true;
+			this.baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
 			final File f2 = new File(out);
 			final String[] tmp = f2.list();
@@ -489,23 +489,23 @@ public class NfsConnection implements BasicConnection {
 
 					this.uploadDir(dir + tmp[i], out + tmp[i]);
 				} else {
-					fileCount++;
-					this.fireProgressUpdate(baseFile, DataConnection.PUTDIR + ":" + fileCount, -1);
+					this.fileCount++;
+					this.fireProgressUpdate(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, -1);
 					this.work(out + tmp[i], dir + tmp[i]);
 				}
 			}
 
-			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, -1);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 
 			//System.out.println(dir + ", " + out);
 			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
-			this.fireProgressUpdate(baseFile, DataConnection.FAILED + ":" + fileCount, -1);
+			this.fireProgressUpdate(this.baseFile, DataConnection.FAILED + ":" + this.fileCount, -1);
 		}
 
-		isDirUpload = false;
-		shortProgress = true;
+		this.isDirUpload = false;
+		this.shortProgress = true;
 	}
 
 	private void work(final String file, final String outfile) {
@@ -569,31 +569,31 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	private void update(final String file, final String type, final int bytes) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
 	}
 
 	public void addConnectionListener(final ConnectionListener l) {
-		listeners.add(l);
+		this.listeners.add(l);
 	}
 
 	public void setConnectionListeners(final Vector l) {
-		listeners = l;
+		this.listeners = l;
 	}
 
 	/**
 	 * remote directory has changed
 	 */
 	public void fireDirectoryUpdate() {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				((ConnectionListener) listeners.elementAt(i)).updateRemoteDirectory(this);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -603,18 +603,18 @@ public class NfsConnection implements BasicConnection {
 	 */
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		//System.out.println(listener);
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				final ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
 
-				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
+				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
-						listener.updateProgress(baseFile, DataConnection.DFINISHED + ":" + fileCount, bytes);
-					} else if (isDirUpload) {
-						listener.updateProgress(baseFile, DataConnection.PUTDIR + ":" + fileCount, bytes);
+						listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
+					} else if (this.isDirUpload) {
+						listener.updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
 					} else {
-						listener.updateProgress(baseFile, DataConnection.GETDIR + ":" + fileCount, bytes);
+						listener.updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
 					}
 				} else {
 					listener.updateProgress(file, type, bytes);
@@ -624,10 +624,10 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public void fireActionFinished(final NfsConnection con) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				((ConnectionListener) listeners.elementAt(i)).actionFinished(con);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				((ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
 			}
 		}
 	}

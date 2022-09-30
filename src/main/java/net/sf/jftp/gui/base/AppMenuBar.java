@@ -123,125 +123,125 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 	final String[] lastConData = new String[JFtp.CAPACITY];
 	final Character charTab = '\t';
-	String tab = charTab.toString();
+	String tab = this.charTab.toString();
 	final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
 	final JMenuItem add = new JMenuItem("Add Bookmark...");
 	Hashtable marks;
-	JMenu current = bookmarks;
-	JMenu last = bookmarks;
+	JMenu current = this.bookmarks;
+	JMenu last = this.bookmarks;
 
 	public AppMenuBar(final JFtp jftp) {
 		this.jftp = jftp;
 
-		ftpCon.addActionListener(this);
-		close.addActionListener(this);
-		exit.addActionListener(this);
-		readme.addActionListener(this);
-		changelog.addActionListener(this);
-		todo.addActionListener(this);
-		resuming.addActionListener(this);
-		ask.addActionListener(this);
-		smbCon.addActionListener(this);
-		clear.addActionListener(this);
-		sftpCon.addActionListener(this);
-		rsyncCon.addActionListener(this);
+		this.ftpCon.addActionListener(this);
+		this.close.addActionListener(this);
+		this.exit.addActionListener(this);
+		this.readme.addActionListener(this);
+		this.changelog.addActionListener(this);
+		this.todo.addActionListener(this);
+		this.resuming.addActionListener(this);
+		this.ask.addActionListener(this);
+		this.smbCon.addActionListener(this);
+		this.clear.addActionListener(this);
+		this.sftpCon.addActionListener(this);
+		this.rsyncCon.addActionListener(this);
 		net.sf.jftp.gui.base.AppMenuBar.fadeMenu.addActionListener(this);
 		net.sf.jftp.gui.base.AppMenuBar.askToDelete.addActionListener(this);
-		smbThreads.addActionListener(this);
-		sftpThreads.addActionListener(this);
+		this.smbThreads.addActionListener(this);
+		this.sftpThreads.addActionListener(this);
 		net.sf.jftp.gui.base.AppMenuBar.debug.addActionListener(this);
 		net.sf.jftp.gui.base.AppMenuBar.disableLog.addActionListener(this);
-		http.addActionListener(this);
-		hp.addActionListener(this);
-		raw.addActionListener(this);
-		nfsCon.addActionListener(this);
-		spider.addActionListener(this);
-		proxy.addActionListener(this);
-		stdback.addActionListener(this);
-		opts.addActionListener(this);
-		webdavCon.addActionListener(this);
-		shell.addActionListener(this);
-		nl.addActionListener(this);
+		this.http.addActionListener(this);
+		this.hp.addActionListener(this);
+		this.raw.addActionListener(this);
+		this.nfsCon.addActionListener(this);
+		this.spider.addActionListener(this);
+		this.proxy.addActionListener(this);
+		this.stdback.addActionListener(this);
+		this.opts.addActionListener(this);
+		this.webdavCon.addActionListener(this);
+		this.shell.addActionListener(this);
+		this.nl.addActionListener(this);
 
-		localFtpCon.addActionListener(this);
-		localSftpCon.addActionListener(this);
-		localSmbCon.addActionListener(this);
-		localNfsCon.addActionListener(this);
-		localWebdavCon.addActionListener(this);
-		closeLocalCon.addActionListener(this);
-		add.addActionListener(this);
-		storePasswords.addActionListener(this);
-		rssDisabled.addActionListener(this);
-		loadRss.addActionListener(this);
-		loadSlash.addActionListener(this);
-		loadCNN1.addActionListener(this);
-		loadCNN2.addActionListener(this);
-		loadCNN3.addActionListener(this);
-		loadAudio.addActionListener(this);
-		useNewIcons.addActionListener(this);
-		hideHidden.addActionListener(this);
+		this.localFtpCon.addActionListener(this);
+		this.localSftpCon.addActionListener(this);
+		this.localSmbCon.addActionListener(this);
+		this.localNfsCon.addActionListener(this);
+		this.localWebdavCon.addActionListener(this);
+		this.closeLocalCon.addActionListener(this);
+		this.add.addActionListener(this);
+		this.storePasswords.addActionListener(this);
+		this.rssDisabled.addActionListener(this);
+		this.loadRss.addActionListener(this);
+		this.loadSlash.addActionListener(this);
+		this.loadCNN1.addActionListener(this);
+		this.loadCNN2.addActionListener(this);
+		this.loadCNN3.addActionListener(this);
+		this.loadAudio.addActionListener(this);
+		this.useNewIcons.addActionListener(this);
+		this.hideHidden.addActionListener(this);
 
 		net.sf.jftp.gui.base.AppMenuBar.clearItems.addActionListener(JFtp.dList);
 
-		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, java.awt.event.InputEvent.ALT_MASK));
+		this.clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, java.awt.event.InputEvent.ALT_MASK));
 		net.sf.jftp.gui.base.AppMenuBar.clearItems.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK));
-		changelog.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, java.awt.event.InputEvent.ALT_MASK));
-		readme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
-		todo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, java.awt.event.InputEvent.ALT_MASK));
+		this.changelog.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, java.awt.event.InputEvent.ALT_MASK));
+		this.readme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
+		this.todo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, java.awt.event.InputEvent.ALT_MASK));
 
 		this.resetFileItems();
 
-		ftp.add(resuming);
-		ftp.add(ask);
-		ftp.add(nl);
-		smb.add(smbThreads);
-		sftp.add(sftpThreads);
-		sftp.add(sshKeys);
-		security.add(net.sf.jftp.gui.base.AppMenuBar.askToDelete);
-		security.add(storePasswords);
+		this.ftp.add(this.resuming);
+		this.ftp.add(this.ask);
+		this.ftp.add(this.nl);
+		this.smb.add(this.smbThreads);
+		this.sftp.add(this.sftpThreads);
+		this.sftp.add(this.sshKeys);
+		this.security.add(net.sf.jftp.gui.base.AppMenuBar.askToDelete);
+		this.security.add(this.storePasswords);
 
-		cnn.add(loadCNN1);
-		cnn.add(loadCNN2);
-		cnn.add(loadCNN3);
+		this.cnn.add(this.loadCNN1);
+		this.cnn.add(this.loadCNN2);
+		this.cnn.add(this.loadCNN3);
 
-		rss.add(rssDisabled);
-		rss.add(loadSlash);
-		rss.add(cnn);
-		rss.add(loadRss);
+		this.rss.add(this.rssDisabled);
+		this.rss.add(this.loadSlash);
+		this.rss.add(this.cnn);
+		this.rss.add(this.loadRss);
 
-		opt.add(security);
-		opt.addSeparator();
-		opt.add(ftp);
-		opt.add(smb);
-		opt.add(sftp);
-		opt.addSeparator();
-		opt.add(proxy);
-		opt.add(opts);
+		this.opt.add(this.security);
+		this.opt.addSeparator();
+		this.opt.add(this.ftp);
+		this.opt.add(this.smb);
+		this.opt.add(this.sftp);
+		this.opt.addSeparator();
+		this.opt.add(this.proxy);
+		this.opt.add(this.opts);
 
-		tools.add(http);
-		tools.add(spider);
-		tools.addSeparator();
-		tools.add(raw);
-		tools.addSeparator();
-		tools.add(shell);
+		this.tools.add(this.http);
+		this.tools.add(this.spider);
+		this.tools.addSeparator();
+		this.tools.add(this.raw);
+		this.tools.addSeparator();
+		this.tools.add(this.shell);
 
-		view.add(hideHidden);
-		view.addSeparator();
-		view.add(useNewIcons);
-		view.add(net.sf.jftp.gui.base.AppMenuBar.fadeMenu);
-		view.add(clear);
-		view.add(net.sf.jftp.gui.base.AppMenuBar.clearItems);
+		this.view.add(this.hideHidden);
+		this.view.addSeparator();
+		this.view.add(this.useNewIcons);
+		this.view.add(net.sf.jftp.gui.base.AppMenuBar.fadeMenu);
+		this.view.add(this.clear);
+		this.view.add(net.sf.jftp.gui.base.AppMenuBar.clearItems);
 
-		view.addSeparator();
-		view.add(net.sf.jftp.gui.base.AppMenuBar.debug);
-		view.add(net.sf.jftp.gui.base.AppMenuBar.disableLog);
-		view.addSeparator();
-		view.add(rss);
-		view.addSeparator();
+		this.view.addSeparator();
+		this.view.add(net.sf.jftp.gui.base.AppMenuBar.debug);
+		this.view.add(net.sf.jftp.gui.base.AppMenuBar.disableLog);
+		this.view.addSeparator();
+		this.view.add(this.rss);
+		this.view.addSeparator();
 
-		info.add(readme);
-		info.add(changelog);
-		info.add(hp);
+		this.info.add(this.readme);
+		this.info.add(this.changelog);
+		this.info.add(this.hp);
 
 		final UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 
@@ -263,37 +263,37 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				if (lnf.isSupportedLookAndFeel()) {
 					final javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(lookAndFeelInfo.getName());
 					tmp.addActionListener(this);
-					lf.add(tmp);
+					this.lf.add(tmp);
 				}
 			} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException cnfe) {
 				continue;
 			}
 		}
 
-		view.add(lf);
+		this.view.add(this.lf);
 
-		background.add(stdback);
-		view.add(background);
+		this.background.add(this.stdback);
+		this.view.add(this.background);
 
-		manage.addActionListener(this);
+		this.manage.addActionListener(this);
 
-		this.add(file);
-		this.add(opt);
-		this.add(view);
-		this.add(tools);
-		this.add(bookmarks);
-		this.add(info);
+		this.add(this.file);
+		this.add(this.opt);
+		this.add(this.view);
+		this.add(this.tools);
+		this.add(this.bookmarks);
+		this.add(this.info);
 
 		this.loadBookmarks();
 
 	}
 
 	public void loadBookmarks() {
-		marks = new Hashtable();
-		bookmarks.removeAll();
-		bookmarks.add(add);
-		bookmarks.add(manage);
-		bookmarks.addSeparator();
+		this.marks = new Hashtable();
+		this.bookmarks.removeAll();
+		this.bookmarks.add(this.add);
+		this.bookmarks.add(this.manage);
+		this.bookmarks.addSeparator();
 
 		String data = "";
 
@@ -323,12 +323,12 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				final String dir = tmp.substring(tmp.indexOf(">") + 1, tmp.lastIndexOf("<"));
 
 				final JMenu m = new JMenu(dir);
-				current.add(m);
+				this.current.add(m);
 
-				last = current;
-				current = m;
+				this.last = this.current;
+				this.current = m;
 			} else if (tmp.toLowerCase().trim().startsWith("<enddir>")) {
-				current = last;
+				this.current = this.last;
 			} else {
 				this.addBookmark(t.nextToken(), t.nextToken(), t.nextToken(), t.nextToken(), Integer.parseInt(t.nextToken()), t.nextToken(), t.nextToken());
 			}
@@ -351,40 +351,40 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		x.setDirectory(d);
 
 		//bookmarks
-		current.add(x);
-		marks.put(x.getLabel(), x);
+		this.current.add(x);
+		this.marks.put(x.getLabel(), x);
 		x.addActionListener(this);
 	}
 
 	public void resetFileItems() {
-		file.removeAll();
+		this.file.removeAll();
 
-		file.add(ftpCon);
-		file.add(sftpCon);
-		file.add(rsyncCon);
-		file.add(smbCon);
-		file.add(nfsCon);
-		file.add(webdavCon);
-		file.addSeparator();
-		file.add(close);
-		file.addSeparator();
-		file.addSeparator();
-		file.add(localFtpCon);
-		file.add(localSftpCon);
-		file.add(localSmbCon);
-		file.add(localNfsCon);
+		this.file.add(this.ftpCon);
+		this.file.add(this.sftpCon);
+		this.file.add(this.rsyncCon);
+		this.file.add(this.smbCon);
+		this.file.add(this.nfsCon);
+		this.file.add(this.webdavCon);
+		this.file.addSeparator();
+		this.file.add(this.close);
+		this.file.addSeparator();
+		this.file.addSeparator();
+		this.file.add(this.localFtpCon);
+		this.file.add(this.localSftpCon);
+		this.file.add(this.localSmbCon);
+		this.file.add(this.localNfsCon);
 
-		file.addSeparator();
-		file.add(closeLocalCon);
-		file.addSeparator();
+		this.file.addSeparator();
+		this.file.add(this.closeLocalCon);
+		this.file.addSeparator();
 
 		boolean connectionsExist = false;
 
 		try {
 			//*** get the information on the last connections
-			cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
+			this.cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 
-			cons = LastConnections.readFromFile(JFtp.CAPACITY);
+			this.cons = LastConnections.readFromFile(JFtp.CAPACITY);
 
 			String protocol;
 
@@ -397,18 +397,18 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			int conNumberInt;
 
 			for (int i = 0; i < JFtp.CAPACITY; i++) {
-				if (!(cons[i][0].equals("null"))) {
-					protocol = cons[i][0];
-					htmp = cons[i][1];
-					utmp = cons[i][2];
+				if (!(this.cons[i][0].equals("null"))) {
+					protocol = this.cons[i][0];
+					htmp = this.cons[i][1];
+					utmp = this.cons[i][2];
 
 					int j = 3;
 
-					while (!(cons[i][j].equals(LastConnections.SENTINEL))) {
+					while (!(this.cons[i][j].equals(LastConnections.SENTINEL))) {
 						j++;
 					}
 
-					usingLocal = cons[i][j - 1];
+					usingLocal = this.cons[i][j - 1];
 
 					if (usingLocal.equals("true")) {
 						usingLocal = "(in local tab)";
@@ -419,14 +419,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					conNumberInt = i + 1;
 					conNumber = Integer.toString(conNumberInt);
 
-					lastConData[i] = conNumber + " " + protocol + ": " + htmp + " " + usingLocal;
+					this.lastConData[i] = conNumber + " " + protocol + ": " + htmp + " " + usingLocal;
 
-					lastConnections[i] = new JMenuItem(lastConData[i]);
-					lastConnections[i].addActionListener(this);
+					this.lastConnections[i] = new JMenuItem(this.lastConData[i]);
+					this.lastConnections[i].addActionListener(this);
 
 					connectionsExist = true;
 
-					file.add(lastConnections[i]);
+					this.file.add(this.lastConnections[i]);
 				}
 			}
 		} catch (final Exception ex) {
@@ -435,10 +435,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		}
 
 		if (connectionsExist) {
-			file.addSeparator();
+			this.file.addSeparator();
 		}
 
-		file.add(exit);
+		this.file.add(this.exit);
 
 		this.setMnemonics();
 	}
@@ -446,49 +446,49 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 	public void actionPerformed(final ActionEvent e) {
 		try {
-			if (e.getSource() == proxy) {
+			if (e.getSource() == this.proxy) {
 				JFtp.statusP.jftp.addToDesktop("Proxy Settings", new ProxyChooser(), 500, 110);
-			} else if (e.getSource() == add) {
+			} else if (e.getSource() == this.add) {
 				Log.out("add called");
 
 				final AddBookmarks a = new AddBookmarks(JFtp.statusP.jftp);
 				a.update();
-			} else if (e.getSource() == webdavCon) {
+			} else if (e.getSource() == this.webdavCon) {
 				final WebdavHostChooser hc = new WebdavHostChooser();
 				hc.toFront();
 				hc.update();
-			} else if ((e.getSource() == localFtpCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.localFtpCon) && (!JFtp.uiBlocked)) {
 				final HostChooser hc = new HostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
-			} else if ((e.getSource() == localSmbCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.localSmbCon) && (!JFtp.uiBlocked)) {
 				final SmbHostChooser hc = new SmbHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
-			} else if ((e.getSource() == localSftpCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.localSftpCon) && (!JFtp.uiBlocked)) {
 				final SftpHostChooser hc = new SftpHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
-			} else if ((e.getSource() == localNfsCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.localNfsCon) && (!JFtp.uiBlocked)) {
 				final NfsHostChooser hc = new NfsHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
-			} else if ((e.getSource() == localWebdavCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.localWebdavCon) && (!JFtp.uiBlocked)) {
 				final WebdavHostChooser hc = new WebdavHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
-			} else if (e.getSource() == closeLocalCon) {
+			} else if (e.getSource() == this.closeLocalCon) {
 				JFtp.statusP.jftp.closeCurrentLocalTab();
-			} else if (e.getSource() == clear) {
+			} else if (e.getSource() == this.clear) {
 				JFtp.clearLog();
-			} else if (e.getSource() == spider) {
-				jftp.addToDesktop("Http recursive download", new HttpSpider(JFtp.localDir.getPath() + "_httpdownload/"), 440, 250);
-			} else if (e.getSource() == hp) {
+			} else if (e.getSource() == this.spider) {
+				this.jftp.addToDesktop("Http recursive download", new HttpSpider(JFtp.localDir.getPath() + "_httpdownload/"), 440, 250);
+			} else if (e.getSource() == this.hp) {
 				try {
 					NativeHttpBrowser.main(new String[]{"http://j-ftp.sourceforge.net"});
 				} catch (final Throwable ex) {
@@ -498,20 +498,20 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					final HttpBrowser h = new HttpBrowser("http://j-ftp.sourceforge.net");
 					JFtp.desktop.add(h, new Integer(Integer.MAX_VALUE - 10));
 				}
-			} else if (e.getSource() == raw) {
+			} else if (e.getSource() == this.raw) {
 				final RawConnection c = new RawConnection();
-			} else if (e.getSource() == readme) {
+			} else if (e.getSource() == this.readme) {
 				this.show(Settings.readme);
-			} else if (e.getSource() == changelog) {
+			} else if (e.getSource() == this.changelog) {
 				this.show(Settings.changelog);
-			} else if (e.getSource() == todo) {
+			} else if (e.getSource() == this.todo) {
 				this.show(Settings.todo);
-			} else if (e.getSource() == shell) {
+			} else if (e.getSource() == this.shell) {
 				UIUtils.runCommand("/bin/bash");
-			} else if (e.getSource() == loadAudio) {
+			} else if (e.getSource() == this.loadAudio) {
 				try {
 					final JFileChooser f = new JFileChooser();
-					f.showOpenDialog(jftp);
+					f.showOpenDialog(this.jftp);
 
 					final File file = f.getSelectedFile();
 
@@ -522,70 +522,70 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					ex.printStackTrace();
 					Log.debug("Error: (" + ex + ")");
 				}
-			} else if (e.getSource() == exit) {
-				jftp.windowClosing(null); // handles everything
-			} else if (e.getSource() == close) {
+			} else if (e.getSource() == this.exit) {
+				this.jftp.windowClosing(null); // handles everything
+			} else if (e.getSource() == this.close) {
 				JFtp.statusP.jftp.closeCurrentTab();
 
-			} else if ((e.getSource() == ftpCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.ftpCon) && (!JFtp.uiBlocked)) {
 
 				final HostChooser hc = new HostChooser();
 				hc.toFront();
 
 
 				hc.update();
-			} else if ((e.getSource() == smbCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.smbCon) && (!JFtp.uiBlocked)) {
 
 				final SmbHostChooser hc = new SmbHostChooser();
 				hc.toFront();
 
 				hc.update();
-			} else if ((e.getSource() == sftpCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.sftpCon) && (!JFtp.uiBlocked)) {
 
 				final SftpHostChooser hc = new SftpHostChooser();
 				hc.toFront();
 				hc.update();
-			} else if ((e.getSource() == rsyncCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.rsyncCon) && (!JFtp.uiBlocked)) {
 				final RsyncHostChooser hc = new RsyncHostChooser();
 				hc.toFront();
 
 				hc.update();
-			} else if ((e.getSource() == nfsCon) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.nfsCon) && (!JFtp.uiBlocked)) {
 
 				final NfsHostChooser hc = new NfsHostChooser();
 				hc.toFront();
 
 				hc.update();
-			} else if (e.getSource() == resuming) {
-				final boolean res = resuming.getState();
+			} else if (e.getSource() == this.resuming) {
+				final boolean res = this.resuming.getState();
 				Settings.enableResuming = res;
 				Settings.setProperty("jftp.enableResuming", res);
-				ask.setEnabled(Settings.enableResuming);
+				this.ask.setEnabled(Settings.enableResuming);
 				Settings.save();
-			} else if (e.getSource() == useNewIcons) {
-				final boolean res = useNewIcons.getState();
+			} else if (e.getSource() == this.useNewIcons) {
+				final boolean res = this.useNewIcons.getState();
 				Settings.setProperty("jftp.gui.look.newIcons", res);
 				Settings.save();
 
 				JOptionPane.showMessageDialog(this, "Please restart JFtp to have the UI changed.");
-			} else if (e.getSource() == hideHidden) {
-				final boolean res = hideHidden.getState();
+			} else if (e.getSource() == this.hideHidden) {
+				final boolean res = this.hideHidden.getState();
 				Settings.setProperty("jftp.hideHiddenDotNames", res);
 				Settings.save();
 
 				JFtp.localUpdate();
-			} else if (e.getSource() == nl) {
-				Settings.showNewlineOption = nl.getState();
-			} else if (e.getSource() == stdback) {
-				Settings.setProperty("jftp.useBackground", stdback.getState());
+			} else if (e.getSource() == this.nl) {
+				Settings.showNewlineOption = this.nl.getState();
+			} else if (e.getSource() == this.stdback) {
+				Settings.setProperty("jftp.useBackground", this.stdback.getState());
 				Settings.save();
 				JFtp.statusP.jftp.fireUpdate();
-			} else if (e.getSource() == sshKeys) {
-				Settings.setProperty("jftp.useSshKeyVerification", sshKeys.getState());
+			} else if (e.getSource() == this.sshKeys) {
+				Settings.setProperty("jftp.useSshKeyVerification", this.sshKeys.getState());
 				Settings.save();
 				JFtp.statusP.jftp.fireUpdate();
-			} else if (e.getSource() == rssDisabled) {
-				Settings.setProperty("jftp.enableRSS", rssDisabled.getState());
+			} else if (e.getSource() == this.rssDisabled) {
+				Settings.setProperty("jftp.enableRSS", this.rssDisabled.getState());
 				Settings.save();
 
 				JFtp.statusP.jftp.fireUpdate();
@@ -594,7 +594,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				if (feed != null && !feed.isEmpty()) feed = "http://slashdot.org/rss/slashdot.rss";
 
 				this.switchRSS(feed);
-			} else if (e.getSource() == loadRss) {
+			} else if (e.getSource() == this.loadRss) {
 				final String what = JOptionPane.showInputDialog("Enter URL", "http://");
 
 				if (what == null) {
@@ -602,13 +602,13 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				}
 
 				this.switchRSS(what);
-			} else if (e.getSource() == loadSlash) {
+			} else if (e.getSource() == this.loadSlash) {
 				this.switchRSS("http://slashdot.org/rss/slashdot.rss");
-			} else if (e.getSource() == loadCNN1) {
+			} else if (e.getSource() == this.loadCNN1) {
 				this.switchRSS("http://rss.cnn.com/rss/cnn_topstories.rss");
-			} else if (e.getSource() == loadCNN2) {
+			} else if (e.getSource() == this.loadCNN2) {
 				this.switchRSS("http://rss.cnn.com/rss/cnn_world.rss");
-			} else if (e.getSource() == loadCNN3) {
+			} else if (e.getSource() == this.loadCNN3) {
 				this.switchRSS("http://rss.cnn.com/rss/cnn_tech.rss");
 			} else if (e.getSource() == net.sf.jftp.gui.base.AppMenuBar.debug) {
 				Settings.setProperty("jftp.enableDebug", net.sf.jftp.gui.base.AppMenuBar.debug.getState());
@@ -616,18 +616,18 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (e.getSource() == net.sf.jftp.gui.base.AppMenuBar.disableLog) {
 				Settings.setProperty("jftp.disableLog", net.sf.jftp.gui.base.AppMenuBar.disableLog.getState());
 				Settings.save();
-			} else if (e.getSource() == smbThreads) {
-				Settings.setProperty("jftp.enableSmbMultiThreading", smbThreads.getState());
+			} else if (e.getSource() == this.smbThreads) {
+				Settings.setProperty("jftp.enableSmbMultiThreading", this.smbThreads.getState());
 				Settings.save();
-			} else if (e.getSource() == sftpThreads) {
-				Settings.setProperty("jftp.enableSftpMultiThreading", sftpThreads.getState());
+			} else if (e.getSource() == this.sftpThreads) {
+				Settings.setProperty("jftp.enableSftpMultiThreading", this.sftpThreads.getState());
 				Settings.save();
-			} else if (e.getSource() == ask) {
-				Settings.askToResume = ask.getState();
-			} else if (e.getSource() == http) {
+			} else if (e.getSource() == this.ask) {
+				Settings.askToResume = this.ask.getState();
+			} else if (e.getSource() == this.http) {
 				final HttpDownloader dl = new HttpDownloader();
-				jftp.addToDesktop("Http download", dl, 480, 100);
-				jftp.setLocation(dl.hashCode(), 100, 150);
+				this.jftp.addToDesktop("Http download", dl, 480, 100);
+				this.jftp.setLocation(dl.hashCode(), 100, 150);
 			} else if (e.getSource() == net.sf.jftp.gui.base.AppMenuBar.fadeMenu) {
 				Settings.setProperty("jftp.gui.enableStatusAnimation", net.sf.jftp.gui.base.AppMenuBar.fadeMenu.getState());
 				Settings.save();
@@ -636,39 +636,39 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				Settings.save();
 			}
 
-			else if ((e.getSource() == lastConnections[0]) && (!JFtp.uiBlocked)) {
+			else if ((e.getSource() == this.lastConnections[0]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(0);
-			} else if ((e.getSource() == lastConnections[1]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[1]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(1);
-			} else if ((e.getSource() == lastConnections[2]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[2]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(2);
-			} else if ((e.getSource() == lastConnections[3]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[3]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(3);
-			} else if ((e.getSource() == lastConnections[4]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[4]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(4);
-			} else if ((e.getSource() == lastConnections[5]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[5]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(5);
-			} else if ((e.getSource() == lastConnections[6]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[6]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(6);
-			} else if ((e.getSource() == lastConnections[7]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[7]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(7);
-			} else if ((e.getSource() == lastConnections[8]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[8]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(8);
-			} else if (e.getSource() == opts) {
+			} else if (e.getSource() == this.opts) {
 				final AdvancedOptions adv = new AdvancedOptions();
-				jftp.addToDesktop("Advanced Options", adv, 500, 180);
-				jftp.setLocation(adv.hashCode(), 110, 180);
-			} else if (e.getSource() == manage) {
+				this.jftp.addToDesktop("Advanced Options", adv, 500, 180);
+				this.jftp.setLocation(adv.hashCode(), 110, 180);
+			} else if (e.getSource() == this.manage) {
 				final BookmarkManager m = new BookmarkManager();
 				JFtp.desktop.add(m, new Integer(Integer.MAX_VALUE - 10));
-			} else if (marks.contains(e.getSource())) {
+			} else if (this.marks.contains(e.getSource())) {
 				((net.sf.jftp.gui.tasks.BookmarkItem) e.getSource()).connect();
-			} else if (e.getSource() == storePasswords) {
-				final boolean state = storePasswords.getState();
+			} else if (e.getSource() == this.storePasswords) {
+				final boolean state = this.storePasswords.getState();
 
 				if (!state) {
 					final JOptionPane j = new JOptionPane();
-					final int x = JOptionPane.showConfirmDialog(storePasswords, "You chose not to Save passwords.\n" + "Do you want your old login data to be deleted?", "Delete old passwords?", JOptionPane.YES_NO_OPTION);
+					final int x = JOptionPane.showConfirmDialog(this.storePasswords, "You chose not to Save passwords.\n" + "Do you want your old login data to be deleted?", "Delete old passwords?", JOptionPane.YES_NO_OPTION);
 
 					if (x == JOptionPane.YES_OPTION) {
 						File f = new File(Settings.login_def);
@@ -741,45 +741,45 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 	// by jake
 	private void setMnemonics() {
-		file.setMnemonic('F');
-		opt.setMnemonic('O');
-		view.setMnemonic('V');
-		tools.setMnemonic('T');
-		bookmarks.setMnemonic('B');
-		info.setMnemonic('I');
+		this.file.setMnemonic('F');
+		this.opt.setMnemonic('O');
+		this.view.setMnemonic('V');
+		this.tools.setMnemonic('T');
+		this.bookmarks.setMnemonic('B');
+		this.info.setMnemonic('I');
 
-		ftpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
-		sftpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-		smbCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-		nfsCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+		this.ftpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+		this.sftpCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+		this.smbCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+		this.nfsCon.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
 
-		close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+		this.close.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
 
 
-		localFtpCon.setMnemonic('F');
-		localSftpCon.setMnemonic('S');
-		localSmbCon.setMnemonic('L');
-		localNfsCon.setMnemonic('N');
+		this.localFtpCon.setMnemonic('F');
+		this.localSftpCon.setMnemonic('S');
+		this.localSmbCon.setMnemonic('L');
+		this.localNfsCon.setMnemonic('N');
 
-		closeLocalCon.setMnemonic('C');
+		this.closeLocalCon.setMnemonic('C');
 
-		exit.setMnemonic('X');
+		this.exit.setMnemonic('X');
 
-		proxy.setMnemonic('P');
+		this.proxy.setMnemonic('P');
 
-		http.setMnemonic('D');
-		spider.setMnemonic('H');
-		raw.setMnemonic('T');
+		this.http.setMnemonic('D');
+		this.spider.setMnemonic('H');
+		this.raw.setMnemonic('T');
 
-		readme.setMnemonic('R');
-		todo.setMnemonic('N');
-		changelog.setMnemonic('C');
-		hp.setMnemonic('H');
+		this.readme.setMnemonic('R');
+		this.todo.setMnemonic('N');
+		this.changelog.setMnemonic('C');
+		this.hp.setMnemonic('H');
 
-		opts.setMnemonic('A');
-		manage.setMnemonic('M');
+		this.opts.setMnemonic('A');
+		this.manage.setMnemonic('M');
 
-		clear.setMnemonic('C');
+		this.clear.setMnemonic('C');
 		net.sf.jftp.gui.base.AppMenuBar.clearItems.setMnemonic('F');
 
 		try {
@@ -789,12 +789,12 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 			for (int i = 0; i < JFtp.CAPACITY; i++) {
 
-				if (!(cons[i][0].equals("null"))) {
+				if (!(this.cons[i][0].equals("null"))) {
 					intI = i + 1;
 					stringI = Integer.toString(intI);
 					charI = stringI.charAt(0);
 
-					lastConnections[i].setMnemonic(charI);
+					this.lastConnections[i].setMnemonic(charI);
 				}
 			}
 
@@ -819,10 +819,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		String useLocalString = "false";
 
 
-		protocol = cons[position][0];
-		htmp = cons[position][1];
-		utmp = cons[position][2];
-		ptmp = cons[position][3];
+		protocol = this.cons[position][0];
+		htmp = this.cons[position][1];
+		utmp = this.cons[position][2];
+		ptmp = this.cons[position][3];
 
 		if (ptmp.isEmpty()) {
 			ptmp = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
@@ -830,9 +830,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		switch (protocol) {
 			case "FTP":
-				potmpString = cons[position][4];
-				dtmp = cons[position][5];
-				useLocalString = cons[position][6];
+				potmpString = this.cons[position][4];
+				dtmp = this.cons[position][5];
+				useLocalString = this.cons[position][6];
 
 				potmp = Integer.parseInt(potmpString);
 
@@ -843,16 +843,16 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				break;
 			case "SFTP":
 
-				potmpString = cons[position][4];
-				useLocalString = cons[position][5];
+				potmpString = this.cons[position][4];
+				useLocalString = this.cons[position][5];
 break;
 			case "NFS":
-				useLocalString = cons[position][4];
+				useLocalString = this.cons[position][4];
 				break;
 			case "SMB":
 
-				dtmp = cons[position][4];
-				useLocalString = cons[position][5];
+				dtmp = this.cons[position][4];
+				useLocalString = this.cons[position][5];
 break;
 		}
 

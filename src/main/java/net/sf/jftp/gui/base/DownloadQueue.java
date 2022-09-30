@@ -42,7 +42,7 @@ import java.util.ArrayList;
 public class DownloadQueue extends HPanel implements ActionListener {
 	private static final String SEP = "--> ";
 	private final DefaultListModel liststr = new DefaultListModel();
-	private final JList list = new JList(liststr);
+	private final JList list = new JList(this.liststr);
 	private final ArrayList queue = new ArrayList();
 	private final boolean downloading = false;
 	private final ConnectionHandler handler = new ConnectionHandler();
@@ -90,16 +90,16 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		save.setSize(24, 24);
 		load.setSize(24, 24);
 
-		final JScrollPane dP = new JScrollPane(list);
+		final JScrollPane dP = new JScrollPane(this.list);
 
 		this.add(cmdP, BorderLayout.SOUTH);
 		this.add(dP, BorderLayout.CENTER);
 
 		final HPanel status = new HPanel();
-		statuslabel = new JLabel("");
-		statuslabel.setSize(100, 100);
+		this.statuslabel = new JLabel("");
+		this.statuslabel.setSize(100, 100);
 
-		status.add(statuslabel);
+		status.add(this.statuslabel);
 		this.add(status, BorderLayout.NORTH);
 
 		start.setToolTipText("Start queue download...");
@@ -124,28 +124,28 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		rec.local = JFtp.localDir.getPath();
 		rec.remote = JFtp.remoteDir.getPath();
 		rec.file = file;
-		queue.add(rec);
-		liststr.addElement(rec.hostname + " : " + rec.remote + rec.file);
+		this.queue.add(rec);
+		this.liststr.addElement(rec.hostname + " : " + rec.remote + rec.file);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("start")) {
-			if (thread != null) {
-				if (!thread.isAlive()) {
-					thread = new queueDownloader();
-					thread.start();
+			if (this.thread != null) {
+				if (!this.thread.isAlive()) {
+					this.thread = new queueDownloader();
+					this.thread.start();
 
 				}
 			} else {
-				thread = new queueDownloader();
-				thread.start();
+				this.thread = new queueDownloader();
+				this.thread.start();
 
 			}
 		} else if (e.getActionCommand().equals("stop")) {
-			if (thread != null) {
-				thread.block = true;
+			if (this.thread != null) {
+				this.thread.block = true;
 
-				final FtpConnection ftpcon = (FtpConnection) con;
+				final FtpConnection ftpcon = (FtpConnection) this.con;
 				final DataConnection dcon = ftpcon.getDataConnection();
 				dcon.getCon().work = false;
 
@@ -156,40 +156,40 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				}
 			}
 		} else if (e.getActionCommand().equals("down")) {
-			if (list.getSelectedIndex() != -1) {
-				final int a = list.getSelectedIndex();
+			if (this.list.getSelectedIndex() != -1) {
+				final int a = this.list.getSelectedIndex();
 				final int b = a + 1;
 
-				final QueueRecord qa = (QueueRecord) queue.get(b);
-				queue.remove(b);
-				queue.add(a, qa);
+				final QueueRecord qa = (QueueRecord) this.queue.get(b);
+				this.queue.remove(b);
+				this.queue.add(a, qa);
 
-				final String sa = (String) liststr.get(b);
-				liststr.remove(b);
-				liststr.add(a, sa);
+				final String sa = (String) this.liststr.get(b);
+				this.liststr.remove(b);
+				this.liststr.add(a, sa);
 
-				list.setSelectedIndex(b);
+				this.list.setSelectedIndex(b);
 			}
 		} else if (e.getActionCommand().equals("up")) {
-			if (list.getSelectedIndex() != -1) {
-				final int a = list.getSelectedIndex() - 1;
+			if (this.list.getSelectedIndex() != -1) {
+				final int a = this.list.getSelectedIndex() - 1;
 				final int b = a + 1;
 
-				final QueueRecord qa = (QueueRecord) queue.get(b);
-				queue.remove(b);
-				queue.add(a, qa);
+				final QueueRecord qa = (QueueRecord) this.queue.get(b);
+				this.queue.remove(b);
+				this.queue.add(a, qa);
 
-				final String sa = (String) liststr.get(b);
-				liststr.remove(b);
-				liststr.add(a, sa);
+				final String sa = (String) this.liststr.get(b);
+				this.liststr.remove(b);
+				this.liststr.add(a, sa);
 
-				list.setSelectedIndex(a);
+				this.list.setSelectedIndex(a);
 			}
 		} else if (e.getActionCommand().equals("del")) {
-			if (list.getSelectedIndex() != -1) {
-				queue.remove(list.getSelectedIndex());
-				liststr.remove(list.getSelectedIndex());
-				list.setSelectedIndex(0);
+			if (this.list.getSelectedIndex() != -1) {
+				this.queue.remove(this.list.getSelectedIndex());
+				this.liststr.remove(this.list.getSelectedIndex());
+				this.list.setSelectedIndex(0);
 			}
 		} else if (e.getActionCommand().equals("save")) {
 			final JFileChooser chooser = new JFileChooser();
@@ -225,8 +225,8 @@ public class DownloadQueue extends HPanel implements ActionListener {
 			final FileOutputStream fos;
 			final PrintStream f = new PrintStream((fos = new FileOutputStream(file)));
 
-			for (int i = 0; i <= queue.size(); i++) {
-				final QueueRecord rec = (QueueRecord) queue.get(i);
+			for (int i = 0; i <= this.queue.size(); i++) {
+				final QueueRecord rec = (QueueRecord) this.queue.get(i);
 				f.println(rec.type);
 				f.println(rec.hostname);
 				f.println(rec.username);
@@ -249,8 +249,8 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		try {
 			final BufferedReader breader = new BufferedReader(new FileReader(file));
 			boolean Eof = false;
-			queue.clear();
-			liststr.clear();
+			this.queue.clear();
+			this.liststr.clear();
 
 			while (!Eof) {
 				final QueueRecord rec = new QueueRecord();
@@ -268,8 +268,8 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				if (rec.hostname == null) {
 					Eof = true;
 				} else {
-					queue.add(rec);
-					liststr.addElement(rec.hostname + " : " + rec.remote + rec.file);
+					this.queue.add(rec);
+					this.liststr.addElement(rec.hostname + " : " + rec.remote + rec.file);
 				}
 			}
 		} catch (final Exception ex) {
@@ -347,29 +347,29 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 		public void run() {
 			try {
-				while ((queue.size() >= 1) && !block) {
-					QueueRecord rec = (QueueRecord) queue.get(0);
-					last = rec;
+				while ((net.sf.jftp.gui.base.DownloadQueue.this.queue.size() >= 1) && !this.block) {
+					QueueRecord rec = (QueueRecord) net.sf.jftp.gui.base.DownloadQueue.this.queue.get(0);
+					this.last = rec;
 
-					if (!connected) {
-						con = new FtpConnection(rec.hostname, Integer.parseInt(rec.port), "/");
-						conFtp = (FtpConnection) con;
-						conFtp.addConnectionListener(this);
-						conFtp.setConnectionHandler(handler);
-						conFtp.login(rec.username, rec.password);
-						connected = true;
+					if (!this.connected) {
+						net.sf.jftp.gui.base.DownloadQueue.this.con = new FtpConnection(rec.hostname, Integer.parseInt(rec.port), "/");
+						this.conFtp = (FtpConnection) net.sf.jftp.gui.base.DownloadQueue.this.con;
+						this.conFtp.addConnectionListener(this);
+						this.conFtp.setConnectionHandler(net.sf.jftp.gui.base.DownloadQueue.this.handler);
+						this.conFtp.login(rec.username, rec.password);
+						this.connected = true;
 					}
 
-					conFtp.chdirNoRefresh(rec.remote);
+					this.conFtp.chdirNoRefresh(rec.remote);
 
-					conFtp.setLocalPath(rec.local);
+					this.conFtp.setLocalPath(rec.local);
 
 					int i = 0;
 
-					while (!isThere) {
+					while (!net.sf.jftp.gui.base.DownloadQueue.this.isThere) {
 						i++;
 
-						if (i > NumRetry) {
+						if (i > net.sf.jftp.gui.base.DownloadQueue.this.NumRetry) {
 							return;
 						}
 
@@ -380,22 +380,22 @@ public class DownloadQueue extends HPanel implements ActionListener {
 						}
 					}
 
-					conFtp.download(rec.file);
+					this.conFtp.download(rec.file);
 
-					statuslabel.setText("");
+					net.sf.jftp.gui.base.DownloadQueue.this.statuslabel.setText("");
 
-					if (queue.size() >= 1) {
-						rec = (QueueRecord) queue.get(0);
+					if (net.sf.jftp.gui.base.DownloadQueue.this.queue.size() >= 1) {
+						rec = (QueueRecord) net.sf.jftp.gui.base.DownloadQueue.this.queue.get(0);
 
-						if ((rec.hostname.compareTo(last.hostname) == 0) && (rec.port.compareTo(last.port) == 0) && (rec.username.compareTo(last.username) == 0) && (rec.password.compareTo(last.password) == 0)) {
-							connected = true;
+						if ((rec.hostname.compareTo(this.last.hostname) == 0) && (rec.port.compareTo(this.last.port) == 0) && (rec.username.compareTo(this.last.username) == 0) && (rec.password.compareTo(this.last.password) == 0)) {
+							this.connected = true;
 						} else {
-							conFtp.disconnect();
-							connected = false;
+							this.conFtp.disconnect();
+							this.connected = false;
 						}
 					} else {
-						conFtp.disconnect();
-						connected = false;
+						this.conFtp.disconnect();
+						this.connected = false;
 					}
 
 					Thread.sleep(100);
@@ -403,8 +403,8 @@ public class DownloadQueue extends HPanel implements ActionListener {
 			} catch (final InterruptedException e) {
 			}
 
-			if (connected) {
-				con.disconnect();
+			if (this.connected) {
+				net.sf.jftp.gui.base.DownloadQueue.this.con.disconnect();
 			}
 		}
 
@@ -415,7 +415,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 		// called if a connection has been established
 		public void connectionInitialized(final BasicConnection con) {
-			isThere = true;
+			net.sf.jftp.gui.base.DownloadQueue.this.isThere = true;
 		}
 
 		// called every few kb by DataConnection during the trnsfer (interval can be changed in Settings)
@@ -428,7 +428,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				strtmp = "file " + StringUtils.getFile(file);
 			}
 
-			statuslabel.setText("Downloading " + strtmp + " - kbyte " + (bytes / 1024));
+			net.sf.jftp.gui.base.DownloadQueue.this.statuslabel.setText("Downloading " + strtmp + " - kbyte " + (bytes / 1024));
 
 			final String tmp;
 
@@ -438,9 +438,9 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				tmp = " ";
 			}
 
-			if (((type.compareTo(DataConnection.FINISHED) == 0) || (tmp.compareTo(DataConnection.DFINISHED) == 0)) && !block) {
-				queue.remove(0);
-				liststr.remove(0);
+			if (((type.compareTo(DataConnection.FINISHED) == 0) || (tmp.compareTo(DataConnection.DFINISHED) == 0)) && !this.block) {
+				net.sf.jftp.gui.base.DownloadQueue.this.queue.remove(0);
+				net.sf.jftp.gui.base.DownloadQueue.this.liststr.remove(0);
 			}
 		}
 

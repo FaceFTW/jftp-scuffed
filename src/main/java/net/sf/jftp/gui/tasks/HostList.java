@@ -64,12 +64,12 @@ public class HostList extends JDialog {
 	 * Adds listeners to any components that need them
 	 */
 	protected void initListeners() {
-		hostList.addListSelectionListener(lse -> this.onSelectHost());
-		jbsave.addActionListener(ae -> this.onSave());
-		jbok.addActionListener(ae -> this.onOk());
-		jbcancel.addActionListener(ae -> this.onCancel());
-		jbnew.addActionListener(ae -> this.onNew());
-		jbdelete.addActionListener(ae -> this.onDelete());
+		this.hostList.addListSelectionListener(lse -> this.onSelectHost());
+		this.jbsave.addActionListener(ae -> this.onSave());
+		this.jbok.addActionListener(ae -> this.onOk());
+		this.jbcancel.addActionListener(ae -> this.onCancel());
+		this.jbnew.addActionListener(ae -> this.onNew());
+		this.jbdelete.addActionListener(ae -> this.onDelete());
 	}
 
 	/**
@@ -79,10 +79,10 @@ public class HostList extends JDialog {
 	 * upon cancel, a null will be returned.
 	 */
 	public net.sf.jftp.gui.base.FtpHost getFtpHost() {
-		selectedHostInfo = null;
+		this.selectedHostInfo = null;
 		this.setVisible(true);
 
-		return selectedHostInfo;
+		return this.selectedHostInfo;
 	}
 
 	/**
@@ -96,13 +96,13 @@ public class HostList extends JDialog {
 		this.loadHostList();
 		this.initListeners();
 
-		if (hostListModel.size() > 0) {
-			hostList.setSelectedIndex(0);
+		if (this.hostListModel.size() > 0) {
+			this.hostList.setSelectedIndex(0);
 		} else {
 			this.updateHostInfoPanel();
 		}
 
-		selectedHostInfo = this.getSelected();
+		this.selectedHostInfo = this.getSelected();
 		this.setModal(true);
 	}
 
@@ -119,32 +119,32 @@ public class HostList extends JDialog {
 	 * initialize the button panel
 	 */
 	protected void initButtonPanel() {
-		jpbuttons = new JPanel();
-		jpbuttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		this.jpbuttons = new JPanel();
+		this.jpbuttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		final String promptButtonCancel = "Cancel";
-		jbcancel = new JButton(promptButtonCancel);
+		this.jbcancel = new JButton(promptButtonCancel);
 		final String promptButtonOk = "  Ok  ";
-		jbok = new JButton(promptButtonOk);
+		this.jbok = new JButton(promptButtonOk);
 		final String promptButtonSave = " Apply ";
-		jbsave = new JButton(promptButtonSave);
+		this.jbsave = new JButton(promptButtonSave);
 		final String promptButtonNew = " New  ";
-		jbnew = new JButton(promptButtonNew);
+		this.jbnew = new JButton(promptButtonNew);
 		final String promptButtonDelete = "Delete";
-		jbdelete = new JButton(promptButtonDelete);
-		jpbuttons.add(jbsave);
-		jpbuttons.add(jbok);
-		jpbuttons.add(jbcancel);
+		this.jbdelete = new JButton(promptButtonDelete);
+		this.jpbuttons.add(this.jbsave);
+		this.jpbuttons.add(this.jbok);
+		this.jpbuttons.add(this.jbcancel);
 	}
 
 	/**
 	 * Build the host info panel
 	 */
 	protected void initHostInfoPanel() {
-		jtfHost = new JTextField(20);
-		jtfUser = new JTextField(20);
-		jtfPass = new JPasswordField(20);
-		jtfName = new JTextField(20);
-		jtfPort = new JTextField(20);
+		this.jtfHost = new JTextField(20);
+		this.jtfUser = new JTextField(20);
+		this.jtfPass = new JPasswordField(20);
+		this.jtfName = new JTextField(20);
+		this.jtfPort = new JTextField(20);
 		final String promptHost = " Host : ";
 		final javax.swing.JLabel jlHost = new javax.swing.JLabel(promptHost);
 		final String promptUser = " User : ";
@@ -156,10 +156,10 @@ public class HostList extends JDialog {
 		final String promptPort = " Port : ";
 		final javax.swing.JLabel jlPort = new javax.swing.JLabel(promptPort);
 
-		jpHostInfo = new JPanel();
+		this.jpHostInfo = new JPanel();
 
 		final GridBagLayout gbl = new GridBagLayout();
-		jpHostInfo.setLayout(gbl);
+		this.jpHostInfo.setLayout(gbl);
 
 		final GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
@@ -186,51 +186,51 @@ public class HostList extends JDialog {
 		gbc.gridy = 0;
 		gbc.gridx = 1;
 		gbc.weightx = 1.0;
-		gbl.setConstraints(jtfName, gbc);
+		gbl.setConstraints(this.jtfName, gbc);
 
 		gbc.gridy = 1;
-		gbl.setConstraints(jtfHost, gbc);
+		gbl.setConstraints(this.jtfHost, gbc);
 
 		gbc.gridy = 2;
-		gbl.setConstraints(jtfUser, gbc);
+		gbl.setConstraints(this.jtfUser, gbc);
 
 		gbc.gridy = 3;
-		gbl.setConstraints(jtfPass, gbc);
+		gbl.setConstraints(this.jtfPass, gbc);
 
 		gbc.gridy = 4;
-		gbl.setConstraints(jtfPort, gbc);
+		gbl.setConstraints(this.jtfPort, gbc);
 
-		jpHostInfo.add(jlName);
-		jpHostInfo.add(jlHost);
-		jpHostInfo.add(jlUser);
-		jpHostInfo.add(jlPass);
-		jpHostInfo.add(jlPort);
-		jpHostInfo.add(jtfName);
-		jpHostInfo.add(jtfHost);
-		jpHostInfo.add(jtfUser);
-		jpHostInfo.add(jtfPass);
-		jpHostInfo.add(jtfPort);
+		this.jpHostInfo.add(jlName);
+		this.jpHostInfo.add(jlHost);
+		this.jpHostInfo.add(jlUser);
+		this.jpHostInfo.add(jlPass);
+		this.jpHostInfo.add(jlPort);
+		this.jpHostInfo.add(this.jtfName);
+		this.jpHostInfo.add(this.jtfHost);
+		this.jpHostInfo.add(this.jtfUser);
+		this.jpHostInfo.add(this.jtfPass);
+		this.jpHostInfo.add(this.jtfPort);
 	}
 
 	/**
 	 * Initializes the overall dialog/frame
 	 */
 	protected void initHostListFrame() {
-		hostListModel = new DefaultListModel();
-		hostList = new JList(hostListModel);
-		final javax.swing.JScrollPane jscrollpane = new javax.swing.JScrollPane(hostList);
+		this.hostListModel = new DefaultListModel();
+		this.hostList = new JList(this.hostListModel);
+		final javax.swing.JScrollPane jscrollpane = new javax.swing.JScrollPane(this.hostList);
 
 		final JPanel jptempleft = new JPanel(new BorderLayout());
 		jptempleft.add(jscrollpane, BorderLayout.CENTER);
 
 		final JPanel jptempbutt = new JPanel(new FlowLayout());
-		jptempbutt.add(jbnew);
-		jptempbutt.add(jbdelete);
+		jptempbutt.add(this.jbnew);
+		jptempbutt.add(this.jbdelete);
 		jptempleft.add(jptempbutt, BorderLayout.SOUTH);
 
 		final JPanel jptemp = new JPanel(new BorderLayout());
-		jptemp.add(jpbuttons, BorderLayout.SOUTH);
-		jptemp.add(jpHostInfo, BorderLayout.CENTER);
+		jptemp.add(this.jpbuttons, BorderLayout.SOUTH);
+		jptemp.add(this.jpHostInfo, BorderLayout.CENTER);
 
 		final javax.swing.JSplitPane jsplitpane = new javax.swing.JSplitPane(javax.swing.JSplitPane.HORIZONTAL_SPLIT, jptempleft, jptemp);
 		this.getContentPane().add(jsplitpane);
@@ -267,7 +267,7 @@ public class HostList extends JDialog {
 				// do nothing, this can happen
 			}
 
-			hostListModel.addElement(ftpHost);
+			this.hostListModel.addElement(ftpHost);
 			i++;
 		}
 	}
@@ -275,7 +275,7 @@ public class HostList extends JDialog {
 	public void onSelectHost() {
 		// update the old one, then show the new one
 		this.updateHostInfoObject();
-		selectedHostInfo = this.getSelected();
+		this.selectedHostInfo = this.getSelected();
 		this.updateHostInfoPanel();
 	}
 
@@ -283,18 +283,18 @@ public class HostList extends JDialog {
 	 * Delete button handler
 	 */
 	public void onDelete() {
-		final Object selected = hostList.getSelectedValue();
-		hostListModel.removeElement(selected);
-		selectedHostInfo = null;
+		final Object selected = this.hostList.getSelectedValue();
+		this.hostListModel.removeElement(selected);
+		this.selectedHostInfo = null;
 
-		if (hostListModel.size() > 0) {
-			hostList.setSelectedIndex(0);
+		if (this.hostListModel.size() > 0) {
+			this.hostList.setSelectedIndex(0);
 		} else {
 			this.updateHostInfoPanel();
 		}
 
 		this.onSave();
-		hostList.repaint();
+		this.hostList.repaint();
 	}
 
 	/**
@@ -317,10 +317,10 @@ public class HostList extends JDialog {
 			}
 		}
 
-		final int len = hostListModel.size();
+		final int len = this.hostListModel.size();
 
 		for (i = 0; i < len; i++) {
-			final net.sf.jftp.gui.base.FtpHost ftphost = (net.sf.jftp.gui.base.FtpHost) hostListModel.elementAt(i);
+			final net.sf.jftp.gui.base.FtpHost ftphost = (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(i);
 			final String htmp = net.sf.jftp.system.StringUtils.cut(ftphost.hostname, " ");
 			final String utmp = net.sf.jftp.system.StringUtils.cut(ftphost.username, " ");
 			final String ptmp = net.sf.jftp.system.StringUtils.cut(ftphost.password, " ");
@@ -329,14 +329,14 @@ public class HostList extends JDialog {
 			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login.concat(String.valueOf(i)), htmp, utmp, ptmp, ntmp, ttmp);
 		}
 
-		hostList.repaint();
+		this.hostList.repaint();
 	}
 
 	/**
 	 * OK Button handler
 	 */
 	public void onOk() {
-		selectedHostInfo = this.getSelected();
+		this.selectedHostInfo = this.getSelected();
 		this.onSave();
 		this.dispose();
 	}
@@ -345,7 +345,7 @@ public class HostList extends JDialog {
 	 * Cancel button handler
 	 */
 	public void onCancel() {
-		selectedHostInfo = null;
+		this.selectedHostInfo = null;
 		this.dispose();
 	}
 
@@ -359,21 +359,21 @@ public class HostList extends JDialog {
 		ftpHost.hostname = "undefined";
 		ftpHost.password = "undefined";
 		ftpHost.port = "21";
-		hostListModel.addElement(ftpHost);
-		hostList.setSelectedValue(ftpHost, true);
-		selectedHostInfo = ftpHost;
+		this.hostListModel.addElement(ftpHost);
+		this.hostList.setSelectedValue(ftpHost, true);
+		this.selectedHostInfo = ftpHost;
 	}
 
 	/**
 	 * Returns the selected FtpHost from the hostList
 	 */
 	private net.sf.jftp.gui.base.FtpHost getSelected() {
-		final int sel = hostList.getSelectedIndex();
+		final int sel = this.hostList.getSelectedIndex();
 
-		if ((sel < 0) || (sel > (hostListModel.size() - 1))) {
+		if ((sel < 0) || (sel > (this.hostListModel.size() - 1))) {
 			return null;
 		} else {
-			return (net.sf.jftp.gui.base.FtpHost) hostListModel.elementAt(hostList.getSelectedIndex());
+			return (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(this.hostList.getSelectedIndex());
 		}
 	}
 
@@ -383,28 +383,28 @@ public class HostList extends JDialog {
 	 * it clears the panel
 	 */
 	private void updateHostInfoPanel() {
-		if (selectedHostInfo == null) {
-			jtfName.setText("");
-			jtfUser.setText("");
-			jtfPass.setText("");
-			jtfHost.setText("");
-			jtfPort.setText("");
-			jtfName.setEnabled(false);
-			jtfUser.setEnabled(false);
-			jtfHost.setEnabled(false);
-			jtfPass.setEnabled(false);
-			jtfPort.setEnabled(false);
+		if (this.selectedHostInfo == null) {
+			this.jtfName.setText("");
+			this.jtfUser.setText("");
+			this.jtfPass.setText("");
+			this.jtfHost.setText("");
+			this.jtfPort.setText("");
+			this.jtfName.setEnabled(false);
+			this.jtfUser.setEnabled(false);
+			this.jtfHost.setEnabled(false);
+			this.jtfPass.setEnabled(false);
+			this.jtfPort.setEnabled(false);
 		} else {
-			jtfName.setEnabled(true);
-			jtfUser.setEnabled(true);
-			jtfHost.setEnabled(true);
-			jtfPass.setEnabled(true);
-			jtfPort.setEnabled(true);
-			jtfName.setText(selectedHostInfo.name);
-			jtfUser.setText(selectedHostInfo.username);
-			jtfPass.setText(selectedHostInfo.password);
-			jtfHost.setText(selectedHostInfo.hostname);
-			jtfPort.setText(selectedHostInfo.port);
+			this.jtfName.setEnabled(true);
+			this.jtfUser.setEnabled(true);
+			this.jtfHost.setEnabled(true);
+			this.jtfPass.setEnabled(true);
+			this.jtfPort.setEnabled(true);
+			this.jtfName.setText(this.selectedHostInfo.name);
+			this.jtfUser.setText(this.selectedHostInfo.username);
+			this.jtfPass.setText(this.selectedHostInfo.password);
+			this.jtfHost.setText(this.selectedHostInfo.hostname);
+			this.jtfPort.setText(this.selectedHostInfo.port);
 		}
 	}
 
@@ -413,14 +413,14 @@ public class HostList extends JDialog {
 	 * "selectedHostInfo" from the contents of the screen
 	 */
 	private void updateHostInfoObject() {
-		if (selectedHostInfo == null) {
+		if (this.selectedHostInfo == null) {
 			return;
 		}
 
-		selectedHostInfo.hostname = jtfHost.getText();
-		selectedHostInfo.name = jtfName.getText();
-		selectedHostInfo.username = jtfUser.getText();
-		selectedHostInfo.password = new String(jtfPass.getPassword());
-		selectedHostInfo.port = jtfPort.getText();
+		this.selectedHostInfo.hostname = this.jtfHost.getText();
+		this.selectedHostInfo.name = this.jtfName.getText();
+		this.selectedHostInfo.username = this.jtfUser.getText();
+		this.selectedHostInfo.password = new String(this.jtfPass.getPassword());
+		this.selectedHostInfo.port = this.jtfPort.getText();
 	}
 }

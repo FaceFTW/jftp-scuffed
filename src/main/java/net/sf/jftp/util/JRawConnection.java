@@ -39,38 +39,38 @@ public class JRawConnection implements Runnable {
 
 	public void run() {
 		try {
-			final java.net.Socket s = new java.net.Socket(host, port);
+			final java.net.Socket s = new java.net.Socket(this.host, this.port);
 
-			out = new PrintStream(s.getOutputStream());
+			this.out = new PrintStream(s.getOutputStream());
 			final java.io.DataInputStream in = new java.io.DataInputStream(s.getInputStream());
 
-			if (reciever) {
+			if (this.reciever) {
 				final JReciever jrcv = new JReciever(in);
 			}
 
-			isOk = true;
+			this.isOk = true;
 		} catch (final Exception ex) {
-			isOk = false;
+			this.isOk = false;
 		}
 
-		established = true;
+		this.established = true;
 	}
 
 	public boolean isThere() {
 		int cnt = 0;
 
 		final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
-		while (!established && (cnt < timeout)) {
+		while (!this.established && (cnt < timeout)) {
 			this.pause(100);
 			cnt = cnt + 100;
 		}
 
-		return isOk;
+		return this.isOk;
 	}
 
 	public void send(final String data) {
 		try {
-			out.println(data);
+			this.out.println(data);
 		} catch (final Exception ex) {
 			System.out.println(ex + "@JConnection.send()");
 		}

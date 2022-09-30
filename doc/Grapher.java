@@ -18,8 +18,7 @@ public final String[] files = new String[] {"JFtp.java", "LoadSet.java","EventCo
 "HTextField.java","ConnectionHandler.java","ConnectionListener.java","FtpServer.java","Transfer.java","StringUtils.java" };
 
 public final String prefix =  "/home/cdemon/JFtp/j-ftp/src/java/net/sf/jftp/";
-public final String[] paths = new String[] { prefix, prefix+"gui/", prefix+"net/", prefix+"util/", prefix+"config/", prefix+"gui/framework",
-								   prefix+"event/" };
+public final String[] paths = new String[] {this.prefix, this.prefix +"gui/", this.prefix +"net/", this.prefix +"util/", this.prefix +"config/", this.prefix +"gui/framework", this.prefix +"event/" };
 
 public final Hashtable table = new Hashtable();
 public final Hashtable pool = new Hashtable();
@@ -33,13 +32,13 @@ public Grapher()
 
  try
  {
-	 for (final String s : files) {
+	 for (final String s : this.files) {
 		 final java.io.File f = this.getFile(s);
 
 		 if (f != null && f.exists()) {
-			 for (final String file : files) {
+			 for (final String file : this.files) {
 				 final int x = this.countRelations(f, file);
-				 if (x > 0) table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
+				 if (x > 0) this.table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
 			 }
 		 }
 	 }
@@ -64,7 +63,7 @@ public void paint(final Graphics g)
 	// points
  	final Random r = new Random();
 
-	for (final String s : files) {
+	for (final String s : this.files) {
 		while (true) {
 			final int x = r.nextInt(Grapher.width - 200);
 			int y = r.nextInt(Grapher.height - 20);
@@ -74,7 +73,7 @@ public void paint(final Graphics g)
 				//System.out.println("adding: " + files[i]);
 				final String tmp = s.substring(0, s.indexOf(".java"));
 				final java.awt.Point p = new java.awt.Point(x, y);
-				pool.put(tmp, p);
+				this.pool.put(tmp, p);
 
 				this.linkPoints(g, p);
 
@@ -87,9 +86,9 @@ public void paint(final Graphics g)
 
 	g.setColor(Color.blue);
 
-	for (final String file : files) {
+	for (final String file : this.files) {
 		final String tmp = file.substring(0, file.indexOf(".java"));
-		final java.awt.Point p2 = (java.awt.Point) pool.get(tmp);
+		final java.awt.Point p2 = (java.awt.Point) this.pool.get(tmp);
 		if (p2 == null) continue;
 		g.drawString(tmp, (int) p2.getX(), (int) p2.getY());
 	}
@@ -99,8 +98,8 @@ public void paint(final Graphics g)
 public void linkPoints(final Graphics g, final Point p)
 {
 
-	final Enumeration k = table.keys();
-	final Enumeration e = table.elements();
+	final Enumeration k = this.table.keys();
+	final Enumeration e = this.table.elements();
 	String xk = null;
 	String file = null;
 
@@ -113,7 +112,7 @@ public void linkPoints(final Graphics g, final Point p)
 		file = file.substring(0,file.indexOf(".java"));
 
 		//System.out.println("<" + file + "> " + "(" + link + ")" + " - " + x);
-		final Point x2 = (Point) pool.get(file);
+		final Point x2 = (Point) this.pool.get(file);
 		if(x2 == null) continue;
 
 		if(x > 0)
@@ -135,7 +134,7 @@ public void linkPoints(final Graphics g, final Point p)
 
 public boolean check(final int x, final int y)
 {
-	final Enumeration e = pool.elements();
+	final Enumeration e = this.pool.elements();
 	Point d = null;
 	int a;
 	int b;
@@ -181,7 +180,7 @@ public int countRelations(final File f, String what) throws IOException
 
 public File getFile(final String name)
 {
-	for (final String path : paths) {
+	for (final String path : this.paths) {
 		final java.io.File f = new java.io.File(path + name);
 		if (f.exists()) return f;
 	}

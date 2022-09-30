@@ -39,7 +39,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 		this.setLocation(150, 150);
 		this.setTitle("Question");
 
-		resume.setEnabled(false);
+		this.resume.setEnabled(false);
 
 		final JTextArea text = new JTextArea();
 		text.append("A file named " + dirEntry.file + " already exists.                       \n\n");
@@ -55,22 +55,22 @@ public class ResumeDialog extends HFrame implements ActionListener {
 			text.append("It is bigger than the remote file.\n\n");
 		} else {
 			text.append("It is smaller than the remote file.\n\n");
-			resume.setEnabled(true);
+			this.resume.setEnabled(true);
 		}
 
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
 		this.getContentPane().add("Center", text);
 
 		final HPanel p = new HPanel();
-		p.add(resume);
-		p.add(skip);
-		p.add(over);
+		p.add(this.resume);
+		p.add(this.skip);
+		p.add(this.over);
 
 		this.getContentPane().add("South", p);
 
-		resume.addActionListener(this);
-		skip.addActionListener(this);
-		over.addActionListener(this);
+		this.resume.addActionListener(this);
+		this.skip.addActionListener(this);
+		this.over.addActionListener(this);
 
 		this.pack();
 		this.fixLocation();
@@ -78,15 +78,15 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == resume) {
+		if (e.getSource() == this.resume) {
 			this.dispose();
 			this.transfer();
-		} else if (e.getSource() == skip) {
+		} else if (e.getSource() == this.skip) {
 			this.dispose();
-		} else if (e.getSource() == over) {
+		} else if (e.getSource() == this.over) {
 			this.dispose();
 
-			final File f = new File(JFtp.localDir.getPath() + dirEntry.file);
+			final File f = new File(JFtp.localDir.getPath() + this.dirEntry.file);
 			f.delete();
 
 			this.transfer();
@@ -94,10 +94,10 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	}
 
 	private void transfer() {
-		if ((dirEntry.getRawSize() < Settings.smallSize) && !dirEntry.isDirectory()) {
-			JFtp.remoteDir.getCon().download(dirEntry.file);
+		if ((this.dirEntry.getRawSize() < Settings.smallSize) && !this.dirEntry.isDirectory()) {
+			JFtp.remoteDir.getCon().download(this.dirEntry.file);
 		} else {
-			JFtp.remoteDir.getCon().handleDownload(dirEntry.file);
+			JFtp.remoteDir.getCon().handleDownload(this.dirEntry.file);
 		}
 	}
 }

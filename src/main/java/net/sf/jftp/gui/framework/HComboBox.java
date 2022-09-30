@@ -27,12 +27,12 @@ public class HComboBox extends JPanel //implements ActionListener
 	public HComboBox(final String l) {
 		this.setLayout(new BorderLayout(5, 5));
 
-		label = new JLabel(l + "  ");
-		this.add("West", label);
+		this.label = new JLabel(l + "  ");
+		this.add("West", this.label);
 
 		//comboBox = new JComboBox(t, 12);
-		comboBox = new JComboBox();
-		this.add("East", comboBox);
+		this.comboBox = new JComboBox();
+		this.add("East", this.comboBox);
 
 		this.setVisible(true);
 	}
@@ -40,37 +40,37 @@ public class HComboBox extends JPanel //implements ActionListener
 	public HComboBox(final String l, final String[] t) {
 		this.setLayout(new BorderLayout(5, 5));
 
-		label = new JLabel(l + "  ");
-		this.add("West", label);
+		this.label = new JLabel(l + "  ");
+		this.add("West", this.label);
 
 		//comboBox = new JComboBox(t, 12);
-		comboBox = new JComboBox(t);
-		this.add("East", comboBox);
+		this.comboBox = new JComboBox(t);
+		this.add("East", this.comboBox);
 
 		this.setVisible(true);
 	}
 
 	public String getLabel() {
-		return label.getText();
+		return this.label.getText();
 	}
 
 	public void setLabel(final String l) {
-		label.setText(l + "  ");
+		this.label.setText(l + "  ");
 	}
 
 	public Object getSelectedItem() {
-		return comboBox.getSelectedItem();
+		return this.comboBox.getSelectedItem();
 	}
 
 	public void addItem(final Object obj) {
-		comboBox.addItem(obj);
+		this.comboBox.addItem(obj);
 	}
 
 	public void addActionListener(final java.awt.event.ActionListener actListen) {
-		comboBox.addActionListener(actListen);
+		this.comboBox.addActionListener(actListen);
 	}
 
 	public void setEditable(final boolean yesno) {
-		comboBox.setEditable(yesno);
+		this.comboBox.setEditable(yesno);
 	}
 }

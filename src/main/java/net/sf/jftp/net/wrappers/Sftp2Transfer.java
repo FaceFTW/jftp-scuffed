@@ -34,26 +34,26 @@ public class Sftp2Transfer implements Runnable {
 	}
 
 	public void prepare() {
-		runner = new Thread(this);
-		runner.setPriority(Thread.MIN_PRIORITY);
-		runner.start();
+		this.runner = new Thread(this);
+		this.runner.setPriority(Thread.MIN_PRIORITY);
+		this.runner.start();
 	}
 
 	public void run() {
-		con = new Sftp2Connection(host, port, keyfile);
-		con.setConnectionListeners(listeners);
-		con.login(user, pass);
-		con.setLocalPath(localPath);
-		con.chdir(remotePath);
+		this.con = new Sftp2Connection(this.host, this.port, this.keyfile);
+		this.con.setConnectionListeners(this.listeners);
+		this.con.login(this.user, this.pass);
+		this.con.setLocalPath(this.localPath);
+		this.con.chdir(this.remotePath);
 
-		if (type.equals(Transfer.DOWNLOAD)) {
-			con.download(file);
-		} else if (type.equals(Transfer.UPLOAD)) {
-			con.upload(file);
+		if (this.type.equals(Transfer.DOWNLOAD)) {
+			this.con.download(this.file);
+		} else if (this.type.equals(Transfer.UPLOAD)) {
+			this.con.upload(this.file);
 		}
 	}
 
 	public Sftp2Connection getSftpConnection() {
-		return con;
+		return this.con;
 	}
 }

@@ -43,13 +43,13 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	private boolean useLocal = false;
 
 	public WebdavHostChooser(final ComponentListener l, final boolean local) {
-		listener = l;
-		useLocal = local;
+		this.listener = l;
+		this.useLocal = local;
 		this.init();
 	}
 
 	public WebdavHostChooser(final ComponentListener l) {
-		listener = l;
+		this.listener = l;
 		this.init();
 	}
 
@@ -61,7 +61,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		//setSize(500, 200);
 		this.setLocation(100, 150);
 		this.setTitle("WebDAV Connection... (ALPHA STATE)");
-		this.setBackground(okP.getBackground());
+		this.setBackground(this.okP.getBackground());
 
 		net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.setMinimumSize(new Dimension(500, 50));
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
@@ -74,13 +74,13 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		p.add(net.sf.jftp.gui.hostchooser.WebdavHostChooser.user);
 		p.add(net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass);
 		p.add(new JLabel(""));
-		p.add(okP);
+		p.add(this.okP);
 
-		okP.add(ok);
+		this.okP.add(this.ok);
 
 		this.getContentPane().add("South", p);
 
-		ok.addActionListener(this);
+		this.ok.addActionListener(this);
 
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
@@ -103,7 +103,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 			final String htmp = net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.getText().trim();
@@ -112,7 +112,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 
 			final net.sf.jftp.net.wrappers.WebdavConnection con;
 
-			if (useLocal) {
+			if (this.useLocal) {
 				con = new net.sf.jftp.net.wrappers.WebdavConnection(htmp, utmp, ptmp, (net.sf.jftp.net.ConnectionListener) net.sf.jftp.JFtp.localDir);
 				net.sf.jftp.JFtp.statusP.jftp.addLocalConnection("Webdav", con);
 				con.chdir(htmp);
@@ -127,8 +127,8 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (listener != null) {
-				listener.componentResized(new ComponentEvent(this, 0));
+			if (this.listener != null) {
+				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}
 	}

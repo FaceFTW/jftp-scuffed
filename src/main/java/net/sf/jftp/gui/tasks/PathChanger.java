@@ -33,11 +33,11 @@ public class PathChanger extends net.sf.jftp.gui.framework.HFrame implements Act
 		//setLocation(150, 150);
 		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new net.sf.jftp.gui.framework.HTextField("Path:", "");
-		this.getContentPane().add(text);
-		this.getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new net.sf.jftp.gui.framework.HTextField("Path:", "");
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
 		this.pack();
 		this.fixLocation();
@@ -45,15 +45,15 @@ public class PathChanger extends net.sf.jftp.gui.framework.HFrame implements Act
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			this.setVisible(false);
 
-			if (type.equals("remote")) {
-				net.sf.jftp.JFtp.remoteDir.getCon().chdir(text.getText());
+			if (this.type.equals("remote")) {
+				net.sf.jftp.JFtp.remoteDir.getCon().chdir(this.text.getText());
 			}
 
-			if (type.equals("local")) {
-				net.sf.jftp.JFtp.localDir.getCon().chdir(text.getText());
+			if (this.type.equals("local")) {
+				net.sf.jftp.JFtp.localDir.getCon().chdir(this.text.getText());
 			}
 		}
 	}

@@ -25,18 +25,18 @@ public class SaveSet {
 	public SaveSet(final String file, final String host, final String user, final String pass, final String name, final String port) {
 		try {
 			final FileOutputStream fos;
-			out = new PrintStream((fos = new FileOutputStream(file)));
-			out.println(host);
-			out.println(user);
+			this.out = new PrintStream((fos = new FileOutputStream(file)));
+			this.out.println(host);
+			this.out.println(user);
 
 			if (Settings.getStorePasswords()) {
-				this.savePW(pass, out);
+				this.savePW(pass, this.out);
 			} else {
-				out.println();
+				this.out.println();
 			}
 
-			out.println(name);
-			out.println(port);
+			this.out.println(name);
+			this.out.println(port);
 			fos.close();
 		} catch (final Exception ex) {
 			ex.printStackTrace();
@@ -45,19 +45,19 @@ public class SaveSet {
 
 	public SaveSet(final String file, final String host, final String user, final String pass, final String port, final String cwd, final String lcwd) {
 		try {
-			out = new PrintStream(new FileOutputStream(file));
-			out.println(host);
-			out.println(user);
+			this.out = new PrintStream(new FileOutputStream(file));
+			this.out.println(host);
+			this.out.println(user);
 
 			if (Settings.getStorePasswords()) {
-				this.savePW(pass, out);
+				this.savePW(pass, this.out);
 			} else {
-				out.println();
+				this.out.println();
 			}
 
-			out.println(port);
-			out.println(cwd);
-			out.println(lcwd);
+			this.out.println(port);
+			this.out.println(cwd);
+			this.out.println(lcwd);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
@@ -71,8 +71,8 @@ public class SaveSet {
 	//*** lsCMD: the FTP LIST command to be saved
 	public SaveSet(final String file, final String lsCmd) {
 		try {
-			out = new PrintStream(new FileOutputStream(file));
-			out.println(lsCmd);
+			this.out = new PrintStream(new FileOutputStream(file));
+			this.out.println(lsCmd);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}

@@ -50,10 +50,10 @@ class ImagePanel extends JPanel {
 		try {
 			this.setBackground(Color.white);
 
-			img = Toolkit.getDefaultToolkit().getImage(new URL(url));
+			this.img = Toolkit.getDefaultToolkit().getImage(new URL(url));
 
 			final MediaTracker mt = new MediaTracker(this);
-			mt.addImage(img, 1);
+			mt.addImage(this.img, 1);
 			mt.waitForAll();
 
 			this.repaint();
@@ -66,7 +66,7 @@ class ImagePanel extends JPanel {
 	public void paintComponent(final Graphics g) {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, 1500, 1500);
-		g.drawImage(img, 0, 0, null);
+		g.drawImage(this.img, 0, 0, null);
 	}
 
 	public void update(final Graphics g) {

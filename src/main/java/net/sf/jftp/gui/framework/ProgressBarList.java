@@ -24,7 +24,7 @@ public class ProgressBarList extends JPanel {
 
 						if (item == c) {
 							item.select();
-							index = i;
+							net.sf.jftp.gui.framework.ProgressBarList.this.index = i;
 						}
 					}
 				}
@@ -55,24 +55,24 @@ public class ProgressBarList extends JPanel {
 		}
 
 		this.revalidate();
-		this.setSelectedIndex(index);
+		this.setSelectedIndex(this.index);
 	}
 
 	public ProgressbarItem getSelectedValue() {
-		return (ProgressbarItem) this.getComponent(index);
+		return (ProgressbarItem) this.getComponent(this.index);
 	}
 
 	public int getSelectedIndex() {
-		return index;
+		return this.index;
 	}
 
 	public void setSelectedIndex(final int idx) {
 
 		this.deselectAll();
 
-		index = idx;
-		if (index >= 0 && this.getComponentCount() > index && this.getComponent(index) instanceof ProgressbarItem) {
-			((ProgressbarItem) this.getComponent(index)).select();
+		this.index = idx;
+		if (this.index >= 0 && this.getComponentCount() > this.index && this.getComponent(this.index) instanceof ProgressbarItem) {
+			((ProgressbarItem) this.getComponent(this.index)).select();
 		}
 	}
 

@@ -29,13 +29,13 @@ public class RSSParser {
 	final Vector content = new Vector();
 
 	public RSSParser(final URL f) {
-		file = f;
+		this.file = f;
 		this.parse();
 	}
 
 	private void parse() {
 		try {
-			final DataInputStream in = new DataInputStream(new BufferedInputStream(file.openStream()));
+			final DataInputStream in = new DataInputStream(new BufferedInputStream(this.file.openStream()));
 
 			String tmp;
 			final StringBuilder data = new StringBuilder();
@@ -44,10 +44,10 @@ public class RSSParser {
 				data.append(tmp);
 			}
 
-			this.add(data.toString(), content, "<title>", "</title>", "<description>", "</description>");
-			this.add(data.toString(), titles, "<title>", "</title>", null, null);
-			this.add(data.toString(), descs, "<description>", "</description>", null, null);
-			this.add(data.toString(), links, "<link>", "</link>", null, null);
+			this.add(data.toString(), this.content, "<title>", "</title>", "<description>", "</description>");
+			this.add(data.toString(), this.titles, "<title>", "</title>", null, null);
+			this.add(data.toString(), this.descs, "<description>", "</description>", null, null);
+			this.add(data.toString(), this.links, "<link>", "</link>", null, null);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 

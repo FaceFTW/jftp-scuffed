@@ -75,13 +75,13 @@ public class UpdateDaemon implements Runnable {
 				}
 
 				if (net.sf.jftp.system.UpdateDaemon.cal > 0) {
-					jftp.fireUpdate();
+					this.jftp.fireUpdate();
 					net.sf.jftp.system.UpdateDaemon.cal = 0;
 					Thread.sleep(100);
 				}
 
 				if (net.sf.jftp.system.UpdateDaemon.log > 0) {
-					jftp.ensureLogging();
+					this.jftp.ensureLogging();
 					net.sf.jftp.system.UpdateDaemon.log = 0;
 					Thread.sleep(500);
 				}

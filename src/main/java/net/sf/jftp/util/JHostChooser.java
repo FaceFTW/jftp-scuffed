@@ -38,27 +38,27 @@ public class JHostChooser extends HFrame implements ActionListener {
 		final javax.swing.JPanel p1 = new javax.swing.JPanel();
 		final javax.swing.JLabel hostL = new javax.swing.JLabel("Host:");
 		p1.add(hostL);
-		p1.add(host);
+		p1.add(this.host);
 		final javax.swing.JLabel portL = new javax.swing.JLabel("Port:");
 		p1.add(portL);
-		p1.add(port);
+		p1.add(this.port);
 
-		host.setText(RawConnection.host.getText());
-		port.setText(RawConnection.port.getText());
+		this.host.setText(RawConnection.host.getText());
+		this.port.setText(RawConnection.port.getText());
 
 		this.getContentPane().add("Center", p1);
 		final javax.swing.JPanel okP = new javax.swing.JPanel();
 		this.getContentPane().add("South", okP);
-		okP.add(ok);
-		ok.addActionListener(this);
+		okP.add(this.ok);
+		this.ok.addActionListener(this);
 
 		this.setVisible(true);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == ok) {
-			RawConnection.host.setText(host.getText());
-			RawConnection.port.setText(port.getText());
+		if (e.getSource() == this.ok) {
+			RawConnection.host.setText(this.host.getText());
+			RawConnection.port.setText(this.port.getText());
 			RawConnection.established = false;
 			RawConnection.mayDispose = true;
 			this.dispose();

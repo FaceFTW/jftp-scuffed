@@ -38,51 +38,51 @@ public class Log4JLogger implements Logger {
 	}
 
 	public void debug(final String msg) {
-		cat.debug(msg);
+		this.cat.debug(msg);
 	}
 
 	public void debugRaw(final String msg) {
-		cat.debug(msg);
+		this.cat.debug(msg);
 	}
 
 	public void debug(final String msg, final Throwable throwable) {
-		cat.debug(msg);
-		cat.debug(this.stacktrace(throwable));
+		this.cat.debug(msg);
+		this.cat.debug(this.stacktrace(throwable));
 	}
 
 	public void warn(final String msg) {
-		cat.warn(msg);
+		this.cat.warn(msg);
 	}
 
 	public void warn(final String msg, final Throwable throwable) {
-		cat.warn(msg);
-		cat.warn(this.stacktrace(throwable));
+		this.cat.warn(msg);
+		this.cat.warn(this.stacktrace(throwable));
 	}
 
 	public void error(final String msg) {
-		cat.error(msg);
+		this.cat.error(msg);
 	}
 
 	public void error(final String msg, final Throwable throwable) {
-		cat.error(msg);
-		cat.error(this.stacktrace(throwable));
+		this.cat.error(msg);
+		this.cat.error(this.stacktrace(throwable));
 	}
 
 	public void info(final String msg) {
-		cat.info(msg);
+		this.cat.info(msg);
 	}
 
 	public void info(final String msg, final Throwable throwable) {
-		cat.info(msg);
-		cat.info(this.stacktrace(throwable));
+		this.cat.info(msg);
+		this.cat.info(this.stacktrace(throwable));
 	}
 
 	public void fatal(final String msg) {
-		cat.fatal(msg);
+		this.cat.fatal(msg);
 	}
 
 	public void fatal(final String msg, final Throwable throwable) {
-		cat.fatal(msg);
-		cat.fatal(this.stacktrace(throwable));
+		this.cat.fatal(msg);
+		this.cat.fatal(this.stacktrace(throwable));
 	}
 }

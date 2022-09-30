@@ -49,13 +49,13 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 	private boolean useLocal = false;
 
 	public NfsHostChooser(final ComponentListener l, final boolean local) {
-		listener = l;
-		useLocal = local;
+		this.listener = l;
+		this.useLocal = local;
 		this.init();
 	}
 
 	public NfsHostChooser(final ComponentListener l) {
-		listener = l;
+		this.listener = l;
 		this.init();
 	}
 
@@ -67,7 +67,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		//setSize(600, 220);
 		this.setLocation(100, 150);
 		this.setTitle("NFS Connection...");
-		this.setBackground(okP.getBackground());
+		this.setBackground(this.okP.getBackground());
 
 		final JPanel p = new JPanel();
 		p.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.info);
@@ -117,14 +117,14 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		root.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.pass);
 
 		root.add(new JLabel(""));
-		root.add(okP);
+		root.add(this.okP);
 
-		okP.add(ok);
+		this.okP.add(this.ok);
 
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
 		this.getContentPane().add("Center", root);
 
-		ok.addActionListener(this);
+		this.ok.addActionListener(this);
 		net.sf.jftp.gui.hostchooser.NfsHostChooser.info.addActionListener(this);
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.text.addActionListener(this);
@@ -151,7 +151,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 			}
 
 			final ExternalDisplayer d = new ExternalDisplayer(url);
-		} else if ((e.getSource() == ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.text)) {
+		} else if ((e.getSource() == this.ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -170,7 +170,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 			//***
 			try {
 				final boolean status;
-				status = net.sf.jftp.net.wrappers.StartConnection.startCon("NFS", htmp, userName, ptmp, potmp, "", useLocal);
+				status = net.sf.jftp.net.wrappers.StartConnection.startCon("NFS", htmp, userName, ptmp, potmp, "", this.useLocal);
 
                 /*
 
@@ -206,8 +206,8 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (listener != null) {
-				listener.componentResized(new ComponentEvent(this, 0));
+			if (this.listener != null) {
+				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}
 	}

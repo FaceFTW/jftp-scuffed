@@ -67,8 +67,8 @@ public class DataConnection implements Runnable {
 		this.host = host;
 		this.port = port;
 		this.type = type;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume) {
@@ -80,8 +80,8 @@ public class DataConnection implements Runnable {
 		this.resume = resume;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final boolean justStream) {
@@ -94,8 +94,8 @@ public class DataConnection implements Runnable {
 		this.justStream = justStream;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final String localfile) {
@@ -108,8 +108,8 @@ public class DataConnection implements Runnable {
 		this.localfile = localfile;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final int skiplen) {
@@ -122,8 +122,8 @@ public class DataConnection implements Runnable {
 		this.skiplen = skiplen;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final int skiplen, final InputStream i) {
@@ -140,39 +140,39 @@ public class DataConnection implements Runnable {
 		}
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public void run() {
 		try {
-			newLine = con.getCRLF();
+			this.newLine = this.con.getCRLF();
 			//Log.debug("NL: "+newLine+"\n\n\n\n\n");
 
 			if (net.sf.jftp.config.Settings.getFtpPasvMode()) {
 				try {
-					sock = new Socket(host, port);
-					sock.setSoTimeout(net.sf.jftp.config.Settings.getSocketTimeout());
+					this.sock = new Socket(this.host, this.port);
+					this.sock.setSoTimeout(net.sf.jftp.config.Settings.getSocketTimeout());
 				} catch (final Exception ex) {
-					ok = false;
+					this.ok = false;
 					ex.printStackTrace();
-					this.debug("Can't open Socket on " + host + ":" + port);
+					this.debug("Can't open Socket on " + this.host + ":" + this.port);
 				}
 			} else {
 				//Log.debug("trying new server socket: "+port);
 				try {
-					ssock = new ServerSocket(port);
+					this.ssock = new ServerSocket(this.port);
 				} catch (final Exception ex) {
-					ok = false;
+					this.ok = false;
 					ex.printStackTrace();
-					net.sf.jftp.system.logging.Log.debug("Can't open ServerSocket on port " + port);
+					net.sf.jftp.system.logging.Log.debug("Can't open ServerSocket on port " + this.port);
 				}
 			}
 		} catch (final Exception ex) {
 			this.debug(ex.toString());
 		}
 
-		isThere = true;
+		this.isThere = true;
 
 		boolean ok = true;
 
@@ -184,23 +184,23 @@ public class DataConnection implements Runnable {
 			if (!net.sf.jftp.config.Settings.getFtpPasvMode()) {
 				int retry = 0;
 
-				while ((retry++ < 5) && (sock == null)) {
+				while ((retry++ < 5) && (this.sock == null)) {
 					try {
-						ssock.setSoTimeout(net.sf.jftp.config.Settings.connectionTimeout);
-						sock = ssock.accept();
+						this.ssock.setSoTimeout(net.sf.jftp.config.Settings.connectionTimeout);
+						this.sock = this.ssock.accept();
 					} catch (final IOException e) {
-						sock = null;
+						this.sock = null;
 						this.debug("Got IOException while trying to open a socket!");
 
 						if (retry == 5) {
 							this.debug("Connection failed, tried 5 times - maybe try a higher timeout in Settings.java...");
 						}
 
-						finished = true;
+						this.finished = true;
 
 						throw e;
 					} finally {
-						ssock.close();
+						this.ssock.close();
 					}
 
 					this.debug("Attempt timed out, retrying...");
@@ -209,37 +209,37 @@ public class DataConnection implements Runnable {
 
 			if (ok) {
 				final byte[] buf = new byte[net.sf.jftp.config.Settings.bufferSize];
-				start = System.currentTimeMillis();
+				this.start = System.currentTimeMillis();
 
 				long buflen = 0;
 
 				//---------------download----------------------
-				if (type.equals(net.sf.jftp.net.DataConnection.GET) || type.equals(net.sf.jftp.net.DataConnection.GETDIR)) {
-					if (!justStream) {
+				if (this.type.equals(net.sf.jftp.net.DataConnection.GET) || this.type.equals(net.sf.jftp.net.DataConnection.GETDIR)) {
+					if (!this.justStream) {
 						try {
-							if (resume) {
-								final File f = new File(file);
-								fOut = new RandomAccessFile(file, "rw");
+							if (this.resume) {
+								final File f = new File(this.file);
+								fOut = new RandomAccessFile(this.file, "rw");
 								fOut.seek(f.length());
 								buflen = f.length();
 							} else {
-								if (localfile == null) {
-									localfile = file;
+								if (this.localfile == null) {
+									this.localfile = this.file;
 								}
 
 								final File f2 = new File(net.sf.jftp.config.Settings.appHomeDir);
 								f2.mkdirs();
 
-								final File f = new File(localfile);
+								final File f = new File(this.localfile);
 
 								if (f.exists()) {
 									f.delete();
 								}
 
-								bOut = new BufferedOutputStream(new FileOutputStream(localfile), net.sf.jftp.config.Settings.bufferSize);
+								bOut = new BufferedOutputStream(new FileOutputStream(this.localfile), net.sf.jftp.config.Settings.bufferSize);
 							}
 						} catch (final Exception ex) {
-							this.debug("Can't create outputfile: " + file);
+							this.debug("Can't create outputfile: " + this.file);
 							ok = false;
 							ex.printStackTrace();
 						}
@@ -247,9 +247,9 @@ public class DataConnection implements Runnable {
 
 					if (ok) {
 						try {
-							in = new BufferedInputStream(sock.getInputStream(), net.sf.jftp.config.Settings.bufferSize);
+							this.in = new BufferedInputStream(this.sock.getInputStream(), net.sf.jftp.config.Settings.bufferSize);
 
-							if (justStream) {
+							if (this.justStream) {
 								return;
 							}
 						} catch (final Exception ex) {
@@ -267,13 +267,13 @@ public class DataConnection implements Runnable {
 										int read = -2;
 
 										try {
-											read = in.read(buf);
+											read = this.in.read(buf);
 										} catch (final IOException es) {
 											net.sf.jftp.system.logging.Log.out("got a IOException");
 											ok = false;
 											fOut.close();
-											finished = true;
-											con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
+											this.finished = true;
+											this.con.fireProgressUpdate(this.file, net.sf.jftp.net.DataConnection.FAILED, -1);
 
 											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
@@ -287,14 +287,14 @@ public class DataConnection implements Runnable {
 											break;
 										}
 
-										if (newLine != null) {
+										if (this.newLine != null) {
 											final byte[] buf2 = this.modifyGet(buf, read);
 											fOut.write(buf2, 0, buf2.length);
 										} else {
 											fOut.write(buf, 0, read);
 										}
 
-										con.fireProgressUpdate(file, type, len);
+										this.con.fireProgressUpdate(this.file, this.type, len);
 
 										if (this.time()) {
 											// Log.debugSize(len, true, false, file);
@@ -313,13 +313,13 @@ public class DataConnection implements Runnable {
 										int read = -2;
 
 										try {
-											read = in.read(buf);
+											read = this.in.read(buf);
 										} catch (final IOException es) {
 											net.sf.jftp.system.logging.Log.out("got a IOException");
 											ok = false;
 											bOut.close();
-											finished = true;
-											con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
+											this.finished = true;
+											this.con.fireProgressUpdate(this.file, net.sf.jftp.net.DataConnection.FAILED, -1);
 
 											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
@@ -333,14 +333,14 @@ public class DataConnection implements Runnable {
 											break;
 										}
 
-										if (newLine != null) {
+										if (this.newLine != null) {
 											final byte[] buf2 = this.modifyGet(buf, read);
 											bOut.write(buf2, 0, buf2.length);
 										} else {
 											bOut.write(buf, 0, read);
 										}
 
-										con.fireProgressUpdate(file, type, len);
+										this.con.fireProgressUpdate(this.file, this.type, len);
 
 										if (this.time()) {
 											//Log.debugSize(len, true, false, file);
@@ -358,7 +358,7 @@ public class DataConnection implements Runnable {
 							} catch (final IOException ex) {
 								ok = false;
 								this.debug("Old connection removed");
-								con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
+								this.con.fireProgressUpdate(this.file, net.sf.jftp.net.DataConnection.FAILED, -1);
 
 								//debug(ex + ": " + ex.getMessage());
 								ex.printStackTrace();
@@ -368,13 +368,13 @@ public class DataConnection implements Runnable {
 				}
 
 				//---------------upload----------------------
-				if (type.equals(net.sf.jftp.net.DataConnection.PUT) || type.equals(net.sf.jftp.net.DataConnection.PUTDIR)) {
-					if (in == null) {
+				if (this.type.equals(net.sf.jftp.net.DataConnection.PUT) || this.type.equals(net.sf.jftp.net.DataConnection.PUTDIR)) {
+					if (this.in == null) {
 						try {
-							fIn = new RandomAccessFile(file, "r");
+							fIn = new RandomAccessFile(this.file, "r");
 
-							if (resume) {
-								fIn.seek(skiplen);
+							if (this.resume) {
+								fIn.seek(this.skiplen);
 							}
 
 							//fIn = new BufferedInputStream(new FileInputStream(file));
@@ -386,7 +386,7 @@ public class DataConnection implements Runnable {
 
 					if (ok) {
 						try {
-							out = new BufferedOutputStream(sock.getOutputStream());
+							this.out = new BufferedOutputStream(this.sock.getOutputStream());
 						} catch (final Exception ex) {
 							ok = false;
 							this.debug("Can't get OutputStream");
@@ -394,13 +394,13 @@ public class DataConnection implements Runnable {
 
 						if (ok) {
 							try {
-								int len = skiplen;
+								int len = this.skiplen;
 
 								while (true) {
 									final int read;
 
-									if (in != null) {
-										read = in.read(buf);
+									if (this.in != null) {
+										read = this.in.read(buf);
 									} else {
 										read = fIn.read(buf);
 									}
@@ -412,14 +412,14 @@ public class DataConnection implements Runnable {
 										break;
 									}
 
-									if (newLine != null) {
+									if (this.newLine != null) {
 										final byte[] buf2 = this.modifyPut(buf, read);
-										out.write(buf2, 0, buf2.length);
+										this.out.write(buf2, 0, buf2.length);
 									} else {
-										out.write(buf, 0, read);
+										this.out.write(buf, 0, read);
 									}
 
-									con.fireProgressUpdate(file, type, len);
+									this.con.fireProgressUpdate(this.file, this.type, len);
 
 									if (this.time()) {
 										//   Log.debugSize(len, false, false, file);
@@ -430,13 +430,13 @@ public class DataConnection implements Runnable {
 									}
 								}
 
-								out.flush();
+								this.out.flush();
 
 								//Log.debugSize(len, false, true, file);
 							} catch (final IOException ex) {
 								ok = false;
 								this.debug("Error: Data connection closed.");
-								con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
+								this.con.fireProgressUpdate(this.file, net.sf.jftp.net.DataConnection.FAILED, -1);
 								ex.printStackTrace();
 							}
 						}
@@ -448,9 +448,9 @@ public class DataConnection implements Runnable {
 			ex.printStackTrace();
 		} finally {
 			try {
-				if (out != null) {
-					out.flush();
-					out.close();
+				if (this.out != null) {
+					this.out.flush();
+					this.out.close();
 				}
 			} catch (final Exception ex) {
 				ex.printStackTrace();
@@ -474,8 +474,8 @@ public class DataConnection implements Runnable {
 			}
 
 			try {
-				if (in != null && !justStream) {
-					in.close();
+				if (this.in != null && !this.justStream) {
+					this.in.close();
 				}
 
 				if (fIn != null) {
@@ -487,34 +487,34 @@ public class DataConnection implements Runnable {
 		}
 
 		try {
-			sock.close();
+			this.sock.close();
 		} catch (final Exception ex) {
 			this.debug(ex.toString());
 		}
 
 		if (!net.sf.jftp.config.Settings.getFtpPasvMode()) {
 			try {
-				ssock.close();
+				this.ssock.close();
 			} catch (final Exception ex) {
 				this.debug(ex.toString());
 			}
 		}
 
-		finished = true;
+		this.finished = true;
 
 		if (ok) {
-			con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FINISHED, -1);
+			this.con.fireProgressUpdate(this.file, net.sf.jftp.net.DataConnection.FINISHED, -1);
 		} else {
-			con.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
+			this.con.fireProgressUpdate(this.file, net.sf.jftp.net.DataConnection.FAILED, -1);
 		}
 	}
 
 	public InputStream getInputStream() {
-		return in;
+		return this.in;
 	}
 
 	public FtpConnection getCon() {
-		return con;
+		return this.con;
 	}
 
 	private void debug(final String msg) {
@@ -523,16 +523,16 @@ public class DataConnection implements Runnable {
 
 	public void reset() {
 		//reciever.destroy();
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	private boolean time() {
 		final long now = System.currentTimeMillis();
-		final long offset = now - start;
+		final long offset = now - this.start;
 
 		if (offset > net.sf.jftp.config.Settings.statusMessageAfterMillis) {
-			start = now;
+			this.start = now;
 
 			return true;
 		}
@@ -541,25 +541,25 @@ public class DataConnection implements Runnable {
 	}
 
 	public boolean isThere() {
-		if (finished) {
+		if (this.finished) {
 			return true;
 		}
 
-		return isThere;
+		return this.isThere;
 	}
 
 	public void setType(final String tmp) {
-		type = tmp;
+		this.type = tmp;
 	}
 
 	public boolean isOK() {
-		return ok;
+		return this.ok;
 	}
 
 	public void interrupt() {
-		if (net.sf.jftp.config.Settings.getFtpPasvMode() && (type.equals(net.sf.jftp.net.DataConnection.GET) || type.equals(net.sf.jftp.net.DataConnection.GETDIR))) {
+		if (net.sf.jftp.config.Settings.getFtpPasvMode() && (this.type.equals(net.sf.jftp.net.DataConnection.GET) || this.type.equals(net.sf.jftp.net.DataConnection.GETDIR))) {
 			try {
-				reciever.join();
+				this.reciever.join();
 			} catch (final InterruptedException ex) {
 				ex.printStackTrace();
 			}
@@ -568,10 +568,10 @@ public class DataConnection implements Runnable {
 
 	private byte[] modifyPut(final byte[] buf, final int len) {
 		//Log.debug("\n\n\n\nNewline: "+newLine);
-		if (newLine == null) return buf;
+		if (this.newLine == null) return buf;
 
 		String s = (new String(buf)).substring(0, len);
-		s = s.replaceAll(LINEEND, newLine);
+		s = s.replaceAll(this.LINEEND, this.newLine);
 		//Log.debug("Newline_own: "+LINEEND+", s:"+s);
 
 		return s.getBytes();
@@ -579,10 +579,10 @@ public class DataConnection implements Runnable {
 
 	private byte[] modifyGet(final byte[] buf, final int len) {
 		//Log.debug("\n\n\n\nNewline: "+newLine);
-		if (newLine == null) return buf;
+		if (this.newLine == null) return buf;
 
 		String s = (new String(buf)).substring(0, len);
-		s = s.replaceAll(newLine, LINEEND);
+		s = s.replaceAll(this.newLine, this.LINEEND);
 		//Log.debug("Newline_own: "+LINEEND+", s:"+s);
 
 		return s.getBytes();

@@ -83,14 +83,14 @@ public class StatusPanel extends HPanel implements ActionListener {
 		webdavcon.setToolTipText("New WebDAV Connection...");
 		bar.add(new JLabel("   "));
 
-		bar.add(close);
-		close.setSize(24, 24);
-		close.setToolTipText("Close Active Remote tab...");
+		bar.add(this.close);
+		this.close.setSize(24, 24);
+		this.close.setToolTipText("Close Active Remote tab...");
 		bar.add(new JLabel("    "));
 
-		address.addActionListener(this);
+		this.address.addActionListener(this);
 		bar.add(new JLabel("URL: "));
-		bar.add(address);
+		bar.add(this.address);
 		bar.add(new JLabel(" "));
 		final net.sf.jftp.gui.framework.HImageButton go = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.refreshImage, "go", "Download URL now...", this);
 		bar.add(go);
@@ -121,11 +121,11 @@ public class StatusPanel extends HPanel implements ActionListener {
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getActionCommand().equals("go") || (e.getSource() == address)) {
+		if (e.getActionCommand().equals("go") || (e.getSource() == this.address)) {
 			final Vector listeners = new Vector();
 			listeners.add(JFtp.localDir);
 
-			final String url = address.getText().trim();
+			final String url = this.address.getText().trim();
 
 			this.startTransfer(url, JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
 		} else if (e.getActionCommand().equals("smbcon")) {
@@ -151,7 +151,7 @@ public class StatusPanel extends HPanel implements ActionListener {
 			hc.toFront();
 			hc.update();
 		} else if (e.getActionCommand().equals("close")) {
-			jftp.closeCurrentTab();
+			this.jftp.closeCurrentTab();
 		} else if (e.getActionCommand().equals("newcon") && (!JFtp.uiBlocked)) {
 
 			final HostChooser hc = new HostChooser();

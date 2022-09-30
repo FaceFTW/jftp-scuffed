@@ -84,7 +84,7 @@ public class FileSearch {
 			net.sf.jftp.system.logging.Log.out(">>> URL: " + url);
 			net.sf.jftp.system.logging.Log.out(">>> Scanning for ");
 
-			for (final String s : typeArray) {
+			for (final String s : this.typeArray) {
 				net.sf.jftp.system.logging.Log.out(s + " ");
 			}
 
@@ -93,7 +93,7 @@ public class FileSearch {
 
 			net.sf.jftp.system.logging.Log.out("Fetching initial HTML file...");
 
-			final Getter urlGetter = new Getter(localDir);
+			final Getter urlGetter = new Getter(this.localDir);
 			urlGetter.fetch(url, true);
 
 			net.sf.jftp.system.logging.Log.out("Searching for links...");
@@ -129,13 +129,13 @@ public class FileSearch {
 	private int rate(final String content) {
 		int score = 0;
 
-		for (final String value : termArray) {
+		for (final String value : this.termArray) {
 			if (content.contains(value)) score += 3;
 		}
 
-		if (score < MIN_TERM) return 0;
+		if (score < this.MIN_TERM) return 0;
 
-		for (final String s : optArray) {
+		for (final String s : this.optArray) {
 			if (content.contains(s)) score++;
 		}
 
@@ -143,7 +143,7 @@ public class FileSearch {
 	}
 
 	private int checkForResult(final String url) {
-		for (final String s : ignoreArray) {
+		for (final String s : this.ignoreArray) {
 			if (url.contains(s)) return -1;
 		}
 
@@ -154,13 +154,13 @@ public class FileSearch {
 
 	private boolean checkForScanableUrl(final String url) {
 
-		if (checked.containsKey(url)) {
+		if (this.checked.containsKey(url)) {
 			return false;
 		} else {
-			checked.put(url, "");
+			this.checked.put(url, "");
 		}
 
-		for (final String s : scanArray) {
+		for (final String s : this.scanArray) {
 			if (url.endsWith(s)) return true;
 		}
 
@@ -171,27 +171,27 @@ public class FileSearch {
 		url = this.clear(url);
 
 		final int urlRating = this.checkForResult(url);
-		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + currentDepth);
+		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
 
 		if (urlRating > 0) {
-		} else if (urlRating < 0 && currentDepth > 0) {
+		} else if (urlRating < 0 && this.currentDepth > 0) {
 			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
 			return;
 		}
 
 
-		final Getter urlGetter = new Getter(localDir);
+		final Getter urlGetter = new Getter(this.localDir);
 		final String content = urlGetter.fetch(url);
 
 		final int factor = this.rate(content);
-		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + currentDepth);
+		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
 
-		if (factor < MIN_FACTOR) {
+		if (factor < this.MIN_FACTOR) {
 			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
 			return;
 		}
 
-		if (!net.sf.jftp.tools.FileSearch.ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + currentDepth);
+		if (!net.sf.jftp.tools.FileSearch.ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
 
 		Vector m = this.sort(content, url.substring(0, url.lastIndexOf("/")), "href=\"");
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "src=\""));
@@ -208,16 +208,16 @@ public class FileSearch {
 			boolean skip = false;
 
 			while (!skip) {
-				for (final String s : typeArray) {
+				for (final String s : this.typeArray) {
 					if (next.endsWith(s) || s.trim().equals("*")) {
 						net.sf.jftp.system.logging.Log.out("HIT: " + url + " -> " + next);
 
-						if (!LOAD || !this.checkForScanableUrl(url)) continue;
+						if (!this.LOAD || !this.checkForScanableUrl(url)) continue;
 
 						final int x = next.indexOf("/");
 
 						if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-							final net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(localDir);
+							final net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(this.localDir);
 							urlGetter2.fetch(next, false);
 
 							continue;
@@ -228,14 +228,14 @@ public class FileSearch {
 				skip = true;
 			}
 
-			if (currentDepth < MAX) {
+			if (this.currentDepth < this.MAX) {
 
 				final int x = next.indexOf("/");
 
 				if ((x > 0) && (next.substring(0, x).indexOf(".") > 0)) {
-					currentDepth++;
+					this.currentDepth++;
 					this.crawl(next);
-					currentDepth--;
+					this.currentDepth--;
 				}
 			}
 		}
@@ -355,10 +355,10 @@ class Getter {
 
 			if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> " + host + wo);
 
-			final File d = new File(localDir);
+			final File d = new File(this.localDir);
 			d.mkdir();
 
-			final File f = new File(localDir + wo.substring(wo.lastIndexOf("/") + 1));
+			final File f = new File(this.localDir + wo.substring(wo.lastIndexOf("/") + 1));
 
 			if (f.exists() && !force) {
 				if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> file already exists...");
@@ -372,7 +372,7 @@ class Getter {
 			final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
 			final DataInputStream in = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
 
-			final BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(localDir + wo.substring(wo.lastIndexOf("/") + 1)));
+			final BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf("/") + 1)));
 
 			final byte[] alu = new byte[2048];
 

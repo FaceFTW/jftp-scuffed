@@ -40,10 +40,10 @@ public class HTextField extends JPanel {
 	public void init(final String l, final String t, final int size, final boolean isPw) {
 		this.setLayout(new MigLayout());
 
-		label = new JLabel(l);
-		this.add(label);
+		this.label = new JLabel(l);
+		this.add(this.label);
 
-		text = isPw ? new JPasswordField(t, size) {
+		this.text = isPw ? new JPasswordField(t, size) {
 			public Insets getInsets() {
 				return new Insets(4, 4, 4, 4);
 			}
@@ -53,33 +53,33 @@ public class HTextField extends JPanel {
 			}
 		};
 
-		this.add(text, "align right");
+		this.add(this.text, "align right");
 
 		this.setVisible(true);
 	}
 
 
 	public String getLabel() {
-		return label.getText();
+		return this.label.getText();
 	}
 
 	public void setLabel(final String l) {
-		label.setText(l + "  ");
+		this.label.setText(l + "  ");
 	}
 
 	public String getText() {
-		return text.getText();
+		return this.text.getText();
 	}
 
 	public void setText(final String t) {
-		text.setText(t);
+		this.text.setText(t);
 	}
 
 	public void requestFocus() {
-		text.requestFocus();
+		this.text.requestFocus();
 	}
 
 	public void setEnabled(final boolean yesno) {
-		text.setEnabled(yesno);
+		this.text.setEnabled(yesno);
 	}
 }

@@ -65,12 +65,12 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	private final boolean ext = Settings.showNewlineOption;
 
 	public RsyncHostChooser(final ComponentListener l, final boolean local) {
-		listener = l;
+		this.listener = l;
 		this.init();
 	}
 
 	public RsyncHostChooser(final ComponentListener l) {
-		listener = l;
+		this.listener = l;
 		this.init();
 	}
 
@@ -82,39 +82,39 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 
 		this.setTitle("RSync Connection...");
-		this.setBackground(okP.getBackground());
+		this.setBackground(this.okP.getBackground());
 
 //		anonBox.setSelected(false);
-		user.setEnabled(true);
-		pass.text.setEnabled(true);
+		this.user.setEnabled(true);
+		this.pass.text.setEnabled(true);
 
 		try {
 			final LoadSet l = new LoadSet();
 			final String[] login = net.sf.jftp.config.LoadSet.loadSet(Settings.login_def);
 
 			if ((login != null) && (login[0] != null)) {
-				host.setText(login[0]);
-				user.setText(login[1]);
+				this.host.setText(login[0]);
+				this.user.setText(login[1]);
 
 				if (login[3] != null) {
-					port.setText(login[3]);
+					this.port.setText(login[3]);
 				}
 
 				if (login[4] != null) {
-					cwd.setText(login[4]);
+					this.cwd.setText(login[4]);
 				}
 
 				if (login[5] != null) {
-					lcwd.setText(login[5]);
+					this.lcwd.setText(login[5]);
 				}
 			}
 
 			if (Settings.getStorePasswords()) {
 				if (login != null && login[2] != null) {
-					pass.setText(login[2]);
+					this.pass.setText(login[2]);
 				}
 			} else {
-				pass.setText("");
+				this.pass.setText("");
 			}
 		} catch (final Exception ex) {
 			Log.debug("Error initializing connection values!");
@@ -124,31 +124,31 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		final HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
 
-		root.add(host);
-		root.add(port, "wrap");
-		root.add(user);
-		root.add(pass, "wrap");
+		root.add(this.host);
+		root.add(this.port, "wrap");
+		root.add(this.user);
+		root.add(this.pass, "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
-		root.add(cwd, "wrap");
-		root.add(lcwd, "wrap");
+		root.add(this.cwd, "wrap");
+		root.add(this.lcwd, "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
-		root.add(listP);
+		root.add(this.listP);
 
-		root.add(okP, "align right");
-		okP.add(ok);
-		ok.addActionListener(this);
+		root.add(this.okP, "align right");
+		this.okP.add(this.ok);
+		this.ok.addActionListener(this);
 
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-		lcwd.setEnabled(true);
-		cwd.setEnabled(true);
-		pass.text.addActionListener(this);
+		this.lcwd.setEnabled(true);
+		this.cwd.setEnabled(true);
+		this.pass.text.addActionListener(this);
 
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
 		this.getContentPane().add("Center", root);
@@ -165,17 +165,17 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.fixLocation();
 		this.setVisible(true);
 		this.toFront();
-		host.requestFocus();
+		this.host.requestFocus();
 	}
 
 	public void update(final String url) {
 		try {
-			System.out.println(lcwd.getText());
-			System.out.println(cwd.getText());
-			System.out.println(host.getText());
-			System.out.println(user.getText());
-			System.out.println(port.getText());
-			System.out.println(pass.getText());
+			System.out.println(this.lcwd.getText());
+			System.out.println(this.cwd.getText());
+			System.out.println(this.host.getText());
+			System.out.println(this.user.getText());
+			System.out.println(this.port.getText());
+			System.out.println(this.pass.getText());
 
 //			public HTextField host = new HTextField("Hostname:", "localhost        ");
 //			public HTextField user = new HTextField("Username:", "anonymous        ");
@@ -231,16 +231,16 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 //			FtpConnection con = null;
-			net.sf.jftp.JFtp.setHost(host.getText());
+			net.sf.jftp.JFtp.setHost(this.host.getText());
 
-			final String htmp = StringUtils.cut(host.getText(), " ");
-			final String utmp = StringUtils.cut(user.getText(), " ");
-			final String ptmp = StringUtils.cut(pass.getText(), " ");
-			final String potmp = StringUtils.cut(port.getText(), " ");
+			final String htmp = StringUtils.cut(this.host.getText(), " ");
+			final String utmp = StringUtils.cut(this.user.getText(), " ");
+			final String ptmp = StringUtils.cut(this.pass.getText(), " ");
+			final String potmp = StringUtils.cut(this.port.getText(), " ");
 
 			/* All the information of the current server are stored in JFtp.HostInfo */
 			net.sf.jftp.JFtp.hostinfo.hostname = htmp;
@@ -256,8 +256,8 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 			final String dtmp;
 			final String ltmp;
 
-			dtmp = cwd.getText();
-			ltmp = lcwd.getText();
+			dtmp = this.cwd.getText();
+			ltmp = this.lcwd.getText();
 
 			final SaveSet s = new SaveSet(Settings.login_def, htmp, utmp, ptmp, potmp, dtmp, ltmp);
 
@@ -277,8 +277,8 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (listener != null) {
-				listener.componentResized(new ComponentEvent(this, 0));
+			if (this.listener != null) {
+				this.listener.componentResized(new ComponentEvent(this, 0));
 //		} else if (e.getSource() == list) {
 //			HostList hl = new HostList(this);
 //			FtpHost selectedHost = hl.getFtpHost();
@@ -326,33 +326,33 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 //		mode = 1;
 //		h.setVisible(false);
 //		;
-			} else if (e.getSource() == frontMode) {
+			} else if (e.getSource() == this.frontMode) {
 				final int mode = 2;
-				h.setVisible(false);
+				this.h.setVisible(false);
 			}
 		}
 	}
 
 	private void prepareBackgroundMessage() {
 		final HPanel p = new HPanel();
-		p.add(backMode);
-		p.add(frontMode);
+		p.add(this.backMode);
+		p.add(this.frontMode);
 		p.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		backMode.addActionListener(this);
-		frontMode.addActionListener(this);
+		this.backMode.addActionListener(this);
+		this.frontMode.addActionListener(this);
 
-		h.getContentPane().setLayout(new BorderLayout(10, 10));
-		h.setTitle("Connection failed!");
-		h.setLocation(150, 200);
+		this.h.getContentPane().setLayout(new BorderLayout(10, 10));
+		this.h.setTitle("Connection failed!");
+		this.h.setLocation(150, 200);
 
 		final JTextArea text = new JTextArea();
-		h.getContentPane().add("Center", text);
-		h.getContentPane().add("South", p);
+		this.h.getContentPane().add("Center", text);
+		this.h.getContentPane().add("South", p);
 		text.setText(" ---------------- Output -----------------\n\n" + "The server is busy at the moment.\n\n" + "Do you want JFtp to go to disappear and try to login\n" + "continuously?\n\n" + "(It will show up again when it has initiated a connection)\n\n");
 		net.sf.jftp.JFtp.log.setText("");
 		text.setEditable(false);
-		h.pack();
+		this.h.pack();
 	}
 
 	public void windowClosing(final WindowEvent e) {

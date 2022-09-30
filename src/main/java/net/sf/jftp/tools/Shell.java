@@ -67,57 +67,57 @@ public class Shell extends HFrame implements Runnable {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		HFrame.fixLocation(this);
 
-		textP = new JScrollPane(text);
-		text.setFont(new Font("Monospaced", java.awt.Font.PLAIN, 10));
+		this.textP = new JScrollPane(this.text);
+		this.text.setFont(new Font("Monospaced", java.awt.Font.PLAIN, 10));
 
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
-		this.getContentPane().add("Center", textP);
-		text.setEditable(false);
-		this.setBackground(text.getBackground());
+		this.getContentPane().add("Center", this.textP);
+		this.text.setEditable(false);
+		this.setBackground(this.text.getBackground());
 
 		final DefaultCaret c = new DefaultCaret();
 		c.setBlinkRate(1000);
 
-		text.setCaret(c);
-		text.setCaretColor(Color.BLACK);
+		this.text.setCaret(c);
+		this.text.setCaretColor(Color.BLACK);
 		c.setVisible(true);
 
-		text.setLineWrap(true);
+		this.text.setLineWrap(true);
 
-		text.addKeyListener(new KeyAdapter() {
+		this.text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(final KeyEvent e) {
-				if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (input.length() > 0)) {
-					input = input.substring(0, input.length() - 1);
+				if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (net.sf.jftp.tools.Shell.this.input.length() > 0)) {
+					net.sf.jftp.tools.Shell.this.input = net.sf.jftp.tools.Shell.this.input.substring(0, net.sf.jftp.tools.Shell.this.input.length() - 1);
 
-					String t = text.getText();
+					String t = net.sf.jftp.tools.Shell.this.text.getText();
 					t = t.substring(0, t.length() - 1);
-					text.setText(t);
+					net.sf.jftp.tools.Shell.this.text.setText(t);
 				} else if (e.getKeyCode() == KeyEvent.VK_UP) {
-					String t = text.getText();
-					t = t.substring(0, t.length() - input.length());
+					String t = net.sf.jftp.tools.Shell.this.text.getText();
+					t = t.substring(0, t.length() - net.sf.jftp.tools.Shell.this.input.length());
 
-					if ((currCmd <= commands.size()) && (currCmd > 0)) {
-						currCmd--;
+					if ((net.sf.jftp.tools.Shell.this.currCmd <= net.sf.jftp.tools.Shell.this.commands.size()) && (net.sf.jftp.tools.Shell.this.currCmd > 0)) {
+						net.sf.jftp.tools.Shell.this.currCmd--;
 
-						final String cmd = (String) commands.get(currCmd);
-						input = cmd.substring(0, cmd.length() - 1);
-						text.setText(t + input);
+						final String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
+						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
+						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
 					}
 				} else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-					String t = text.getText();
-					t = t.substring(0, t.length() - input.length());
+					String t = net.sf.jftp.tools.Shell.this.text.getText();
+					t = t.substring(0, t.length() - net.sf.jftp.tools.Shell.this.input.length());
 
-					if (((currCmd + 1) < commands.size()) && (currCmd >= 0)) {
-						currCmd++;
+					if (((net.sf.jftp.tools.Shell.this.currCmd + 1) < net.sf.jftp.tools.Shell.this.commands.size()) && (net.sf.jftp.tools.Shell.this.currCmd >= 0)) {
+						net.sf.jftp.tools.Shell.this.currCmd++;
 
-						final String cmd = (String) commands.get(currCmd);
-						input = cmd.substring(0, cmd.length() - 1);
-						text.setText(t + input);
+						final String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
+						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
+						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
 					}
 				} else if (e.getKeyCode() != KeyEvent.VK_SHIFT) {
 					if (!e.isActionKey()) {
-						input += e.getKeyChar();
-						text.append("" + e.getKeyChar());
+						net.sf.jftp.tools.Shell.this.input += e.getKeyChar();
+						net.sf.jftp.tools.Shell.this.text.append("" + e.getKeyChar());
 					}
 				}
 
@@ -131,11 +131,11 @@ public class Shell extends HFrame implements Runnable {
 		HFrame.fixLocation(this);
 		this.setVisible(true);
 
-		runner = new Thread(this);
-		runner.start();
+		this.runner = new Thread(this);
+		this.runner.start();
 
 		this.toFront();
-		text.requestFocus();
+		this.text.requestFocus();
 	}
 
 	public void run() {
@@ -143,14 +143,14 @@ public class Shell extends HFrame implements Runnable {
 			final char[] b = new char[4096];
 			int i;
 
-			while ((i = in.read(b, 0, b.length)) != StreamTokenizer.TT_EOF) {
-				text.append(new String(b, 0, i));
+			while ((i = this.in.read(b, 0, b.length)) != StreamTokenizer.TT_EOF) {
+				this.text.append(new String(b, 0, i));
 
-				while (text.getRows() > 500) {
-					String t = text.getText();
+				while (this.text.getRows() > 500) {
+					String t = this.text.getText();
 					t = t.substring(250);
 
-					text.setText(t);
+					this.text.setText(t);
 				}
 
 				try {
@@ -159,12 +159,12 @@ public class Shell extends HFrame implements Runnable {
 					ex.printStackTrace();
 				}
 
-				final JScrollBar bar = textP.getVerticalScrollBar();
+				final JScrollBar bar = this.textP.getVerticalScrollBar();
 				bar.setValue(bar.getMaximum());
-				text.setCaretPosition(text.getText().length());
+				this.text.setCaretPosition(this.text.getText().length());
 			}
 
-			text.setEnabled(false);
+			this.text.setEnabled(false);
 		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());
@@ -174,14 +174,14 @@ public class Shell extends HFrame implements Runnable {
 
 	private void send() {
 		try {
-			final String msg = input;
-			input = "";
+			final String msg = this.input;
+			this.input = "";
 
-			out.write(msg.getBytes());
-			out.flush();
+			this.out.write(msg.getBytes());
+			this.out.flush();
 
-			commands.add(msg);
-			currCmd = commands.size();
+			this.commands.add(msg);
+			this.currCmd = this.commands.size();
 
 		} catch (final IOException ex) {
 			ex.printStackTrace();

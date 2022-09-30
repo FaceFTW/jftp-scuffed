@@ -31,11 +31,11 @@ public class NameChooser extends net.sf.jftp.gui.framework.HFrame implements Act
 		//setLocation(150, 150);
 		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new net.sf.jftp.gui.framework.HTextField("Filename: ", "tmp.zip");
-		this.getContentPane().add(text);
-		this.getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new net.sf.jftp.gui.framework.HTextField("Filename: ", "tmp.zip");
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
 		this.pack();
 		this.fixLocation();
@@ -43,7 +43,7 @@ public class NameChooser extends net.sf.jftp.gui.framework.HFrame implements Act
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			this.setVisible(false);
 		}
 	}

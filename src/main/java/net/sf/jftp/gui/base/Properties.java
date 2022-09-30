@@ -44,37 +44,37 @@ public class Properties extends HFrame implements ActionListener {
 		this.setLayout(new GridLayout(3, 1));
 
 		final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
-		okP.add(ok);
-		this.add(sizeL);
-		this.add(fileL);
+		okP.add(this.ok);
+		this.add(this.sizeL);
+		this.add(this.fileL);
 		this.add(okP);
-		ok.addActionListener(this);
+		this.ok.addActionListener(this);
 
 		this.process();
 		this.setVisible(true);
 	}
 
 	private void process() {
-		if (type.equals("local")) {
-			final File f = new File(JFtp.localDir.getPath() + file);
-			sizeL.setText("Size: " + f.length() + " bytes");
+		if (this.type.equals("local")) {
+			final File f = new File(JFtp.localDir.getPath() + this.file);
+			this.sizeL.setText("Size: " + f.length() + " bytes");
 
 			try {
-				fileL.setText("File: " + f.getCanonicalPath());
+				this.fileL.setText("File: " + f.getCanonicalPath());
 			} catch (final Exception ex) {
 				Log.debug(ex.toString());
 			}
 
-			sizeL.setText("Size: " + f.length() + " bytes");
+			this.sizeL.setText("Size: " + f.length() + " bytes");
 		}
 
-		if (type.equals("remote")) {
-			fileL.setText("File: " + JFtp.remoteDir.getPath() + file);
+		if (this.type.equals("remote")) {
+			this.fileL.setText("File: " + JFtp.remoteDir.getPath() + this.file);
 		}
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == ok) {
+		if (e.getSource() == this.ok) {
 			this.setVisible(false);
 		}
 	}

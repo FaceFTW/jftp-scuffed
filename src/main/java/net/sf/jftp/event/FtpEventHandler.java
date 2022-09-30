@@ -98,40 +98,40 @@ public class FtpEventHandler implements EventHandler {
 			methodName = method.getName();
 
 			if (net.sf.jftp.event.FtpEventHandler.commands.contains(methodName)) {
-				methods.put(methodName, method);
+				this.methods.put(methodName, method);
 			}
 		}
 	}
 
 	public void open(final Vector args) {
 		System.out.println("***open");
-		client.login((String) args.elementAt(1));
+		this.client.login((String) args.elementAt(1));
 	}
 
 	public void disconnect(final Vector args) {
 		System.out.println("***disconnect");
-		client.disconnect();
+		this.client.disconnect();
 	}
 
 	public void cd(final Vector args) {
 		System.out.println("***cd");
-		client.cd((String) args.elementAt(1));
+		this.client.cd((String) args.elementAt(1));
 	}
 
 	public void pwd(final Vector args) {
 		System.out.println("***pwd");
 
-		final String directory = client.pwd();
+		final String directory = this.client.pwd();
 	}
 
 	public void get(final Vector args) {
 		System.out.println("***get");
-		client.get((String) args.elementAt(1));
+		this.client.get((String) args.elementAt(1));
 	}
 
 	public void put(final Vector args) {
 		System.out.println("***put");
-		client.put((String) args.elementAt(1));
+		this.client.put((String) args.elementAt(1));
 	}
 
 	public void quit(final Vector args) {
@@ -151,7 +151,7 @@ public class FtpEventHandler implements EventHandler {
 
 		if (list.size() != 0) {
 			final String command = (String) list.elementAt(0);
-			final Method o = (Method) methods.get(command.toLowerCase());
+			final Method o = (Method) this.methods.get(command.toLowerCase());
 
 			if (o != null) {
 				try {

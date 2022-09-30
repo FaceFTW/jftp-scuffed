@@ -37,21 +37,21 @@ public class RemoteCommand extends HFrame implements ActionListener {
 		this.setLocation(150, 150);
 		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
-		this.getContentPane().add(text);
-		this.getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
 		this.pack();
 		this.setVisible(true);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			this.setVisible(false);
 
-			final String cmd = text.getText();
+			final String cmd = this.text.getText();
 			Log.debug("-> " + cmd);
 			JFtp.remoteDir.getCon().sendRawCommand(cmd);
 

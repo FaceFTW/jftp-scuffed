@@ -52,7 +52,7 @@ public class FtpDownload implements Logger, ConnectionListener
 	//System.out.println("3) "+(System.currentTimeMillis()-current)+"ms.");
 
 	// login calls connectionInitialized() below which sets isThere to true
-	while(!isThere)
+	while(!this.isThere)
 	{
 		try { Thread.sleep(10); }
 		catch(final Exception ex) { ex.printStackTrace(); }
@@ -102,7 +102,7 @@ public class FtpDownload implements Logger, ConnectionListener
  // called if a connection has been established
  public void connectionInitialized(final BasicConnection con)
  {
-  	isThere = true;
+	 this.isThere = true;
  }
  
  // called every few kb by DataConnection during the trnsfer (interval can be changed in Settings)

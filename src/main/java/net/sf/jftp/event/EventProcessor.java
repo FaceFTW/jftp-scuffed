@@ -25,7 +25,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	private boolean done = false;
 
 	public EventProcessor(final Vector b) {
-		buffer = b;
+		this.buffer = b;
 		new Thread(this).start();
 		net.sf.jftp.event.EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPShutdown, this);
 	}
@@ -54,16 +54,16 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	}
 
 	public boolean handle(final Event e) {
-		done = true;
+		this.done = true;
 
 		return true;
 	}
 
 	public void run() {
-		while (!done) {
-			if (buffer.size() != 0) {
-				this.accept((Event) buffer.firstElement());
-				buffer.removeElementAt(0);
+		while (!this.done) {
+			if (this.buffer.size() != 0) {
+				this.accept((Event) this.buffer.firstElement());
+				this.buffer.removeElementAt(0);
 			}
 		}
 	}

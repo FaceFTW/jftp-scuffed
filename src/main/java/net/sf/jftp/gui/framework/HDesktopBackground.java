@@ -31,7 +31,7 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 	public HDesktopBackground(final String image, final ActionListener who) {
 		this.who = who;
 
-		img = HImage.getImage(this, image);
+		this.img = HImage.getImage(this, image);
 		this.addMouseListener(this);
 		this.setVisible(true);
 	}
@@ -41,14 +41,14 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 			return;
 		}
 
-		final int x = img.getWidth(this);
-		final int y = img.getHeight(this);
+		final int x = this.img.getWidth(this);
+		final int y = this.img.getHeight(this);
 		final int w = 2000 / x;
 		final int h = 2000 / y;
 
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
-				g.drawImage(img, i * x, j * y, this);
+				g.drawImage(this.img, i * x, j * y, this);
 			}
 		}
 	}

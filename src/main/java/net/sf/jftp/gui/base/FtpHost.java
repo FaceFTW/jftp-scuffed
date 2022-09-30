@@ -23,6 +23,6 @@ public class FtpHost {
 	public String port;
 
 	public String toString() {
-		return (name == null) ? ("<?> @ " + hostname) : (name + " @ " + hostname);
+		return (this.name == null) ? ("<?> @ " + this.hostname) : (this.name + " @ " + this.hostname);
 	}
 }

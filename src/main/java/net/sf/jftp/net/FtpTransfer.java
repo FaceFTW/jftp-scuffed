@@ -69,39 +69,39 @@ public class FtpTransfer extends Transfer implements Runnable {
 	}
 
 	public void prepare() {
-		runner = new Thread(this);
-		runner.setPriority(Thread.MIN_PRIORITY);
-		runner.start();
+		this.runner = new Thread(this);
+		this.runner.setPriority(Thread.MIN_PRIORITY);
+		this.runner.start();
 	}
 
 	public void run() {
 		//System.out.println(file);
-		if (handler.getConnections().get(file) == null) {
-			handler.addConnection(file, this);
-		} else if (!pause) {
-			net.sf.jftp.system.logging.Log.debug("Transfer already in progress: " + file);
-			work = false;
-			stat = 2;
+		if (this.handler.getConnections().get(this.file) == null) {
+			this.handler.addConnection(this.file, this);
+		} else if (!this.pause) {
+			net.sf.jftp.system.logging.Log.debug("Transfer already in progress: " + this.file);
+			this.work = false;
+			this.stat = 2;
 
 			return;
 		}
 
 		boolean hasPaused = false;
 
-		while (pause) {
+		while (this.pause) {
 			try {
 				Thread.sleep(100);
 
-				if (listeners != null) {
-					for (int i = 0; i < listeners.size(); i++) {
-						listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.PAUSED, -1);
+				if (this.listeners != null) {
+					for (int i = 0; i < this.listeners.size(); i++) {
+						this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.PAUSED, -1);
 					}
 				}
 
-				if (!work) {
-					if (listeners != null) {
-						for (int i = 0; i < listeners.size(); i++) {
-							listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.REMOVED, -1);
+				if (!this.work) {
+					if (this.listeners != null) {
+						for (int i = 0; i < this.listeners.size(); i++) {
+							this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.REMOVED, -1);
 						}
 					}
 				}
@@ -111,14 +111,14 @@ public class FtpTransfer extends Transfer implements Runnable {
 			hasPaused = true;
 		}
 
-		while ((handler.getConnectionSize() >= net.sf.jftp.config.Settings.getMaxConnections()) && (handler.getConnectionSize() > 0) && work) {
+		while ((this.handler.getConnectionSize() >= net.sf.jftp.config.Settings.getMaxConnections()) && (this.handler.getConnectionSize() > 0) && this.work) {
 			try {
-				stat = 4;
+				this.stat = 4;
 				Thread.sleep(400);
 
-				if (!hasPaused && (listeners != null)) {
-					for (int i = 0; i < listeners.size(); i++) {
-						listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.QUEUED, -1);
+				if (!hasPaused && (this.listeners != null)) {
+					for (int i = 0; i < this.listeners.size(); i++) {
+						this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.QUEUED, -1);
 					}
 				} else {
 					break;
@@ -128,70 +128,70 @@ public class FtpTransfer extends Transfer implements Runnable {
 			}
 		}
 
-		if (!work) {
-			if (listeners != null) {
-				for (int i = 0; i < listeners.size(); i++) {
-					listeners.elementAt(i).updateProgress(file, net.sf.jftp.net.Transfer.REMOVED, -1);
+		if (!this.work) {
+			if (this.listeners != null) {
+				for (int i = 0; i < this.listeners.size(); i++) {
+					this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.REMOVED, -1);
 				}
 			}
 
-			handler.removeConnection(file);
-			stat = 3;
+			this.handler.removeConnection(this.file);
+			this.stat = 3;
 
 			return;
 		}
 
-		started = true;
+		this.started = true;
 
 		try {
 			Thread.sleep(net.sf.jftp.config.Settings.ftpTransferThreadPause);
 		} catch (final Exception ex) {
 		}
 
-		con = new FtpConnection(host, port, remotePath, crlf);
+		this.con = new FtpConnection(this.host, this.port, this.remotePath, this.crlf);
 
-		con.setConnectionHandler(handler);
-		con.setConnectionListeners(listeners);
+		this.con.setConnectionHandler(this.handler);
+		this.con.setConnectionListeners(this.listeners);
 
-		final int status = con.login(user, pass);
+		final int status = this.con.login(this.user, this.pass);
 
 		if (status == FtpConnection.LOGIN_OK) {
-			final File f = new File(localPath);
-			con.setLocalPath(f.getAbsolutePath());
+			final File f = new File(this.localPath);
+			this.con.setLocalPath(f.getAbsolutePath());
 
-			if (type.equals(net.sf.jftp.net.Transfer.UPLOAD)) {
-				if (newName != null) {
-					transferStatus = con.upload(file, newName);
+			if (this.type.equals(net.sf.jftp.net.Transfer.UPLOAD)) {
+				if (this.newName != null) {
+					this.transferStatus = this.con.upload(this.file, this.newName);
 				} else {
-					transferStatus = con.upload(file);
+					this.transferStatus = this.con.upload(this.file);
 				}
 			} else {
-				transferStatus = con.download(file);
+				this.transferStatus = this.con.download(this.file);
 			}
 		}
 
-		if (!pause) {
-			handler.removeConnection(file);
+		if (!this.pause) {
+			this.handler.removeConnection(this.file);
 		}
 	}
 
 	public int getStatus() {
-		return stat;
+		return this.stat;
 	}
 
 	public int getTransferStatus() {
-		return transferStatus;
+		return this.transferStatus;
 	}
 
 	public boolean hasStarted() {
-		return started;
+		return this.started;
 	}
 
 	public FtpConnection getFtpConnection() {
-		return con;
+		return this.con;
 	}
 
 	public DataConnection getDataConnection() {
-		return con.getDataConnection();
+		return this.con.getDataConnection();
 	}
 }

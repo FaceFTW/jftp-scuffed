@@ -28,20 +28,20 @@ public class ConnectionHandler {
 	private final Hashtable<String, Transfer> connections = new Hashtable<>();
 
 	public void addConnection(final String file, final Transfer t) {
-		connections.put(file, t);
+		this.connections.put(file, t);
 	}
 
 	public void removeConnection(final String file) {
-		connections.remove(file);
+		this.connections.remove(file);
 	}
 
 	public Hashtable<String, Transfer> getConnections() {
-		return connections;
+		return this.connections;
 	}
 
 	public int getConnectionSize() {
 		int size = 0;
-		final Enumeration<Transfer> e = connections.elements();
+		final Enumeration<Transfer> e = this.connections.elements();
 
 		while (e.hasMoreElements()) {
 			final Transfer t = e.nextElement();

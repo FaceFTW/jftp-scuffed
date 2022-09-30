@@ -52,11 +52,11 @@ public class DirPanel extends HPanel implements Dir {
 	}
 
 	public String getPath() {
-		return path;
+		return this.path;
 	}
 
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(final String type) {
@@ -64,11 +64,11 @@ public class DirPanel extends HPanel implements Dir {
 	}
 
 	public void setDownloadList(final DownloadList d) {
-		dList = d;
+		this.dList = d;
 	}
 
 	public BasicConnection getCon() {
-		return con;
+		return this.con;
 	}
 
 	public void setCon(final BasicConnection con) {

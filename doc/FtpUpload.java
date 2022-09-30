@@ -26,7 +26,7 @@ public class FtpUpload implements Logger, ConnectionListener
 
 	con.login("anonymous","no@no.no");
 
-	while(!isThere)
+	while(!this.isThere)
 	{
 		try { Thread.sleep(10); }
 		catch(final Exception ex) { ex.printStackTrace(); }
@@ -58,7 +58,7 @@ public class FtpUpload implements Logger, ConnectionListener
  
  public void connectionInitialized(final BasicConnection con)
  {
-  	isThere = true;
+	 this.isThere = true;
  }
  
  public void updateProgress(final String file, final String type, final long bytes) {}

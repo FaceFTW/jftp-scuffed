@@ -33,7 +33,7 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 
 	public CommandLine() {
 		net.sf.jftp.system.logging.Log.setLogger(new net.sf.jftp.system.logging.SystemLogger());
-		eventCollector = new EventCollector();
+		this.eventCollector = new EventCollector();
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPCommand, new FtpEventHandler());
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPPrompt, this);
 		new Thread(this).start();
@@ -55,13 +55,13 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 
 		do {
 			try {
-				eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPPrompt));
+				this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPPrompt));
 				line = in.readLine();
-				eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPCommand, line));
+				this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPCommand, line));
 			} catch (final IOException e) {
 			}
 		} while (!line.toLowerCase().startsWith("quit"));
 
-		eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPShutdown)); // make the quit command spawn this event?
+		this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPShutdown)); // make the quit command spawn this event?
 	}
 }

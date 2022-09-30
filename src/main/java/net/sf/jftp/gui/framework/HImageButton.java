@@ -58,14 +58,14 @@ public class HImageButton extends JButton implements MouseListener {
 	}
 
 	public void mouseReleased(final MouseEvent e) {
-		who.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, cmd));
+		this.who.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, this.cmd));
 
 	}
 
 	public void mouseEntered(final MouseEvent e) {
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		net.sf.jftp.JFtp.statusP.status(label);
+		net.sf.jftp.JFtp.statusP.status(this.label);
 	}
 
 	public void mouseExited(final MouseEvent e) {

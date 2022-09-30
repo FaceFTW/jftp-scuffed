@@ -33,33 +33,33 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 		//getContentPane().
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		proxy = new net.sf.jftp.gui.framework.HTextField("Socks proxy:", "");
-		port = new net.sf.jftp.gui.framework.HTextField("Port:", "");
+		this.proxy = new net.sf.jftp.gui.framework.HTextField("Socks proxy:", "");
+		this.port = new net.sf.jftp.gui.framework.HTextField("Port:", "");
 
-		proxy.setText(net.sf.jftp.config.Settings.getSocksProxyHost());
-		port.setText(net.sf.jftp.config.Settings.getSocksProxyPort());
-
-		//getContentPane().
-		this.add(proxy);
+		this.proxy.setText(net.sf.jftp.config.Settings.getSocksProxyHost());
+		this.port.setText(net.sf.jftp.config.Settings.getSocksProxyPort());
 
 		//getContentPane().
-		this.add(port);
+		this.add(this.proxy);
 
 		//getContentPane().
-		this.add(ok);
+		this.add(this.port);
+
+		//getContentPane().
+		this.add(this.ok);
 
 		//getContentPane().
 		this.add(new JLabel("Please note that you have to restart JFtp to apply the changes!"));
-		ok.addActionListener(this);
+		this.ok.addActionListener(this);
 
 		//setVisible(true);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == ok) {
+		if (e.getSource() == this.ok) {
 			//setVisible(false);
-			final String h = proxy.getText().trim();
-			final String p = port.getText().trim();
+			final String h = this.proxy.getText().trim();
+			final String p = this.port.getText().trim();
 
 			final java.util.Properties sysprops = System.getProperties();
 

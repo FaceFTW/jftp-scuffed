@@ -32,25 +32,25 @@ public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements 
 		//getContentPane().
 		this.setLayout(new FlowLayout());
 
-		text = new net.sf.jftp.gui.framework.HTextField("URL:", "http://", 25);
+		this.text = new net.sf.jftp.gui.framework.HTextField("URL:", "http://", 25);
 
 		//getContentPane().
-		this.add(text);
+		this.add(this.text);
 
 		//getContentPane().
-		this.add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
 		this.setVisible(true);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			final Vector listeners = new Vector();
 			listeners.add(net.sf.jftp.JFtp.localDir);
 
-			final net.sf.jftp.net.wrappers.HttpTransfer t = new net.sf.jftp.net.wrappers.HttpTransfer(text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
+			final net.sf.jftp.net.wrappers.HttpTransfer t = new net.sf.jftp.net.wrappers.HttpTransfer(this.text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
 
 			net.sf.jftp.JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
 

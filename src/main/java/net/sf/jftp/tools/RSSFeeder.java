@@ -39,13 +39,13 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 	public RSSFeeder() {
 		this.setLayout(new BorderLayout(0, 0));
-		next.setPreferredSize(new Dimension(22, 22));
-		next.setMaximumSize(new Dimension(22, 22));
-		this.add("West", next);
-		this.add("Center", can);
+		this.next.setPreferredSize(new Dimension(22, 22));
+		this.next.setMaximumSize(new Dimension(22, 22));
+		this.add("West", this.next);
+		this.add("Center", this.can);
 		this.setPreferredSize(new Dimension(500, 25));
-		runner = new Thread(this);
-		runner.start();
+		this.runner = new Thread(this);
+		this.runner.start();
 	}
 
 	public void switchTo(final String u) {
@@ -55,9 +55,9 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		net.sf.jftp.tools.RSSFeeder.urlstring = u;
 
-		runner.stop();
-		runner = new Thread(this);
-		runner.start();
+		this.runner.stop();
+		this.runner = new Thread(this);
+		this.runner.start();
 	}
 
 	public void run() {
@@ -68,9 +68,9 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 		net.sf.jftp.system.logging.Log.out("Starting RSS Feed");
 
 		try {
-			can.setInterval(10);
-			url = new URL(net.sf.jftp.tools.RSSFeeder.urlstring);
-			parser = new RSSParser(url);
+			this.can.setInterval(10);
+			this.url = new URL(net.sf.jftp.tools.RSSFeeder.urlstring);
+			this.parser = new RSSParser(this.url);
 			time = System.currentTimeMillis();
 		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: Can't load RSS feed (" + ex + ")");
@@ -81,48 +81,48 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		while (true) {
 			try {
-				final Enumeration e = parser.titles.elements();
-				final Enumeration e2 = parser.descs.elements();
+				final Enumeration e = this.parser.titles.elements();
+				final Enumeration e2 = this.parser.descs.elements();
 
 				while (e.hasMoreElements()) {
-					can.setText((String) e.nextElement());
-					next.setEnabled(true);
-					header = true;
+					this.can.setText((String) e.nextElement());
+					this.next.setEnabled(true);
+					this.header = true;
 
 					int i = 0;
 
-					while (!breakHeader && (i < 100)) {
-						net.sf.jftp.system.LocalIO.pause(HEADER_IVAL / 100);
+					while (!this.breakHeader && (i < 100)) {
+						net.sf.jftp.system.LocalIO.pause(this.HEADER_IVAL / 100);
 						i++;
 					}
 
-					next.setEnabled(false);
-					breakHeader = false;
-					header = false;
+					this.next.setEnabled(false);
+					this.breakHeader = false;
+					this.header = false;
 
 					if (e2.hasMoreElements()) {
-						next.setEnabled(true);
-						can.scrollText((String) e2.nextElement());
-						next.setEnabled(false);
+						this.next.setEnabled(true);
+						this.can.scrollText((String) e2.nextElement());
+						this.next.setEnabled(false);
 					}
 				}
 			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 
-			if (System.currentTimeMillis() > (LOAD_IVAL + time)) {
-				parser = new RSSParser(url);
+			if (System.currentTimeMillis() > (this.LOAD_IVAL + time)) {
+				this.parser = new RSSParser(this.url);
 				time = System.currentTimeMillis();
 			}
 		}
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == next) {
-			if (header) {
-				breakHeader = true;
+		if (e.getSource() == this.next) {
+			if (this.header) {
+				this.breakHeader = true;
 			} else {
-				can.forward();
+				this.can.forward();
 			}
 		}
 	}

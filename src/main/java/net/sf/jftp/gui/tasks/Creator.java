@@ -40,11 +40,11 @@ public class Creator extends HFrame implements ActionListener {
 		this.setTitle("Choose...");
 		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new HTextField(l, "");
-		this.getContentPane().add(text);
-		this.getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new HTextField(l, "");
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
 		this.pack();
 		this.fixLocation();
@@ -52,9 +52,9 @@ public class Creator extends HFrame implements ActionListener {
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			this.setVisible(false);
-			con.mkdir(text.getText());
+			this.con.mkdir(this.text.getText());
 		}
 	}
 }

@@ -22,11 +22,11 @@ public class EventCollector implements Acceptor {
 	protected final Vector buffer;
 
 	public EventCollector() {
-		buffer = new Vector();
-		new EventProcessor(buffer);
+		this.buffer = new Vector();
+		new EventProcessor(this.buffer);
 	}
 
 	public void accept(final Event e) {
-		buffer.addElement(e);
+		this.buffer.addElement(e);
 	}
 }

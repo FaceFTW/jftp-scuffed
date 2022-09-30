@@ -12,10 +12,10 @@ public class ProgressbarItem extends JPanel {
 		this.d = d;
 		this.setLayout(new BorderLayout(2, 2));
 
-		this.add("Center", bar);
+		this.add("Center", this.bar);
 
-		bar.setStringPainted(true);
-		bar.setString(d.file);
+		this.bar.setStringPainted(true);
+		this.bar.setString(d.file);
 
 		this.setBackground(Color.WHITE);
 		this.setSize(300, 25);
@@ -29,20 +29,20 @@ public class ProgressbarItem extends JPanel {
 		}
 
 		if (max > 0 && max >= size) {
-			bar.setMaximum((int) max);
-			bar.setValue((int) size);
+			this.bar.setMaximum((int) max);
+			this.bar.setValue((int) size);
 		} else {
-			bar.setMaximum(99999999);
-			bar.setValue(0);
+			this.bar.setMaximum(99999999);
+			this.bar.setValue(0);
 		}
 
-		bar.setString(lbl);
+		this.bar.setString(lbl);
 
 		//System.out.println(""+bar.getValue()+":"+bar.getMaximum()+" -> "+lbl);
 	}
 
 	public net.sf.jftp.gui.base.dir.DirEntry getDirEntry() {
-		return d;
+		return this.d;
 	}
 
 	public void deselect() {

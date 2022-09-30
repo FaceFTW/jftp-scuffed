@@ -12,11 +12,11 @@ public class FtpKeepAliveThread implements Runnable {
 	}
 
 	public void run() {
-		while (conn.isConnected()) {
+		while (this.conn.isConnected()) {
 			try {
 				Thread.sleep(net.sf.jftp.config.Settings.ftpKeepAliveInterval);
 
-				conn.noop();
+				this.conn.noop();
 			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}

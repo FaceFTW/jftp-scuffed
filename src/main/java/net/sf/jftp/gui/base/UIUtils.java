@@ -64,9 +64,9 @@ class Spawn implements Runnable {
 		try {
 			final String str = "";
 
-			if (cmd.startsWith("file://")) cmd = cmd.substring(7);
+			if (this.cmd.startsWith("file://")) this.cmd = this.cmd.substring(7);
 
-			final Process p = Runtime.getRuntime().exec(cmd);
+			final Process p = Runtime.getRuntime().exec(this.cmd);
 			new Shell(p.getInputStream(), p.getOutputStream());
 
 		} catch (final Exception ex) {

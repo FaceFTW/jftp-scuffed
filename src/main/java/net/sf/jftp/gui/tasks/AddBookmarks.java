@@ -61,38 +61,38 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		//setBackground(okP.getBackground());
 		this.getContentPane().setLayout(new GridLayout(8, 1));
 
-		this.getContentPane().add(protocols);
-		this.getContentPane().add(host);
-		this.getContentPane().add(port);
+		this.getContentPane().add(this.protocols);
+		this.getContentPane().add(this.host);
+		this.getContentPane().add(this.port);
 
-		this.getContentPane().add(user);
-		this.getContentPane().add(pass);
+		this.getContentPane().add(this.user);
+		this.getContentPane().add(this.pass);
 
-		this.getContentPane().add(dirOrDom);
+		this.getContentPane().add(this.dirOrDom);
 
-		this.getContentPane().add(isLocal);
+		this.getContentPane().add(this.isLocal);
 
 		final Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
 		this.getContentPane().add(buttonPanel);
-		buttonPanel.add(add);
-		buttonPanel.add(addAndConnect);
+		buttonPanel.add(this.add);
+		buttonPanel.add(this.addAndConnect);
 
 
-		add.addActionListener(this);
-		addAndConnect.addActionListener(this);
+		this.add.addActionListener(this);
+		this.addAndConnect.addActionListener(this);
 
-		protocols.setEditable(false);
-		protocols.addItem("FTP");
-		protocols.addItem("SFTP");
-		protocols.addItem("SMB");
-		protocols.addItem("NFS");
+		this.protocols.setEditable(false);
+		this.protocols.addItem("FTP");
+		this.protocols.addItem("SFTP");
+		this.protocols.addItem("SMB");
+		this.protocols.addItem("NFS");
 
-		protocols.addActionListener(this);
+		this.protocols.addActionListener(this);
 
-		isLocal.setEditable(false);
-		isLocal.addItem("No");
-		isLocal.addItem("Yes");
+		this.isLocal.setEditable(false);
+		this.isLocal.addItem("No");
+		this.isLocal.addItem("Yes");
 	}
 
 	public void update() {
@@ -123,9 +123,9 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == add) {
+		if (e.getSource() == this.add) {
 			this.getData(false);
-		} else if (e.getSource() == addAndConnect) {
+		} else if (e.getSource() == this.addAndConnect) {
 			this.getData(true);
 		}
 
@@ -134,7 +134,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 			String s = "";
 
 			//s = (String) protocols.getSelectedItem()
-			s = protocols.getSelectedItem().toString();
+			s = this.protocols.getSelectedItem().toString();
 			System.out.println(s);
 
 			//need to put information on what each protocol accepts
@@ -142,30 +142,30 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 			//that need this info?
 			switch (s) {
 				case "FTP":
-					port.setEnabled(true);
-					user.setEnabled(true);
-					pass.setEnabled(true);
-					dirOrDom.setEnabled(true);
+					this.port.setEnabled(true);
+					this.user.setEnabled(true);
+					this.pass.setEnabled(true);
+					this.dirOrDom.setEnabled(true);
 					break;
 				case "SFTP":
-					port.setEnabled(true);
-					user.setEnabled(true);
-					pass.setEnabled(true);
-					dirOrDom.setEnabled(false);
+					this.port.setEnabled(true);
+					this.user.setEnabled(true);
+					this.pass.setEnabled(true);
+					this.dirOrDom.setEnabled(false);
 					break;
 				case "SMB":
-					port.setEnabled(false);
-					user.setEnabled(true);
-					pass.setEnabled(true);
-					dirOrDom.setEnabled(true);
+					this.port.setEnabled(false);
+					this.user.setEnabled(true);
+					this.pass.setEnabled(true);
+					this.dirOrDom.setEnabled(true);
 					break;
 
 				//can assume this is NFS for now
 				default:
-					port.setEnabled(false);
-					user.setEnabled(true);
-					pass.setEnabled(true);
-					dirOrDom.setEnabled(false);
+					this.port.setEnabled(false);
+					this.user.setEnabled(true);
+					this.pass.setEnabled(true);
+					this.dirOrDom.setEnabled(false);
 					break;
 			}
 
@@ -178,7 +178,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	private void getData(final boolean andConnect) {
 		String protocoltmp = "";
 
-		protocoltmp = protocols.getSelectedItem().toString();
+		protocoltmp = this.protocols.getSelectedItem().toString();
 
 		System.out.println("test");
 
@@ -204,18 +204,18 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		//NFS: Don;t get port or dirOrDom
 		//FOR NOW: just get all data
 
-		final String htmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(host.getText(), " "));
-		final String utmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(user.getText(), " "));
-		final String ptmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(pass.getText(), " "));
-		final String potmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(port.getText(), " "));
+		final String htmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.host.getText(), " "));
+		final String utmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.user.getText(), " "));
+		final String ptmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.pass.getText(), " "));
+		final String potmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.port.getText(), " "));
 
-		final String dirOrDomtmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(dirOrDom.getText(), " "));
+		final String dirOrDomtmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.dirOrDom.getText(), " "));
 
 		String local = "";
 
 		final int potmpint = new Integer(potmp);
 
-		local = isLocal.getSelectedItem().toString();
+		local = this.isLocal.getSelectedItem().toString();
 
 		String localString = "";
 

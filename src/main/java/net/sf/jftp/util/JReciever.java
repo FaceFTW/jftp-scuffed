@@ -32,7 +32,7 @@ public class JReciever implements Runnable {
 	public void run() {
 		try {
 			while (true) {
-				final int cnt = in.read(buf);
+				final int cnt = this.in.read(this.buf);
 
 				if (cnt == -1) {
 					RawConnection.output.append(">>> Connection closed...");
@@ -42,11 +42,11 @@ public class JReciever implements Runnable {
 					final JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
 					bar.setValue(bar.getMaximum());
 
-					in.close();
+					this.in.close();
 
 					return;
 				} else {
-					String tmp = new String(buf);
+					String tmp = new String(this.buf);
 					tmp = tmp.substring(0, cnt);
 
 					RawConnection.output.append(tmp);

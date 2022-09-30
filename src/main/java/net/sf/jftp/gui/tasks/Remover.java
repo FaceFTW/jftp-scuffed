@@ -34,40 +34,40 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 		this.setLocation(150, 150);
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
 
-		text = new net.sf.jftp.gui.framework.HTextField(l, "");
+		this.text = new net.sf.jftp.gui.framework.HTextField(l, "");
 		final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
-		okP.add(ok);
-		okP.add(cancel);
-		this.getContentPane().add("North", text);
+		okP.add(this.ok);
+		okP.add(this.cancel);
+		this.getContentPane().add("North", this.text);
 		this.getContentPane().add("South", okP);
-		ok.addActionListener(this);
-		cancel.addActionListener(this);
+		this.ok.addActionListener(this);
+		this.cancel.addActionListener(this);
 
 		this.setVisible(true);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == ok) {
+		if (e.getSource() == this.ok) {
 			this.setVisible(false);
 
-			String tmp = text.getText();
+			String tmp = this.text.getText();
 
 			if (!tmp.endsWith("/")) {
 				tmp = tmp + "/";
 			}
 
-			final AutoRemover armv = new AutoRemover(tmp, type);
+			final AutoRemover armv = new AutoRemover(tmp, this.type);
 
-			if (type.equals("local")) {
+			if (this.type.equals("local")) {
 				net.sf.jftp.JFtp.localUpdate();
 			}
 
-			if (type.equals("remote")) {
+			if (this.type.equals("remote")) {
 				net.sf.jftp.JFtp.remoteUpdate();
 			}
 		}
 
-		if (e.getSource() == cancel) {
+		if (e.getSource() == this.cancel) {
 			this.dispose();
 		}
 	}

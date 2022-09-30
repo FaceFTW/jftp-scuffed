@@ -38,7 +38,7 @@ public class FtpServer extends Thread {
 
 	public void run() {
 		try {
-			final ServerSocket listener = new ServerSocket(port);
+			final ServerSocket listener = new ServerSocket(this.port);
 
 			while (true) {
 				final Socket s = listener.accept();

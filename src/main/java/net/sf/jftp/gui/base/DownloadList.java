@@ -84,13 +84,13 @@ public class DownloadList extends HPanel implements ActionListener {
 		pause.setToolTipText("Pause selected transfer...");
 		cancel.setToolTipText("Cancel selected transfer...");
 
-		scroll = new JScrollPane(list);
+		this.scroll = new JScrollPane(this.list);
 		this.add("South", cmdP);
-		this.add("Center", scroll);
+		this.add("Center", this.scroll);
 	}
 
 	public void fresh() {
-		downloads = new Hashtable();
+		this.downloads = new Hashtable();
 		this.updateArea();
 	}
 
@@ -235,7 +235,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	}
 
 	private String getActiveItem() {
-		final String tmp = list.getSelectedValue().getDirEntry().toString();
+		final String tmp = this.list.getSelectedValue().getDirEntry().toString();
 
 		if (tmp == null) {
 			return "";
@@ -285,10 +285,10 @@ public class DownloadList extends HPanel implements ActionListener {
 
 		if (type.equals(DataConnection.GET) || type.equals(DataConnection.PUT)) {
 			message = message + (bytes / 1024) + " / " + tmp + " kb";
-			list.setTransferred(file, (bytes / 1024), message, s);
+			this.list.setTransferred(file, (bytes / 1024), message, s);
 		} else if (type.equals(DataConnection.GETDIR) || type.equals(DataConnection.PUTDIR)) {
 			message = message + (bytes / 1024) + " kb of file #" + count;
-			list.setTransferred(file, (bytes / 1024), message, -1);
+			this.list.setTransferred(file, (bytes / 1024), message, -1);
 		} else if (type.startsWith(DataConnection.DFINISHED)) {
 			message = message + " " + count + " files.";
 		}
@@ -305,8 +305,8 @@ public class DownloadList extends HPanel implements ActionListener {
 		}
 
 		net.sf.jftp.gui.base.dir.DirEntry d = null;
-		if (downloads.containsKey(message)) {
-			d = (net.sf.jftp.gui.base.dir.DirEntry) downloads.get(message);
+		if (this.downloads.containsKey(message)) {
+			d = (net.sf.jftp.gui.base.dir.DirEntry) this.downloads.get(message);
 		} else {
 			d = new net.sf.jftp.gui.base.dir.DirEntry(message, null);
 			d.setNoRender();
@@ -318,16 +318,16 @@ public class DownloadList extends HPanel implements ActionListener {
 
 		d.setTransferred(bytes);
 
-		downloads.put(file, d);
+		this.downloads.put(file, d);
 
 		this.updateArea();
 	}
 
 	private synchronized net.sf.jftp.gui.base.dir.DirEntry[] toArray() {
-		final net.sf.jftp.gui.base.dir.DirEntry[] f = new net.sf.jftp.gui.base.dir.DirEntry[downloads.size()];
+		final net.sf.jftp.gui.base.dir.DirEntry[] f = new net.sf.jftp.gui.base.dir.DirEntry[this.downloads.size()];
 		int i = 0;
 
-		final Enumeration k = downloads.elements();
+		final Enumeration k = this.downloads.elements();
 
 		while (k.hasMoreElements()) {
 			final Object o = k.nextElement();
@@ -354,20 +354,20 @@ public class DownloadList extends HPanel implements ActionListener {
 
 	private synchronized void updateArea() {
 
-		final int idx = list.getSelectedIndex();
+		final int idx = this.list.getSelectedIndex();
 
 		final net.sf.jftp.gui.base.dir.DirEntry[] f = this.toArray();
 
-		list.setListData(f);
+		this.list.setListData(f);
 
 		if ((f.length == 1) && (idx < 0)) {
-			list.setSelectedIndex(0);
+			this.list.setSelectedIndex(0);
 		} else {
-			list.setSelectedIndex(idx);
+			this.list.setSelectedIndex(idx);
 		}
 
 		this.revalidate();
-		scroll.revalidate();
+		this.scroll.revalidate();
 		this.repaint();
 	}
 
@@ -409,11 +409,11 @@ public class DownloadList extends HPanel implements ActionListener {
 	private boolean safeUpdate() {
 		final long time = System.currentTimeMillis();
 
-		if ((time - oldtime) < Settings.refreshDelay) {
+		if ((time - this.oldtime) < Settings.refreshDelay) {
 			return false;
 		}
 
-		oldtime = time;
+		this.oldtime = time;
 
 		return true;
 	}

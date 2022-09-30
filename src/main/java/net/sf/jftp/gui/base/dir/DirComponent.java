@@ -13,11 +13,11 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 
 	public DirComponent() {
 
-		table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
-		table.getSelectionModel().addListSelectionListener(this);
+		this.table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
+		this.table.getSelectionModel().addListSelectionListener(this);
 
-		table.setRowSelectionAllowed(true);
-		table.setColumnSelectionAllowed(false);
+		this.table.setRowSelectionAllowed(true);
+		this.table.setColumnSelectionAllowed(false);
 	}
 
 	public void update() {
@@ -27,7 +27,7 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 		colNames.add("Size");
 		colNames.add("##");
 
-		TableUtils.layoutTable(jl, table, colNames);
+		TableUtils.layoutTable(this.jl, this.table, colNames);
 	}
 
 	/**
@@ -35,17 +35,17 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	 */
 	public void valueChanged(final ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
-			TableUtils.copyTableSelectionsToJList(jl, table);
+			TableUtils.copyTableSelectionsToJList(this.jl, this.table);
 
-			final int index = jl.getSelectedIndex() - 1;
+			final int index = this.jl.getSelectedIndex() - 1;
 
-			if ((index < 0) || (dirEntry == null) || (dirEntry.length < index) || (dirEntry[index] == null)) {
+			if ((index < 0) || (this.dirEntry == null) || (this.dirEntry.length < index) || (this.dirEntry[index] == null)) {
 			} else { // -------------------- local --------------------------
 
-				final String tgt = jl.getSelectedValue().toString();
+				final String tgt = this.jl.getSelectedValue().toString();
 
-				for (int i = 0; i < dirEntry.length; i++) {
-					dirEntry[i].setSelected(jl.isSelectedIndex(i + 1));
+				for (int i = 0; i < this.dirEntry.length; i++) {
+					this.dirEntry[i].setSelected(this.jl.isSelectedIndex(i + 1));
 				}
 			}
 		}

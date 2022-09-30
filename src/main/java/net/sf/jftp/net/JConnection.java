@@ -50,32 +50,32 @@ public class JConnection implements Runnable {
 	public void run() {
 		try {
 
-			s = new Socket(host, port);
+			this.s = new Socket(this.host, this.port);
 
-			localPort = s.getLocalPort();
+			this.localPort = this.s.getLocalPort();
 
 			//if(time > 0) s.setSoTimeout(time);
-			out = new PrintStream(new BufferedOutputStream(s.getOutputStream(), net.sf.jftp.config.Settings.bufferSize));
-			in = new BufferedReader(new InputStreamReader(s.getInputStream()), net.sf.jftp.config.Settings.bufferSize);
-			isOk = true;
+			this.out = new PrintStream(new BufferedOutputStream(this.s.getOutputStream(), net.sf.jftp.config.Settings.bufferSize));
+			this.in = new BufferedReader(new InputStreamReader(this.s.getInputStream()), net.sf.jftp.config.Settings.bufferSize);
+			this.isOk = true;
 
 			// }
 		} catch (final Exception ex) {
 			ex.printStackTrace();
-			net.sf.jftp.system.logging.Log.out("WARNING: connection closed due to exception (" + host + ":" + port + ")");
-			isOk = false;
+			net.sf.jftp.system.logging.Log.out("WARNING: connection closed due to exception (" + this.host + ":" + this.port + ")");
+			this.isOk = false;
 
 			try {
-				if ((s != null) && !s.isClosed()) {
-					s.close();
+				if ((this.s != null) && !this.s.isClosed()) {
+					this.s.close();
 				}
 
-				if (out != null) {
-					out.close();
+				if (this.out != null) {
+					this.out.close();
 				}
 
-				if (in != null) {
-					in.close();
+				if (this.in != null) {
+					this.in.close();
 				}
 			} catch (final Exception ex2) {
 				ex2.printStackTrace();
@@ -83,27 +83,27 @@ public class JConnection implements Runnable {
 			}
 		}
 
-		established = true;
+		this.established = true;
 	}
 
 	public boolean isThere() {
 		int cnt = 0;
 
 		final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
-		while (!established && (cnt < timeout)) {
+		while (!this.established && (cnt < timeout)) {
 			this.pause(10);
 			cnt = cnt + 10;
 		}
 
-		return isOk;
+		return this.isOk;
 	}
 
 	public void send(final String data) {
 		try {
 			//System.out.println(":"+data+":");
-			out.print(data);
-			out.print("\r\n");
-			out.flush();
+			this.out.print(data);
+			this.out.print("\r\n");
+			this.out.flush();
 
 			if (data.startsWith("PASS")) {
 				net.sf.jftp.system.logging.Log.debug("> PASS ****");
@@ -116,19 +116,19 @@ public class JConnection implements Runnable {
 	}
 
 	public PrintStream getInetOutputStream() {
-		return out;
+		return this.out;
 	}
 
 	public BufferedReader getReader() {
-		return in;
+		return this.in;
 	}
 
 	public int getLocalPort() {
-		return localPort;
+		return this.localPort;
 	}
 
 	public InetAddress getLocalAddress() throws IOException {
-		return s.getLocalAddress();
+		return this.s.getLocalAddress();
 	}
 
 	private void pause(final int time) {
@@ -139,7 +139,7 @@ public class JConnection implements Runnable {
 	}
 
 	public BufferedReader getIn() {
-		return in;
+		return this.in;
 	}
 
 	public void setIn(final BufferedReader in) {
@@ -147,7 +147,7 @@ public class JConnection implements Runnable {
 	}
 
 	public PrintStream getOut() {
-		return out;
+		return this.out;
 	}
 
 	public void setOut(final PrintStream out) {

@@ -55,13 +55,13 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	private String keyfileName = null;
 
 	public SftpHostChooser(final ComponentListener l, final boolean local) {
-		listener = l;
-		useLocal = local;
+		this.listener = l;
+		this.useLocal = local;
 		this.init();
 	}
 
 	public SftpHostChooser(final ComponentListener l) {
-		listener = l;
+		this.listener = l;
 		this.init();
 	}
 
@@ -90,69 +90,69 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_sftp);
 
 		if ((login[0] != null) && (login.length > 1)) {
-			host.setText(login[0]);
-			user.setText(login[1]);
+			this.host.setText(login[0]);
+			this.user.setText(login[1]);
 
 			if (login.length > 3) {
-				port.setText(login[3]);
+				this.port.setText(login[3]);
 			}
 		}
 
 		if (net.sf.jftp.config.Settings.getStorePasswords()) {
 			if ((login != null) && (login.length > 2) && (login[2] != null)) {
-				pass.setText(login[2]);
+				this.pass.setText(login[2]);
 			}
 		} else {
-			pass.setText("");
+			this.pass.setText("");
 		}
 
 
-		enc.addItem("3des-cbc");
-		enc.addItem("blowfish-cbc");
+		this.enc.addItem("3des-cbc");
+		this.enc.addItem("blowfish-cbc");
 
-		cs.addItem("hmac-sha1");
-		cs.addItem("hmac-sha1-96");
-		cs.addItem("hmac-md5");
-		cs.addItem("hmac-md5-96");
+		this.cs.addItem("hmac-sha1");
+		this.cs.addItem("hmac-sha1-96");
+		this.cs.addItem("hmac-md5");
+		this.cs.addItem("hmac-md5-96");
 
-		keys.addItem("ssh-rsa");
-		keys.addItem("ssh-dss");
+		this.keys.addItem("ssh-rsa");
+		this.keys.addItem("ssh-dss");
 
 		final HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
-		root.add(host);
-		root.add(port, "wrap");
-		root.add(user);
-		root.add(pass, "wrap");
+		root.add(this.host);
+		root.add(this.port, "wrap");
+		root.add(this.user);
+		root.add(this.pass, "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
-		root.add(encL);
-		root.add(enc, "wrap");
-		root.add(csL);
-		root.add(cs, "wrap");
-		root.add(keysL);
-		root.add(keys);
+		root.add(this.encL);
+		root.add(this.enc, "wrap");
+		root.add(this.csL);
+		root.add(this.cs, "wrap");
+		root.add(this.keysL);
+		root.add(this.keys);
 
 		root.add(new JLabel(" "), "wrap");
 
-		root.add(keyfileL);
-		root.add(keyfile, "wrap");
-		keyfileL.setForeground(Color.DARK_GRAY);
-		keyfileL.setFont(new Font("serif", Font.ITALIC, 11));
+		root.add(this.keyfileL);
+		root.add(this.keyfile, "wrap");
+		this.keyfileL.setForeground(Color.DARK_GRAY);
+		this.keyfileL.setFont(new Font("serif", Font.ITALIC, 11));
 
 		root.add(new JLabel(" "), "wrap");
 
 		root.add(new JLabel(" "));
-		root.add(ok, "align right");
+		root.add(this.ok, "align right");
 
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
 		this.getContentPane().add("Center", root);
 
-		ok.addActionListener(this);
-		keyfile.addActionListener(this);
+		this.ok.addActionListener(this);
+		this.keyfile.addActionListener(this);
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		pass.text.addActionListener(this);
+		this.pass.text.addActionListener(this);
 
 		this.pack();
 		this.setModal(false);
@@ -161,16 +161,16 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	}
 
 	public void stateChanged(final ChangeEvent e) {
-		enc.setEnabled(false);
-		cs.setEnabled(false);
-		keys.setEnabled(false);
+		this.enc.setEnabled(false);
+		this.cs.setEnabled(false);
+		this.keys.setEnabled(false);
 	}
 
 	public void update() {
 		this.fixLocation();
 		this.setVisible(true);
 		this.toFront();
-		host.requestFocus();
+		this.host.requestFocus();
 	}
 
 	public void update(String url) {
@@ -185,18 +185,18 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 
 			if (!uc.loginSucceeded()) {
 				this.setTitle("Wrong password!");
-				host.setText(uc.getHost());
-				port.setText(Integer.toString(uc.getPort()));
-				user.setText(uc.getUser());
-				pass.setText(uc.getPass());
+				this.host.setText(uc.getHost());
+				this.port.setText(Integer.toString(uc.getPort()));
+				this.user.setText(uc.getUser());
+				this.pass.setText(uc.getPass());
 				this.setVisible(true);
 				this.toFront();
-				host.requestFocus();
+				this.host.requestFocus();
 			} else {
 				this.dispose();
 
-				if (listener != null) {
-					listener.componentResized(new ComponentEvent(this, 0));
+				if (this.listener != null) {
+					this.listener.componentResized(new ComponentEvent(this, 0));
 				}
 
 				net.sf.jftp.JFtp.mainFrame.setVisible(true);
@@ -209,17 +209,17 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	}
 
 	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			final String htmp = host.getText().trim();
-			final String utmp = user.getText().trim();
-			final String ptmp = pass.getText();
+			final String htmp = this.host.getText().trim();
+			final String utmp = this.user.getText().trim();
+			final String ptmp = this.pass.getText();
 
 			int potmp = 22;
 
 			try {
-				potmp = Integer.parseInt(port.getText());
+				potmp = Integer.parseInt(this.port.getText());
 			} catch (final Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: Not a number!");
 			}
@@ -229,10 +229,10 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 
 				final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_sftp, htmp, utmp, ptmp, "" + potmp, "null", "null");
 
-				final net.sf.jftp.net.wrappers.Sftp2Connection con2 = new net.sf.jftp.net.wrappers.Sftp2Connection(htmp, "" + potmp, keyfileName);
+				final net.sf.jftp.net.wrappers.Sftp2Connection con2 = new net.sf.jftp.net.wrappers.Sftp2Connection(htmp, "" + potmp, this.keyfileName);
 
 				if (con2.login(utmp, ptmp)) {
-					if (useLocal) {
+					if (this.useLocal) {
 						net.sf.jftp.JFtp.statusP.jftp.addLocalConnection(htmp, con2);
 					} else {
 						net.sf.jftp.JFtp.statusP.jftp.addConnection(htmp, con2);
@@ -252,24 +252,24 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (listener != null) {
-				listener.componentResized(new ComponentEvent(this, 0));
+			if (this.listener != null) {
+				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
-		} else if (e.getSource() == keyfile) {
+		} else if (e.getSource() == this.keyfile) {
 			final JFileChooser chooser = new JFileChooser();
 			final int returnVal = chooser.showOpenDialog(this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				keyfileName = chooser.getSelectedFile().getPath();
+				this.keyfileName = chooser.getSelectedFile().getPath();
 
-				if (keyfileName != null) {
-					keyfileL.setText("(File present)");
+				if (this.keyfileName != null) {
+					this.keyfileL.setText("(File present)");
 				}
 			} else {
-				keyfileName = null;
+				this.keyfileName = null;
 
-				if (keyfileName != null) {
-					keyfileL.setText("(No File)");
+				if (this.keyfileName != null) {
+					this.keyfileL.setText("(No File)");
 				}
 			}
 		}

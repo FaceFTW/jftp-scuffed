@@ -50,7 +50,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public String[] getExports() throws Exception {
-		final com.sun.xfile.XFile xf = new com.sun.xfile.XFile(url);
+		final com.sun.xfile.XFile xf = new com.sun.xfile.XFile(this.url);
 		final com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
 		final String[] tmp = nfsx.getExports();
@@ -142,7 +142,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public String getPWD() {
-		String tmp = this.toNFS(pwd);
+		String tmp = this.toNFS(this.pwd);
 
 		if (!tmp.endsWith("/")) {
 			tmp = tmp + "/";
@@ -152,10 +152,10 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public boolean cdup() {
-		String tmp = pwd;
+		String tmp = this.pwd;
 
-		if (pwd.endsWith("/") && !pwd.equals("nfs://")) {
-			tmp = pwd.substring(0, pwd.lastIndexOf("/"));
+		if (this.pwd.endsWith("/") && !this.pwd.equals("nfs://")) {
+			tmp = this.pwd.substring(0, this.pwd.lastIndexOf("/"));
 		}
 
 		return this.chdir(tmp.substring(0, tmp.lastIndexOf("/") + 1));
@@ -198,7 +198,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			return false;
 		}
 
-		pwd = tmp;
+		this.pwd = tmp;
 
 		if (refresh) {
 			this.fireDirectoryUpdate();
@@ -225,7 +225,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public String getLocalPath() {
-		return path;
+		return this.path;
 	}
 
 	private String toNFS(String f) {
@@ -250,18 +250,18 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 	public boolean setLocalPath(String p) {
 		if (!p.startsWith("/") && !p.startsWith(":", 1)) {
-			p = path + p;
+			p = this.path + p;
 		}
 
 		final java.io.File f = new java.io.File(p);
 
 		if (f.exists()) {
 			try {
-				path = f.getCanonicalPath();
-				path = path.replace('\\', '/');
+				this.path = f.getCanonicalPath();
+				this.path = this.path.replace('\\', '/');
 
-				if (!path.endsWith("/")) {
-					path = path + "/";
+				if (!this.path.endsWith("/")) {
+					this.path = this.path + "/";
 				}
 
 			} catch (final java.io.IOException ex) {
@@ -283,33 +283,33 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		if (this.check(this.toNFS(dir)) == 3) {
 			try {
-				files = this.getExports();
+				this.files = this.getExports();
 			} catch (final Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Can not list exports:" + ex);
 				ex.printStackTrace();
 			}
 		} else {
 			final com.sun.xfile.XFile f = new com.sun.xfile.XFile(dir);
-			files = f.list();
+			this.files = f.list();
 		}
 
-		if (files == null) {
+		if (this.files == null) {
 			return new String[0];
 		}
 
-		size = new String[files.length];
-		perms = new int[files.length];
+		this.size = new String[this.files.length];
+		this.perms = new int[this.files.length];
 
 		int accessible = 0;
 
-		for (int i = 0; i < files.length; i++) {
-			final com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir + files[i]);
+		for (int i = 0; i < this.files.length; i++) {
+			final com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir + this.files[i]);
 
-			if (f2.isDirectory() && !files[i].endsWith("/")) {
-				files[i] = files[i] + "/";
+			if (f2.isDirectory() && !this.files[i].endsWith("/")) {
+				this.files[i] = this.files[i] + "/";
 			}
 
-			size[i] = "" + f2.length();
+			this.size[i] = "" + f2.length();
 
 			if (f2.canWrite()) {
 				accessible = net.sf.jftp.net.FtpConnection.W;
@@ -319,20 +319,20 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 				accessible = net.sf.jftp.net.FtpConnection.DENIED;
 			}
 
-			perms[i] = accessible;
+			this.perms[i] = accessible;
 
 			//System.out.println(pwd+files[i] +" : " +accessible + " : " + size[i]);
 		}
 
-		return files;
+		return this.files;
 	}
 
 	public String[] sortSize() {
-		return size;
+		return this.size;
 	}
 
 	public int[] getPermissions() {
-		return perms;
+		return this.perms;
 	}
 
 	public int handleUpload(final String f) {
@@ -357,13 +357,13 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		if (file.endsWith("/")) {
 			final String out = net.sf.jftp.system.StringUtils.getDir(file);
-			this.uploadDir(file, path + out);
+			this.uploadDir(file, this.path + out);
 			this.fireActionFinished(this);
 		} else {
 			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
-			this.work(path + outfile, file);
+			this.work(this.path + outfile, file);
 			this.fireActionFinished(this);
 		}
 
@@ -429,31 +429,31 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	private void update(final String file, final String type, final int bytes) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) listeners.elementAt(i);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
 	}
 
 	public void addConnectionListener(final net.sf.jftp.net.ConnectionListener l) {
-		listeners.add(l);
+		this.listeners.add(l);
 	}
 
 	public void setConnectionListeners(final java.util.Vector l) {
-		listeners = l;
+		this.listeners = l;
 	}
 
 	/**
 	 * remote directory has changed
 	 */
 	public void fireDirectoryUpdate() {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				((net.sf.jftp.net.ConnectionListener) listeners.elementAt(i)).updateRemoteDirectory(this);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				((net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -463,20 +463,20 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	 */
 	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		//System.out.println(listener);
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) listeners.elementAt(i);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
 
 				final boolean shortProgress = false;
 				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					final boolean isDirUpload = false;
 					if (type.startsWith(net.sf.jftp.net.DataConnection.DFINISHED)) {
-						listener.updateProgress(baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + fileCount, bytes);
+						listener.updateProgress(this.baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + this.fileCount, bytes);
 					} else if (isDirUpload) {
-						listener.updateProgress(baseFile, net.sf.jftp.net.DataConnection.PUTDIR + ":" + fileCount, bytes);
+						listener.updateProgress(this.baseFile, net.sf.jftp.net.DataConnection.PUTDIR + ":" + this.fileCount, bytes);
 					} else {
-						listener.updateProgress(baseFile, net.sf.jftp.net.DataConnection.GETDIR + ":" + fileCount, bytes);
+						listener.updateProgress(this.baseFile, net.sf.jftp.net.DataConnection.GETDIR + ":" + this.fileCount, bytes);
 					}
 				} else {
 					listener.updateProgress(file, type, bytes);
@@ -486,10 +486,10 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public void fireActionFinished(final net.sf.jftp.net.wrappers.RsyncConnection con) {
-		if (listeners == null) {
+		if (this.listeners == null) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				((net.sf.jftp.net.ConnectionListener) listeners.elementAt(i)).actionFinished(con);
+			for (int i = 0; i < this.listeners.size(); i++) {
+				((net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
 			}
 		}
 	}

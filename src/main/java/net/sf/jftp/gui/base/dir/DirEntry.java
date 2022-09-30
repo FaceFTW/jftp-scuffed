@@ -66,10 +66,10 @@ public class DirEntry {
 	}
 
 	public void setFile() {
-		String f = file;
+		String f = this.file;
 
 		if ((f.contains("<")) && (f.contains(">"))) {
-			f = file.substring(file.indexOf("<") + 1);
+			f = this.file.substring(this.file.indexOf("<") + 1);
 			f = f.substring(0, f.lastIndexOf(">"));
 		}
 
@@ -87,86 +87,86 @@ public class DirEntry {
 		}
 
 		// else use the default
-		img = HImage.getImage(c, image);
+		this.img = HImage.getImage(this.c, image);
 
-		if (img == null) {
-			img = HImage.getImage(c, Settings.fileImage);
+		if (this.img == null) {
+			this.img = HImage.getImage(this.c, Settings.fileImage);
 		}
 
-		isFile = true;
-		isDirectory = false;
+		this.isFile = true;
+		this.isDirectory = false;
 	}
 
 	public void setDirectory() {
-		img = HImage.getImage(c, Settings.dirImage);
-		isFile = false;
-		isDirectory = true;
+		this.img = HImage.getImage(this.c, Settings.dirImage);
+		this.isFile = false;
+		this.isDirectory = true;
 	}
 
 	public void setNoRender() {
-		noRender = true;
+		this.noRender = true;
 	}
 
 	public boolean getNoRender() {
-		return noRender;
+		return this.noRender;
 	}
 
 	public int getPermission() {
-		return accessible;
+		return this.accessible;
 	}
 
 	public void setPermission(final int what) {
-		accessible = what;
+		this.accessible = what;
 	}
 
 	public boolean isDirectory() {
-		return isDirectory;
+		return this.isDirectory;
 	}
 
 	public boolean isFile() {
-		return isFile;
+		return this.isFile;
 	}
 
 	public boolean isSelected() {
-		return selected;
+		return this.selected;
 	}
 
 	public void setSelected(final boolean state) {
-		selected = state;
+		this.selected = state;
 	}
 
 	public String toString() {
-		return file;
+		return this.file;
 	}
 
 	public Image getImage() {
-		return img;
+		return this.img;
 	}
 
 	public ImageIcon getImageIcon() {
-		return new ImageIcon(img);
+		return new ImageIcon(this.img);
 	}
 
 	public String getDate() {
-		if (date == null) {
+		if (this.date == null) {
 			return "";
 		}
 
 		final DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 
-		return df.format(date);
+		return df.format(this.date);
 	}
 
 	public void setDate(final Date d) {
-		date = d;
+		this.date = d;
 	}
 
 	public String getFileSize() {
-		if (isDirectory || (size < 0)) {
+		if (this.isDirectory || (this.size < 0)) {
 			return "          ";
 		}
 
-		long rsize = size;
+		long rsize = this.size;
 
 		String type = "bs";
 
@@ -195,25 +195,25 @@ public class DirEntry {
 	}
 
 	public void setFileSize(final long s) {
-		size = s;
+		this.size = s;
 	}
 
 	public long getRawSize() {
-		return size;
+		return this.size;
 	}
 
 	public void setLink() {
-		img = HImage.getImage(c, Settings.linkImage);
-		file = file.substring(0, file.lastIndexOf("###"));
-		isLink = true;
+		this.img = HImage.getImage(this.c, Settings.linkImage);
+		this.file = this.file.substring(0, this.file.lastIndexOf("###"));
+		this.isLink = true;
 	}
 
 	public boolean isLink() {
-		return isLink;
+		return this.isLink;
 	}
 
 	public long getTransferred() {
-		return transferred;
+		return this.transferred;
 	}
 
 	public void setTransferred(final long transferred) {

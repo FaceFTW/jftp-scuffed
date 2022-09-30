@@ -39,48 +39,48 @@ public class BookmarkItem extends JMenuItem {
 	}
 
 	public void setProtocol(final String proto) {
-		protocol = proto;
+		this.protocol = proto;
 		this.setLabel(proto + ": " + this.getLabel());
 	}
 
 	public void setDirectory(final String dir) {
-		dirOrDom = dir;
+		this.dirOrDom = dir;
 	}
 
 	public void setPort(final int p) {
-		port = p;
+		this.port = p;
 	}
 
 	public void setLocal(final boolean local) {
-		useLocal = local;
+		this.useLocal = local;
 	}
 
 	public void setUserdata(final String u, final String p) {
-		user = u;
-		pass = p;
+		this.user = u;
+		this.pass = p;
 	}
 
 	public void connect() {
-		if (protocol.equals("FTP")) {
-			if (pass.equals(Settings.hiddenPassword)) {
-				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+		if (this.protocol.equals("FTP")) {
+			if (this.pass.equals(Settings.hiddenPassword)) {
+				this.pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 			}
 
-			final int i = StartConnection.startFtpCon(host, user, pass, port, dirOrDom, useLocal);
+			final int i = StartConnection.startFtpCon(this.host, this.user, this.pass, this.port, this.dirOrDom, this.useLocal);
 
 			if (i < 0) {
-				pass = Settings.hiddenPassword;
+				this.pass = Settings.hiddenPassword;
 			}
 
 		} else {
-			if (pass.equals(Settings.hiddenPassword)) {
-				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+			if (this.pass.equals(Settings.hiddenPassword)) {
+				this.pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 			}
 
-			final boolean ok = StartConnection.startCon(protocol, host, user, pass, port, dirOrDom, useLocal);
+			final boolean ok = StartConnection.startCon(this.protocol, this.host, this.user, this.pass, this.port, this.dirOrDom, this.useLocal);
 
 			if (!ok) {
-				pass = Settings.hiddenPassword;
+				this.pass = Settings.hiddenPassword;
 			}
 		}
 	}

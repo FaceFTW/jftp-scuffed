@@ -31,24 +31,24 @@ public class SmbTransfer implements Runnable {
 	}
 
 	public void prepare() {
-		runner = new Thread(this);
-		runner.setPriority(Thread.MIN_PRIORITY);
-		runner.start();
+		this.runner = new Thread(this);
+		this.runner.setPriority(Thread.MIN_PRIORITY);
+		this.runner.start();
 	}
 
 	public void run() {
-		con = new SmbConnection(url, domain, user, pass, null);
-		con.setLocalPath(localPath);
-		con.setConnectionListeners(listeners);
+		this.con = new SmbConnection(this.url, this.domain, this.user, this.pass, null);
+		this.con.setLocalPath(this.localPath);
+		this.con.setConnectionListeners(this.listeners);
 
-		if (type.equals(Transfer.DOWNLOAD)) {
-			con.download(file);
-		} else if (type.equals(Transfer.UPLOAD)) {
-			con.upload(file);
+		if (this.type.equals(Transfer.DOWNLOAD)) {
+			this.con.download(this.file);
+		} else if (this.type.equals(Transfer.UPLOAD)) {
+			this.con.upload(this.file);
 		}
 	}
 
 	public SmbConnection getSmbConnection() {
-		return con;
+		return this.con;
 	}
 }

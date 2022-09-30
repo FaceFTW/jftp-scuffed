@@ -133,14 +133,14 @@ public class TableUtils {
 			}
 
 			public int getRowCount() {
-				return list.getModel().getSize();
+				return this.list.getModel().getSize();
 			}
 
 			public Object getValueAt(final int row, final int col) {
 
-				if (list.getModel().getSize() == 0) return "" + null;
+				if (this.list.getModel().getSize() == 0) return "" + null;
 
-				final net.sf.jftp.gui.base.dir.DirEntry ret = (net.sf.jftp.gui.base.dir.DirEntry) list.getModel().getElementAt(row);
+				final net.sf.jftp.gui.base.dir.DirEntry ret = (net.sf.jftp.gui.base.dir.DirEntry) this.list.getModel().getElementAt(row);
 
 				if (col == 0) return ret.getImageIcon();
 				else if (col == 1) return ret.toString();

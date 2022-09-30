@@ -84,11 +84,11 @@ public class FtpServerSocket extends Thread {
 	private final String currentDir = null;
 
 	public FtpServerSocket(final Socket s) throws IOException {
-		socket = s;
+		this.socket = s;
 
 		try {
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new PrintWriter(socket.getOutputStream(), true);
+			this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+			this.out = new PrintWriter(this.socket.getOutputStream(), true);
 		} catch (final IOException ioe) {
 			throw ioe;
 		}
@@ -100,7 +100,7 @@ public class FtpServerSocket extends Thread {
 			methodName = method.getName();
 
 			if (net.sf.jftp.net.server.FtpServerSocket.commands.contains(methodName)) {
-				methods.put(methodName, method);
+				this.methods.put(methodName, method);
 			}
 		}
 
@@ -111,14 +111,14 @@ public class FtpServerSocket extends Thread {
 	}
 
 	private void send(final String bundleId) {
-		out.print(bundle.getString(bundleId));
-		out.flush();
+		this.out.print(this.bundle.getString(bundleId));
+		this.out.flush();
 	}
 
 	private void send(final String bundleId, final Object[] args) {
-		final MessageFormat fmt = new MessageFormat(bundle.getString(bundleId));
-		out.print(fmt.format(args));
-		out.flush();
+		final MessageFormat fmt = new MessageFormat(this.bundle.getString(bundleId));
+		this.out.print(fmt.format(args));
+		this.out.flush();
 	}
 
 	public void motd() {
@@ -146,16 +146,16 @@ public class FtpServerSocket extends Thread {
 	}
 
 	public void pwd(final String line) {
-		final Object[] args = {currentDir};
+		final Object[] args = {this.currentDir};
 		this.send("257pwd", args);
 	}
 
 	public void cdup(final String line) {
 		final Object[] args = {"CDUP"};
-		final File tmp = directory.getParentFile();
+		final File tmp = this.directory.getParentFile();
 
 		if (tmp != null) {
-			directory = tmp;
+			this.directory = tmp;
 		}
 
 		this.send("200", args);
@@ -185,7 +185,7 @@ public class FtpServerSocket extends Thread {
 		final boolean passive = false;
 		if (!passive) {
 			try {
-				final Socket activeSocket = new Socket(socket.getInetAddress(), activePort);
+				final Socket activeSocket = new Socket(this.socket.getInetAddress(), this.activePort);
 				final PrintStream ps = new PrintStream(activeSocket.getOutputStream());
 				ps.print("bleah\r\n");
 				ps.print("bleah\r\n");
@@ -219,7 +219,7 @@ public class FtpServerSocket extends Thread {
 			hi = line.substring(start + 1, end);
 		}
 
-		activePort = ((Integer.parseInt(hi) * 256) + Integer.parseInt(lo));
+		this.activePort = ((Integer.parseInt(hi) * 256) + Integer.parseInt(lo));
 
 		final Object[] args = {"PORT"};
 		this.send("200", args);
@@ -230,7 +230,7 @@ public class FtpServerSocket extends Thread {
 			String line = null;
 			this.motd();
 
-			while ((line = in.readLine()) != null) {
+			while ((line = this.in.readLine()) != null) {
 				System.out.println(line);
 
 				int index = line.indexOf(' ');
@@ -240,7 +240,7 @@ public class FtpServerSocket extends Thread {
 				}
 
 				final String command = line.substring(0, index).toLowerCase();
-				final Method o = (Method) methods.get(command);
+				final Method o = (Method) this.methods.get(command);
 
 				if (o != null) {
 					try {
