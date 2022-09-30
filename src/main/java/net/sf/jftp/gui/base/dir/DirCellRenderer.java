@@ -28,8 +28,8 @@ import java.awt.*;
 // Display an icon and a string for each object in the list.
 // class DirCellRenderer extends JLabel implements ListCellRenderer {
 public class DirCellRenderer extends DefaultListCellRenderer {
-	final static ImageIcon longIcon = new ImageIcon(Settings.dirImage);
-	final static ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
+	static final ImageIcon longIcon = new ImageIcon(Settings.dirImage);
+	static final ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
 
 	public DirCellRenderer() {
 	}

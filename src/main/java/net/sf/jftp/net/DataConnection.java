@@ -32,13 +32,13 @@ import java.net.Socket;
  * It is used internally by FtpConnection, so you probably don't have to use it directly.
  */
 public class DataConnection implements Runnable {
-	public final static String GET = "GET";
-	public final static String PUT = "PUT";
-	public final static String FAILED = "FAILED";
-	public final static String FINISHED = "FINISHED";
-	public final static String DFINISHED = "DFINISHED";
-	public final static String GETDIR = "DGET";
-	public final static String PUTDIR = "DPUT";
+	public static final String GET = "GET";
+	public static final String PUT = "PUT";
+	public static final String FAILED = "FAILED";
+	public static final String FINISHED = "FINISHED";
+	public static final String DFINISHED = "DFINISHED";
+	public static final String GETDIR = "DGET";
+	public static final String PUTDIR = "DPUT";
 	private final String file;
 	private final String host;
 	private final FtpConnection con;

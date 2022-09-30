@@ -40,24 +40,24 @@ import java.util.Vector;
  * @author David Hansmann, hansmann.d@debitel.net
  */
 public class FtpConnection implements BasicConnection, FtpConstants {
-	public final static String ASCII = "A";
-	public final static String BINARY = "I";
-	public final static String EBCDIC = "E";
-	public final static String L8 = "L 8";
-	public final static String STREAM = "S";
-	public final static String BLOCKED = "B";
-	public final static String COMPRESSED = "C";
+	public static final String ASCII = "A";
+	public static final String BINARY = "I";
+	public static final String EBCDIC = "E";
+	public static final String L8 = "L 8";
+	public static final String STREAM = "S";
+	public static final String BLOCKED = "B";
+	public static final String COMPRESSED = "C";
 	private static final boolean TESTMODE = false;
 	// everything starting with this will be treated
 	// as a negative response
-	private final static String NEGATIVE = "5";
-	private final static String NEGATIVE2 = "4";
+	private static final String NEGATIVE = "5";
+	private static final String NEGATIVE2 = "4";
 	// everything starting with this will be treated
 	// as a positive response
-	private final static String POSITIVE = "2";
+	private static final String POSITIVE = "2";
 	// for resuming
-	private final static String PROCEED = "3"; //"350";
-	private final static char MORE_LINES_APPENDED = '-';
+	private static final String PROCEED = "3"; //"350";
+	private static final char MORE_LINES_APPENDED = '-';
 	//*** 1.44: if LIST is not set, then load it from advanced settings
 	//***       And if the file for it is not found, then create it
 	//***       with LIST -laL as the default

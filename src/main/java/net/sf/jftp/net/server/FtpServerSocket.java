@@ -36,8 +36,8 @@ import java.util.ResourceBundle;
  *
  */
 public class FtpServerSocket extends Thread {
-	public final static int port = 21;
-	public final static int dataPort = 20;
+	public static final int port = 21;
+	public static final int dataPort = 20;
 	private static ArrayList commands = null;
 
 	static {
