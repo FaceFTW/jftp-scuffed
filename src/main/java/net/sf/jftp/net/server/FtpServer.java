@@ -28,6 +28,7 @@ public class FtpServer extends Thread {
 	private int port;
 
 	public FtpServer(final int port) {
+		super();
 		this.port = port;
 	}
 

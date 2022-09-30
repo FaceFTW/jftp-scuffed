@@ -26,30 +26,27 @@ public final Hashtable pool = new Hashtable();
 public static final int width = 800;
 public static final int height = 600;
 
-public Grapher()
-{
+public Grapher() {
+	super();
 	this.setSize(Grapher.width, Grapher.height);
 
- try
- {
-	 for (final String s : this.files) {
-		 final java.io.File f = this.getFile(s);
+	try {
+		for (final String s : this.files) {
+			final java.io.File f = this.getFile(s);
 
-		 if (null != f && f.exists()) {
-			 for (final String file : this.files) {
-				 final int x = this.countRelations(f, file);
-				 if (0 < x) this.table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
-			 }
-		 }
-	 }
+			if (null != f && f.exists()) {
+				for (final String file : this.files) {
+					final int x = this.countRelations(f, file);
+					if (0 < x) this.table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
+				}
+			}
+		}
 
-	 this.show();
-	 this.repaint();
- }
- catch(final Exception ex)
- {
- 	ex.printStackTrace();
- }
+		this.show();
+		this.repaint();
+	} catch (final Exception ex) {
+		ex.printStackTrace();
+	}
 }
 
 public void paint(final Graphics g)

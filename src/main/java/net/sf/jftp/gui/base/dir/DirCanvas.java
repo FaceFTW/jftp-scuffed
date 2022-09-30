@@ -34,6 +34,7 @@ public class DirCanvas extends JPanel implements MouseListener {
 
 
 	public DirCanvas(final Dir target) {
+		super();
 		this.target = target;
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.add(this.text);

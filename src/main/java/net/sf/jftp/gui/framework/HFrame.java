@@ -21,6 +21,7 @@ import java.awt.*;
 
 public class HFrame extends JDialog {
 	public HFrame() {
+		super();
 		this.setFont(GUIDefaults.font);
 		this.setTitle("JFtp...");
 		this.setBackground(new JLabel().getBackground());

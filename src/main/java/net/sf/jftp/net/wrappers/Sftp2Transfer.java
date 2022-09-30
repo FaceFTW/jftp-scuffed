@@ -19,6 +19,7 @@ public class Sftp2Transfer implements Runnable {
 	private Sftp2Connection con = null;
 
 	public Sftp2Transfer(final String localPath, final String remotePath, final String file, final String user, final String pass, final Vector listeners, final String type, final String keyfile, final String host, final String port) {
+		super();
 		this.localPath = localPath;
 		this.remotePath = remotePath;
 		this.file = file;

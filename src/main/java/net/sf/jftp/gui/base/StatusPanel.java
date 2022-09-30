@@ -45,6 +45,7 @@ public class StatusPanel extends HPanel implements ActionListener {
 	public final JFtp jftp;
 
 	public StatusPanel(final JFtp jftp) {
+		super();
 		this.jftp = jftp;
 		this.setLayout(new BorderLayout());
 

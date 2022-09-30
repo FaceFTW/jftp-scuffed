@@ -28,6 +28,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 	private String crlf = null;
 
 	public FtpTransfer(final String host, final int port, final String localPath, final String remotePath, final String file, final String user, final String pass, final String type, ConnectionHandler handler, final Vector<ConnectionListener> listeners, final String newName, final String crlf) {
+		super();
 		this.host = host;
 		this.port = port;
 		this.localPath = localPath;
@@ -49,6 +50,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 	}
 
 	public FtpTransfer(final String host, final int port, final String localPath, final String remotePath, final String file, final String user, final String pass, final String type, ConnectionHandler handler, final Vector<ConnectionListener> listeners, final String crlf) {
+		super();
 		this.host = host;
 		this.port = port;
 		this.localPath = localPath;

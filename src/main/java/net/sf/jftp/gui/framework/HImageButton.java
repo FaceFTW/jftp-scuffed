@@ -29,6 +29,7 @@ public class HImageButton extends JButton implements MouseListener {
 	private String cmd = "default";
 
 	public HImageButton(final String image, final String cmd, final String label, final ActionListener who) {
+		super();
 		this.cmd = cmd;
 		this.label = label;
 		this.who = who;

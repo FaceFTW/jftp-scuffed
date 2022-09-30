@@ -20,6 +20,7 @@ import java.io.File;
 
 public class AutoRemover {
 	public AutoRemover(final String file, final String type) {
+		super();
 		if (type.equals("local")) {
 			final File f = new File(net.sf.jftp.JFtp.localDir.getPath() + file);
 

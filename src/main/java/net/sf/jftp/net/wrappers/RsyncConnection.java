@@ -36,6 +36,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	private int fileCount;
 
 	public RsyncConnection(final String url, final String utmp, final String ptmp, final int port, final String dtmp, final String ltmp) {
+		super();
 		this.url = url;
 
 		String host = url.substring(6);

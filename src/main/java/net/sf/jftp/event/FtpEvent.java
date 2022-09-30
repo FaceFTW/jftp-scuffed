@@ -20,10 +20,12 @@ public class FtpEvent extends Event {
 	private String message;
 
 	public FtpEvent(final int code) {
+		super();
 		this.code = code;
 	}
 
 	public FtpEvent(final int code, final String message) {
+		super();
 		this.code = code;
 		this.message = message;
 	}

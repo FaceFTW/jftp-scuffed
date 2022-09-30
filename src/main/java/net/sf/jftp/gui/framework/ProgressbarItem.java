@@ -9,6 +9,7 @@ public class ProgressbarItem extends JPanel {
 	private final JProgressBar bar = new JProgressBar();
 
 	public ProgressbarItem(final net.sf.jftp.gui.base.dir.DirEntry d) {
+		super();
 		this.d = d;
 		this.setLayout(new BorderLayout(2, 2));
 

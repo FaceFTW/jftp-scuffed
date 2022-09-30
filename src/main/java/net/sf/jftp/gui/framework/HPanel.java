@@ -20,6 +20,7 @@ import javax.swing.*;
 
 public class HPanel extends JPanel {
 	public HPanel() {
+		super();
 		this.setFont(GUIDefaults.font);
 		this.setBackground(new JLabel().getBackground());
 	}

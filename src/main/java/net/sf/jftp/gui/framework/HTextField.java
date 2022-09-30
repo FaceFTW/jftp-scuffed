@@ -26,14 +26,17 @@ public class HTextField extends JPanel {
 	private JLabel label;
 
 	public HTextField(final String l, final String t, final int size) {
+		super();
 		this.init(l, t, size, false);
 	}
 
 	public HTextField(final String l, final String t) {
+		super();
 		this.init(l, t, 12, false);
 	}
 
 	public HTextField(final String l, final String t, final boolean isPw) {
+		super();
 		this.init(l, t, 12, isPw);
 	}
 

@@ -12,6 +12,7 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	DirPanel target;
 
 	public DirComponent() {
+		super();
 
 		this.table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
 		this.table.getSelectionModel().addListSelectionListener(this);

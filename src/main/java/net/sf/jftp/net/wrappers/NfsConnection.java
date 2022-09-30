@@ -52,6 +52,7 @@ public class NfsConnection implements BasicConnection {
 	private boolean shortProgress = false;
 
 	public NfsConnection(final String url) {
+		super();
 		this.url = url;
 
 		this.host = url.substring(6);

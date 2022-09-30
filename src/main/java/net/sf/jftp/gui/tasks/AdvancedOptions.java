@@ -29,6 +29,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 	private final JLabel statusText = new JLabel();
 
 	public AdvancedOptions() {
+		super();
 		this.setLayout(new BorderLayout(5, 5));
 
 		final javax.swing.JLabel text = new javax.swing.JLabel();

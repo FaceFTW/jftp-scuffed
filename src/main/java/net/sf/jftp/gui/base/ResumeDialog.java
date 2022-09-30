@@ -34,6 +34,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	private net.sf.jftp.gui.base.dir.DirEntry dirEntry = null;
 
 	public ResumeDialog(final net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
+		super();
 		this.dirEntry = dirEntry;
 
 		this.setLocation(150, 150);

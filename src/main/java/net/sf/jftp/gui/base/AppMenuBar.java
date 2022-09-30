@@ -131,6 +131,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	JMenu last = this.bookmarks;
 
 	public AppMenuBar(final JFtp jftp) {
+		super();
 		this.jftp = jftp;
 
 		this.ftpCon.addActionListener(this);

@@ -54,6 +54,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	private boolean isThere = false;
 
 	public DownloadQueue() {
+		super();
 		this.setLayout(new BorderLayout());
 		final HPanel cmdP = new HPanel();
 
@@ -336,6 +337,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		public String domain;
 
 		public QueueRecord() {
+			super();
 		}
 	}
 

@@ -30,6 +30,7 @@ public class Shell extends HFrame implements Runnable {
 	int currCmd = 0;
 
 	public Shell(final InputStream in, final OutputStream out) {
+		super();
 		try {
 			this.in = new BufferedReader(new InputStreamReader(in));
 			this.out = new BufferedOutputStream(out);
@@ -42,6 +43,7 @@ public class Shell extends HFrame implements Runnable {
 
 
 	public Shell(final BufferedReader in, final OutputStream out) {
+		super();
 		try {
 			this.in = in;
 			this.out = new BufferedOutputStream(out);

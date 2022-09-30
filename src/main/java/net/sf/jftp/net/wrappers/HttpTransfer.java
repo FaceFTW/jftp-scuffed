@@ -26,6 +26,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 	private ConnectionHandler handler = new ConnectionHandler();
 
 	public HttpTransfer(final String url, final String localPath, final Vector listeners, final ConnectionHandler handler) {
+		super();
 		this.url = url;
 		this.localPath = localPath;
 		this.listeners = listeners;

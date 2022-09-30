@@ -63,17 +63,20 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	private boolean useLocal = false;
 
 	public HostChooser(final ComponentListener l, final boolean local) {
+		super();
 		this.listener = l;
 		this.useLocal = local;
 		this.init();
 	}
 
 	public HostChooser(final ComponentListener l) {
+		super();
 		this.listener = l;
 		this.init();
 	}
 
 	public HostChooser() {
+		super();
 		this.init();
 	}
 

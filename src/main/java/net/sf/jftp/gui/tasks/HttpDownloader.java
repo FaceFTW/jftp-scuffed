@@ -26,6 +26,7 @@ public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements 
 	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Start");
 
 	public HttpDownloader() {
+		super();
 		//setSize(480,100);
 		//setTitle("Download a file via an URL");
 		//setLocation(150,150);

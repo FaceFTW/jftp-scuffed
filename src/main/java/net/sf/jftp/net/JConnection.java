@@ -40,6 +40,7 @@ public class JConnection implements Runnable {
 	private int localPort = -1;
 
 	public JConnection(final String host, final int port) {
+		super();
 		this.host = host;
 		this.port = port;
 		final Thread runner = new Thread(this);

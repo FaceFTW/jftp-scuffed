@@ -24,6 +24,7 @@ public class JReciever implements Runnable {
 	private final DataInputStream in;
 
 	public JReciever(final DataInputStream in) {
+		super();
 		this.in = in;
 		final Thread reciever = new Thread(this);
 		reciever.start();

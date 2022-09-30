@@ -27,6 +27,7 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
 
 	public ProxyChooser() {
+		super();
 		//setSize(500,120);
 		//setTitle("Proxy settings...");
 		//setLocation(50,150);

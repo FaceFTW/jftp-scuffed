@@ -60,6 +60,7 @@ public class DirEntry {
 	private boolean noRender = false;
 
 	public DirEntry(final String file, final ActionListener who) {
+		super();
 		this.file = file;
 		this.who = who;
 		this.setFile();

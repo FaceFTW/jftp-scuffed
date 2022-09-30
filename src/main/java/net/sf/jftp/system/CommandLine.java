@@ -32,6 +32,7 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 	private final EventCollector eventCollector;
 
 	public CommandLine() {
+		super();
 		net.sf.jftp.system.logging.Log.setLogger(new net.sf.jftp.system.logging.SystemLogger());
 		this.eventCollector = new EventCollector();
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPCommand, new FtpEventHandler());

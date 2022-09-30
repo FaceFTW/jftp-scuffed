@@ -84,6 +84,7 @@ public class FtpServerSocket extends Thread {
 	private final String currentDir = null;
 
 	public FtpServerSocket(final Socket s) throws IOException {
+		super();
 		this.socket = s;
 
 		try {

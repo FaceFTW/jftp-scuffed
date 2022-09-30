@@ -42,21 +42,21 @@ public class DirLister implements ActionListener {
 	private String sortMode = null;
 	private Date[] dates = null;
 
-	public DirLister(final BasicConnection con)
-	{
+	public DirLister(final BasicConnection con) {
+		super();
 		this.con = con;
 		this.init();
 	}
 
-	public DirLister(final BasicConnection con, final String sortMode)
-	{
+	public DirLister(final BasicConnection con, final String sortMode) {
+		super();
 		this.con = con;
 		this.sortMode = sortMode;
 		this.init();
 	}
 
-	public DirLister(final BasicConnection con, final String sortMode, final boolean hide)
-	{
+	public DirLister(final BasicConnection con, final String sortMode, final boolean hide) {
+		super();
 		this.con = con;
 		this.sortMode = sortMode;
 		this.init();

@@ -47,6 +47,7 @@ class ImagePanel extends JPanel {
 	private Image img;
 
 	public ImagePanel(final String url) {
+		super();
 		try {
 			this.setBackground(Color.white);
 

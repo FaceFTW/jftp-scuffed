@@ -40,9 +40,11 @@ public class FilesystemConnection implements BasicConnection {
 	private boolean shortProgress = false;
 
 	public FilesystemConnection() {
+		super();
 	}
 
 	public FilesystemConnection(final String path, final ConnectionListener l) {
+		super();
 		this.listeners.add(l);
 		this.chdir(path);
 	}

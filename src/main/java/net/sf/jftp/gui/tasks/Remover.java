@@ -27,6 +27,7 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 	private String type = null;
 
 	public Remover(final String l, final String type) {
+		super();
 		this.type = type;
 
 		this.setSize(350, 100);

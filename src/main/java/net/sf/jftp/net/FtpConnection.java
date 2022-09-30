@@ -139,6 +139,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param host The host to connect to
 	 */
 	public FtpConnection(final String host) {
+		super();
 		this.host = host;
 
 		final File f = new File(".");
@@ -153,6 +154,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param initCWD The initial remote working directory
 	 */
 	public FtpConnection(final String host, final int port, final String initCWD) {
+		super();
 		this.host = host;
 		this.port = port;
 		this.initCWD = initCWD;
@@ -171,6 +173,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param crlfx   \n, \r, \r\n, CR, LF or CRLF - line break style of the server
 	 */
 	public FtpConnection(final String host, final int port, final String initCWD, String crlfx) {
+		super();
 		this.host = host;
 		this.port = port;
 		this.initCWD = initCWD;

@@ -23,6 +23,7 @@ public class SaveSet {
 	private PrintStream out = null;
 
 	public SaveSet(final String file, final String host, final String user, final String pass, final String name, final String port) {
+		super();
 		try {
 			final FileOutputStream fos;
 			this.out = new PrintStream((fos = new FileOutputStream(file)));
@@ -44,6 +45,7 @@ public class SaveSet {
 	}
 
 	public SaveSet(final String file, final String host, final String user, final String pass, final String port, final String cwd, final String lcwd) {
+		super();
 		try {
 			this.out = new PrintStream(new FileOutputStream(file));
 			this.out.println(host);
@@ -70,6 +72,7 @@ public class SaveSet {
 	//*** file: the file name
 	//*** lsCMD: the FTP LIST command to be saved
 	public SaveSet(final String file, final String lsCmd) {
+		super();
 		try {
 			this.out = new PrintStream(new FileOutputStream(file));
 			this.out.println(lsCmd);

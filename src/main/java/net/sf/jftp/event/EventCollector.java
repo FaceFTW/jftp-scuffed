@@ -22,6 +22,7 @@ public class EventCollector implements Acceptor {
 	protected final Vector buffer;
 
 	public EventCollector() {
+		super();
 		this.buffer = new Vector();
 		new EventProcessor(this.buffer);
 	}

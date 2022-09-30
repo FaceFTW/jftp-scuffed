@@ -108,6 +108,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	private long oldtime = 0;
 
 	public JFtp() {
+		super();
 		Log.setLogger(this);
 
 		if (null != JFtp.statusP) {
@@ -119,6 +120,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public JFtp(final boolean mainUsed) {
+		super();
 		Log.setLogger(this);
 		JFtp.mainUsed = mainUsed;
 		this.init();

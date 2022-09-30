@@ -25,6 +25,7 @@ public class HComboBox extends JPanel //implements ActionListener
 	public final JComboBox comboBox;
 
 	public HComboBox(final String l) {
+		super();
 		this.setLayout(new BorderLayout(5, 5));
 
 		this.label = new JLabel(l + "  ");
@@ -38,6 +39,7 @@ public class HComboBox extends JPanel //implements ActionListener
 	}
 
 	public HComboBox(final String l, final String[] t) {
+		super();
 		this.setLayout(new BorderLayout(5, 5));
 
 		this.label = new JLabel(l + "  ");

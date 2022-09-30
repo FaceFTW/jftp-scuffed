@@ -32,6 +32,7 @@ public class LastConnections {
 	//*** changed this so that JFtp object is passed to it and
 	//initialized
 	public LastConnections(final net.sf.jftp.JFtp jftp) {
+		super();
 		LastConnections.jftp = jftp;
 
 		//init();

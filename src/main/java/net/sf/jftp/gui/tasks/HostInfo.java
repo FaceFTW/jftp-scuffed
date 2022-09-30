@@ -35,5 +35,6 @@ public class HostInfo {
 	public String domain;
 
 	public HostInfo() {
+		super();
 	}
 }

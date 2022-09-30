@@ -32,6 +32,7 @@ public class RemoteCommand extends HFrame implements ActionListener {
 	private final HButton ok = new HButton("Execute");
 
 	public RemoteCommand() {
+		super();
 		//setSize(400, 80);
 		this.setTitle("Choose command...");
 		this.setLocation(150, 150);

@@ -26,6 +26,7 @@ public class PathChanger extends net.sf.jftp.gui.framework.HFrame implements Act
 	private String type = "";
 
 	public PathChanger(final String type) {
+		super();
 		this.type = type;
 
 		//setSize(400, 80);

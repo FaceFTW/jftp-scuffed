@@ -13,29 +13,31 @@ public class FtpUpload implements Logger, ConnectionListener
 
  private boolean isThere = false;
 
-	public FtpUpload(final String host, final String dir, final String file)
- {
- 	Log.setLogger(this);
+	public FtpUpload(final String host, final String dir, final String file) {
+		super();
+		Log.setLogger(this);
 
- 	final FtpConnection con = new FtpConnection(host);
+		final FtpConnection con = new FtpConnection(host);
 
-	con.addConnectionListener(this);
+		con.addConnectionListener(this);
 
-	 final net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
-	 con.setConnectionHandler(handler);
+		final net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
+		con.setConnectionHandler(handler);
 
-	con.login("anonymous","no@no.no");
+		con.login("anonymous", "no@no.no");
 
-	while(!this.isThere)
-	{
-		try { Thread.sleep(10); }
-		catch(final Exception ex) { ex.printStackTrace(); }
+		while (!this.isThere) {
+			try {
+				Thread.sleep(10);
+			} catch (final Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		con.chdir(dir);
+
+		con.upload(file);
 	}
-
-	con.chdir(dir);
-
-	con.upload(file);
- }
 
  public static void main(final String[] argv)
  {

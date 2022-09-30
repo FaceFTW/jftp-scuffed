@@ -25,6 +25,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	private boolean done = false;
 
 	public EventProcessor(final Vector b) {
+		super();
 		this.buffer = b;
 		new Thread(this).start();
 		net.sf.jftp.event.EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPShutdown, this);

@@ -53,17 +53,20 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 	private boolean useLocal = false;
 
 	public SmbHostChooser(final ComponentListener l, final boolean local) {
+		super();
 		this.listener = l;
 		this.useLocal = local;
 		this.init();
 	}
 
 	public SmbHostChooser(final ComponentListener l) {
+		super();
 		this.listener = l;
 		this.init();
 	}
 
 	public SmbHostChooser() {
+		super();
 		this.init();
 	}
 

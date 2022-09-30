@@ -49,17 +49,20 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 	private boolean useLocal = false;
 
 	public NfsHostChooser(final ComponentListener l, final boolean local) {
+		super();
 		this.listener = l;
 		this.useLocal = local;
 		this.init();
 	}
 
 	public NfsHostChooser(final ComponentListener l) {
+		super();
 		this.listener = l;
 		this.init();
 	}
 
 	public NfsHostChooser() {
+		super();
 		this.init();
 	}
 

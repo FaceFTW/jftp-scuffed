@@ -302,6 +302,7 @@ class Getter {
 	private String localDir = null;
 
 	public Getter(final String localDir) {
+		super();
 		this.localDir = localDir;
 	}
 

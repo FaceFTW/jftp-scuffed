@@ -22,6 +22,7 @@ public class FtpClient {
 	private FtpConnection connection = null;
 
 	public FtpClient() {
+		super();
 	}
 
 	public void login(final String host) {

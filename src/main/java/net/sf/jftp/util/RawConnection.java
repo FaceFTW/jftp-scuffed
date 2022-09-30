@@ -51,6 +51,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	}
 
 	public RawConnection(final String hostname, final int p) {
+		super();
 		net.sf.jftp.util.RawConnection.host.setText(hostname);
 
 		this.setSize(550, 300);

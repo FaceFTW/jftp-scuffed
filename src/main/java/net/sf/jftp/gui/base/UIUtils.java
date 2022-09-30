@@ -54,6 +54,7 @@ class Spawn implements Runnable {
 	private String cmd;
 
 	public Spawn(final String cmd) {
+		super();
 		this.cmd = cmd;
 
 		final Thread runner = new Thread(this);

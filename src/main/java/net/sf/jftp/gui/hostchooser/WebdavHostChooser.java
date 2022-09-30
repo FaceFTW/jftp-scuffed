@@ -43,17 +43,20 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	private boolean useLocal = false;
 
 	public WebdavHostChooser(final ComponentListener l, final boolean local) {
+		super();
 		this.listener = l;
 		this.useLocal = local;
 		this.init();
 	}
 
 	public WebdavHostChooser(final ComponentListener l) {
+		super();
 		this.listener = l;
 		this.init();
 	}
 
 	public WebdavHostChooser() {
+		super();
 		this.init();
 	}
 

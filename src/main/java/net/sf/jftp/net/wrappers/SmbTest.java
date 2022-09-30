@@ -7,6 +7,7 @@ import jcifs.smb.SmbFile;
 public class SmbTest extends NtlmAuthenticator {
 
 	public SmbTest(final String[] argv) throws Exception {
+		super();
 		NtlmAuthenticator.setDefault(this);
 
 		final SmbFile file = new SmbFile(argv[0]);

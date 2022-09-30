@@ -18,6 +18,7 @@ public class SmbTransfer implements Runnable {
 	private SmbConnection con = null;
 
 	public SmbTransfer(final String url, final String localPath, final String file, final String user, final String pass, final String domain, final Vector listeners, final String type) {
+		super();
 		this.url = url;
 		this.localPath = localPath;
 		this.file = file;

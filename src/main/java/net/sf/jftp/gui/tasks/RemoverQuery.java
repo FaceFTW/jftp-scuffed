@@ -26,6 +26,7 @@ public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements Ac
 	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
 
 	public RemoverQuery(final String file, final String type) {
+		super();
 		this.file = file;
 		this.type = type;
 

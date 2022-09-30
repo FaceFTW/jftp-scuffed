@@ -20,60 +20,62 @@ public class FtpDownload implements Logger, ConnectionListener
  public static long time = 0;
 
 	//creates a FtpConnection and downloads a file
- public FtpDownload(final String host, final String file)
- {
-	// the ftp client default is very small, you may want to increase this
-	Settings.bufferSize = 16384; 
+ public FtpDownload(final String host, final String file) {
+	 super();
+	 // the ftp client default is very small, you may want to increase this
+	 Settings.bufferSize = 16384;
 
-	final long current = System.currentTimeMillis();
-	//System.out.println("1) "+(System.currentTimeMillis()-current)+"ms.");
+	 final long current = System.currentTimeMillis();
+	 //System.out.println("1) "+(System.currentTimeMillis()-current)+"ms.");
 
- 	// register app as Logger, debug() and debugRaw below are from now on called by
-	// FtpConnection
- 	Log.setLogger(this);
+	 // register app as Logger, debug() and debugRaw below are from now on called by
+	 // FtpConnection
+	 Log.setLogger(this);
 
-	// create a FtpConnection - note that it does *not* connect instantly
- 	final FtpConnection con = new FtpConnection(host);
+	 // create a FtpConnection - note that it does *not* connect instantly
+	 final FtpConnection con = new FtpConnection(host);
 
-	//System.out.println("2) "+(System.currentTimeMillis()-current)+"ms.");
+	 //System.out.println("2) "+(System.currentTimeMillis()-current)+"ms.");
 
-	// set updatelistener, interface methods are below
-	con.addConnectionListener(this);
+	 // set updatelistener, interface methods are below
+	 con.addConnectionListener(this);
 
-	// set handler
+	 // set handler
 	 // connection pool, not necessary but you should take a look at this class
 	 // if you want to use multiple event based ftp transfers.
 	 final net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
 	 con.setConnectionHandler(handler);
 
-	// connect and login. this is from where connectionFailed() may be called for example
-	con.login("anonymous","........");
+	 // connect and login. this is from where connectionFailed() may be called for example
+	 con.login("anonymous", "........");
 
-	//System.out.println("3) "+(System.currentTimeMillis()-current)+"ms.");
+	 //System.out.println("3) "+(System.currentTimeMillis()-current)+"ms.");
 
-	// login calls connectionInitialized() below which sets isThere to true
-	while(!this.isThere)
-	{
-		try { Thread.sleep(10); }
-		catch(final Exception ex) { ex.printStackTrace(); }
-	}
+	 // login calls connectionInitialized() below which sets isThere to true
+	 while (!this.isThere) {
+		 try {
+			 Thread.sleep(10);
+		 } catch (final Exception ex) {
+			 ex.printStackTrace();
+		 }
+	 }
 
-	//System.out.println("4) "+(System.currentTimeMillis()-current)+"ms.");
+	 //System.out.println("4) "+(System.currentTimeMillis()-current)+"ms.");
 
-	// download the file - this method blocks until the download has finished
-	// if you want non-blocking, multithreaded io, just use
-	//
-	// con.handleDownload(file);
-	//
-	// which spawns a new thread for the download
-	
-	con.chdir("pub/linux/kernel");
-	
-	con.download(file);
+	 // download the file - this method blocks until the download has finished
+	 // if you want non-blocking, multithreaded io, just use
+	 //
+	 // con.handleDownload(file);
+	 //
+	 // which spawns a new thread for the download
 
-	 FtpDownload.time = (System.currentTimeMillis()-current);
+	 con.chdir("pub/linux/kernel");
 
-	System.out.println("Download took "+ FtpDownload.time +"ms.");
+	 con.download(file);
+
+	 FtpDownload.time = (System.currentTimeMillis() - current);
+
+	 System.out.println("Download took " + FtpDownload.time + "ms.");
  }
 
  // download welcome.msg from sourceforge or any other given file

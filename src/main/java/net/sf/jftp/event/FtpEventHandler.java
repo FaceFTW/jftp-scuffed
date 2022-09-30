@@ -89,6 +89,7 @@ public class FtpEventHandler implements EventHandler {
 	private final Hashtable methods = new Hashtable();
 
 	public FtpEventHandler() {
+		super();
 		this.client = new FtpClient();
 
 		final Method[] m = this.getClass().getDeclaredMethods();

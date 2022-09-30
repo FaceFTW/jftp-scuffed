@@ -34,13 +34,16 @@ public class DirPanel extends HPanel implements Dir {
 	public JList jl = new JList();
 
 	public DirPanel() {
+		super();
 	}
 
 	public DirPanel(final String path) {
+		super();
 		this.path = path;
 	}
 
 	public DirPanel(final String path, final String type) {
+		super();
 		this.path = path;
 		this.type = type;
 	}

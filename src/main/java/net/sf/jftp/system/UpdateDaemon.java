@@ -26,6 +26,7 @@ public class UpdateDaemon implements Runnable {
 	private final net.sf.jftp.JFtp jftp;
 
 	public UpdateDaemon(final net.sf.jftp.JFtp jftp) {
+		super();
 		this.jftp = jftp;
 
 		final Thread runner = new Thread(this);

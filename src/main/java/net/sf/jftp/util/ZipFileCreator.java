@@ -29,6 +29,7 @@ public class ZipFileCreator {
 	private final ZipOutputStream z;
 
 	public ZipFileCreator(final String[] files, final String path, final String name) throws Exception {
+		super();
 		this.z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path + name)));
 		this.perform(files, path, "");
 		this.z.finish();

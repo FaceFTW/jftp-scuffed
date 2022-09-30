@@ -57,9 +57,11 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private boolean connected = false;
 
 	public SmbConnection() {
+		super();
 	}
 
 	public SmbConnection(final String url, String domain, final String user, final String pass, final ConnectionListener l) {
+		super();
 		NtlmAuthenticator.setDefault(this);
 
 		if (null != l) {

@@ -29,6 +29,7 @@ public class JHostChooser extends HFrame implements ActionListener {
 	private final JButton ok = new JButton("Use these settings");
 
 	public JHostChooser() {
+		super();
 		this.setSize(400, 120);
 		this.setLocation(200, 250);
 		this.setTitle("Connection...");

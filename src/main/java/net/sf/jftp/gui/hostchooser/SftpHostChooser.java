@@ -55,17 +55,20 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	private String keyfileName = null;
 
 	public SftpHostChooser(final ComponentListener l, final boolean local) {
+		super();
 		this.listener = l;
 		this.useLocal = local;
 		this.init();
 	}
 
 	public SftpHostChooser(final ComponentListener l) {
+		super();
 		this.listener = l;
 		this.init();
 	}
 
 	public SftpHostChooser() {
+		super();
 		this.init();
 	}
 

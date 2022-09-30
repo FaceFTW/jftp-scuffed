@@ -24,6 +24,7 @@ public class Log {
 	private static StringBuffer cache = new StringBuffer();
 
 	private Log() {
+		super();
 	}
 
 	public static void setLogger(final Logger logger) {

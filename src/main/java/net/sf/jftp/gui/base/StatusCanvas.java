@@ -35,6 +35,7 @@ public class StatusCanvas extends JPanel {
 	boolean fwd = false;
 
 	public StatusCanvas() {
+		super();
 		this.setMinimumSize(new Dimension(200, 25));
 		this.setPreferredSize(new Dimension(320, 25));
 		this.setLayout(null);

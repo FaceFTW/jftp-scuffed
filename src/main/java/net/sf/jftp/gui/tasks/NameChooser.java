@@ -26,6 +26,7 @@ public class NameChooser extends net.sf.jftp.gui.framework.HFrame implements Act
 	public final net.sf.jftp.gui.framework.HTextField text;
 
 	public NameChooser() {
+		super();
 		//setSize(400, 80);
 		this.setTitle("Enter a name for the file...");
 		//setLocation(150, 150);

@@ -113,6 +113,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	 * LocalDir constructor.
 	 */
 	public LocalDir() {
+		super();
 		this.type = "local";
 		this.con = new FilesystemConnection();
 		this.con.addConnectionListener(this);
@@ -122,6 +123,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	 * LocalDir constructor.
 	 */
 	public LocalDir(final String path) {
+		super();
 		this.type = "local";
 		this.path = path;
 		this.con = new FilesystemConnection();

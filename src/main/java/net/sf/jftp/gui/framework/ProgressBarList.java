@@ -10,6 +10,7 @@ public class ProgressBarList extends JPanel {
 	private int index = -1;
 
 	public ProgressBarList() {
+		super();
 		this.setLayout(new GridLayout(0, 1));
 
 		this.addMouseListener(new MouseAdapter() {

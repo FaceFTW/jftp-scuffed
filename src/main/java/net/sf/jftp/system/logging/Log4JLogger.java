@@ -27,6 +27,7 @@ public class Log4JLogger implements Logger {
 	private final Category cat = Category.getInstance("net/sf/jftp");
 
 	public Log4JLogger() {
+		super();
 		BasicConfigurator.configure();
 	}
 

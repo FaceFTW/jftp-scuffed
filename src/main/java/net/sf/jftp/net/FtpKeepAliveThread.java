@@ -5,6 +5,7 @@ public class FtpKeepAliveThread implements Runnable {
 	private final FtpConnection conn;
 
 	public FtpKeepAliveThread(final FtpConnection conn) {
+		super();
 		this.conn = conn;
 
 		final Thread runner = new Thread(this);

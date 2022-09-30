@@ -29,6 +29,7 @@ public class JRawConnection implements Runnable {
 	private boolean reciever = false;
 
 	public JRawConnection(final String host, final int port, final boolean reciever) {
+		super();
 		this.host = host;
 		this.port = port;
 		this.reciever = reciever;

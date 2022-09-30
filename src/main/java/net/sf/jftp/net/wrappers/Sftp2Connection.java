@@ -60,6 +60,7 @@ public class Sftp2Connection implements BasicConnection {
 	private ChannelSftp channel;
 
 	public Sftp2Connection(final String host, final String port, final String keyfile) {
+		super();
 		this.host = host;
 		this.port = Integer.parseInt(port);
 		this.keyfile = keyfile;
@@ -810,6 +811,7 @@ class MyUserInfo implements UserInfo {
 	final String password;
 
 	public MyUserInfo(final String pass) {
+		super();
 		this.password = pass;
 	}
 

@@ -65,16 +65,19 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	private final boolean ext = Settings.showNewlineOption;
 
 	public RsyncHostChooser(final ComponentListener l, final boolean local) {
+		super();
 		this.listener = l;
 		this.init();
 	}
 
 	public RsyncHostChooser(final ComponentListener l) {
+		super();
 		this.listener = l;
 		this.init();
 	}
 
 	public RsyncHostChooser() {
+		super();
 		this.init();
 	}
 

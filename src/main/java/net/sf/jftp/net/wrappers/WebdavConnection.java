@@ -48,6 +48,7 @@ public class WebdavConnection implements BasicConnection {
 	private boolean shortProgress = false;
 
 	public WebdavConnection(final String path, final String user, final String pass, final ConnectionListener l) {
+		super();
 		this.user = user;
 		this.pass = pass;
 

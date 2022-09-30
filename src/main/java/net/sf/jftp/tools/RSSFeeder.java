@@ -38,6 +38,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	final int LOAD_IVAL = 31 * 60000;
 
 	public RSSFeeder() {
+		super();
 		this.setLayout(new BorderLayout(0, 0));
 		this.next.setPreferredSize(new Dimension(22, 22));
 		this.next.setMaximumSize(new Dimension(22, 22));

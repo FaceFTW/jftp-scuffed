@@ -104,6 +104,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	private boolean dateEnabled = false;
 
 	public RemoteDir() {
+		super();
 		this.type = "remote";
 		this.con = new FilesystemConnection();
 		this.con.addConnectionListener(this);
@@ -116,6 +117,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	}
 
 	public RemoteDir(final String path) {
+		super();
 		this.type = "remote";
 		this.path = path;
 		this.con = new FilesystemConnection();

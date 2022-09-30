@@ -32,6 +32,7 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 	static final ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
 
 	public DirCellRenderer() {
+		super();
 	}
 
 	// This is the only method defined by ListCellRenderer.

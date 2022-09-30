@@ -43,12 +43,14 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	public final net.sf.jftp.gui.framework.HComboBox isLocal = new net.sf.jftp.gui.framework.HComboBox("Local Connection:");
 
 	public AddBookmarks(final ComponentListener l, final net.sf.jftp.JFtp jftp) {
+		super();
 
 		AddBookmarks.jftp = jftp;
 		this.init();
 	}
 
 	public AddBookmarks(final net.sf.jftp.JFtp jftp) {
+		super();
 		AddBookmarks.jftp = jftp;
 		this.init();
 	}

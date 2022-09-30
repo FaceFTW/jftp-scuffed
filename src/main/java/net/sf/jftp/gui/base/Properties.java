@@ -35,6 +35,7 @@ public class Properties extends HFrame implements ActionListener {
 	private String file = "";
 
 	public Properties(final String file, final String type) {
+		super();
 		this.file = file;
 		this.type = type;
 

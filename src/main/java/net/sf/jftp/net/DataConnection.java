@@ -62,6 +62,7 @@ public class DataConnection implements Runnable {
 	private String newLine = null;
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -72,6 +73,7 @@ public class DataConnection implements Runnable {
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -85,6 +87,7 @@ public class DataConnection implements Runnable {
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final boolean justStream) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -99,6 +102,7 @@ public class DataConnection implements Runnable {
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final String localfile) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -113,6 +117,7 @@ public class DataConnection implements Runnable {
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final int skiplen) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -127,6 +132,7 @@ public class DataConnection implements Runnable {
 	}
 
 	public DataConnection(final FtpConnection con, final int port, final String host, final String file, final String type, final boolean resume, final int skiplen, final InputStream i) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;

@@ -32,6 +32,7 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 	private final JButton close = new JButton("Close");
 
 	public ExternalDisplayer(final java.net.URL file) {
+		super();
 		this.setTitle("Info...");
 		this.setLocation(50, 50);
 		this.setSize(600, 540);

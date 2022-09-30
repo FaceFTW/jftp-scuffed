@@ -29,6 +29,7 @@ public class RSSParser {
 	final Vector content = new Vector();
 
 	public RSSParser(final URL f) {
+		super();
 		this.file = f;
 		this.parse();
 	}

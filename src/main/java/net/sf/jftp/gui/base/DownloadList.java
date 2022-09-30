@@ -45,6 +45,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	private long oldtime = 0;
 
 	public DownloadList() {
+		super();
 		this.setLayout(new BorderLayout());
 
 		final net.sf.jftp.gui.framework.HImageButton resume = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "resume", "Resume selected transfer...", this);

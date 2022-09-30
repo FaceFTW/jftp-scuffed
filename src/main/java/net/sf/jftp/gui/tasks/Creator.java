@@ -35,6 +35,7 @@ public class Creator extends HFrame implements ActionListener {
 	private final BasicConnection con;
 
 	public Creator(final String l, final BasicConnection con) {
+		super();
 		this.con = con;
 
 		this.setTitle("Choose...");

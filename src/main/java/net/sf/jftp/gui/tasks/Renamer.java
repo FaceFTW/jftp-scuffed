@@ -29,6 +29,7 @@ public class Renamer extends net.sf.jftp.gui.framework.HFrame implements ActionL
 	public final net.sf.jftp.gui.framework.HTextField text;
 
 	public Renamer(final String oldName, final String path) {
+		super();
 		this.oldName = oldName;
 		this.path = path;
 
