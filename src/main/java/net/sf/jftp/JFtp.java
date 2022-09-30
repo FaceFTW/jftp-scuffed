@@ -231,8 +231,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 					String file = argv[i];
 
 					if (argv[i].contains("/")) {
-						path = argv[i].substring(0, argv[i].lastIndexOf("/"));
-						file = argv[i].substring(argv[i].lastIndexOf("/") + 1);
+						path = argv[i].substring(0, argv[i].lastIndexOf('/'));
+						file = argv[i].substring(argv[i].lastIndexOf('/') + 1);
 					}
 					Log.debug("Download: " + path + ":" + file);
 
@@ -262,8 +262,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 			DataInputStream i = new DataInputStream(u.openStream());
 			String tmp = i.readLine();
-			tmp = tmp.substring(tmp.lastIndexOf(">") + 1);
-			tmp = tmp.substring(0, tmp.indexOf("<"));
+			tmp = tmp.substring(tmp.lastIndexOf('>') + 1);
+			tmp = tmp.substring(0, tmp.indexOf('<'));
 
 			return tmp;
 		} catch (Exception ex) {
@@ -487,8 +487,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		String w = Settings.getProperty("jftp.iframes." + desc + ".width");
 		String h = Settings.getProperty("jftp.iframes." + desc + ".height");
 
-		if (x.contains(".")) x = x.substring(0, x.indexOf("."));
-		if (y.contains(".")) y = y.substring(0, y.indexOf("."));
+		if (x.contains(".")) x = x.substring(0, x.indexOf('.'));
+		if (y.contains(".")) y = y.substring(0, y.indexOf('.'));
 
 		try {
 			f.setLocation(Integer.parseInt(x), Integer.parseInt(y));
@@ -808,7 +808,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 	private String parse(String what) {
 		if (what.contains("@")) {
-			return what.substring(what.lastIndexOf("@") + 1);
+			return what.substring(what.lastIndexOf('@') + 1);
 		} else {
 			return what;
 		}
@@ -1014,7 +1014,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			if (str.toString().contains("[")) {
 				Log.debug("Windows DnD detected");
 				name = str.substring(str.indexOf("[") + 1);
-				name = name.substring(0, name.lastIndexOf("]"));
+				name = name.substring(0, name.lastIndexOf(']'));
 			} else if (str.toString().startsWith("file://")) {
 				name = str.substring(7);
 
@@ -1043,8 +1043,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			String path = "";
 
 			if (name.contains("/")) {
-				path = name.substring(0, name.lastIndexOf("/") + 1);
-				name = name.substring(name.lastIndexOf("/") + 1);
+				path = name.substring(0, name.lastIndexOf('/') + 1);
+				name = name.substring(name.lastIndexOf('/') + 1);
 			}
 
 			Log.debug("DnD: " + path + " -> " + name);

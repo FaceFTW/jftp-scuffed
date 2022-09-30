@@ -57,7 +57,7 @@ public class NfsConnection implements BasicConnection {
 
 		this.host = url.substring(6);
 
-		int x = this.host.indexOf("/");
+		int x = this.host.indexOf('/');
 
 		if (0 <= x) {
 			this.host = this.host.substring(0, x);
@@ -195,10 +195,10 @@ public class NfsConnection implements BasicConnection {
 		String tmp = this.pwd;
 
 		if (this.pwd.endsWith("/") && !this.pwd.equals("nfs://")) {
-			tmp = this.pwd.substring(0, this.pwd.lastIndexOf("/"));
+			tmp = this.pwd.substring(0, this.pwd.lastIndexOf('/'));
 		}
 
-		return this.chdir(tmp.substring(0, tmp.lastIndexOf("/") + 1));
+		return this.chdir(tmp.substring(0, tmp.lastIndexOf('/') + 1));
 	}
 
 	public boolean mkdir(String dirName) {

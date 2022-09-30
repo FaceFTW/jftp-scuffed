@@ -152,7 +152,7 @@ public class WebdavConnection implements BasicConnection {
 	}
 
 	public boolean cdup() {
-		return this.chdir(this.pwd.substring(0, this.pwd.lastIndexOf("/") + 1));
+		return this.chdir(this.pwd.substring(0, this.pwd.lastIndexOf('/') + 1));
 	}
 
 	public boolean mkdir(String dirName) {
@@ -247,12 +247,12 @@ public class WebdavConnection implements BasicConnection {
 
 			while (p.endsWith("/../")) {
 				p = p.substring(0, p.lastIndexOf("/../") - 1);
-				p = p.substring(0, p.lastIndexOf("/"));
+				p = p.substring(0, p.lastIndexOf('/'));
 			}
 
 			while (p.endsWith("/./")) {
 				p = p.substring(0, p.lastIndexOf("/./") - 1);
-				p = p.substring(0, p.lastIndexOf("/"));
+				p = p.substring(0, p.lastIndexOf('/'));
 			}
 
 			net.sf.jftp.system.logging.Log.out("\n\n\nprocessPath URL: " + p);
@@ -499,8 +499,8 @@ public class WebdavConnection implements BasicConnection {
 
 		try {
 			if (outfile.startsWith("http://")) {
-				String resPath = outfile.substring(0, outfile.lastIndexOf("/") + 1);
-				String name = outfile.substring(outfile.lastIndexOf("/") + 1);
+				String resPath = outfile.substring(0, outfile.lastIndexOf('/') + 1);
+				String name = outfile.substring(outfile.lastIndexOf('/') + 1);
 
 				net.sf.jftp.system.logging.Log.debug("Uploading " + file + " to " + resPath + " as " + name);
 WebdavResource res = this.getResource(resPath);

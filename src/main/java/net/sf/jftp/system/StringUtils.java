@@ -109,7 +109,7 @@ public class StringUtils {
 	 * Get a filename out of a full path string
 	 */
 	public static String getFile(String file) {
-		int x = file.lastIndexOf("/");
+		int x = file.lastIndexOf('/');
 
 		// unix
 		if (0 <= x) {
@@ -117,7 +117,7 @@ public class StringUtils {
 		}
 
 		// windows
-		x = file.lastIndexOf("\\");
+		x = file.lastIndexOf('\\');
 
 		if (0 <= x) {
 			file = file.substring(x + 1);
@@ -129,7 +129,7 @@ public class StringUtils {
 		int x;
 
 		while (true) {
-			x = tmp.indexOf("/");
+			x = tmp.indexOf('/');
 
 			if ((x == (tmp.length() - 1)) || (0 > x)) {
 				break;
@@ -139,7 +139,7 @@ public class StringUtils {
 		}
 
 		while (true) {
-			x = tmp.indexOf("\\");
+			x = tmp.indexOf('\\');
 
 			if ((x == (tmp.length() - 1)) || (0 > x)) {
 				break;

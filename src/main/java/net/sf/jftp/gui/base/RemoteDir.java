@@ -715,10 +715,10 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 
 		if (file.endsWith("/") && (1 < file.length())) {
 			flag = true;
-			file = file.substring(0, file.lastIndexOf("/"));
+			file = file.substring(0, file.lastIndexOf('/'));
 		}
 
-		file = file.substring(file.lastIndexOf("/") + 1);
+		file = file.substring(file.lastIndexOf('/') + 1);
 
 		if (flag) {
 			file = file + "/";

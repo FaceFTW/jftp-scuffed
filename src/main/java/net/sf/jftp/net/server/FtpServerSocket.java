@@ -203,7 +203,7 @@ public class FtpServerSocket extends Thread {
 
 
 	public void port(String line) {
-		int start = line.lastIndexOf(",");
+		int start = line.lastIndexOf(',');
 		int end = line.length();
 		String lo = null; // lo-ordered byte
 
@@ -212,7 +212,7 @@ public class FtpServerSocket extends Thread {
 		}
 
 		end = start;
-		start = line.lastIndexOf(",", start - 1);
+		start = line.lastIndexOf(',', start - 1);
 
 		String hi = null; // hi-ordered byte
 

@@ -185,7 +185,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 	private void setBCast() {
 		try {
 			String tmp = ((String) this.ip.getSelectedItem()).trim();
-			String x = tmp.substring(0, tmp.lastIndexOf(".") + 1) + "255";
+			String x = tmp.substring(0, tmp.lastIndexOf('.') + 1) + "255";
 			this.broadcast.setText(x);
 		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.out("Error (SMBHostChooser): " + ex);
@@ -224,7 +224,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			String tmp = ((String) this.ip.getSelectedItem()).trim();
 
 			if (!tmp.isEmpty() && !tmp.equals("<default>")) {
-				String x = tmp.trim().substring(0, tmp.lastIndexOf(".") + 1) + "255";
+				String x = tmp.trim().substring(0, tmp.lastIndexOf('.') + 1) + "255";
 				String bcast = this.broadcast.getText().trim();
 
 				if (!bcast.equals("AUTO")) {

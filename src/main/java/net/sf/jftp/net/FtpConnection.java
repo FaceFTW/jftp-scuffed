@@ -530,7 +530,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			for (String tmp : this.currentListing) {
 				// ------------------- VMS override --------------------
 				if (this.getOsType().contains("VMS")) {
-					int x = tmp.indexOf(";");
+					int x = tmp.indexOf(';');
 
 					if (0 > x) {
 						continue;
@@ -539,7 +539,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					tmp = tmp.substring(0, x);
 
 					if (tmp.endsWith("DIR")) {
-						this.currentFiles.add(tmp.substring(0, tmp.lastIndexOf(".")) + "/");
+						this.currentFiles.add(tmp.substring(0, tmp.lastIndexOf('.')) + "/");
 					} else {
 						this.currentFiles.add(tmp);
 					}
@@ -583,8 +583,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						continue;
 					}
 
-					String f = tmp.substring(tmp.lastIndexOf(" ")).trim();
-					String isDir = tmp.substring(tmp.lastIndexOf(" ") - 5, tmp.lastIndexOf(" "));
+					String f = tmp.substring(tmp.lastIndexOf(' ')).trim();
+					String isDir = tmp.substring(tmp.lastIndexOf(' ') - 5, tmp.lastIndexOf(' '));
 
 					if (isDir.contains("PO")) {
 						this.currentFiles.add(f + "/");
@@ -659,8 +659,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						tx.nextToken();
 
 						String date = tx.nextToken();
-						int x = date.indexOf("-");
-						int y = date.lastIndexOf("-");
+						int x = date.indexOf('-');
+						int y = date.lastIndexOf('-');
 
 						if (y > x) {
 							net.sf.jftp.system.logging.Log.debug("Using new Unix date parser");
@@ -680,15 +680,15 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					try {
 						java.util.StringTokenizer to3 = new java.util.StringTokenizer(tmp, " ", true);
 						String date = this.giveFile(to3, 5);
-						String date2 = date.substring(date.indexOf("-") + 1);
-						date2 = date2.substring(date.indexOf("-") + 2);
+						String date2 = date.substring(date.indexOf('-') + 1);
+						date2 = date2.substring(date.indexOf('-') + 2);
 
-						String y = date.substring(0, date.indexOf("-"));
-						String m = date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3);
-						String m1 = date.substring(date.indexOf("-") + 1);
-						String day = m1.substring(m1.indexOf("-") + 1, m1.indexOf("-") + 3);
-						String h = date2.substring(0, date2.indexOf(":"));
-						String min = date2.substring(date2.indexOf(":") + 1, date2.indexOf(":") + 3);
+						String y = date.substring(0, date.indexOf('-'));
+						String m = date.substring(date.indexOf('-') + 1, date.indexOf('-') + 3);
+						String m1 = date.substring(date.indexOf('-') + 1);
+						String day = m1.substring(m1.indexOf('-') + 1, m1.indexOf('-') + 3);
+						String h = date2.substring(0, date2.indexOf(':'));
+						String min = date2.substring(date2.indexOf(':') + 1, date2.indexOf(':') + 3);
 
 						//Log.out("day:"+day+"year:"+y+"mon:"+m+"hour:"+h+"m:"+min);
 						java.util.Calendar c = new java.util.GregorianCalendar();
@@ -850,7 +850,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	}
 
 	private int getPasvPort(String str) {
-		int start = str.lastIndexOf(",");
+		int start = str.lastIndexOf(',');
 		StringBuilder lo = new StringBuilder();
 		start++;
 
@@ -868,7 +868,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		System.out.println("\n\n\n" + str);
 
 		StringBuilder hi = new StringBuilder();
-		start = str.lastIndexOf(",");
+		start = str.lastIndexOf(',');
 		start--;
 
 		while (true) {
@@ -1760,8 +1760,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		String x1 = tmp;
 
 		if (x1.contains("\"")) {
-			x1 = tmp.substring(tmp.indexOf("\"") + 1);
-			x1 = x1.substring(0, x1.indexOf("\""));
+			x1 = tmp.substring(tmp.indexOf('"') + 1);
+			x1 = x1.substring(0, x1.indexOf('"'));
 		}
 
 		if (this.getOsType().contains("MVS")) {
@@ -1961,24 +1961,24 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				if (p.startsWith("'") && !p.endsWith("'")) {
 					if (cdup) {
 						p = p.substring(0, p.length() - 4);
-						if (0 < p.indexOf(".")) {
-							p = p.substring(0, p.lastIndexOf("."));
+						if (0 < p.indexOf('.')) {
+							p = p.substring(0, p.lastIndexOf('.'));
 						}
 						p += "'";
 					}
 
-					tmp = p.substring(0, p.lastIndexOf("'"));
-					p = p.substring(p.lastIndexOf("'") + 1);
+					tmp = p.substring(0, p.lastIndexOf('\''));
+					p = p.substring(p.lastIndexOf('\'') + 1);
 					ew = false;
 				} else if (cdup) {
 					p = p.substring(0, p.length() - 3);
-					if (0 < p.indexOf(".")) {
-						p = p.substring(0, p.lastIndexOf("."));
+					if (0 < p.indexOf('.')) {
+						p = p.substring(0, p.lastIndexOf('.'));
 					}
 				}
 
-				if (0 < p.indexOf(".") && !ew) {
-					p = p.substring(0, p.indexOf("."));
+				if (0 < p.indexOf('.') && !ew) {
+					p = p.substring(0, p.indexOf('.'));
 				}
 
 				if (null != tmp) p = tmp + p + "'";
@@ -2092,7 +2092,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		String tmpPWD = this.pwd;
 
 		if (file.contains("/")) {
-			dir = file.substring(0, file.lastIndexOf("/") + 1);
+			dir = file.substring(0, file.lastIndexOf('/') + 1);
 			net.sf.jftp.system.logging.Log.out("checking dir: " + dir);
 
 			if (!this.chdir(dir)) {
@@ -2108,7 +2108,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			return net.sf.jftp.net.FtpConstants.PERMISSION_DENIED;
 		}
 
-		String f = file.substring(file.lastIndexOf("/") + 1);
+		String f = file.substring(file.lastIndexOf('/') + 1);
 		net.sf.jftp.system.logging.Log.out("checking file: " + f);
 
 		String[] files = this.sortLs();

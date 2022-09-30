@@ -176,10 +176,10 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		String tmp = this.pwd;
 
 		if (this.pwd.endsWith("/") && !this.pwd.equals("smb://")) {
-			tmp = this.pwd.substring(0, this.pwd.lastIndexOf("/"));
+			tmp = this.pwd.substring(0, this.pwd.lastIndexOf('/'));
 		}
 
-		return this.chdir(tmp.substring(0, tmp.lastIndexOf("/") + 1));
+		return this.chdir(tmp.substring(0, tmp.lastIndexOf('/') + 1));
 	}
 
 	public boolean mkdir(String dirName) {

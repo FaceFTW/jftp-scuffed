@@ -193,10 +193,10 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		Holer sammy = new Holer(this.localDir);
 		String zeug = sammy.holZeug(url);
 
-		Vector m = this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "href=\"");
-		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "src=\""));
-		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
-		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
+		Vector m = this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "href=\"");
+		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "src=\""));
+		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "HREF=\""));
+		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "SRC=\""));
 
 		Enumeration mischen = m.elements();
 
@@ -211,9 +211,9 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			for (String s : this.typeArray) {
 				if (next.endsWith(s) || s.trim().equals("*")) {
-					int x = next.indexOf("/");
+					int x = next.indexOf('/');
 
-					if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
+					if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
 						net.sf.jftp.tools.Holer nochnsammy = new net.sf.jftp.tools.Holer(this.localDir);
 						nochnsammy.bringAnStart(next, false);
 
@@ -231,9 +231,9 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 					return;
 				}
 
-				int x = next.indexOf("/");
+				int x = next.indexOf('/');
 
-				if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
+				if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
 					this.currentDepth++;
 					this.smoke(next);
 					this.currentDepth--;
@@ -255,7 +255,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			zeug = zeug.substring(wo + index.length());
 
-			String was = zeug.substring(0, zeug.indexOf("\""));
+			String was = zeug.substring(0, zeug.indexOf('"'));
 
 			was = this.checker(was, url);
 			mischen.add(was);
@@ -283,19 +283,19 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			return was;
 		}
 
-		if (was.startsWith("/") && (0 < url.indexOf("/"))) {
-			was = url.substring(0, url.indexOf("/")) + was;
+		if (was.startsWith("/") && (0 < url.indexOf('/'))) {
+			was = url.substring(0, url.indexOf('/')) + was;
 		} else if (was.startsWith("/") && (!url.contains("/"))) {
 			was = url + was;
-		} else if ((0 < was.indexOf("."))) {
-			int idx = was.indexOf("/");
+		} else if ((0 < was.indexOf('.'))) {
+			int idx = was.indexOf('/');
 			String tmp = "";
 
 			if (0 <= idx) {
 				tmp = was.substring(0, idx);
 			}
 
-			if ((0 < tmp.indexOf("."))) {
+			if ((0 < tmp.indexOf('.'))) {
 				return this.clear(was);
 			}
 
@@ -334,8 +334,8 @@ class Holer {
 
 	public String holZeug(String wat) {
 		try {
-			String dealer = wat.substring(0, wat.indexOf("/"));
-			String wo = wat.substring(wat.indexOf("/"));
+			String dealer = wat.substring(0, wat.indexOf('/'));
+			String wo = wat.substring(wat.indexOf('/'));
 			StringBuilder zeug = new StringBuilder();
 
 			net.sf.jftp.system.logging.Log.out(">> " + dealer + wo);
@@ -373,15 +373,15 @@ class Holer {
 
 	public void bringAnStart(String wat, boolean force) {
 		try {
-			String dealer = wat.substring(0, wat.indexOf("/"));
-			String wo = wat.substring(wat.indexOf("/"));
+			String dealer = wat.substring(0, wat.indexOf('/'));
+			String wo = wat.substring(wat.indexOf('/'));
 
 			net.sf.jftp.system.logging.Log.debug(">>> " + dealer + wo);
 
 			File d = new File(this.localDir);
 			d.mkdir();
 
-			File f = new File(this.localDir + wo.substring(wo.lastIndexOf("/") + 1));
+			File f = new File(this.localDir + wo.substring(wo.lastIndexOf('/') + 1));
 
 			if (f.exists() && !force) {
 				net.sf.jftp.system.logging.Log.debug(">>> file already exists...");
@@ -395,7 +395,7 @@ class Holer {
 			BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
 			DataInputStream checkung = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
 
-			BufferedOutputStream vorrat = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf("/") + 1)));
+			BufferedOutputStream vorrat = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf('/') + 1)));
 
 			byte[] alu = new byte[2048];
 

@@ -40,7 +40,7 @@ public class FtpURLConnection extends URLConnection {
 		String userInfo = u.getUserInfo();
 
 		if (null != userInfo) {
-			int index = userInfo.indexOf(":");
+			int index = userInfo.indexOf(':');
 
 			if (-1 != index) {
 				this.username = userInfo.substring(0, index);

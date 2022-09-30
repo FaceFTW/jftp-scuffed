@@ -259,8 +259,8 @@ public class DownloadList extends HPanel implements ActionListener {
 
 		if (type.startsWith(DataConnection.GETDIR) || type.startsWith(DataConnection.PUTDIR) || type.startsWith(DataConnection.DFINISHED)) {
 			//System.out.println(type);
-			String tmp = type.substring(type.indexOf(":") + 1);
-			type = type.substring(0, type.indexOf(":"));
+			String tmp = type.substring(type.indexOf(':') + 1);
+			type = type.substring(0, type.indexOf(':'));
 			count = Integer.parseInt(tmp);
 			message = type + ": <" + file + "> ";
 		}
@@ -376,8 +376,8 @@ public class DownloadList extends HPanel implements ActionListener {
 		String f = msg;
 
 		if (msg.contains("<") && msg.contains(">")) {
-			f = msg.substring(msg.indexOf("<") + 1);
-			f = f.substring(0, f.lastIndexOf(">"));
+			f = msg.substring(msg.indexOf('<') + 1);
+			f = f.substring(0, f.lastIndexOf('>'));
 		}
 
 		return this.getRealName(f);
@@ -401,8 +401,8 @@ public class DownloadList extends HPanel implements ActionListener {
 	}
 
 	private String getRawFile(String msg) {
-		String f = msg.substring(msg.indexOf("<") + 1);
-		f = f.substring(0, f.lastIndexOf(">"));
+		String f = msg.substring(msg.indexOf('<') + 1);
+		f = f.substring(0, f.lastIndexOf('>'));
 
 		return f;
 	}

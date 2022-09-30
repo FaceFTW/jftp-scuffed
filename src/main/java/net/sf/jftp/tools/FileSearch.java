@@ -193,10 +193,10 @@ public class FileSearch {
 
 		if (!ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
 
-		Vector m = this.sort(content, url.substring(0, url.lastIndexOf("/")), "href=\"");
-		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "src=\""));
-		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
-		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
+		Vector m = this.sort(content, url.substring(0, url.lastIndexOf('/')), "href=\"");
+		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "src=\""));
+		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "HREF=\""));
+		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "SRC=\""));
 
 		Enumeration links = m.elements();
 
@@ -214,9 +214,9 @@ public class FileSearch {
 
 						if (!this.LOAD || !this.checkForScanableUrl(url)) continue;
 
-						int x = next.indexOf("/");
+						int x = next.indexOf('/');
 
-						if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
+						if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
 							net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(this.localDir);
 							urlGetter2.fetch(next, false);
 
@@ -230,9 +230,9 @@ public class FileSearch {
 
 			if (this.MAX > this.currentDepth) {
 
-				int x = next.indexOf("/");
+				int x = next.indexOf('/');
 
-				if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
+				if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
 					this.currentDepth++;
 					this.crawl(next);
 					this.currentDepth--;
@@ -254,7 +254,7 @@ public class FileSearch {
 
 			content = content.substring(wo + index.length());
 
-			String was = content.substring(0, content.indexOf("\""));
+			String was = content.substring(0, content.indexOf('"'));
 
 			was = this.createAbsoluteUrl(was, url);
 			res.add(was);
@@ -269,19 +269,19 @@ public class FileSearch {
 			return newLink;
 		}
 
-		if (newLink.startsWith("/") && (0 < baseUrl.indexOf("/"))) {
-			newLink = baseUrl.substring(0, baseUrl.indexOf("/")) + newLink;
+		if (newLink.startsWith("/") && (0 < baseUrl.indexOf('/'))) {
+			newLink = baseUrl.substring(0, baseUrl.indexOf('/')) + newLink;
 		} else if (newLink.startsWith("/") && (!baseUrl.contains("/"))) {
 			newLink = baseUrl + newLink;
-		} else if ((0 < newLink.indexOf("."))) {
-			int idx = newLink.indexOf("/");
+		} else if ((0 < newLink.indexOf('.'))) {
+			int idx = newLink.indexOf('/');
 			String tmp = "";
 
 			if (0 <= idx) {
 				tmp = newLink.substring(0, idx);
 			}
 
-			if ((0 < tmp.indexOf("."))) {
+			if ((0 < tmp.indexOf('.'))) {
 				return this.clear(newLink);
 			}
 
@@ -315,7 +315,7 @@ class Getter {
 
 	public String fetch(String url) {
 		try {
-			String host = url.substring(0, url.indexOf("/"));
+			String host = url.substring(0, url.indexOf('/'));
 			StringBuilder result = new StringBuilder();
 
 			Socket deal = new Socket(host, 80);
@@ -351,15 +351,15 @@ class Getter {
 
 	public void fetch(String url, boolean force) {
 		try {
-			String host = url.substring(0, url.indexOf("/"));
-			String wo = url.substring(url.indexOf("/"));
+			String host = url.substring(0, url.indexOf('/'));
+			String wo = url.substring(url.indexOf('/'));
 
 			if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> " + host + wo);
 
 			File d = new File(this.localDir);
 			d.mkdir();
 
-			File f = new File(this.localDir + wo.substring(wo.lastIndexOf("/") + 1));
+			File f = new File(this.localDir + wo.substring(wo.lastIndexOf('/') + 1));
 
 			if (f.exists() && !force) {
 				if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> file already exists...");
@@ -373,7 +373,7 @@ class Getter {
 			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
 			DataInputStream in = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
 
-			BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf("/") + 1)));
+			BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf('/') + 1)));
 
 			byte[] alu = new byte[2048];
 

@@ -321,7 +321,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			StringTokenizer t = new StringTokenizer(tmp, "#", false);
 
 			if (tmp.toLowerCase().trim().startsWith("<dir>")) {
-				String dir = tmp.substring(tmp.indexOf(">") + 1, tmp.lastIndexOf("<"));
+				String dir = tmp.substring(tmp.indexOf('>') + 1, tmp.lastIndexOf('<'));
 
 				JMenu m = new JMenu(dir);
 				this.current.add(m);

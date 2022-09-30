@@ -72,7 +72,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 			} else {
 				try {
 					String url = e.getURL().toString();
-					String tmp = url.substring(url.lastIndexOf("/"));
+					String tmp = url.substring(url.lastIndexOf('/'));
 
 					Vector listeners = new Vector();
 					listeners.add(net.sf.jftp.JFtp.localDir);

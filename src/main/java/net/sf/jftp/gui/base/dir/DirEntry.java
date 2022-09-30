@@ -70,11 +70,11 @@ public class DirEntry {
 		String f = this.file;
 
 		if ((f.contains("<")) && (f.contains(">"))) {
-			f = this.file.substring(this.file.indexOf("<") + 1);
-			f = f.substring(0, f.lastIndexOf(">"));
+			f = this.file.substring(this.file.indexOf('<') + 1);
+			f = f.substring(0, f.lastIndexOf('>'));
 		}
 
-		int lastIndex = f.lastIndexOf(".");
+		int lastIndex = f.lastIndexOf('.');
 		String image = Settings.fileImage; // default
 
 		if (-1 != lastIndex) {

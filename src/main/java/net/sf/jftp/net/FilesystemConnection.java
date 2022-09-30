@@ -141,7 +141,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public boolean cdup() {
-		return this.chdir(this.pwd.substring(0, this.pwd.lastIndexOf("/") + 1));
+		return this.chdir(this.pwd.substring(0, this.pwd.lastIndexOf('/') + 1));
 	}
 
 	public boolean mkdir(String dirName) {

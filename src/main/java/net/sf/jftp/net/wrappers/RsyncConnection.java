@@ -41,7 +41,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		String host = url.substring(6);
 
-		int x = host.indexOf("/");
+		int x = host.indexOf('/');
 
 		if (0 <= x) {
 			host = host.substring(0, x);
@@ -156,10 +156,10 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		String tmp = this.pwd;
 
 		if (this.pwd.endsWith("/") && !this.pwd.equals("nfs://")) {
-			tmp = this.pwd.substring(0, this.pwd.lastIndexOf("/"));
+			tmp = this.pwd.substring(0, this.pwd.lastIndexOf('/'));
 		}
 
-		return this.chdir(tmp.substring(0, tmp.lastIndexOf("/") + 1));
+		return this.chdir(tmp.substring(0, tmp.lastIndexOf('/') + 1));
 	}
 
 	public boolean mkdir(String dirName) {

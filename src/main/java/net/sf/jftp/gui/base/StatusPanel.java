@@ -162,12 +162,12 @@ public class StatusPanel extends HPanel implements ActionListener {
 	}
 
 	public void startTransfer(String url, String localPath, Vector listeners, ConnectionHandler handler) {
-		if (url.startsWith("ftp://") && (url.endsWith("/") || (10 > url.lastIndexOf("/")))) {
+		if (url.startsWith("ftp://") && (url.endsWith("/") || (10 > url.lastIndexOf('/')))) {
 			JFtp.safeDisconnect();
 
 			HostChooser hc = new HostChooser();
 			hc.update(url);
-		} else if (url.startsWith("http://") && (url.endsWith("/") || (10 > url.lastIndexOf("/")))) {
+		} else if (url.startsWith("http://") && (url.endsWith("/") || (10 > url.lastIndexOf('/')))) {
 			try {
 				NativeHttpBrowser.main(new String[]{url});
 			} catch (Throwable ex) {
