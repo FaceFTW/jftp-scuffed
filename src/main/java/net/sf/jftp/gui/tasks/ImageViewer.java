@@ -21,15 +21,15 @@ import java.net.URL;
 
 
 public class ImageViewer extends JInternalFrame {
-	public ImageViewer(final String img) {
+	public ImageViewer(String img) {
 		super(img, true, true, true, true);
 		this.setLocation(150, 50);
 		this.setSize(400, 300);
 
 		this.setLayout(new BorderLayout(2, 2));
 
-		final ImagePanel p = new ImagePanel(img);
-		final JScrollPane scroll = new JScrollPane(p);
+		ImagePanel p = new ImagePanel(img);
+		JScrollPane scroll = new JScrollPane(p);
 
 		this.getContentPane().add("Center", scroll);
 
@@ -46,31 +46,31 @@ public class ImageViewer extends JInternalFrame {
 class ImagePanel extends JPanel {
 	private Image img;
 
-	public ImagePanel(final String url) {
+	public ImagePanel(String url) {
 		super();
 		try {
 			this.setBackground(Color.white);
 
 			this.img = Toolkit.getDefaultToolkit().getImage(new URL(url));
 
-			final MediaTracker mt = new MediaTracker(this);
+			MediaTracker mt = new MediaTracker(this);
 			mt.addImage(this.img, 1);
 			mt.waitForAll();
 
 			this.repaint();
 
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void paintComponent(final Graphics g) {
+	public void paintComponent(Graphics g) {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, 1500, 1500);
 		g.drawImage(this.img, 0, 0, null);
 	}
 
-	public void update(final Graphics g) {
+	public void update(Graphics g) {
 		this.paintComponent(g);
 	}
 }

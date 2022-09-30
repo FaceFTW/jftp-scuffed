@@ -48,14 +48,14 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 	private ComponentListener listener = null;
 	private boolean useLocal = false;
 
-	public NfsHostChooser(final ComponentListener l, final boolean local) {
+	public NfsHostChooser(ComponentListener l, boolean local) {
 		super();
 		this.listener = l;
 		this.useLocal = local;
 		this.init();
 	}
 
-	public NfsHostChooser(final ComponentListener l) {
+	public NfsHostChooser(ComponentListener l) {
 		super();
 		this.listener = l;
 		this.init();
@@ -72,29 +72,29 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.setTitle("NFS Connection...");
 		this.setBackground(this.okP.getBackground());
 
-		final JPanel p = new JPanel();
-		p.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.info);
+		JPanel p = new JPanel();
+		p.add(info);
 
 		//*** MY ADDITIONS
 		try {
-			final File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
 			f.mkdir();
 
-			final File f1 = new File(net.sf.jftp.config.Settings.login);
+			File f1 = new File(net.sf.jftp.config.Settings.login);
 			f1.createNewFile();
 
-			final File f2 = new File(net.sf.jftp.config.Settings.login_def_nfs);
+			File f2 = new File(net.sf.jftp.config.Settings.login_def_nfs);
 			f2.createNewFile();
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		final net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
-		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_nfs);
+		net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
+		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_nfs);
 
 		if ((null != login[0]) && (1 < login.length)) {
-			net.sf.jftp.gui.hostchooser.NfsHostChooser.host.setText(login[0]);
-			net.sf.jftp.gui.hostchooser.NfsHostChooser.user.setText(login[1]);
+			host.setText(login[0]);
+			user.setText(login[1]);
 		}
 
         /*
@@ -105,19 +105,19 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
         */
 		if (net.sf.jftp.config.Settings.getStorePasswords()) {
 			if ((null != login[0]) && (2 < login.length) && (null != login[2])) {
-				net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.setText(login[2]);
+				pass.setText(login[2]);
 			}
 		} else {
-			net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.setText("");
+			pass.setText("");
 		}
 
-		final HInsetPanel root = new HInsetPanel();
+		HInsetPanel root = new HInsetPanel();
 		root.setLayout(new GridLayout(4, 2, 5, 3));
 
-		root.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.host);
+		root.add(host);
 		root.add(p);
-		root.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.user);
-		root.add(net.sf.jftp.gui.hostchooser.NfsHostChooser.pass);
+		root.add(user);
+		root.add(pass);
 
 		root.add(new JLabel(""));
 		root.add(this.okP);
@@ -128,9 +128,9 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.getContentPane().add("Center", root);
 
 		this.ok.addActionListener(this);
-		net.sf.jftp.gui.hostchooser.NfsHostChooser.info.addActionListener(this);
+		info.addActionListener(this);
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.text.addActionListener(this);
+		pass.text.addActionListener(this);
 
 		this.pack();
 		this.setModal(false);
@@ -142,37 +142,37 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.fixLocation();
 		this.setVisible(true);
 		this.toFront();
-		net.sf.jftp.gui.hostchooser.NfsHostChooser.host.requestFocus();
+		host.requestFocus();
 	}
 
-	public void actionPerformed(final ActionEvent e) {
-		if (e.getSource() == net.sf.jftp.gui.hostchooser.NfsHostChooser.info) {
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == info) {
 			java.net.URL url = ClassLoader.getSystemResource(net.sf.jftp.config.Settings.nfsinfo);
 
 			if (null == url) {
 				url = HImage.class.getResource("/" + net.sf.jftp.config.Settings.nfsinfo);
 			}
 
-			final ExternalDisplayer d = new ExternalDisplayer(url);
-		} else if ((e.getSource() == this.ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.text)) {
+			ExternalDisplayer d = new ExternalDisplayer(url);
+		} else if ((e.getSource() == this.ok) || (e.getSource() == pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			final net.sf.jftp.net.wrappers.NfsConnection con = null;
+			net.sf.jftp.net.wrappers.NfsConnection con = null;
 
-			final String htmp = net.sf.jftp.gui.hostchooser.NfsHostChooser.host.getText().trim();
-			final String utmp = net.sf.jftp.gui.hostchooser.NfsHostChooser.user.getText().trim();
-			final String ptmp = net.sf.jftp.gui.hostchooser.NfsHostChooser.pass.getText();
+			String htmp = host.getText().trim();
+			String utmp = user.getText().trim();
+			String ptmp = pass.getText();
 
 			//*** MY ADDITIONS
 			final int potmp = 0; //*** just filler for the port number
 
-			final String userName = net.sf.jftp.gui.hostchooser.NfsHostChooser.user.text.getText();
+			String userName = user.text.getText();
 
 			//***
 			try {
-				final boolean status;
+				boolean status;
 				status = net.sf.jftp.net.wrappers.StartConnection.startCon("NFS", htmp, userName, ptmp, potmp, "", this.useLocal);
 
                 /*
@@ -200,7 +200,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
 
                 */
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Could not create NfsConnection!");
 			}
 
@@ -215,33 +215,33 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		}
 	}
 
-	public void windowClosing(final WindowEvent e) {
+	public void windowClosing(WindowEvent e) {
 		//System.exit(0);
 		this.dispose();
 	}
 
-	public void windowClosed(final WindowEvent e) {
+	public void windowClosed(WindowEvent e) {
 	}
 
-	public void windowActivated(final WindowEvent e) {
+	public void windowActivated(WindowEvent e) {
 	}
 
-	public void windowDeactivated(final WindowEvent e) {
+	public void windowDeactivated(WindowEvent e) {
 	}
 
-	public void windowIconified(final WindowEvent e) {
+	public void windowIconified(WindowEvent e) {
 	}
 
-	public void windowDeiconified(final WindowEvent e) {
+	public void windowDeiconified(WindowEvent e) {
 	}
 
-	public void windowOpened(final WindowEvent e) {
+	public void windowOpened(WindowEvent e) {
 	}
 
-	public void pause(final int time) {
+	public void pause(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 	}
 }

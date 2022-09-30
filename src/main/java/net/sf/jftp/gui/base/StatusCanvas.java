@@ -42,7 +42,7 @@ public class StatusCanvas extends JPanel {
 		this.setVisible(true);
 	}
 
-	public void setInterval(final int x) {
+	public void setInterval(int x) {
 		this.interval = x;
 	}
 
@@ -50,7 +50,7 @@ public class StatusCanvas extends JPanel {
 		this.fwd = true;
 	}
 
-	public void setText(final String msg) {
+	public void setText(String msg) {
 		if (false) {
 			this.text.setText(msg);
 		} else {
@@ -73,7 +73,7 @@ public class StatusCanvas extends JPanel {
 		this.validate();
 	}
 
-	public void scrollText(final String msg) {
+	public void scrollText(String msg) {
 		if (false) {
 			this.text.setText(msg);
 		} else {
@@ -104,7 +104,7 @@ public class StatusCanvas extends JPanel {
 		return this.host.getText();
 	}
 
-	public void setHost(final String h) {
+	public void setHost(String h) {
 		this.host.setText(h);
 		this.validate();
 	}
@@ -116,7 +116,7 @@ public class StatusCanvas extends JPanel {
 		this.repaint();
 	}
 
-	public void paintComponent(final Graphics g) {
+	public void paintComponent(Graphics g) {
 		if (null == this.image) {
 			this.image = this.createImage(this.getWidth(), this.getHeight());
 		}
@@ -142,7 +142,7 @@ public class StatusCanvas extends JPanel {
 		g.drawImage(this.image, 0, 0, this);
 	}
 
-	public void update(final Graphics g) {
+	public void update(Graphics g) {
 		this.paintComponent(g);
 	}
 }

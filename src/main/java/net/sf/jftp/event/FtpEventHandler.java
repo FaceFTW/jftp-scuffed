@@ -28,61 +28,61 @@ public class FtpEventHandler implements EventHandler {
 	private static ArrayList commands = null;
 
 	static {
-		net.sf.jftp.event.FtpEventHandler.commands = new ArrayList();
-		net.sf.jftp.event.FtpEventHandler.commands.add("account");
-		net.sf.jftp.event.FtpEventHandler.commands.add("append");
-		net.sf.jftp.event.FtpEventHandler.commands.add("ascii");
-		net.sf.jftp.event.FtpEventHandler.commands.add("bell");
-		net.sf.jftp.event.FtpEventHandler.commands.add("bye");
-		net.sf.jftp.event.FtpEventHandler.commands.add("cd");
-		net.sf.jftp.event.FtpEventHandler.commands.add("cdup");
-		net.sf.jftp.event.FtpEventHandler.commands.add("chmod");
-		net.sf.jftp.event.FtpEventHandler.commands.add("close");
-		net.sf.jftp.event.FtpEventHandler.commands.add("cr"); // unsupported
-		net.sf.jftp.event.FtpEventHandler.commands.add("delete");
-		net.sf.jftp.event.FtpEventHandler.commands.add("dir");
-		net.sf.jftp.event.FtpEventHandler.commands.add("disconnect");
-		net.sf.jftp.event.FtpEventHandler.commands.add("form"); // unsupported
-		net.sf.jftp.event.FtpEventHandler.commands.add("get");
-		net.sf.jftp.event.FtpEventHandler.commands.add("glob"); // unsupported
-		net.sf.jftp.event.FtpEventHandler.commands.add("hash");
-		net.sf.jftp.event.FtpEventHandler.commands.add("idle");
-		net.sf.jftp.event.FtpEventHandler.commands.add("image");
-		net.sf.jftp.event.FtpEventHandler.commands.add("lcd");
-		net.sf.jftp.event.FtpEventHandler.commands.add("mdelete");
-		net.sf.jftp.event.FtpEventHandler.commands.add("mdir");
-		net.sf.jftp.event.FtpEventHandler.commands.add("mget");
-		net.sf.jftp.event.FtpEventHandler.commands.add("mkdir");
-		net.sf.jftp.event.FtpEventHandler.commands.add("mls");
-		net.sf.jftp.event.FtpEventHandler.commands.add("mode");
-		net.sf.jftp.event.FtpEventHandler.commands.add("modtime");
-		net.sf.jftp.event.FtpEventHandler.commands.add("mput");
-		net.sf.jftp.event.FtpEventHandler.commands.add("newer");
-		net.sf.jftp.event.FtpEventHandler.commands.add("nlist");
-		net.sf.jftp.event.FtpEventHandler.commands.add("open");
-		net.sf.jftp.event.FtpEventHandler.commands.add("passive");
-		net.sf.jftp.event.FtpEventHandler.commands.add("put");
-		net.sf.jftp.event.FtpEventHandler.commands.add("pwd");
-		net.sf.jftp.event.FtpEventHandler.commands.add("quote");
-		net.sf.jftp.event.FtpEventHandler.commands.add("recv");
-		net.sf.jftp.event.FtpEventHandler.commands.add("reget");
-		net.sf.jftp.event.FtpEventHandler.commands.add("rstatus");
-		net.sf.jftp.event.FtpEventHandler.commands.add("rhelp");
-		net.sf.jftp.event.FtpEventHandler.commands.add("rename");
-		net.sf.jftp.event.FtpEventHandler.commands.add("reset");
-		net.sf.jftp.event.FtpEventHandler.commands.add("restart");
-		net.sf.jftp.event.FtpEventHandler.commands.add("rmdir");
-		net.sf.jftp.event.FtpEventHandler.commands.add("runique");
-		net.sf.jftp.event.FtpEventHandler.commands.add("send");
-		net.sf.jftp.event.FtpEventHandler.commands.add("sendport");
-		net.sf.jftp.event.FtpEventHandler.commands.add("site");
-		net.sf.jftp.event.FtpEventHandler.commands.add("size");
-		net.sf.jftp.event.FtpEventHandler.commands.add("status");
-		net.sf.jftp.event.FtpEventHandler.commands.add("struct");
-		net.sf.jftp.event.FtpEventHandler.commands.add("system");
-		net.sf.jftp.event.FtpEventHandler.commands.add("sunique");
-		net.sf.jftp.event.FtpEventHandler.commands.add("type");
-		net.sf.jftp.event.FtpEventHandler.commands.add("user");
+		commands = new ArrayList();
+		commands.add("account");
+		commands.add("append");
+		commands.add("ascii");
+		commands.add("bell");
+		commands.add("bye");
+		commands.add("cd");
+		commands.add("cdup");
+		commands.add("chmod");
+		commands.add("close");
+		commands.add("cr"); // unsupported
+		commands.add("delete");
+		commands.add("dir");
+		commands.add("disconnect");
+		commands.add("form"); // unsupported
+		commands.add("get");
+		commands.add("glob"); // unsupported
+		commands.add("hash");
+		commands.add("idle");
+		commands.add("image");
+		commands.add("lcd");
+		commands.add("mdelete");
+		commands.add("mdir");
+		commands.add("mget");
+		commands.add("mkdir");
+		commands.add("mls");
+		commands.add("mode");
+		commands.add("modtime");
+		commands.add("mput");
+		commands.add("newer");
+		commands.add("nlist");
+		commands.add("open");
+		commands.add("passive");
+		commands.add("put");
+		commands.add("pwd");
+		commands.add("quote");
+		commands.add("recv");
+		commands.add("reget");
+		commands.add("rstatus");
+		commands.add("rhelp");
+		commands.add("rename");
+		commands.add("reset");
+		commands.add("restart");
+		commands.add("rmdir");
+		commands.add("runique");
+		commands.add("send");
+		commands.add("sendport");
+		commands.add("site");
+		commands.add("size");
+		commands.add("status");
+		commands.add("struct");
+		commands.add("system");
+		commands.add("sunique");
+		commands.add("type");
+		commands.add("user");
 	}
 
 	private final FtpClient client;
@@ -92,72 +92,72 @@ public class FtpEventHandler implements EventHandler {
 		super();
 		this.client = new FtpClient();
 
-		final Method[] m = this.getClass().getDeclaredMethods();
+		Method[] m = this.getClass().getDeclaredMethods();
 		String methodName = null;
 
-		for (final java.lang.reflect.Method method : m) {
+		for (java.lang.reflect.Method method : m) {
 			methodName = method.getName();
 
-			if (net.sf.jftp.event.FtpEventHandler.commands.contains(methodName)) {
+			if (commands.contains(methodName)) {
 				this.methods.put(methodName, method);
 			}
 		}
 	}
 
-	public void open(final Vector args) {
+	public void open(Vector args) {
 		System.out.println("***open");
 		this.client.login((String) args.elementAt(1));
 	}
 
-	public void disconnect(final Vector args) {
+	public void disconnect(Vector args) {
 		System.out.println("***disconnect");
 		this.client.disconnect();
 	}
 
-	public void cd(final Vector args) {
+	public void cd(Vector args) {
 		System.out.println("***cd");
 		this.client.cd((String) args.elementAt(1));
 	}
 
-	public void pwd(final Vector args) {
+	public void pwd(Vector args) {
 		System.out.println("***pwd");
 
-		final String directory = this.client.pwd();
+		String directory = this.client.pwd();
 	}
 
-	public void get(final Vector args) {
+	public void get(Vector args) {
 		System.out.println("***get");
 		this.client.get((String) args.elementAt(1));
 	}
 
-	public void put(final Vector args) {
+	public void put(Vector args) {
 		System.out.println("***put");
 		this.client.put((String) args.elementAt(1));
 	}
 
-	public void quit(final Vector args) {
+	public void quit(Vector args) {
 		this.disconnect(args);
 	}
 
-	public boolean handle(final Event e) {
+	public boolean handle(Event e) {
 		System.out.println(e.eventCode());
 		System.out.println(((FtpEvent) e).eventMsg());
 
-		final StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
-		final Vector list = new Vector();
+		StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
+		Vector list = new Vector();
 
 		while (st.hasMoreTokens()) {
 			list.addElement(st.nextToken());
 		}
 
 		if (0 != list.size()) {
-			final String command = (String) list.elementAt(0);
-			final Method o = (Method) this.methods.get(command.toLowerCase());
+			String command = (String) list.elementAt(0);
+			Method o = (Method) this.methods.get(command.toLowerCase());
 
 			if (null != o) {
 				try {
 					o.invoke(this, list);
-				} catch (final Exception ex) {
+				} catch (Exception ex) {
 				}
 			}
 		}

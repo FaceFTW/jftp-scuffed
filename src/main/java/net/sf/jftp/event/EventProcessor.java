@@ -24,28 +24,28 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	private final Vector buffer;
 	private boolean done = false;
 
-	public EventProcessor(final Vector b) {
+	public EventProcessor(Vector b) {
 		super();
 		this.buffer = b;
 		new Thread(this).start();
-		net.sf.jftp.event.EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPShutdown, this);
+		addHandler(net.sf.jftp.event.FtpEventConstants.FTPShutdown, this);
 	}
 
-	public static void addHandler(final int eventCode, final EventHandler h) {
-		final Integer code = eventCode;
-		Vector handlers = (Vector) (net.sf.jftp.event.EventProcessor.table.get(code));
+	public static void addHandler(int eventCode, EventHandler h) {
+		Integer code = eventCode;
+		Vector handlers = (Vector) (table.get(code));
 
 		if (null == handlers) {
 			handlers = new Vector();
-			net.sf.jftp.event.EventProcessor.table.put(code, handlers);
+			table.put(code, handlers);
 		}
 
 		handlers.addElement(h);
 	}
 
-	public void accept(final Event e) {
-		final Integer code = e.eventCode();
-		final Vector handlers = (Vector) (net.sf.jftp.event.EventProcessor.table.get(code));
+	public void accept(Event e) {
+		Integer code = e.eventCode();
+		Vector handlers = (Vector) (table.get(code));
 
 		if (null != handlers) {
 			for (int i = 0, max = handlers.size(); i < max; i++) {
@@ -54,7 +54,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 		}
 	}
 
-	public boolean handle(final Event e) {
+	public boolean handle(Event e) {
 		this.done = true;
 
 		return true;

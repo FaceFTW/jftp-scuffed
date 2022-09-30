@@ -35,13 +35,13 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	private String baseFile;
 	private int fileCount;
 
-	public RsyncConnection(final String url, final String utmp, final String ptmp, final int port, final String dtmp, final String ltmp) {
+	public RsyncConnection(String url, String utmp, String ptmp, int port, String dtmp, String ltmp) {
 		super();
 		this.url = url;
 
 		String host = url.substring(6);
 
-		final int x = host.indexOf("/");
+		int x = host.indexOf("/");
 
 		if (0 <= x) {
 			host = host.substring(0, x);
@@ -51,27 +51,27 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public String[] getExports() throws Exception {
-		final com.sun.xfile.XFile xf = new com.sun.xfile.XFile(this.url);
-		final com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
+		com.sun.xfile.XFile xf = new com.sun.xfile.XFile(this.url);
+		com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
-		final String[] tmp = nfsx.getExports();
+		String[] tmp = nfsx.getExports();
 
 		if (null == tmp) {
 			return new String[0];
 		}
 
-		for (final String s : tmp) {
+		for (String s : tmp) {
 			net.sf.jftp.system.logging.Log.out("nfs export found: " + s);
 		}
 
 		return tmp;
 	}
 
-	public int removeFileOrDir(final String file) {
+	public int removeFileOrDir(String file) {
 		try {
-			final String tmp = this.toNFS(file);
+			String tmp = this.toNFS(file);
 
-			final com.sun.xfile.XFile f = new com.sun.xfile.XFile(tmp);
+			com.sun.xfile.XFile f = new com.sun.xfile.XFile(tmp);
 
 			if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
 				net.sf.jftp.system.logging.Log.debug("WARNING: Skipping symlink, remove failed.");
@@ -90,7 +90,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			} else {
 				return 1;
 			}
-		} catch (final java.io.IOException ex) {
+		} catch (java.io.IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
@@ -111,15 +111,15 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		//String remoteDir = StringUtils.removeStart(dir,path);
 		//System.out.println(">>> " + dir);
-		final com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir);
-		final String[] tmp = f2.list();
+		com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir);
+		String[] tmp = f2.list();
 
 		if (null == tmp) {
 			return;
 		}
 
-		for (final String s : tmp) {
-			final com.sun.xfile.XFile f3 = new com.sun.xfile.XFile(dir + s);
+		for (String s : tmp) {
+			com.sun.xfile.XFile f3 = new com.sun.xfile.XFile(dir + s);
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
@@ -132,7 +132,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		}
 	}
 
-	public void sendRawCommand(final String cmd) {
+	public void sendRawCommand(String cmd) {
 	}
 
 	public void disconnect() {
@@ -169,9 +169,9 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		dirName = this.toNFS(dirName);
 
-		final java.io.File f = new java.io.File(dirName);
+		java.io.File f = new java.io.File(dirName);
 
-		final boolean x = f.mkdir();
+		boolean x = f.mkdir();
 		this.fireDirectoryUpdate();
 
 		return x;
@@ -180,11 +180,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	public void list() throws java.io.IOException {
 	}
 
-	public boolean chdir(final String p) {
+	public boolean chdir(String p) {
 		return this.chdir(p, true);
 	}
 
-	public boolean chdir(final String p, final boolean refresh) {
+	public boolean chdir(String p, boolean refresh) {
 		if (p.endsWith("..")) {
 			return this.cdup();
 		}
@@ -208,7 +208,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return true;
 	}
 
-	private int check(final String url) {
+	private int check(String url) {
 		int x = 0;
 
 		for (int j = 0; j < url.length(); j++) {
@@ -220,7 +220,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return x;
 	}
 
-	public boolean chdirNoRefresh(final String p) {
+	public boolean chdirNoRefresh(String p) {
 
 		return this.chdir(p, false);
 	}
@@ -254,7 +254,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			p = this.path + p;
 		}
 
-		final java.io.File f = new java.io.File(p);
+		java.io.File f = new java.io.File(p);
 
 		if (f.exists()) {
 			try {
@@ -265,7 +265,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 					this.path = this.path + "/";
 				}
 
-			} catch (final java.io.IOException ex) {
+			} catch (java.io.IOException ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
 
 				return false;
@@ -280,17 +280,17 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public String[] sortLs() {
-		final String dir = this.getPWD();
+		String dir = this.getPWD();
 
 		if (3 == this.check(this.toNFS(dir))) {
 			try {
 				this.files = this.getExports();
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Can not list exports:" + ex);
 				ex.printStackTrace();
 			}
 		} else {
-			final com.sun.xfile.XFile f = new com.sun.xfile.XFile(dir);
+			com.sun.xfile.XFile f = new com.sun.xfile.XFile(dir);
 			this.files = f.list();
 		}
 
@@ -304,7 +304,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		int accessible = 0;
 
 		for (int i = 0; i < this.files.length; i++) {
-			final com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir + this.files[i]);
+			com.sun.xfile.XFile f2 = new com.sun.xfile.XFile(dir + this.files[i]);
 
 			if (f2.isDirectory() && !this.files[i].endsWith("/")) {
 				this.files[i] = this.files[i] + "/";
@@ -336,32 +336,32 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return this.perms;
 	}
 
-	public int handleUpload(final String f) {
+	public int handleUpload(String f) {
 		this.upload(f);
 
 		return 0;
 	}
 
 	@Override
-	public int download(final String file) {
+	public int download(String file) {
 		return 0;
 	}
 
-	public int handleDownload(final String f) {
+	public int handleDownload(String f) {
 		this.download(f);
 
 		return 0;
 	}
 
-	public int upload(final String f) {
-		final String file = this.toNFS(f);
+	public int upload(String f) {
+		String file = this.toNFS(f);
 
 		if (file.endsWith("/")) {
-			final String out = net.sf.jftp.system.StringUtils.getDir(file);
+			String out = net.sf.jftp.system.StringUtils.getDir(file);
 			this.uploadDir(file, this.path + out);
 			this.fireActionFinished(this);
 		} else {
-			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
 			this.work(this.path + outfile, file);
@@ -371,7 +371,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return 0;
 	}
 
-	private void uploadDir(final String dir, final String out) {
+	private void uploadDir(String dir, String out) {
 		System.out.println(dir + "," + out);
 //		try {
 //			//System.out.println("uploadDir: " + dir + "," + out);
@@ -422,28 +422,28 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 //		shortProgress = true;
 	}
 
-	private void work(final String file, final String outfile) {
-		final java.io.BufferedOutputStream out = null;
-		final java.io.BufferedInputStream in = null;
+	private void work(String file, String outfile) {
+		java.io.BufferedOutputStream out = null;
+		java.io.BufferedInputStream in = null;
 
 
 	}
 
-	private void update(final String file, final String type, final int bytes) {
+	private void update(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
+				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
 	}
 
-	public void addConnectionListener(final net.sf.jftp.net.ConnectionListener l) {
+	public void addConnectionListener(net.sf.jftp.net.ConnectionListener l) {
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(final java.util.Vector l) {
+	public void setConnectionListeners(java.util.Vector l) {
 		this.listeners = l;
 	}
 
@@ -462,12 +462,12 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	/**
 	 * progress update
 	 */
-	public void fireProgressUpdate(final String file, final String type, final int bytes) {
+	public void fireProgressUpdate(String file, String type, int bytes) {
 		//System.out.println(listener);
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				final net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
+				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
 
 				final boolean shortProgress = false;
 				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
@@ -486,7 +486,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		}
 	}
 
-	public void fireActionFinished(final net.sf.jftp.net.wrappers.RsyncConnection con) {
+	public void fireActionFinished(net.sf.jftp.net.wrappers.RsyncConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -495,7 +495,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		}
 	}
 
-	public int upload(String file, final java.io.InputStream i) {
+	public int upload(String file, java.io.InputStream i) {
 		java.io.BufferedInputStream in = null;
 		java.io.BufferedOutputStream out = null;
 
@@ -505,7 +505,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			out = new java.io.BufferedOutputStream(new com.sun.xfile.XFileOutputStream(file));
 			in = new java.io.BufferedInputStream(i);
 
-			final byte[] buf = new byte[net.sf.jftp.net.wrappers.RsyncConnection.buffer];
+			byte[] buf = new byte[buffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -523,7 +523,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			}
 
 			this.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FINISHED, -1);
-		} catch (final java.io.IOException ex) {
+		} catch (java.io.IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			this.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
 
@@ -533,7 +533,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 				out.flush();
 				out.close();
 				in.close();
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -547,7 +547,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		try {
 			return new java.io.BufferedInputStream(new com.sun.xfile.XFileInputStream(file));
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @NfsConnection::getDownloadInputStream");
 
@@ -559,30 +559,30 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		return null;
 	}
 
-	public boolean rename(final String from, final String to) {
+	public boolean rename(String from, String to) {
 		net.sf.jftp.system.logging.Log.debug("Not implemented!");
 
 		return false;
 	}
 
-	public void transfer(final String ltmp, final String htmp, final String dtmp, final String utmp, final String ptmp) {
-		final String sourcePath = ltmp;
-		final String destinationUserHost = utmp + "@" + htmp;
-		final String destinationPath = dtmp;
-		final String password = ptmp;
+	public void transfer(String ltmp, String htmp, String dtmp, String utmp, String ptmp) {
+		String sourcePath = ltmp;
+		String destinationUserHost = utmp + "@" + htmp;
+		String destinationPath = dtmp;
+		String password = ptmp;
 
-		final SshPass pass = new SshPass().password(password);
+		SshPass pass = new SshPass().password(password);
 
-		final String source = sourcePath;
-		final String destination = destinationUserHost + ":" + destinationPath;
+		String source = sourcePath;
+		String destination = destinationUserHost + ":" + destinationPath;
 
 		RSync rsync = null;
 		try {
 			rsync = new RSync().recursive(true).sshPass(pass).source(source).destination(destination).verbose(true).rsh(Binaries.sshBinary() + " -o StrictHostKeyChecking=no");
 
-			final ConsoleOutputProcessOutput output = new ConsoleOutputProcessOutput();
+			ConsoleOutputProcessOutput output = new ConsoleOutputProcessOutput();
 			output.monitor(rsync.builder());
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

@@ -42,14 +42,14 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	private ComponentListener listener = null;
 	private boolean useLocal = false;
 
-	public WebdavHostChooser(final ComponentListener l, final boolean local) {
+	public WebdavHostChooser(ComponentListener l, boolean local) {
 		super();
 		this.listener = l;
 		this.useLocal = local;
 		this.init();
 	}
 
-	public WebdavHostChooser(final ComponentListener l) {
+	public WebdavHostChooser(ComponentListener l) {
 		super();
 		this.listener = l;
 		this.init();
@@ -66,16 +66,16 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		this.setTitle("WebDAV Connection... (ALPHA STATE)");
 		this.setBackground(this.okP.getBackground());
 
-		net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.setMinimumSize(new Dimension(500, 50));
+		host.setMinimumSize(new Dimension(500, 50));
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
-		this.getContentPane().add("North", net.sf.jftp.gui.hostchooser.WebdavHostChooser.host);
+		this.getContentPane().add("North", host);
 
-		final HPanel p = new HPanel();
+		HPanel p = new HPanel();
 		p.setLayout(new GridLayout(2, 2, 5, 3));
 
 
-		p.add(net.sf.jftp.gui.hostchooser.WebdavHostChooser.user);
-		p.add(net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass);
+		p.add(user);
+		p.add(pass);
 		p.add(new JLabel(""));
 		p.add(this.okP);
 
@@ -87,14 +87,14 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 
 		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-		net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.text.addActionListener(this);
+		pass.text.addActionListener(this);
 
 		this.setModal(false);
 		this.setVisible(false);
 		this.addWindowListener(this);
-		net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.setText("http://www.planetpdf.com/planetpdf/webdavdemo/");
-		net.sf.jftp.gui.hostchooser.WebdavHostChooser.user.setText("guest");
-		net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.setText("guest");
+		host.setText("http://www.planetpdf.com/planetpdf/webdavdemo/");
+		user.setText("guest");
+		pass.setText("guest");
 
 		this.pack();
 	}
@@ -102,18 +102,18 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	public void update() {
 		this.setVisible(true);
 		this.toFront();
-		net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.requestFocus();
+		host.requestFocus();
 	}
 
-	public void actionPerformed(final ActionEvent e) {
-		if ((e.getSource() == this.ok) || (e.getSource() == net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.text)) {
+	public void actionPerformed(ActionEvent e) {
+		if ((e.getSource() == this.ok) || (e.getSource() == pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			final String htmp = net.sf.jftp.gui.hostchooser.WebdavHostChooser.host.getText().trim();
-			final String utmp = net.sf.jftp.gui.hostchooser.WebdavHostChooser.user.getText().trim();
-			final String ptmp = net.sf.jftp.gui.hostchooser.WebdavHostChooser.pass.getText();
+			String htmp = host.getText().trim();
+			String utmp = user.getText().trim();
+			String ptmp = pass.getText();
 
-			final net.sf.jftp.net.wrappers.WebdavConnection con;
+			net.sf.jftp.net.wrappers.WebdavConnection con;
 
 			if (this.useLocal) {
 				con = new net.sf.jftp.net.wrappers.WebdavConnection(htmp, utmp, ptmp, (net.sf.jftp.net.ConnectionListener) net.sf.jftp.JFtp.localDir);
@@ -136,34 +136,34 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		}
 	}
 
-	public void windowClosing(final WindowEvent e) {
+	public void windowClosing(WindowEvent e) {
 		//System.exit(0);
 		this.dispose();
 	}
 
-	public void windowClosed(final WindowEvent e) {
+	public void windowClosed(WindowEvent e) {
 	}
 
-	public void windowActivated(final WindowEvent e) {
+	public void windowActivated(WindowEvent e) {
 	}
 
-	public void windowDeactivated(final WindowEvent e) {
+	public void windowDeactivated(WindowEvent e) {
 	}
 
-	public void windowIconified(final WindowEvent e) {
+	public void windowIconified(WindowEvent e) {
 	}
 
-	public void windowDeiconified(final WindowEvent e) {
+	public void windowDeiconified(WindowEvent e) {
 	}
 
-	public void windowOpened(final WindowEvent e) {
+	public void windowOpened(WindowEvent e) {
 	}
 
 
-	public void pause(final int time) {
+	public void pause(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 	}
 }

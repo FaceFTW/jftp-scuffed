@@ -64,13 +64,13 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	private ComponentListener listener = null;
 	private final boolean ext = Settings.showNewlineOption;
 
-	public RsyncHostChooser(final ComponentListener l, final boolean local) {
+	public RsyncHostChooser(ComponentListener l, boolean local) {
 		super();
 		this.listener = l;
 		this.init();
 	}
 
-	public RsyncHostChooser(final ComponentListener l) {
+	public RsyncHostChooser(ComponentListener l) {
 		super();
 		this.listener = l;
 		this.init();
@@ -92,8 +92,8 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.pass.text.setEnabled(true);
 
 		try {
-			final LoadSet l = new LoadSet();
-			final String[] login = net.sf.jftp.config.LoadSet.loadSet(Settings.login_def);
+			LoadSet l = new LoadSet();
+			String[] login = net.sf.jftp.config.LoadSet.loadSet(Settings.login_def);
 
 			if ((null != login) && (null != login[0])) {
 				this.host.setText(login[0]);
@@ -119,12 +119,12 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 			} else {
 				this.pass.setText("");
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			Log.debug("Error initializing connection values!");
 			//ex.printStackTrace();
 		}
 
-		final HInsetPanel root = new HInsetPanel();
+		HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
 
 		root.add(this.host);
@@ -171,7 +171,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.host.requestFocus();
 	}
 
-	public void update(final String url) {
+	public void update(String url) {
 		try {
 			System.out.println(this.lcwd.getText());
 			System.out.println(this.cwd.getText());
@@ -227,23 +227,23 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			Log.debug("Error!");
 			ex.printStackTrace();
 		}
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == this.ok) || (e.getSource() == this.pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 //			FtpConnection con = null;
 			net.sf.jftp.JFtp.setHost(this.host.getText());
 
-			final String htmp = StringUtils.cut(this.host.getText(), " ");
-			final String utmp = StringUtils.cut(this.user.getText(), " ");
-			final String ptmp = StringUtils.cut(this.pass.getText(), " ");
-			final String potmp = StringUtils.cut(this.port.getText(), " ");
+			String htmp = StringUtils.cut(this.host.getText(), " ");
+			String utmp = StringUtils.cut(this.user.getText(), " ");
+			String ptmp = StringUtils.cut(this.pass.getText(), " ");
+			String potmp = StringUtils.cut(this.port.getText(), " ");
 
 			/* All the information of the current server are stored in JFtp.HostInfo */
 			net.sf.jftp.JFtp.hostinfo.hostname = htmp;
@@ -256,13 +256,13 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 			Settings.save();
 
-			final String dtmp;
-			final String ltmp;
+			String dtmp;
+			String ltmp;
 
 			dtmp = this.cwd.getText();
 			ltmp = this.lcwd.getText();
 
-			final SaveSet s = new SaveSet(Settings.login_def, htmp, utmp, ptmp, potmp, dtmp, ltmp);
+			SaveSet s = new SaveSet(Settings.login_def, htmp, utmp, ptmp, potmp, dtmp, ltmp);
 
 			if (net.sf.jftp.JFtp.localDir instanceof FilesystemConnection) {
 				if (!net.sf.jftp.JFtp.localDir.setPath(ltmp)) {
@@ -272,7 +272,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 				}
 			}
 
-			final int response = StartConnection.startRsyncCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, ltmp);
+			int response = StartConnection.startRsyncCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, ltmp);
 
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
@@ -337,7 +337,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	}
 
 	private void prepareBackgroundMessage() {
-		final HPanel p = new HPanel();
+		HPanel p = new HPanel();
 		p.add(this.backMode);
 		p.add(this.frontMode);
 		p.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -349,7 +349,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.h.setTitle("Connection failed!");
 		this.h.setLocation(150, 200);
 
-		final JTextArea text = new JTextArea();
+		JTextArea text = new JTextArea();
 		this.h.getContentPane().add("Center", text);
 		this.h.getContentPane().add("South", p);
 		text.setText(" ---------------- Output -----------------\n\n" + "The server is busy at the moment.\n\n" + "Do you want JFtp to go to disappear and try to login\n" + "continuously?\n\n" + "(It will show up again when it has initiated a connection)\n\n");
@@ -358,33 +358,33 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.h.pack();
 	}
 
-	public void windowClosing(final WindowEvent e) {
+	public void windowClosing(WindowEvent e) {
 		//System.exit(0);
 		this.dispose();
 	}
 
-	public void windowClosed(final WindowEvent e) {
+	public void windowClosed(WindowEvent e) {
 	}
 
-	public void windowActivated(final WindowEvent e) {
+	public void windowActivated(WindowEvent e) {
 	}
 
-	public void windowDeactivated(final WindowEvent e) {
+	public void windowDeactivated(WindowEvent e) {
 	}
 
-	public void windowIconified(final WindowEvent e) {
+	public void windowIconified(WindowEvent e) {
 	}
 
-	public void windowDeiconified(final WindowEvent e) {
+	public void windowDeiconified(WindowEvent e) {
 	}
 
-	public void windowOpened(final WindowEvent e) {
+	public void windowOpened(WindowEvent e) {
 	}
 
-	public void pause(final int time) {
+	public void pause(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 	}
 }

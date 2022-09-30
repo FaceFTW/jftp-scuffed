@@ -34,7 +34,7 @@ public class Properties extends HFrame implements ActionListener {
 	private String type = "";
 	private String file = "";
 
-	public Properties(final String file, final String type) {
+	public Properties(String file, String type) {
 		super();
 		this.file = file;
 		this.type = type;
@@ -44,7 +44,7 @@ public class Properties extends HFrame implements ActionListener {
 		this.setLocation(150, 150);
 		this.setLayout(new GridLayout(3, 1));
 
-		final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
+		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
 		okP.add(this.ok);
 		this.add(this.sizeL);
 		this.add(this.fileL);
@@ -57,12 +57,12 @@ public class Properties extends HFrame implements ActionListener {
 
 	private void process() {
 		if (this.type.equals("local")) {
-			final File f = new File(JFtp.localDir.getPath() + this.file);
+			File f = new File(JFtp.localDir.getPath() + this.file);
 			this.sizeL.setText("Size: " + f.length() + " bytes");
 
 			try {
 				this.fileL.setText("File: " + f.getCanonicalPath());
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				Log.debug(ex.toString());
 			}
 
@@ -74,7 +74,7 @@ public class Properties extends HFrame implements ActionListener {
 		}
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.ok) {
 			this.setVisible(false);
 		}

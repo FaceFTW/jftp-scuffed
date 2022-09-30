@@ -8,7 +8,7 @@ public class LogFlusher implements Runnable {
 
 	public LogFlusher() {
 		super();
-		final Thread runner = new Thread(this);
+		Thread runner = new Thread(this);
 
 		if (Settings.useLogFlusher) {
 			runner.start();
@@ -19,7 +19,7 @@ public class LogFlusher implements Runnable {
 		while (true) {
 			try {
 				Thread.sleep(Settings.logFlushInterval);
-			} catch (final InterruptedException ex) {
+			} catch (InterruptedException ex) {
 				ex.printStackTrace();
 			}
 

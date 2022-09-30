@@ -43,13 +43,13 @@ public class FilesystemConnection implements BasicConnection {
 		super();
 	}
 
-	public FilesystemConnection(final String path, final ConnectionListener l) {
+	public FilesystemConnection(String path, ConnectionListener l) {
 		super();
 		this.listeners.add(l);
 		this.chdir(path);
 	}
 
-	public int removeFileOrDir(final String file) {
+	public int removeFileOrDir(String file) {
 		try {
 			if ((null == file) || file.isEmpty()) {
 				return -1;
@@ -61,7 +61,7 @@ public class FilesystemConnection implements BasicConnection {
 				tmp = this.pwd + file;
 			}
 
-			final File f = new File(tmp);
+			File f = new File(tmp);
 
 			if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
 
@@ -79,7 +79,7 @@ public class FilesystemConnection implements BasicConnection {
 
 				return -1;
 			}
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
@@ -95,15 +95,15 @@ public class FilesystemConnection implements BasicConnection {
 				dir = dir + "/";
 			}
 
-			final File f2 = new File(dir);
-			final String[] tmp = f2.list();
+			File f2 = new File(dir);
+			String[] tmp = f2.list();
 
 			if (null == tmp) {
 				return;
 			}
 
-			for (final String s : tmp) {
-				final java.io.File f3 = new java.io.File(dir + s);
+			for (String s : tmp) {
+				java.io.File f3 = new java.io.File(dir + s);
 
 				if (!f3.getAbsolutePath().equals(f3.getCanonicalPath())) {
 					f3.delete();
@@ -120,13 +120,13 @@ public class FilesystemConnection implements BasicConnection {
 					f3.delete();
 				}
 			}
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
 	}
 
-	public void sendRawCommand(final String cmd) {
+	public void sendRawCommand(String cmd) {
 	}
 
 	public void disconnect() {
@@ -149,9 +149,9 @@ public class FilesystemConnection implements BasicConnection {
 			dirName = this.pwd + dirName;
 		}
 
-		final File f = new File(dirName);
+		File f = new File(dirName);
 
-		final boolean x = f.mkdir();
+		boolean x = f.mkdir();
 		this.fireDirectoryUpdate();
 
 		return x;
@@ -160,14 +160,14 @@ public class FilesystemConnection implements BasicConnection {
 	public void list() throws IOException {
 	}
 
-	public boolean chdir(final String p) {
-		final String p2 = this.processPath(p);
+	public boolean chdir(String p) {
+		String p2 = this.processPath(p);
 
 		if (null == p2) {
 			return false;
 		}
 
-		final File f = new File(p2);
+		File f = new File(p2);
 
 		if (!f.exists() || !f.isDirectory() || !f.canRead()) {
 			net.sf.jftp.system.logging.Log.debug("Access denied.");
@@ -182,8 +182,8 @@ public class FilesystemConnection implements BasicConnection {
 		return true;
 	}
 
-	public boolean chdirNoRefresh(final String p) {
-		final String p2 = this.processPath(p);
+	public boolean chdirNoRefresh(String p) {
+		String p2 = this.processPath(p);
 
 		if (null == p2) {
 			return false;
@@ -211,7 +211,7 @@ public class FilesystemConnection implements BasicConnection {
 		p = p.replace('\\', '/');
 
 		//System.out.println(", processPath 2: "+p);
-		final File f = new File(p);
+		File f = new File(p);
 		String p2;
 
 		if (f.exists()) {
@@ -224,7 +224,7 @@ public class FilesystemConnection implements BasicConnection {
 				}
 
 				return p2;
-			} catch (final IOException ex) {
+			} catch (IOException ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (processPath)!");
 
 				return null;
@@ -247,7 +247,7 @@ public class FilesystemConnection implements BasicConnection {
 		p = p.replace('\\', '/');
 
 		//System.out.println(", local 2:" + p);
-		final File f = new File(p);
+		File f = new File(p);
 
 		if (f.exists()) {
 			try {
@@ -259,7 +259,7 @@ public class FilesystemConnection implements BasicConnection {
 				}
 
 				//System.out.println("localPath: "+path);
-			} catch (final IOException ex) {
+			} catch (IOException ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
 
 				return false;
@@ -276,8 +276,8 @@ public class FilesystemConnection implements BasicConnection {
 	public String[] sortLs() {
 		this.dateVector = new Vector<>();
 
-		final File f = new File(this.pwd);
-		final String[] files = f.list();
+		File f = new File(this.pwd);
+		String[] files = f.list();
 
 		if (null == files) {
 			return new String[0];
@@ -289,7 +289,7 @@ public class FilesystemConnection implements BasicConnection {
 		int accessible = 0;
 
 		for (int i = 0; i < files.length; i++) {
-			final File f2 = new File(this.pwd + files[i]);
+			File f2 = new File(this.pwd + files[i]);
 
 			if (f2.isDirectory() && !files[i].endsWith("/")) {
 				files[i] = files[i] + "/";
@@ -308,7 +308,7 @@ public class FilesystemConnection implements BasicConnection {
 			this.perms[i] = accessible;
 
 			//System.out.println(pwd+files[i] +" : " +accessible + " : " + size[i]);
-			final Date d = new Date(f2.lastModified());
+			Date d = new Date(f2.lastModified());
 
 			//System.out.println(d.toString());
 			this.dateVector.add(d);
@@ -325,43 +325,43 @@ public class FilesystemConnection implements BasicConnection {
 		return this.perms;
 	}
 
-	public int handleDownload(final String file) {
+	public int handleDownload(String file) {
 		this.transfer(file);
 
 		return 0;
 	}
 
-	public int handleUpload(final String file) {
+	public int handleUpload(String file) {
 		this.transfer(file);
 
 		return 0;
 	}
 
-	public int download(final String file) {
+	public int download(String file) {
 		this.transfer(file);
 
 		return 0;
 	}
 
-	public int upload(final String file) {
+	public int upload(String file) {
 		this.transfer(file);
 
 		return 0;
 	}
 
-	private void transferDir(final String dir, final String out) {
+	private void transferDir(String dir, String out) {
 		this.fileCount = 0;
 		this.shortProgress = true;
 		this.baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-		final File f2 = new File(dir);
-		final String[] tmp = f2.list();
+		File f2 = new File(dir);
+		String[] tmp = f2.list();
 
 		if (null == tmp) {
 			return;
 		}
 
-		final File fx = new File(out);
+		File fx = new File(out);
 
 		if (!fx.mkdir()) {
 			net.sf.jftp.system.logging.Log.debug("Can not create directory: " + out + " - already exist or permission denied?");
@@ -371,7 +371,7 @@ public class FilesystemConnection implements BasicConnection {
 			tmp[i] = tmp[i].replace('\\', '/');
 
 			//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
-			final File f3 = new File(dir + tmp[i]);
+			File f3 = new File(dir + tmp[i]);
 
 			if (f3.isDirectory()) {
 				if (!tmp[i].endsWith("/")) {
@@ -399,7 +399,7 @@ public class FilesystemConnection implements BasicConnection {
 		file = file.replace('\\', '/');
 		out = out.replace('\\', '/');
 
-		final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+		String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 		if (file.endsWith("/")) {
 			this.transferDir(file, this.path + out);
@@ -409,11 +409,11 @@ public class FilesystemConnection implements BasicConnection {
 		}
 	}
 
-	private void work(final String file, final String outfile) {
+	private void work(String file, String outfile) {
 		try {
-			final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(outfile));
-			final BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-			final byte[] buf = new byte[net.sf.jftp.net.FilesystemConnection.filesystemBuffer];
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(outfile));
+			BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
+			byte[] buf = new byte[filesystemBuffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -436,13 +436,13 @@ public class FilesystemConnection implements BasicConnection {
 			out.close();
 			in.close();
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
 	}
 
-	public int upload(String file, final InputStream in) {
+	public int upload(String file, InputStream in) {
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
 			file = this.pwd + file;
 		}
@@ -453,7 +453,7 @@ public class FilesystemConnection implements BasicConnection {
 			this.work(new BufferedInputStream(in), file, file);
 
 			return 0;
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 
@@ -461,10 +461,10 @@ public class FilesystemConnection implements BasicConnection {
 		}
 	}
 
-	private void work(final BufferedInputStream in, final String outfile, final String file) {
+	private void work(BufferedInputStream in, String outfile, String file) {
 		try {
-			final BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(outfile));
-			final byte[] buf = new byte[net.sf.jftp.net.FilesystemConnection.filesystemBuffer];
+			BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(outfile));
+			byte[] buf = new byte[filesystemBuffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -486,7 +486,7 @@ public class FilesystemConnection implements BasicConnection {
 			out.close();
 			in.close();
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
@@ -501,7 +501,7 @@ public class FilesystemConnection implements BasicConnection {
 
 		try {
 			return new FileInputStream(file);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @Filesystemconnection::getDownloadInputStream");
 
@@ -509,12 +509,12 @@ public class FilesystemConnection implements BasicConnection {
 		}
 	}
 
-	public void addConnectionListener(final ConnectionListener l) {
+	public void addConnectionListener(ConnectionListener l) {
 		this.listeners.add(l);
 		this.fireDirectoryUpdate();
 	}
 
-	public void setConnectionListeners(final Vector<ConnectionListener> l) {
+	public void setConnectionListeners(Vector<ConnectionListener> l) {
 		this.listeners = l;
 		this.fireDirectoryUpdate();
 	}
@@ -531,15 +531,15 @@ public class FilesystemConnection implements BasicConnection {
 		}
 	}
 
-	public boolean login(final String user, final String pass) {
+	public boolean login(String user, String pass) {
 		return true;
 	}
 
-	public void fireProgressUpdate(final String file, final String type, final int bytes) {
+	public void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				final ConnectionListener listener = this.listeners.elementAt(i);
+				ConnectionListener listener = this.listeners.elementAt(i);
 
 				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -569,7 +569,7 @@ public class FilesystemConnection implements BasicConnection {
 
 		file = file.replace('\\', '/');
 
-		final File f = new File(file);
+		File f = new File(file);
 
 		if (net.sf.jftp.system.StringUtils.isRelative(to)) {
 			to = this.pwd + to;

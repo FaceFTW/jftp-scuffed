@@ -28,7 +28,7 @@ import java.util.zip.ZipOutputStream;
 public class ZipFileCreator {
 	private final ZipOutputStream z;
 
-	public ZipFileCreator(final String[] files, final String path, final String name) throws Exception {
+	public ZipFileCreator(String[] files, String path, String name) throws Exception {
 		super();
 		this.z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path + name)));
 		this.perform(files, path, "");
@@ -37,12 +37,12 @@ public class ZipFileCreator {
 		this.z.close();
 	}
 
-	private void perform(final String[] files, final String path, final String offset) {
-		final byte[] buf = new byte[4096];
+	private void perform(String[] files, String path, String offset) {
+		byte[] buf = new byte[4096];
 
 		for (int i = 0; i < files.length; i++) {
 			try {
-				final File f = new File(path + offset + files[i]);
+				File f = new File(path + offset + files[i]);
 				BufferedInputStream in = null;
 
 				if (f.exists() && !f.isDirectory()) {
@@ -55,7 +55,7 @@ public class ZipFileCreator {
 					this.perform(f.list(), path, offset + files[i]);
 				}
 
-				final ZipEntry tmp = new ZipEntry(offset + files[i]);
+				ZipEntry tmp = new ZipEntry(offset + files[i]);
 				this.z.putNextEntry(tmp);
 
 				int len = 0;
@@ -71,7 +71,7 @@ public class ZipFileCreator {
 				}
 
 				this.z.closeEntry();
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Skipping a file (no permission?)");
 			}
 		}

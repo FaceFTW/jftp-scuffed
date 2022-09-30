@@ -41,32 +41,32 @@ public class FtpServerSocket extends Thread {
 	private static ArrayList commands = null;
 
 	static {
-		net.sf.jftp.net.server.FtpServerSocket.commands = new ArrayList();
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("auth");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("cdup");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("cwd");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("feat");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("help");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("lang");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("list");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("mkd");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("mode");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("motd");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("nlst");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("noop");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("opts");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("pass");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("pasv");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("port");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("pwd");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("quit");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("rein");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("smnt");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("stat");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("stru");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("syst");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("type");
-		net.sf.jftp.net.server.FtpServerSocket.commands.add("user");
+		commands = new ArrayList();
+		commands.add("auth");
+		commands.add("cdup");
+		commands.add("cwd");
+		commands.add("feat");
+		commands.add("help");
+		commands.add("lang");
+		commands.add("list");
+		commands.add("mkd");
+		commands.add("mode");
+		commands.add("motd");
+		commands.add("nlst");
+		commands.add("noop");
+		commands.add("opts");
+		commands.add("pass");
+		commands.add("pasv");
+		commands.add("port");
+		commands.add("pwd");
+		commands.add("quit");
+		commands.add("rein");
+		commands.add("smnt");
+		commands.add("stat");
+		commands.add("stru");
+		commands.add("syst");
+		commands.add("type");
+		commands.add("user");
 	}
 
 	private final Hashtable methods = new Hashtable();
@@ -83,24 +83,24 @@ public class FtpServerSocket extends Thread {
 	private final String rootDir = null;
 	private final String currentDir = null;
 
-	public FtpServerSocket(final Socket s) throws IOException {
+	public FtpServerSocket(Socket s) throws IOException {
 		super();
 		this.socket = s;
 
 		try {
 			this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 			this.out = new PrintWriter(this.socket.getOutputStream(), true);
-		} catch (final IOException ioe) {
+		} catch (IOException ioe) {
 			throw ioe;
 		}
 
-		final Method[] m = this.getClass().getDeclaredMethods();
+		Method[] m = this.getClass().getDeclaredMethods();
 		String methodName = null;
 
-		for (final java.lang.reflect.Method method : m) {
+		for (java.lang.reflect.Method method : m) {
 			methodName = method.getName();
 
-			if (net.sf.jftp.net.server.FtpServerSocket.commands.contains(methodName)) {
+			if (commands.contains(methodName)) {
 				this.methods.put(methodName, method);
 			}
 		}
@@ -108,16 +108,16 @@ public class FtpServerSocket extends Thread {
 		this.start();
 	}
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 	}
 
-	private void send(final String bundleId) {
+	private void send(String bundleId) {
 		this.out.print(this.bundle.getString(bundleId));
 		this.out.flush();
 	}
 
-	private void send(final String bundleId, final Object[] args) {
-		final MessageFormat fmt = new MessageFormat(this.bundle.getString(bundleId));
+	private void send(String bundleId, Object[] args) {
+		MessageFormat fmt = new MessageFormat(this.bundle.getString(bundleId));
 		this.out.print(fmt.format(args));
 		this.out.flush();
 	}
@@ -126,34 +126,34 @@ public class FtpServerSocket extends Thread {
 		this.send("220motd");
 	}
 
-	public void user(final String line) {
+	public void user(String line) {
 		this.send("331user");
 	}
 
-	public void pass(final String line) {
+	public void pass(String line) {
 		this.send("230pass");
 	}
 
-	public void type(final String line) { // needs work A, E, I, L, C, T, N
+	public void type(String line) { // needs work A, E, I, L, C, T, N
 
-		final Object[] args = {"I"};
+		Object[] args = {"I"};
 		this.send("200type", args);
 	}
 
-	public void mode(final String line) { // check for S, B, or C
+	public void mode(String line) { // check for S, B, or C
 
-		final Object[] args = {line.toUpperCase()};
+		Object[] args = {line.toUpperCase()};
 		this.send("200ok", args);
 	}
 
-	public void pwd(final String line) {
-		final Object[] args = {this.currentDir};
+	public void pwd(String line) {
+		Object[] args = {this.currentDir};
 		this.send("257pwd", args);
 	}
 
-	public void cdup(final String line) {
-		final Object[] args = {"CDUP"};
-		final File tmp = this.directory.getParentFile();
+	public void cdup(String line) {
+		Object[] args = {"CDUP"};
+		File tmp = this.directory.getParentFile();
 
 		if (null != tmp) {
 			this.directory = tmp;
@@ -163,7 +163,7 @@ public class FtpServerSocket extends Thread {
 	}
 
 
-	private String addTrailingSlash(final String s) {
+	private String addTrailingSlash(String s) {
 		if (s.endsWith("/")) {
 			return s;
 		} else {
@@ -171,7 +171,7 @@ public class FtpServerSocket extends Thread {
 		}
 	}
 
-	private String removeTrailingSlash(final String s) {
+	private String removeTrailingSlash(String s) {
 		if (s.endsWith("/")) {
 			return s.substring(0, s.length() - 1);
 		} else {
@@ -180,14 +180,14 @@ public class FtpServerSocket extends Thread {
 	}
 
 
-	public void list(final String line) {
+	public void list(String line) {
 		this.send("150list");
 
 		final boolean passive = false;
 		if (!passive) {
 			try {
-				final Socket activeSocket = new Socket(this.socket.getInetAddress(), this.activePort);
-				final PrintStream ps = new PrintStream(activeSocket.getOutputStream());
+				Socket activeSocket = new Socket(this.socket.getInetAddress(), this.activePort);
+				PrintStream ps = new PrintStream(activeSocket.getOutputStream());
 				ps.print("bleah\r\n");
 				ps.print("bleah\r\n");
 				ps.print("bleah\r\n");
@@ -196,13 +196,13 @@ public class FtpServerSocket extends Thread {
 				ps.flush();
 				ps.close();
 				this.send("226");
-			} catch (final Exception e) {
+			} catch (Exception e) {
 			}
 		}
 	}
 
 
-	public void port(final String line) {
+	public void port(String line) {
 		int start = line.lastIndexOf(",");
 		int end = line.length();
 		String lo = null; // lo-ordered byte
@@ -222,7 +222,7 @@ public class FtpServerSocket extends Thread {
 
 		this.activePort = ((Integer.parseInt(hi) * 256) + Integer.parseInt(lo));
 
-		final Object[] args = {"PORT"};
+		Object[] args = {"PORT"};
 		this.send("200", args);
 	}
 
@@ -240,19 +240,19 @@ public class FtpServerSocket extends Thread {
 					index = line.length();
 				}
 
-				final String command = line.substring(0, index).toLowerCase();
-				final Method o = (Method) this.methods.get(command);
+				String command = line.substring(0, index).toLowerCase();
+				Method o = (Method) this.methods.get(command);
 
 				if (null != o) {
 					try {
 						o.invoke(this, line);
-					} catch (final Exception e) {
+					} catch (Exception e) {
 					}
 				} else {
 					this.send("500");
 				}
 			}
-		} catch (final IOException ioe) {
+		} catch (IOException ioe) {
 			net.sf.jftp.system.logging.Log.debug("Socket error: " + ioe);
 		}
 	}

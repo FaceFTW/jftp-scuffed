@@ -31,16 +31,16 @@ public class FtpURLConnection extends URLConnection {
 	private String password = "none@no.no";
 	private int loginFlag = 0;
 
-	public FtpURLConnection(final URL u) {
+	public FtpURLConnection(URL u) {
 		super(u);
 
-		final int port = 0 < u.getPort() ? u.getPort() : 21;
+		int port = 0 < u.getPort() ? u.getPort() : 21;
 		this.connection = new FtpConnection(u.getHost(), port, net.sf.jftp.config.Settings.defaultDir);
 
-		final String userInfo = u.getUserInfo();
+		String userInfo = u.getUserInfo();
 
 		if (null != userInfo) {
-			final int index = userInfo.indexOf(":");
+			int index = userInfo.indexOf(":");
 
 			if (-1 != index) {
 				this.username = userInfo.substring(0, index);
@@ -51,11 +51,11 @@ public class FtpURLConnection extends URLConnection {
 		net.sf.jftp.system.logging.Log.debug("Connecting...");
 	}
 
-	public static void main(final String[] args) {
+	public static void main(String[] args) {
 		try {
-			final URLConnection uc = new FtpURLConnection(new URL("ftp://ftp:pass@localhost/pub"));
+			URLConnection uc = new FtpURLConnection(new URL("ftp://ftp:pass@localhost/pub"));
 			uc.connect();
-		} catch (final IOException ioe) {
+		} catch (IOException ioe) {
 		}
 	}
 
@@ -95,7 +95,7 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public int getPort() {
-		final int ret = this.url.getPort();
+		int ret = this.url.getPort();
 
 		if (0 >= ret) {
 			return 21;

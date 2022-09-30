@@ -50,29 +50,29 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this("localhost", 25);
 	}
 
-	public RawConnection(final String hostname, final int p) {
+	public RawConnection(String hostname, int p) {
 		super();
-		net.sf.jftp.util.RawConnection.host.setText(hostname);
+		host.setText(hostname);
 
 		this.setSize(550, 300);
 		this.setLocation(150, 150);
 		this.setTitle("Direct TCP/IP connection");
 		this.getContentPane().setLayout(new BorderLayout(2, 2));
 
-		final javax.swing.JPanel p1 = new javax.swing.JPanel();
-		p1.add(net.sf.jftp.util.RawConnection.host);
-		p1.add(net.sf.jftp.util.RawConnection.port);
-		net.sf.jftp.util.RawConnection.host.text.setEditable(false);
-		net.sf.jftp.util.RawConnection.port.text.setEditable(false);
-		net.sf.jftp.util.RawConnection.port.setText(Integer.toString(p));
+		javax.swing.JPanel p1 = new javax.swing.JPanel();
+		p1.add(host);
+		p1.add(port);
+		host.text.setEditable(false);
+		port.text.setEditable(false);
+		port.setText(Integer.toString(p));
 
 		this.com.text.addActionListener(this);
 
-		final javax.swing.JPanel p2 = new javax.swing.JPanel();
+		javax.swing.JPanel p2 = new javax.swing.JPanel();
 		p2.add(this.com);
 
 		this.com.addKeyListener(new KeyAdapter() {
-			public void keyReleased(final KeyEvent e) {
+			public void keyReleased(KeyEvent e) {
 				if (java.awt.event.KeyEvent.VK_ENTER == e.getKeyCode()) {
 					net.sf.jftp.util.RawConnection.this.transmit();
 				}
@@ -84,13 +84,13 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		p2.add(this.clear);
 		this.clear.addActionListener(this);
 
-		net.sf.jftp.util.RawConnection.output.setEditable(false);
+		output.setEditable(false);
 
-		net.sf.jftp.util.RawConnection.outputPane = new JScrollPane(net.sf.jftp.util.RawConnection.output);
-		net.sf.jftp.util.RawConnection.outputPane.setMinimumSize(new Dimension(400, 300));
+		outputPane = new JScrollPane(output);
+		outputPane.setMinimumSize(new Dimension(400, 300));
 
 		this.getContentPane().add("North", p1);
-		this.getContentPane().add("Center", net.sf.jftp.util.RawConnection.outputPane);
+		this.getContentPane().add("Center", outputPane);
 		this.getContentPane().add("South", p2);
 
 		this.com.setText("");
@@ -110,16 +110,16 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this.addWindowListener(this);
 		this.setVisible(true);
 
-		final JHostChooser jhc = new JHostChooser();
+		JHostChooser jhc = new JHostChooser();
 	}
 
 	private void transmit() {
-		if (!net.sf.jftp.util.RawConnection.established) {
-			this.c = new JRawConnection(net.sf.jftp.util.RawConnection.host.getText(), Integer.parseInt(net.sf.jftp.util.RawConnection.port.getText()), true);
+		if (!established) {
+			this.c = new JRawConnection(host.getText(), Integer.parseInt(port.getText()), true);
 
 			if (this.c.isThere()) {
 				this.c.send(this.com.getText());
-				net.sf.jftp.util.RawConnection.established = true;
+				established = true;
 			} else {
 				this.debugWrite("No connection!");
 			}
@@ -134,13 +134,13 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this.com.setText("");
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == this.send) || (e.getSource() == this.com.text)) {
 			this.transmit();
 		}
 
 		if (e.getSource() == this.clear) {
-			net.sf.jftp.util.RawConnection.output.setText("");
+			output.setText("");
 		}
 
 		if (e.getSource() == this.close) {
@@ -148,35 +148,35 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		}
 
 		if (e.getSource() == this.changeHost) {
-			final JHostChooser jhc = new JHostChooser();
+			JHostChooser jhc = new JHostChooser();
 		}
 	}
 
-	private void debugWrite(final String str) {
-		net.sf.jftp.util.RawConnection.output.append(str + "\n");
+	private void debugWrite(String str) {
+		output.append(str + "\n");
 	}
 
-	public void windowClosing(final WindowEvent e) {
-		if (net.sf.jftp.util.RawConnection.mayDispose) {
+	public void windowClosing(WindowEvent e) {
+		if (mayDispose) {
 			this.dispose();
 		}
 	}
 
-	public void windowIconified(final WindowEvent e) {
+	public void windowIconified(WindowEvent e) {
 	}
 
-	public void windowDeiconified(final WindowEvent e) {
+	public void windowDeiconified(WindowEvent e) {
 	}
 
-	public void windowClosed(final WindowEvent e) {
+	public void windowClosed(WindowEvent e) {
 	}
 
-	public void windowActivated(final WindowEvent e) {
+	public void windowActivated(WindowEvent e) {
 	}
 
-	public void windowDeactivated(final WindowEvent e) {
+	public void windowDeactivated(WindowEvent e) {
 	}
 
-	public void windowOpened(final WindowEvent e) {
+	public void windowOpened(WindowEvent e) {
 	}
 }

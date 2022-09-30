@@ -36,11 +36,11 @@ public class JHostChooser extends HFrame implements ActionListener {
 		this.getContentPane().setLayout(new BorderLayout());
 		this.setBackground(Color.lightGray);
 
-		final javax.swing.JPanel p1 = new javax.swing.JPanel();
-		final javax.swing.JLabel hostL = new javax.swing.JLabel("Host:");
+		javax.swing.JPanel p1 = new javax.swing.JPanel();
+		javax.swing.JLabel hostL = new javax.swing.JLabel("Host:");
 		p1.add(hostL);
 		p1.add(this.host);
-		final javax.swing.JLabel portL = new javax.swing.JLabel("Port:");
+		javax.swing.JLabel portL = new javax.swing.JLabel("Port:");
 		p1.add(portL);
 		p1.add(this.port);
 
@@ -48,7 +48,7 @@ public class JHostChooser extends HFrame implements ActionListener {
 		this.port.setText(RawConnection.port.getText());
 
 		this.getContentPane().add("Center", p1);
-		final javax.swing.JPanel okP = new javax.swing.JPanel();
+		javax.swing.JPanel okP = new javax.swing.JPanel();
 		this.getContentPane().add("South", okP);
 		okP.add(this.ok);
 		this.ok.addActionListener(this);
@@ -56,7 +56,7 @@ public class JHostChooser extends HFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.ok) {
 			RawConnection.host.setText(this.host.getText());
 			RawConnection.port.setText(this.port.getText());
@@ -67,7 +67,7 @@ public class JHostChooser extends HFrame implements ActionListener {
 	}
 
 	public Insets getInsets() {
-		final Insets std = super.getInsets();
+		Insets std = super.getInsets();
 
 		return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
 	}

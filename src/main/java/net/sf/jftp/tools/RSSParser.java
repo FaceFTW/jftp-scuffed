@@ -28,7 +28,7 @@ public class RSSParser {
 	final Vector links = new Vector();
 	final Vector content = new Vector();
 
-	public RSSParser(final URL f) {
+	public RSSParser(URL f) {
 		super();
 		this.file = f;
 		this.parse();
@@ -36,10 +36,10 @@ public class RSSParser {
 
 	private void parse() {
 		try {
-			final DataInputStream in = new DataInputStream(new BufferedInputStream(this.file.openStream()));
+			DataInputStream in = new DataInputStream(new BufferedInputStream(this.file.openStream()));
 
 			String tmp;
-			final StringBuilder data = new StringBuilder();
+			StringBuilder data = new StringBuilder();
 
 			while (null != (tmp = in.readLine())) {
 				data.append(tmp);
@@ -49,20 +49,20 @@ public class RSSParser {
 			this.add(data.toString(), this.titles, "<title>", "</title>", null, null);
 			this.add(data.toString(), this.descs, "<description>", "</description>", null, null);
 			this.add(data.toString(), this.links, "<link>", "</link>", null, null);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 
 		}
 	}
 
-	private void add(String tmp, final Vector target, String start, String end, String s2, String e2) {
+	private void add(String tmp, Vector target, String start, String end, String s2, String e2) {
 		if (null == s2) {
 			s2 = start;
 			e2 = end;
 		}
 
 		int x = tmp.indexOf(start);
-		final int x2 = tmp.indexOf(s2);
+		int x2 = tmp.indexOf(s2);
 
 		if (((0 > x) && (0 > x2)) || ((0 > x) && start.equals(s2))) {
 			return;
@@ -80,7 +80,7 @@ public class RSSParser {
 			e2 = t;
 		}
 
-		final String value = tmp.substring(x + start.length(), tmp.indexOf(end));
+		String value = tmp.substring(x + start.length(), tmp.indexOf(end));
 
 		target.add(value);
 

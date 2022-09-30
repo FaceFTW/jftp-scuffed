@@ -29,36 +29,36 @@ public class Shell extends HFrame implements Runnable {
 	final Vector commands = new Vector();
 	int currCmd = 0;
 
-	public Shell(final InputStream in, final OutputStream out) {
+	public Shell(InputStream in, OutputStream out) {
 		super();
 		try {
 			this.in = new BufferedReader(new InputStreamReader(in));
 			this.out = new BufferedOutputStream(out);
 			this.init();
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
 		}
 	}
 
 
-	public Shell(final BufferedReader in, final OutputStream out) {
+	public Shell(BufferedReader in, OutputStream out) {
 		super();
 		try {
 			this.in = in;
 			this.out = new BufferedOutputStream(out);
 			this.init();
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
 		}
 	}
 
-	public static void main(final String[] argv) {
+	public static void main(String[] argv) {
 		try {
-			final Process p = Runtime.getRuntime().exec(0 < argv.length ? argv[0] : "/bin/bash");
+			Process p = Runtime.getRuntime().exec(0 < argv.length ? argv[0] : "/bin/bash");
 			new Shell(p.getInputStream(), p.getOutputStream());
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -77,7 +77,7 @@ public class Shell extends HFrame implements Runnable {
 		this.text.setEditable(false);
 		this.setBackground(this.text.getBackground());
 
-		final DefaultCaret c = new DefaultCaret();
+		DefaultCaret c = new DefaultCaret();
 		c.setBlinkRate(1000);
 
 		this.text.setCaret(c);
@@ -87,7 +87,7 @@ public class Shell extends HFrame implements Runnable {
 		this.text.setLineWrap(true);
 
 		this.text.addKeyListener(new KeyAdapter() {
-			public void keyPressed(final KeyEvent e) {
+			public void keyPressed(KeyEvent e) {
 				if ((java.awt.event.KeyEvent.VK_BACK_SPACE == e.getKeyCode()) && (0 < Shell.this.input.length())) {
 					net.sf.jftp.tools.Shell.this.input = net.sf.jftp.tools.Shell.this.input.substring(0, net.sf.jftp.tools.Shell.this.input.length() - 1);
 
@@ -101,7 +101,7 @@ public class Shell extends HFrame implements Runnable {
 					if ((net.sf.jftp.tools.Shell.this.currCmd <= net.sf.jftp.tools.Shell.this.commands.size()) && (0 < Shell.this.currCmd)) {
 						net.sf.jftp.tools.Shell.this.currCmd--;
 
-						final String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
+						String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
 						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
 						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
 					}
@@ -112,7 +112,7 @@ public class Shell extends HFrame implements Runnable {
 					if (((net.sf.jftp.tools.Shell.this.currCmd + 1) < net.sf.jftp.tools.Shell.this.commands.size()) && (0 <= Shell.this.currCmd)) {
 						net.sf.jftp.tools.Shell.this.currCmd++;
 
-						final String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
+						String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
 						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
 						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
 					}
@@ -142,7 +142,7 @@ public class Shell extends HFrame implements Runnable {
 
 	public void run() {
 		try {
-			final char[] b = new char[4096];
+			char[] b = new char[4096];
 			int i;
 
 			while (java.io.StreamTokenizer.TT_EOF != (i = this.in.read(b, 0, b.length))) {
@@ -157,17 +157,17 @@ public class Shell extends HFrame implements Runnable {
 
 				try {
 					Thread.sleep(100);
-				} catch (final Exception ex) {
+				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 
-				final JScrollBar bar = this.textP.getVerticalScrollBar();
+				JScrollBar bar = this.textP.getVerticalScrollBar();
 				bar.setValue(bar.getMaximum());
 				this.text.setCaretPosition(this.text.getText().length());
 			}
 
 			this.text.setEnabled(false);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());
 			this.dispose();
@@ -176,7 +176,7 @@ public class Shell extends HFrame implements Runnable {
 
 	private void send() {
 		try {
-			final String msg = this.input;
+			String msg = this.input;
 			this.input = "";
 
 			this.out.write(msg.getBytes());
@@ -185,7 +185,7 @@ public class Shell extends HFrame implements Runnable {
 			this.commands.add(msg);
 			this.currCmd = this.commands.size();
 
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());
 			this.dispose();

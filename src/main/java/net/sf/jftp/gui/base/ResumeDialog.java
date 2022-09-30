@@ -33,7 +33,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	private final JButton over = new JButton("Overwrite");
 	private net.sf.jftp.gui.base.dir.DirEntry dirEntry = null;
 
-	public ResumeDialog(final net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
+	public ResumeDialog(net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
 		super();
 		this.dirEntry = dirEntry;
 
@@ -42,10 +42,10 @@ public class ResumeDialog extends HFrame implements ActionListener {
 
 		this.resume.setEnabled(false);
 
-		final JTextArea text = new JTextArea();
+		JTextArea text = new JTextArea();
 		text.append("A file named " + dirEntry.file + " already exists.                       \n\n");
 
-		final File f = new File(JFtp.localDir.getPath() + dirEntry.file);
+		File f = new File(JFtp.localDir.getPath() + dirEntry.file);
 		long diff = 0;
 
 		diff = dirEntry.getRawSize() - f.length();
@@ -62,7 +62,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
 		this.getContentPane().add("Center", text);
 
-		final HPanel p = new HPanel();
+		HPanel p = new HPanel();
 		p.add(this.resume);
 		p.add(this.skip);
 		p.add(this.over);
@@ -78,7 +78,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.resume) {
 			this.dispose();
 			this.transfer();
@@ -87,7 +87,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 		} else if (e.getSource() == this.over) {
 			this.dispose();
 
-			final File f = new File(JFtp.localDir.getPath() + this.dirEntry.file);
+			File f = new File(JFtp.localDir.getPath() + this.dirEntry.file);
 			f.delete();
 
 			this.transfer();

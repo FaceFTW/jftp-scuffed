@@ -41,14 +41,14 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 
 		this.load(net.sf.jftp.config.Settings.bookmarks);
 
-		final JScrollPane jsp = new JScrollPane(this.info);
+		JScrollPane jsp = new JScrollPane(this.info);
 		this.getContentPane().add("Center", jsp);
 
-		final net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		//closeP.add(close);
-		final javax.swing.JButton save = new javax.swing.JButton("Save and close");
+		javax.swing.JButton save = new javax.swing.JButton("Save and close");
 		closeP.add(save);
 
 		this.close.addActionListener(this);
@@ -61,7 +61,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.close) {
 			this.dispose();
 		} else {
@@ -99,17 +99,17 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.info.append("SMB#(LAN)#guest#guest#-1#-#false\n\n");
 	}
 
-	private void load(final String file) {
+	private void load(String file) {
 		String data = "";
-		final StringBuilder now = new StringBuilder();
+		StringBuilder now = new StringBuilder();
 
 		try {
-			final DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
+			DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 
 			while (null != (data = in.readLine())) {
 				now.append(data).append("\n");
 			}
-		} catch (final IOException e) {
+		} catch (IOException e) {
 			net.sf.jftp.system.logging.Log.debug("No bookmarks.txt found, using defaults.");
 
 			this.setDefaultText();
@@ -120,20 +120,20 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.info.setText(now.toString());
 	}
 
-	private void save(final String file) {
+	private void save(String file) {
 		try {
-			final PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)));
+			PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)));
 
 			out.println(this.info.getText());
 			out.flush();
 			out.close();
-		} catch (final IOException e) {
+		} catch (IOException e) {
 			net.sf.jftp.system.logging.Log.debug(e + " @BookmarkManager.save()");
 		}
 	}
 
 	public Insets getInsets() {
-		final Insets std = super.getInsets();
+		Insets std = super.getInsets();
 
 		return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
 	}

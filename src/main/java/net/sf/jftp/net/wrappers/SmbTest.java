@@ -6,15 +6,15 @@ import jcifs.smb.SmbFile;
 
 public class SmbTest extends NtlmAuthenticator {
 
-	public SmbTest(final String[] argv) throws Exception {
+	public SmbTest(String[] argv) throws Exception {
 		super();
 		NtlmAuthenticator.setDefault(this);
 
-		final SmbFile file = new SmbFile(argv[0]);
+		SmbFile file = new SmbFile(argv[0]);
 
-		final SmbFile[] files = file.listFiles();
+		SmbFile[] files = file.listFiles();
 
-		for (final jcifs.smb.SmbFile smbFile : files) {
+		for (jcifs.smb.SmbFile smbFile : files) {
 			System.out.print("FILE: " + smbFile.getName());
 		}
 		System.out.println("EOL");
@@ -22,7 +22,7 @@ public class SmbTest extends NtlmAuthenticator {
 
 	public static String readLine() throws Exception {
 		int c;
-		final StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 		while ('\n' != (c = System.in.read())) {
 			if (-1 == c) return "";
 			sb.append((char) c);
@@ -30,7 +30,7 @@ public class SmbTest extends NtlmAuthenticator {
 		return sb.toString().trim();
 	}
 
-	public static void main(final String[] argv) throws Exception {
+	public static void main(String[] argv) throws Exception {
 		new SmbTest(new String[]{"smb://Cyberdemon/tv/"});
 	}
 
@@ -45,7 +45,7 @@ public class SmbTest extends NtlmAuthenticator {
 				return null;
 			}
 			return new NtlmPasswordAuthentication(null, username, password);
-		} catch (final Exception e) {
+		} catch (Exception e) {
 		}
 		return null;
 	}

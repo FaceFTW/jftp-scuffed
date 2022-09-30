@@ -27,32 +27,32 @@ public class Log {
 		super();
 	}
 
-	public static void setLogger(final Logger logger) {
+	public static void setLogger(Logger logger) {
 		Log.logger = logger;
 	}
 
-	public static void debug(final String msg) {
+	public static void debug(String msg) {
 		if (Settings.getDisableLog()) {
 			return;
 		}
-		net.sf.jftp.system.logging.Log.logger.debug(msg);
-		net.sf.jftp.system.logging.Log.cache.append(msg).append("\n");
+		logger.debug(msg);
+		cache.append(msg).append("\n");
 
 		if (!Settings.getEnableDebug()) System.out.println("> " + msg);
 	}
 
-	public static void debugRaw(final String msg) {
+	public static void debugRaw(String msg) {
 		if (Settings.getDisableLog()) {
 			return;
 		}
 
-		net.sf.jftp.system.logging.Log.logger.debugRaw(msg);
-		net.sf.jftp.system.logging.Log.cache.append(msg);
+		logger.debugRaw(msg);
+		cache.append(msg);
 
 		if (Settings.getEnableDebug()) System.out.print(msg);
 	}
 
-	public static void out(final String msg) {
+	public static void out(String msg) {
 		if (!Settings.getEnableDebug()) {
 			return;
 		}
@@ -60,15 +60,15 @@ public class Log {
 		System.out.println("> " + msg);
 	}
 
-	public static void devnull(final Object msg) {
+	public static void devnull(Object msg) {
 	}
 
 
 	public static String getCache() {
-		return net.sf.jftp.system.logging.Log.cache.toString();
+		return cache.toString();
 	}
 
 	public static void clearCache() {
-		net.sf.jftp.system.logging.Log.cache = new StringBuffer();
+		cache = new StringBuffer();
 	}
 }

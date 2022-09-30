@@ -26,7 +26,7 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 	private final net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
 	private String type = null;
 
-	public Remover(final String l, final String type) {
+	public Remover(String l, String type) {
 		super();
 		this.type = type;
 
@@ -36,7 +36,7 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
 
 		this.text = new net.sf.jftp.gui.framework.HTextField(l, "");
-		final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
+		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
 		okP.add(this.ok);
 		okP.add(this.cancel);
 		this.getContentPane().add("North", this.text);
@@ -47,7 +47,7 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.ok) {
 			this.setVisible(false);
 
@@ -57,7 +57,7 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 				tmp = tmp + "/";
 			}
 
-			final AutoRemover armv = new AutoRemover(tmp, this.type);
+			AutoRemover armv = new AutoRemover(tmp, this.type);
 
 			if (this.type.equals("local")) {
 				net.sf.jftp.JFtp.localUpdate();

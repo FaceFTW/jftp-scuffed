@@ -35,11 +35,11 @@ public class DirEntry {
 	static final Hashtable extensionMap = new Hashtable();
 
 	static {
-		for (final Object extension : net.sf.jftp.gui.base.dir.DirEntry.extensions) {
-			final String[] temp = (String[]) extension;
+		for (Object extension : extensions) {
+			String[] temp = (String[]) extension;
 
 			for (int j = 1; j < temp.length; j++) {
-				net.sf.jftp.gui.base.dir.DirEntry.extensionMap.put(temp[j], temp[0]);
+				extensionMap.put(temp[j], temp[0]);
 			}
 		}
 	}
@@ -59,7 +59,7 @@ public class DirEntry {
 	private int accessible = -1;
 	private boolean noRender = false;
 
-	public DirEntry(final String file, final ActionListener who) {
+	public DirEntry(String file, ActionListener who) {
 		super();
 		this.file = file;
 		this.who = who;
@@ -74,12 +74,12 @@ public class DirEntry {
 			f = f.substring(0, f.lastIndexOf(">"));
 		}
 
-		final int lastIndex = f.lastIndexOf(".");
+		int lastIndex = f.lastIndexOf(".");
 		String image = Settings.fileImage; // default
 
 		if (-1 != lastIndex) {
-			final String ext = f.substring(lastIndex);
-			final String tmp = (String) net.sf.jftp.gui.base.dir.DirEntry.extensionMap.get(ext.toLowerCase());
+			String ext = f.substring(lastIndex);
+			String tmp = (String) extensionMap.get(ext.toLowerCase());
 
 			if (null != tmp)
 			{
@@ -116,7 +116,7 @@ public class DirEntry {
 		return this.accessible;
 	}
 
-	public void setPermission(final int what) {
+	public void setPermission(int what) {
 		this.accessible = what;
 	}
 
@@ -132,7 +132,7 @@ public class DirEntry {
 		return this.selected;
 	}
 
-	public void setSelected(final boolean state) {
+	public void setSelected(boolean state) {
 		this.selected = state;
 	}
 
@@ -153,12 +153,12 @@ public class DirEntry {
 			return "";
 		}
 
-		final DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 
 		return df.format(this.date);
 	}
 
-	public void setDate(final Date d) {
+	public void setDate(Date d) {
 		this.date = d;
 	}
 
@@ -186,7 +186,7 @@ public class DirEntry {
 			type = "gb";
 		}
 
-		final StringBuilder x = new StringBuilder(Long.toString(rsize));
+		StringBuilder x = new StringBuilder(Long.toString(rsize));
 
 		while (4 > x.length()) {
 			x.insert(0, " ");
@@ -195,7 +195,7 @@ public class DirEntry {
 		return x + " " + type + " > ";
 	}
 
-	public void setFileSize(final long s) {
+	public void setFileSize(long s) {
 		this.size = s;
 	}
 
@@ -217,7 +217,7 @@ public class DirEntry {
 		return this.transferred;
 	}
 
-	public void setTransferred(final long transferred) {
+	public void setTransferred(long transferred) {
 		this.transferred = transferred;
 	}
 

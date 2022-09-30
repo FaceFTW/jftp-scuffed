@@ -22,7 +22,7 @@ import java.awt.*;
 public class BorderPanel extends JPanel {
 	public final boolean left = true;
 
-	public void paintComponent(final Graphics g) {
+	public void paintComponent(Graphics g) {
 		if (this.left) {
 			g.setColor(Color.black);
 			g.drawLine(2, 2, 2, this.getSize().height - 3);

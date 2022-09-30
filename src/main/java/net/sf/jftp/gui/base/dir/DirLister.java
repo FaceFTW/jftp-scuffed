@@ -42,20 +42,20 @@ public class DirLister implements ActionListener {
 	private String sortMode = null;
 	private Date[] dates = null;
 
-	public DirLister(final BasicConnection con) {
+	public DirLister(BasicConnection con) {
 		super();
 		this.con = con;
 		this.init();
 	}
 
-	public DirLister(final BasicConnection con, final String sortMode) {
+	public DirLister(BasicConnection con, String sortMode) {
 		super();
 		this.con = con;
 		this.sortMode = sortMode;
 		this.init();
 	}
 
-	public DirLister(final BasicConnection con, final String sortMode, final boolean hide) {
+	public DirLister(BasicConnection con, String sortMode, boolean hide) {
 		super();
 		this.con = con;
 		this.sortMode = sortMode;
@@ -71,9 +71,9 @@ public class DirLister implements ActionListener {
 				}
 			}
 
-			final String[] newFiles = new String[cnt];
-			final String[] newSizes = new String[cnt];
-			final int[] newPerms = new int[cnt];
+			String[] newFiles = new String[cnt];
+			String[] newSizes = new String[cnt];
+			int[] newPerms = new int[cnt];
 
 			int idx = 0;
 			for (int i = 0; i < this.files.length; i++) {
@@ -96,7 +96,7 @@ public class DirLister implements ActionListener {
 
 	public void init() {
 		try {
-			final String outfile = Settings.ls_out;
+			String outfile = Settings.ls_out;
 
 			this.con.list();
 			this.files = this.con.sortLs();
@@ -115,7 +115,7 @@ public class DirLister implements ActionListener {
 			} else if (null == this.sortMode) {
 				this.sortFirst();
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			this.isDirectory = false;
 		}
@@ -123,10 +123,10 @@ public class DirLister implements ActionListener {
 		this.finished = true;
 	}
 
-	private void sort(final String type) {
-		final Vector fv = new Vector();
-		final Vector sv = new Vector();
-		final Vector pv = new Vector();
+	private void sort(String type) {
+		Vector fv = new Vector();
+		Vector sv = new Vector();
+		Vector pv = new Vector();
 
 		if (type.equals("Reverse")) {
 			for (int i = 0; i < this.length; i++) {
@@ -140,8 +140,8 @@ public class DirLister implements ActionListener {
 
 			fv.sort(java.util.Collections.reverseOrder());
 
-			final Object[] filesTmp = fv.toArray();
-			final Object[] sizesTmp = sv.toArray();
+			Object[] filesTmp = fv.toArray();
+			Object[] sizesTmp = sv.toArray();
 			Object[] permsTmp = null;
 
 			if (null != this.perms) {
@@ -158,8 +158,8 @@ public class DirLister implements ActionListener {
 			}
 		} else if (type.startsWith("Size")) {
 			int cnt = 0;
-			final Hashtable processed = new Hashtable();
-			final boolean reverse = type.endsWith("/Re");
+			Hashtable processed = new Hashtable();
+			boolean reverse = type.endsWith("/Re");
 
 			while (cnt < this.length) {
 				int idx = 0;
@@ -174,7 +174,7 @@ public class DirLister implements ActionListener {
 						continue;
 					}
 
-					final int si = Integer.parseInt(this.sizes[i]);
+					int si = Integer.parseInt(this.sizes[i]);
 
 					if (!reverse && (si >= current)) {
 						idx = i;
@@ -226,14 +226,14 @@ public class DirLister implements ActionListener {
 
 			for (int j = 0; j < date.length; j++) {
 				for (int i = 0; i < date.length; i++) {
-					final Date x = (Date) date[i];
+					Date x = (Date) date[i];
 
 					if (i == (date.length - 1)) {
 						break;
 					}
 
 					if (this.comp(x, (Date) date[i + 1])) {
-						final Date swp = (Date) date[i + 1];
+						Date swp = (Date) date[i + 1];
 						date[i + 1] = x;
 						date[i] = swp;
 
@@ -247,8 +247,8 @@ public class DirLister implements ActionListener {
 						this.sizes[i] = s1;
 						this.sizes[i + 1] = s2;
 
-						final int s3 = this.perms[i + 1];
-						final int s4 = this.perms[i];
+						int s3 = this.perms[i + 1];
+						int s4 = this.perms[i];
 						this.perms[i] = s3;
 						this.perms[i + 1] = s4;
 					}
@@ -266,12 +266,12 @@ public class DirLister implements ActionListener {
 		}
 	}
 
-	private boolean comp(final Date one, final Date two) {
-		final Calendar c = new GregorianCalendar();
+	private boolean comp(Date one, Date two) {
+		Calendar c = new GregorianCalendar();
 		c.clear();
 		c.setTime(one);
 
-		final Calendar c2 = new GregorianCalendar();
+		Calendar c2 = new GregorianCalendar();
 		c2.clear();
 		c2.setTime(two);
 
@@ -279,7 +279,7 @@ public class DirLister implements ActionListener {
 	}
 
 	public void sortFirst() {
-		final String[] tmpx = new String[this.length];
+		String[] tmpx = new String[this.length];
 
 		for (int x = 0; x < this.length; x++) {
 			if (null != this.perms) {
@@ -295,7 +295,7 @@ public class DirLister implements ActionListener {
 		for (int y = 0; y < this.length; y++) {
 			this.files[y] = tmpx[y].substring(0, tmpx[y].indexOf("@@@"));
 
-			final String tmp = tmpx[y].substring(tmpx[y].indexOf("@@@") + 3);
+			String tmp = tmpx[y].substring(tmpx[y].indexOf("@@@") + 3);
 			this.sizes[y] = tmp.substring(0, tmp.lastIndexOf("@@@"));
 
 			if (null != this.perms) {
@@ -304,7 +304,7 @@ public class DirLister implements ActionListener {
 		}
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 	}
 
 	public boolean isOk() {

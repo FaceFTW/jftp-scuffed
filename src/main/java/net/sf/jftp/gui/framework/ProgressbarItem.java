@@ -8,7 +8,7 @@ public class ProgressbarItem extends JPanel {
 	private final net.sf.jftp.gui.base.dir.DirEntry d;
 	private final JProgressBar bar = new JProgressBar();
 
-	public ProgressbarItem(final net.sf.jftp.gui.base.dir.DirEntry d) {
+	public ProgressbarItem(net.sf.jftp.gui.base.dir.DirEntry d) {
 		super();
 		this.d = d;
 		this.setLayout(new BorderLayout(2, 2));
@@ -22,7 +22,7 @@ public class ProgressbarItem extends JPanel {
 		this.setSize(300, 25);
 	}
 
-	public void update(long size, long max, final String lbl) {
+	public void update(long size, long max, String lbl) {
 
 		while (Integer.MAX_VALUE < max) {
 			max = max / 1000;
@@ -57,7 +57,7 @@ public class ProgressbarItem extends JPanel {
 	}
 
 	public Insets getInsets() {
-		final Insets in = super.getInsets();
+		Insets in = super.getInsets();
 		return new Insets(in.top + 3, in.left + 3, in.bottom + 3, in.right + 3);
 	}
 

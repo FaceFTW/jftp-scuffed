@@ -22,10 +22,10 @@ import java.io.PrintStream;
 public class SaveSet {
 	private PrintStream out = null;
 
-	public SaveSet(final String file, final String host, final String user, final String pass, final String name, final String port) {
+	public SaveSet(String file, String host, String user, String pass, String name, String port) {
 		super();
 		try {
-			final FileOutputStream fos;
+			FileOutputStream fos;
 			this.out = new PrintStream((fos = new FileOutputStream(file)));
 			this.out.println(host);
 			this.out.println(user);
@@ -39,12 +39,12 @@ public class SaveSet {
 			this.out.println(name);
 			this.out.println(port);
 			fos.close();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public SaveSet(final String file, final String host, final String user, final String pass, final String port, final String cwd, final String lcwd) {
+	public SaveSet(String file, String host, String user, String pass, String port, String cwd, String lcwd) {
 		super();
 		try {
 			this.out = new PrintStream(new FileOutputStream(file));
@@ -60,7 +60,7 @@ public class SaveSet {
 			this.out.println(port);
 			this.out.println(cwd);
 			this.out.println(lcwd);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -71,18 +71,18 @@ public class SaveSet {
 	//***all of these constructors is put in a private method
 	//*** file: the file name
 	//*** lsCMD: the FTP LIST command to be saved
-	public SaveSet(final String file, final String lsCmd) {
+	public SaveSet(String file, String lsCmd) {
 		super();
 		try {
 			this.out = new PrintStream(new FileOutputStream(file));
 			this.out.println(lsCmd);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	private void savePW(final String pass, final PrintStream out) throws Exception {
-		final String coded = Crypto.Encrypt(pass);
+	private void savePW(String pass, PrintStream out) throws Exception {
+		String coded = Crypto.Encrypt(pass);
 		if ("" == coded) {
 			// we failed to encrypt for some reason, so lets just save it
 			out.println(pass);

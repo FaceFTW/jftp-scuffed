@@ -28,29 +28,29 @@ public class JRawConnection implements Runnable {
 	private boolean established = false;
 	private boolean reciever = false;
 
-	public JRawConnection(final String host, final int port, final boolean reciever) {
+	public JRawConnection(String host, int port, boolean reciever) {
 		super();
 		this.host = host;
 		this.port = port;
 		this.reciever = reciever;
 
-		final Thread runner = new Thread(this);
+		Thread runner = new Thread(this);
 		runner.start();
 	}
 
 	public void run() {
 		try {
-			final java.net.Socket s = new java.net.Socket(this.host, this.port);
+			java.net.Socket s = new java.net.Socket(this.host, this.port);
 
 			this.out = new PrintStream(s.getOutputStream());
-			final java.io.DataInputStream in = new java.io.DataInputStream(s.getInputStream());
+			java.io.DataInputStream in = new java.io.DataInputStream(s.getInputStream());
 
 			if (this.reciever) {
-				final JReciever jrcv = new JReciever(in);
+				JReciever jrcv = new JReciever(in);
 			}
 
 			this.isOk = true;
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			this.isOk = false;
 		}
 
@@ -69,18 +69,18 @@ public class JRawConnection implements Runnable {
 		return this.isOk;
 	}
 
-	public void send(final String data) {
+	public void send(String data) {
 		try {
 			this.out.println(data);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			System.out.println(ex + "@JConnection.send()");
 		}
 	}
 
-	private void pause(final int time) {
+	private void pause(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			System.out.println(ex);
 		}
 	}

@@ -52,7 +52,7 @@ public class HostList extends JDialog {
 	 *
 	 * @param parent The parent JDialog
 	 */
-	public HostList(final JDialog parent) {
+	public HostList(JDialog parent) {
 		super(parent);
 		final String promptDialogTitle = " J-FTP Host Selection ";
 		this.setTitle(promptDialogTitle);
@@ -146,22 +146,22 @@ public class HostList extends JDialog {
 		this.jtfName = new JTextField(20);
 		this.jtfPort = new JTextField(20);
 		final String promptHost = " Host : ";
-		final javax.swing.JLabel jlHost = new javax.swing.JLabel(promptHost);
+		javax.swing.JLabel jlHost = new javax.swing.JLabel(promptHost);
 		final String promptUser = " User : ";
-		final javax.swing.JLabel jlUser = new javax.swing.JLabel(promptUser);
+		javax.swing.JLabel jlUser = new javax.swing.JLabel(promptUser);
 		final String promptPass = " Password : ";
-		final javax.swing.JLabel jlPass = new javax.swing.JLabel(promptPass);
+		javax.swing.JLabel jlPass = new javax.swing.JLabel(promptPass);
 		final String promptName = " Name : ";
-		final javax.swing.JLabel jlName = new javax.swing.JLabel(promptName);
+		javax.swing.JLabel jlName = new javax.swing.JLabel(promptName);
 		final String promptPort = " Port : ";
-		final javax.swing.JLabel jlPort = new javax.swing.JLabel(promptPort);
+		javax.swing.JLabel jlPort = new javax.swing.JLabel(promptPort);
 
 		this.jpHostInfo = new JPanel();
 
-		final GridBagLayout gbl = new GridBagLayout();
+		GridBagLayout gbl = new GridBagLayout();
 		this.jpHostInfo.setLayout(gbl);
 
-		final GridBagConstraints gbc = new GridBagConstraints();
+		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.weightx = 0.0;
@@ -218,21 +218,21 @@ public class HostList extends JDialog {
 	protected void initHostListFrame() {
 		this.hostListModel = new DefaultListModel();
 		this.hostList = new JList(this.hostListModel);
-		final javax.swing.JScrollPane jscrollpane = new javax.swing.JScrollPane(this.hostList);
+		javax.swing.JScrollPane jscrollpane = new javax.swing.JScrollPane(this.hostList);
 
-		final JPanel jptempleft = new JPanel(new BorderLayout());
+		JPanel jptempleft = new JPanel(new BorderLayout());
 		jptempleft.add(jscrollpane, BorderLayout.CENTER);
 
-		final JPanel jptempbutt = new JPanel(new FlowLayout());
+		JPanel jptempbutt = new JPanel(new FlowLayout());
 		jptempbutt.add(this.jbnew);
 		jptempbutt.add(this.jbdelete);
 		jptempleft.add(jptempbutt, BorderLayout.SOUTH);
 
-		final JPanel jptemp = new JPanel(new BorderLayout());
+		JPanel jptemp = new JPanel(new BorderLayout());
 		jptemp.add(this.jpbuttons, BorderLayout.SOUTH);
 		jptemp.add(this.jpHostInfo, BorderLayout.CENTER);
 
-		final javax.swing.JSplitPane jsplitpane = new javax.swing.JSplitPane(javax.swing.JSplitPane.HORIZONTAL_SPLIT, jptempleft, jptemp);
+		javax.swing.JSplitPane jsplitpane = new javax.swing.JSplitPane(javax.swing.JSplitPane.HORIZONTAL_SPLIT, jptempleft, jptemp);
 		this.getContentPane().add(jsplitpane);
 	}
 
@@ -245,8 +245,8 @@ public class HostList extends JDialog {
 		int i = 0;
 
 		while (0 <= i) {
-			final String filename = net.sf.jftp.config.Settings.login.concat(String.valueOf(i));
-			final String[] host_info = net.sf.jftp.config.LoadSet.loadSet(filename);
+			String filename = net.sf.jftp.config.Settings.login.concat(String.valueOf(i));
+			String[] host_info = net.sf.jftp.config.LoadSet.loadSet(filename);
 
 			if ((null == host_info) || (1 == host_info.length)) {
 				// no file was loaded, break out.
@@ -255,7 +255,7 @@ public class HostList extends JDialog {
 				continue;
 			}
 
-			final net.sf.jftp.gui.base.FtpHost ftpHost = new net.sf.jftp.gui.base.FtpHost();
+			net.sf.jftp.gui.base.FtpHost ftpHost = new net.sf.jftp.gui.base.FtpHost();
 
 			try {
 				ftpHost.hostname = host_info[0];
@@ -263,7 +263,7 @@ public class HostList extends JDialog {
 				ftpHost.password = host_info[2];
 				ftpHost.name = host_info[3];
 				ftpHost.port = host_info[4];
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			} catch (ArrayIndexOutOfBoundsException aioobe) {
 				// do nothing, this can happen
 			}
 
@@ -283,7 +283,7 @@ public class HostList extends JDialog {
 	 * Delete button handler
 	 */
 	public void onDelete() {
-		final Object selected = this.hostList.getSelectedValue();
+		Object selected = this.hostList.getSelectedValue();
 		this.hostListModel.removeElement(selected);
 		this.selectedHostInfo = null;
 
@@ -307,7 +307,7 @@ public class HostList extends JDialog {
 		int i = 0;
 
 		while (true) {
-			final File f = new File(net.sf.jftp.config.Settings.login.concat(String.valueOf(i)));
+			File f = new File(net.sf.jftp.config.Settings.login.concat(String.valueOf(i)));
 
 			if (f.exists()) {
 				f.delete();
@@ -317,16 +317,16 @@ public class HostList extends JDialog {
 			}
 		}
 
-		final int len = this.hostListModel.size();
+		int len = this.hostListModel.size();
 
 		for (i = 0; i < len; i++) {
-			final net.sf.jftp.gui.base.FtpHost ftphost = (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(i);
-			final String htmp = net.sf.jftp.system.StringUtils.cut(ftphost.hostname, " ");
-			final String utmp = net.sf.jftp.system.StringUtils.cut(ftphost.username, " ");
-			final String ptmp = net.sf.jftp.system.StringUtils.cut(ftphost.password, " ");
-			final String ntmp = net.sf.jftp.system.StringUtils.cut(ftphost.name, " ");
-			final String ttmp = net.sf.jftp.system.StringUtils.cut(ftphost.port, " ");
-			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login.concat(String.valueOf(i)), htmp, utmp, ptmp, ntmp, ttmp);
+			net.sf.jftp.gui.base.FtpHost ftphost = (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(i);
+			String htmp = net.sf.jftp.system.StringUtils.cut(ftphost.hostname, " ");
+			String utmp = net.sf.jftp.system.StringUtils.cut(ftphost.username, " ");
+			String ptmp = net.sf.jftp.system.StringUtils.cut(ftphost.password, " ");
+			String ntmp = net.sf.jftp.system.StringUtils.cut(ftphost.name, " ");
+			String ttmp = net.sf.jftp.system.StringUtils.cut(ftphost.port, " ");
+			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login.concat(String.valueOf(i)), htmp, utmp, ptmp, ntmp, ttmp);
 		}
 
 		this.hostList.repaint();
@@ -353,7 +353,7 @@ public class HostList extends JDialog {
 	 * Create a default one and stuff itin the list
 	 */
 	public void onNew() {
-		final net.sf.jftp.gui.base.FtpHost ftpHost = new net.sf.jftp.gui.base.FtpHost();
+		net.sf.jftp.gui.base.FtpHost ftpHost = new net.sf.jftp.gui.base.FtpHost();
 		ftpHost.name = "undefined";
 		ftpHost.username = "undefined";
 		ftpHost.hostname = "undefined";
@@ -368,7 +368,7 @@ public class HostList extends JDialog {
 	 * Returns the selected FtpHost from the hostList
 	 */
 	private net.sf.jftp.gui.base.FtpHost getSelected() {
-		final int sel = this.hostList.getSelectedIndex();
+		int sel = this.hostList.getSelectedIndex();
 
 		if ((0 > sel) || (sel > (this.hostListModel.size() - 1))) {
 			return null;

@@ -33,7 +33,7 @@ public class DirCanvas extends JPanel implements MouseListener {
 	boolean active = false;
 
 
-	public DirCanvas(final Dir target) {
+	public DirCanvas(Dir target) {
 		super();
 		this.target = target;
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -42,44 +42,44 @@ public class DirCanvas extends JPanel implements MouseListener {
 		this.setVisible(true);
 	}
 
-	public void mouseClicked(final MouseEvent e) {
+	public void mouseClicked(MouseEvent e) {
 		if (this.target.getType().equals("local") || this.target.getCon() instanceof FilesystemConnection) {
-			final String tmp = UITool.getPathFromDialog(Settings.defaultWorkDir);
+			String tmp = UITool.getPathFromDialog(Settings.defaultWorkDir);
 
 			if (null != tmp) {
 				this.target.setPath(tmp);
 				this.target.fresh();
 			}
 		} else {
-			final PathChanger p = new PathChanger("remote");
+			PathChanger p = new PathChanger("remote");
 			this.target.fresh();
 		}
 	}
 
-	public void mousePressed(final MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 	}
 
-	public void mouseReleased(final MouseEvent e) {
+	public void mouseReleased(MouseEvent e) {
 	}
 
-	public void mouseEntered(final MouseEvent e) {
+	public void mouseEntered(MouseEvent e) {
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		this.active = true;
 		this.repaint();
 	}
 
-	public void mouseExited(final MouseEvent e) {
+	public void mouseExited(MouseEvent e) {
 		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		this.active = false;
 		this.repaint();
 	}
 
-	public void setText(final String msg) {
+	public void setText(String msg) {
 		this.text.setText(msg);
 		this.validate();
 	}
 
-	public void paintComponent(final Graphics g) {
+	public void paintComponent(Graphics g) {
 		if (!this.active) {
 			g.setColor(GUIDefaults.light);
 		} else {
@@ -92,7 +92,7 @@ public class DirCanvas extends JPanel implements MouseListener {
 	}
 
 	public Insets getInsets() {
-		final Insets in = super.getInsets();
+		Insets in = super.getInsets();
 
 		return new Insets(in.top, in.left, in.bottom, in.right);
 	}

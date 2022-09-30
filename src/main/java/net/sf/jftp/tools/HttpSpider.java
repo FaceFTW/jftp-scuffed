@@ -51,12 +51,12 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	private String[] argv;
 	private boolean stopflag = false;
 
-	public HttpSpider(final String localDir) {
+	public HttpSpider(String localDir) {
 		super();
 		this.localDir = localDir;
 		this.setLayout(new BorderLayout());
 
-		final javax.swing.JPanel p1 = new javax.swing.JPanel();
+		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.setLayout(new GridLayout(4, 1, 5, 5));
 		p1.add(this.host);
 		p1.add(this.type);
@@ -64,7 +64,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		this.dir.setText(localDir);
 		p1.add(this.dir);
 		this.add("Center", p1);
-		final javax.swing.JPanel okP = new javax.swing.JPanel();
+		javax.swing.JPanel okP = new javax.swing.JPanel();
 		this.add("South", okP);
 		okP.add(this.ok);
 		this.ok.addActionListener(this);
@@ -72,7 +72,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.ok) {
 			this.localDir = this.dir.getText();
 
@@ -89,7 +89,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			net.sf.jftp.JFtp.statusP.jftp.setClosable(this.hashCode(), false);
 			this.validate();
 
-			final Thread runner = new Thread(this);
+			Thread runner = new Thread(this);
 			runner.start();
 		} else if (e.getSource() == this.stop) {
 			this.stopflag = true;
@@ -109,7 +109,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		net.sf.jftp.JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
 	}
 
-	private void spider(final String[] argv) {
+	private void spider(String[] argv) {
 		try {
 			String url = "http://j-ftp.sourceforge.net/index.html";
 
@@ -124,7 +124,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 				net.sf.jftp.system.logging.Log.debugRaw(">>> Scanning for ");
 
-				for (final String s : this.typeArray) {
+				for (String s : this.typeArray) {
 					net.sf.jftp.system.logging.Log.debugRaw(s + " ");
 				}
 
@@ -141,7 +141,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			net.sf.jftp.system.logging.Log.debug("Fetching initial HTML file...");
 
-			final Holer sammy = new Holer(this.localDir);
+			Holer sammy = new Holer(this.localDir);
 			sammy.bringAnStart(url, true);
 
 			if (this.stopflag) {
@@ -157,13 +157,13 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			}
 
 			this.smoke(url);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
 	private String clear(String url) {
-		final int idx = url.indexOf("http://");
+		int idx = url.indexOf("http://");
 
 		if (0 <= idx) {
 			url = url.substring(7);
@@ -172,11 +172,11 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		return url;
 	}
 
-	private Vector addVector(final Vector v, final Vector x) {
-		final Enumeration e = x.elements();
+	private Vector addVector(Vector v, Vector x) {
+		Enumeration e = x.elements();
 
 		while (e.hasMoreElements()) {
-			final String next = (String) e.nextElement();
+			String next = (String) e.nextElement();
 			v.add(next);
 		}
 
@@ -190,31 +190,31 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 		url = this.clear(url);
 
-		final Holer sammy = new Holer(this.localDir);
-		final String zeug = sammy.holZeug(url);
+		Holer sammy = new Holer(this.localDir);
+		String zeug = sammy.holZeug(url);
 
 		Vector m = this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "href=\"");
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "src=\""));
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
 
-		final Enumeration mischen = m.elements();
+		Enumeration mischen = m.elements();
 
 		while (mischen.hasMoreElements()) {
 			if (this.stopflag) {
 				return;
 			}
 
-			final String next = (String) mischen.nextElement();
+			String next = (String) mischen.nextElement();
 
 			net.sf.jftp.system.logging.Log.out("Processing: " + next);
 
-			for (final String s : this.typeArray) {
+			for (String s : this.typeArray) {
 				if (next.endsWith(s) || s.trim().equals("*")) {
-					final int x = next.indexOf("/");
+					int x = next.indexOf("/");
 
 					if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
-						final net.sf.jftp.tools.Holer nochnsammy = new net.sf.jftp.tools.Holer(this.localDir);
+						net.sf.jftp.tools.Holer nochnsammy = new net.sf.jftp.tools.Holer(this.localDir);
 						nochnsammy.bringAnStart(next, false);
 
 						if (this.stopflag) {
@@ -231,7 +231,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 					return;
 				}
 
-				final int x = next.indexOf("/");
+				int x = next.indexOf("/");
 
 				if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
 					this.currentDepth++;
@@ -242,8 +242,8 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		}
 	}
 
-	private Vector sortiermal(String zeug, final String url, final String index) {
-		final Vector mischen = new Vector();
+	private Vector sortiermal(String zeug, String url, String index) {
+		Vector mischen = new Vector();
 		int wo = 0;
 
 		while (true) {
@@ -263,9 +263,9 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		}
 	}
 
-	private String[] check(final String auswahl) {
-		final StringTokenizer flyer = new StringTokenizer(auswahl, "-", false);
-		final String[] einkauf = new String[flyer.countTokens()];
+	private String[] check(String auswahl) {
+		StringTokenizer flyer = new StringTokenizer(auswahl, "-", false);
+		String[] einkauf = new String[flyer.countTokens()];
 		int tmp = 0;
 
 		while (flyer.hasMoreElements()) {
@@ -276,7 +276,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		return einkauf;
 	}
 
-	private String checker(String was, final String url) {
+	private String checker(String was, String url) {
 		was = this.clear(was);
 
 		if (was.startsWith(url)) {
@@ -288,7 +288,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		} else if (was.startsWith("/") && (!url.contains("/"))) {
 			was = url + was;
 		} else if ((0 < was.indexOf("."))) {
-			final int idx = was.indexOf("/");
+			int idx = was.indexOf("/");
 			String tmp = "";
 
 			if (0 <= idx) {
@@ -320,31 +320,31 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 class Holer {
 	private String localDir = null;
 
-	public Holer(final String localDir) {
+	public Holer(String localDir) {
 		super();
 		this.localDir = localDir;
 	}
 
-	private static void chill(final int time) {
+	private static void chill(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 	}
 
-	public String holZeug(final String wat) {
+	public String holZeug(String wat) {
 		try {
-			final String dealer = wat.substring(0, wat.indexOf("/"));
-			final String wo = wat.substring(wat.indexOf("/"));
-			final StringBuilder zeug = new StringBuilder();
+			String dealer = wat.substring(0, wat.indexOf("/"));
+			String wo = wat.substring(wat.indexOf("/"));
+			StringBuilder zeug = new StringBuilder();
 
 			net.sf.jftp.system.logging.Log.out(">> " + dealer + wo);
 
-			final Socket deal = new Socket(dealer, 80);
+			Socket deal = new Socket(dealer, 80);
 			deal.setSoTimeout(5000);
 
-			final BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-			final BufferedReader checkung = new BufferedReader(new InputStreamReader(deal.getInputStream()));
+			BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			BufferedReader checkung = new BufferedReader(new InputStreamReader(deal.getInputStream()));
 
 			order.write("GET http://" + wat + " HTTP/1.0\n\n");
 			order.flush();
@@ -352,7 +352,7 @@ class Holer {
 			int len = 0;
 
 			while (!checkung.ready() && (5000 > len)) {
-				net.sf.jftp.tools.Holer.chill(100);
+				chill(100);
 				len += 100;
 			}
 
@@ -364,24 +364,24 @@ class Holer {
 			checkung.close();
 
 			return zeug.toString();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
 		return "";
 	}
 
-	public void bringAnStart(final String wat, final boolean force) {
+	public void bringAnStart(String wat, boolean force) {
 		try {
-			final String dealer = wat.substring(0, wat.indexOf("/"));
-			final String wo = wat.substring(wat.indexOf("/"));
+			String dealer = wat.substring(0, wat.indexOf("/"));
+			String wo = wat.substring(wat.indexOf("/"));
 
 			net.sf.jftp.system.logging.Log.debug(">>> " + dealer + wo);
 
-			final File d = new File(this.localDir);
+			File d = new File(this.localDir);
 			d.mkdir();
 
-			final File f = new File(this.localDir + wo.substring(wo.lastIndexOf("/") + 1));
+			File f = new File(this.localDir + wo.substring(wo.lastIndexOf("/") + 1));
 
 			if (f.exists() && !force) {
 				net.sf.jftp.system.logging.Log.debug(">>> file already exists...");
@@ -391,13 +391,13 @@ class Holer {
 				f.delete();
 			}
 
-			final Socket deal = new Socket(dealer, 80);
-			final BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-			final DataInputStream checkung = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
+			Socket deal = new Socket(dealer, 80);
+			BufferedWriter order = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			DataInputStream checkung = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
 
-			final BufferedOutputStream vorrat = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf("/") + 1)));
+			BufferedOutputStream vorrat = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf("/") + 1)));
 
-			final byte[] alu = new byte[2048];
+			byte[] alu = new byte[2048];
 
 			order.write("GET http://" + wat + " HTTP/1.0\n\n");
 			order.flush();
@@ -405,12 +405,12 @@ class Holer {
 			boolean line = true;
 
 			while (true) {
-				net.sf.jftp.tools.Holer.chill(10);
+				chill(10);
 
-				final StringBuilder tmp = new StringBuilder();
+				StringBuilder tmp = new StringBuilder();
 
 				while (line) {
-					final String x = checkung.readLine();
+					String x = checkung.readLine();
 
 					if (null == x) {
 						break;
@@ -423,7 +423,7 @@ class Holer {
 					}
 				}
 
-				final int x = checkung.read(alu);
+				int x = checkung.read(alu);
 
 				if (-1 == x) {
 					if (line) {
@@ -440,7 +440,7 @@ class Holer {
 					vorrat.write(alu, 0, x);
 				}
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

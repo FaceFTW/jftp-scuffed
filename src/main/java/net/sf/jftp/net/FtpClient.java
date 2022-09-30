@@ -25,16 +25,16 @@ public class FtpClient {
 		super();
 	}
 
-	public void login(final String host) {
+	public void login(String host) {
 		this.connection = new FtpConnection(host);
 		this.connection.login(this.name, this.password);
 	}
 
-	public void setUsername(final String s) {
+	public void setUsername(String s) {
 		this.name = s;
 	}
 
-	public void setPassword(final String s) {
+	public void setPassword(String s) {
 		this.password = s;
 	}
 
@@ -44,7 +44,7 @@ public class FtpClient {
 		}
 	}
 
-	public void cd(final String s) {
+	public void cd(String s) {
 		if (null != this.connection) {
 			this.connection.chdir(s);
 		}
@@ -58,13 +58,13 @@ public class FtpClient {
 		}
 	}
 
-	public void get(final String file) {
+	public void get(String file) {
 		if (null != this.connection) {
 			this.connection.handleDownload(file);
 		}
 	}
 
-	public void put(final String file) {
+	public void put(String file) {
 		if (null != this.connection) {
 			this.connection.handleUpload(file);
 		}

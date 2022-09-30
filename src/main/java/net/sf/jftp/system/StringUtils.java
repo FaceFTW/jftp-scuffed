@@ -25,10 +25,10 @@ public class StringUtils {
 		if (s.length() > maxlabel) {
 			while (s.contains("/")) {
 
-				s = StringUtils.cutAfter(s, '/');
+				s = cutAfter(s, '/');
 
 				if (16 > s.length()) {
-					final StringBuilder sb = new StringBuilder(s);
+					StringBuilder sb = new StringBuilder(s);
 					sb.insert(0, ".../");
 
 					return sb.toString();
@@ -42,9 +42,9 @@ public class StringUtils {
 	/**
 	 * Removes the a string at the beginning of a string
 	 */
-	public static String removeStart(final String str, final String what) {
+	public static String removeStart(String str, String what) {
 		if (str.startsWith(what)) {
-			final int x = what.length();
+			int x = what.length();
 
 			return str.substring(x);
 		} else {
@@ -55,7 +55,7 @@ public class StringUtils {
 	/**
 	 * Returns the rest of a string after a given character
 	 */
-	public static String cutAfter(final String str, final char c) {
+	public static String cutAfter(String str, char c) {
 		for (int i = 0; i < str.length(); i++) {
 			if (str.charAt(i) == c) {
 				//   System.out.println(str.substring(i+1));
@@ -70,9 +70,9 @@ public class StringUtils {
 	 * Used to search for return codes in a string array.
 	 * Returns the first one found
 	 */
-	public static String contains(final String[] tmp, final String[] str) {
-		for (final String value : tmp) {
-			for (final String s : str) {
+	public static String contains(String[] tmp, String[] str) {
+		for (String value : tmp) {
+			for (String s : str) {
 				if (value.startsWith(s)) {
 					return value;
 				}
@@ -85,7 +85,7 @@ public class StringUtils {
 	/**
 	 * Returns true if the given string contains the given character
 	 */
-	public static boolean strstr(final String tmp, final char str) {
+	public static boolean strstr(String tmp, char str) {
 		for (int i = 0; i < tmp.length(); i++) {
 			if (tmp.charAt(i) == str) {
 				return true;
@@ -98,8 +98,8 @@ public class StringUtils {
 	/**
 	 * Returns a string representing a given character
 	 */
-	public static String string(final char c) {
-		final char[] buf = new char[1];
+	public static String string(char c) {
+		char[] buf = new char[1];
 		buf[0] = c;
 
 		return new String(buf);
@@ -151,7 +151,7 @@ public class StringUtils {
 		return tmp;
 	}
 
-	public static boolean isRelative(final String file) {
+	public static boolean isRelative(String file) {
 		if (file.startsWith("/")) {
 			return false;
 		}
@@ -159,29 +159,29 @@ public class StringUtils {
 		return (2 >= file.length()) || (':' != file.charAt(1));
 
 	}
-	public static void main(final String[] argv) {
+	public static void main(String[] argv) {
 		final String a1 = "E:\\programme\\test.html";
 		final String a2 = "programme\\test.html";
 		final String a3 = "test.html";
 		final String a4 = "/programme/test.html";
 		final String a5 = "programme/test.html";
 
-		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a1) + " - false, " + net.sf.jftp.system.StringUtils.isRelative(a1));
-		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a2) + " - true, " + net.sf.jftp.system.StringUtils.isRelative(a2));
-		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a3) + " - true, " + net.sf.jftp.system.StringUtils.isRelative(a3));
-		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a4) + " - false, " + net.sf.jftp.system.StringUtils.isRelative(a4));
-		System.out.println("getfile: " + net.sf.jftp.system.StringUtils.getFile(a5) + " - true, " + net.sf.jftp.system.StringUtils.isRelative(a5));
+		System.out.println("getfile: " + getFile(a1) + " - false, " + isRelative(a1));
+		System.out.println("getfile: " + getFile(a2) + " - true, " + isRelative(a2));
+		System.out.println("getfile: " + getFile(a3) + " - true, " + isRelative(a3));
+		System.out.println("getfile: " + getFile(a4) + " - false, " + isRelative(a4));
+		System.out.println("getfile: " + getFile(a5) + " - true, " + isRelative(a5));
 	}
 
-	public static String cut(final String tmp, final String where) {
-		final StringBuilder ret = new StringBuilder();
+	public static String cut(String tmp, String where) {
+		StringBuilder ret = new StringBuilder();
 
 		for (int i = 0; i < tmp.length(); i++) {
-			if (!net.sf.jftp.system.StringUtils.string(tmp.charAt(i)).equals(where)) {
-				ret.append(net.sf.jftp.system.StringUtils.string(tmp.charAt(i)));
+			if (!string(tmp.charAt(i)).equals(where)) {
+				ret.append(string(tmp.charAt(i)));
 			}
 
-			if (net.sf.jftp.system.StringUtils.string(tmp.charAt(i)).equals(where)) {
+			if (string(tmp.charAt(i)).equals(where)) {
 				return ret.toString();
 			}
 		}

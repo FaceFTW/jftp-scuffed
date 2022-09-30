@@ -48,11 +48,11 @@ public class RemoteCommand extends HFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			this.setVisible(false);
 
-			final String cmd = this.text.getText();
+			String cmd = this.text.getText();
 			Log.debug("-> " + cmd);
 			JFtp.remoteDir.getCon().sendRawCommand(cmd);
 
@@ -62,13 +62,13 @@ public class RemoteCommand extends HFrame implements ActionListener {
 				return;
 			}
 
-			final JDialog j = new JDialog();
+			JDialog j = new JDialog();
 			j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			j.setTitle("Command response");
 			j.setLocation(150, 150);
 
-			final JTextArea t = new JTextArea();
-			final JScrollPane logSp = new JScrollPane(t);
+			JTextArea t = new JTextArea();
+			JScrollPane logSp = new JScrollPane(t);
 			logSp.setMinimumSize(new Dimension(300, 200));
 
 			t.setText(Log.getCache());

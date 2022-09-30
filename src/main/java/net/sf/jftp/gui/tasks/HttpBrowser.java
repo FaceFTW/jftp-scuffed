@@ -25,13 +25,13 @@ import java.util.Vector;
 
 
 public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
-	public HttpBrowser(final String url) {
+	public HttpBrowser(String url) {
 		super("Http Browser", true, true, true, true);
 
 		try {
 			this.setTitle(url);
 
-			final JEditorPane pane = new JEditorPane(url);
+			JEditorPane pane = new JEditorPane(url);
 			pane.setEditable(false);
 			pane.addHyperlinkListener(this);
 
@@ -46,7 +46,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 				pane.addHyperlinkListener(this);
 			}
 
-			final JScrollPane jsp = new JScrollPane(pane);
+			JScrollPane jsp = new JScrollPane(pane);
 
 			this.getContentPane().setLayout(new BorderLayout());
 			this.getContentPane().add("Center", jsp);
@@ -55,26 +55,26 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 			this.setSize(800, 500);
 			this.show();
 			this.requestFocus();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error fetching URL: " + ex);
 			ex.printStackTrace();
 		}
 	}
 
-	public void hyperlinkUpdate(final HyperlinkEvent e) {
+	public void hyperlinkUpdate(HyperlinkEvent e) {
 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-			final JEditorPane pane = (JEditorPane) e.getSource();
+			JEditorPane pane = (JEditorPane) e.getSource();
 
 			if (e instanceof HTMLFrameHyperlinkEvent) {
-				final HTMLFrameHyperlinkEvent evt = (HTMLFrameHyperlinkEvent) e;
-				final HTMLDocument doc = (HTMLDocument) pane.getDocument();
+				HTMLFrameHyperlinkEvent evt = (HTMLFrameHyperlinkEvent) e;
+				HTMLDocument doc = (HTMLDocument) pane.getDocument();
 				doc.processHTMLFrameHyperlinkEvent(evt);
 			} else {
 				try {
-					final String url = e.getURL().toString();
-					final String tmp = url.substring(url.lastIndexOf("/"));
+					String url = e.getURL().toString();
+					String tmp = url.substring(url.lastIndexOf("/"));
 
-					final Vector listeners = new Vector();
+					Vector listeners = new Vector();
 					listeners.add(net.sf.jftp.JFtp.localDir);
 
 					if (!url.endsWith(".htm") && !url.endsWith(".html") && (tmp.contains("."))) {
@@ -82,7 +82,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 					} else {
 						pane.setPage(e.getURL());
 					}
-				} catch (final Throwable t) {
+				} catch (Throwable t) {
 					t.printStackTrace();
 				}
 			}

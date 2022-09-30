@@ -56,13 +56,13 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 		//setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.ok) {
 			//setVisible(false);
-			final String h = this.proxy.getText().trim();
-			final String p = this.port.getText().trim();
+			String h = this.proxy.getText().trim();
+			String p = this.port.getText().trim();
 
-			final java.util.Properties sysprops = System.getProperties();
+			java.util.Properties sysprops = System.getProperties();
 
 			// Remove previous values
 			sysprops.remove("socksProxyHost");

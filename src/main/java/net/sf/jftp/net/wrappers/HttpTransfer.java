@@ -25,7 +25,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 	private int stat = 1;
 	private ConnectionHandler handler = new ConnectionHandler();
 
-	public HttpTransfer(final String url, final String localPath, final Vector listeners, final ConnectionHandler handler) {
+	public HttpTransfer(String url, String localPath, Vector listeners, ConnectionHandler handler) {
 		super();
 		this.url = url;
 		this.localPath = localPath;
@@ -58,11 +58,11 @@ public class HttpTransfer extends Transfer implements Runnable {
 				return;
 			}
 
-			final URL u = new URL(this.url);
+			URL u = new URL(this.url);
 
-			final BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(this.localPath + this.file));
-			final BufferedInputStream in = new BufferedInputStream(u.openStream());
-			final byte[] buf = new byte[4096];
+			BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(this.localPath + this.file));
+			BufferedInputStream in = new BufferedInputStream(u.openStream());
+			byte[] buf = new byte[4096];
 			int len = 0;
 
 			while ((0 < this.stat) && this.work) {
@@ -83,11 +83,11 @@ public class HttpTransfer extends Transfer implements Runnable {
 			in.close();
 
 			this.fireProgressUpdate(this.file, DataConnection.FINISHED, len);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			this.work = false;
 			net.sf.jftp.system.logging.Log.debug("Download failed: " + ex);
 
-			final File f = new File(this.localPath + this.file);
+			File f = new File(this.localPath + this.file);
 			f.delete();
 			this.fireProgressUpdate(this.file, DataConnection.FAILED, -1);
 
@@ -97,13 +97,13 @@ public class HttpTransfer extends Transfer implements Runnable {
 		}
 
 		if (!this.work) {
-			final File f = new File(this.localPath + this.file);
+			File f = new File(this.localPath + this.file);
 			f.delete();
 			net.sf.jftp.system.logging.Log.out("download aborted: " + this.file);
 		}
 	}
 
-	public void fireProgressUpdate(final String file, final String type, final int bytes) {
+	public void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 			return;
 		}

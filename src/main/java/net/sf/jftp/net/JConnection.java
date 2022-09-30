@@ -39,11 +39,11 @@ public class JConnection implements Runnable {
 	private boolean established = false;
 	private int localPort = -1;
 
-	public JConnection(final String host, final int port) {
+	public JConnection(String host, int port) {
 		super();
 		this.host = host;
 		this.port = port;
-		final Thread runner = new Thread(this);
+		Thread runner = new Thread(this);
 		runner.start();
 	}
 
@@ -61,7 +61,7 @@ public class JConnection implements Runnable {
 			this.isOk = true;
 
 			// }
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.out("WARNING: connection closed due to exception (" + this.host + ":" + this.port + ")");
 			this.isOk = false;
@@ -78,7 +78,7 @@ public class JConnection implements Runnable {
 				if (null != this.in) {
 					this.in.close();
 				}
-			} catch (final Exception ex2) {
+			} catch (Exception ex2) {
 				ex2.printStackTrace();
 				net.sf.jftp.system.logging.Log.out("WARNING: got more errors trying to close socket and streams");
 			}
@@ -99,7 +99,7 @@ public class JConnection implements Runnable {
 		return this.isOk;
 	}
 
-	public void send(final String data) {
+	public void send(String data) {
 		try {
 			//System.out.println(":"+data+":");
 			this.out.print(data);
@@ -111,7 +111,7 @@ public class JConnection implements Runnable {
 			} else {
 				net.sf.jftp.system.logging.Log.debug("> " + data);
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -132,10 +132,10 @@ public class JConnection implements Runnable {
 		return this.s.getLocalAddress();
 	}
 
-	private void pause(final int time) {
+	private void pause(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 	}
 
@@ -143,7 +143,7 @@ public class JConnection implements Runnable {
 		return this.in;
 	}
 
-	public void setIn(final BufferedReader in) {
+	public void setIn(BufferedReader in) {
 		this.in = in;
 	}
 
@@ -151,7 +151,7 @@ public class JConnection implements Runnable {
 		return this.out;
 	}
 
-	public void setOut(final PrintStream out) {
+	public void setOut(PrintStream out) {
 		this.out = out;
 	}
 }

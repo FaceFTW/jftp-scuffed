@@ -32,7 +32,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		super();
 		this.setLayout(new BorderLayout(5, 5));
 
-		final javax.swing.JLabel text = new javax.swing.JLabel();
+		javax.swing.JLabel text = new javax.swing.JLabel();
 		text.setText("Default values for commands can be overridden here.");
 		this.statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
 
@@ -41,7 +41,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		this.statusText.setPreferredSize(new Dimension(400, 30));
 
 		String listOptionText = "";
-		if (net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet) {
+		if (listOptionSet) {
 			listOptionText = net.sf.jftp.net.FtpConnection.LIST;
 		} else {
 			if (null != net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings)) {
@@ -49,18 +49,18 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 			} else {
 				listOptionText = net.sf.jftp.net.FtpConnection.LIST_DEFAULT;
 
-				final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, net.sf.jftp.net.FtpConnection.LIST_DEFAULT);
+				net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, net.sf.jftp.net.FtpConnection.LIST_DEFAULT);
 			}
 		}
 
 		this.listCommand.setText(listOptionText);
 
-		final net.sf.jftp.gui.framework.HPanel content = new net.sf.jftp.gui.framework.HPanel();
-		final net.sf.jftp.gui.framework.HPanel panel = new net.sf.jftp.gui.framework.HPanel();
+		net.sf.jftp.gui.framework.HPanel content = new net.sf.jftp.gui.framework.HPanel();
+		net.sf.jftp.gui.framework.HPanel panel = new net.sf.jftp.gui.framework.HPanel();
 		panel.add(this.listCommand);
 		panel.add(this.setListCommand);
 
-		final javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
+		javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
 		panel.add(saveCommand);
 
 
@@ -75,21 +75,21 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		saveCommand.addActionListener(this);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.setListCommand) {
 			net.sf.jftp.net.FtpConnection.LIST = this.listCommand.getText().trim();
 
 			this.statusText.setText("LIST command set.");
-			net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet = true;
+			listOptionSet = true;
 
 		}
 
 		else {
 			net.sf.jftp.net.FtpConnection.LIST = this.listCommand.getText().trim();
 
-			net.sf.jftp.gui.tasks.AdvancedOptions.listOptionSet = true;
+			listOptionSet = true;
 
-			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, this.listCommand.getText().trim());
+			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, this.listCommand.getText().trim());
 
 			this.statusText.setText("LIST command set and saved.");
 

@@ -27,7 +27,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 	private int transferStatus = 0;
 	private String crlf = null;
 
-	public FtpTransfer(final String host, final int port, final String localPath, final String remotePath, final String file, final String user, final String pass, final String type, ConnectionHandler handler, final Vector<ConnectionListener> listeners, final String newName, final String crlf) {
+	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, Vector<ConnectionListener> listeners, String newName, String crlf) {
 		super();
 		this.host = host;
 		this.port = port;
@@ -49,7 +49,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 		this.prepare();
 	}
 
-	public FtpTransfer(final String host, final int port, final String localPath, final String remotePath, final String file, final String user, final String pass, final String type, ConnectionHandler handler, final Vector<ConnectionListener> listeners, final String crlf) {
+	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, Vector<ConnectionListener> listeners, String crlf) {
 		super();
 		this.host = host;
 		this.port = port;
@@ -107,7 +107,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 						}
 					}
 				}
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 			}
 
 			hasPaused = true;
@@ -125,7 +125,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 				} else {
 					break;
 				}
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -147,7 +147,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 
 		try {
 			Thread.sleep(net.sf.jftp.config.Settings.ftpTransferThreadPause);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 
 		this.con = new FtpConnection(this.host, this.port, this.remotePath, this.crlf);
@@ -155,10 +155,10 @@ public class FtpTransfer extends Transfer implements Runnable {
 		this.con.setConnectionHandler(this.handler);
 		this.con.setConnectionListeners(this.listeners);
 
-		final int status = this.con.login(this.user, this.pass);
+		int status = this.con.login(this.user, this.pass);
 
 		if (net.sf.jftp.net.FtpConnection.LOGIN_OK == status) {
-			final File f = new File(this.localPath);
+			File f = new File(this.localPath);
 			this.con.setLocalPath(f.getAbsolutePath());
 
 			if (this.type.equals(net.sf.jftp.net.Transfer.UPLOAD)) {

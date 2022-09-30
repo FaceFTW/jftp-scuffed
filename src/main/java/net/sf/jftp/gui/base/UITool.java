@@ -20,27 +20,27 @@ import java.io.File;
 
 
 public class UITool {
-	public static boolean askToDelete(final JComponent parent) {
-		final int res = JOptionPane.showConfirmDialog(parent, "Do you really want to continue?");
+	public static boolean askToDelete(JComponent parent) {
+		int res = JOptionPane.showConfirmDialog(parent, "Do you really want to continue?");
 
 		return javax.swing.JOptionPane.OK_OPTION == res;
 	}
 
-	public static boolean askToRun(final JComponent parent) {
-		final int res = JOptionPane.showConfirmDialog(parent, "Do you want to launch this file?");
+	public static boolean askToRun(JComponent parent) {
+		int res = JOptionPane.showConfirmDialog(parent, "Do you want to launch this file?");
 
 		return javax.swing.JOptionPane.OK_OPTION == res;
 	}
 
-	public static String getPathFromDialog(final String path) {
-		final JFileChooser chooser = new JFileChooser(path);
+	public static String getPathFromDialog(String path) {
+		JFileChooser chooser = new JFileChooser(path);
 		chooser.setDialogTitle("Choose directory");
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
-		final int returnVal = chooser.showOpenDialog(new JDialog());
+		int returnVal = chooser.showOpenDialog(new JDialog());
 
 		if (javax.swing.JFileChooser.APPROVE_OPTION == returnVal) {
-			final File f = chooser.getSelectedFile();
+			File f = chooser.getSelectedFile();
 
 			return f.getPath();
 		}

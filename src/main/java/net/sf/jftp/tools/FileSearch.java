@@ -48,19 +48,19 @@ public class FileSearch {
 	String[] scanArray = {""};
 	private int currentDepth = 0;
 
-	public static void main(final String[] argv) {
-		final String[] typeArray = {".gz", ".bz2", ".zip", ".rar"};
-		final String[] termArray = {"linux", "kernel"};
-		final String[] optArray = {"download", "file", "mirror", "location"};
-		final String[] ignoreArray = {".gif", ".jpg", ".png", ".swf", ".jar", ".class", ".google."};
-		final String[] scanArray = {".html", ".htm", "/", ".jsp", ".jhtml", ".phtml", ".asp", ".xml", ".js", ".cgi"};
-		final StringBuilder url = new StringBuilder("http://www.google.de/search?hl=de&q=");
+	public static void main(String[] argv) {
+		String[] typeArray = {".gz", ".bz2", ".zip", ".rar"};
+		String[] termArray = {"linux", "kernel"};
+		String[] optArray = {"download", "file", "mirror", "location"};
+		String[] ignoreArray = {".gif", ".jpg", ".png", ".swf", ".jar", ".class", ".google."};
+		String[] scanArray = {".html", ".htm", "/", ".jsp", ".jhtml", ".phtml", ".asp", ".xml", ".js", ".cgi"};
+		StringBuilder url = new StringBuilder("http://www.google.de/search?hl=de&q=");
 
-		for (final String s : termArray) {
+		for (String s : termArray) {
 			url.append(s).append("+");
 		}
 
-		final FileSearch search = new FileSearch();
+		FileSearch search = new FileSearch();
 
 		search.typeArray = typeArray;
 		search.termArray = termArray;
@@ -84,7 +84,7 @@ public class FileSearch {
 			net.sf.jftp.system.logging.Log.out(">>> URL: " + url);
 			net.sf.jftp.system.logging.Log.out(">>> Scanning for ");
 
-			for (final String s : this.typeArray) {
+			for (String s : this.typeArray) {
 				net.sf.jftp.system.logging.Log.out(s + " ");
 			}
 
@@ -93,20 +93,20 @@ public class FileSearch {
 
 			net.sf.jftp.system.logging.Log.out("Fetching initial HTML file...");
 
-			final Getter urlGetter = new Getter(this.localDir);
+			Getter urlGetter = new Getter(this.localDir);
 			urlGetter.fetch(url, true);
 
 			net.sf.jftp.system.logging.Log.out("Searching for links...");
 			net.sf.jftp.system.LocalIO.pause(500);
 
 			this.crawl(url);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
 	private String clear(String url) {
-		final int idx = url.indexOf("http://");
+		int idx = url.indexOf("http://");
 
 		if (0 <= idx) {
 			url = url.substring(7);
@@ -115,35 +115,35 @@ public class FileSearch {
 		return url;
 	}
 
-	private Vector addVector(final Vector v, final Vector x) {
-		final Enumeration e = x.elements();
+	private Vector addVector(Vector v, Vector x) {
+		Enumeration e = x.elements();
 
 		while (e.hasMoreElements()) {
-			final String next = (String) e.nextElement();
+			String next = (String) e.nextElement();
 			v.add(next);
 		}
 
 		return v;
 	}
 
-	private int rate(final String content) {
+	private int rate(String content) {
 		int score = 0;
 
-		for (final String value : this.termArray) {
+		for (String value : this.termArray) {
 			if (content.contains(value)) score += 3;
 		}
 
 		if (score < this.MIN_TERM) return 0;
 
-		for (final String s : this.optArray) {
+		for (String s : this.optArray) {
 			if (content.contains(s)) score++;
 		}
 
 		return score;
 	}
 
-	private int checkForResult(final String url) {
-		for (final String s : this.ignoreArray) {
+	private int checkForResult(String url) {
+		for (String s : this.ignoreArray) {
 			if (url.contains(s)) return -1;
 		}
 
@@ -152,7 +152,7 @@ public class FileSearch {
 		return 1;
 	}
 
-	private boolean checkForScanableUrl(final String url) {
+	private boolean checkForScanableUrl(String url) {
 
 		if (this.checked.containsKey(url)) {
 			return false;
@@ -160,7 +160,7 @@ public class FileSearch {
 			this.checked.put(url, "");
 		}
 
-		for (final String s : this.scanArray) {
+		for (String s : this.scanArray) {
 			if (url.endsWith(s)) return true;
 		}
 
@@ -170,54 +170,54 @@ public class FileSearch {
 	private void crawl(String url) throws Exception {
 		url = this.clear(url);
 
-		final int urlRating = this.checkForResult(url);
-		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
+		int urlRating = this.checkForResult(url);
+		if (!quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
 
 		if (0 < urlRating) {
 		} else if (0 > urlRating && 0 < this.currentDepth) {
-			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
+			if (!quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
 			return;
 		}
 
 
-		final Getter urlGetter = new Getter(this.localDir);
-		final String content = urlGetter.fetch(url);
+		Getter urlGetter = new Getter(this.localDir);
+		String content = urlGetter.fetch(url);
 
-		final int factor = this.rate(content);
-		if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
+		int factor = this.rate(content);
+		if (!quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
 
 		if (this.MIN_FACTOR > factor) {
-			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
+			if (!quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
 			return;
 		}
 
-		if (!net.sf.jftp.tools.FileSearch.ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
+		if (!ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
 
 		Vector m = this.sort(content, url.substring(0, url.lastIndexOf("/")), "href=\"");
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "src=\""));
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "HREF=\""));
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf("/")), "SRC=\""));
 
-		final Enumeration links = m.elements();
+		Enumeration links = m.elements();
 
 		while (links.hasMoreElements()) {
 
-			final String next = (String) links.nextElement();
+			String next = (String) links.nextElement();
 
-			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("PROCESS: " + next);
+			if (!quiet) net.sf.jftp.system.logging.Log.out("PROCESS: " + next);
 			boolean skip = false;
 
 			while (!skip) {
-				for (final String s : this.typeArray) {
+				for (String s : this.typeArray) {
 					if (next.endsWith(s) || s.trim().equals("*")) {
 						net.sf.jftp.system.logging.Log.out("HIT: " + url + " -> " + next);
 
 						if (!this.LOAD || !this.checkForScanableUrl(url)) continue;
 
-						final int x = next.indexOf("/");
+						int x = next.indexOf("/");
 
 						if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
-							final net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(this.localDir);
+							net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(this.localDir);
 							urlGetter2.fetch(next, false);
 
 							continue;
@@ -230,7 +230,7 @@ public class FileSearch {
 
 			if (this.MAX > this.currentDepth) {
 
-				final int x = next.indexOf("/");
+				int x = next.indexOf("/");
 
 				if ((0 < x) && (0 < next.substring(0, x).indexOf("."))) {
 					this.currentDepth++;
@@ -241,8 +241,8 @@ public class FileSearch {
 		}
 	}
 
-	private Vector sort(String content, final String url, final String index) {
-		final Vector res = new Vector();
+	private Vector sort(String content, String url, String index) {
+		Vector res = new Vector();
 		int wo = 0;
 
 		while (true) {
@@ -258,11 +258,11 @@ public class FileSearch {
 
 			was = this.createAbsoluteUrl(was, url);
 			res.add(was);
-			if (!net.sf.jftp.tools.FileSearch.quiet) net.sf.jftp.system.logging.Log.out("ADD: " + was);
+			if (!quiet) net.sf.jftp.system.logging.Log.out("ADD: " + was);
 		}
 	}
 
-	private String createAbsoluteUrl(String newLink, final String baseUrl) {
+	private String createAbsoluteUrl(String newLink, String baseUrl) {
 		newLink = this.clear(newLink);
 
 		if (newLink.startsWith(baseUrl)) {
@@ -274,7 +274,7 @@ public class FileSearch {
 		} else if (newLink.startsWith("/") && (!baseUrl.contains("/"))) {
 			newLink = baseUrl + newLink;
 		} else if ((0 < newLink.indexOf("."))) {
-			final int idx = newLink.indexOf("/");
+			int idx = newLink.indexOf("/");
 			String tmp = "";
 
 			if (0 <= idx) {
@@ -301,28 +301,28 @@ public class FileSearch {
 class Getter {
 	private String localDir = null;
 
-	public Getter(final String localDir) {
+	public Getter(String localDir) {
 		super();
 		this.localDir = localDir;
 	}
 
-	public static void chill(final int time) {
+	public static void chill(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 	}
 
-	public String fetch(final String url) {
+	public String fetch(String url) {
 		try {
-			final String host = url.substring(0, url.indexOf("/"));
-			final StringBuilder result = new StringBuilder();
+			String host = url.substring(0, url.indexOf("/"));
+			StringBuilder result = new StringBuilder();
 
-			final Socket deal = new Socket(host, 80);
+			Socket deal = new Socket(host, 80);
 			deal.setSoTimeout(5000);
 
-			final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-			final BufferedReader in = new BufferedReader(new InputStreamReader(deal.getInputStream()));
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(deal.getInputStream()));
 
 			out.write("GET http://" + url + " HTTP/1.0\n\n");
 			out.flush();
@@ -330,7 +330,7 @@ class Getter {
 			int len = 0;
 
 			while (!in.ready() && (5000 > len)) {
-				net.sf.jftp.tools.Getter.chill(100);
+				chill(100);
 				len += 100;
 			}
 
@@ -342,24 +342,24 @@ class Getter {
 			in.close();
 
 			return result.toString();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			if (!FileSearch.quiet) ex.printStackTrace();
 		}
 
 		return "";
 	}
 
-	public void fetch(final String url, final boolean force) {
+	public void fetch(String url, boolean force) {
 		try {
-			final String host = url.substring(0, url.indexOf("/"));
-			final String wo = url.substring(url.indexOf("/"));
+			String host = url.substring(0, url.indexOf("/"));
+			String wo = url.substring(url.indexOf("/"));
 
 			if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> " + host + wo);
 
-			final File d = new File(this.localDir);
+			File d = new File(this.localDir);
 			d.mkdir();
 
-			final File f = new File(this.localDir + wo.substring(wo.lastIndexOf("/") + 1));
+			File f = new File(this.localDir + wo.substring(wo.lastIndexOf("/") + 1));
 
 			if (f.exists() && !force) {
 				if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> file already exists...");
@@ -369,13 +369,13 @@ class Getter {
 				f.delete();
 			}
 
-			final Socket deal = new Socket(host, 80);
-			final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
-			final DataInputStream in = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
+			Socket deal = new Socket(host, 80);
+			BufferedWriter out = new BufferedWriter(new OutputStreamWriter(deal.getOutputStream()));
+			DataInputStream in = new DataInputStream(new BufferedInputStream(deal.getInputStream()));
 
-			final BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf("/") + 1)));
+			BufferedOutputStream localOut = new BufferedOutputStream(new FileOutputStream(this.localDir + wo.substring(wo.lastIndexOf("/") + 1)));
 
-			final byte[] alu = new byte[2048];
+			byte[] alu = new byte[2048];
 
 			out.write("GET http://" + url + " HTTP/1.0\n\n");
 			out.flush();
@@ -384,12 +384,12 @@ class Getter {
 			final boolean bin = false;
 
 			while (true) {
-				net.sf.jftp.tools.Getter.chill(10);
+				chill(10);
 
-				final StringBuilder tmp = new StringBuilder();
+				StringBuilder tmp = new StringBuilder();
 
 				while (line) {
-					final String x = in.readLine();
+					String x = in.readLine();
 
 					if (null == x) {
 						break;
@@ -402,7 +402,7 @@ class Getter {
 					}
 				}
 
-				final int x = in.read(alu);
+				int x = in.read(alu);
 
 				if (-1 == x) {
 					if (line) {
@@ -419,7 +419,7 @@ class Getter {
 					localOut.write(alu, 0, x);
 				}
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			if (!FileSearch.quiet) ex.printStackTrace();
 		}
 	}

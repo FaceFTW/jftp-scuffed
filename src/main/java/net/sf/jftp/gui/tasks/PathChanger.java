@@ -25,7 +25,7 @@ public class PathChanger extends net.sf.jftp.gui.framework.HFrame implements Act
 	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Change Directory");
 	private String type = "";
 
-	public PathChanger(final String type) {
+	public PathChanger(String type) {
 		super();
 		this.type = type;
 
@@ -45,7 +45,7 @@ public class PathChanger extends net.sf.jftp.gui.framework.HFrame implements Act
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			this.setVisible(false);
 

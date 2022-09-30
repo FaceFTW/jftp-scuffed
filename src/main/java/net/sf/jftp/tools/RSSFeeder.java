@@ -49,12 +49,12 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 		this.runner.start();
 	}
 
-	public void switchTo(final String u) {
+	public void switchTo(String u) {
 		if (null == u) {
 			return;
 		}
 
-		net.sf.jftp.tools.RSSFeeder.urlstring = u;
+		urlstring = u;
 
 		this.runner.stop();
 		this.runner = new Thread(this);
@@ -70,10 +70,10 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		try {
 			this.can.setInterval(10);
-			this.url = new URL(net.sf.jftp.tools.RSSFeeder.urlstring);
+			this.url = new URL(urlstring);
 			this.parser = new RSSParser(this.url);
 			time = System.currentTimeMillis();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: Can't load RSS feed (" + ex + ")");
 			ex.printStackTrace();
 
@@ -82,8 +82,8 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		while (true) {
 			try {
-				final Enumeration e = this.parser.titles.elements();
-				final Enumeration e2 = this.parser.descs.elements();
+				Enumeration e = this.parser.titles.elements();
+				Enumeration e2 = this.parser.descs.elements();
 
 				while (e.hasMoreElements()) {
 					this.can.setText((String) e.nextElement());
@@ -107,7 +107,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 						this.next.setEnabled(false);
 					}
 				}
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 
@@ -118,7 +118,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 		}
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.next) {
 			if (this.header) {
 				this.breakHeader = true;

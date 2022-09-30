@@ -138,11 +138,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param host The host to connect to
 	 */
-	public FtpConnection(final String host) {
+	public FtpConnection(String host) {
 		super();
 		this.host = host;
 
-		final File f = new File(".");
+		File f = new File(".");
 		this.setLocalPath(f.getAbsolutePath());
 	}
 
@@ -153,13 +153,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param port    The port used for the control connection, usually 21
 	 * @param initCWD The initial remote working directory
 	 */
-	public FtpConnection(final String host, final int port, final String initCWD) {
+	public FtpConnection(String host, int port, String initCWD) {
 		super();
 		this.host = host;
 		this.port = port;
 		this.initCWD = initCWD;
 
-		final File f = new File(".");
+		File f = new File(".");
 		this.setLocalPath(f.getAbsolutePath());
 	}
 
@@ -172,7 +172,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param initCWD The initial remote working directory
 	 * @param crlfx   \n, \r, \r\n, CR, LF or CRLF - line break style of the server
 	 */
-	public FtpConnection(final String host, final int port, final String initCWD, String crlfx) {
+	public FtpConnection(String host, int port, String initCWD, String crlfx) {
 		super();
 		this.host = host;
 		this.port = port;
@@ -195,7 +195,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 		//Log.out("\n\nCRLF:---"+crlf+"---\n\n");
 
-		final File f = new File(".");
+		File f = new File(".");
 		this.setLocalPath(f.getAbsolutePath());
 	}
 
@@ -209,7 +209,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param password The password
 	 * @return WRONG_LOGIN_DATA, OFFLINE, GENERIC_FAILED or LOGIN_OK status code
 	 */
-	public int login(final String username, final String password) {
+	public int login(String username, String password) {
 		this.username = username;
 		this.password = password;
 
@@ -225,7 +225,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (this.jcon.isThere()) {
 			this.in = this.jcon.getReader();
 
-			if (null == this.getLine(FtpConnection.POSITIVE))//FTP220_SERVICE_READY) == null)
+			if (null == this.getLine(POSITIVE))//FTP220_SERVICE_READY) == null)
 			{
 				this.ok = false;
 				net.sf.jftp.system.logging.Log.debug("Server closed Connection, maybe too many users...");
@@ -238,11 +238,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			this.jcon.send(net.sf.jftp.net.FtpConstants.USER + " " + username);
 
-			if (!this.getLine(this.loginAck).startsWith(net.sf.jftp.net.FtpConnection.POSITIVE))//FTP230_LOGGED_IN))
+			if (!this.getLine(this.loginAck).startsWith(POSITIVE))//FTP230_LOGGED_IN))
 			{
 				this.jcon.send(net.sf.jftp.net.FtpConstants.PASS + " " + password);
 
-				if (this.success(net.sf.jftp.net.FtpConnection.POSITIVE))//FTP230_LOGGED_IN))
+				if (this.success(POSITIVE))//FTP230_LOGGED_IN))
 				{
 					if (msg) {
 						net.sf.jftp.system.logging.Log.debug("Logged in...");
@@ -281,27 +281,27 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			String[] advSettings = new String[6];
 
 			if (this.getOsType().contains("OS/2")) {
-				net.sf.jftp.net.FtpConnection.LIST_DEFAULT = "LIST";
+				LIST_DEFAULT = "LIST";
 			}
 
-			if (net.sf.jftp.net.FtpConnection.LIST.equals("default")) {
+			if (LIST.equals("default")) {
 				advSettings = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings);
 
 				if (null == advSettings) {
-					net.sf.jftp.net.FtpConnection.LIST = net.sf.jftp.net.FtpConnection.LIST_DEFAULT;
+					LIST = LIST_DEFAULT;
 
-					new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, net.sf.jftp.net.FtpConnection.LIST);
+					new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, LIST);
 				} else {
-					net.sf.jftp.net.FtpConnection.LIST = advSettings[0];
+					LIST = advSettings[0];
 
-					if (null == FtpConnection.LIST) {
-						net.sf.jftp.net.FtpConnection.LIST = net.sf.jftp.net.FtpConnection.LIST_DEFAULT;
+					if (null == LIST) {
+						LIST = LIST_DEFAULT;
 					}
 				}
 			}
 
 			if (this.getOsType().contains("MVS")) {
-				net.sf.jftp.net.FtpConnection.LIST = "LIST";
+				LIST = "LIST";
 			}
 
 			//***
@@ -354,13 +354,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				// ------------------------------------------------
 				else if (this.getOsType().contains("WINDOW")) {
-					final java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
+					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 
 					if (4 <= to.countTokens()) {
 						to.nextToken();
 						to.nextToken();
 
-						final String size = to.nextToken();
+						String size = to.nextToken();
 
 						if (size.equals("<DIR>")) {
 							this.currentSizes.add("0");
@@ -368,7 +368,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 							try {
 								Long.parseLong(size);
 								this.currentSizes.add(size);
-							} catch (final Exception ex) {
+							} catch (Exception ex) {
 								this.currentSizes.add("-1");
 								net.sf.jftp.system.logging.Log.out("WARNING: filesize can not be determined - value is " + size);
 							}
@@ -378,13 +378,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				// ------------------------------------------------
 				else if (this.getOsType().contains("OS/2")) {
-					final java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
+					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 					tmp = this.giveSize(to, 0);
 					net.sf.jftp.system.logging.Log.out("OS/2 parser (size): " + tmp);
 					this.currentSizes.add(tmp);
 				} else {
 					//Log.out("\n\nparser\n\n");
-					final java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
+					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 
 					if (8 <= to.countTokens()) // unix
 					{
@@ -402,7 +402,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					}
 				}
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::sortSize#1");
 			return new String[0];
 		}
@@ -410,8 +410,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		return this.toArray(this.currentSizes);
 	}
 
-	private String[] toArray(final Vector<String> in) {
-		final String[] ret = new String[in.size()];
+	private String[] toArray(Vector<String> in) {
+		String[] ret = new String[in.size()];
 
 		for (int i = 0; i < in.size(); i++) {
 			ret[i] = in.get(i);
@@ -456,7 +456,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				// ------------------------------------------------
 
-				final java.util.StringTokenizer to = new java.util.StringTokenizer(tmp.trim(), " ", false);
+				java.util.StringTokenizer to = new java.util.StringTokenizer(tmp.trim(), " ", false);
 
 				if (!(3 < to.countTokens()) || (tmp.startsWith("/") && (0 < tmp.indexOf("denied")))) {
 					continue;
@@ -469,14 +469,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					return null; // exotic bug, hardlinks are not found or something ("/bin/ls: dir: no such file or directy" in ls output) - we have no permissions then
 				}
 
-				final char ur = tmp.charAt(1);
-				final char uw = tmp.charAt(2);
-				final char ar = tmp.charAt(7);
-				final char aw = tmp.charAt(8);
+				char ur = tmp.charAt(1);
+				char uw = tmp.charAt(2);
+				char ar = tmp.charAt(7);
+				char aw = tmp.charAt(8);
 
 				to.nextToken();
 
-				final String user = to.nextToken();
+				String user = to.nextToken();
 
 				//System.out.println(""+ur+":"+ar+":"+tmp);
 				if ('w' == aw) {
@@ -492,14 +492,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					this.currentPerms.add("n");
 				}
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::getPermissions#1");
 		}
 
-		final int[] ret = new int[this.currentPerms.size()];
+		int[] ret = new int[this.currentPerms.size()];
 
 		for (int i = 0; i < this.currentPerms.size(); i++) {
-			final String fx = this.currentPerms.get(i);
+			String fx = this.currentPerms.get(i);
 
 			if (fx.equals("w")) {
 				ret[i] = net.sf.jftp.net.FtpConstants.W;
@@ -530,7 +530,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			for (String tmp : this.currentListing) {
 				// ------------------- VMS override --------------------
 				if (this.getOsType().contains("VMS")) {
-					final int x = tmp.indexOf(";");
+					int x = tmp.indexOf(";");
 
 					if (0 > x) {
 						continue;
@@ -583,8 +583,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						continue;
 					}
 
-					final String f = tmp.substring(tmp.lastIndexOf(" ")).trim();
-					final String isDir = tmp.substring(tmp.lastIndexOf(" ") - 5, tmp.lastIndexOf(" "));
+					String f = tmp.substring(tmp.lastIndexOf(" ")).trim();
+					String isDir = tmp.substring(tmp.lastIndexOf(" ") - 5, tmp.lastIndexOf(" "));
 
 					if (isDir.contains("PO")) {
 						this.currentFiles.add(f + "/");
@@ -638,10 +638,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					continue;
 				}
 
-				final java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
-				final java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
+				java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
+				java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
-				final int tokens = to.countTokens();
+				int tokens = to.countTokens();
 
 				//Log.out("listing: tokens: " + tokens + " - " + tmp);
 				boolean set = false;
@@ -651,22 +651,22 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				if (!newUnixDateStyle) {
 					try {
-						final java.util.StringTokenizer tx = new java.util.StringTokenizer(tmp, " ", false);
+						java.util.StringTokenizer tx = new java.util.StringTokenizer(tmp, " ", false);
 						tx.nextToken();
 						tx.nextToken();
 						tx.nextToken();
 						tx.nextToken();
 						tx.nextToken();
 
-						final String date = tx.nextToken();
-						final int x = date.indexOf("-");
-						final int y = date.lastIndexOf("-");
+						String date = tx.nextToken();
+						int x = date.indexOf("-");
+						int y = date.lastIndexOf("-");
 
 						if (y > x) {
 							net.sf.jftp.system.logging.Log.debug("Using new Unix date parser");
 							newUnixDateStyle = true;
 						}
-					} catch (final Exception ex) {
+					} catch (Exception ex) {
 						net.sf.jftp.system.logging.Log.out("could not preparse line: " + tmp);
 						lcount++;
 
@@ -678,20 +678,20 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					set = true;
 
 					try {
-						final java.util.StringTokenizer to3 = new java.util.StringTokenizer(tmp, " ", true);
-						final String date = this.giveFile(to3, 5);
+						java.util.StringTokenizer to3 = new java.util.StringTokenizer(tmp, " ", true);
+						String date = this.giveFile(to3, 5);
 						String date2 = date.substring(date.indexOf("-") + 1);
 						date2 = date2.substring(date.indexOf("-") + 2);
 
-						final String y = date.substring(0, date.indexOf("-"));
-						final String m = date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3);
-						final String m1 = date.substring(date.indexOf("-") + 1);
-						final String day = m1.substring(m1.indexOf("-") + 1, m1.indexOf("-") + 3);
-						final String h = date2.substring(0, date2.indexOf(":"));
-						final String min = date2.substring(date2.indexOf(":") + 1, date2.indexOf(":") + 3);
+						String y = date.substring(0, date.indexOf("-"));
+						String m = date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3);
+						String m1 = date.substring(date.indexOf("-") + 1);
+						String day = m1.substring(m1.indexOf("-") + 1, m1.indexOf("-") + 3);
+						String h = date2.substring(0, date2.indexOf(":"));
+						String min = date2.substring(date2.indexOf(":") + 1, date2.indexOf(":") + 3);
 
 						//Log.out("day:"+day+"year:"+y+"mon:"+m+"hour:"+h+"m:"+min);
-						final java.util.Calendar c = new java.util.GregorianCalendar();
+						java.util.Calendar c = new java.util.GregorianCalendar();
 						c.set(java.util.Calendar.DAY_OF_MONTH, Integer.parseInt(day));
 						c.set(java.util.Calendar.YEAR, Integer.parseInt(y));
 						c.set(java.util.Calendar.MONTH, Integer.parseInt(m) - 1);
@@ -701,7 +701,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						this.dateVector.add(c.getTime());
 
 						//Log.out("+++ date: \"" + d.toString() + "\"");
-					} catch (final Exception ex) {
+					} catch (Exception ex) {
 						ex.printStackTrace();
 
 						//set = false;
@@ -755,7 +755,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				// -------------------------------------------------------------
 			}
 
-			final String[] files = this.toArray(this.currentFiles);
+			String[] files = this.toArray(this.currentFiles);
 
 			for (int i = 0; i < files.length; i++) {
 				files[i] = this.parseSymlink(files[i]);
@@ -763,7 +763,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 
 			return files;
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::sortLs");
 			ex.printStackTrace();
 		}
@@ -771,11 +771,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		return new String[0];
 	}
 
-	private String giveFile(final StringTokenizer to, final int lev) {
+	private String giveFile(StringTokenizer to, int lev) {
 
 		for (int i = 0; i < lev; i++) {
 			if (to.hasMoreTokens()) {
-				final String t = to.nextToken();
+				String t = to.nextToken();
 
 				if (t.equals(" ") || t.equals("\t")) {
 
@@ -805,7 +805,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * get a filesize
 	 */
-	private String giveSize(final StringTokenizer to, final int lev) {
+	private String giveSize(StringTokenizer to, int lev) {
 		for (int i = 0; i < lev; i++) {
 			if (to.hasMoreTokens()) {
 				if (to.nextToken().equals(" ")) {
@@ -815,12 +815,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 
 		while (to.hasMoreTokens()) {
-			final String tmp = to.nextToken();
+			String tmp = to.nextToken();
 
 			if (!tmp.equals(" ")) {
 				try {
 					Integer.parseInt(tmp);
-				} catch (final NumberFormatException ex) {
+				} catch (NumberFormatException ex) {
 					return "-1";
 				}
 
@@ -838,24 +838,24 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return A Part of the SYST comman server response
 	 */
 	public String getOsType() {
-		if (net.sf.jftp.net.FtpConnection.TESTMODE) {
+		if (TESTMODE) {
 			return "MVS";
 		} else {
 			return this.osType;
 		}
 	}
 
-	private void setOsType(final String os) {
+	private void setOsType(String os) {
 		this.osType = os.toUpperCase();
 	}
 
-	private int getPasvPort(final String str) {
+	private int getPasvPort(String str) {
 		int start = str.lastIndexOf(",");
-		final StringBuilder lo = new StringBuilder();
+		StringBuilder lo = new StringBuilder();
 		start++;
 
 		while (start < str.length()) {
-			final char c = str.charAt(start);
+			char c = str.charAt(start);
 
 			if (!Character.isDigit(c)) {
 				break;
@@ -867,12 +867,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		System.out.println("\n\n\n" + str);
 
-		final StringBuilder hi = new StringBuilder();
+		StringBuilder hi = new StringBuilder();
 		start = str.lastIndexOf(",");
 		start--;
 
 		while (true) {
-			final char c = str.charAt(start);
+			char c = str.charAt(start);
 
 			if (!Character.isDigit(c)) {
 				break;
@@ -887,7 +887,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	}
 
 	private int getActivePort() {
-		return (net.sf.jftp.net.FtpConnection.porta * 256) + net.sf.jftp.net.FtpConnection.portb;
+		return (porta * 256) + portb;
 	}
 
 	/**
@@ -922,7 +922,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * test for symlink
 	 */
-	private boolean isSymlink(final String file) {
+	private boolean isSymlink(String file) {
 		return file.contains("->");
 	}
 
@@ -933,11 +933,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param file The file to download
 	 * @return An int-statuscode, see constants defined in this class for details
 	 */
-	public int handleDownload(final String file) {
+	public int handleDownload(String file) {
 		if (net.sf.jftp.config.Settings.getEnableMultiThreading()) {
 			net.sf.jftp.system.logging.Log.out("spawning new thread for this download.");
 
-			final FtpTransfer t = new FtpTransfer(this.host, this.port, this.localPath, this.pwd, file, this.username, this.password, Transfer.DOWNLOAD, this.handler, this.listeners, this.crlf);
+			FtpTransfer t = new FtpTransfer(this.host, this.port, this.localPath, this.pwd, file, this.username, this.password, Transfer.DOWNLOAD, this.handler, this.listeners, this.crlf);
 			this.transfers.add(t);
 
 			return net.sf.jftp.net.FtpConstants.NEW_TRANSFER_SPAWNED;
@@ -954,10 +954,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param file The file to download
 	 * @return An int returncode
 	 */
-	public int download(final String file) {
+	public int download(String file) {
 		//Log.out("ftp download started:" + this);
 
-		final int stat;
+		int stat;
 
 		if (file.endsWith("/")) {
 			this.shortProgress = true;
@@ -979,7 +979,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (net.sf.jftp.config.Settings.enableFtpDelays) {
 				try {
 					Thread.sleep(100);
-				} catch (final Exception ex) {
+				} catch (Exception ex) {
 				}
 			}
 
@@ -989,7 +989,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (net.sf.jftp.config.Settings.enableFtpDelays) {
 			try {
 				Thread.sleep(400);
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 			}
 		}
 
@@ -1011,7 +1011,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			this.dataType = DataConnection.GET;
 			file = net.sf.jftp.system.StringUtils.getFile(file);
 
-			final String path = this.localPath + file;
+			String path = this.localPath + file;
 
 			//BufferedReader in = jcon.getReader();
 
@@ -1027,7 +1027,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			this.jcon.send(net.sf.jftp.net.FtpConstants.RETR + " " + file);
 
 			return this.dcon.getInputStream();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::getDownloadInputStream");
 
@@ -1045,14 +1045,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			//if(isRelative(file)) path = getLocalPath() + file;
 			file = net.sf.jftp.system.StringUtils.getFile(file);
 
-			final String path = this.localPath + file;
+			String path = this.localPath + file;
 
 			this.modeStream();
 
 			//binary();
 			p = this.negotiatePort();
 
-			final File f = new File(path);
+			File f = new File(path);
 
 			//System.out.println("path: "+path);
 			boolean resume = false;
@@ -1060,7 +1060,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (f.exists() && net.sf.jftp.config.Settings.enableResuming) {
 				this.jcon.send(net.sf.jftp.net.FtpConstants.REST + " " + f.length());
 
-				if (null != this.getLine(FtpConnection.PROCEED)) {
+				if (null != this.getLine(PROCEED)) {
 					resume = true;
 				}
 			}
@@ -1073,19 +1073,19 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			this.jcon.send(net.sf.jftp.net.FtpConstants.RETR + " " + file);
 
-			final String line = this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);
+			String line = this.getLine(POSITIVE);
 			net.sf.jftp.system.logging.Log.debug(line);
 
 			// file has been created even if not downloaded, delete it
-			if (line.startsWith(net.sf.jftp.net.FtpConnection.NEGATIVE)) {
-				final File f2 = new File(path);
+			if (line.startsWith(NEGATIVE)) {
+				File f2 = new File(path);
 
 				if (f2.exists() && (0 == f2.length())) {
 					f2.delete();
 				}
 
 				return net.sf.jftp.net.FtpConstants.PERMISSION_DENIED;
-			} else if (!line.startsWith(net.sf.jftp.net.FtpConnection.POSITIVE) && !line.startsWith(net.sf.jftp.net.FtpConnection.PROCEED)) {
+			} else if (!line.startsWith(POSITIVE) && !line.startsWith(PROCEED)) {
 				return net.sf.jftp.net.FtpConstants.TRANSFER_FAILED;
 			}
 
@@ -1094,7 +1094,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			while (!this.dcon.finished) {
 				this.pause(10);
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::download");
 
@@ -1113,15 +1113,15 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			dir = this.pwd + dir;
 		}
 
-		final String path = this.localPath + net.sf.jftp.system.StringUtils.getDir(dir);
+		String path = this.localPath + net.sf.jftp.system.StringUtils.getDir(dir);
 
 		//System.out.println("path: "+path);
-		final String pwd = this.pwd + net.sf.jftp.system.StringUtils.getDir(dir);
+		String pwd = this.pwd + net.sf.jftp.system.StringUtils.getDir(dir);
 
-		final String oldDir = this.localPath;
-		final String oldPwd = this.pwd;
+		String oldDir = this.localPath;
+		String oldPwd = this.pwd;
 
-		final File f = new File(path);
+		File f = new File(path);
 
 		if (!f.exists()) {
 			if (!f.mkdir()) {
@@ -1139,15 +1139,15 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		try {
 			this.list();
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			return net.sf.jftp.net.FtpConstants.PERMISSION_DENIED;
 		}
 
-		final String[] tmp = this.sortLs();
+		String[] tmp = this.sortLs();
 
 		this.setLocalPath(path);
 
-		for (final String s : tmp) {
+		for (String s : tmp) {
 			if (s.endsWith("/")) {
 				if (s.trim().equals("../") || s.trim().equals("./")) {
 					net.sf.jftp.system.logging.Log.debug("Skipping " + s.trim());
@@ -1187,7 +1187,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param file The file to upload
 	 * @return An int-statuscode, NEW_TRANSFER_SPAWNED,TRANSFER_FAILED or TRANSFER_SUCCESSFUL
 	 */
-	public int handleUpload(final String file) {
+	public int handleUpload(String file) {
 		return this.handleUpload(file, null);
 	}
 
@@ -1199,11 +1199,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param realName The file to rename the uploaded file to
 	 * @return An int-statuscode, NEW_TRANSFER_SPAWNED,TRANSFER_FAILED or TRANSFER_SUCCESSFUL
 	 */
-	public int handleUpload(final String file, final String realName) {
+	public int handleUpload(String file, String realName) {
 		if (net.sf.jftp.config.Settings.getEnableMultiThreading() && (!net.sf.jftp.config.Settings.getNoUploadMultiThreading())) {
 			net.sf.jftp.system.logging.Log.out("spawning new thread for this upload.");
 
-			final FtpTransfer t;
+			FtpTransfer t;
 
 			if (null != realName) {
 				t = new FtpTransfer(this.host, this.port, this.localPath, this.pwd, file, this.username, this.password, Transfer.UPLOAD, this.handler, this.listeners, realName, this.crlf);
@@ -1231,7 +1231,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param file The file to upload
 	 * @return An int returncode
 	 */
-	public int upload(final String file) {
+	public int upload(String file) {
 		return this.upload(file, file);
 	}
 
@@ -1243,7 +1243,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param realName The file to rename the uploaded file to
 	 * @return An int responsecode
 	 */
-	public int upload(final String file, final String realName) {
+	public int upload(String file, String realName) {
 		return this.upload(file, realName, null);
 	}
 
@@ -1254,7 +1254,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param in   InputStream to read from
 	 * @return An int responsecode
 	 */
-	public int upload(final String file, final InputStream in) {
+	public int upload(String file, InputStream in) {
 		return this.upload(file, file, in);
 	}
 
@@ -1267,11 +1267,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param in       InputStream to read from
 	 * @return An int responsecode
 	 */
-	public int upload(final String file, final String realName, final InputStream in) {
+	public int upload(String file, String realName, InputStream in) {
 		this.hasUploaded = true;
 		net.sf.jftp.system.logging.Log.out("ftp upload started: " + this);
 
-		final int stat;
+		int stat;
 
 		if ((null == in) && new File(file).isDirectory()) {
 			this.shortProgress = true;
@@ -1295,7 +1295,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			try {
 				Thread.sleep(100);
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 			}
 
 			this.fireActionFinished(this);
@@ -1304,24 +1304,24 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		try {
 			Thread.sleep(500);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 		}
 
 		return stat;
 	}
 
-	private int rawUpload(final String file) {
+	private int rawUpload(String file) {
 		return this.rawUpload(file, file);
 	}
 
-	private int rawUpload(final String file, final String realName) {
+	private int rawUpload(String file, String realName) {
 		return this.rawUpload(file, realName, null);
 	}
 
 	/**
 	 * uploads a file
 	 */
-	private int rawUpload(String file, String realName, final InputStream in) {
+	private int rawUpload(String file, String realName, InputStream in) {
 		if (!file.equals(realName)) {
 			net.sf.jftp.system.logging.Log.debug("File: " + file + ", stored as " + realName);
 		} else {
@@ -1349,8 +1349,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (net.sf.jftp.config.Settings.enableUploadResuming && (null == in)) {
 				this.list();
 
-				final String[] ls = this.sortLs();
-				final String[] sizes = this.sortSize();
+				String[] ls = this.sortLs();
+				String[] sizes = this.sortSize();
 
 				if ((null == ls) || (null == sizes)) {
 					net.sf.jftp.system.logging.Log.out(">>> ls out of sync (skipping resume check)");
@@ -1372,7 +1372,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						}
 					}
 
-					final File f = new File(path);
+					File f = new File(path);
 
 					if (f.exists() && (f.length() <= Integer.parseInt(size))) {
 						net.sf.jftp.system.logging.Log.out("skipping resuming, file is <= filelength");
@@ -1398,7 +1398,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (resume && net.sf.jftp.config.Settings.enableUploadResuming) {
 				this.jcon.send(net.sf.jftp.net.FtpConstants.REST + " " + size);
 
-				if (null == this.getLine(FtpConnection.PROCEED)) {
+				if (null == this.getLine(PROCEED)) {
 					resume = false;
 				}
 			}
@@ -1414,9 +1414,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				this.jcon.send(net.sf.jftp.net.FtpConstants.STOR + " " + file);
 			}
 
-			final String tmp = this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);
+			String tmp = this.getLine(POSITIVE);
 
-			if (!tmp.startsWith(net.sf.jftp.net.FtpConnection.POSITIVE) && !tmp.startsWith(net.sf.jftp.net.FtpConnection.PROCEED)) {
+			if (!tmp.startsWith(POSITIVE) && !tmp.startsWith(PROCEED)) {
 				return net.sf.jftp.net.FtpConstants.TRANSFER_FAILED;
 			}
 
@@ -1427,7 +1427,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			while (!this.dcon.finished) {
 				this.pause(10);
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::upload");
 
@@ -1451,17 +1451,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			dir = this.localPath + dir;
 		}
 
-		final String single = net.sf.jftp.system.StringUtils.getDir(dir);
+		String single = net.sf.jftp.system.StringUtils.getDir(dir);
 		//String path = dir.substring(0, dir.indexOf(single));
 
-		final String remoteDir = this.pwd + single; //StringUtils.removeStart(dir,path);
-		final String oldDir = this.pwd;
+		String remoteDir = this.pwd + single; //StringUtils.removeStart(dir,path);
+		String oldDir = this.pwd;
 
 		if (net.sf.jftp.config.Settings.safeMode) {
 			this.noop();
 		}
 
-		final boolean successful = this.mkdir(remoteDir);
+		boolean successful = this.mkdir(remoteDir);
 
 		if (!successful) {
 			return net.sf.jftp.net.FtpConstants.MKDIR_FAILED;
@@ -1473,12 +1473,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		this.chdirNoRefresh(remoteDir);
 
-		final File f2 = new File(dir);
-		final String[] tmp = f2.list();
+		File f2 = new File(dir);
+		String[] tmp = f2.list();
 
-		for (final String s : tmp) {
-			final String res = dir + s;
-			final java.io.File f3 = new java.io.File(res);
+		for (String s : tmp) {
+			String res = dir + s;
+			java.io.File f3 = new java.io.File(res);
 
 			if (f3.isDirectory()) {
 				if (!this.work) {
@@ -1513,7 +1513,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * recursive delete remote directory
 	 */
-	private int cleanDir(String dir, final String path) {
+	private int cleanDir(String dir, String path) {
 		if (dir.isEmpty()) {
 			return 0;
 		}
@@ -1522,19 +1522,19 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			dir = dir + "/";
 		}
 
-		final String remoteDir = net.sf.jftp.system.StringUtils.removeStart(dir, path);
+		String remoteDir = net.sf.jftp.system.StringUtils.removeStart(dir, path);
 
-		final String oldDir = this.pwd;
+		String oldDir = this.pwd;
 		this.chdirNoRefresh(this.pwd + remoteDir);
 
 		try {
 			this.list();
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			// probably we don't have permission to ls here
 			return net.sf.jftp.net.FtpConstants.PERMISSION_DENIED;
 		}
 
-		final String[] tmp = this.sortLs();
+		String[] tmp = this.sortLs();
 		this.chdirNoRefresh(oldDir);
 
 		if (null == tmp) {
@@ -1562,13 +1562,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (tmp[i].endsWith("/")) {
 				this.cleanDir(dir + tmp[i], path);
 
-				final int x = this.removeFileOrDir(dir + tmp[i]);
+				int x = this.removeFileOrDir(dir + tmp[i]);
 
 				if (0 > x) {
 					return x;
 				}
 			} else {
-				final int x = this.removeFileOrDir(dir + tmp[i]);
+				int x = this.removeFileOrDir(dir + tmp[i]);
 
 				if (0 > x) {
 					return x;
@@ -1606,7 +1606,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		file = this.parseSymlink(file);
 
 		if (file.endsWith("/")) {
-			final int ret = this.cleanDir(file, this.pwd);
+			int ret = this.cleanDir(file, this.pwd);
 
 			if (0 > ret) {
 				return ret;
@@ -1617,7 +1617,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			this.jcon.send(net.sf.jftp.net.FtpConstants.DELE + " " + file);
 		}
 
-		if (this.success(net.sf.jftp.net.FtpConnection.POSITIVE))//FTP250_COMPLETED))
+		if (this.success(POSITIVE))//FTP250_COMPLETED))
 		{
 			return net.sf.jftp.net.FtpConstants.REMOVE_SUCCESSFUL;
 		} else {
@@ -1632,7 +1632,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	public void disconnect() {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.QUIT);
-		this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP221_SERVICE_CLOSING);
+		this.getLine(POSITIVE);//FTP221_SERVICE_CLOSING);
 		this.connected = false;
 	}
 
@@ -1642,7 +1642,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param cmd The raw command that is to be sent to the server
 	 */
-	public void sendRawCommand(final String cmd) {
+	public void sendRawCommand(String cmd) {
 		this.noop();
 		net.sf.jftp.system.logging.Log.clearCache();
 		this.jcon.send(cmd);
@@ -1655,7 +1655,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param until The String the response line hast to start with, 2 for succesful return codes for example
 	 */
-	public String getLine(final String until) {
+	public String getLine(String until) {
 		return this.getLine(new String[]{until});
 	}
 
@@ -1663,12 +1663,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Reads the response until line found or error.
 	 * (Used internally)
 	 */
-	public String getLine(final String[] until) {
+	public String getLine(String[] until) {
 		BufferedReader in = null;
 
 		try {
 			in = this.jcon.getReader();
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::getLine");
 		}
 
@@ -1685,18 +1685,18 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				net.sf.jftp.system.logging.Log.debug(tmp);
 
-				if (((tmp.startsWith(net.sf.jftp.net.FtpConnection.NEGATIVE) || (tmp.startsWith(net.sf.jftp.net.FtpConnection.NEGATIVE2))) && (FtpConnection.MORE_LINES_APPENDED != tmp.charAt(3))) || tmp.startsWith(net.sf.jftp.net.FtpConnection.PROCEED)) {
+				if (((tmp.startsWith(NEGATIVE) || (tmp.startsWith(NEGATIVE2))) && (MORE_LINES_APPENDED != tmp.charAt(3))) || tmp.startsWith(PROCEED)) {
 					return tmp;
 				} else {
-					for (final String s : until) {
+					for (String s : until) {
 						if (tmp.startsWith(s)) {
-							if (FtpConnection.MORE_LINES_APPENDED != tmp.charAt(3)) {
+							if (MORE_LINES_APPENDED != tmp.charAt(3)) {
 								return tmp;
 							}
 						}
 					}
 				}
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				net.sf.jftp.system.logging.Log.debug(ex + " @FtpConnection::getLine");
 
 				break;
@@ -1725,7 +1725,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			this.updatePWD();
 		}
 
-		if (net.sf.jftp.net.FtpConnection.TESTMODE) {
+		if (TESTMODE) {
 			return "HUGO.user.";
 		}
 
@@ -1747,13 +1747,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private void updatePWD() {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.PWD);
 
-		String tmp = this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP257_PATH_CREATED);
+		String tmp = this.getLine(POSITIVE);//FTP257_PATH_CREATED);
 
 		if (null == tmp) {
 			return;
 		}
 
-		if (net.sf.jftp.net.FtpConnection.TESTMODE) {
+		if (TESTMODE) {
 			tmp = "\"'T759F.'\"";
 		}
 
@@ -1781,14 +1781,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param dirName The raw directory name
 	 * @return True if successful, false otherwise
 	 */
-	public boolean chdirRaw(final String dirName) {
+	public boolean chdirRaw(String dirName) {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.CWD + " " + dirName);
 
-		return this.success(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP250_COMPLETED);
+		return this.success(POSITIVE);//FTP250_COMPLETED);
 	}
 
-	private boolean success(final String op) {
-		final String tmp = this.getLine(op);
+	private boolean success(String op) {
+		String tmp = this.getLine(op);
 
 		return (null != tmp) && tmp.startsWith(op);
 	}
@@ -1805,7 +1805,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	public boolean cdup() {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.CDUP);
 
-		return this.success(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP200_OK);
+		return this.success(POSITIVE);//FTP200_OK);
 	}
 
 	/**
@@ -1814,10 +1814,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param dirName The name of the directory to create
 	 * @return True if successful, false otherwise
 	 */
-	public boolean mkdir(final String dirName) {
+	public boolean mkdir(String dirName) {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.MKD + " " + dirName);
 
-		final boolean ret = this.success(net.sf.jftp.net.FtpConnection.POSITIVE); // Filezille server bugfix, was: FTP257_PATH_CREATED);
+		boolean ret = this.success(POSITIVE); // Filezille server bugfix, was: FTP257_PATH_CREATED);
 		net.sf.jftp.system.logging.Log.out("mkdir(" + dirName + ")  returned: " + ret);
 
 		//*** Added 03/20/2005
@@ -1835,7 +1835,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			tmp = this.getLine(net.sf.jftp.net.FtpConstants.FTP227_ENTERING_PASSIVE_MODE);
 
-			if ((null != tmp) && !tmp.startsWith(net.sf.jftp.net.FtpConnection.NEGATIVE)) {
+			if ((null != tmp) && !tmp.startsWith(NEGATIVE)) {
 				return this.getPasvPort(tmp);
 			}
 		}
@@ -1872,9 +1872,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				//System.out.print("#");
 				this.pause(10);
 			}
-			final BufferedReader input = new BufferedReader(new InputStreamReader(this.dcon.getInputStream()));
+			BufferedReader input = new BufferedReader(new InputStreamReader(this.dcon.getInputStream()));
 
-			this.jcon.send(net.sf.jftp.net.FtpConnection.LIST);
+			this.jcon.send(LIST);
 
 			String line;
 			this.currentListing.removeAllElements();
@@ -1886,16 +1886,16 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				}
 			}
 
-			this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE); //FTP226_CLOSING_DATA_REQUEST_SUCCESSFUL);
+			this.getLine(POSITIVE); //FTP226_CLOSING_DATA_REQUEST_SUCCESSFUL);
 			input.close();
 
-			if (!oldType.equals(net.sf.jftp.net.FtpConnection.ASCII)) {
+			if (!oldType.equals(ASCII)) {
 				this.type(oldType);
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Cannot list remote directory!");
 
-			if (!oldType.equals(net.sf.jftp.net.FtpConnection.ASCII)) {
+			if (!oldType.equals(ASCII)) {
 				this.type(oldType);
 			}
 
@@ -1910,9 +1910,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @return True is successful, false otherwise
 	 */
-	public boolean chdir(final String p) {
+	public boolean chdir(String p) {
 
-		final boolean tmp = this.chdirWork(p);
+		boolean tmp = this.chdirWork(p);
 
 		if (!tmp) {
 			return false;
@@ -1928,7 +1928,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @return True is successful, false otherwise
 	 */
-	public boolean chdirNoRefresh(final String p) {
+	public boolean chdirNoRefresh(String p) {
 		return this.chdirWork(p);
 	}
 
@@ -1998,8 +1998,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			// argh, we should document that!
 			if (p.endsWith("..")) {
-				final boolean home = p.startsWith("~");
-				final StringTokenizer stok = new StringTokenizer(p, "/");
+				boolean home = p.startsWith("~");
+				StringTokenizer stok = new StringTokenizer(p, "/");
 
 				//System.out.println("path p :"+p +" Tokens: "+stok.countTokens());
 				if (2 < stok.countTokens()) {
@@ -2027,7 +2027,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (!this.chdirRaw(p)) {
 				return false;
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("(remote) Can not get pathname! " + this.pwd + ":" + p);
 			ex.printStackTrace();
 
@@ -2048,10 +2048,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param time The time to sleep in milliseconds
 	 */
-	public void pause(final int time) {
+	public void pause(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -2071,7 +2071,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param newPath The new local CWD
 	 * @return Always true in the current implementation
 	 */
-	public boolean setLocalPath(final String newPath) {
+	public boolean setLocalPath(String newPath) {
 		this.localPath = newPath;
 
 		if (!this.localPath.endsWith("/")) {
@@ -2087,9 +2087,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param file the name of the file
 	 * @return An int-code: CHDIR_FAILED, PERMISSION_DENIED (no listing allowed), R, W or DENIED
 	 */
-	public int exists(final String file) {
+	public int exists(String file) {
 		String dir = null;
-		final String tmpPWD = this.pwd;
+		String tmpPWD = this.pwd;
 
 		if (file.contains("/")) {
 			dir = file.substring(0, file.lastIndexOf("/") + 1);
@@ -2102,17 +2102,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		try {
 			this.list();
-		} catch (final IOException ex) {
+		} catch (IOException ex) {
 			ex.printStackTrace();
 
 			return net.sf.jftp.net.FtpConstants.PERMISSION_DENIED;
 		}
 
-		final String f = file.substring(file.lastIndexOf("/") + 1);
+		String f = file.substring(file.lastIndexOf("/") + 1);
 		net.sf.jftp.system.logging.Log.out("checking file: " + f);
 
-		final String[] files = this.sortLs();
-		final int[] perms = this.getPermissions();
+		String[] files = this.sortLs();
+		int[] perms = this.getPermissions();
 
 		int y = -1;
 
@@ -2142,14 +2142,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param to   new file name.
 	 * @return <code>true</code> if completed successfully; <code>false</code> otherwise.
 	 */
-	public boolean rename(final String from, final String to) {
+	public boolean rename(String from, String to) {
 		this.jcon.send("RNFR " + from);
 
 		if (this.success(net.sf.jftp.net.FtpConstants.RC350)) {
 			this.jcon.send("RNTO " + to);
 
 			//FTP250_COMPLETED))
-			return this.success(net.sf.jftp.net.FtpConnection.POSITIVE);
+			return this.success(POSITIVE);
 		}
 
 		return false;
@@ -2165,41 +2165,41 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	}
 
 	private int getPortA() {
-		return net.sf.jftp.net.FtpConnection.porta;
+		return porta;
 	}
 
 	private int getPortB() {
-		return net.sf.jftp.net.FtpConnection.portb;
+		return portb;
 	}
 
 
 	private String getActivePortCmd() throws IOException {
-		final InetAddress ipaddr = this.jcon.getLocalAddress();
-		final String ip = ipaddr.getHostAddress().replace('.', ',');
+		InetAddress ipaddr = this.jcon.getLocalAddress();
+		String ip = ipaddr.getHostAddress().replace('.', ',');
 
-		final ServerSocket aSock = new ServerSocket(0);
-		final int availPort = aSock.getLocalPort();
+		ServerSocket aSock = new ServerSocket(0);
+		int availPort = aSock.getLocalPort();
 		aSock.close();
-		net.sf.jftp.net.FtpConnection.porta = availPort / 256;
-		net.sf.jftp.net.FtpConnection.portb = availPort % 256;
+		porta = availPort / 256;
+		portb = availPort % 256;
 
-		return "PORT " + ip + "," + net.sf.jftp.net.FtpConnection.porta + "," + net.sf.jftp.net.FtpConnection.portb;
+		return "PORT " + ip + "," + porta + "," + portb;
 	}
 
 	public void binary() {
-		this.type(net.sf.jftp.net.FtpConnection.BINARY);
+		this.type(BINARY);
 	}
 
 	public void ascii() {
-		this.type(net.sf.jftp.net.FtpConnection.ASCII);
+		this.type(ASCII);
 	}
 
-	public boolean type(final String code) {
+	public boolean type(String code) {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.TYPE + " " + code);
 
-		final String tmp = this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP200_OK);
+		String tmp = this.getLine(POSITIVE);//FTP200_OK);
 
-		if ((null != tmp) && tmp.startsWith(net.sf.jftp.net.FtpConnection.POSITIVE))//FTP200_OK))
+		if ((null != tmp) && tmp.startsWith(POSITIVE))//FTP200_OK))
 		{
 			this.typeNow = code;
 
@@ -2223,7 +2223,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	public void noop() {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.NOOP);
-		this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP200_OK);
+		this.getLine(POSITIVE);//FTP200_OK);
 	}
 
 	/**
@@ -2231,7 +2231,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	public void abort() {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.ABOR);
-		this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE); // 226
+		this.getLine(POSITIVE); // 226
 	}
 
 	/**
@@ -2245,7 +2245,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	public String system() { // possible responses 215, 500, 501, 502, and 421
 		this.jcon.send(net.sf.jftp.net.FtpConstants.SYST);
 
-		final String response = this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP215_SYSTEM_TYPE);
+		String response = this.getLine(POSITIVE);//FTP215_SYSTEM_TYPE);
 
 		if (null != response) {
 			this.setOsType(response);
@@ -2261,11 +2261,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Used internally.
 	 */
 	public void modeStream() {
-		if (net.sf.jftp.net.FtpConnection.useStream && !this.modeStreamSet) {
-			final String ret = this.mode(net.sf.jftp.net.FtpConnection.STREAM);
+		if (useStream && !this.modeStreamSet) {
+			String ret = this.mode(STREAM);
 
-			if ((null != ret) && ret.startsWith(net.sf.jftp.net.FtpConnection.NEGATIVE)) {
-				net.sf.jftp.net.FtpConnection.useStream = false;
+			if ((null != ret) && ret.startsWith(NEGATIVE)) {
+				useStream = false;
 			} else {
 				this.modeStreamSet = true;
 			}
@@ -2276,9 +2276,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Unsupported at this time.
 	 */
 	public void modeBlocked() {
-		if (net.sf.jftp.net.FtpConnection.useBlocked) {
-			if (this.mode(net.sf.jftp.net.FtpConnection.BLOCKED).startsWith(net.sf.jftp.net.FtpConnection.NEGATIVE)) {
-				net.sf.jftp.net.FtpConnection.useBlocked = false;
+		if (useBlocked) {
+			if (this.mode(BLOCKED).startsWith(NEGATIVE)) {
+				useBlocked = false;
 			}
 		}
 	}
@@ -2287,9 +2287,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Unsupported at this time.
 	 */
 	public void modeCompressed() {
-		if (net.sf.jftp.net.FtpConnection.useCompressed) {
-			if (this.mode(net.sf.jftp.net.FtpConnection.COMPRESSED).startsWith(net.sf.jftp.net.FtpConnection.NEGATIVE)) {
-				net.sf.jftp.net.FtpConnection.useCompressed = false;
+		if (useCompressed) {
+			if (this.mode(COMPRESSED).startsWith(NEGATIVE)) {
+				useCompressed = false;
 			}
 		}
 	}
@@ -2300,14 +2300,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param code The mode code wanted, I, A, L8 for example
 	 * @return The server's response to the request
 	 */
-	public String mode(final String code) {
+	public String mode(String code) {
 		this.jcon.send(net.sf.jftp.net.FtpConstants.MODE + " " + code);
 
 		String ret = "";
 
 		try {
-			ret = this.getLine(net.sf.jftp.net.FtpConnection.POSITIVE);//FTP200_OK);
-		} catch (final Exception ex) {
+			ret = this.getLine(POSITIVE);//FTP200_OK);
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
@@ -2357,7 +2357,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param l A ConnectionListener object
 	 */
-	public void addConnectionListener(final ConnectionListener l) {
+	public void addConnectionListener(ConnectionListener l) {
 		this.listeners.add(l);
 	}
 
@@ -2367,7 +2367,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param l A Vector containig ConnectionListener objects
 	 */
-	public void setConnectionListeners(final Vector<ConnectionListener> l) {
+	public void setConnectionListeners(Vector<ConnectionListener> l) {
 		this.listeners = l;
 	}
 
@@ -2376,7 +2376,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param con The FtpConnection calling the event
 	 */
-	public void fireDirectoryUpdate(final FtpConnection con) {
+	public void fireDirectoryUpdate(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -2394,12 +2394,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param type  the type of event, DataConnection.GETDIR for example
 	 * @param bytes The number of bytes transferred so far
 	 */
-	public void fireProgressUpdate(final String file, final String type, final long bytes) {
+	public void fireProgressUpdate(String file, String type, long bytes) {
 		//System.out.println(listener);
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				final ConnectionListener listener = this.listeners.elementAt(i);
+				ConnectionListener listener = this.listeners.elementAt(i);
 
 				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -2421,7 +2421,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param con The FtpConnection calling the event
 	 */
-	public void fireConnectionInitialized(final FtpConnection con) {
+	public void fireConnectionInitialized(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -2436,7 +2436,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param con The FtpConnection calling the event
 	 * @param why The login() response code
 	 */
-	public void fireConnectionFailed(final FtpConnection con, final String why) {
+	public void fireConnectionFailed(FtpConnection con, String why) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -2450,7 +2450,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param con The FtpConnection calling the event
 	 */
-	public void fireActionFinished(final FtpConnection con) {
+	public void fireActionFinished(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -2473,7 +2473,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param h The connection handler that is to be used by this connection
 	 */
-	public void setConnectionHandler(final ConnectionHandler h) {
+	public void setConnectionHandler(ConnectionHandler h) {
 		this.handler = h;
 	}
 
@@ -2488,9 +2488,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Abort the last spawned transfer.
 	 */
 	public void abortTransfer() {
-		for (final FtpTransfer transfer : this.transfers) {
+		for (FtpTransfer transfer : this.transfers) {
 			try {
-				final DataConnection dcon = transfer.getDataConnection();
+				DataConnection dcon = transfer.getDataConnection();
 
 				if (null == dcon || dcon.sock.isClosed()) {
 					net.sf.jftp.system.logging.Log.out("nothing to abort");
@@ -2500,7 +2500,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 				dcon.getCon().work = false;
 				dcon.sock.close();
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Exception during abort: " + ex);
 				ex.printStackTrace();
 			}
@@ -2523,7 +2523,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		return this.in;
 	}
 
-	public void setIn(final BufferedReader in) {
+	public void setIn(BufferedReader in) {
 		this.in = in;
 	}
 

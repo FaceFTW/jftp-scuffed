@@ -31,17 +31,17 @@ public class StartConnection {
 	public static FtpConnection con = null;
 	public static String keyfile = null;
 
-	public static void setSshKeyfile(final String file) {
-		net.sf.jftp.net.wrappers.StartConnection.keyfile = file;
+	public static void setSshKeyfile(String file) {
+		keyfile = file;
 	}
 
-	public static boolean startCon(final String protocol, final String htmp, final String utmp, final String ptmp, final int potmp, final String dtmp, final boolean useLocal) {
+	public static boolean startCon(String protocol, String htmp, String utmp, String ptmp, int potmp, String dtmp, boolean useLocal) {
 
 		String conType;
 
-		final String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
+		String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
-		final String potmpString = Integer.toString(potmp);
+		String potmpString = Integer.toString(potmp);
 		String useLocalString = "false";
 
 		if (useLocal) {
@@ -85,17 +85,17 @@ public class StartConnection {
 				searchValue[5] = useLocalString;
 				searchValue[6] = LastConnections.SENTINEL;
 
-				net.sf.jftp.net.wrappers.StartConnection.updateFileMenu(searchValue);
+				updateFileMenu(searchValue);
 
 				return true;
-			} catch (final Exception ex) {
+			} catch (Exception ex) {
 				ex.printStackTrace();
 				net.sf.jftp.system.logging.Log.debug("Could not create SMBConnection, does this distribution come with jcifs?");
 			}
 		}
 
 		else {
-			final NfsConnection con;
+			NfsConnection con;
 
 			//***
 			boolean status = true;
@@ -128,7 +128,7 @@ public class StartConnection {
 
 			searchValue[4] = useLocalString;
 			searchValue[5] = LastConnections.SENTINEL;
-			net.sf.jftp.net.wrappers.StartConnection.updateFileMenu(searchValue);
+			updateFileMenu(searchValue);
 
 			return status;
 		}
@@ -136,34 +136,34 @@ public class StartConnection {
 		return true;
 	}
 
-	public static int startFtpCon(final String htmp, final String utmp, final String ptmp, final int potmp, final String dtmp, final boolean useLocal) {
-		return net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal, null);
+	public static int startFtpCon(String htmp, String utmp, String ptmp, int potmp, String dtmp, boolean useLocal) {
+		return startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal, null);
 	}
 
 	//startCon
-	public static int startFtpCon(final String htmp, final String utmp, final String ptmp, final int potmp, final String dtmp, final boolean useLocal, final String crlf) {
-		final boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
-		final boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
+	public static int startFtpCon(String htmp, String utmp, String ptmp, int potmp, String dtmp, boolean useLocal, String crlf) {
+		boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
+		boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
 
 
-		final String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
+		String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 
-		net.sf.jftp.net.wrappers.StartConnection.con = new FtpConnection(htmp, potmp, dtmp, crlf);
+		con = new FtpConnection(htmp, potmp, dtmp, crlf);
 
 
 		if (useLocal) {
-			net.sf.jftp.JFtp.statusP.jftp.addLocalConnection(htmp, net.sf.jftp.net.wrappers.StartConnection.con);
+			net.sf.jftp.JFtp.statusP.jftp.addLocalConnection(htmp, con);
 		} else {
-			net.sf.jftp.JFtp.statusP.jftp.addConnection(htmp, net.sf.jftp.net.wrappers.StartConnection.con);
+			net.sf.jftp.JFtp.statusP.jftp.addConnection(htmp, con);
 		}
 
-		final int response = net.sf.jftp.net.wrappers.StartConnection.con.login(utmp, ptmp);
+		int response = con.login(utmp, ptmp);
 
 		//boolean isConnected = false;
 		if (net.sf.jftp.net.FtpConnection.LOGIN_OK == response) {
 
-			final String potmpString = Integer.toString(potmp);
+			String potmpString = Integer.toString(potmp);
 			String useLocalString = "false";
 
 			if (useLocal) {
@@ -185,7 +185,7 @@ public class StartConnection {
 			searchValue[6] = useLocalString;
 
 			searchValue[7] = LastConnections.SENTINEL;
-			net.sf.jftp.net.wrappers.StartConnection.updateFileMenu(searchValue);
+			updateFileMenu(searchValue);
 		}
 
 		else {
@@ -200,8 +200,8 @@ public class StartConnection {
 	}
 
 	//startFtpCon
-	private static void updateFileMenu(final String[] searchValue) {
-		final int position;
+	private static void updateFileMenu(String[] searchValue) {
+		int position;
 
 		position = LastConnections.findString(searchValue, net.sf.jftp.JFtp.CAPACITY);
 
@@ -215,8 +215,8 @@ public class StartConnection {
 		}
 	}
 
-	public static int startRsyncCon(final String htmp, final String utmp, final String ptmp, final int port, final String dtmp, final String ltmp) {
-		final RsyncConnection con;
+	public static int startRsyncCon(String htmp, String utmp, String ptmp, int port, String dtmp, String ltmp) {
+		RsyncConnection con;
 
 		//***
 		final boolean status = true;

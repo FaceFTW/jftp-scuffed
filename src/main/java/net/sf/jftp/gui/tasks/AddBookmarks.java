@@ -42,14 +42,14 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 
 	public final net.sf.jftp.gui.framework.HComboBox isLocal = new net.sf.jftp.gui.framework.HComboBox("Local Connection:");
 
-	public AddBookmarks(final ComponentListener l, final net.sf.jftp.JFtp jftp) {
+	public AddBookmarks(ComponentListener l, net.sf.jftp.JFtp jftp) {
 		super();
 
 		AddBookmarks.jftp = jftp;
 		this.init();
 	}
 
-	public AddBookmarks(final net.sf.jftp.JFtp jftp) {
+	public AddBookmarks(net.sf.jftp.JFtp jftp) {
 		super();
 		AddBookmarks.jftp = jftp;
 		this.init();
@@ -74,7 +74,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 
 		this.getContentPane().add(this.isLocal);
 
-		final Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER, 5, 20));
+		Panel buttonPanel = new Panel(new FlowLayout(FlowLayout.CENTER, 5, 20));
 
 		this.getContentPane().add(buttonPanel);
 		buttonPanel.add(this.add);
@@ -102,29 +102,29 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		this.toFront();
 	}
 
-	public void windowClosing(final WindowEvent e) {
+	public void windowClosing(WindowEvent e) {
 		this.dispose();
 	}
 
-	public void windowClosed(final WindowEvent e) {
+	public void windowClosed(WindowEvent e) {
 	}
 
-	public void windowActivated(final WindowEvent e) {
+	public void windowActivated(WindowEvent e) {
 	}
 
-	public void windowDeactivated(final WindowEvent e) {
+	public void windowDeactivated(WindowEvent e) {
 	}
 
-	public void windowIconified(final WindowEvent e) {
+	public void windowIconified(WindowEvent e) {
 	}
 
-	public void windowDeiconified(final WindowEvent e) {
+	public void windowDeiconified(WindowEvent e) {
 	}
 
-	public void windowOpened(final WindowEvent e) {
+	public void windowOpened(WindowEvent e) {
 	}
 
-	public void actionPerformed(final ActionEvent e) {
+	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.add) {
 			this.getData(false);
 		} else if (e.getSource() == this.addAndConnect) {
@@ -177,7 +177,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 	}
 
 	//actionPerformed
-	private void getData(final boolean andConnect) {
+	private void getData(boolean andConnect) {
 		String protocoltmp = "";
 
 		protocoltmp = this.protocols.getSelectedItem().toString();
@@ -206,16 +206,16 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		//NFS: Don;t get port or dirOrDom
 		//FOR NOW: just get all data
 
-		final String htmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.host.getText(), " "));
-		final String utmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.user.getText(), " "));
-		final String ptmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.pass.getText(), " "));
-		final String potmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.port.getText(), " "));
+		String htmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.host.getText(), " "));
+		String utmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.user.getText(), " "));
+		String ptmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.pass.getText(), " "));
+		String potmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.port.getText(), " "));
 
-		final String dirOrDomtmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.dirOrDom.getText(), " "));
+		String dirOrDomtmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.dirOrDom.getText(), " "));
 
 		String local = "";
 
-		final int potmpint = new Integer(potmp);
+		int potmpint = new Integer(potmp);
 
 		local = this.isLocal.getSelectedItem().toString();
 
@@ -245,8 +245,8 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		//here, start the routine for appending the line to the bookmark
 		//file (SHOULD IT BE IN A SEPARATE ROUTINE?)
 		try {
-			final FileOutputStream fos;
-			final PrintStream out;
+			FileOutputStream fos;
+			PrintStream out;
 
 			fos = new FileOutputStream(net.sf.jftp.config.Settings.bookmarks, true);
 			out = new PrintStream(fos);
@@ -257,7 +257,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 
 			//if it worked, update the menu
 			net.sf.jftp.JFtp.menuBar.loadBookmarks();
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -275,7 +275,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		net.sf.jftp.JFtp.mainFrame.toFront();
 	}
 
-	private String checkIfEmpty(final String value) {
+	private String checkIfEmpty(String value) {
 		final String retVal = "0";
 
 		if (value.isEmpty()) {

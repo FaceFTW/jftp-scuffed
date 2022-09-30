@@ -23,13 +23,13 @@ public class LocalIO {
 	 * sorts a string alphabetically
 	 * probably better off just calling java.util.Arrays.sort
 	 */
-	public static String[] sortStrings(final String[] array) {
+	public static String[] sortStrings(String[] array) {
 		for (int i = array.length; 0 <= --i; ) {
 			boolean swapped = false;
 
 			for (int j = 0; j < i; j++) {
 				if (0 < array[j].compareTo(array[j + 1])) {
-					final String T = array[j];
+					String T = array[j];
 					array[j] = array[j + 1];
 					array[j + 1] = T;
 					swapped = true;
@@ -47,7 +47,7 @@ public class LocalIO {
 	/**
 	 * recursive removal of a local directoy
 	 */
-	public static void cleanLocalDir(String dir, final String path) {
+	public static void cleanLocalDir(String dir, String path) {
 		if (dir.endsWith("\\")) {
 			System.out.println("oops... fucked up, need to fix \\-problem!!!");
 		}
@@ -56,15 +56,15 @@ public class LocalIO {
 			dir = dir + "/";
 		}
 
-		final File f2 = new File(path + dir);
-		final String[] tmp = f2.list();
+		File f2 = new File(path + dir);
+		String[] tmp = f2.list();
 
-		for (final String s : tmp) {
-			final java.io.File f3 = new java.io.File(path + dir + s);
+		for (String s : tmp) {
+			java.io.File f3 = new java.io.File(path + dir + s);
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
-				net.sf.jftp.system.LocalIO.cleanLocalDir(dir + s, path);
+				cleanLocalDir(dir + s, path);
 				f3.delete();
 			} else {
 				//System.out.println(dir+tmp[i]);
@@ -76,10 +76,10 @@ public class LocalIO {
 	/**
 	 * sleep amount of time in millisconds
 	 */
-	public static void pause(final int time) {
+	public static void pause(int time) {
 		try {
 			Thread.sleep(time);
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

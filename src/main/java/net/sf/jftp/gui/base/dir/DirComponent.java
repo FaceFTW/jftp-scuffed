@@ -22,7 +22,7 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	}
 
 	public void update() {
-		final Vector<String> colNames = new Vector<String>();
+		Vector<String> colNames = new Vector<String>();
 		colNames.add("");
 		colNames.add("Name");
 		colNames.add("Size");
@@ -34,16 +34,16 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	/**
 	 * This manages the selections
 	 */
-	public void valueChanged(final ListSelectionEvent e) {
+	public void valueChanged(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
 			TableUtils.copyTableSelectionsToJList(this.jl, this.table);
 
-			final int index = this.jl.getSelectedIndex() - 1;
+			int index = this.jl.getSelectedIndex() - 1;
 
 			if ((0 > index) || (null == this.dirEntry) || (this.dirEntry.length < index) || (null == this.dirEntry[index])) {
 			} else { // -------------------- local --------------------------
 
-				final String tgt = this.jl.getSelectedValue().toString();
+				String tgt = this.jl.getSelectedValue().toString();
 
 				for (int i = 0; i < this.dirEntry.length; i++) {
 					this.dirEntry[i].setSelected(this.jl.isSelectedIndex(i + 1));
