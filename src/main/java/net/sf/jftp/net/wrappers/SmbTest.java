@@ -6,14 +6,14 @@ import jcifs.smb.SmbFile;
 
 public class SmbTest extends NtlmAuthenticator {
 
-	public SmbTest(String[] argv) throws Exception {
+	public SmbTest(final String[] argv) throws Exception {
 		NtlmAuthenticator.setDefault(this);
 
-		SmbFile file = new SmbFile(argv[0]);
+		final SmbFile file = new SmbFile(argv[0]);
 
-		SmbFile[] files = file.listFiles();
+		final SmbFile[] files = file.listFiles();
 
-		for (jcifs.smb.SmbFile smbFile : files) {
+		for (final jcifs.smb.SmbFile smbFile : files) {
 			System.out.print("FILE: " + smbFile.getName());
 		}
 		System.out.println("EOL");
@@ -21,7 +21,7 @@ public class SmbTest extends NtlmAuthenticator {
 
 	public static String readLine() throws Exception {
 		int c;
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		while ((c = System.in.read()) != '\n') {
 			if (c == -1) return "";
 			sb.append((char) c);
@@ -29,7 +29,7 @@ public class SmbTest extends NtlmAuthenticator {
 		return sb.toString().trim();
 	}
 
-	public static void main(String[] argv) throws Exception {
+	public static void main(final String[] argv) throws Exception {
 		new SmbTest(new String[]{"smb://Cyberdemon/tv/"});
 	}
 
@@ -37,14 +37,14 @@ public class SmbTest extends NtlmAuthenticator {
 		System.out.println(this.getRequestingException().getMessage() + " for " + this.getRequestingURL());
 
 		try {
-			String username = "guest";
-			String password = "";
+			final String username = "guest";
+			final String password = "";
 
 			if (password.length() == 0) {
 				return null;
 			}
 			return new NtlmPasswordAuthentication(null, username, password);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 		}
 		return null;
 	}

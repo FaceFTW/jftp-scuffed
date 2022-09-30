@@ -30,14 +30,14 @@ public class HFrame extends JDialog {
 		this.fixLocation();
 	}
 
-	public static void fixLocation(Window w) {
-		Toolkit tk = Toolkit.getDefaultToolkit();
+	public static void fixLocation(final Window w) {
+		final Toolkit tk = Toolkit.getDefaultToolkit();
 
 		w.setLocation((tk.getScreenSize().width - w.getSize().width) / 2, (tk.getScreenSize().height - w.getSize().height) / 2);
 	}
 
 	public void fixLocation() {
-		Toolkit tk = Toolkit.getDefaultToolkit();
+		final Toolkit tk = Toolkit.getDefaultToolkit();
 
 		this.setLocation((tk.getScreenSize().width - this.getSize().width) / 2, (tk.getScreenSize().height - this.getSize().height) / 2);
 	}

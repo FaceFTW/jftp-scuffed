@@ -27,24 +27,24 @@ public class FtpServer extends Thread {
 	private final int dataPort = 20;
 	private int port;
 
-	public FtpServer(int port) {
+	public FtpServer(final int port) {
 		this.port = port;
 	}
 
-	public static void main(String[] args) {
-		FtpServer server = new FtpServer(2100);
+	public static void main(final String[] args) {
+		final FtpServer server = new FtpServer(2100);
 		server.start();
 	}
 
 	public void run() {
 		try {
-			ServerSocket listener = new ServerSocket(port);
+			final ServerSocket listener = new ServerSocket(port);
 
 			while (true) {
-				Socket s = listener.accept();
+				final Socket s = listener.accept();
 				new FtpServerSocket(s);
 			}
-		} catch (IOException ioe) {
+		} catch (final IOException ioe) {
 			net.sf.jftp.system.logging.Log.debug("ServerSocket error: " + ioe);
 		}
 	}

@@ -4,10 +4,10 @@ public class FtpKeepAliveThread implements Runnable {
 
 	private final FtpConnection conn;
 
-	public FtpKeepAliveThread(FtpConnection conn) {
+	public FtpKeepAliveThread(final FtpConnection conn) {
 		this.conn = conn;
 
-		Thread runner = new Thread(this);
+		final Thread runner = new Thread(this);
 		runner.start();
 	}
 
@@ -17,7 +17,7 @@ public class FtpKeepAliveThread implements Runnable {
 				Thread.sleep(net.sf.jftp.config.Settings.ftpKeepAliveInterval);
 
 				conn.noop();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 		}

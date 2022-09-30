@@ -19,11 +19,11 @@ public class FileTransferable implements Transferable //, ClipboardOwner
 		return flavors;
 	}
 
-	public boolean isDataFlavorSupported(DataFlavor flavor) {
+	public boolean isDataFlavorSupported(final DataFlavor flavor) {
 		return (flavorList.contains(flavor));
 	}
 
-	public synchronized Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+	public synchronized Object getTransferData(final DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 		if (flavor.equals(FileTransferable.plainTextFlavor)) {
 			return new ByteArrayInputStream(this.toString().getBytes("iso8859-1"));
 		} else {

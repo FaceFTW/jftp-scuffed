@@ -26,11 +26,11 @@ public class Log {
 	private Log() {
 	}
 
-	public static void setLogger(Logger logger) {
+	public static void setLogger(final Logger logger) {
 		Log.logger = logger;
 	}
 
-	public static void debug(String msg) {
+	public static void debug(final String msg) {
 		if (Settings.getDisableLog()) {
 			return;
 		}
@@ -40,7 +40,7 @@ public class Log {
 		if (!Settings.getEnableDebug()) System.out.println("> " + msg);
 	}
 
-	public static void debugRaw(String msg) {
+	public static void debugRaw(final String msg) {
 		if (Settings.getDisableLog()) {
 			return;
 		}
@@ -51,7 +51,7 @@ public class Log {
 		if (Settings.getEnableDebug()) System.out.print(msg);
 	}
 
-	public static void out(String msg) {
+	public static void out(final String msg) {
 		if (!Settings.getEnableDebug()) {
 			return;
 		}
@@ -59,7 +59,7 @@ public class Log {
 		System.out.println("> " + msg);
 	}
 
-	public static void devnull(Object msg) {
+	public static void devnull(final Object msg) {
 	}
 
 

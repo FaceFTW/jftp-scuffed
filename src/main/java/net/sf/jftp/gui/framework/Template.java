@@ -25,11 +25,11 @@ public class Template extends HPanel implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 	}
 
 	public Insets getInsets() {
-		Insets in = super.getInsets();
+		final Insets in = super.getInsets();
 
 		//return new Insets(in.top+5,in.left+5,in.bottom+5,in.right+5);
 		return new Insets(in.top, in.left, in.bottom, in.right);

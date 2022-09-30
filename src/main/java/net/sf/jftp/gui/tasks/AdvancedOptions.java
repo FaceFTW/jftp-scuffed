@@ -31,7 +31,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 	public AdvancedOptions() {
 		this.setLayout(new BorderLayout(5, 5));
 
-		javax.swing.JLabel text = new javax.swing.JLabel();
+		final javax.swing.JLabel text = new javax.swing.JLabel();
 		text.setText("Default values for commands can be overridden here.");
 		statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
 
@@ -48,18 +48,18 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 			} else {
 				listOptionText = net.sf.jftp.net.FtpConnection.LIST_DEFAULT;
 
-				net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, net.sf.jftp.net.FtpConnection.LIST_DEFAULT);
+				final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, net.sf.jftp.net.FtpConnection.LIST_DEFAULT);
 			}
 		}
 
 		listCommand.setText(listOptionText);
 
-		net.sf.jftp.gui.framework.HPanel content = new net.sf.jftp.gui.framework.HPanel();
-		net.sf.jftp.gui.framework.HPanel panel = new net.sf.jftp.gui.framework.HPanel();
+		final net.sf.jftp.gui.framework.HPanel content = new net.sf.jftp.gui.framework.HPanel();
+		final net.sf.jftp.gui.framework.HPanel panel = new net.sf.jftp.gui.framework.HPanel();
 		panel.add(listCommand);
 		panel.add(setListCommand);
 
-		javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
+		final javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
 		panel.add(saveCommand);
 
 
@@ -74,7 +74,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 		saveCommand.addActionListener(this);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == setListCommand) {
 			net.sf.jftp.net.FtpConnection.LIST = listCommand.getText().trim();
 
@@ -88,7 +88,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 
 			listOptionSet = true;
 
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, listCommand.getText().trim());
+			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, listCommand.getText().trim());
 
 			statusText.setText("LIST command set and saved.");
 

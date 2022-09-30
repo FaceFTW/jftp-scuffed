@@ -28,7 +28,7 @@ public class Renamer extends net.sf.jftp.gui.framework.HFrame implements ActionL
 	private final String path;
 	public final net.sf.jftp.gui.framework.HTextField text;
 
-	public Renamer(String oldName, String path) {
+	public Renamer(final String oldName, final String path) {
 		this.oldName = oldName;
 		this.path = path;
 
@@ -46,12 +46,12 @@ public class Renamer extends net.sf.jftp.gui.framework.HFrame implements ActionL
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			String name = text.getText();
+			final String name = text.getText();
 			this.setVisible(false);
 
-			File f = new File(path + oldName);
+			final File f = new File(path + oldName);
 
 			if (f.exists()) {
 				f.renameTo(new File(path + name));

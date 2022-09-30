@@ -30,58 +30,58 @@ public class Log4JLogger implements Logger {
 		BasicConfigurator.configure();
 	}
 
-	private String stacktrace(Throwable throwable) {
-		StringWriter out = new StringWriter();
+	private String stacktrace(final Throwable throwable) {
+		final StringWriter out = new StringWriter();
 		throwable.printStackTrace(new PrintWriter(out));
 
 		return (throwable.toString());
 	}
 
-	public void debug(String msg) {
+	public void debug(final String msg) {
 		cat.debug(msg);
 	}
 
-	public void debugRaw(String msg) {
+	public void debugRaw(final String msg) {
 		cat.debug(msg);
 	}
 
-	public void debug(String msg, Throwable throwable) {
+	public void debug(final String msg, final Throwable throwable) {
 		cat.debug(msg);
 		cat.debug(this.stacktrace(throwable));
 	}
 
-	public void warn(String msg) {
+	public void warn(final String msg) {
 		cat.warn(msg);
 	}
 
-	public void warn(String msg, Throwable throwable) {
+	public void warn(final String msg, final Throwable throwable) {
 		cat.warn(msg);
 		cat.warn(this.stacktrace(throwable));
 	}
 
-	public void error(String msg) {
+	public void error(final String msg) {
 		cat.error(msg);
 	}
 
-	public void error(String msg, Throwable throwable) {
+	public void error(final String msg, final Throwable throwable) {
 		cat.error(msg);
 		cat.error(this.stacktrace(throwable));
 	}
 
-	public void info(String msg) {
+	public void info(final String msg) {
 		cat.info(msg);
 	}
 
-	public void info(String msg, Throwable throwable) {
+	public void info(final String msg, final Throwable throwable) {
 		cat.info(msg);
 		cat.info(this.stacktrace(throwable));
 	}
 
-	public void fatal(String msg) {
+	public void fatal(final String msg) {
 		cat.fatal(msg);
 	}
 
-	public void fatal(String msg, Throwable throwable) {
+	public void fatal(final String msg, final Throwable throwable) {
 		cat.fatal(msg);
 		cat.fatal(this.stacktrace(throwable));
 	}

@@ -47,20 +47,20 @@ public class DownloadList extends HPanel implements ActionListener {
 	public DownloadList() {
 		this.setLayout(new BorderLayout());
 
-		net.sf.jftp.gui.framework.HImageButton resume = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "resume", "Resume selected transfer...", this);
+		final net.sf.jftp.gui.framework.HImageButton resume = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "resume", "Resume selected transfer...", this);
 		resume.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.resumeImage2)));
 		resume.setRolloverEnabled(true);
-		net.sf.jftp.gui.framework.HImageButton pause = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.pauseImage, "pause", "Pause selected transfer...", this);
+		final net.sf.jftp.gui.framework.HImageButton pause = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.pauseImage, "pause", "Pause selected transfer...", this);
 		pause.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.pauseImage2)));
 		pause.setRolloverEnabled(true);
-		net.sf.jftp.gui.framework.HImageButton clear = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.clearImage, "clear", "Remove old/stalled items from output...", this);
+		final net.sf.jftp.gui.framework.HImageButton clear = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.clearImage, "clear", "Remove old/stalled items from output...", this);
 		clear.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.clearImage2)));
 		clear.setRolloverEnabled(true);
-		net.sf.jftp.gui.framework.HImageButton cancel = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.deleteImage, "delete", "Cancel selected transfer...", this);
+		final net.sf.jftp.gui.framework.HImageButton cancel = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.deleteImage, "delete", "Cancel selected transfer...", this);
 		cancel.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.deleteImage2)));
 		cancel.setRolloverEnabled(true);
 
-		HPanel cmdP = new HPanel();
+		final HPanel cmdP = new HPanel();
 
 		cmdP.add(clear);
 
@@ -94,7 +94,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		this.updateArea();
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getActionCommand().equals("delete")) {
 			this.deleteCon();
 		} else if (e.getActionCommand().equals("clear") || (e.getSource() == AppMenuBar.clearItems)) {
@@ -118,7 +118,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				cmd = this.getFile(cmd);
 
 				try {
-					Transfer d = JFtp.getConnectionHandler().getConnections().get(cmd);
+					final Transfer d = JFtp.getConnectionHandler().getConnections().get(cmd);
 
 					if (d == null) {
 						return;
@@ -127,35 +127,35 @@ public class DownloadList extends HPanel implements ActionListener {
 					d.work = false;
 					d.pause = false;
 
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					ex.printStackTrace();
 				}
 			} else {
 				cmd = this.getFile(cmd);
 
-				ConnectionHandler h = JFtp.getConnectionHandler();
+				final ConnectionHandler h = JFtp.getConnectionHandler();
 
-				Object o = h.getConnections().get(cmd);
+				final Object o = h.getConnections().get(cmd);
 
 				Log.out("aborting  transfer: " + cmd);
 				Log.out("connection handler present: " + h + ", pool size: " + h.getConnections().size());
 
 				if (o instanceof HttpTransfer) {
-					Transfer d = (Transfer) o;
+					final Transfer d = (Transfer) o;
 					d.work = false;
 					this.updateList(cmd, DataConnection.FAILED, -1, -1);
 
 					return;
 				} else {
-					Transfer d = (Transfer) o;
+					final Transfer d = (Transfer) o;
 
-					DataConnection con = d.getDataConnection();
+					final DataConnection con = d.getDataConnection();
 					con.getCon().work = false;
 
 					try {
 						con.sock.close();
 
-					} catch (Exception ex) {
+					} catch (final Exception ex) {
 						ex.printStackTrace();
 					}
 				}
@@ -163,7 +163,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				LocalIO.pause(500);
 				this.updateList(this.getRawFile(this.getActiveItem()), DataConnection.FAILED, -1, -1);
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			Log.debug("Action is not supported for this connection.");
 			ex.printStackTrace();
 		}
@@ -180,26 +180,26 @@ public class DownloadList extends HPanel implements ActionListener {
 			if ((cmd.contains(net.sf.jftp.net.DataConnection.GET)) || (cmd.contains(net.sf.jftp.net.DataConnection.PUT))) {
 				cmd = this.getFile(cmd);
 
-				Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
+				final Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
 
 				if (o == null) {
 					return;
 				}
 
-				Transfer d = (Transfer) o;
+				final Transfer d = (Transfer) o;
 				d.pause = true;
 
-				DataConnection con = d.getDataConnection();
+				final DataConnection con = d.getDataConnection();
 
 				try {
 					con.sock.close();
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					ex.printStackTrace();
 				}
 
 				d.prepare();
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			Log.debug("Action is not supported for this connection.");
 		}
 	}
@@ -216,26 +216,26 @@ public class DownloadList extends HPanel implements ActionListener {
 				cmd = this.getFile(cmd);
 
 				try {
-					Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
+					final Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
 
 					if (o == null) {
 						return;
 					}
 
-					Transfer d = (Transfer) o;
+					final Transfer d = (Transfer) o;
 					d.work = true;
 					d.pause = false;
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					ex.printStackTrace();
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			Log.debug("Action is not supported for this connection.");
 		}
 	}
 
 	private String getActiveItem() {
-		String tmp = list.getSelectedValue().getDirEntry().toString();
+		final String tmp = list.getSelectedValue().getDirEntry().toString();
 
 		if (tmp == null) {
 			return "";
@@ -244,7 +244,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		}
 	}
 
-	public synchronized void updateList(String file, String type, long bytes, long size) {
+	public synchronized void updateList(final String file, String type, final long bytes, long size) {
 		String message = type + ": <" + file + "> ";
 
 		if (!this.safeUpdate()) {
@@ -258,24 +258,24 @@ public class DownloadList extends HPanel implements ActionListener {
 
 		if (type.startsWith(DataConnection.GETDIR) || type.startsWith(DataConnection.PUTDIR) || type.startsWith(DataConnection.DFINISHED)) {
 			//System.out.println(type);
-			String tmp = type.substring(type.indexOf(":") + 1);
+			final String tmp = type.substring(type.indexOf(":") + 1);
 			type = type.substring(0, type.indexOf(":"));
 			count = Integer.parseInt(tmp);
 			message = type + ": <" + file + "> ";
 		}
 
 		if (type.equals(DataConnection.GET)) {
-			net.sf.jftp.gui.base.dir.DirEntry[] e = ((net.sf.jftp.gui.base.dir.DirPanel) JFtp.remoteDir).dirEntry;
+			final net.sf.jftp.gui.base.dir.DirEntry[] e = ((net.sf.jftp.gui.base.dir.DirPanel) JFtp.remoteDir).dirEntry;
 
-			for (net.sf.jftp.gui.base.dir.DirEntry dirEntry : e) {
+			for (final net.sf.jftp.gui.base.dir.DirEntry dirEntry : e) {
 				if (dirEntry.file.equals(file)) {
 					size = dirEntry.getRawSize();
 				}
 			}
 		}
 
-		String tmp;
-		long s = size / 1024;
+		final String tmp;
+		final long s = size / 1024;
 
 		if (s > 0) {
 			tmp = Long.toString(s);
@@ -296,7 +296,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		if (type.equals(DataConnection.FINISHED) || type.startsWith(DataConnection.DFINISHED)) {
 			try {
 				JFtp.getConnectionHandler().removeConnection(file);
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 			}
 
 			UpdateDaemon.updateCall();
@@ -324,19 +324,19 @@ public class DownloadList extends HPanel implements ActionListener {
 	}
 
 	private synchronized net.sf.jftp.gui.base.dir.DirEntry[] toArray() {
-		net.sf.jftp.gui.base.dir.DirEntry[] f = new net.sf.jftp.gui.base.dir.DirEntry[downloads.size()];
+		final net.sf.jftp.gui.base.dir.DirEntry[] f = new net.sf.jftp.gui.base.dir.DirEntry[downloads.size()];
 		int i = 0;
 
-		Enumeration k = downloads.elements();
+		final Enumeration k = downloads.elements();
 
 		while (k.hasMoreElements()) {
-			Object o = k.nextElement();
+			final Object o = k.nextElement();
 			if (o instanceof net.sf.jftp.gui.base.dir.DirEntry) {
 				f[i] = (net.sf.jftp.gui.base.dir.DirEntry) o;
 			} else {
 
-				String tmp = (String) o;
-				net.sf.jftp.gui.base.dir.DirEntry d = new net.sf.jftp.gui.base.dir.DirEntry(tmp, null);
+				final String tmp = (String) o;
+				final net.sf.jftp.gui.base.dir.DirEntry d = new net.sf.jftp.gui.base.dir.DirEntry(tmp, null);
 
 				if (this.getFile(tmp).endsWith("/")) {
 					d.setDirectory();
@@ -354,9 +354,9 @@ public class DownloadList extends HPanel implements ActionListener {
 
 	private synchronized void updateArea() {
 
-		int idx = list.getSelectedIndex();
+		final int idx = list.getSelectedIndex();
 
-		net.sf.jftp.gui.base.dir.DirEntry[] f = this.toArray();
+		final net.sf.jftp.gui.base.dir.DirEntry[] f = this.toArray();
 
 		list.setListData(f);
 
@@ -371,7 +371,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		this.repaint();
 	}
 
-	private String getFile(String msg) {
+	private String getFile(final String msg) {
 		String f = msg;
 
 		if (msg.contains("<") && msg.contains(">")) {
@@ -382,24 +382,24 @@ public class DownloadList extends HPanel implements ActionListener {
 		return this.getRealName(f);
 	}
 
-	private String getRealName(String file) {
+	private String getRealName(final String file) {
 		try {
-			Enumeration e = JFtp.getConnectionHandler().getConnections().keys();
+			final Enumeration e = JFtp.getConnectionHandler().getConnections().keys();
 
 			while (e.hasMoreElements()) {
-				String tmp = (String) e.nextElement();
+				final String tmp = (String) e.nextElement();
 
 				if (tmp.endsWith(file)) {
 					return tmp;
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 		}
 
 		return file;
 	}
 
-	private String getRawFile(String msg) {
+	private String getRawFile(final String msg) {
 		String f = msg.substring(msg.indexOf("<") + 1);
 		f = f.substring(0, f.lastIndexOf(">"));
 
@@ -407,7 +407,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	}
 
 	private boolean safeUpdate() {
-		long time = System.currentTimeMillis();
+		final long time = System.currentTimeMillis();
 
 		if ((time - oldtime) < Settings.refreshDelay) {
 			return false;

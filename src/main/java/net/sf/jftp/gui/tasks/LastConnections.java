@@ -31,7 +31,7 @@ public class LastConnections {
 
 	//*** changed this so that JFtp object is passed to it and
 	//initialized
-	public LastConnections(net.sf.jftp.JFtp jftp) {
+	public LastConnections(final net.sf.jftp.JFtp jftp) {
 		LastConnections.jftp = jftp;
 
 		//init();
@@ -44,16 +44,16 @@ public class LastConnections {
 	//succeeded
 	//SHOULD THIS BE PRIVATE?
 	//public static void writeToFile(String[] a, int capacity) {
-	public static void writeToFile(String[][] a, int capacity) {
+	public static void writeToFile(final String[][] a, final int capacity) {
 		try {
-			File f1 = new File(net.sf.jftp.config.Settings.appHomeDir);
+			final File f1 = new File(net.sf.jftp.config.Settings.appHomeDir);
 			f1.mkdir();
 
-			File f2 = new File(net.sf.jftp.config.Settings.last_cons);
+			final File f2 = new File(net.sf.jftp.config.Settings.last_cons);
 			f2.createNewFile();
 
-			FileOutputStream fos;
-			PrintStream out;
+			final FileOutputStream fos;
+			final PrintStream out;
 
 			fos = new FileOutputStream(net.sf.jftp.config.Settings.last_cons);
 			out = new PrintStream(fos);
@@ -71,21 +71,21 @@ public class LastConnections {
 			}
 
 			net.sf.jftp.JFtp.updateMenuBar();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	//writeToFile
-	public static String[][] readFromFile(int capacity) {
+	public static String[][] readFromFile(final int capacity) {
 
-		String[][] retVal = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
+		final String[][] retVal = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		try {
-			File f1 = new File(net.sf.jftp.config.Settings.appHomeDir);
+			final File f1 = new File(net.sf.jftp.config.Settings.appHomeDir);
 			f1.mkdir();
 
-			File f2 = new File(net.sf.jftp.config.Settings.last_cons);
+			final File f2 = new File(net.sf.jftp.config.Settings.last_cons);
 
 			if (!f2.exists()) {
 				init(capacity);
@@ -93,7 +93,7 @@ public class LastConnections {
 
 			RandomAccessFile raf = new RandomAccessFile(f2, "r");
 
-			String[] oldValues = new String[capacity];
+			final String[] oldValues = new String[capacity];
 			String firstSection = "";
 			boolean oldVersion = true;
 
@@ -145,7 +145,7 @@ public class LastConnections {
 			}
 
 			//for
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 
@@ -153,7 +153,7 @@ public class LastConnections {
 	}
 
 	//readFromFile
-	public static String[][] prepend(String[] newString, int capacity, boolean newConnection) {
+	public static String[][] prepend(final String[] newString, final int capacity, final boolean newConnection) {
 		String[][] lastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		lastCons = readFromFile(capacity);
@@ -166,7 +166,7 @@ public class LastConnections {
 			}
 		}
 
-		String[] temp = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
+		final String[] temp = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		int j = 0;
 		while (!(lastCons[0][j].equals(SENTINEL))) {
@@ -257,13 +257,13 @@ public class LastConnections {
 	}
 
 	//prepend
-	public static String[][] moveToFront(int position, int capacity) {
+	public static String[][] moveToFront(final int position, final int capacity) {
 		String[][] lastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 		String[][] newLastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		lastCons = readFromFile(capacity);
 
-		String[] temp = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
+		final String[] temp = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		int j = 0;
 		temp[j] = lastCons[position][j];
@@ -303,7 +303,7 @@ public class LastConnections {
 	}
 
 	//moveToFront
-	public static int findString(String[] findVal, int capacity) {
+	public static int findString(final String[] findVal, final int capacity) {
 		//BUGFIX: 2D
 		//String[] lastCons = new String[capacity];
 		String[][] lastCons = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
@@ -330,11 +330,11 @@ public class LastConnections {
 	}
 
 
-	private static void init(int capacity) {
+	private static void init(final int capacity) {
 
 		try {
-			FileOutputStream fos;
-			PrintStream out;
+			final FileOutputStream fos;
+			final PrintStream out;
 
 			fos = new FileOutputStream(net.sf.jftp.config.Settings.last_cons);
 			out = new PrintStream(fos);
@@ -345,7 +345,7 @@ public class LastConnections {
 			}
 
 			fos.close();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 
@@ -353,10 +353,10 @@ public class LastConnections {
 	}
 
 	//init
-	private static void changeFile(String[] oldValues) {
+	private static void changeFile(final String[] oldValues) {
 		StringTokenizer tokens;
 
-		String[][] newData = new String[net.sf.jftp.JFtp.CAPACITY][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
+		final String[][] newData = new String[net.sf.jftp.JFtp.CAPACITY][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		for (int i = 0; i < net.sf.jftp.JFtp.CAPACITY; i++) {
 			//System.out.println(oldValues[i]);

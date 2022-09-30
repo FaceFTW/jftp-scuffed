@@ -28,28 +28,28 @@ public class JRawConnection implements Runnable {
 	private boolean established = false;
 	private boolean reciever = false;
 
-	public JRawConnection(String host, int port, boolean reciever) {
+	public JRawConnection(final String host, final int port, final boolean reciever) {
 		this.host = host;
 		this.port = port;
 		this.reciever = reciever;
 
-		Thread runner = new Thread(this);
+		final Thread runner = new Thread(this);
 		runner.start();
 	}
 
 	public void run() {
 		try {
-			java.net.Socket s = new java.net.Socket(host, port);
+			final java.net.Socket s = new java.net.Socket(host, port);
 
 			out = new PrintStream(s.getOutputStream());
-			java.io.DataInputStream in = new java.io.DataInputStream(s.getInputStream());
+			final java.io.DataInputStream in = new java.io.DataInputStream(s.getInputStream());
 
 			if (reciever) {
-				JReciever jrcv = new JReciever(in);
+				final JReciever jrcv = new JReciever(in);
 			}
 
 			isOk = true;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			isOk = false;
 		}
 
@@ -59,7 +59,7 @@ public class JRawConnection implements Runnable {
 	public boolean isThere() {
 		int cnt = 0;
 
-		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
+		final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 		while (!established && (cnt < timeout)) {
 			this.pause(100);
 			cnt = cnt + 100;
@@ -68,18 +68,18 @@ public class JRawConnection implements Runnable {
 		return isOk;
 	}
 
-	public void send(String data) {
+	public void send(final String data) {
 		try {
 			out.println(data);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			System.out.println(ex + "@JConnection.send()");
 		}
 	}
 
-	private void pause(int time) {
+	private void pause(final int time) {
 		try {
 			Thread.sleep(time);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			System.out.println(ex);
 		}
 	}

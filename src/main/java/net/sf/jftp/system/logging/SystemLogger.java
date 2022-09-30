@@ -17,56 +17,56 @@ package net.sf.jftp.system.logging;
 
 
 public class SystemLogger implements Logger {
-	private void log(String msg) {
+	private void log(final String msg) {
 		System.out.println(msg);
 	}
 
-	private void log(String msg, Throwable throwable) {
+	private void log(final String msg, final Throwable throwable) {
 		System.out.println(msg);
 		throwable.printStackTrace();
 	}
 
-	public void debug(String msg) {
+	public void debug(final String msg) {
 		this.log(msg + "\n");
 	}
 
-	public void debugRaw(String msg) {
+	public void debugRaw(final String msg) {
 		this.log(msg);
 	}
 
-	public void debug(String msg, Throwable throwable) {
+	public void debug(final String msg, final Throwable throwable) {
 		this.log(msg, throwable);
 	}
 
-	public void warn(String msg) {
+	public void warn(final String msg) {
 		this.log(msg);
 	}
 
-	public void warn(String msg, Throwable throwable) {
+	public void warn(final String msg, final Throwable throwable) {
 		this.log(msg, throwable);
 	}
 
-	public void error(String msg) {
+	public void error(final String msg) {
 		this.log(msg);
 	}
 
-	public void error(String msg, Throwable throwable) {
+	public void error(final String msg, final Throwable throwable) {
 		this.log(msg, throwable);
 	}
 
-	public void info(String msg) {
+	public void info(final String msg) {
 		this.log(msg);
 	}
 
-	public void info(String msg, Throwable throwable) {
+	public void info(final String msg, final Throwable throwable) {
 		this.log(msg, throwable);
 	}
 
-	public void fatal(String msg) {
+	public void fatal(final String msg) {
 		this.log(msg);
 	}
 
-	public void fatal(String msg, Throwable throwable) {
+	public void fatal(final String msg, final Throwable throwable) {
 		this.log(msg, throwable);
 	}
 }

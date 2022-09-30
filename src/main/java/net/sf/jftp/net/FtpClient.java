@@ -24,16 +24,16 @@ public class FtpClient {
 	public FtpClient() {
 	}
 
-	public void login(String host) {
+	public void login(final String host) {
 		connection = new FtpConnection(host);
 		connection.login(name, password);
 	}
 
-	public void setUsername(String s) {
+	public void setUsername(final String s) {
 		name = s;
 	}
 
-	public void setPassword(String s) {
+	public void setPassword(final String s) {
 		password = s;
 	}
 
@@ -43,7 +43,7 @@ public class FtpClient {
 		}
 	}
 
-	public void cd(String s) {
+	public void cd(final String s) {
 		if (connection != null) {
 			connection.chdir(s);
 		}
@@ -57,13 +57,13 @@ public class FtpClient {
 		}
 	}
 
-	public void get(String file) {
+	public void get(final String file) {
 		if (connection != null) {
 			connection.handleDownload(file);
 		}
 	}
 
-	public void put(String file) {
+	public void put(final String file) {
 		if (connection != null) {
 			connection.handleUpload(file);
 		}

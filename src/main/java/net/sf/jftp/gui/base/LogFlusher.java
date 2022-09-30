@@ -7,7 +7,7 @@ import net.sf.jftp.config.Settings;
 public class LogFlusher implements Runnable {
 
 	public LogFlusher() {
-		Thread runner = new Thread(this);
+		final Thread runner = new Thread(this);
 
 		if (Settings.useLogFlusher) {
 			runner.start();
@@ -18,7 +18,7 @@ public class LogFlusher implements Runnable {
 		while (true) {
 			try {
 				Thread.sleep(Settings.logFlushInterval);
-			} catch (InterruptedException ex) {
+			} catch (final InterruptedException ex) {
 				ex.printStackTrace();
 			}
 

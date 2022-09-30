@@ -39,10 +39,10 @@ public class JConnection implements Runnable {
 	private boolean established = false;
 	private int localPort = -1;
 
-	public JConnection(String host, int port) {
+	public JConnection(final String host, final int port) {
 		this.host = host;
 		this.port = port;
-		Thread runner = new Thread(this);
+		final Thread runner = new Thread(this);
 		runner.start();
 	}
 
@@ -60,7 +60,7 @@ public class JConnection implements Runnable {
 			isOk = true;
 
 			// }
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.out("WARNING: connection closed due to exception (" + host + ":" + port + ")");
 			isOk = false;
@@ -77,7 +77,7 @@ public class JConnection implements Runnable {
 				if (in != null) {
 					in.close();
 				}
-			} catch (Exception ex2) {
+			} catch (final Exception ex2) {
 				ex2.printStackTrace();
 				net.sf.jftp.system.logging.Log.out("WARNING: got more errors trying to close socket and streams");
 			}
@@ -89,7 +89,7 @@ public class JConnection implements Runnable {
 	public boolean isThere() {
 		int cnt = 0;
 
-		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
+		final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
 		while (!established && (cnt < timeout)) {
 			this.pause(10);
 			cnt = cnt + 10;
@@ -98,7 +98,7 @@ public class JConnection implements Runnable {
 		return isOk;
 	}
 
-	public void send(String data) {
+	public void send(final String data) {
 		try {
 			//System.out.println(":"+data+":");
 			out.print(data);
@@ -110,7 +110,7 @@ public class JConnection implements Runnable {
 			} else {
 				net.sf.jftp.system.logging.Log.debug("> " + data);
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -131,10 +131,10 @@ public class JConnection implements Runnable {
 		return s.getLocalAddress();
 	}
 
-	private void pause(int time) {
+	private void pause(final int time) {
 		try {
 			Thread.sleep(time);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 		}
 	}
 
@@ -142,7 +142,7 @@ public class JConnection implements Runnable {
 		return in;
 	}
 
-	public void setIn(BufferedReader in) {
+	public void setIn(final BufferedReader in) {
 		this.in = in;
 	}
 
@@ -150,7 +150,7 @@ public class JConnection implements Runnable {
 		return out;
 	}
 
-	public void setOut(PrintStream out) {
+	public void setOut(final PrintStream out) {
 		this.out = out;
 	}
 }

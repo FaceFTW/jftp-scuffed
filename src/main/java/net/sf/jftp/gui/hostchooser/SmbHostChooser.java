@@ -52,13 +52,13 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 	private ComponentListener listener = null;
 	private boolean useLocal = false;
 
-	public SmbHostChooser(ComponentListener l, boolean local) {
+	public SmbHostChooser(final ComponentListener l, final boolean local) {
 		listener = l;
 		useLocal = local;
 		this.init();
 	}
 
-	public SmbHostChooser(ComponentListener l) {
+	public SmbHostChooser(final ComponentListener l) {
 		listener = l;
 		this.init();
 	}
@@ -74,19 +74,19 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		this.setBackground(new HPanel().getBackground());
 
 		try {
-			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			final File f = new File(net.sf.jftp.config.Settings.appHomeDir);
 			f.mkdir();
 
-			File f1 = new File(net.sf.jftp.config.Settings.login);
+			final File f1 = new File(net.sf.jftp.config.Settings.login);
 			f1.createNewFile();
 
-			File f2 = new File(net.sf.jftp.config.Settings.login_def_smb);
+			final File f2 = new File(net.sf.jftp.config.Settings.login_def_smb);
 			f2.createNewFile();
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ex.printStackTrace();
 		}
 
-		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_smb);
+		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_smb);
 
 		if ((login[0] != null) && (login.length > 1)) {
 			host.setText(login[0]);
@@ -105,7 +105,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 		ip.setEditable(true);
 
-		HInsetPanel root = new HInsetPanel();
+		final HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
 
 		root.add(host);
@@ -137,7 +137,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		this.getContentPane().setLayout(new BorderLayout(3, 3));
 		this.getContentPane().add("Center", root);
 
-		JTextArea t = new JTextArea() {
+		final JTextArea t = new JTextArea() {
 			public Insets getInsets() {
 				return new Insets(7, 7, 7, 7);
 			}
@@ -154,16 +154,16 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		ip.addItem("<default>");
 
 		try {
-			Enumeration e = NetworkInterface.getNetworkInterfaces();
+			final Enumeration e = NetworkInterface.getNetworkInterfaces();
 
 			while (e.hasMoreElements()) {
-				Enumeration f = ((NetworkInterface) e.nextElement()).getInetAddresses();
+				final Enumeration f = ((NetworkInterface) e.nextElement()).getInetAddresses();
 
 				while (f.hasMoreElements()) {
 					ip.addItem(((InetAddress) f.nextElement()).getHostAddress());
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error determining default network interface: " + ex);
 
 			//ex.printStackTrace();
@@ -181,10 +181,10 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 	private void setBCast() {
 		try {
-			String tmp = ((String) ip.getSelectedItem()).trim();
-			String x = tmp.substring(0, tmp.lastIndexOf(".") + 1) + "255";
+			final String tmp = ((String) ip.getSelectedItem()).trim();
+			final String x = tmp.substring(0, tmp.lastIndexOf(".") + 1) + "255";
 			broadcast.setText(x);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.out("Error (SMBHostChooser): " + ex);
 		}
 	}
@@ -196,7 +196,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		user.requestFocus();
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == lan) {
 			host.setEnabled(!lan.isSelected());
 		} else if (e.getSource() == ip) {
@@ -215,14 +215,14 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			//this.setVisible(false);
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			net.sf.jftp.net.wrappers.SmbConnection con = null;
+			final net.sf.jftp.net.wrappers.SmbConnection con = null;
 
 			//System.out.println(jcifs.Config.getProperty("jcifs.smb.client.laddr"));
-			String tmp = ((String) ip.getSelectedItem()).trim();
+			final String tmp = ((String) ip.getSelectedItem()).trim();
 
 			if (!tmp.isEmpty() && !tmp.equals("<default>")) {
 				String x = tmp.trim().substring(0, tmp.lastIndexOf(".") + 1) + "255";
-				String bcast = broadcast.getText().trim();
+				final String bcast = broadcast.getText().trim();
 
 				if (!bcast.equals("AUTO")) {
 					x = bcast;
@@ -233,7 +233,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 				jcifs.Config.setProperty("jcifs.smb.client.laddr", tmp);
 				jcifs.Config.setProperty("jcifs.netbios.baddr", x);
 
-				String y = wins.getText().trim();
+				final String y = wins.getText().trim();
 
 				if (!y.equals("NONE")) {
 					net.sf.jftp.system.logging.Log.debug("Setting WINS server IP to: " + y);
@@ -243,8 +243,8 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 
 			String htmp = host.getText().trim();
-			String utmp = user.getText().trim();
-			String ptmp = pass.getText();
+			final String utmp = user.getText().trim();
+			final String ptmp = pass.getText();
 			String dtmp = domain.getText().trim();
 
 			//***
@@ -259,12 +259,12 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			}
 
 			//***save the set of selected data
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_smb, htmp, utmp, ptmp, "", "", dtmp);
+			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_smb, htmp, utmp, ptmp, "", "", dtmp);
 
 			//*** Now make the function call to the methos for starting
 			//connections
-			boolean status;
-			int potmp = 0; //*** port number: unlikely to be needed in the future
+			final boolean status;
+			final int potmp = 0; //*** port number: unlikely to be needed in the future
 
 			status = net.sf.jftp.net.wrappers.StartConnection.startCon("SMB", htmp, utmp, ptmp, potmp, dtmp, useLocal);
 
@@ -306,33 +306,33 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		}
 	}
 
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(final WindowEvent e) {
 		//System.exit(0);
 		this.dispose();
 	}
 
-	public void windowClosed(WindowEvent e) {
+	public void windowClosed(final WindowEvent e) {
 	}
 
-	public void windowActivated(WindowEvent e) {
+	public void windowActivated(final WindowEvent e) {
 	}
 
-	public void windowDeactivated(WindowEvent e) {
+	public void windowDeactivated(final WindowEvent e) {
 	}
 
-	public void windowIconified(WindowEvent e) {
+	public void windowIconified(final WindowEvent e) {
 	}
 
-	public void windowDeiconified(WindowEvent e) {
+	public void windowDeiconified(final WindowEvent e) {
 	}
 
-	public void windowOpened(WindowEvent e) {
+	public void windowOpened(final WindowEvent e) {
 	}
 
-	public void pause(int time) {
+	public void pause(final int time) {
 		try {
 			Thread.sleep(time);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 		}
 	}
 }

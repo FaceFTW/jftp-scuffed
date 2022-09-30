@@ -23,23 +23,23 @@ public class JReciever implements Runnable {
 	private final byte[] buf = new byte[4048];
 	private final DataInputStream in;
 
-	public JReciever(DataInputStream in) {
+	public JReciever(final DataInputStream in) {
 		this.in = in;
-		Thread reciever = new Thread(this);
+		final Thread reciever = new Thread(this);
 		reciever.start();
 	}
 
 	public void run() {
 		try {
 			while (true) {
-				int cnt = in.read(buf);
+				final int cnt = in.read(buf);
 
 				if (cnt == -1) {
 					RawConnection.output.append(">>> Connection closed...");
 
 					net.sf.jftp.system.LocalIO.pause(100);
 
-					JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
+					final JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
 					bar.setValue(bar.getMaximum());
 
 					in.close();
@@ -52,13 +52,13 @@ public class JReciever implements Runnable {
 					RawConnection.output.append(tmp);
 					net.sf.jftp.system.LocalIO.pause(100);
 
-					JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
+					final JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
 					bar.setValue(bar.getMaximum());
 
 					net.sf.jftp.system.LocalIO.pause(400);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}

@@ -30,7 +30,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 
 	private final JTextArea info = new JTextArea(25, 50) {
 		public Insets getInsets() {
-			Insets std = super.getInsets();
+			final Insets std = super.getInsets();
 
 			return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
 		}
@@ -38,7 +38,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 
 	private final JButton close = new JButton("Close");
 
-	public Displayer(java.net.URL file, Font font) {
+	public Displayer(final java.net.URL file, final Font font) {
 		super(file.getFile(), true, true, true, true);
 		this.setLocation(50, 50);
 		this.setSize(600, 540);
@@ -52,10 +52,10 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		}
 		info.setEditable(false);
 
-		JScrollPane jsp = new JScrollPane(info);
+		final JScrollPane jsp = new JScrollPane(info);
 		this.getContentPane().add("Center", jsp);
 
-		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		final net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 		closeP.add(close);
 
@@ -70,23 +70,23 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == close) {
 			this.dispose();
 		}
 	}
 
-	private void load(java.net.URL file) {
+	private void load(final java.net.URL file) {
 		String data = "";
-		StringBuilder now = new StringBuilder();
+		final StringBuilder now = new StringBuilder();
 
 		try {
-			DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
+			final DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
 			while ((data = in.readLine()) != null) {
 				now.append(data).append("\n");
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
 		}
 
@@ -94,7 +94,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 	}
 
 	public Insets getInsets() {
-		Insets std = super.getInsets();
+		final Insets std = super.getInsets();
 
 		return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
 	}

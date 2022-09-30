@@ -20,10 +20,10 @@ import java.io.FileReader;
 
 
 public class LoadSet {
-	public static String[] loadSet(String file, boolean ask) {
+	public static String[] loadSet(final String file, final boolean ask) {
 		try {
-			BufferedReader breader = new BufferedReader(new FileReader(file));
-			String[] result = new String[6];
+			final BufferedReader breader = new BufferedReader(new FileReader(file));
+			final String[] result = new String[6];
 			result[0] = breader.readLine();
 			result[1] = breader.readLine();
 			result[2] = breader.readLine();
@@ -36,7 +36,7 @@ public class LoadSet {
 				net.sf.jftp.system.logging.Log.debug("fetched: " + result[2] + ", storing: " + Settings.getStorePasswords());
 			} else if (!result[2].isEmpty() || Settings.getStorePasswords()) {
 				// need to decode
-				String decoded = Crypto.Decrypt(result[2]);
+				final String decoded = Crypto.Decrypt(result[2]);
 				if (decoded.isEmpty()) {
 					// failed to decode
 					if (ask) {
@@ -50,13 +50,13 @@ public class LoadSet {
 			}
 
 			return result;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 		}
 
 		return new String[1];
 	}
 
-	public static String[] loadSet(String file) {
+	public static String[] loadSet(final String file) {
 		return loadSet(file, false);
 	}
 }

@@ -24,14 +24,14 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 	private final Vector buffer;
 	private boolean done = false;
 
-	public EventProcessor(Vector b) {
+	public EventProcessor(final Vector b) {
 		buffer = b;
 		new Thread(this).start();
 		addHandler(FTPShutdown, this);
 	}
 
-	public static void addHandler(int eventCode, EventHandler h) {
-		Integer code = eventCode;
+	public static void addHandler(final int eventCode, final EventHandler h) {
+		final Integer code = eventCode;
 		Vector handlers = (Vector) (table.get(code));
 
 		if (handlers == null) {
@@ -42,9 +42,9 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 		handlers.addElement(h);
 	}
 
-	public void accept(Event e) {
-		Integer code = e.eventCode();
-		Vector handlers = (Vector) (table.get(code));
+	public void accept(final Event e) {
+		final Integer code = e.eventCode();
+		final Vector handlers = (Vector) (table.get(code));
 
 		if (handlers != null) {
 			for (int i = 0, max = handlers.size(); i < max; i++) {
@@ -53,7 +53,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 		}
 	}
 
-	public boolean handle(Event e) {
+	public boolean handle(final Event e) {
 		done = true;
 
 		return true;

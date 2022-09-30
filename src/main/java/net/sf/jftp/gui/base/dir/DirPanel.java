@@ -36,16 +36,16 @@ public class DirPanel extends HPanel implements Dir {
 	public DirPanel() {
 	}
 
-	public DirPanel(String path) {
+	public DirPanel(final String path) {
 		this.path = path;
 	}
 
-	public DirPanel(String path, String type) {
+	public DirPanel(final String path, final String type) {
 		this.path = path;
 		this.type = type;
 	}
 
-	public boolean setPath(String path) {
+	public boolean setPath(final String path) {
 		this.path = path;
 
 		return true;
@@ -59,11 +59,11 @@ public class DirPanel extends HPanel implements Dir {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(final String type) {
 		this.type = type;
 	}
 
-	public void setDownloadList(DownloadList d) {
+	public void setDownloadList(final DownloadList d) {
 		dList = d;
 	}
 
@@ -71,19 +71,19 @@ public class DirPanel extends HPanel implements Dir {
 		return con;
 	}
 
-	public void setCon(BasicConnection con) {
+	public void setCon(final BasicConnection con) {
 		this.con = con;
 	}
 
 	public void fresh() {
 	}
 
-	public void actionPerformed(Object target, String msg) {
+	public void actionPerformed(final Object target, final String msg) {
 	}
 
-	public void lock(boolean isNotification) {
+	public void lock(final boolean isNotification) {
 	}
 
-	public void unlock(boolean isNotification) {
+	public void unlock(final boolean isNotification) {
 	}
 }

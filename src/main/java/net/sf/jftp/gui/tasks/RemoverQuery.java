@@ -25,7 +25,7 @@ public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements Ac
 	private final String type;
 	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
 
-	public RemoverQuery(String file, String type) {
+	public RemoverQuery(final String file, final String type) {
 		this.file = file;
 		this.type = type;
 
@@ -35,7 +35,7 @@ public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements Ac
 		this.setLocation(150, 150);
 
 		this.add(ok);
-		net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
+		final net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
 		this.add(cancel);
 
 		ok.addActionListener(this);
@@ -44,9 +44,9 @@ public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements Ac
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == ok) {
-			AutoRemover armv = new AutoRemover(file, type);
+			final AutoRemover armv = new AutoRemover(file, type);
 			this.dispose();
 		} else {
 			this.dispose();

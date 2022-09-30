@@ -31,24 +31,24 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 	private final JTextArea info = new JTextArea(25, 50);
 	private final JButton close = new JButton("Close");
 
-	public ExternalDisplayer(java.net.URL file) {
+	public ExternalDisplayer(final java.net.URL file) {
 		this.setTitle("Info...");
 		this.setLocation(50, 50);
 		this.setSize(600, 540);
 		this.getContentPane().setLayout(new BorderLayout());
 
 		this.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+			public void windowClosing(final WindowEvent e) {
 				net.sf.jftp.gui.tasks.ExternalDisplayer.this.dispose();
 			}
 		});
 		this.load(file);
 		info.setEditable(false);
 
-		JScrollPane jsp = new JScrollPane(info);
+		final JScrollPane jsp = new JScrollPane(info);
 		this.getContentPane().add("Center", jsp);
 
-		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		final net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 		closeP.add(close);
 
@@ -61,23 +61,23 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 		this.pack();
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == close) {
 			this.dispose();
 		}
 	}
 
-	private void load(java.net.URL file) {
+	private void load(final java.net.URL file) {
 		String data = "";
-		StringBuilder now = new StringBuilder();
+		final StringBuilder now = new StringBuilder();
 
 		try {
-			DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
+			final DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
 			while ((data = in.readLine()) != null) {
 				now.append(data).append("\n");
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
 		}
 
@@ -85,7 +85,7 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 	}
 
 	public Insets getInsets() {
-		Insets std = super.getInsets();
+		final Insets std = super.getInsets();
 
 		return new Insets(std.top + 5, std.left + 5, std.bottom + 5, std.right + 5);
 	}

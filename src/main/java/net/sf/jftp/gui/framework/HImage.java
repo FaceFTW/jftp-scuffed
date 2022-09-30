@@ -20,7 +20,7 @@ import java.awt.*;
 
 
 public class HImage {
-	public static synchronized Image getImage(Component c, String name) {
+	public static synchronized Image getImage(final Component c, final String name) {
 		Image img = null;
 
 		try {
@@ -39,10 +39,10 @@ public class HImage {
 			img = (url != null) ? Toolkit.getDefaultToolkit().getImage(url) : null;
 
 			//Image img = Toolkit.getDefaultToolkit().getImage(name);
-			MediaTracker mt = new MediaTracker(c);
+			final MediaTracker mt = new MediaTracker(c);
 			mt.addImage(img, 1);
 			mt.waitForAll();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("\n\n\nError fetching image!");
 			ex.printStackTrace();
 
@@ -52,7 +52,7 @@ public class HImage {
 		return img;
 	}
 
-	public static synchronized ImageIcon getImageIcon(String name, String desc) {
+	public static synchronized ImageIcon getImageIcon(final String name, final String desc) {
 		java.net.URL url = ClassLoader.getSystemResource(name);
 
 		if (url == null) {

@@ -20,7 +20,7 @@ import javax.swing.*;
 
 public class HPasswordField extends HTextField {
 
-	public HPasswordField(String l, String t) {
+	public HPasswordField(final String l, final String t) {
 		super(l, t, true);
 	}
 

@@ -33,12 +33,12 @@ public Grapher()
 
  try
  {
-	 for (String s : files) {
-		 java.io.File f = this.getFile(s);
+	 for (final String s : files) {
+		 final java.io.File f = this.getFile(s);
 
 		 if (f != null && f.exists()) {
-			 for (String file : files) {
-				 int x = this.countRelations(f, file);
+			 for (final String file : files) {
+				 final int x = this.countRelations(f, file);
 				 if (x > 0) table.put(s + ":" + file.substring(0, file.indexOf(".java")), "" + x);
 			 }
 		 }
@@ -47,13 +47,13 @@ public Grapher()
 	 this.show();
 	 this.repaint();
  }
- catch(Exception ex)
+ catch(final Exception ex)
  {
  	ex.printStackTrace();
  }
 }
 
-public void paint(Graphics g)
+public void paint(final Graphics g)
 {
 	// init
 	g.setColor(Color.white);
@@ -62,18 +62,18 @@ public void paint(Graphics g)
 	g.setFont(new Font("serif", Font.BOLD, 14));
 
 	// points
- 	Random r = new Random();
+ 	final Random r = new Random();
 
-	for (String s : files) {
+	for (final String s : files) {
 		while (true) {
-			int x = r.nextInt(width - 200);
+			final int x = r.nextInt(width - 200);
 			int y = r.nextInt(height - 20);
 			if (y < 30) y = 30;
 
 			if (this.check(x, y)) {
 				//System.out.println("adding: " + files[i]);
-				String tmp = s.substring(0, s.indexOf(".java"));
-				java.awt.Point p = new java.awt.Point(x, y);
+				final String tmp = s.substring(0, s.indexOf(".java"));
+				final java.awt.Point p = new java.awt.Point(x, y);
 				pool.put(tmp, p);
 
 				this.linkPoints(g, p);
@@ -87,33 +87,33 @@ public void paint(Graphics g)
 
 	g.setColor(Color.blue);
 
-	for (String file : files) {
-		String tmp = file.substring(0, file.indexOf(".java"));
-		java.awt.Point p2 = (java.awt.Point) pool.get(tmp);
+	for (final String file : files) {
+		final String tmp = file.substring(0, file.indexOf(".java"));
+		final java.awt.Point p2 = (java.awt.Point) pool.get(tmp);
 		if (p2 == null) continue;
 		g.drawString(tmp, (int) p2.getX(), (int) p2.getY());
 	}
 
 }
 
-public void linkPoints(Graphics g, Point p)
+public void linkPoints(final Graphics g, final Point p)
 {
 
-	Enumeration k = table.keys();
-	Enumeration e = table.elements();
+	final Enumeration k = table.keys();
+	final Enumeration e = table.elements();
 	String xk = null;
 	String file = null;
 
 	while(k.hasMoreElements())
 	{
 		xk = (String) k.nextElement();
-		int x = Integer.parseInt((String)e.nextElement());
+		final int x = Integer.parseInt((String)e.nextElement());
 
 		file = xk.substring(0, xk.indexOf(":"));
 		file = file.substring(0,file.indexOf(".java"));
 
 		//System.out.println("<" + file + "> " + "(" + link + ")" + " - " + x);
-		Point x2 = (Point) pool.get(file);
+		final Point x2 = (Point) pool.get(file);
 		if(x2 == null) continue;
 
 		if(x > 0)
@@ -133,9 +133,9 @@ public void linkPoints(Graphics g, Point p)
 }
 
 
-public boolean check(int x, int y)
+public boolean check(final int x, final int y)
 {
-	Enumeration e = pool.elements();
+	final Enumeration e = pool.elements();
 	Point d = null;
 	int a;
 	int b;
@@ -157,14 +157,14 @@ public boolean check(int x, int y)
 	return true;
 }
 
-public int countRelations(File f, String what) throws IOException
+public int countRelations(final File f, String what) throws IOException
 {
 	int x = 0;
 	String tmp;
 	what = what.substring(0, what.indexOf(".java"));
 
-  	URL url = f.toURL();
-	DataInputStream in = new DataInputStream(new BufferedInputStream(url.openStream()));
+  	final URL url = f.toURL();
+	final DataInputStream in = new DataInputStream(new BufferedInputStream(url.openStream()));
 
 	while(true)
 	{
@@ -179,20 +179,20 @@ public int countRelations(File f, String what) throws IOException
 	return x;
 }
 
-public File getFile(String name)
+public File getFile(final String name)
 {
-	for (String path : paths) {
-		java.io.File f = new java.io.File(path + name);
+	for (final String path : paths) {
+		final java.io.File f = new java.io.File(path + name);
 		if (f.exists()) return f;
 	}
 
 	return null;
 }
 
-public static void main(String[] argv)
+public static void main(final String[] argv)
 {
-	Grapher g = new Grapher();
-	JFrame j = new JFrame();
+	final Grapher g = new Grapher();
+	final JFrame j = new JFrame();
 	j.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	j.getContentPane().setLayout(new BorderLayout(5,5));
 	j.setSize(width+10,height+25);

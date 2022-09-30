@@ -33,29 +33,29 @@ public class BookmarkItem extends JMenuItem {
 	private String dirOrDom = "/";
 	private boolean useLocal = false;
 
-	public BookmarkItem(String host) {
+	public BookmarkItem(final String host) {
 		super(host);
 		this.host = host;
 	}
 
-	public void setProtocol(String proto) {
+	public void setProtocol(final String proto) {
 		protocol = proto;
 		this.setLabel(proto + ": " + this.getLabel());
 	}
 
-	public void setDirectory(String dir) {
+	public void setDirectory(final String dir) {
 		dirOrDom = dir;
 	}
 
-	public void setPort(int p) {
+	public void setPort(final int p) {
 		port = p;
 	}
 
-	public void setLocal(boolean local) {
+	public void setLocal(final boolean local) {
 		useLocal = local;
 	}
 
-	public void setUserdata(String u, String p) {
+	public void setUserdata(final String u, final String p) {
 		user = u;
 		pass = p;
 	}
@@ -66,7 +66,7 @@ public class BookmarkItem extends JMenuItem {
 				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 			}
 
-			int i = StartConnection.startFtpCon(host, user, pass, port, dirOrDom, useLocal);
+			final int i = StartConnection.startFtpCon(host, user, pass, port, dirOrDom, useLocal);
 
 			if (i < 0) {
 				pass = Settings.hiddenPassword;
@@ -77,7 +77,7 @@ public class BookmarkItem extends JMenuItem {
 				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 			}
 
-			boolean ok = StartConnection.startCon(protocol, host, user, pass, port, dirOrDom, useLocal);
+			final boolean ok = StartConnection.startCon(protocol, host, user, pass, port, dirOrDom, useLocal);
 
 			if (!ok) {
 				pass = Settings.hiddenPassword;

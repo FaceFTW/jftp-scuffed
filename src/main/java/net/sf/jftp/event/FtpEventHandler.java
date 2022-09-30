@@ -91,10 +91,10 @@ public class FtpEventHandler implements EventHandler {
 	public FtpEventHandler() {
 		this.client = new FtpClient();
 
-		Method[] m = this.getClass().getDeclaredMethods();
+		final Method[] m = this.getClass().getDeclaredMethods();
 		String methodName = null;
 
-		for (java.lang.reflect.Method method : m) {
+		for (final java.lang.reflect.Method method : m) {
 			methodName = method.getName();
 
 			if (commands.contains(methodName)) {
@@ -103,60 +103,60 @@ public class FtpEventHandler implements EventHandler {
 		}
 	}
 
-	public void open(Vector args) {
+	public void open(final Vector args) {
 		System.out.println("***open");
 		client.login((String) args.elementAt(1));
 	}
 
-	public void disconnect(Vector args) {
+	public void disconnect(final Vector args) {
 		System.out.println("***disconnect");
 		client.disconnect();
 	}
 
-	public void cd(Vector args) {
+	public void cd(final Vector args) {
 		System.out.println("***cd");
 		client.cd((String) args.elementAt(1));
 	}
 
-	public void pwd(Vector args) {
+	public void pwd(final Vector args) {
 		System.out.println("***pwd");
 
-		String directory = client.pwd();
+		final String directory = client.pwd();
 	}
 
-	public void get(Vector args) {
+	public void get(final Vector args) {
 		System.out.println("***get");
 		client.get((String) args.elementAt(1));
 	}
 
-	public void put(Vector args) {
+	public void put(final Vector args) {
 		System.out.println("***put");
 		client.put((String) args.elementAt(1));
 	}
 
-	public void quit(Vector args) {
+	public void quit(final Vector args) {
 		this.disconnect(args);
 	}
 
-	public boolean handle(Event e) {
+	public boolean handle(final Event e) {
 		System.out.println(e.eventCode());
 		System.out.println(((FtpEvent) e).eventMsg());
 
-		StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
-		Vector list = new Vector();
+		final StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
+		final Vector list = new Vector();
 
 		while (st.hasMoreTokens()) {
 			list.addElement(st.nextToken());
 		}
 
 		if (list.size() != 0) {
-			String command = (String) list.elementAt(0);
-			Method o = (Method) methods.get(command.toLowerCase());
+			final String command = (String) list.elementAt(0);
+			final Method o = (Method) methods.get(command.toLowerCase());
 
 			if (o != null) {
 				try {
 					o.invoke(this, list);
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 				}
 			}
 		}

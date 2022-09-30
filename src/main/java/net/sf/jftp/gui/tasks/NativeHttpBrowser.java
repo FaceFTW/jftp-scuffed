@@ -27,10 +27,10 @@ import org.eclipse.swt.widgets.Shell;
 
 public class NativeHttpBrowser extends Composite {
 
-	public NativeHttpBrowser(Composite parent, String url) throws Exception {
+	public NativeHttpBrowser(final Composite parent, final String url) throws Exception {
 		super(parent, SWT.NONE);
 		this.setLayout(new GridLayout());
-		Group webBrowserPanel = new Group(this, SWT.NONE);
+		final Group webBrowserPanel = new Group(this, SWT.NONE);
 		webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		webBrowserPanel.setLayout(new FillLayout());
 
@@ -40,9 +40,9 @@ public class NativeHttpBrowser extends Composite {
 		webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 	}
 
-	public static void main(String[] args) throws Exception {
-		Display display = new Display();
-		Shell shell = new Shell(display);
+	public static void main(final String[] args) throws Exception {
+		final Display display = new Display();
+		final Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
 		new NativeHttpBrowser(shell, args[0]);
 		shell.setSize(800, 600);

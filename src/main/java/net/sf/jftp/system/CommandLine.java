@@ -39,18 +39,18 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 		new Thread(this).start();
 	}
 
-	public static void main(String[] argv) {
-		CommandLine ftp = new CommandLine();
+	public static void main(final String[] argv) {
+		final CommandLine ftp = new CommandLine();
 	}
 
-	public boolean handle(Event e) {
+	public boolean handle(final Event e) {
 		System.out.print("ftp> ");
 
 		return true;
 	}
 
 	public void run() {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		final BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String line = null;
 
 		do {
@@ -58,7 +58,7 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 				eventCollector.accept(new FtpEvent(FTPPrompt));
 				line = in.readLine();
 				eventCollector.accept(new FtpEvent(FTPCommand, line));
-			} catch (IOException e) {
+			} catch (final IOException e) {
 			}
 		} while (!line.toLowerCase().startsWith("quit"));
 

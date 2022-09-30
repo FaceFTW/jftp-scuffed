@@ -45,12 +45,12 @@ public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements 
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			Vector listeners = new Vector();
+			final Vector listeners = new Vector();
 			listeners.add(net.sf.jftp.JFtp.localDir);
 
-			net.sf.jftp.net.wrappers.HttpTransfer t = new net.sf.jftp.net.wrappers.HttpTransfer(text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
+			final net.sf.jftp.net.wrappers.HttpTransfer t = new net.sf.jftp.net.wrappers.HttpTransfer(text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
 
 			net.sf.jftp.JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
 

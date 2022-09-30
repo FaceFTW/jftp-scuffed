@@ -19,11 +19,11 @@ public class FtpEvent extends Event {
 	private int code = 0;
 	private String message;
 
-	public FtpEvent(int code) {
+	public FtpEvent(final int code) {
 		this.code = code;
 	}
 
-	public FtpEvent(int code, String message) {
+	public FtpEvent(final int code, final String message) {
 		this.code = code;
 		this.message = message;
 	}

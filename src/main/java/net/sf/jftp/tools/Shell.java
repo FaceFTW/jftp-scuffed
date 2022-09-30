@@ -29,34 +29,34 @@ public class Shell extends HFrame implements Runnable {
 	final Vector commands = new Vector();
 	int currCmd = 0;
 
-	public Shell(InputStream in, OutputStream out) {
+	public Shell(final InputStream in, final OutputStream out) {
 		try {
 			this.in = new BufferedReader(new InputStreamReader(in));
 			this.out = new BufferedOutputStream(out);
 			this.init();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
 		}
 	}
 
 
-	public Shell(BufferedReader in, OutputStream out) {
+	public Shell(final BufferedReader in, final OutputStream out) {
 		try {
 			this.in = in;
 			this.out = new BufferedOutputStream(out);
 			this.init();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
 		}
 	}
 
-	public static void main(String[] argv) {
+	public static void main(final String[] argv) {
 		try {
-			Process p = Runtime.getRuntime().exec(argv.length > 0 ? argv[0] : "/bin/bash");
+			final Process p = Runtime.getRuntime().exec(argv.length > 0 ? argv[0] : "/bin/bash");
 			new Shell(p.getInputStream(), p.getOutputStream());
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -75,7 +75,7 @@ public class Shell extends HFrame implements Runnable {
 		text.setEditable(false);
 		this.setBackground(text.getBackground());
 
-		DefaultCaret c = new DefaultCaret();
+		final DefaultCaret c = new DefaultCaret();
 		c.setBlinkRate(1000);
 
 		text.setCaret(c);
@@ -85,7 +85,7 @@ public class Shell extends HFrame implements Runnable {
 		text.setLineWrap(true);
 
 		text.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
+			public void keyPressed(final KeyEvent e) {
 				if ((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) && (input.length() > 0)) {
 					input = input.substring(0, input.length() - 1);
 
@@ -99,7 +99,7 @@ public class Shell extends HFrame implements Runnable {
 					if ((currCmd <= commands.size()) && (currCmd > 0)) {
 						currCmd--;
 
-						String cmd = (String) commands.get(currCmd);
+						final String cmd = (String) commands.get(currCmd);
 						input = cmd.substring(0, cmd.length() - 1);
 						text.setText(t + input);
 					}
@@ -110,7 +110,7 @@ public class Shell extends HFrame implements Runnable {
 					if (((currCmd + 1) < commands.size()) && (currCmd >= 0)) {
 						currCmd++;
 
-						String cmd = (String) commands.get(currCmd);
+						final String cmd = (String) commands.get(currCmd);
 						input = cmd.substring(0, cmd.length() - 1);
 						text.setText(t + input);
 					}
@@ -140,7 +140,7 @@ public class Shell extends HFrame implements Runnable {
 
 	public void run() {
 		try {
-			char[] b = new char[4096];
+			final char[] b = new char[4096];
 			int i;
 
 			while ((i = in.read(b, 0, b.length)) != StreamTokenizer.TT_EOF) {
@@ -155,17 +155,17 @@ public class Shell extends HFrame implements Runnable {
 
 				try {
 					Thread.sleep(100);
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					ex.printStackTrace();
 				}
 
-				JScrollBar bar = textP.getVerticalScrollBar();
+				final JScrollBar bar = textP.getVerticalScrollBar();
 				bar.setValue(bar.getMaximum());
 				text.setCaretPosition(text.getText().length());
 			}
 
 			text.setEnabled(false);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());
 			this.dispose();
@@ -174,7 +174,7 @@ public class Shell extends HFrame implements Runnable {
 
 	private void send() {
 		try {
-			String msg = input;
+			final String msg = input;
 			input = "";
 
 			out.write(msg.getBytes());
@@ -183,7 +183,7 @@ public class Shell extends HFrame implements Runnable {
 			commands.add(msg);
 			currCmd = commands.size();
 
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());
 			this.dispose();

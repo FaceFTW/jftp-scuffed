@@ -24,7 +24,7 @@ public class HComboBox extends JPanel //implements ActionListener
 	private final JLabel label;
 	public final JComboBox comboBox;
 
-	public HComboBox(String l) {
+	public HComboBox(final String l) {
 		this.setLayout(new BorderLayout(5, 5));
 
 		label = new JLabel(l + "  ");
@@ -37,7 +37,7 @@ public class HComboBox extends JPanel //implements ActionListener
 		this.setVisible(true);
 	}
 
-	public HComboBox(String l, String[] t) {
+	public HComboBox(final String l, final String[] t) {
 		this.setLayout(new BorderLayout(5, 5));
 
 		label = new JLabel(l + "  ");
@@ -54,7 +54,7 @@ public class HComboBox extends JPanel //implements ActionListener
 		return label.getText();
 	}
 
-	public void setLabel(String l) {
+	public void setLabel(final String l) {
 		label.setText(l + "  ");
 	}
 
@@ -62,15 +62,15 @@ public class HComboBox extends JPanel //implements ActionListener
 		return comboBox.getSelectedItem();
 	}
 
-	public void addItem(Object obj) {
+	public void addItem(final Object obj) {
 		comboBox.addItem(obj);
 	}
 
-	public void addActionListener(java.awt.event.ActionListener actListen) {
+	public void addActionListener(final java.awt.event.ActionListener actListen) {
 		comboBox.addActionListener(actListen);
 	}
 
-	public void setEditable(boolean yesno) {
+	public void setEditable(final boolean yesno) {
 		comboBox.setEditable(yesno);
 	}
 }

@@ -47,7 +47,7 @@ public class WebdavConnection implements BasicConnection {
 	private int fileCount;
 	private boolean shortProgress = false;
 
-	public WebdavConnection(String path, String user, String pass, ConnectionListener l) {
+	public WebdavConnection(final String path, final String user, final String pass, final ConnectionListener l) {
 		this.user = user;
 		this.pass = pass;
 
@@ -55,7 +55,7 @@ public class WebdavConnection implements BasicConnection {
 		this.chdir(path);
 	}
 
-	public int removeFileOrDir(String file) {
+	public int removeFileOrDir(final String file) {
 		net.sf.jftp.system.logging.Log.debug("Feature is not implemented yet");
 
 		if (true) {
@@ -73,7 +73,7 @@ public class WebdavConnection implements BasicConnection {
 				tmp = pwd + file;
 			}
 
-			WebdavFile f = new WebdavFile(this.getURL(tmp));
+			final WebdavFile f = new WebdavFile(this.getURL(tmp));
 
 			if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
 
@@ -92,7 +92,7 @@ public class WebdavConnection implements BasicConnection {
 
 				return -1;
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex.toString());
 			ex.printStackTrace();
 		}
@@ -107,15 +107,15 @@ public class WebdavConnection implements BasicConnection {
 			if (!dir.endsWith("/")) {
 				dir = dir + "/";
 			}
-			WebdavFile f2 = new WebdavFile(this.getURL(dir));
-			String[] tmp = f2.list();
+			final WebdavFile f2 = new WebdavFile(this.getURL(dir));
+			final String[] tmp = f2.list();
 
 			if (tmp == null) {
 				return;
 			}
 
-			for (String s : tmp) {
-				org.apache.webdav.lib.WebdavFile f3 = new org.apache.webdav.lib.WebdavFile(this.getURL(dir + s));
+			for (final String s : tmp) {
+				final org.apache.webdav.lib.WebdavFile f3 = new org.apache.webdav.lib.WebdavFile(this.getURL(dir + s));
 
 				if (!f3.getAbsolutePath().equals(f3.getCanonicalPath())) {
 					f3.delete();
@@ -130,13 +130,13 @@ public class WebdavConnection implements BasicConnection {
 					f3.delete();
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
 	}
 
-	public void sendRawCommand(String cmd) {
+	public void sendRawCommand(final String cmd) {
 	}
 
 	public void disconnect() {
@@ -166,13 +166,13 @@ public class WebdavConnection implements BasicConnection {
 				dirName = pwd + dirName;
 			}
 
-			WebdavFile f = new WebdavFile(this.getURL(dirName));
+			final WebdavFile f = new WebdavFile(this.getURL(dirName));
 
-			boolean x = f.mkdir();
+			final boolean x = f.mkdir();
 			this.fireDirectoryUpdate();
 
 			return x;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex.toString());
 			ex.printStackTrace();
 
@@ -183,16 +183,16 @@ public class WebdavConnection implements BasicConnection {
 	public void list() throws IOException {
 	}
 
-	public boolean chdir(String p) {
+	public boolean chdir(final String p) {
 		try {
-			String p2 = this.processPath(p);
+			final String p2 = this.processPath(p);
 
 			if (p2 == null) {
 				return false;
 			}
 
 			//WebdavFile f = new WebdavFile(getURL(p2));
-			WebdavResource f = this.getResource(p2);
+			final WebdavResource f = this.getResource(p2);
 
 			if (!f.exists() || !f.isCollection()) //!f.isDirectory() || !f.canRead())
 			{
@@ -208,7 +208,7 @@ public class WebdavConnection implements BasicConnection {
 			this.fireDirectoryUpdate();
 
 			return true;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 
@@ -216,8 +216,8 @@ public class WebdavConnection implements BasicConnection {
 		}
 	}
 
-	public boolean chdirNoRefresh(String p) {
-		String p2 = this.processPath(p);
+	public boolean chdirNoRefresh(final String p) {
+		final String p2 = this.processPath(p);
 
 		if (p2 == null) {
 			return false;
@@ -256,7 +256,7 @@ public class WebdavConnection implements BasicConnection {
 
 			net.sf.jftp.system.logging.Log.out("\n\n\nprocessPath URL: " + p);
 
-			WebdavResource f = this.getResource(p);
+			final WebdavResource f = this.getResource(p);
 			String p2 = p;
 
 			if (f.exists() && f.isCollection()) {
@@ -266,7 +266,7 @@ public class WebdavConnection implements BasicConnection {
 					}
 
 					return p2;
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (processPath)!");
 
 					return null;
@@ -276,7 +276,7 @@ public class WebdavConnection implements BasicConnection {
 
 				return null;
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 
@@ -296,7 +296,7 @@ public class WebdavConnection implements BasicConnection {
 			p = p.replace('\\', '/');
 
 			//System.out.println(", local 2:" + p);
-			File f = new File(p);
+			final File f = new File(p);
 
 			if (f.exists()) {
 				try {
@@ -308,7 +308,7 @@ public class WebdavConnection implements BasicConnection {
 					}
 
 					//System.out.println("localPath: "+path);
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
 
 					return false;
@@ -320,7 +320,7 @@ public class WebdavConnection implements BasicConnection {
 			}
 
 			return true;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 
@@ -332,13 +332,13 @@ public class WebdavConnection implements BasicConnection {
 		try {
 			net.sf.jftp.system.logging.Log.out("sortLs PWD: " + pwd);
 
-			WebdavResource fp = this.getResource(pwd);
-			WebdavResource[] f = fp.listWebdavResources();
-			String[] files = new String[f.length];
+			final WebdavResource fp = this.getResource(pwd);
+			final WebdavResource[] f = fp.listWebdavResources();
+			final String[] files = new String[f.length];
 			size = new String[f.length];
 			perms = new int[f.length];
 
-			int accessible = 0;
+			final int accessible = 0;
 
 			for (int i = 0; i < f.length; i++) {
 				files[i] = f[i].getName();
@@ -354,7 +354,7 @@ public class WebdavConnection implements BasicConnection {
 			}
 
 			return files;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 
@@ -370,44 +370,44 @@ public class WebdavConnection implements BasicConnection {
 		return perms;
 	}
 
-	public int handleDownload(String file) {
+	public int handleDownload(final String file) {
 		this.transfer(file);
 
 		return 0;
 	}
 
-	public int handleUpload(String file) {
+	public int handleUpload(final String file) {
 		this.transfer(file, true);
 
 		return 0;
 	}
 
-	public int download(String file) {
+	public int download(final String file) {
 		this.transfer(file);
 
 		return 0;
 	}
 
-	public int upload(String file) {
+	public int upload(final String file) {
 		this.transfer(file, true);
 
 		return 0;
 	}
 
-	private void transferDir(String dir, String out) {
+	private void transferDir(final String dir, final String out) {
 		try {
 			fileCount = 0;
 			shortProgress = true;
 			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-			WebdavFile f2 = new WebdavFile(this.getURL(dir));
-			String[] tmp = f2.list();
+			final WebdavFile f2 = new WebdavFile(this.getURL(dir));
+			final String[] tmp = f2.list();
 
 			if (tmp == null) {
 				return;
 			}
 
-			WebdavFile fx = new WebdavFile(this.getURL(out));
+			final WebdavFile fx = new WebdavFile(this.getURL(out));
 
 			if (!fx.mkdir()) {
 				net.sf.jftp.system.logging.Log.debug("Can not create directory: " + out + " - already exist or permission denied?");
@@ -415,7 +415,7 @@ public class WebdavConnection implements BasicConnection {
 
 			for (int i = 0; i < tmp.length; i++) {
 				tmp[i] = tmp[i].replace('\\', '/');
-				WebdavFile f3 = new WebdavFile(this.getURL(dir + tmp[i]));
+				final WebdavFile f3 = new WebdavFile(this.getURL(dir + tmp[i]));
 
 				if (f3.isDirectory()) {
 					if (!tmp[i].endsWith("/")) {
@@ -431,20 +431,20 @@ public class WebdavConnection implements BasicConnection {
 
 			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
 			shortProgress = false;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
 	}
 
-	private HttpURL getURL(String u) {
+	private HttpURL getURL(final String u) {
 		try {
-			HttpURL url = new HttpURL(u);
+			final HttpURL url = new HttpURL(u);
 
 			url.setUserinfo(user, pass);
 
 			return url;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex);
 
@@ -452,15 +452,15 @@ public class WebdavConnection implements BasicConnection {
 		}
 	}
 
-	private WebdavResource getResource(String res) throws IOException {
+	private WebdavResource getResource(final String res) throws IOException {
 		return new WebdavResource(this.getURL(res));
 	}
 
-	private void transfer(String file) {
+	private void transfer(final String file) {
 		this.transfer(file, false);
 	}
 
-	private void transfer(String file, boolean up) {
+	private void transfer(String file, final boolean up) {
 		String out = net.sf.jftp.system.StringUtils.getDir(file);
 
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
@@ -470,7 +470,7 @@ public class WebdavConnection implements BasicConnection {
 		file = file.replace('\\', '/');
 		out = out.replace('\\', '/');
 
-		String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+		final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 		if (file.endsWith("/")) {
 			if (up) {
@@ -490,7 +490,7 @@ public class WebdavConnection implements BasicConnection {
 		}
 	}
 
-	private void work(String file, String outfile) {
+	private void work(final String file, final String outfile) {
 		net.sf.jftp.system.logging.Log.out("transfer started\nfile: " + file + "\noutfile: " + outfile);
 
 		BufferedInputStream in = null;
@@ -498,11 +498,11 @@ public class WebdavConnection implements BasicConnection {
 
 		try {
 			if (outfile.startsWith("http://")) {
-				String resPath = outfile.substring(0, outfile.lastIndexOf("/") + 1);
-				String name = outfile.substring(outfile.lastIndexOf("/") + 1);
+				final String resPath = outfile.substring(0, outfile.lastIndexOf("/") + 1);
+				final String name = outfile.substring(outfile.lastIndexOf("/") + 1);
 
 				net.sf.jftp.system.logging.Log.debug("Uploading " + file + " to " + resPath + " as " + name);
-WebdavResource res = this.getResource(resPath);
+final WebdavResource res = this.getResource(resPath);
 
 				if (res.putMethod(new File(file))) {
 					this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
@@ -518,7 +518,7 @@ WebdavResource res = this.getResource(resPath);
 
 			out = new BufferedOutputStream(new FileOutputStream(outfile));
 			in = new BufferedInputStream(this.getResource(file).getMethodData());
-byte[] buf = new byte[webdavBuffer];
+final byte[] buf = new byte[webdavBuffer];
 			int len = 0;
 			int reallen = 0;
 while (true) {
@@ -534,7 +534,7 @@ if (len == StreamTokenizer.TT_EOF) {
 			}
 
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			ex.printStackTrace();
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
@@ -543,13 +543,13 @@ if (len == StreamTokenizer.TT_EOF) {
 				out.flush();
 				out.close();
 				in.close();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
 
-	public int upload(String file, InputStream in) {
+	public int upload(final String file, final InputStream in) {
 
 		net.sf.jftp.system.logging.Log.debug("Upload using InputStream is not implemented yet!");
 
@@ -564,7 +564,7 @@ if (len == StreamTokenizer.TT_EOF) {
 
 		try {
 			return this.getResource(file).getMethodData();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @WebdavConnection::getDownloadInputStream");
 
@@ -572,11 +572,11 @@ if (len == StreamTokenizer.TT_EOF) {
 		}
 	}
 
-	public void addConnectionListener(ConnectionListener l) {
+	public void addConnectionListener(final ConnectionListener l) {
 		listeners.add(l);
 	}
 
-	public void setConnectionListeners(Vector l) {
+	public void setConnectionListeners(final Vector l) {
 		listeners = l;
 	}
 	public void fireDirectoryUpdate() {
@@ -588,15 +588,15 @@ if (len == StreamTokenizer.TT_EOF) {
 		}
 	}
 
-	public boolean login(String user, String pass) {
+	public boolean login(final String user, final String pass) {
 		return true;
 	}
 
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		if (listeners == null) {
 		} else {
 			for (int i = 0; i < listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
 
 				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -615,7 +615,7 @@ if (len == StreamTokenizer.TT_EOF) {
 		return null;
 	}
 
-	public boolean rename(String from, String to) {
+	public boolean rename(final String from, final String to) {
 		net.sf.jftp.system.logging.Log.debug("Not implemented!");
 
 		return false;

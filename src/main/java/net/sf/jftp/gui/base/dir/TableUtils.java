@@ -15,26 +15,26 @@ import java.util.Vector;
 
 public class TableUtils {
 
-	public static void calcColumnWidths(JTable table) {
-		JTableHeader header = table.getTableHeader();
+	public static void calcColumnWidths(final JTable table) {
+		final JTableHeader header = table.getTableHeader();
 
 		TableCellRenderer defaultHeaderRenderer = null;
 
 		if (header != null) defaultHeaderRenderer = header.getDefaultRenderer();
 
-		TableColumnModel columns = table.getColumnModel();
-		TableModel data = table.getModel();
+		final TableColumnModel columns = table.getColumnModel();
+		final TableModel data = table.getModel();
 
-		int margin = columns.getColumnMargin();
+		final int margin = columns.getColumnMargin();
 
-		int rowCount = data.getRowCount();
+		final int rowCount = data.getRowCount();
 
 		int totalWidth = 0;
 
 		for (int i = columns.getColumnCount() - 1; i >= 0; --i) {
-			TableColumn column = columns.getColumn(i);
+			final TableColumn column = columns.getColumn(i);
 
-			int columnIndex = column.getModelIndex();
+			final int columnIndex = column.getModelIndex();
 
 			int width = -1;
 
@@ -44,15 +44,15 @@ public class TableUtils {
 
 			if (h != null)
 			{
-				Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, -1, i);
+				final Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, -1, i);
 
 				width = c.getPreferredSize().width;
 			}
 
 			for (int row = rowCount - 1; row >= 0; --row) {
-				TableCellRenderer r = table.getCellRenderer(row, i);
+				final TableCellRenderer r = table.getCellRenderer(row, i);
 
-				Component c = r.getTableCellRendererComponent(table, data.getValueAt(row, columnIndex), false, false, row, i);
+				final Component c = r.getTableCellRendererComponent(table, data.getValueAt(row, columnIndex), false, false, row, i);
 
 				width = Math.max(width, c.getPreferredSize().width);
 			}
@@ -64,22 +64,22 @@ public class TableUtils {
 
 }
 
-	public static void setFixedWidths(JTable table) {
-		JTableHeader header = table.getTableHeader();
+	public static void setFixedWidths(final JTable table) {
+		final JTableHeader header = table.getTableHeader();
 
 		TableCellRenderer defaultHeaderRenderer = null;
 
 		if (header != null) defaultHeaderRenderer = header.getDefaultRenderer();
 
-		TableColumnModel columns = table.getColumnModel();
-		TableModel data = table.getModel();
+		final TableColumnModel columns = table.getColumnModel();
+		final TableModel data = table.getModel();
 
-		int rowCount = data.getRowCount();
+		final int rowCount = data.getRowCount();
 
 		for (int i = 0; i < columns.getColumnCount(); i++) {
-			TableColumn column = columns.getColumn(i);
-			int columnIndex = column.getModelIndex();
-			int width = -1;
+			final TableColumn column = columns.getColumn(i);
+			final int columnIndex = column.getModelIndex();
+			final int width = -1;
 
 			if (i == 0) {
 				column.setPreferredWidth(20);
@@ -98,12 +98,12 @@ public class TableUtils {
 		}
 	}
 
-	public static void copyTableSelectionsToJList(JList list, JTable listTbl) {
+	public static void copyTableSelectionsToJList(final JList list, final JTable listTbl) {
 
 		list.setSelectedIndices(new int[0]);
 
-		int rows = listTbl.getRowCount();
-		Vector sel = new Vector();
+		final int rows = listTbl.getRowCount();
+		final Vector sel = new Vector();
 
 		for (int i = 0; i < rows; i++) {
 			if (listTbl.getSelectionModel().isSelectedIndex(i)) {
@@ -111,18 +111,18 @@ public class TableUtils {
 			}
 		}
 
-		int[] tmp = new int[sel.size()];
+		final int[] tmp = new int[sel.size()];
 		for (int i = 0; i < sel.size(); i++) tmp[i] = (Integer) sel.get(i);
 
 		list.setSelectedIndices(tmp);
 	}
 
 
-	private static synchronized TableModel generateTableModel(JList l) {
+	private static synchronized TableModel generateTableModel(final JList l) {
 
 		return new net.sf.jftp.gui.base.dir.MaterializedTableModel(l) {
 
-			public Class getColumnClass(int columnIndex) {
+			public Class getColumnClass(final int columnIndex) {
 				if (columnIndex == 0) return javax.swing.ImageIcon.class;
 				else if (columnIndex == 3) return javax.swing.JLabel.class;
 				else return String.class;
@@ -136,16 +136,16 @@ public class TableUtils {
 				return list.getModel().getSize();
 			}
 
-			public Object getValueAt(int row, int col) {
+			public Object getValueAt(final int row, final int col) {
 
 				if (list.getModel().getSize() == 0) return "" + null;
 
-				net.sf.jftp.gui.base.dir.DirEntry ret = (net.sf.jftp.gui.base.dir.DirEntry) list.getModel().getElementAt(row);
+				final net.sf.jftp.gui.base.dir.DirEntry ret = (net.sf.jftp.gui.base.dir.DirEntry) list.getModel().getElementAt(row);
 
 				if (col == 0) return ret.getImageIcon();
 				else if (col == 1) return ret.toString();
 				else if (col == 2) {
-					String tmp = "" + ret.getFileSize();
+					final String tmp = "" + ret.getFileSize();
 					return tmp.replaceAll(" >", "");
 				} else if (col == 3) {
 					return ret;
@@ -156,11 +156,11 @@ return ret;
 	}
 
 
-	public static void layoutTable(JList list, JTable listTbl) {
+	public static void layoutTable(final JList list, final JTable listTbl) {
 		layoutTable(list, listTbl, null);
 	}
 
-	public static void layoutTable(JList list, JTable listTbl, Vector<String> names) {
+	public static void layoutTable(final JList list, final JTable listTbl, final Vector<String> names) {
 		listTbl.setModel(generateTableModel(list));
 
 		if (Settings.useFixedTableWidths) {
@@ -176,16 +176,16 @@ return ret;
 	}
 
 
-	public static void tryToEnableRowSorting(JTable listTbl) {
+	public static void tryToEnableRowSorting(final JTable listTbl) {
 
-		TableRowSorter sorter = new TableRowSorter(listTbl.getModel());
+		final TableRowSorter sorter = new TableRowSorter(listTbl.getModel());
 		listTbl.setRowSorter(sorter);
 
 	}
 
-	public static void modifyTableHeader(JTableHeader head, Vector columnNames) {
+	public static void modifyTableHeader(final JTableHeader head, final Vector columnNames) {
 
-		TableColumnModel m = head.getColumnModel();
+		final TableColumnModel m = head.getColumnModel();
 
 		if (m.getColumnCount() != columnNames.size()) {
 			System.out.println("Column mismatch: " + m.getColumnCount() + "/" + columnNames.size());
@@ -193,14 +193,14 @@ return ret;
 		}
 
 		for (int i = 0; i < columnNames.size(); i++) {
-			TableColumn c = m.getColumn(i);
+			final TableColumn c = m.getColumn(i);
 			c.sizeWidthToFit();
 			c.setHeaderValue(columnNames.get(i));
 		}
 	}
 
-	public static JComponent makeTable(JTable table, JComponent cont) {
-		JTableHeader header = table.getTableHeader();
+	public static JComponent makeTable(final JTable table, final JComponent cont) {
+		final JTableHeader header = table.getTableHeader();
 
 		cont.setLayout(new BorderLayout());
 		cont.add(header, BorderLayout.NORTH);

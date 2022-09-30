@@ -36,10 +36,10 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 
 	// This is the only method defined by ListCellRenderer.
 	// We just reconfigure the JLabel each time we're called.
-	public Component getListCellRendererComponent(JList list, Object value, // value to display
-	                                              int index, // cell index
-	                                              boolean isSelected, // is the cell selected
-	                                              boolean cellHasFocus) // the list and the cell have the focus
+	public Component getListCellRendererComponent(final JList list, final Object value, // value to display
+	                                              final int index, // cell index
+	                                              final boolean isSelected, // is the cell selected
+	                                              final boolean cellHasFocus) // the list and the cell have the focus
 	{
 		/* The DefaultListCellRenderer class will take care of
 		 * the JLabels text property, it's foreground and background
@@ -47,7 +47,7 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 		 */
 		super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-		ImageIcon i = new ImageIcon(((DirEntry) value).getImage());
+		final ImageIcon i = new ImageIcon(((DirEntry) value).getImage());
 
 		if (i == null) {
 			System.out.println("Img null: " + value.toString() + "/" + ((DirEntry) value).getImage());
@@ -66,14 +66,14 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 
 			this.setFont(GUIDefaults.monospaced);
 
-			String s = value.toString();
+			final String s = value.toString();
 
-			String date = "";
+			final String date = "";
 
 			if (Settings.showDateNoSize && (((DirEntry) list.getModel().getElementAt(index)).who instanceof RemoteDir)) {
 				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getDate());
 
-				int x = 12 - size.length();
+				final int x = 12 - size.length();
 
 				for (int j = 0; j < x; j++) {
 					size.append(" ");
@@ -81,7 +81,7 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 			} else if (Settings.showLocalDateNoSize && (((DirEntry) list.getModel().getElementAt(index)).who instanceof LocalDir)) {
 				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getDate());
 
-				int x = 12 - size.length();
+				final int x = 12 - size.length();
 
 				for (int j = 0; j < x; j++) {
 					size.append(" ");
@@ -92,11 +92,11 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 		} else {
 			this.setFont(GUIDefaults.small);
 
-			String s = value.toString();
+			final String s = value.toString();
 			this.setText(s);
 		}
 
-		int ok = ((DirEntry) value).getPermission();
+		final int ok = ((DirEntry) value).getPermission();
 
 		if (ok == DirEntry.DENIED) {
 			this.setForeground(GUIDefaults.deniedColor);

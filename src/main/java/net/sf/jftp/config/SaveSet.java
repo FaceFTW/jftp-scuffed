@@ -22,9 +22,9 @@ import java.io.PrintStream;
 public class SaveSet {
 	private PrintStream out = null;
 
-	public SaveSet(String file, String host, String user, String pass, String name, String port) {
+	public SaveSet(final String file, final String host, final String user, final String pass, final String name, final String port) {
 		try {
-			FileOutputStream fos;
+			final FileOutputStream fos;
 			out = new PrintStream((fos = new FileOutputStream(file)));
 			out.println(host);
 			out.println(user);
@@ -38,12 +38,12 @@ public class SaveSet {
 			out.println(name);
 			out.println(port);
 			fos.close();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public SaveSet(String file, String host, String user, String pass, String port, String cwd, String lcwd) {
+	public SaveSet(final String file, final String host, final String user, final String pass, final String port, final String cwd, final String lcwd) {
 		try {
 			out = new PrintStream(new FileOutputStream(file));
 			out.println(host);
@@ -58,7 +58,7 @@ public class SaveSet {
 			out.println(port);
 			out.println(cwd);
 			out.println(lcwd);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -69,17 +69,17 @@ public class SaveSet {
 	//***all of these constructors is put in a private method
 	//*** file: the file name
 	//*** lsCMD: the FTP LIST command to be saved
-	public SaveSet(String file, String lsCmd) {
+	public SaveSet(final String file, final String lsCmd) {
 		try {
 			out = new PrintStream(new FileOutputStream(file));
 			out.println(lsCmd);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	private void savePW(String pass, PrintStream out) throws Exception {
-		String coded = Crypto.Encrypt(pass);
+	private void savePW(final String pass, final PrintStream out) throws Exception {
+		final String coded = Crypto.Encrypt(pass);
 		if (coded == "") {
 			// we failed to encrypt for some reason, so lets just save it
 			out.println(pass);

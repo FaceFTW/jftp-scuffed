@@ -20,7 +20,7 @@ public class StringUtils {
 	 * Makes a (path) string shorter to get it displayed correctly
 	 */
 	public static String cutPath(String s) {
-		int maxlabel = 64;
+		final int maxlabel = 64;
 
 		if (s.length() > maxlabel) {
 			while (s.contains("/")) {
@@ -28,7 +28,7 @@ public class StringUtils {
 				s = StringUtils.cutAfter(s, '/');
 
 				if (s.length() < 16) {
-					StringBuilder sb = new StringBuilder(s);
+					final StringBuilder sb = new StringBuilder(s);
 					sb.insert(0, ".../");
 
 					return sb.toString();
@@ -42,9 +42,9 @@ public class StringUtils {
 	/**
 	 * Removes the a string at the beginning of a string
 	 */
-	public static String removeStart(String str, String what) {
+	public static String removeStart(final String str, final String what) {
 		if (str.startsWith(what)) {
-			int x = what.length();
+			final int x = what.length();
 
 			return str.substring(x);
 		} else {
@@ -55,7 +55,7 @@ public class StringUtils {
 	/**
 	 * Returns the rest of a string after a given character
 	 */
-	public static String cutAfter(String str, char c) {
+	public static String cutAfter(final String str, final char c) {
 		for (int i = 0; i < str.length(); i++) {
 			if (str.charAt(i) == c) {
 				//   System.out.println(str.substring(i+1));
@@ -70,9 +70,9 @@ public class StringUtils {
 	 * Used to search for return codes in a string array.
 	 * Returns the first one found
 	 */
-	public static String contains(String[] tmp, String[] str) {
-		for (String value : tmp) {
-			for (String s : str) {
+	public static String contains(final String[] tmp, final String[] str) {
+		for (final String value : tmp) {
+			for (final String s : str) {
 				if (value.startsWith(s)) {
 					return value;
 				}
@@ -85,7 +85,7 @@ public class StringUtils {
 	/**
 	 * Returns true if the given string contains the given character
 	 */
-	public static boolean strstr(String tmp, char str) {
+	public static boolean strstr(final String tmp, final char str) {
 		for (int i = 0; i < tmp.length(); i++) {
 			if (tmp.charAt(i) == str) {
 				return true;
@@ -98,8 +98,8 @@ public class StringUtils {
 	/**
 	 * Returns a string representing a given character
 	 */
-	public static String string(char c) {
-		char[] buf = new char[1];
+	public static String string(final char c) {
+		final char[] buf = new char[1];
 		buf[0] = c;
 
 		return new String(buf);
@@ -151,7 +151,7 @@ public class StringUtils {
 		return tmp;
 	}
 
-	public static boolean isRelative(String file) {
+	public static boolean isRelative(final String file) {
 		if (file.startsWith("/")) {
 			return false;
 		}
@@ -159,12 +159,12 @@ public class StringUtils {
 		return (file.length() <= 2) || (file.charAt(1) != ':');
 
 	}
-	public static void main(String[] argv) {
-		String a1 = "E:\\programme\\test.html";
-		String a2 = "programme\\test.html";
-		String a3 = "test.html";
-		String a4 = "/programme/test.html";
-		String a5 = "programme/test.html";
+	public static void main(final String[] argv) {
+		final String a1 = "E:\\programme\\test.html";
+		final String a2 = "programme\\test.html";
+		final String a3 = "test.html";
+		final String a4 = "/programme/test.html";
+		final String a5 = "programme/test.html";
 
 		System.out.println("getfile: " + getFile(a1) + " - false, " + isRelative(a1));
 		System.out.println("getfile: " + getFile(a2) + " - true, " + isRelative(a2));
@@ -173,8 +173,8 @@ public class StringUtils {
 		System.out.println("getfile: " + getFile(a5) + " - true, " + isRelative(a5));
 	}
 
-	public static String cut(String tmp, String where) {
-		StringBuilder ret = new StringBuilder();
+	public static String cut(final String tmp, final String where) {
+		final StringBuilder ret = new StringBuilder();
 
 		for (int i = 0; i < tmp.length(); i++) {
 			if (!string(tmp.charAt(i)).equals(where)) {

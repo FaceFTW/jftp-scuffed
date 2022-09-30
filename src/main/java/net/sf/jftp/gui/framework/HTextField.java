@@ -25,19 +25,19 @@ public class HTextField extends JPanel {
 	public JTextField text;
 	private JLabel label;
 
-	public HTextField(String l, String t, int size) {
+	public HTextField(final String l, final String t, final int size) {
 		this.init(l, t, size, false);
 	}
 
-	public HTextField(String l, String t) {
+	public HTextField(final String l, final String t) {
 		this.init(l, t, 12, false);
 	}
 
-	public HTextField(String l, String t, boolean isPw) {
+	public HTextField(final String l, final String t, final boolean isPw) {
 		this.init(l, t, 12, isPw);
 	}
 
-	public void init(String l, String t, int size, boolean isPw) {
+	public void init(final String l, final String t, final int size, final boolean isPw) {
 		this.setLayout(new MigLayout());
 
 		label = new JLabel(l);
@@ -63,7 +63,7 @@ public class HTextField extends JPanel {
 		return label.getText();
 	}
 
-	public void setLabel(String l) {
+	public void setLabel(final String l) {
 		label.setText(l + "  ");
 	}
 
@@ -71,7 +71,7 @@ public class HTextField extends JPanel {
 		return text.getText();
 	}
 
-	public void setText(String t) {
+	public void setText(final String t) {
 		text.setText(t);
 	}
 
@@ -79,7 +79,7 @@ public class HTextField extends JPanel {
 		text.requestFocus();
 	}
 
-	public void setEnabled(boolean yesno) {
+	public void setEnabled(final boolean yesno) {
 		text.setEnabled(yesno);
 	}
 }

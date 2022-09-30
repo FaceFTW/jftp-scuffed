@@ -28,7 +28,7 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 	private final String cmd = "default";
 	public ActionListener who = null;
 
-	public HDesktopBackground(String image, ActionListener who) {
+	public HDesktopBackground(final String image, final ActionListener who) {
 		this.who = who;
 
 		img = HImage.getImage(this, image);
@@ -36,15 +36,15 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 		this.setVisible(true);
 	}
 
-	public void paintComponent(Graphics g) {
+	public void paintComponent(final Graphics g) {
 		if (!net.sf.jftp.config.Settings.getUseBackground()) {
 			return;
 		}
 
-		int x = img.getWidth(this);
-		int y = img.getHeight(this);
-		int w = 2000 / x;
-		int h = 2000 / y;
+		final int x = img.getWidth(this);
+		final int y = img.getHeight(this);
+		final int w = 2000 / x;
+		final int h = 2000 / y;
 
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
@@ -53,26 +53,26 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 		}
 	}
 
-	public void update(Graphics g) {
+	public void update(final Graphics g) {
 		this.paintComponent(g);
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(final MouseEvent e) {
 	}
 
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(final MouseEvent e) {
 	}
 
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(final MouseEvent e) {
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(final MouseEvent e) {
 	}
 
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(final MouseEvent e) {
 	}
 
-	public boolean imageUpdate(Image image, int infoflags, int x, int y, int width, int height) {
+	public boolean imageUpdate(final Image image, final int infoflags, final int x, final int y, final int width, final int height) {
 		//if(width > 0 && height >0) repaint();
 		return true;
 	}

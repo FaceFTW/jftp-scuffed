@@ -25,7 +25,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 	private int stat = 1;
 	private ConnectionHandler handler = new ConnectionHandler();
 
-	public HttpTransfer(String url, String localPath, Vector listeners, ConnectionHandler handler) {
+	public HttpTransfer(final String url, final String localPath, final Vector listeners, final ConnectionHandler handler) {
 		this.url = url;
 		this.localPath = localPath;
 		this.listeners = listeners;
@@ -57,11 +57,11 @@ public class HttpTransfer extends Transfer implements Runnable {
 				return;
 			}
 
-			URL u = new URL(url);
+			final URL u = new URL(url);
 
-			BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(localPath + file));
-			BufferedInputStream in = new BufferedInputStream(u.openStream());
-			byte[] buf = new byte[4096];
+			final BufferedOutputStream f = new BufferedOutputStream(new FileOutputStream(localPath + file));
+			final BufferedInputStream in = new BufferedInputStream(u.openStream());
+			final byte[] buf = new byte[4096];
 			int len = 0;
 
 			while ((stat > 0) && work) {
@@ -82,11 +82,11 @@ public class HttpTransfer extends Transfer implements Runnable {
 			in.close();
 
 			this.fireProgressUpdate(file, DataConnection.FINISHED, len);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			work = false;
 			net.sf.jftp.system.logging.Log.debug("Download failed: " + ex);
 
-			File f = new File(localPath + file);
+			final File f = new File(localPath + file);
 			f.delete();
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 
@@ -96,13 +96,13 @@ public class HttpTransfer extends Transfer implements Runnable {
 		}
 
 		if (!work) {
-			File f = new File(localPath + file);
+			final File f = new File(localPath + file);
 			f.delete();
 			net.sf.jftp.system.logging.Log.out("download aborted: " + file);
 		}
 	}
 
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		if (listeners == null) {
 			return;
 		}

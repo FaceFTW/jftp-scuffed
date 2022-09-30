@@ -28,7 +28,7 @@ public class FtpURLStreamHandler extends URLStreamHandler {
 		super();
 	}
 
-	public URLConnection openConnection(URL u) {
+	public URLConnection openConnection(final URL u) {
 		return null;
 	}
 }

@@ -19,9 +19,9 @@ import java.io.File;
 
 
 public class AutoRemover {
-	public AutoRemover(String file, String type) {
+	public AutoRemover(final String file, final String type) {
 		if (type.equals("local")) {
-			File f = new File(net.sf.jftp.JFtp.localDir.getPath() + file);
+			final File f = new File(net.sf.jftp.JFtp.localDir.getPath() + file);
 
 			if (f.isDirectory()) {
 				net.sf.jftp.system.LocalIO.cleanLocalDir(file, net.sf.jftp.JFtp.localDir.getPath());

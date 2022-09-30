@@ -59,7 +59,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	public SmbConnection() {
 	}
 
-	public SmbConnection(String url, String domain, String user, String pass, ConnectionListener l) {
+	public SmbConnection(final String url, String domain, final String user, final String pass, final ConnectionListener l) {
 		NtlmAuthenticator.setDefault(this);
 
 		if (l != null) {
@@ -97,7 +97,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
         */
 		try {
 			return new NtlmPasswordAuthentication(domain, user, pass);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error logging in: " + ex);
 			ex.printStackTrace();
 
@@ -115,14 +115,14 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 		//System.out.println(file);
 		try {
-			SmbFile f = new SmbFile(file, this.getAuth());
+			final SmbFile f = new SmbFile(file, this.getAuth());
 
 			if (f.exists() && f.isDirectory()) {
 				this.cleanSmbDir(file);
 			}
 
 			f.delete();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Removal failed (" + ex + ").");
 
 			return -1;
@@ -134,15 +134,15 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private void cleanSmbDir(String dir) throws Exception {
 		dir = this.toSMB(dir);
 
-		SmbFile f2 = new SmbFile(dir, this.getAuth());
-		String[] tmp = f2.list();
+		final SmbFile f2 = new SmbFile(dir, this.getAuth());
+		final String[] tmp = f2.list();
 
 		if (tmp == null) {
 			return;
 		}
 
-		for (String s : tmp) {
-			jcifs.smb.SmbFile f3 = new jcifs.smb.SmbFile(dir + s, this.getAuth());
+		for (final String s : tmp) {
+			final jcifs.smb.SmbFile f3 = new jcifs.smb.SmbFile(dir + s, this.getAuth());
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
@@ -155,7 +155,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		}
 	}
 
-	public void sendRawCommand(String cmd) {
+	public void sendRawCommand(final String cmd) {
 	}
 
 	public void disconnect() {
@@ -188,13 +188,13 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 			dirName = this.toSMB(dirName);
 
-			SmbFile f = new SmbFile(dirName, this.getAuth());
+			final SmbFile f = new SmbFile(dirName, this.getAuth());
 			f.mkdir();
 
 			this.fireDirectoryUpdate();
 
 			return true;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Failed to create directory (" + ex + ").");
 
 			return false;
@@ -204,11 +204,11 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	public void list() throws IOException {
 	}
 
-	public boolean chdir(String p) {
+	public boolean chdir(final String p) {
 		return this.chdir(p, true);
 	}
 
-	public boolean chdir(String p, boolean refresh) {
+	public boolean chdir(final String p, final boolean refresh) {
 		try {
 			if (p.endsWith("..")) {
 				return this.cdup();
@@ -221,7 +221,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			}
 
 			//Log.debug("tmp: " + tmp);
-			SmbFile f = new SmbFile(tmp, this.getAuth());
+			final SmbFile f = new SmbFile(tmp, this.getAuth());
 			f.list();
 
 			pwd = tmp;
@@ -236,7 +236,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			dummy = false;
 
 			return true;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			if (ex.getMessage() != null && (ex.getMessage().indexOf("MSBROWSE") > 0) && !dummy) // MSBROWSE is not in the message (anymore)
 			{
 				net.sf.jftp.system.logging.Log.debug("\nCould not find a master server.");
@@ -256,7 +256,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		}
 	}
 
-	public boolean chdirNoRefresh(String p) {
+	public boolean chdirNoRefresh(final String p) {
 		return this.chdir(p, false);
 	}
 
@@ -272,7 +272,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		p = p.replace('\\', '/');
 
 		//System.out.println(", local 2:" + p);
-		File f = new File(p);
+		final File f = new File(p);
 
 		if (f.exists()) {
 			try {
@@ -284,7 +284,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				}
 
 				//System.out.println("localPath: "+path);
-			} catch (IOException ex) {
+			} catch (final IOException ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
 
 				return false;
@@ -303,15 +303,15 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			//Log.debug("sortLs: trying");
 			this.chdirNoRefresh(this.getPWD());
 
-			SmbFile fx = new SmbFile(pwd, this.getAuth());
+			final SmbFile fx = new SmbFile(pwd, this.getAuth());
 
 			//System.out.println(pwd);
 			//if(fx == null) System.out.println("Smb: fx null");
-			SmbFile[] f = fx.listFiles();
+			final SmbFile[] f = fx.listFiles();
 
 			//Log.debug("sortLs: file is there and listed");
 			//if(f == null) System.out.println("Smb: f null");
-			String[] files = new String[f.length];
+			final String[] files = new String[f.length];
 			size = new String[f.length];
 			perms = new int[f.length];
 
@@ -347,7 +347,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 			//Log.debug("sortLs: finished, ok");
 			return files;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			if (ex instanceof SmbAuthException) {
 				net.sf.jftp.system.logging.Log.debug("Access denied: " + ex);
 
@@ -370,9 +370,9 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return perms;
 	}
 
-	public int handleUpload(String f) {
+	public int handleUpload(final String f) {
 		if (net.sf.jftp.config.Settings.getEnableSmbMultiThreading()) {
-			SmbTransfer t = new SmbTransfer(this.getPWD(), path, f, user, pass, domain, listeners, Transfer.UPLOAD);
+			final SmbTransfer t = new SmbTransfer(this.getPWD(), path, f, user, pass, domain, listeners, Transfer.UPLOAD);
 		} else {
 			this.upload(f);
 		}
@@ -380,9 +380,9 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return 0;
 	}
 
-	public int handleDownload(String f) {
+	public int handleDownload(final String f) {
 		if (net.sf.jftp.config.Settings.getEnableSmbMultiThreading()) {
-			SmbTransfer t = new SmbTransfer(this.getPWD(), path, f, user, pass, domain, listeners, Transfer.DOWNLOAD);
+			final SmbTransfer t = new SmbTransfer(this.getPWD(), path, f, user, pass, domain, listeners, Transfer.DOWNLOAD);
 		} else {
 			this.download(f);
 		}
@@ -390,15 +390,15 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return 0;
 	}
 
-	public int upload(String f) {
-		String file = this.toSMB(f);
+	public int upload(final String f) {
+		final String file = this.toSMB(f);
 
 		if (file.endsWith("/")) {
-			String out = net.sf.jftp.system.StringUtils.getDir(file);
+			final String out = net.sf.jftp.system.StringUtils.getDir(file);
 			this.uploadDir(file, path + out);
 			this.fireActionFinished(this);
 		} else {
-			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
 			this.work(path + outfile, file);
@@ -408,15 +408,15 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return 0;
 	}
 
-	public int download(String f) {
-		String file = this.toSMB(f);
+	public int download(final String f) {
+		final String file = this.toSMB(f);
 
 		if (file.endsWith("/")) {
-			String out = net.sf.jftp.system.StringUtils.getDir(file);
+			final String out = net.sf.jftp.system.StringUtils.getDir(file);
 			this.downloadDir(file, path + out);
 			this.fireActionFinished(this);
 		} else {
-			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
 			this.work(file, path + outfile);
@@ -426,28 +426,28 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return 0;
 	}
 
-	private void downloadDir(String dir, String out) {
+	private void downloadDir(final String dir, final String out) {
 		try {
 			//System.out.println("downloadDir: " + dir + "," + out);
 			fileCount = 0;
 			shortProgress = true;
 			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-			SmbFile f2 = new SmbFile(dir, this.getAuth());
-			String[] tmp = f2.list();
+			final SmbFile f2 = new SmbFile(dir, this.getAuth());
+			final String[] tmp = f2.list();
 
 			if (tmp == null) {
 				return;
 			}
 
-			File fx = new File(out);
+			final File fx = new File(out);
 			fx.mkdir();
 
 			for (int i = 0; i < tmp.length; i++) {
 				tmp[i] = tmp[i].replace('\\', '/');
 
 				//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
-				SmbFile f3 = new SmbFile(dir + tmp[i], this.getAuth());
+				final SmbFile f3 = new SmbFile(dir + tmp[i], this.getAuth());
 
 				if (f3.isDirectory()) {
 					if (!tmp[i].endsWith("/")) {
@@ -463,7 +463,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			}
 
 			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 
 			//System.out.println(dir + ", " + out);
@@ -474,7 +474,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		shortProgress = false;
 	}
 
-	private void uploadDir(String dir, String out) {
+	private void uploadDir(final String dir, final String out) {
 		try {
 			//System.out.println("uploadDir: " + dir + "," + out);
 			isDirUpload = true;
@@ -482,21 +482,21 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			shortProgress = true;
 			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-			File f2 = new File(out);
-			String[] tmp = f2.list();
+			final File f2 = new File(out);
+			final String[] tmp = f2.list();
 
 			if (tmp == null) {
 				return;
 			}
 
-			SmbFile fx = new SmbFile(dir, this.getAuth());
+			final SmbFile fx = new SmbFile(dir, this.getAuth());
 			fx.mkdir();
 
 			for (int i = 0; i < tmp.length; i++) {
 				tmp[i] = tmp[i].replace('\\', '/');
 
 				//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
-				File f3 = new File(out + tmp[i]);
+				final File f3 = new File(out + tmp[i]);
 
 				if (f3.isDirectory()) {
 					if (!tmp[i].endsWith("/")) {
@@ -512,7 +512,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			}
 
 			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 
 			//System.out.println(dir + ", " + out);
@@ -543,7 +543,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return file;
 	}
 
-	private void work(String file, String outfile) {
+	private void work(final String file, final String outfile) {
 		BufferedOutputStream out = null;
 		BufferedInputStream in = null;
 
@@ -564,7 +564,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				in = new BufferedInputStream(new FileInputStream(file));
 			}
 
-			byte[] buf = new byte[smbBuffer];
+			final byte[] buf = new byte[smbBuffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -589,7 +589,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			}
 
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		} finally {
@@ -597,27 +597,27 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				out.flush();
 				out.close();
 				in.close();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
 
-	private void update(String file, String type, int bytes) {
+	private void update(final String file, final String type, final int bytes) {
 		if (listeners == null) {
 		} else {
 			for (int i = 0; i < listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
 	}
 
-	public void addConnectionListener(ConnectionListener l) {
+	public void addConnectionListener(final ConnectionListener l) {
 		listeners.add(l);
 	}
 
-	public void setConnectionListeners(Vector l) {
+	public void setConnectionListeners(final Vector l) {
 		listeners = l;
 	}
 
@@ -633,19 +633,19 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		}
 	}
 
-	public boolean login(String user, String pass) {
+	public boolean login(final String user, final String pass) {
 		return true;
 	}
 
 	/**
 	 * progress update
 	 */
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		//System.out.println(listener);
 		if (listeners == null) {
 		} else {
 			for (int i = 0; i < listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
 
 				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -662,7 +662,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		}
 	}
 
-	public void fireActionFinished(SmbConnection con) {
+	public void fireActionFinished(final SmbConnection con) {
 		if (listeners == null) {
 		} else {
 			for (int i = 0; i < listeners.size(); i++) {
@@ -671,7 +671,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		}
 	}
 
-	public int upload(String file, InputStream i) {
+	public int upload(String file, final InputStream i) {
 		BufferedOutputStream out = null;
 		BufferedInputStream in = null;
 
@@ -681,7 +681,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			out = new BufferedOutputStream(new SmbFileOutputStream(new SmbFile(file, this.getAuth())));
 			in = new BufferedInputStream(i);
 
-			byte[] buf = new byte[smbBuffer];
+			final byte[] buf = new byte[smbBuffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -701,7 +701,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 
 			return 0;
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
@@ -710,7 +710,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				out.flush();
 				out.close();
 				in.close();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -723,7 +723,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 		try {
 			return new BufferedInputStream(new SmbFile(file, this.getAuth()).getInputStream());
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @SmbConnection::getDownloadInputStream");
 
@@ -740,12 +740,12 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 			file = this.toSMB(file);
 			to = this.toSMB(to);
 
-			SmbFile src = new SmbFile(file, this.getAuth());
+			final SmbFile src = new SmbFile(file, this.getAuth());
 
 			src.renameTo(new SmbFile(to, this.getAuth()));
 
 			return true;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @SmbConnection::rename");
 

@@ -50,7 +50,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this("localhost", 25);
 	}
 
-	public RawConnection(String hostname, int p) {
+	public RawConnection(final String hostname, final int p) {
 		host.setText(hostname);
 
 		this.setSize(550, 300);
@@ -58,7 +58,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this.setTitle("Direct TCP/IP connection");
 		this.getContentPane().setLayout(new BorderLayout(2, 2));
 
-		javax.swing.JPanel p1 = new javax.swing.JPanel();
+		final javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.add(host);
 		p1.add(port);
 		host.text.setEditable(false);
@@ -67,11 +67,11 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 
 		com.text.addActionListener(this);
 
-		javax.swing.JPanel p2 = new javax.swing.JPanel();
+		final javax.swing.JPanel p2 = new javax.swing.JPanel();
 		p2.add(com);
 
 		com.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent e) {
+			public void keyReleased(final KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					net.sf.jftp.util.RawConnection.this.transmit();
 				}
@@ -109,7 +109,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this.addWindowListener(this);
 		this.setVisible(true);
 
-		JHostChooser jhc = new JHostChooser();
+		final JHostChooser jhc = new JHostChooser();
 	}
 
 	private void transmit() {
@@ -133,7 +133,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		com.setText("");
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == send) || (e.getSource() == com.text)) {
 			this.transmit();
 		}
@@ -147,35 +147,35 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		}
 
 		if (e.getSource() == changeHost) {
-			JHostChooser jhc = new JHostChooser();
+			final JHostChooser jhc = new JHostChooser();
 		}
 	}
 
-	private void debugWrite(String str) {
+	private void debugWrite(final String str) {
 		output.append(str + "\n");
 	}
 
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(final WindowEvent e) {
 		if (mayDispose) {
 			this.dispose();
 		}
 	}
 
-	public void windowIconified(WindowEvent e) {
+	public void windowIconified(final WindowEvent e) {
 	}
 
-	public void windowDeiconified(WindowEvent e) {
+	public void windowDeiconified(final WindowEvent e) {
 	}
 
-	public void windowClosed(WindowEvent e) {
+	public void windowClosed(final WindowEvent e) {
 	}
 
-	public void windowActivated(WindowEvent e) {
+	public void windowActivated(final WindowEvent e) {
 	}
 
-	public void windowDeactivated(WindowEvent e) {
+	public void windowDeactivated(final WindowEvent e) {
 	}
 
-	public void windowOpened(WindowEvent e) {
+	public void windowOpened(final WindowEvent e) {
 	}
 }

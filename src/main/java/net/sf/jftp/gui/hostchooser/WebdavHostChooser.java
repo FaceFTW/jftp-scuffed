@@ -42,13 +42,13 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	private ComponentListener listener = null;
 	private boolean useLocal = false;
 
-	public WebdavHostChooser(ComponentListener l, boolean local) {
+	public WebdavHostChooser(final ComponentListener l, final boolean local) {
 		listener = l;
 		useLocal = local;
 		this.init();
 	}
 
-	public WebdavHostChooser(ComponentListener l) {
+	public WebdavHostChooser(final ComponentListener l) {
 		listener = l;
 		this.init();
 	}
@@ -67,7 +67,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
 		this.getContentPane().add("North", host);
 
-		HPanel p = new HPanel();
+		final HPanel p = new HPanel();
 		p.setLayout(new GridLayout(2, 2, 5, 3));
 
 
@@ -102,15 +102,15 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		host.requestFocus();
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			String htmp = host.getText().trim();
-			String utmp = user.getText().trim();
-			String ptmp = pass.getText();
+			final String htmp = host.getText().trim();
+			final String utmp = user.getText().trim();
+			final String ptmp = pass.getText();
 
-			net.sf.jftp.net.wrappers.WebdavConnection con;
+			final net.sf.jftp.net.wrappers.WebdavConnection con;
 
 			if (useLocal) {
 				con = new net.sf.jftp.net.wrappers.WebdavConnection(htmp, utmp, ptmp, (net.sf.jftp.net.ConnectionListener) net.sf.jftp.JFtp.localDir);
@@ -133,34 +133,34 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		}
 	}
 
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(final WindowEvent e) {
 		//System.exit(0);
 		this.dispose();
 	}
 
-	public void windowClosed(WindowEvent e) {
+	public void windowClosed(final WindowEvent e) {
 	}
 
-	public void windowActivated(WindowEvent e) {
+	public void windowActivated(final WindowEvent e) {
 	}
 
-	public void windowDeactivated(WindowEvent e) {
+	public void windowDeactivated(final WindowEvent e) {
 	}
 
-	public void windowIconified(WindowEvent e) {
+	public void windowIconified(final WindowEvent e) {
 	}
 
-	public void windowDeiconified(WindowEvent e) {
+	public void windowDeiconified(final WindowEvent e) {
 	}
 
-	public void windowOpened(WindowEvent e) {
+	public void windowOpened(final WindowEvent e) {
 	}
 
 
-	public void pause(int time) {
+	public void pause(final int time) {
 		try {
 			Thread.sleep(time);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 		}
 	}
 }

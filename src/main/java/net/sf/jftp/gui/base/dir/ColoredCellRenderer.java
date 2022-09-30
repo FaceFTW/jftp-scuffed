@@ -9,8 +9,8 @@ import java.awt.*;
 public class ColoredCellRenderer extends DefaultTableCellRenderer {
 
 
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-		Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int column) {
+		final Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
 
 		if (isSelected) cell.setBackground(table.getSelectionBackground());
@@ -25,7 +25,7 @@ public class ColoredCellRenderer extends DefaultTableCellRenderer {
 		}
 
 		if (column == 3) {
-			int x = ((DirEntry) value).getPermission();
+			final int x = ((DirEntry) value).getPermission();
 			if (x == DirEntry.R) {
 				cell.setBackground(Color.WHITE);
 				((JLabel) cell).setText("r-");

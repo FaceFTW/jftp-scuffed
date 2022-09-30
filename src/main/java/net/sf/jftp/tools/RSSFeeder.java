@@ -48,7 +48,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 		runner.start();
 	}
 
-	public void switchTo(String u) {
+	public void switchTo(final String u) {
 		if (u == null) {
 			return;
 		}
@@ -72,7 +72,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 			url = new URL(urlstring);
 			parser = new RSSParser(url);
 			time = System.currentTimeMillis();
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: Can't load RSS feed (" + ex + ")");
 			ex.printStackTrace();
 
@@ -81,8 +81,8 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		while (true) {
 			try {
-				Enumeration e = parser.titles.elements();
-				Enumeration e2 = parser.descs.elements();
+				final Enumeration e = parser.titles.elements();
+				final Enumeration e2 = parser.descs.elements();
 
 				while (e.hasMoreElements()) {
 					can.setText((String) e.nextElement());
@@ -106,7 +106,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 						next.setEnabled(false);
 					}
 				}
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 
@@ -117,7 +117,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 		}
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == next) {
 			if (header) {
 				breakHeader = true;

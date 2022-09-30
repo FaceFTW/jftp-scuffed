@@ -130,7 +130,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	JMenu current = bookmarks;
 	JMenu last = bookmarks;
 
-	public AppMenuBar(JFtp jftp) {
+	public AppMenuBar(final JFtp jftp) {
 		this.jftp = jftp;
 
 		ftpCon.addActionListener(this);
@@ -243,9 +243,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		info.add(changelog);
 		info.add(hp);
 
-		UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
+		final UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 
-		for (javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
+		for (final javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
 
 			/*
 			 * Don't add menu items for unsupported look and feel's.
@@ -258,14 +258,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			 * menu item do?
 			 */
 			try {
-				javax.swing.LookAndFeel lnf = (javax.swing.LookAndFeel) Class.forName(lookAndFeelInfo.getClassName()).newInstance();
+				final javax.swing.LookAndFeel lnf = (javax.swing.LookAndFeel) Class.forName(lookAndFeelInfo.getClassName()).newInstance();
 
 				if (lnf.isSupportedLookAndFeel()) {
-					javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(lookAndFeelInfo.getName());
+					final javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(lookAndFeelInfo.getName());
 					tmp.addActionListener(this);
 					lf.add(tmp);
 				}
-			} catch (ClassNotFoundException | IllegalAccessException | InstantiationException cnfe) {
+			} catch (final ClassNotFoundException | IllegalAccessException | InstantiationException cnfe) {
 				continue;
 			}
 		}
@@ -298,14 +298,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		String data = "";
 
 		try {
-			DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(Settings.bookmarks)));
+			final DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(Settings.bookmarks)));
 
 			while ((data = in.readLine()) != null) {
 				if (!data.startsWith("#") && !data.trim().isEmpty()) {
 					this.addBookmarkLine(data);
 				}
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			Log.out("No bookmarks.txt found, using defaults.");
 
 			this.addBookmark("FTP", "ftp.kernel.org", "anonymous", "j-ftp@sf.net", 21, "/pub/linux/kernel", "false");
@@ -315,14 +315,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void addBookmarkLine(String tmp) {
+	private void addBookmarkLine(final String tmp) {
 		try {
-			StringTokenizer t = new StringTokenizer(tmp, "#", false);
+			final StringTokenizer t = new StringTokenizer(tmp, "#", false);
 
 			if (tmp.toLowerCase().trim().startsWith("<dir>")) {
-				String dir = tmp.substring(tmp.indexOf(">") + 1, tmp.lastIndexOf("<"));
+				final String dir = tmp.substring(tmp.indexOf(">") + 1, tmp.lastIndexOf("<"));
 
-				JMenu m = new JMenu(dir);
+				final JMenu m = new JMenu(dir);
 				current.add(m);
 
 				last = current;
@@ -332,14 +332,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else {
 				this.addBookmark(t.nextToken(), t.nextToken(), t.nextToken(), t.nextToken(), Integer.parseInt(t.nextToken()), t.nextToken(), t.nextToken());
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			Log.debug("Broken line: " + tmp);
 			ex.printStackTrace();
 		}
 	}
 
-	public void addBookmark(String pr, String h, String u, String p, int po, String d, String l) {
-		net.sf.jftp.gui.tasks.BookmarkItem x = new net.sf.jftp.gui.tasks.BookmarkItem(h);
+	public void addBookmark(final String pr, final String h, final String u, final String p, final int po, final String d, final String l) {
+		final net.sf.jftp.gui.tasks.BookmarkItem x = new net.sf.jftp.gui.tasks.BookmarkItem(h);
 		x.setUserdata(u, p);
 
 		if (l.trim().startsWith("t")) {
@@ -429,7 +429,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					file.add(lastConnections[i]);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			Log.debug("WARNING: Remembered connections broken.");
 			ex.printStackTrace();
 		}
@@ -444,41 +444,41 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	}
 
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		try {
 			if (e.getSource() == proxy) {
 				JFtp.statusP.jftp.addToDesktop("Proxy Settings", new ProxyChooser(), 500, 110);
 			} else if (e.getSource() == add) {
 				Log.out("add called");
 
-				AddBookmarks a = new AddBookmarks(JFtp.statusP.jftp);
+				final AddBookmarks a = new AddBookmarks(JFtp.statusP.jftp);
 				a.update();
 			} else if (e.getSource() == webdavCon) {
-				WebdavHostChooser hc = new WebdavHostChooser();
+				final WebdavHostChooser hc = new WebdavHostChooser();
 				hc.toFront();
 				hc.update();
 			} else if ((e.getSource() == localFtpCon) && (!JFtp.uiBlocked)) {
-				HostChooser hc = new HostChooser(null, true);
+				final HostChooser hc = new HostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
 			} else if ((e.getSource() == localSmbCon) && (!JFtp.uiBlocked)) {
-				SmbHostChooser hc = new SmbHostChooser(null, true);
+				final SmbHostChooser hc = new SmbHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
 			} else if ((e.getSource() == localSftpCon) && (!JFtp.uiBlocked)) {
-				SftpHostChooser hc = new SftpHostChooser(null, true);
+				final SftpHostChooser hc = new SftpHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
 			} else if ((e.getSource() == localNfsCon) && (!JFtp.uiBlocked)) {
-				NfsHostChooser hc = new NfsHostChooser(null, true);
+				final NfsHostChooser hc = new NfsHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
 			} else if ((e.getSource() == localWebdavCon) && (!JFtp.uiBlocked)) {
-				WebdavHostChooser hc = new WebdavHostChooser(null, true);
+				final WebdavHostChooser hc = new WebdavHostChooser(null, true);
 				hc.toFront();
 
 				hc.update();
@@ -491,15 +491,15 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (e.getSource() == hp) {
 				try {
 					NativeHttpBrowser.main(new String[]{"http://j-ftp.sourceforge.net"});
-				} catch (Throwable ex) {
+				} catch (final Throwable ex) {
 					ex.printStackTrace();
 					Log.debug("Native browser intialization failed, using JContentPane...");
 
-					HttpBrowser h = new HttpBrowser("http://j-ftp.sourceforge.net");
+					final HttpBrowser h = new HttpBrowser("http://j-ftp.sourceforge.net");
 					JFtp.desktop.add(h, new Integer(Integer.MAX_VALUE - 10));
 				}
 			} else if (e.getSource() == raw) {
-				RawConnection c = new RawConnection();
+				final RawConnection c = new RawConnection();
 			} else if (e.getSource() == readme) {
 				this.show(Settings.readme);
 			} else if (e.getSource() == changelog) {
@@ -510,15 +510,15 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				UIUtils.runCommand("/bin/bash");
 			} else if (e.getSource() == loadAudio) {
 				try {
-					JFileChooser f = new JFileChooser();
+					final JFileChooser f = new JFileChooser();
 					f.showOpenDialog(jftp);
 
-					File file = f.getSelectedFile();
+					final File file = f.getSelectedFile();
 
-					Player p = new Player(new FileInputStream(file));
+					final Player p = new Player(new FileInputStream(file));
 
 					p.play();
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 					ex.printStackTrace();
 					Log.debug("Error: (" + ex + ")");
 				}
@@ -529,47 +529,47 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 			} else if ((e.getSource() == ftpCon) && (!JFtp.uiBlocked)) {
 
-				HostChooser hc = new HostChooser();
+				final HostChooser hc = new HostChooser();
 				hc.toFront();
 
 
 				hc.update();
 			} else if ((e.getSource() == smbCon) && (!JFtp.uiBlocked)) {
 
-				SmbHostChooser hc = new SmbHostChooser();
+				final SmbHostChooser hc = new SmbHostChooser();
 				hc.toFront();
 
 				hc.update();
 			} else if ((e.getSource() == sftpCon) && (!JFtp.uiBlocked)) {
 
-				SftpHostChooser hc = new SftpHostChooser();
+				final SftpHostChooser hc = new SftpHostChooser();
 				hc.toFront();
 				hc.update();
 			} else if ((e.getSource() == rsyncCon) && (!JFtp.uiBlocked)) {
-				RsyncHostChooser hc = new RsyncHostChooser();
+				final RsyncHostChooser hc = new RsyncHostChooser();
 				hc.toFront();
 
 				hc.update();
 			} else if ((e.getSource() == nfsCon) && (!JFtp.uiBlocked)) {
 
-				NfsHostChooser hc = new NfsHostChooser();
+				final NfsHostChooser hc = new NfsHostChooser();
 				hc.toFront();
 
 				hc.update();
 			} else if (e.getSource() == resuming) {
-				boolean res = resuming.getState();
+				final boolean res = resuming.getState();
 				Settings.enableResuming = res;
 				Settings.setProperty("jftp.enableResuming", res);
 				ask.setEnabled(Settings.enableResuming);
 				Settings.save();
 			} else if (e.getSource() == useNewIcons) {
-				boolean res = useNewIcons.getState();
+				final boolean res = useNewIcons.getState();
 				Settings.setProperty("jftp.gui.look.newIcons", res);
 				Settings.save();
 
 				JOptionPane.showMessageDialog(this, "Please restart JFtp to have the UI changed.");
 			} else if (e.getSource() == hideHidden) {
-				boolean res = hideHidden.getState();
+				final boolean res = hideHidden.getState();
 				Settings.setProperty("jftp.hideHiddenDotNames", res);
 				Settings.save();
 
@@ -595,7 +595,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				this.switchRSS(feed);
 			} else if (e.getSource() == loadRss) {
-				String what = JOptionPane.showInputDialog("Enter URL", "http://");
+				final String what = JOptionPane.showInputDialog("Enter URL", "http://");
 
 				if (what == null) {
 					return;
@@ -625,7 +625,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (e.getSource() == ask) {
 				Settings.askToResume = ask.getState();
 			} else if (e.getSource() == http) {
-				HttpDownloader dl = new HttpDownloader();
+				final HttpDownloader dl = new HttpDownloader();
 				jftp.addToDesktop("Http download", dl, 480, 100);
 				jftp.setLocation(dl.hashCode(), 100, 150);
 			} else if (e.getSource() == fadeMenu) {
@@ -655,20 +655,20 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if ((e.getSource() == lastConnections[8]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(8);
 			} else if (e.getSource() == opts) {
-				AdvancedOptions adv = new AdvancedOptions();
+				final AdvancedOptions adv = new AdvancedOptions();
 				jftp.addToDesktop("Advanced Options", adv, 500, 180);
 				jftp.setLocation(adv.hashCode(), 110, 180);
 			} else if (e.getSource() == manage) {
-				BookmarkManager m = new BookmarkManager();
+				final BookmarkManager m = new BookmarkManager();
 				JFtp.desktop.add(m, new Integer(Integer.MAX_VALUE - 10));
 			} else if (marks.contains(e.getSource())) {
 				((net.sf.jftp.gui.tasks.BookmarkItem) e.getSource()).connect();
 			} else if (e.getSource() == storePasswords) {
-				boolean state = storePasswords.getState();
+				final boolean state = storePasswords.getState();
 
 				if (!state) {
-					JOptionPane j = new JOptionPane();
-					int x = JOptionPane.showConfirmDialog(storePasswords, "You chose not to Save passwords.\n" + "Do you want your old login data to be deleted?", "Delete old passwords?", JOptionPane.YES_NO_OPTION);
+					final JOptionPane j = new JOptionPane();
+					final int x = JOptionPane.showConfirmDialog(storePasswords, "You chose not to Save passwords.\n" + "Do you want your old login data to be deleted?", "Delete old passwords?", JOptionPane.YES_NO_OPTION);
 
 					if (x == JOptionPane.YES_OPTION) {
 						File f = new File(Settings.login_def);
@@ -698,11 +698,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			}
 
 			else {
-				String tmp = ((JMenuItem) e.getSource()).getLabel();
+				final String tmp = ((JMenuItem) e.getSource()).getLabel();
 
-				UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
+				final UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 
-				for (javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
+				for (final javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
 					if (lookAndFeelInfo.getName().equals(tmp)) {
 						net.sf.jftp.JFtp.statusP.jftp.setLookAndFeel(lookAndFeelInfo.getClassName());
 						net.sf.jftp.config.Settings.setProperty("jftp.gui.look", lookAndFeelInfo.getClassName());
@@ -710,13 +710,13 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					}
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			Log.debug(ex.toString());
 		}
 	}
 
-	private void switchRSS(String url) {
+	private void switchRSS(final String url) {
 		Settings.setProperty("jftp.customRSSFeed", url);
 		Settings.save();
 
@@ -728,14 +728,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		JFtp.statusP.jftp.feeder.switchTo(url);
 	}
 
-	private void show(String file) {
+	private void show(final String file) {
 		java.net.URL url = ClassLoader.getSystemResource(file);
 
 		if (url == null) {
 			url = HImage.class.getResource("/" + file);
 		}
 
-		Displayer d = new Displayer(url, null);
+		final Displayer d = new Displayer(url, null);
 		JFtp.desktop.add(d, new Integer(Integer.MAX_VALUE - 11));
 	}
 
@@ -798,15 +798,15 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				}
 			}
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			Log.out("WARNING: AppMenuBar produced Exception, ignored it");
 			ex.printStackTrace();
 		}
 	}
 
 	//setMnemonics
-	private void connectionSelected(int position) {
-		String protocol;
+	private void connectionSelected(final int position) {
+		final String protocol;
 		int numTokens;
 
 		String htmp = "";

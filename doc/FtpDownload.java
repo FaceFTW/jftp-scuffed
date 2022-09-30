@@ -20,12 +20,12 @@ public class FtpDownload implements Logger, ConnectionListener
  public static long time = 0;
 
 	//creates a FtpConnection and downloads a file
- public FtpDownload(String host, String file)
+ public FtpDownload(final String host, final String file)
  {
 	// the ftp client default is very small, you may want to increase this
 	Settings.bufferSize = 16384; 
 
-	long current = System.currentTimeMillis();
+	final long current = System.currentTimeMillis();
 	//System.out.println("1) "+(System.currentTimeMillis()-current)+"ms.");
 
  	// register app as Logger, debug() and debugRaw below are from now on called by
@@ -33,7 +33,7 @@ public class FtpDownload implements Logger, ConnectionListener
  	Log.setLogger(this);
 
 	// create a FtpConnection - note that it does *not* connect instantly
- 	FtpConnection con = new FtpConnection(host);
+ 	final FtpConnection con = new FtpConnection(host);
 
 	//System.out.println("2) "+(System.currentTimeMillis()-current)+"ms.");
 
@@ -43,7 +43,7 @@ public class FtpDownload implements Logger, ConnectionListener
 	// set handler
 	 // connection pool, not necessary but you should take a look at this class
 	 // if you want to use multiple event based ftp transfers.
-	 net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
+	 final net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
 	 con.setConnectionHandler(handler);
 
 	// connect and login. this is from where connectionFailed() may be called for example
@@ -55,7 +55,7 @@ public class FtpDownload implements Logger, ConnectionListener
 	while(!isThere)
 	{
 		try { Thread.sleep(10); }
-		catch(Exception ex) { ex.printStackTrace(); }
+		catch(final Exception ex) { ex.printStackTrace(); }
 	}
 
 	//System.out.println("4) "+(System.currentTimeMillis()-current)+"ms.");
@@ -77,15 +77,15 @@ public class FtpDownload implements Logger, ConnectionListener
  }
 
  // download welcome.msg from sourceforge or any other given file
- public static void main(String[] argv)
+ public static void main(final String[] argv)
  {
  	if(argv.length < 2)
 	{
-		FtpDownload f = new FtpDownload("ftp.kernel.org", "CREDITS");
+		final FtpDownload f = new FtpDownload("ftp.kernel.org", "CREDITS");
 	}
 	else
 	{
-		FtpDownload f = new FtpDownload(argv[0], argv[1]);
+		final FtpDownload f = new FtpDownload(argv[0], argv[1]);
 	}
 	
 	System.exit(0);
@@ -94,53 +94,53 @@ public class FtpDownload implements Logger, ConnectionListener
 // ------------------ needed by ConnectionListener interface -----------------
 
 // called if the remote directory has changed
- public void updateRemoteDirectory(BasicConnection con)
+ public void updateRemoteDirectory(final BasicConnection con)
  {
  	System.out.println("new path is: " + con.getPWD());
  }
 
  // called if a connection has been established
- public void connectionInitialized(BasicConnection con)
+ public void connectionInitialized(final BasicConnection con)
  {
   	isThere = true;
  }
  
  // called every few kb by DataConnection during the trnsfer (interval can be changed in Settings)
- public void updateProgress(String file, String type, long bytes) {}
+ public void updateProgress(final String file, final String type, final long bytes) {}
 
  // called if connection fails
- public void connectionFailed(BasicConnection con, String why) {System.out.println("connection failed!");}
+ public void connectionFailed(final BasicConnection con, final String why) {System.out.println("connection failed!");}
 
  // up- or download has finished
- public void actionFinished(BasicConnection con) {}
+ public void actionFinished(final BasicConnection con) {}
 
 
  // ------------ needed by Logger interface  --------------
 
     // main log method
-    public void debug(String msg) {} //{System.out.println(msg);}
+    public void debug(final String msg) {} //{System.out.println(msg);}
 
     // rarely used
-    public void debugRaw(String msg) {}//System.out.print(msg);}
+    public void debugRaw(final String msg) {}//System.out.print(msg);}
 
     // methods below are not used yet.
 
-    	public void debug(String msg, Throwable throwable) {}
+    	public void debug(final String msg, final Throwable throwable) {}
 
-    	public void warn(String msg) {}
+    	public void warn(final String msg) {}
 
-    	public void warn(String msg, Throwable throwable) {}
+    	public void warn(final String msg, final Throwable throwable) {}
 
-    	public void error(String msg) {}
+    	public void error(final String msg) {}
 
-    	public void error(String msg, Throwable throwable) {}
+    	public void error(final String msg, final Throwable throwable) {}
 
-   	 public void info(String msg) {}
+   	 public void info(final String msg) {}
 
-    	public void info(String msg, Throwable throwable) {}
+    	public void info(final String msg, final Throwable throwable) {}
 
-    	public void fatal(String msg) {}
+    	public void fatal(final String msg) {}
 
-    	public void fatal(String msg, Throwable throwable) {}
+    	public void fatal(final String msg, final Throwable throwable) {}
 
 }

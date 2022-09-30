@@ -83,20 +83,20 @@ public class FtpServerSocket extends Thread {
 	private final String rootDir = null;
 	private final String currentDir = null;
 
-	public FtpServerSocket(Socket s) throws IOException {
+	public FtpServerSocket(final Socket s) throws IOException {
 		socket = s;
 
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream(), true);
-		} catch (IOException ioe) {
+		} catch (final IOException ioe) {
 			throw ioe;
 		}
 
-		Method[] m = this.getClass().getDeclaredMethods();
+		final Method[] m = this.getClass().getDeclaredMethods();
 		String methodName = null;
 
-		for (java.lang.reflect.Method method : m) {
+		for (final java.lang.reflect.Method method : m) {
 			methodName = method.getName();
 
 			if (commands.contains(methodName)) {
@@ -107,16 +107,16 @@ public class FtpServerSocket extends Thread {
 		this.start();
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 	}
 
-	private void send(String bundleId) {
+	private void send(final String bundleId) {
 		out.print(bundle.getString(bundleId));
 		out.flush();
 	}
 
-	private void send(String bundleId, Object[] args) {
-		MessageFormat fmt = new MessageFormat(bundle.getString(bundleId));
+	private void send(final String bundleId, final Object[] args) {
+		final MessageFormat fmt = new MessageFormat(bundle.getString(bundleId));
 		out.print(fmt.format(args));
 		out.flush();
 	}
@@ -125,34 +125,34 @@ public class FtpServerSocket extends Thread {
 		this.send("220motd");
 	}
 
-	public void user(String line) {
+	public void user(final String line) {
 		this.send("331user");
 	}
 
-	public void pass(String line) {
+	public void pass(final String line) {
 		this.send("230pass");
 	}
 
-	public void type(String line) { // needs work A, E, I, L, C, T, N
+	public void type(final String line) { // needs work A, E, I, L, C, T, N
 
-		Object[] args = {"I"};
+		final Object[] args = {"I"};
 		this.send("200type", args);
 	}
 
-	public void mode(String line) { // check for S, B, or C
+	public void mode(final String line) { // check for S, B, or C
 
-		Object[] args = {line.toUpperCase()};
+		final Object[] args = {line.toUpperCase()};
 		this.send("200ok", args);
 	}
 
-	public void pwd(String line) {
-		Object[] args = {currentDir};
+	public void pwd(final String line) {
+		final Object[] args = {currentDir};
 		this.send("257pwd", args);
 	}
 
-	public void cdup(String line) {
-		Object[] args = {"CDUP"};
-		File tmp = directory.getParentFile();
+	public void cdup(final String line) {
+		final Object[] args = {"CDUP"};
+		final File tmp = directory.getParentFile();
 
 		if (tmp != null) {
 			directory = tmp;
@@ -162,7 +162,7 @@ public class FtpServerSocket extends Thread {
 	}
 
 
-	private String addTrailingSlash(String s) {
+	private String addTrailingSlash(final String s) {
 		if (s.endsWith("/")) {
 			return s;
 		} else {
@@ -170,7 +170,7 @@ public class FtpServerSocket extends Thread {
 		}
 	}
 
-	private String removeTrailingSlash(String s) {
+	private String removeTrailingSlash(final String s) {
 		if (s.endsWith("/")) {
 			return s.substring(0, s.length() - 1);
 		} else {
@@ -179,14 +179,14 @@ public class FtpServerSocket extends Thread {
 	}
 
 
-	public void list(String line) {
+	public void list(final String line) {
 		this.send("150list");
 
-		boolean passive = false;
+		final boolean passive = false;
 		if (!passive) {
 			try {
-				Socket activeSocket = new Socket(socket.getInetAddress(), activePort);
-				PrintStream ps = new PrintStream(activeSocket.getOutputStream());
+				final Socket activeSocket = new Socket(socket.getInetAddress(), activePort);
+				final PrintStream ps = new PrintStream(activeSocket.getOutputStream());
 				ps.print("bleah\r\n");
 				ps.print("bleah\r\n");
 				ps.print("bleah\r\n");
@@ -195,13 +195,13 @@ public class FtpServerSocket extends Thread {
 				ps.flush();
 				ps.close();
 				this.send("226");
-			} catch (Exception e) {
+			} catch (final Exception e) {
 			}
 		}
 	}
 
 
-	public void port(String line) {
+	public void port(final String line) {
 		int start = line.lastIndexOf(",");
 		int end = line.length();
 		String lo = null; // lo-ordered byte
@@ -221,7 +221,7 @@ public class FtpServerSocket extends Thread {
 
 		activePort = ((Integer.parseInt(hi) * 256) + Integer.parseInt(lo));
 
-		Object[] args = {"PORT"};
+		final Object[] args = {"PORT"};
 		this.send("200", args);
 	}
 
@@ -239,19 +239,19 @@ public class FtpServerSocket extends Thread {
 					index = line.length();
 				}
 
-				String command = line.substring(0, index).toLowerCase();
-				Method o = (Method) methods.get(command);
+				final String command = line.substring(0, index).toLowerCase();
+				final Method o = (Method) methods.get(command);
 
 				if (o != null) {
 					try {
 						o.invoke(this, line);
-					} catch (Exception e) {
+					} catch (final Exception e) {
 					}
 				} else {
 					this.send("500");
 				}
 			}
-		} catch (IOException ioe) {
+		} catch (final IOException ioe) {
 			net.sf.jftp.system.logging.Log.debug("Socket error: " + ioe);
 		}
 	}

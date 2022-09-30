@@ -51,12 +51,12 @@ public class NfsConnection implements BasicConnection {
 	private boolean isDirUpload = false;
 	private boolean shortProgress = false;
 
-	public NfsConnection(String url) {
+	public NfsConnection(final String url) {
 		this.url = url;
 
 		host = url.substring(6);
 
-		int x = host.indexOf("/");
+		final int x = host.indexOf("/");
 
 		if (x >= 0) {
 			host = host.substring(0, x);
@@ -65,11 +65,11 @@ public class NfsConnection implements BasicConnection {
 		net.sf.jftp.system.logging.Log.out("nfs host is: " + host);
 	}
 
-	public boolean login(String user, String pass) {
+	public boolean login(final String user, final String pass) {
 		net.sf.jftp.system.logging.Log.out("nfs login called: " + url);
 
 		try {
-			XFile xf = new XFile(url);
+			final XFile xf = new XFile(url);
 
 			if (xf.exists()) {
 				net.sf.jftp.system.logging.Log.out("nfs url ok");
@@ -77,7 +77,7 @@ public class NfsConnection implements BasicConnection {
 				net.sf.jftp.system.logging.Log.out("WARNING: nfs url not found, cennection will fail!");
 			}
 
-			com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
+			final com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
 			if (!nfsx.loginPCNFSD(host, user, pass)) {
 				net.sf.jftp.system.logging.Log.out("login failed!");
@@ -86,7 +86,7 @@ public class NfsConnection implements BasicConnection {
 			} else {
 				net.sf.jftp.system.logging.Log.debug("Login successful...");
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 
@@ -94,27 +94,27 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public String[] getExports() throws Exception {
-		XFile xf = new XFile(url);
-		com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
+		final XFile xf = new XFile(url);
+		final com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
-		String[] tmp = nfsx.getExports();
+		final String[] tmp = nfsx.getExports();
 
 		if (tmp == null) {
 			return new String[0];
 		}
 
-		for (String s : tmp) {
+		for (final String s : tmp) {
 			net.sf.jftp.system.logging.Log.out("nfs export found: " + s);
 		}
 
 		return tmp;
 	}
 
-	public int removeFileOrDir(String file) {
+	public int removeFileOrDir(final String file) {
 		try {
-			String tmp = this.toNFS(file);
+			final String tmp = this.toNFS(file);
 
-			XFile f = new XFile(tmp);
+			final XFile f = new XFile(tmp);
 
 			if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
 				net.sf.jftp.system.logging.Log.debug("WARNING: Skipping symlink, remove failed.");
@@ -132,7 +132,7 @@ public class NfsConnection implements BasicConnection {
 			} else {
 				return 1;
 			}
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
@@ -151,15 +151,15 @@ public class NfsConnection implements BasicConnection {
 			dir = dir + "/";
 		}
 
-		XFile f2 = new XFile(dir);
-		String[] tmp = f2.list();
+		final XFile f2 = new XFile(dir);
+		final String[] tmp = f2.list();
 
 		if (tmp == null) {
 			return;
 		}
 
-		for (String s : tmp) {
-			com.sun.xfile.XFile f3 = new com.sun.xfile.XFile(dir + s);
+		for (final String s : tmp) {
+			final com.sun.xfile.XFile f3 = new com.sun.xfile.XFile(dir + s);
 
 			if (f3.isDirectory()) {
 				this.cleanLocalDir(dir + s);
@@ -170,7 +170,7 @@ public class NfsConnection implements BasicConnection {
 		}
 	}
 
-	public void sendRawCommand(String cmd) {
+	public void sendRawCommand(final String cmd) {
 	}
 
 	public void disconnect() {
@@ -207,9 +207,9 @@ public class NfsConnection implements BasicConnection {
 
 		dirName = this.toNFS(dirName);
 
-		File f = new File(dirName);
+		final File f = new File(dirName);
 
-		boolean x = f.mkdir();
+		final boolean x = f.mkdir();
 		this.fireDirectoryUpdate();
 
 		return x;
@@ -218,11 +218,11 @@ public class NfsConnection implements BasicConnection {
 	public void list() throws IOException {
 	}
 
-	public boolean chdir(String p) {
+	public boolean chdir(final String p) {
 		return this.chdir(p, true);
 	}
 
-	public boolean chdir(String p, boolean refresh) {
+	public boolean chdir(final String p, final boolean refresh) {
 		if (p.endsWith("..")) {
 			return this.cdup();
 		}
@@ -246,7 +246,7 @@ public class NfsConnection implements BasicConnection {
 		return true;
 	}
 
-	private int check(String url) {
+	private int check(final String url) {
 		int x = 0;
 
 		for (int j = 0; j < url.length(); j++) {
@@ -258,7 +258,7 @@ public class NfsConnection implements BasicConnection {
 		return x;
 	}
 
-	public boolean chdirNoRefresh(String p) {
+	public boolean chdirNoRefresh(final String p) {
 		return this.chdir(p, false);
 	}
 
@@ -291,7 +291,7 @@ public class NfsConnection implements BasicConnection {
 			p = path + p;
 		}
 
-		File f = new File(p);
+		final File f = new File(p);
 
 		if (f.exists()) {
 			try {
@@ -302,7 +302,7 @@ public class NfsConnection implements BasicConnection {
 					path = path + "/";
 				}
 
-			} catch (IOException ex) {
+			} catch (final IOException ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
 
 				return false;
@@ -317,17 +317,17 @@ public class NfsConnection implements BasicConnection {
 	}
 
 	public String[] sortLs() {
-		String dir = this.getPWD();
+		final String dir = this.getPWD();
 
 		if (this.check(this.toNFS(dir)) == 3) {
 			try {
 				files = this.getExports();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Can not list exports:" + ex);
 				ex.printStackTrace();
 			}
 		} else {
-			XFile f = new XFile(dir);
+			final XFile f = new XFile(dir);
 			files = f.list();
 		}
 
@@ -341,7 +341,7 @@ public class NfsConnection implements BasicConnection {
 		int accessible = 0;
 
 		for (int i = 0; i < files.length; i++) {
-			XFile f2 = new XFile(dir + files[i]);
+			final XFile f2 = new XFile(dir + files[i]);
 
 			if (f2.isDirectory() && !files[i].endsWith("/")) {
 				files[i] = files[i] + "/";
@@ -371,27 +371,27 @@ public class NfsConnection implements BasicConnection {
 		return perms;
 	}
 
-	public int handleUpload(String f) {
+	public int handleUpload(final String f) {
 		this.upload(f);
 
 		return 0;
 	}
 
-	public int handleDownload(String f) {
+	public int handleDownload(final String f) {
 		this.download(f);
 
 		return 0;
 	}
 
-	public int upload(String f) {
-		String file = this.toNFS(f);
+	public int upload(final String f) {
+		final String file = this.toNFS(f);
 
 		if (file.endsWith("/")) {
-			String out = net.sf.jftp.system.StringUtils.getDir(file);
+			final String out = net.sf.jftp.system.StringUtils.getDir(file);
 			this.uploadDir(file, path + out);
 			this.fireActionFinished(this);
 		} else {
-			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 
 			this.work(path + outfile, file);
 			this.fireActionFinished(this);
@@ -400,15 +400,15 @@ public class NfsConnection implements BasicConnection {
 		return 0;
 	}
 
-	public int download(String f) {
-		String file = this.toNFS(f);
+	public int download(final String f) {
+		final String file = this.toNFS(f);
 
 		if (file.endsWith("/")) {
-			String out = net.sf.jftp.system.StringUtils.getDir(file);
+			final String out = net.sf.jftp.system.StringUtils.getDir(file);
 			this.downloadDir(file, path + out);
 			this.fireActionFinished(this);
 		} else {
-			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+			final String outfile = net.sf.jftp.system.StringUtils.getFile(file);
 			this.work(file, path + outfile);
 			this.fireActionFinished(this);
 		}
@@ -416,25 +416,25 @@ public class NfsConnection implements BasicConnection {
 		return 0;
 	}
 
-	private void downloadDir(String dir, String out) {
+	private void downloadDir(final String dir, final String out) {
 		try {
 			fileCount = 0;
 			shortProgress = true;
 			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-			XFile f2 = new XFile(dir);
-			String[] tmp = f2.list();
+			final XFile f2 = new XFile(dir);
+			final String[] tmp = f2.list();
 
 			if (tmp == null) {
 				return;
 			}
 
-			File fx = new File(out);
+			final File fx = new File(out);
 			fx.mkdir();
 
 			for (int i = 0; i < tmp.length; i++) {
 				tmp[i] = tmp[i].replace('\\', '/');
-				XFile f3 = new XFile(dir + tmp[i]);
+				final XFile f3 = new XFile(dir + tmp[i]);
 
 				if (f3.isDirectory()) {
 					if (!tmp[i].endsWith("/")) {
@@ -450,7 +450,7 @@ public class NfsConnection implements BasicConnection {
 			}
 
 			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
 			this.fireProgressUpdate(baseFile, DataConnection.FAILED + ":" + fileCount, -1);
@@ -459,28 +459,28 @@ public class NfsConnection implements BasicConnection {
 		shortProgress = false;
 	}
 
-	private void uploadDir(String dir, String out) {
+	private void uploadDir(final String dir, final String out) {
 		try {
 			isDirUpload = true;
 			fileCount = 0;
 			shortProgress = true;
 			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-			File f2 = new File(out);
-			String[] tmp = f2.list();
+			final File f2 = new File(out);
+			final String[] tmp = f2.list();
 
 			if (tmp == null) {
 				return;
 			}
 
-			XFile fx = new XFile(dir);
+			final XFile fx = new XFile(dir);
 			fx.mkdir();
 
 			for (int i = 0; i < tmp.length; i++) {
 				tmp[i] = tmp[i].replace('\\', '/');
 
 				//System.out.println("1: " + dir+tmp[i] + ", " + out +tmp[i]);
-				File f3 = new File(out + tmp[i]);
+				final File f3 = new File(out + tmp[i]);
 
 				if (f3.isDirectory()) {
 					if (!tmp[i].endsWith("/")) {
@@ -496,7 +496,7 @@ public class NfsConnection implements BasicConnection {
 			}
 
 			this.fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 
 			//System.out.println(dir + ", " + out);
@@ -508,7 +508,7 @@ public class NfsConnection implements BasicConnection {
 		shortProgress = true;
 	}
 
-	private void work(String file, String outfile) {
+	private void work(final String file, final String outfile) {
 		BufferedOutputStream out = null;
 		BufferedInputStream in = null;
 
@@ -529,7 +529,7 @@ public class NfsConnection implements BasicConnection {
 				in = new BufferedInputStream(new FileInputStream(file));
 			}
 
-			byte[] buf = new byte[buffer];
+			final byte[] buf = new byte[buffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -554,7 +554,7 @@ public class NfsConnection implements BasicConnection {
 			}
 
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		} finally {
@@ -562,27 +562,27 @@ public class NfsConnection implements BasicConnection {
 				out.flush();
 				out.close();
 				in.close();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
 
-	private void update(String file, String type, int bytes) {
+	private void update(final String file, final String type, final int bytes) {
 		if (listeners == null) {
 		} else {
 			for (int i = 0; i < listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
 	}
 
-	public void addConnectionListener(ConnectionListener l) {
+	public void addConnectionListener(final ConnectionListener l) {
 		listeners.add(l);
 	}
 
-	public void setConnectionListeners(Vector l) {
+	public void setConnectionListeners(final Vector l) {
 		listeners = l;
 	}
 
@@ -601,12 +601,12 @@ public class NfsConnection implements BasicConnection {
 	/**
 	 * progress update
 	 */
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	public void fireProgressUpdate(final String file, final String type, final int bytes) {
 		//System.out.println(listener);
 		if (listeners == null) {
 		} else {
 			for (int i = 0; i < listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
+				final ConnectionListener listener = (ConnectionListener) listeners.elementAt(i);
 
 				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -623,7 +623,7 @@ public class NfsConnection implements BasicConnection {
 		}
 	}
 
-	public void fireActionFinished(NfsConnection con) {
+	public void fireActionFinished(final NfsConnection con) {
 		if (listeners == null) {
 		} else {
 			for (int i = 0; i < listeners.size(); i++) {
@@ -632,7 +632,7 @@ public class NfsConnection implements BasicConnection {
 		}
 	}
 
-	public int upload(String file, InputStream i) {
+	public int upload(String file, final InputStream i) {
 		BufferedInputStream in = null;
 		BufferedOutputStream out = null;
 
@@ -642,7 +642,7 @@ public class NfsConnection implements BasicConnection {
 			out = new BufferedOutputStream(new XFileOutputStream(file));
 			in = new BufferedInputStream(i);
 
-			byte[] buf = new byte[buffer];
+			final byte[] buf = new byte[buffer];
 			int len = 0;
 			int reallen = 0;
 
@@ -660,7 +660,7 @@ public class NfsConnection implements BasicConnection {
 			}
 
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 
@@ -670,7 +670,7 @@ public class NfsConnection implements BasicConnection {
 				out.flush();
 				out.close();
 				in.close();
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -684,7 +684,7 @@ public class NfsConnection implements BasicConnection {
 
 		try {
 			return new BufferedInputStream(new XFileInputStream(file));
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 			net.sf.jftp.system.logging.Log.debug(ex + " @NfsConnection::getDownloadInputStream");
 
@@ -696,7 +696,7 @@ public class NfsConnection implements BasicConnection {
 		return null;
 	}
 
-	public boolean rename(String from, String to) {
+	public boolean rename(final String from, final String to) {
 		net.sf.jftp.system.logging.Log.debug("Not implemented!");
 
 		return false;

@@ -34,7 +34,7 @@ public class Creator extends HFrame implements ActionListener {
 	private final HButton ok = new HButton("Create directory...");
 	private final BasicConnection con;
 
-	public Creator(String l, BasicConnection con) {
+	public Creator(final String l, final BasicConnection con) {
 		this.con = con;
 
 		this.setTitle("Choose...");
@@ -51,7 +51,7 @@ public class Creator extends HFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
 			this.setVisible(false);
 			con.mkdir(text.getText());

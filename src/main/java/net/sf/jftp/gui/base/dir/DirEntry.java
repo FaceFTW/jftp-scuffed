@@ -35,8 +35,8 @@ public class DirEntry {
 	static final Hashtable extensionMap = new Hashtable();
 
 	static {
-		for (Object extension : extensions) {
-			String[] temp = (String[]) extension;
+		for (final Object extension : extensions) {
+			final String[] temp = (String[]) extension;
 
 			for (int j = 1; j < temp.length; j++) {
 				extensionMap.put(temp[j], temp[0]);
@@ -59,7 +59,7 @@ public class DirEntry {
 	private int accessible = -1;
 	private boolean noRender = false;
 
-	public DirEntry(String file, ActionListener who) {
+	public DirEntry(final String file, final ActionListener who) {
 		this.file = file;
 		this.who = who;
 		this.setFile();
@@ -73,12 +73,12 @@ public class DirEntry {
 			f = f.substring(0, f.lastIndexOf(">"));
 		}
 
-		int lastIndex = f.lastIndexOf(".");
+		final int lastIndex = f.lastIndexOf(".");
 		String image = Settings.fileImage; // default
 
 		if (lastIndex != -1) {
-			String ext = f.substring(lastIndex);
-			String tmp = (String) extensionMap.get(ext.toLowerCase());
+			final String ext = f.substring(lastIndex);
+			final String tmp = (String) extensionMap.get(ext.toLowerCase());
 
 			if (tmp != null)
 			{
@@ -115,7 +115,7 @@ public class DirEntry {
 		return accessible;
 	}
 
-	public void setPermission(int what) {
+	public void setPermission(final int what) {
 		accessible = what;
 	}
 
@@ -131,7 +131,7 @@ public class DirEntry {
 		return selected;
 	}
 
-	public void setSelected(boolean state) {
+	public void setSelected(final boolean state) {
 		selected = state;
 	}
 
@@ -152,12 +152,12 @@ public class DirEntry {
 			return "";
 		}
 
-		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+		final DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
 
 		return df.format(date);
 	}
 
-	public void setDate(Date d) {
+	public void setDate(final Date d) {
 		date = d;
 	}
 
@@ -185,7 +185,7 @@ public class DirEntry {
 			type = "gb";
 		}
 
-		StringBuilder x = new StringBuilder(Long.toString(rsize));
+		final StringBuilder x = new StringBuilder(Long.toString(rsize));
 
 		while (x.length() < 4) {
 			x.insert(0, " ");
@@ -194,7 +194,7 @@ public class DirEntry {
 		return x + " " + type + " > ";
 	}
 
-	public void setFileSize(long s) {
+	public void setFileSize(final long s) {
 		size = s;
 	}
 
@@ -216,7 +216,7 @@ public class DirEntry {
 		return transferred;
 	}
 
-	public void setTransferred(long transferred) {
+	public void setTransferred(final long transferred) {
 		this.transferred = transferred;
 	}
 

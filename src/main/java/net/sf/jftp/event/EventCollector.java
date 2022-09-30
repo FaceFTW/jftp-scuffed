@@ -26,7 +26,7 @@ public class EventCollector implements Acceptor {
 		new EventProcessor(buffer);
 	}
 
-	public void accept(Event e) {
+	public void accept(final Event e) {
 		buffer.addElement(e);
 	}
 }

@@ -23,13 +23,13 @@ public class LocalIO {
 	 * sorts a string alphabetically
 	 * probably better off just calling java.util.Arrays.sort
 	 */
-	public static String[] sortStrings(String[] array) {
+	public static String[] sortStrings(final String[] array) {
 		for (int i = array.length; --i >= 0; ) {
 			boolean swapped = false;
 
 			for (int j = 0; j < i; j++) {
 				if (array[j].compareTo(array[j + 1]) > 0) {
-					String T = array[j];
+					final String T = array[j];
 					array[j] = array[j + 1];
 					array[j + 1] = T;
 					swapped = true;
@@ -47,7 +47,7 @@ public class LocalIO {
 	/**
 	 * recursive removal of a local directoy
 	 */
-	public static void cleanLocalDir(String dir, String path) {
+	public static void cleanLocalDir(String dir, final String path) {
 		if (dir.endsWith("\\")) {
 			System.out.println("oops... fucked up, need to fix \\-problem!!!");
 		}
@@ -56,11 +56,11 @@ public class LocalIO {
 			dir = dir + "/";
 		}
 
-		File f2 = new File(path + dir);
-		String[] tmp = f2.list();
+		final File f2 = new File(path + dir);
+		final String[] tmp = f2.list();
 
-		for (String s : tmp) {
-			java.io.File f3 = new java.io.File(path + dir + s);
+		for (final String s : tmp) {
+			final java.io.File f3 = new java.io.File(path + dir + s);
 
 			if (f3.isDirectory()) {
 				//System.out.println(dir);
@@ -76,10 +76,10 @@ public class LocalIO {
 	/**
 	 * sleep amount of time in millisconds
 	 */
-	public static void pause(int time) {
+	public static void pause(final int time) {
 		try {
 			Thread.sleep(time);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}

@@ -25,10 +25,10 @@ public class UpdateDaemon implements Runnable {
 	private static int cal;
 	private final net.sf.jftp.JFtp jftp;
 
-	public UpdateDaemon(net.sf.jftp.JFtp jftp) {
+	public UpdateDaemon(final net.sf.jftp.JFtp jftp) {
 		this.jftp = jftp;
 
-		Thread runner = new Thread(this);
+		final Thread runner = new Thread(this);
 		runner.start();
 	}
 
@@ -87,7 +87,7 @@ public class UpdateDaemon implements Runnable {
 				}
 
 				Thread.sleep(Settings.uiRefresh);
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 				System.exit(1);
 			}

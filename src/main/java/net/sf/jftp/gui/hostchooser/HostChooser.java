@@ -62,13 +62,13 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	private int mode = 0;
 	private boolean useLocal = false;
 
-	public HostChooser(ComponentListener l, boolean local) {
+	public HostChooser(final ComponentListener l, final boolean local) {
 		listener = l;
 		useLocal = local;
 		this.init();
 	}
 
-	public HostChooser(ComponentListener l) {
+	public HostChooser(final ComponentListener l) {
 		listener = l;
 		this.init();
 	}
@@ -86,8 +86,8 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		pass.text.setEnabled(true);
 
 		try {
-			net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
-			String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def);
+			final net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
+			final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def);
 
 			if ((login != null) && (login[0] != null)) {
 				host.setText(login[0]);
@@ -113,12 +113,12 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			} else {
 				pass.setText("");
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			net.sf.jftp.system.logging.Log.debug("Error initializing connection values!");
 			//ex.printStackTrace();
 		}
 
-		HInsetPanel root = new HInsetPanel();
+		final HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
 
 		root.add(host);
@@ -145,11 +145,11 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		if (ext) {
 			root.add(crlf);
 
-			JPanel x1 = new JPanel();
+			final JPanel x1 = new JPanel();
 			x1.setLayout(new BorderLayout(2, 2));
-			JLabel l1 = new JLabel("Unix: LF, Mac/MVS: CR, Win: CRLF");
+			final JLabel l1 = new JLabel("Unix: LF, Mac/MVS: CR, Win: CRLF");
 			l1.setFont(new Font("Dialog", Font.PLAIN, 10));
-			JLabel l2 = new JLabel("Don't change this unless you transfer text only");
+			final JLabel l2 = new JLabel("Don't change this unless you transfer text only");
 			l2.setFont(new Font("Dialog", Font.PLAIN, 10));
 			x1.add("North", l1);
 			x1.add("South", l2);
@@ -195,16 +195,16 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		host.requestFocus();
 	}
 
-	public void update(String url) {
+	public void update(final String url) {
 		try {
-			net.sf.jftp.net.FtpURLConnection uc = new net.sf.jftp.net.FtpURLConnection(new java.net.URL(url));
-			net.sf.jftp.net.FtpConnection con = uc.getFtpConnection();
+			final net.sf.jftp.net.FtpURLConnection uc = new net.sf.jftp.net.FtpURLConnection(new java.net.URL(url));
+			final net.sf.jftp.net.FtpConnection con = uc.getFtpConnection();
 
 			net.sf.jftp.JFtp.statusP.jftp.addConnection(url, con);
 
 			uc.connect();
 
-			int response = uc.getLoginResponse();
+			final int response = uc.getLoginResponse();
 
 			if (response != net.sf.jftp.net.FtpConnection.LOGIN_OK) {
 				this.setTitle("Wrong password!");
@@ -225,23 +225,23 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				net.sf.jftp.JFtp.mainFrame.setVisible(true);
 				net.sf.jftp.JFtp.mainFrame.toFront();
 			}
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error!");
 			ex.printStackTrace();
 		}
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			net.sf.jftp.net.FtpConnection con = null;
+			final net.sf.jftp.net.FtpConnection con = null;
 			net.sf.jftp.JFtp.setHost(host.getText());
 
-			String htmp = net.sf.jftp.system.StringUtils.cut(host.getText(), " ");
-			String utmp = net.sf.jftp.system.StringUtils.cut(user.getText(), " ");
-			String ptmp = net.sf.jftp.system.StringUtils.cut(pass.getText(), " ");
-			String potmp = net.sf.jftp.system.StringUtils.cut(port.getText(), " ");
+			final String htmp = net.sf.jftp.system.StringUtils.cut(host.getText(), " ");
+			final String utmp = net.sf.jftp.system.StringUtils.cut(user.getText(), " ");
+			final String ptmp = net.sf.jftp.system.StringUtils.cut(pass.getText(), " ");
+			final String potmp = net.sf.jftp.system.StringUtils.cut(port.getText(), " ");
 
 			net.sf.jftp.config.Settings.setProperty("jftp.ftpPasvMode", !modeBox.isSelected());
 			net.sf.jftp.config.Settings.setProperty("jftp.enableMultiThreading", threadBox.isSelected());
@@ -260,15 +260,15 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			net.sf.jftp.JFtp.hostinfo.port = potmp;
 			net.sf.jftp.JFtp.hostinfo.type = "ftp";
 
-			boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
-			boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
+			final boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
+			final boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
 
 			net.sf.jftp.config.Settings.maxConnections = Integer.parseInt(dl.getText().trim());
 
 			net.sf.jftp.config.Settings.save();
 
-			String dtmp;
-			String ltmp;
+			final String dtmp;
+			final String ltmp;
 
 			if (dirBox.isSelected()) {
 				dtmp = net.sf.jftp.config.Settings.defaultDir;
@@ -278,7 +278,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				ltmp = lcwd.getText();
 			}
 
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def, htmp, utmp, ptmp, potmp, dtmp, ltmp);
+			final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def, htmp, utmp, ptmp, potmp, dtmp, ltmp);
 
 			if (net.sf.jftp.JFtp.localDir instanceof net.sf.jftp.net.FilesystemConnection) {
 				if (!net.sf.jftp.JFtp.localDir.setPath(ltmp)) {
@@ -288,7 +288,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				}
 			}
 
-			int response = net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, useLocal, crlf.getText().trim());
+			final int response = net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, useLocal, crlf.getText().trim());
 
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
@@ -301,8 +301,8 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			}
 
 		} else if (e.getSource() == list) {
-			HostList hl = new HostList(this);
-			net.sf.jftp.gui.base.FtpHost selectedHost = hl.getFtpHost();
+			final HostList hl = new HostList(this);
+			final net.sf.jftp.gui.base.FtpHost selectedHost = hl.getFtpHost();
 
 			if (selectedHost == null) {
 				return;
@@ -347,7 +347,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	}
 
 	private void prepareBackgroundMessage() {
-		HPanel p = new HPanel();
+		final HPanel p = new HPanel();
 		p.add(backMode);
 		p.add(frontMode);
 		p.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -359,7 +359,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		h.setTitle("Connection failed!");
 		h.setLocation(150, 200);
 
-		JTextArea text = new JTextArea();
+		final JTextArea text = new JTextArea();
 		h.getContentPane().add("Center", text);
 		h.getContentPane().add("South", p);
 		text.setText(" ---------------- Output -----------------\n\n" + "The server is busy at the moment.\n\n" + "Do you want JFtp to go to disappear and try to login\n" + "continuously?\n\n" + "(It will show up again when it has initiated a connection)\n\n");
@@ -368,37 +368,37 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		h.pack();
 	}
 
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(final WindowEvent e) {
 		//System.exit(0);
 		this.dispose();
 	}
 
-	public void windowClosed(WindowEvent e) {
+	public void windowClosed(final WindowEvent e) {
 	}
 
-	public void windowActivated(WindowEvent e) {
+	public void windowActivated(final WindowEvent e) {
 	}
 
-	public void windowDeactivated(WindowEvent e) {
+	public void windowDeactivated(final WindowEvent e) {
 	}
 
-	public void windowIconified(WindowEvent e) {
+	public void windowIconified(final WindowEvent e) {
 	}
 
-	public void windowDeiconified(WindowEvent e) {
+	public void windowDeiconified(final WindowEvent e) {
 	}
 
-	public void windowOpened(WindowEvent e) {
+	public void windowOpened(final WindowEvent e) {
 	}
 
-	public void pause(int time) {
+	public void pause(final int time) {
 		try {
 			Thread.sleep(time);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 		}
 	}
 
-	private void tryFtpAgain(int response, String htmp, String ptmp, String utmp, String potmp, String dtmp, boolean useLocal) {
+	private void tryFtpAgain(int response, final String htmp, final String ptmp, final String utmp, final String potmp, final String dtmp, final boolean useLocal) {
 		//*** FOR TESTING PURPOSES
 		//System.out.println(htmp + " " + ptmp + " " + utmp);
 		//System.out.println(potmp + " " + dtmp);
@@ -420,12 +420,12 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 				int r = 5;
 
-				for (int i = 0; i < r; r--) {
+				for (final int i = 0; i < r; r--) {
 					System.out.print("" + r + "-");
 
 					try {
 						Thread.sleep(1000);
-					} catch (Exception ex) {
+					} catch (final Exception ex) {
 					}
 				}
 

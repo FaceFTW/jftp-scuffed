@@ -33,7 +33,7 @@ public class DirCanvas extends JPanel implements MouseListener {
 	boolean active = false;
 
 
-	public DirCanvas(Dir target) {
+	public DirCanvas(final Dir target) {
 		this.target = target;
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 		this.add(text);
@@ -41,44 +41,44 @@ public class DirCanvas extends JPanel implements MouseListener {
 		this.setVisible(true);
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(final MouseEvent e) {
 		if (target.getType().equals("local") || target.getCon() instanceof FilesystemConnection) {
-			String tmp = UITool.getPathFromDialog(Settings.defaultWorkDir);
+			final String tmp = UITool.getPathFromDialog(Settings.defaultWorkDir);
 
 			if (tmp != null) {
 				target.setPath(tmp);
 				target.fresh();
 			}
 		} else {
-			PathChanger p = new PathChanger("remote");
+			final PathChanger p = new PathChanger("remote");
 			target.fresh();
 		}
 	}
 
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(final MouseEvent e) {
 	}
 
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(final MouseEvent e) {
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(final MouseEvent e) {
 		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		active = true;
 		this.repaint();
 	}
 
-	public void mouseExited(MouseEvent e) {
+	public void mouseExited(final MouseEvent e) {
 		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		active = false;
 		this.repaint();
 	}
 
-	public void setText(String msg) {
+	public void setText(final String msg) {
 		text.setText(msg);
 		this.validate();
 	}
 
-	public void paintComponent(Graphics g) {
+	public void paintComponent(final Graphics g) {
 		if (!active) {
 			g.setColor(GUIDefaults.light);
 		} else {
@@ -91,7 +91,7 @@ public class DirCanvas extends JPanel implements MouseListener {
 	}
 
 	public Insets getInsets() {
-		Insets in = super.getInsets();
+		final Insets in = super.getInsets();
 
 		return new Insets(in.top, in.left, in.bottom, in.right);
 	}

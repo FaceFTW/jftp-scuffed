@@ -13,15 +13,15 @@ public class FtpUpload implements Logger, ConnectionListener
 
  private boolean isThere = false;
 
-	public FtpUpload(String host, String dir, String file)
+	public FtpUpload(final String host, final String dir, final String file)
  {
  	Log.setLogger(this);
 
- 	FtpConnection con = new FtpConnection(host);
+ 	final FtpConnection con = new FtpConnection(host);
 
 	con.addConnectionListener(this);
 
-	 net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
+	 final net.sf.jftp.net.ConnectionHandler handler = new net.sf.jftp.net.ConnectionHandler();
 	 con.setConnectionHandler(handler);
 
 	con.login("anonymous","no@no.no");
@@ -29,7 +29,7 @@ public class FtpUpload implements Logger, ConnectionListener
 	while(!isThere)
 	{
 		try { Thread.sleep(10); }
-		catch(Exception ex) { ex.printStackTrace(); }
+		catch(final Exception ex) { ex.printStackTrace(); }
 	}
 
 	con.chdir(dir);
@@ -37,56 +37,56 @@ public class FtpUpload implements Logger, ConnectionListener
 	con.upload(file);
  }
 
- public static void main(String[] argv)
+ public static void main(final String[] argv)
  {
     if(argv.length == 3)
     { 
-	    FtpUpload f = new FtpUpload(argv[0], argv[2], argv[1]); 
+	    final FtpUpload f = new FtpUpload(argv[0], argv[2], argv[1]);
     }
     else 
     {
-     FtpUpload g = 
+     final FtpUpload g =
 	    new FtpUpload("upload.sourceforge.net", "/incoming", "test.txt");
     }
 }
 
 
- public void updateRemoteDirectory(BasicConnection con)
+ public void updateRemoteDirectory(final BasicConnection con)
  {
  	System.out.println("new path is: " + con.getPWD());
  }
  
- public void connectionInitialized(BasicConnection con)
+ public void connectionInitialized(final BasicConnection con)
  {
   	isThere = true;
  }
  
- public void updateProgress(String file, String type, long bytes) {}
+ public void updateProgress(final String file, final String type, final long bytes) {}
  
- public void connectionFailed(BasicConnection con, String why) {System.out.println("connection failed!");}
+ public void connectionFailed(final BasicConnection con, final String why) {System.out.println("connection failed!");}
 
- public void actionFinished(BasicConnection con) {}
+ public void actionFinished(final BasicConnection con) {}
 
-    public void debug(String msg) {System.out.println(msg);}
+    public void debug(final String msg) {System.out.println(msg);}
 
-     public void debugRaw(String msg) {System.out.print(msg);}
+     public void debugRaw(final String msg) {System.out.print(msg);}
 
-    public void debug(String msg, Throwable throwable) {}
+    public void debug(final String msg, final Throwable throwable) {}
 
-    public void warn(String msg) {}
+    public void warn(final String msg) {}
 
-    public void warn(String msg, Throwable throwable) {}
+    public void warn(final String msg, final Throwable throwable) {}
 
-    public void error(String msg) {}
+    public void error(final String msg) {}
 
-    public void error(String msg, Throwable throwable) {}
+    public void error(final String msg, final Throwable throwable) {}
 
-    public void info(String msg) {}
+    public void info(final String msg) {}
 
-    public void info(String msg, Throwable throwable) {}
+    public void info(final String msg, final Throwable throwable) {}
 
-    public void fatal(String msg) {}
+    public void fatal(final String msg) {}
 
-    public void fatal(String msg, Throwable throwable) {}
+    public void fatal(final String msg, final Throwable throwable) {}
 
 }

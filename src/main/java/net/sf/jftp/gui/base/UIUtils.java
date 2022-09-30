@@ -24,18 +24,18 @@ import java.io.IOException;
 
 
 public class UIUtils {
-	public static String getPasswordFromUser(JComponent parent) {
-		JOptionPane j = new JOptionPane();
-		JPasswordField pField = new JPasswordField();
+	public static String getPasswordFromUser(final JComponent parent) {
+		final JOptionPane j = new JOptionPane();
+		final JPasswordField pField = new JPasswordField();
 
-		int ret = JOptionPane.showOptionDialog(parent, pField, "Password required", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		final int ret = JOptionPane.showOptionDialog(parent, pField, "Password required", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
 		return pField.getText();
 	}
 
-	public static void runCommand(String cmd) throws IOException {
+	public static void runCommand(final String cmd) throws IOException {
 		if (Desktop.isDesktopSupported()) {
-			Desktop desktop = Desktop.getDesktop();
+			final Desktop desktop = Desktop.getDesktop();
 			if (desktop.isSupported(Desktop.Action.OPEN)) {
 				File file = null;
 				if (cmd.startsWith("file:")) {
@@ -53,23 +53,23 @@ public class UIUtils {
 class Spawn implements Runnable {
 	private String cmd;
 
-	public Spawn(String cmd) {
+	public Spawn(final String cmd) {
 		this.cmd = cmd;
 
-		Thread runner = new Thread(this);
+		final Thread runner = new Thread(this);
 		runner.start();
 	}
 
 	public void run() {
 		try {
-			String str = "";
+			final String str = "";
 
 			if (cmd.startsWith("file://")) cmd = cmd.substring(7);
 
-			Process p = Runtime.getRuntime().exec(cmd);
+			final Process p = Runtime.getRuntime().exec(cmd);
 			new Shell(p.getInputStream(), p.getOutputStream());
 
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			ex.printStackTrace();
 		}
 	}

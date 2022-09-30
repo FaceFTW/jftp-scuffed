@@ -27,11 +27,11 @@ import java.util.Hashtable;
 public class ConnectionHandler {
 	private final Hashtable<String, Transfer> connections = new Hashtable<>();
 
-	public void addConnection(String file, Transfer t) {
+	public void addConnection(final String file, final Transfer t) {
 		connections.put(file, t);
 	}
 
-	public void removeConnection(String file) {
+	public void removeConnection(final String file) {
 		connections.remove(file);
 	}
 
@@ -41,10 +41,10 @@ public class ConnectionHandler {
 
 	public int getConnectionSize() {
 		int size = 0;
-		Enumeration<Transfer> e = connections.elements();
+		final Enumeration<Transfer> e = connections.elements();
 
 		while (e.hasMoreElements()) {
-			Transfer t = e.nextElement();
+			final Transfer t = e.nextElement();
 
 			if (t.hasStarted()) {
 				size++;

@@ -54,13 +54,13 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	private boolean useLocal = false;
 	private String keyfileName = null;
 
-	public SftpHostChooser(ComponentListener l, boolean local) {
+	public SftpHostChooser(final ComponentListener l, final boolean local) {
 		listener = l;
 		useLocal = local;
 		this.init();
 	}
 
-	public SftpHostChooser(ComponentListener l) {
+	public SftpHostChooser(final ComponentListener l) {
 		listener = l;
 		this.init();
 	}
@@ -75,19 +75,19 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		this.setBackground(new HPanel().getBackground());
 
 		try {
-			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			final File f = new File(net.sf.jftp.config.Settings.appHomeDir);
 			f.mkdir();
 
-			File f1 = new File(net.sf.jftp.config.Settings.login);
+			final File f1 = new File(net.sf.jftp.config.Settings.login);
 			f1.createNewFile();
 
-			File f2 = new File(net.sf.jftp.config.Settings.login_def_sftp);
+			final File f2 = new File(net.sf.jftp.config.Settings.login_def_sftp);
 			f2.createNewFile();
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			ex.printStackTrace();
 		}
 
-		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_sftp);
+		final String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_sftp);
 
 		if ((login[0] != null) && (login.length > 1)) {
 			host.setText(login[0]);
@@ -118,7 +118,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		keys.addItem("ssh-rsa");
 		keys.addItem("ssh-dss");
 
-		HInsetPanel root = new HInsetPanel();
+		final HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
 		root.add(host);
 		root.add(port, "wrap");
@@ -160,7 +160,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		this.addWindowListener(this);
 	}
 
-	public void stateChanged(ChangeEvent e) {
+	public void stateChanged(final ChangeEvent e) {
 		enc.setEnabled(false);
 		cs.setEnabled(false);
 		keys.setEnabled(false);
@@ -177,8 +177,8 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		try {
 			url = url.replace("sftp://", "ftp://"); //sftp is not a valid protocol here, but we still get the parser to work
 
-			net.sf.jftp.net.wrappers.Sftp2URLConnection uc = new net.sf.jftp.net.wrappers.Sftp2URLConnection(new java.net.URL(url));
-			net.sf.jftp.net.wrappers.Sftp2Connection con = uc.getSftp2Connection();
+			final net.sf.jftp.net.wrappers.Sftp2URLConnection uc = new net.sf.jftp.net.wrappers.Sftp2URLConnection(new java.net.URL(url));
+			final net.sf.jftp.net.wrappers.Sftp2Connection con = uc.getSftp2Connection();
 			net.sf.jftp.JFtp.statusP.jftp.addConnection(url, con);
 
 			uc.connect();
@@ -202,34 +202,34 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 				net.sf.jftp.JFtp.mainFrame.setVisible(true);
 				net.sf.jftp.JFtp.mainFrame.toFront();
 			}
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 			net.sf.jftp.system.logging.Log.debug("Error!");
 			ex.printStackTrace();
 		}
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			String htmp = host.getText().trim();
-			String utmp = user.getText().trim();
-			String ptmp = pass.getText();
+			final String htmp = host.getText().trim();
+			final String utmp = user.getText().trim();
+			final String ptmp = pass.getText();
 
 			int potmp = 22;
 
 			try {
 				potmp = Integer.parseInt(port.getText());
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				net.sf.jftp.system.logging.Log.debug("Error: Not a number!");
 			}
 
 			try {
 				boolean status;
 
-				net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_sftp, htmp, utmp, ptmp, "" + potmp, "null", "null");
+				final net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_sftp, htmp, utmp, ptmp, "" + potmp, "null", "null");
 
-				net.sf.jftp.net.wrappers.Sftp2Connection con2 = new net.sf.jftp.net.wrappers.Sftp2Connection(htmp, "" + potmp, keyfileName);
+				final net.sf.jftp.net.wrappers.Sftp2Connection con2 = new net.sf.jftp.net.wrappers.Sftp2Connection(htmp, "" + potmp, keyfileName);
 
 				if (con2.login(utmp, ptmp)) {
 					if (useLocal) {
@@ -241,7 +241,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 					if (con2.chdir(con2.getPWD()) || con2.chdir("/")) {
 					}
 				}
-			} catch (Exception ex) {
+			} catch (final Exception ex) {
 				ex.printStackTrace();
 				net.sf.jftp.system.logging.Log.debug("Could not create SftpConnection, does this distribution come with j2ssh?");
 			}
@@ -256,8 +256,8 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 				listener.componentResized(new ComponentEvent(this, 0));
 			}
 		} else if (e.getSource() == keyfile) {
-			JFileChooser chooser = new JFileChooser();
-			int returnVal = chooser.showOpenDialog(this);
+			final JFileChooser chooser = new JFileChooser();
+			final int returnVal = chooser.showOpenDialog(this);
 
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				keyfileName = chooser.getSelectedFile().getPath();
@@ -275,32 +275,32 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		}
 	}
 
-	public void windowClosing(WindowEvent e) {
+	public void windowClosing(final WindowEvent e) {
 		this.dispose();
 	}
 
-	public void windowClosed(WindowEvent e) {
+	public void windowClosed(final WindowEvent e) {
 	}
 
-	public void windowActivated(WindowEvent e) {
+	public void windowActivated(final WindowEvent e) {
 	}
 
-	public void windowDeactivated(WindowEvent e) {
+	public void windowDeactivated(final WindowEvent e) {
 	}
 
-	public void windowIconified(WindowEvent e) {
+	public void windowIconified(final WindowEvent e) {
 	}
 
-	public void windowDeiconified(WindowEvent e) {
+	public void windowDeiconified(final WindowEvent e) {
 	}
 
-	public void windowOpened(WindowEvent e) {
+	public void windowOpened(final WindowEvent e) {
 	}
 
-	public void pause(int time) {
+	public void pause(final int time) {
 		try {
 			Thread.sleep(time);
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 		}
 	}
 }

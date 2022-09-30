@@ -42,7 +42,7 @@ public class NameChooser extends net.sf.jftp.gui.framework.HFrame implements Act
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
 			this.setVisible(false);
 		}

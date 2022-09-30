@@ -26,16 +26,16 @@ public class Sftp2URLConnection extends URLConnection {
 	private String password = "none@no.no";
 	private boolean loginFlag = false;
 
-	public Sftp2URLConnection(URL u) {
+	public Sftp2URLConnection(final URL u) {
 		super(u);
 
-		int port = u.getPort() > 0 ? u.getPort() : 22;
+		final int port = u.getPort() > 0 ? u.getPort() : 22;
 		connection = new Sftp2Connection(u.getHost(), "" + port, null);
 
-		String userInfo = u.getUserInfo();
+		final String userInfo = u.getUserInfo();
 
 		if (userInfo != null) {
-			int index = userInfo.indexOf(":");
+			final int index = userInfo.indexOf(":");
 
 			if (index != -1) {
 				username = userInfo.substring(0, index);
@@ -73,7 +73,7 @@ public class Sftp2URLConnection extends URLConnection {
 	}
 
 	public int getPort() {
-		int ret = url.getPort();
+		final int ret = url.getPort();
 
 		if (ret <= 0) {
 			return 22;
