@@ -81,7 +81,6 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			return new Insets(0, 0, 0, 0);
 		}
 	};
-	private final Hashtable dummy = new Hashtable();
 	private final JPopupMenu popupMenu = new JPopupMenu();
 	private final JMenuItem runFile = new JMenuItem("Launch file");
 	private final JMenuItem viewFile = new JMenuItem("View file");

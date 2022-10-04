@@ -69,7 +69,7 @@ public class FtpServerSocket extends Thread {
 		commands.add("user");
 	}
 
-	private final Hashtable methods = new Hashtable();
+	private final java.util.Map<String, Method> methods = new java.util.HashMap<>();
 	private final ResourceBundle bundle = ResourceBundle.getBundle("responses", Locale.US);
 	private final String structure = "file";
 	private final String transferMode = "stream";

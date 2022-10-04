@@ -518,7 +518,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	public String[] sortLs() {
 		try {
 			boolean newUnixDateStyle = false;
-			this.dateVector = new Vector<>();
+			this.dateVector = new java.util.ArrayList<>();
 			this.currentFiles.clear();
 
 			for (String tmp : this.currentListing) {
@@ -705,7 +705,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					tmp = this.giveFile(to2, 7);
 
 					if (1 < lcount) {
-						this.dateVector = new java.util.Vector<>();
+						this.dateVector = new java.util.ArrayList<>();
 					}
 				} else if (8 < tokens) // unix
 				{

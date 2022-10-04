@@ -274,7 +274,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public String[] sortLs() {
-		this.dateVector = new Vector<>();
+		this.dateVector = new java.util.ArrayList<>();
 
 		File f = new File(this.pwd);
 		String[] files = f.list();

@@ -45,11 +45,11 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 	public void accept(Event e) {
 		Integer code = e.eventCode();
-		Vector handlers = (Vector) (table.get(code));
+		java.util.List<EventHandler> handlers = (table.get(code));
 
 		if (null != handlers) {
 			for (int i = 0, max = handlers.size(); i < max; i++) {
-				((EventHandler) (handlers.elementAt(i))).handle(e);
+				((EventHandler) (handlers.get(i))).handle(e);
 			}
 		}
 	}

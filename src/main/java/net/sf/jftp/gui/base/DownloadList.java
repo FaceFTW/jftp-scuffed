@@ -90,7 +90,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	}
 
 	public void fresh() {
-		this.downloads = new Hashtable();
+		this.downloads = new java.util.HashMap<>();
 		this.updateArea();
 	}
 

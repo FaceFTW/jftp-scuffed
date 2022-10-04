@@ -240,8 +240,8 @@ public class FileSearch {
 		}
 	}
 
-	private Vector sort(String content, String url, String index) {
-		Vector res = new Vector();
+	private java.util.List<String> sort(String content, String url, String index) {
+		java.util.List<String> res = new java.util.ArrayList<>();
 		int wo = 0;
 
 		while (true) {

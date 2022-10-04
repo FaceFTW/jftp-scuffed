@@ -32,7 +32,6 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.util.Enumeration;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -172,14 +171,8 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		return url;
 	}
 
-	private Vector addVector(Vector v, Vector x) {
-		Enumeration e = x.elements();
-
-		while (e.hasMoreElements()) {
-			String next = (String) e.nextElement();
-			v.add(next);
-		}
-
+	private java.util.List<String> addVector(java.util.List<String> v, java.util.List<String> x) {
+		v.addAll(x);
 		return v;
 	}
 
@@ -193,19 +186,19 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		Holer sammy = new Holer(this.localDir);
 		String zeug = sammy.holZeug(url);
 
-		Vector m = this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "href=\"");
+		java.util.List<String> m = this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "href=\"");
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "src=\""));
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "HREF=\""));
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "SRC=\""));
 
-		Enumeration mischen = m.elements();
+		java.util.Iterator<String> mischen = m.iterator();
 
-		while (mischen.hasMoreElements()) {
+		while (mischen.hasNext()) {
 			if (this.stopflag) {
 				return;
 			}
 
-			String next = (String) mischen.nextElement();
+			String next = mischen.next();
 
 			net.sf.jftp.system.logging.Log.out("Processing: " + next);
 
@@ -241,8 +234,8 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		}
 	}
 
-	private Vector sortiermal(String zeug, String url, String index) {
-		Vector mischen = new Vector();
+	private java.util.List<String> sortiermal(String zeug, String url, String index) {
+		java.util.List<String> mischen = new java.util.ArrayList<>();
 		int wo = 0;
 
 		while (true) {

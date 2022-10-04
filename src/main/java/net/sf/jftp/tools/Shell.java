@@ -26,7 +26,7 @@ public class Shell extends HFrame implements Runnable {
 	Thread runner = null;
 	JScrollPane textP = null;
 	String input = "";
-	final Vector commands = new Vector();
+	final java.util.List<String> commands = new java.util.ArrayList<>();
 	int currCmd = 0;
 
 	public Shell(InputStream in, OutputStream out) {

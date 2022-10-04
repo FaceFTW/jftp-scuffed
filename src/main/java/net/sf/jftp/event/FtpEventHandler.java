@@ -86,7 +86,7 @@ public class FtpEventHandler implements EventHandler {
 	}
 
 	private final FtpClient client;
-	private final Hashtable methods = new Hashtable();
+	private final java.util.Map<String, Method> methods = new java.util.HashMap<>();
 
 	public FtpEventHandler() {
 		super();
@@ -104,38 +104,38 @@ public class FtpEventHandler implements EventHandler {
 		}
 	}
 
-	public void open(Vector args) {
+	public void open(java.util.List<String> args) {
 		System.out.println("***open");
-		this.client.login((String) args.elementAt(1));
+		this.client.login(args.get(1));
 	}
 
-	public void disconnect(Vector args) {
+	public void disconnect(java.util.List<String> args) {
 		System.out.println("***disconnect");
 		this.client.disconnect();
 	}
 
-	public void cd(Vector args) {
+	public void cd(java.util.List<String> args) {
 		System.out.println("***cd");
-		this.client.cd((String) args.elementAt(1));
+		this.client.cd(args.get(1));
 	}
 
-	public void pwd(Vector args) {
+	public void pwd(java.util.List<String> args) {
 		System.out.println("***pwd");
 
 		String directory = this.client.pwd();
 	}
 
-	public void get(Vector args) {
+	public void get(java.util.List<String> args) {
 		System.out.println("***get");
-		this.client.get((String) args.elementAt(1));
+		this.client.get(args.get(1));
 	}
 
-	public void put(Vector args) {
+	public void put(java.util.List<String> args) {
 		System.out.println("***put");
-		this.client.put((String) args.elementAt(1));
+		this.client.put(args.get(1));
 	}
 
-	public void quit(Vector args) {
+	public void quit(java.util.List<String> args) {
 		this.disconnect(args);
 	}
 
@@ -144,14 +144,14 @@ public class FtpEventHandler implements EventHandler {
 		System.out.println(((FtpEvent) e).eventMsg());
 
 		StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
-		Vector list = new Vector();
+		java.util.List<String> list = new ArrayList<>();
 
 		while (st.hasMoreTokens()) {
-			list.addElement(st.nextToken());
+			list.add(st.nextToken());
 		}
 
 		if (0 != list.size()) {
-			String command = (String) list.elementAt(0);
+			String command = (String) list.get(0);
 			Method o = (Method) this.methods.get(command.toLowerCase());
 
 			if (null != o) {
