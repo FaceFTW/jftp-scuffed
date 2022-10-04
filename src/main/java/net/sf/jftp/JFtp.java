@@ -953,7 +953,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			flavor = e.getCurrentDataFlavors()[0];
 			e.acceptDrop(acceptableActions);
 
-			Class c = flavor.getDefaultRepresentationClass();
+			Class<?> c = flavor.getDefaultRepresentationClass();
 		}
 
 		if (null == flavor) {

@@ -18,7 +18,6 @@ package net.sf.jftp.gui.base;
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HImage;
-import net.sf.jftp.gui.framework.HImageButton;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.ProgressBarList;
 import net.sf.jftp.net.ConnectionHandler;
@@ -385,7 +384,7 @@ public class DownloadList extends HPanel implements ActionListener {
 
 	private String getRealName(String file) {
 		try {
-			Enumeration e = JFtp.getConnectionHandler().getConnections().keys();
+			java.util.Enumeration<String> e = JFtp.getConnectionHandler().getConnections().keys();
 
 			while (e.hasMoreElements()) {
 				String tmp = (String) e.nextElement();

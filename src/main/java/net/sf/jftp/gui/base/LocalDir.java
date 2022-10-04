@@ -50,9 +50,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StreamTokenizer;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -917,7 +915,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 		if (tmpDir.exists() || tmpDir.mkdir()) {
 			try {
 				ZipFile z = new ZipFile(this.path + n);
-				Enumeration e = z.entries();
+				java.util.Enumeration<? extends java.util.zip.ZipEntry> e = z.entries();
 
 				while (e.hasMoreElements()) {
 					ZipEntry z1 = (ZipEntry) e.nextElement();

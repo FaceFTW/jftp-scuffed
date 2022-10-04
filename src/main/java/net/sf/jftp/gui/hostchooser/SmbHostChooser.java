@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.Enumeration;
 
 
 public class SmbHostChooser extends HFrame implements ActionListener, WindowListener {
@@ -157,10 +156,10 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		this.ip.addItem("<default>");
 
 		try {
-			Enumeration e = NetworkInterface.getNetworkInterfaces();
+			java.util.Enumeration<java.net.NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 
 			while (e.hasMoreElements()) {
-				Enumeration f = ((NetworkInterface) e.nextElement()).getInetAddresses();
+				java.util.Enumeration<java.net.InetAddress> f = ((NetworkInterface) e.nextElement()).getInetAddresses();
 
 				while (f.hasMoreElements()) {
 					this.ip.addItem(((InetAddress) f.nextElement()).getHostAddress());

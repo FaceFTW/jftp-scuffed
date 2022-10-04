@@ -6,14 +6,13 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class FileTransferable implements Transferable //, ClipboardOwner
 {
 	public static final DataFlavor plainTextFlavor = DataFlavor.plainTextFlavor;
 	public static final DataFlavor[] flavors = {plainTextFlavor,};
-	private static final List flavorList = Arrays.asList(flavors);
+	private static final java.util.List<java.awt.datatransfer.DataFlavor> flavorList = Arrays.asList(flavors);
 
 	public synchronized DataFlavor[] getTransferDataFlavors() {
 		return flavors;
