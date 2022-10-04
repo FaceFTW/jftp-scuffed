@@ -27,9 +27,9 @@ import java.util.Enumeration;
 
 
 public class RSSFeeder extends JPanel implements Runnable, ActionListener {
-	public static String urlstring = net.sf.jftp.config.Settings.getRSSFeed();
+	public static String urlstring = Settings.getRSSFeed();
 	final net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
-	final HImageButton next = new HImageButton(net.sf.jftp.config.Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
+	final HImageButton next = new HImageButton(Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
 	final int HEADER_IVAL = 4000;
 	final int LOAD_IVAL = 31 * 60000;
 	Thread runner;
@@ -65,9 +65,9 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	public void run() {
 		long time;
 
-		net.sf.jftp.system.LocalIO.pause(3000);
+		LocalIO.pause(3000);
 
-		net.sf.jftp.system.logging.Log.out("Starting RSS Feed");
+		Log.out("Starting RSS Feed");
 
 		try {
 			this.can.setInterval(10);
@@ -75,7 +75,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 			this.parser = new RSSParser(this.url);
 			time = System.currentTimeMillis();
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error: Can't load RSS feed (" + ex + ")");
+			Log.debug("Error: Can't load RSS feed (" + ex + ")");
 			ex.printStackTrace();
 
 			return;
@@ -94,7 +94,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 					int i = 0;
 
 					while (!this.breakHeader && (100 > i)) {
-						net.sf.jftp.system.LocalIO.pause(this.HEADER_IVAL / 100);
+						LocalIO.pause(this.HEADER_IVAL / 100);
 						i++;
 					}
 

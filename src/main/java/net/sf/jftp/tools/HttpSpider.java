@@ -17,6 +17,8 @@ package net.sf.jftp.tools;
 
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.system.LocalIO;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -100,9 +102,9 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		this.spider(this.argv);
 
 		if (!this.stopflag) {
-			net.sf.jftp.system.logging.Log.debug("\nRecursive download finished.\nOuptut dir: " + this.localDir);
+			Log.debug("\nRecursive download finished.\nOuptut dir: " + this.localDir);
 		} else {
-			net.sf.jftp.system.logging.Log.debug("\nRecursive download aborted.");
+			Log.debug("\nRecursive download aborted.");
 		}
 
 		net.sf.jftp.JFtp.statusP.jftp.ensureLogging();
@@ -122,13 +124,13 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 				this.typeArray = this.check(argv[1]);
 
-				net.sf.jftp.system.logging.Log.debugRaw(">>> Scanning for ");
+				Log.debugRaw(">>> Scanning for ");
 
 				for (String s : this.typeArray) {
-					net.sf.jftp.system.logging.Log.debugRaw(s + " ");
+					Log.debugRaw(s + " ");
 				}
 
-				net.sf.jftp.system.logging.Log.debug("");
+				Log.debug("");
 			}
 
 			if (2 < argv.length) {
@@ -139,7 +141,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				return;
 			}
 
-			net.sf.jftp.system.logging.Log.debug("Fetching initial HTML file...");
+			Log.debug("Fetching initial HTML file...");
 
 			Holer sammy = new Holer(this.localDir);
 			sammy.bringAnStart(url, true);
@@ -148,9 +150,9 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				return;
 			}
 
-			net.sf.jftp.system.logging.Log.debug("Searching for links...");
+			Log.debug("Searching for links...");
 			net.sf.jftp.JFtp.statusP.jftp.ensureLogging();
-			net.sf.jftp.system.LocalIO.pause(500);
+			LocalIO.pause(500);
 
 			if (this.stopflag) {
 				return;
@@ -201,14 +203,14 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			String next = mischen.next();
 
-			net.sf.jftp.system.logging.Log.out("Processing: " + next);
+			Log.out("Processing: " + next);
 
 			for (String s : this.typeArray) {
 				if (next.endsWith(s) || s.trim().equals("*")) {
 					int x = next.indexOf('/');
 
 					if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
-						net.sf.jftp.tools.Holer nochnsammy = new net.sf.jftp.tools.Holer(this.localDir);
+						Holer nochnsammy = new Holer(this.localDir);
 						nochnsammy.bringAnStart(next, false);
 
 						if (this.stopflag) {
@@ -252,7 +254,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			was = this.checker(was, url);
 			mischen.add(was);
-			net.sf.jftp.system.logging.Log.out("Added: " + was);
+			Log.out("Added: " + was);
 		}
 	}
 
@@ -299,7 +301,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			}
 		}
 
-		net.sf.jftp.system.logging.Log.out("-> " + was);
+		Log.out("-> " + was);
 
 		return was;
 	}
@@ -331,7 +333,7 @@ class Holer {
 			String wo = wat.substring(wat.indexOf('/'));
 			StringBuilder zeug = new StringBuilder();
 
-			net.sf.jftp.system.logging.Log.out(">> " + dealer + wo);
+			Log.out(">> " + dealer + wo);
 
 			Socket deal = new Socket(dealer, 80);
 			deal.setSoTimeout(5000);
@@ -369,7 +371,7 @@ class Holer {
 			String dealer = wat.substring(0, wat.indexOf('/'));
 			String wo = wat.substring(wat.indexOf('/'));
 
-			net.sf.jftp.system.logging.Log.debug(">>> " + dealer + wo);
+			Log.debug(">>> " + dealer + wo);
 
 			File d = new File(this.localDir);
 			d.mkdir();
@@ -377,7 +379,7 @@ class Holer {
 			File f = new File(this.localDir + wo.substring(wo.lastIndexOf('/') + 1));
 
 			if (f.exists() && !force) {
-				net.sf.jftp.system.logging.Log.debug(">>> file already exists...");
+				Log.debug(">>> file already exists...");
 
 				return;
 			} else {

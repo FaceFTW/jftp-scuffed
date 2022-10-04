@@ -19,7 +19,7 @@ public class Sftp2Transfer implements Runnable {
 	public Thread runner;
 	private Sftp2Connection con;
 
-	public Sftp2Transfer(String localPath, String remotePath, String file, String user, String pass, java.util.List<net.sf.jftp.net.ConnectionListener> listeners, String type, String keyfile, String host, String port) {
+	public Sftp2Transfer(String localPath, String remotePath, String file, String user, String pass, java.util.List<ConnectionListener> listeners, String type, String keyfile, String host, String port) {
 		super();
 		this.localPath = localPath;
 		this.remotePath = remotePath;

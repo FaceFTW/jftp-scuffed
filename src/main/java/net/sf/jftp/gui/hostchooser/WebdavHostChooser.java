@@ -20,6 +20,8 @@ import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.ConnectionListener;
+import net.sf.jftp.net.wrappers.WebdavConnection;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -116,14 +118,14 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 			String utmp = user.getText().trim();
 			String ptmp = pass.getText();
 
-			net.sf.jftp.net.wrappers.WebdavConnection con;
+			WebdavConnection con;
 
 			if (this.useLocal) {
-				con = new net.sf.jftp.net.wrappers.WebdavConnection(htmp, utmp, ptmp, (net.sf.jftp.net.ConnectionListener) net.sf.jftp.JFtp.localDir);
+				con = new WebdavConnection(htmp, utmp, ptmp, (ConnectionListener) net.sf.jftp.JFtp.localDir);
 				net.sf.jftp.JFtp.statusP.jftp.addLocalConnection("Webdav", con);
 				con.chdir(htmp);
 			} else {
-				con = new net.sf.jftp.net.wrappers.WebdavConnection(htmp, utmp, ptmp, (net.sf.jftp.net.ConnectionListener) net.sf.jftp.JFtp.remoteDir);
+				con = new WebdavConnection(htmp, utmp, ptmp, (ConnectionListener) net.sf.jftp.JFtp.remoteDir);
 				net.sf.jftp.JFtp.statusP.jftp.addConnection("Webdav", con);
 				con.chdir(htmp);
 			}

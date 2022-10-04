@@ -94,7 +94,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 
 		try {
 			LoadSet l = new LoadSet();
-			String[] login = net.sf.jftp.config.LoadSet.loadSet(Settings.login_def);
+			String[] login = LoadSet.loadSet(Settings.login_def);
 
 			if ((null != login) && (null != login[0])) {
 				this.host.setText(login[0]);

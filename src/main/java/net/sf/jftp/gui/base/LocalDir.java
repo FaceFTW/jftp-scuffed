@@ -26,6 +26,7 @@ import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.FilesystemConnection;
 import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.net.FtpConstants;
 import net.sf.jftp.net.wrappers.SmbConnection;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.StringUtils;
@@ -576,11 +577,11 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 			int x = this.currentPopup.getPermission();
 			String tmp;
 
-			if (net.sf.jftp.net.FtpConstants.R == x) {
+			if (FtpConstants.R == x) {
 				tmp = "read only";
-			} else if (net.sf.jftp.net.FtpConstants.W == x) {
+			} else if (FtpConstants.W == x) {
 				tmp = "read/write";
-			} else if (net.sf.jftp.net.FtpConstants.DENIED == x) {
+			} else if (FtpConstants.DENIED == x) {
 				tmp = "denied";
 			} else {
 				tmp = "undefined";
@@ -669,19 +670,19 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 		Runnable r = () -> { // --------------- local -------------------
 
-			boolean block = !net.sf.jftp.config.Settings.getEnableMultiThreading();
+			boolean block = !Settings.getEnableMultiThreading();
 
-			if (!(this.con instanceof net.sf.jftp.net.FtpConnection)) {
+			if (!(this.con instanceof FtpConnection)) {
 				block = true;
 			}
 
-			if (block || net.sf.jftp.config.Settings.getNoUploadMultiThreading()) {
+			if (block || Settings.getNoUploadMultiThreading()) {
 				this.lock(false);
 			}
 
 			this.transfer(this.tmpindex);
 
-			if (block || net.sf.jftp.config.Settings.getNoUploadMultiThreading()) {
+			if (block || Settings.getNoUploadMultiThreading()) {
 				this.unlock(false);
 			}
 
@@ -766,7 +767,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 	public void startTransfer(net.sf.jftp.gui.base.dir.DirEntry entry) {
 		if (this.con instanceof FilesystemConnection && JFtp.remoteDir.getCon() instanceof FtpConnection) {
-			if ((net.sf.jftp.config.Settings.smallSizeUp > entry.getRawSize()) && !entry.isDirectory()) {
+			if ((Settings.smallSizeUp > entry.getRawSize()) && !entry.isDirectory()) {
 				JFtp.remoteDir.getCon().upload(this.path + entry.file);
 			} else {
 				JFtp.remoteDir.getCon().handleUpload(this.path + entry.file);
@@ -871,13 +872,13 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 
 			return;
 		}
-		if ((this.con instanceof FtpConnection) && (0 < ((net.sf.jftp.net.FtpConnection) this.con).dateVector.size())) {
+		if ((this.con instanceof FtpConnection) && (0 < ((FtpConnection) this.con).dateVector.size())) {
 			if (!this.dateEnabled) {
 				this.sorter.addItem("Date");
 				this.dateEnabled = true;
 				UpdateDaemon.updateRemoteDirGUI();
 			}
-		} else if ((this.con instanceof FilesystemConnection) && (0 < ((net.sf.jftp.net.FilesystemConnection) this.con).dateVector.size())) {
+		} else if ((this.con instanceof FilesystemConnection) && (0 < ((FilesystemConnection) this.con).dateVector.size())) {
 			if (!this.dateEnabled) {
 				this.sorter.addItem("Date");
 				this.dateEnabled = true;

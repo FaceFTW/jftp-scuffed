@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.net.wrappers.HttpTransfer;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +53,7 @@ public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements 
 			Vector listeners = new Vector();
 			listeners.add(net.sf.jftp.JFtp.localDir);
 
-			net.sf.jftp.net.wrappers.HttpTransfer t = new net.sf.jftp.net.wrappers.HttpTransfer(this.text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
+			HttpTransfer t = new HttpTransfer(this.text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
 
 			net.sf.jftp.JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
 

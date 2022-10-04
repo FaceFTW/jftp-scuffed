@@ -38,7 +38,7 @@ public class JReciever implements Runnable {
 				if (-1 == cnt) {
 					RawConnection.output.append(">>> Connection closed...");
 
-					net.sf.jftp.system.LocalIO.pause(100);
+					LocalIO.pause(100);
 
 					JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
 					bar.setValue(bar.getMaximum());
@@ -51,12 +51,12 @@ public class JReciever implements Runnable {
 					tmp = tmp.substring(0, cnt);
 
 					RawConnection.output.append(tmp);
-					net.sf.jftp.system.LocalIO.pause(100);
+					LocalIO.pause(100);
 
 					JScrollBar bar = RawConnection.outputPane.getVerticalScrollBar();
 					bar.setValue(bar.getMaximum());
 
-					net.sf.jftp.system.LocalIO.pause(400);
+					LocalIO.pause(400);
 				}
 			}
 		} catch (Exception ex) {

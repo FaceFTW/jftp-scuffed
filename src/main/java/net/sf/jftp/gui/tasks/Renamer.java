@@ -60,7 +60,7 @@ public class Renamer extends net.sf.jftp.gui.framework.HFrame implements ActionL
 
 			net.sf.jftp.JFtp.localUpdate();
 
-			net.sf.jftp.system.logging.Log.debug("Successfully renamed.");
+			Log.debug("Successfully renamed.");
 		}
 	}
 }

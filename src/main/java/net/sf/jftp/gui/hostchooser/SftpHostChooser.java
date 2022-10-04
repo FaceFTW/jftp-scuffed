@@ -16,12 +16,18 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HInsetPanel;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.wrappers.Sftp2Connection;
+import net.sf.jftp.net.wrappers.Sftp2URLConnection;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -81,19 +87,19 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		this.setBackground(new HPanel().getBackground());
 
 		try {
-			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f = new File(Settings.appHomeDir);
 			f.mkdir();
 
-			File f1 = new File(net.sf.jftp.config.Settings.login);
+			File f1 = new File(Settings.login);
 			f1.createNewFile();
 
-			File f2 = new File(net.sf.jftp.config.Settings.login_def_sftp);
+			File f2 = new File(Settings.login_def_sftp);
 			f2.createNewFile();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_sftp);
+		String[] login = LoadSet.loadSet(Settings.login_def_sftp);
 
 		if ((null != login[0]) && (1 < login.length)) {
 			this.host.setText(login[0]);
@@ -104,7 +110,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			}
 		}
 
-		if (net.sf.jftp.config.Settings.getStorePasswords()) {
+		if (Settings.getStorePasswords()) {
 			if ((null != login) && (2 < login.length) && (null != login[2])) {
 				this.pass.setText(login[2]);
 			}
@@ -183,8 +189,8 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		try {
 			url = url.replace("sftp://", "ftp://"); //sftp is not a valid protocol here, but we still get the parser to work
 
-			net.sf.jftp.net.wrappers.Sftp2URLConnection uc = new net.sf.jftp.net.wrappers.Sftp2URLConnection(new java.net.URL(url));
-			net.sf.jftp.net.wrappers.Sftp2Connection con = uc.getSftp2Connection();
+			Sftp2URLConnection uc = new Sftp2URLConnection(new java.net.URL(url));
+			Sftp2Connection con = uc.getSftp2Connection();
 			net.sf.jftp.JFtp.statusP.jftp.addConnection(url, con);
 
 			uc.connect();
@@ -209,7 +215,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 				net.sf.jftp.JFtp.mainFrame.toFront();
 			}
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error!");
+			Log.debug("Error!");
 			ex.printStackTrace();
 		}
 	}
@@ -227,15 +233,15 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			try {
 				potmp = Integer.parseInt(this.port.getText());
 			} catch (Exception ex) {
-				net.sf.jftp.system.logging.Log.debug("Error: Not a number!");
+				Log.debug("Error: Not a number!");
 			}
 
 			try {
 				boolean status;
 
-				net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_sftp, htmp, utmp, ptmp, "" + potmp, "null", "null");
+				SaveSet s = new SaveSet(Settings.login_def_sftp, htmp, utmp, ptmp, "" + potmp, "null", "null");
 
-				net.sf.jftp.net.wrappers.Sftp2Connection con2 = new net.sf.jftp.net.wrappers.Sftp2Connection(htmp, "" + potmp, this.keyfileName);
+				Sftp2Connection con2 = new Sftp2Connection(htmp, "" + potmp, this.keyfileName);
 
 				if (con2.login(utmp, ptmp)) {
 					if (this.useLocal) {
@@ -249,7 +255,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				net.sf.jftp.system.logging.Log.debug("Could not create SftpConnection, does this distribution come with j2ssh?");
+				Log.debug("Could not create SftpConnection, does this distribution come with j2ssh?");
 			}
 
 

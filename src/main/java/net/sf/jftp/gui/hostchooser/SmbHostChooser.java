@@ -16,12 +16,18 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HInsetPanel;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.wrappers.SmbConnection;
+import net.sf.jftp.net.wrappers.StartConnection;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -78,19 +84,19 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		this.setBackground(new HPanel().getBackground());
 
 		try {
-			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f = new File(Settings.appHomeDir);
 			f.mkdir();
 
-			File f1 = new File(net.sf.jftp.config.Settings.login);
+			File f1 = new File(Settings.login);
 			f1.createNewFile();
 
-			File f2 = new File(net.sf.jftp.config.Settings.login_def_smb);
+			File f2 = new File(Settings.login_def_smb);
 			f2.createNewFile();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_smb);
+		String[] login = LoadSet.loadSet(Settings.login_def_smb);
 
 		if ((null != login[0]) && (1 < login.length)) {
 			host.setText(login[0]);
@@ -99,7 +105,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		}
 
 
-		if (net.sf.jftp.config.Settings.getStorePasswords()) {
+		if (Settings.getStorePasswords()) {
 			if ((null != login) && (2 < login.length) && (null != login[2])) {
 				pass.setText(login[2]);
 			}
@@ -168,7 +174,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 				}
 			}
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error determining default network interface: " + ex);
+			Log.debug("Error determining default network interface: " + ex);
 
 			//ex.printStackTrace();
 		}
@@ -189,7 +195,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			String x = tmp.substring(0, tmp.lastIndexOf('.') + 1) + "255";
 			this.broadcast.setText(x);
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.out("Error (SMBHostChooser): " + ex);
+			Log.out("Error (SMBHostChooser): " + ex);
 		}
 	}
 
@@ -219,7 +225,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			//this.setVisible(false);
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			net.sf.jftp.net.wrappers.SmbConnection con = null;
+			SmbConnection con = null;
 
 			//System.out.println(jcifs.Config.getProperty("jcifs.smb.client.laddr"));
 			String tmp = ((String) this.ip.getSelectedItem()).trim();
@@ -232,7 +238,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 					x = bcast;
 				}
 
-				net.sf.jftp.system.logging.Log.debug("Setting LAN interface to: " + tmp + "/" + x);
+				Log.debug("Setting LAN interface to: " + tmp + "/" + x);
 				jcifs.Config.setProperty("jcifs.netbios.laddr", tmp);
 				jcifs.Config.setProperty("jcifs.smb.client.laddr", tmp);
 				jcifs.Config.setProperty("jcifs.netbios.baddr", x);
@@ -240,7 +246,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 				String y = this.wins.getText().trim();
 
 				if (!y.equals("NONE")) {
-					net.sf.jftp.system.logging.Log.debug("Setting WINS server IP to: " + y);
+					Log.debug("Setting WINS server IP to: " + y);
 					jcifs.Config.setProperty("jcifs.netbios.wins", y);
 				}
 			}
@@ -263,14 +269,14 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			}
 
 			//***save the set of selected data
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_smb, htmp, utmp, ptmp, "", "", dtmp);
+			SaveSet s = new SaveSet(Settings.login_def_smb, htmp, utmp, ptmp, "", "", dtmp);
 
 			//*** Now make the function call to the methos for starting
 			//connections
 			boolean status;
 			final int potmp = 0; //*** port number: unlikely to be needed in the future
 
-			status = net.sf.jftp.net.wrappers.StartConnection.startCon("SMB", htmp, utmp, ptmp, potmp, dtmp, this.useLocal);
+			status = StartConnection.startCon("SMB", htmp, utmp, ptmp, potmp, dtmp, this.useLocal);
 
             /*
             try

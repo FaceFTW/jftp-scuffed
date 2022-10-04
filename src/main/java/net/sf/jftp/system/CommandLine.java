@@ -22,6 +22,8 @@ import net.sf.jftp.event.EventProcessor;
 import net.sf.jftp.event.FtpEvent;
 import net.sf.jftp.event.FtpEventConstants;
 import net.sf.jftp.event.FtpEventHandler;
+import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.system.logging.SystemLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +35,7 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 
 	public CommandLine() {
 		super();
-		net.sf.jftp.system.logging.Log.setLogger(new net.sf.jftp.system.logging.SystemLogger());
+		Log.setLogger(new SystemLogger());
 		this.eventCollector = new EventCollector();
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPCommand, new FtpEventHandler());
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPPrompt, this);

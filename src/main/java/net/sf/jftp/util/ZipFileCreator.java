@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.util;
 
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -71,7 +73,7 @@ public class ZipFileCreator {
 
 				this.z.closeEntry();
 			} catch (Exception ex) {
-				net.sf.jftp.system.logging.Log.debug("Skipping a file (no permission?)");
+				Log.debug("Skipping a file (no permission?)");
 			}
 		}
 	}

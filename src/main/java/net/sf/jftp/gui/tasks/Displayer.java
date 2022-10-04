@@ -90,7 +90,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
+			Log.debug(e + " @Displayer.load()");
 		}
 
 		this.info.setText(now.toString());

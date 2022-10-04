@@ -16,6 +16,8 @@
 package net.sf.jftp.gui.base;
 
 import net.sf.jftp.JFtp;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HImageButton;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionHandler;
@@ -56,29 +58,29 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		this.setLayout(new BorderLayout());
 		HPanel cmdP = new HPanel();
 
-		net.sf.jftp.gui.framework.HImageButton start = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "start", "Start queue download...", this);
+		HImageButton start = new HImageButton(Settings.resumeImage, "start", "Start queue download...", this);
 		cmdP.add(start);
 
-		net.sf.jftp.gui.framework.HImageButton stop = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.pauseImage, "stop", "Stop queue download...", this);
+		HImageButton stop = new HImageButton(Settings.pauseImage, "stop", "Stop queue download...", this);
 		cmdP.add(stop);
 
 		cmdP.add(new JLabel("   "));
 
-		net.sf.jftp.gui.framework.HImageButton up = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.downloadImage, "up", "Change order of queue", this);
+		HImageButton up = new HImageButton(Settings.downloadImage, "up", "Change order of queue", this);
 		cmdP.add(up);
 
-		net.sf.jftp.gui.framework.HImageButton down = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.uploadImage, "down", "Change order of queue", this);
+		HImageButton down = new HImageButton(Settings.uploadImage, "down", "Change order of queue", this);
 		cmdP.add(down);
 
-		net.sf.jftp.gui.framework.HImageButton delete = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.deleteImage, "del", "Delete item in queue", this);
+		HImageButton delete = new HImageButton(Settings.deleteImage, "del", "Delete item in queue", this);
 		cmdP.add(delete);
 
 		cmdP.add(new JLabel("   "));
 
-		net.sf.jftp.gui.framework.HImageButton save = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.saveImage, "save", "Save queue list to file...", this);
+		HImageButton save = new HImageButton(Settings.saveImage, "save", "Save queue list to file...", this);
 		cmdP.add(save);
 
-		net.sf.jftp.gui.framework.HImageButton load = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.cdImage, "load", "Load queue list from...", this);
+		HImageButton load = new HImageButton(Settings.cdImage, "load", "Load queue list from...", this);
 		cmdP.add(load);
 
 		start.setSize(24, 24);
@@ -348,14 +350,14 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		public void run() {
 			try {
 				while ((1 <= DownloadQueue.this.queue.size()) && !this.block) {
-					QueueRecord rec = (QueueRecord) net.sf.jftp.gui.base.DownloadQueue.this.queue.get(0);
+					QueueRecord rec = (QueueRecord) DownloadQueue.this.queue.get(0);
 					this.last = rec;
 
 					if (!this.connected) {
-						net.sf.jftp.gui.base.DownloadQueue.this.con = new FtpConnection(rec.hostname, Integer.parseInt(rec.port), "/");
-						this.conFtp = (FtpConnection) net.sf.jftp.gui.base.DownloadQueue.this.con;
+						DownloadQueue.this.con = new FtpConnection(rec.hostname, Integer.parseInt(rec.port), "/");
+						this.conFtp = (FtpConnection) DownloadQueue.this.con;
 						this.conFtp.addConnectionListener(this);
-						this.conFtp.setConnectionHandler(net.sf.jftp.gui.base.DownloadQueue.this.handler);
+						this.conFtp.setConnectionHandler(DownloadQueue.this.handler);
 						this.conFtp.login(rec.username, rec.password);
 						this.connected = true;
 					}
@@ -366,7 +368,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 					int i = 0;
 
-					while (!net.sf.jftp.gui.base.DownloadQueue.this.isThere) {
+					while (!DownloadQueue.this.isThere) {
 						i++;
 
 						if (DownloadQueue.this.NumRetry < i) {
@@ -382,10 +384,10 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 					this.conFtp.download(rec.file);
 
-					net.sf.jftp.gui.base.DownloadQueue.this.statuslabel.setText("");
+					DownloadQueue.this.statuslabel.setText("");
 
 					if (1 <= DownloadQueue.this.queue.size()) {
-						rec = (QueueRecord) net.sf.jftp.gui.base.DownloadQueue.this.queue.get(0);
+						rec = (QueueRecord) DownloadQueue.this.queue.get(0);
 
 						if ((0 == rec.hostname.compareTo(this.last.hostname)) && (0 == rec.port.compareTo(this.last.port)) && (0 == rec.username.compareTo(this.last.username)) && (0 == rec.password.compareTo(this.last.password))) {
 							this.connected = true;
@@ -404,7 +406,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 			}
 
 			if (this.connected) {
-				net.sf.jftp.gui.base.DownloadQueue.this.con.disconnect();
+				DownloadQueue.this.con.disconnect();
 			}
 		}
 
@@ -415,20 +417,20 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 		// called if a connection has been established
 		public void connectionInitialized(BasicConnection con) {
-			net.sf.jftp.gui.base.DownloadQueue.this.isThere = true;
+			DownloadQueue.this.isThere = true;
 		}
 
 		// called every few kb by DataConnection during the trnsfer (interval can be changed in Settings)
 		public void updateProgress(String file, String type, long bytes) {
 			String strtmp;
 
-			if (0 == net.sf.jftp.system.StringUtils.getFile(file).compareTo("")) {
+			if (0 == StringUtils.getFile(file).compareTo("")) {
 				strtmp = "directory " + file;
 			} else {
 				strtmp = "file " + StringUtils.getFile(file);
 			}
 
-			net.sf.jftp.gui.base.DownloadQueue.this.statuslabel.setText("Downloading " + strtmp + " - kbyte " + (bytes / 1024));
+			DownloadQueue.this.statuslabel.setText("Downloading " + strtmp + " - kbyte " + (bytes / 1024));
 
 			String tmp;
 
@@ -438,9 +440,9 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				tmp = " ";
 			}
 
-			if (((0 == type.compareTo(net.sf.jftp.net.DataConnection.FINISHED)) || (0 == tmp.compareTo(net.sf.jftp.net.DataConnection.DFINISHED))) && !this.block) {
-				net.sf.jftp.gui.base.DownloadQueue.this.queue.remove(0);
-				net.sf.jftp.gui.base.DownloadQueue.this.liststr.remove(0);
+			if (((0 == type.compareTo(DataConnection.FINISHED)) || (0 == tmp.compareTo(DataConnection.DFINISHED))) && !this.block) {
+				DownloadQueue.this.queue.remove(0);
+				DownloadQueue.this.liststr.remove(0);
 			}
 		}
 

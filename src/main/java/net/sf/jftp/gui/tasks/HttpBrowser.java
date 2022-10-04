@@ -37,7 +37,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 
 			if (!pane.getEditorKit().getContentType().equals("text/html") && !pane.getEditorKit().getContentType().equals("text/rtf")) {
 				if (!pane.getEditorKit().getContentType().equals("text/plain")) {
-					net.sf.jftp.system.logging.Log.debug("Could not display URL.");
+					Log.debug("Could not display URL.");
 
 					return;
 				}
@@ -56,7 +56,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 			this.show();
 			this.requestFocus();
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error fetching URL: " + ex);
+			Log.debug("Error fetching URL: " + ex);
 			ex.printStackTrace();
 		}
 	}

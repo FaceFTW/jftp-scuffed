@@ -446,7 +446,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		}
 
 		net.sf.jftp.gui.base.LogFlusher flusher = new net.sf.jftp.gui.base.LogFlusher();
-		net.sf.jftp.system.UpdateDaemon daemon = new net.sf.jftp.system.UpdateDaemon(this);
+		UpdateDaemon daemon = new UpdateDaemon(this);
 
 	}
 
@@ -595,7 +595,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			this.setLookAndFeel("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
 		}
 
-		if ((null == net.sf.jftp.config.Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("com.incors.plaf.kunststoff.KunststoffLookAndFeel")) {
+		if ((null == Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("com.incors.plaf.kunststoff.KunststoffLookAndFeel")) {
 			try {
 				Class.forName("com.incors.plaf.kunststoff.KunststoffLookAndFeel");
 				UIManager.installLookAndFeel("Kunststoff", "com.incors.plaf.kunststoff.KunststoffLookAndFeel");
@@ -603,7 +603,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			}
 		}
 
-		if ((null == net.sf.jftp.config.Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("net.sourceforge.mlf.metouia.MetouiaLookAndFeel")) {
+		if ((null == Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("net.sourceforge.mlf.metouia.MetouiaLookAndFeel")) {
 
 			try {
 				Class.forName("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
@@ -656,7 +656,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		long time = System.currentTimeMillis();
 
-		if ((net.sf.jftp.config.Settings.uiRefresh > (time - this.oldtime))) {
+		if ((Settings.uiRefresh > (time - this.oldtime))) {
 			UpdateDaemon.updateLog();
 
 			return;

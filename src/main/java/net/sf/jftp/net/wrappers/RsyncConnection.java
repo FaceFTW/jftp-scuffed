@@ -20,14 +20,21 @@ import com.github.fracpete.processoutput4j.output.ConsoleOutputProcessOutput;
 import com.github.fracpete.rsync4j.RSync;
 import com.github.fracpete.rsync4j.SshPass;
 import com.github.fracpete.rsync4j.core.Binaries;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.net.BasicConnection;
+import net.sf.jftp.net.ConnectionListener;
+import net.sf.jftp.net.DataConnection;
+import net.sf.jftp.net.FtpConstants;
+import net.sf.jftp.system.StringUtils;
+import net.sf.jftp.system.logging.Log;
 
-public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
+public class RsyncConnection implements BasicConnection {
 	public static final int buffer = 128000;
 	private final boolean dummy = false;
 	private String url = "";
 	private String path = "";
 	private String pwd = "";
-	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
+	private java.util.List<ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] files;
 	private String[] size = new String[0];
 	private int[] perms;
@@ -47,7 +54,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			host = host.substring(0, x);
 		}
 
-		net.sf.jftp.system.logging.Log.out("rsync host is: " + host);
+		Log.out("rsync host is: " + host);
 	}
 
 	public String[] getExports() throws Exception {
@@ -61,7 +68,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		}
 
 		for (String s : tmp) {
-			net.sf.jftp.system.logging.Log.out("nfs export found: " + s);
+			Log.out("nfs export found: " + s);
 		}
 
 		return tmp;
@@ -74,8 +81,8 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			com.sun.xfile.XFile f = new com.sun.xfile.XFile(tmp);
 
 			if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
-				net.sf.jftp.system.logging.Log.debug("WARNING: Skipping symlink, remove failed.");
-				net.sf.jftp.system.logging.Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
+				Log.debug("WARNING: Skipping symlink, remove failed.");
+				Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
 
 				return -1;
 			}
@@ -91,7 +98,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 				return 1;
 			}
 		} catch (java.io.IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
+			Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
 
@@ -102,7 +109,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		dir = this.toNFS(dir);
 
 		if (dir.endsWith("\\")) {
-			net.sf.jftp.system.logging.Log.out("need to fix \\-problem!!!");
+			Log.out("need to fix \\-problem!!!");
 		}
 
 		if (!dir.endsWith("/")) {
@@ -244,7 +251,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 		file = file.replace('\\', '/');
 
-		net.sf.jftp.system.logging.Log.out("nfs url: " + file);
+		Log.out("nfs url: " + file);
 
 		return file;
 	}
@@ -266,12 +273,12 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 				}
 
 			} catch (java.io.IOException ex) {
-				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
+				Log.debug("Error: can not get pathname (local)!");
 
 				return false;
 			}
 		} else {
-			net.sf.jftp.system.logging.Log.debug("(local) No such path: \"" + p + "\"");
+			Log.debug("(local) No such path: \"" + p + "\"");
 
 			return false;
 		}
@@ -286,7 +293,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			try {
 				this.files = this.getExports();
 			} catch (Exception ex) {
-				net.sf.jftp.system.logging.Log.debug("Can not list exports:" + ex);
+				Log.debug("Can not list exports:" + ex);
 				ex.printStackTrace();
 			}
 		} else {
@@ -313,11 +320,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			this.size[i] = "" + f2.length();
 
 			if (f2.canWrite()) {
-				accessible = net.sf.jftp.net.FtpConstants.W;
+				accessible = FtpConstants.W;
 			} else if (f2.canRead()) {
-				accessible = net.sf.jftp.net.FtpConstants.R;
+				accessible = FtpConstants.R;
 			} else {
-				accessible = net.sf.jftp.net.FtpConstants.DENIED;
+				accessible = FtpConstants.DENIED;
 			}
 
 			this.perms[i] = accessible;
@@ -357,11 +364,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		String file = this.toNFS(f);
 
 		if (file.endsWith("/")) {
-			String out = net.sf.jftp.system.StringUtils.getDir(file);
+			String out = StringUtils.getDir(file);
 			this.uploadDir(file, this.path + out);
 			this.fireActionFinished(this);
 		} else {
-			String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+			String outfile = StringUtils.getFile(file);
 
 			//System.out.println("transfer: " + file + ", " + getLocalPath() + outfile);
 			this.work(this.path + outfile, file);
@@ -378,7 +385,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 //			isDirUpload = true;
 //			fileCount = 0;
 //			shortProgress = true;
-//			baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
+//			baseFile = StringUtils.getDir(dir);
 //
 //			java.io.File f2 = new java.io.File(out);
 //			String[] tmp = f2.list();
@@ -404,18 +411,18 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 //					uploadDir(dir + tmp[i], out + tmp[i]);
 //				} else {
 //					fileCount++;
-//					fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.PUTDIR + ":" + fileCount, -1);
+//					fireProgressUpdate(baseFile, DataConnection.PUTDIR + ":" + fileCount, -1);
 //					work(out + tmp[i], dir + tmp[i]);
 //				}
 //			}
 //
-//			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + fileCount, -1);
+//			fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
 //		} catch (Exception ex) {
 //			ex.printStackTrace();
 //
 //			//System.out.println(dir + ", " + out);
-//			net.sf.jftp.system.logging.Log.debug("Transfer error: " + ex);
-//			fireProgressUpdate(baseFile, net.sf.jftp.net.DataConnection.FAILED + ":" + fileCount, -1);
+//			Log.debug("Transfer error: " + ex);
+//			fireProgressUpdate(baseFile, DataConnection.FAILED + ":" + fileCount, -1);
 //		}
 //
 //		isDirUpload = false;
@@ -433,17 +440,17 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.get(i);
+				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
 	}
 
-	public void addConnectionListener(net.sf.jftp.net.ConnectionListener l) {
+	public void addConnectionListener(ConnectionListener l) {
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(java.util.List<net.sf.jftp.net.ConnectionListener> l) {
+	public void setConnectionListeners(java.util.List<ConnectionListener> l) {
 		this.listeners = l;
 	}
 
@@ -454,7 +461,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((net.sf.jftp.net.ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
+				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -467,17 +474,17 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.get(i);
+				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
 
 				final boolean shortProgress = false;
-				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
+				if (shortProgress && Settings.shortProgress) {
 					final boolean isDirUpload = false;
-					if (type.startsWith(net.sf.jftp.net.DataConnection.DFINISHED)) {
-						listener.updateProgress(this.baseFile, net.sf.jftp.net.DataConnection.DFINISHED + ":" + this.fileCount, bytes);
+					if (type.startsWith(DataConnection.DFINISHED)) {
+						listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
 					} else if (isDirUpload) {
-						listener.updateProgress(this.baseFile, net.sf.jftp.net.DataConnection.PUTDIR + ":" + this.fileCount, bytes);
+						listener.updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
 					} else {
-						listener.updateProgress(this.baseFile, net.sf.jftp.net.DataConnection.GETDIR + ":" + this.fileCount, bytes);
+						listener.updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
 					}
 				} else {
 					listener.updateProgress(file, type, bytes);
@@ -486,11 +493,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		}
 	}
 
-	public void fireActionFinished(net.sf.jftp.net.wrappers.RsyncConnection con) {
+	public void fireActionFinished(RsyncConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((net.sf.jftp.net.ConnectionListener) this.listeners.get(i)).actionFinished(con);
+				((ConnectionListener) this.listeners.get(i)).actionFinished(con);
 			}
 		}
 	}
@@ -519,13 +526,13 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 				out.write(buf, 0, len);
 				reallen += len;
 
-				this.fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), net.sf.jftp.net.DataConnection.PUT, reallen);
+				this.fireProgressUpdate(StringUtils.getFile(file), DataConnection.PUT, reallen);
 			}
 
-			this.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FINISHED, -1);
+			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (java.io.IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
-			this.fireProgressUpdate(file, net.sf.jftp.net.DataConnection.FAILED, -1);
+			Log.debug("Error with file IO (" + ex + ")!");
+			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 
 			return -1;
 		} finally {
@@ -543,13 +550,13 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 
 	public java.io.InputStream getDownloadInputStream(String file) {
 		file = this.toNFS(file);
-		net.sf.jftp.system.logging.Log.debug(file);
+		Log.debug(file);
 
 		try {
 			return new java.io.BufferedInputStream(new com.sun.xfile.XFileInputStream(file));
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			net.sf.jftp.system.logging.Log.debug(ex + " @NfsConnection::getDownloadInputStream");
+			Log.debug(ex + " @NfsConnection::getDownloadInputStream");
 
 			return null;
 		}
@@ -560,7 +567,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	}
 
 	public boolean rename(String from, String to) {
-		net.sf.jftp.system.logging.Log.debug("Not implemented!");
+		Log.debug("Not implemented!");
 
 		return false;
 	}

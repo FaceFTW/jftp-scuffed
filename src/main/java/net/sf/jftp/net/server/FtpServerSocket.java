@@ -251,7 +251,7 @@ public class FtpServerSocket extends Thread {
 				}
 			}
 		} catch (IOException ioe) {
-			net.sf.jftp.system.logging.Log.debug("Socket error: " + ioe);
+			Log.debug("Socket error: " + ioe);
 		}
 	}
 }

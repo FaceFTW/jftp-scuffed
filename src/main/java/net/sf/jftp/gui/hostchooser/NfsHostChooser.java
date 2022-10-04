@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.hostchooser;
 
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HImage;
@@ -23,6 +25,9 @@ import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.gui.tasks.ExternalDisplayer;
+import net.sf.jftp.net.wrappers.NfsConnection;
+import net.sf.jftp.net.wrappers.StartConnection;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -79,20 +84,20 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
 		//*** MY ADDITIONS
 		try {
-			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f = new File(Settings.appHomeDir);
 			f.mkdir();
 
-			File f1 = new File(net.sf.jftp.config.Settings.login);
+			File f1 = new File(Settings.login);
 			f1.createNewFile();
 
-			File f2 = new File(net.sf.jftp.config.Settings.login_def_nfs);
+			File f2 = new File(Settings.login_def_nfs);
 			f2.createNewFile();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
-		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_nfs);
+		LoadSet l = new LoadSet();
+		String[] login = LoadSet.loadSet(Settings.login_def_nfs);
 
 		if ((null != login[0]) && (1 < login.length)) {
 			host.setText(login[0]);
@@ -105,7 +110,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
         }
         */
-		if (net.sf.jftp.config.Settings.getStorePasswords()) {
+		if (Settings.getStorePasswords()) {
 			if ((null != login[0]) && (2 < login.length) && (null != login[2])) {
 				pass.setText(login[2]);
 			}
@@ -149,10 +154,10 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == info) {
-			java.net.URL url = ClassLoader.getSystemResource(net.sf.jftp.config.Settings.nfsinfo);
+			java.net.URL url = ClassLoader.getSystemResource(Settings.nfsinfo);
 
 			if (null == url) {
-				url = HImage.class.getResource("/" + net.sf.jftp.config.Settings.nfsinfo);
+				url = HImage.class.getResource("/" + Settings.nfsinfo);
 			}
 
 			ExternalDisplayer d = new ExternalDisplayer(url);
@@ -161,7 +166,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 			//this.setVisible(false);
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			net.sf.jftp.net.wrappers.NfsConnection con = null;
+			NfsConnection con = null;
 
 			String htmp = host.getText().trim();
 			String utmp = user.getText().trim();
@@ -175,7 +180,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 			//***
 			try {
 				boolean status;
-				status = net.sf.jftp.net.wrappers.StartConnection.startCon("NFS", htmp, userName, ptmp, potmp, "", this.useLocal);
+				status = StartConnection.startCon("NFS", htmp, userName, ptmp, potmp, "", this.useLocal);
 
                 /*
 
@@ -203,7 +208,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
                 */
 			} catch (Exception ex) {
-				net.sf.jftp.system.logging.Log.debug("Could not create NfsConnection!");
+				Log.debug("Could not create NfsConnection!");
 			}
 
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

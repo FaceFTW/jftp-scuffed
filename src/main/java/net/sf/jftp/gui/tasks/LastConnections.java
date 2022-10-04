@@ -47,16 +47,16 @@ public class LastConnections {
 	//public static void writeToFile(String[] a, int capacity) {
 	public static void writeToFile(String[][] a, int capacity) {
 		try {
-			File f1 = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f1 = new File(Settings.appHomeDir);
 			f1.mkdir();
 
-			File f2 = new File(net.sf.jftp.config.Settings.last_cons);
+			File f2 = new File(Settings.last_cons);
 			f2.createNewFile();
 
 			FileOutputStream fos;
 			PrintStream out;
 
-			fos = new FileOutputStream(net.sf.jftp.config.Settings.last_cons);
+			fos = new FileOutputStream(Settings.last_cons);
 			out = new PrintStream(fos);
 
 			for (int i = 0; i < capacity; i++) {
@@ -83,10 +83,10 @@ public class LastConnections {
 		String[][] retVal = new String[capacity][net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
 
 		try {
-			File f1 = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f1 = new File(Settings.appHomeDir);
 			f1.mkdir();
 
-			File f2 = new File(net.sf.jftp.config.Settings.last_cons);
+			File f2 = new File(Settings.last_cons);
 
 			if (!f2.exists()) {
 				init(capacity);
@@ -337,7 +337,7 @@ public class LastConnections {
 			FileOutputStream fos;
 			PrintStream out;
 
-			fos = new FileOutputStream(net.sf.jftp.config.Settings.last_cons);
+			fos = new FileOutputStream(Settings.last_cons);
 			out = new PrintStream(fos);
 
 			for (int i = 0; i < capacity; i++) {

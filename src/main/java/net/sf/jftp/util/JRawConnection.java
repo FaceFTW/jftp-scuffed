@@ -59,7 +59,7 @@ public class JRawConnection implements Runnable {
 	public boolean isThere() {
 		int cnt = 0;
 
-		final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
+		final int timeout = Settings.connectionTimeout;
 		while (!this.established && (cnt < timeout)) {
 			this.pause(100);
 			cnt = cnt + 100;

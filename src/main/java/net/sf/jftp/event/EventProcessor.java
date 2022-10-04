@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-
 public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, EventHandler {
 	private static final Map<Integer, List<EventHandler>> table = new java.util.HashMap<>();
 	private final Vector buffer;
@@ -30,7 +29,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 		super();
 		this.buffer = b;
 		new Thread(this).start();
-		addHandler(net.sf.jftp.event.FtpEventConstants.FTPShutdown, this);
+		addHandler(FtpEventConstants.FTPShutdown, this);
 	}
 
 	public static void addHandler(int eventCode, EventHandler h) {

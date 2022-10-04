@@ -16,6 +16,9 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HInsetPanel;
@@ -23,6 +26,13 @@ import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.gui.tasks.HostList;
+import net.sf.jftp.net.FilesystemConnection;
+import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.net.FtpConstants;
+import net.sf.jftp.net.FtpURLConnection;
+import net.sf.jftp.net.wrappers.StartConnection;
+import net.sf.jftp.system.StringUtils;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -44,13 +54,13 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
 	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
 	public final HTextField port = new HTextField("Port:    ", "21");
-	public final HTextField cwd = new HTextField("Remote:  ", net.sf.jftp.config.Settings.defaultDir);
-	public final HTextField lcwd = new HTextField("Local:   ", net.sf.jftp.config.Settings.defaultWorkDir);
+	public final HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
+	public final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
 	public final HTextField dl = new HTextField("Max. connections:    ", "3");
 	public final HTextField crlf = new HTextField("Override server newline:    ", "<default>");
 	private final JCheckBox anonBox = new JCheckBox("Use anonymous login", false);
 	private final JCheckBox listBox = new JCheckBox("LIST compatibility mode", false);
-	private final JCheckBox dirBox = new JCheckBox("Use default directories", net.sf.jftp.config.Settings.getUseDefaultDir());
+	private final JCheckBox dirBox = new JCheckBox("Use default directories", Settings.getUseDefaultDir());
 	private final JCheckBox modeBox = new JCheckBox("Use active Ftp (no need to)", false);
 	private final JCheckBox threadBox = new JCheckBox("Multiple connections", false);
 	private final HPanel okP = new HPanel();
@@ -60,7 +70,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	private final HFrame h = new HFrame();
 	private final HPanel listP = new HPanel();
 	private final HButton list = new HButton("Choose from or edit list...");
-	private final boolean ext = net.sf.jftp.config.Settings.showNewlineOption;
+	private final boolean ext = Settings.showNewlineOption;
 	private ComponentListener listener;
 	private int mode;
 	private boolean useLocal;
@@ -92,8 +102,8 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		this.pass.text.setEnabled(true);
 
 		try {
-			net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
-			String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def);
+			LoadSet l = new LoadSet();
+			String[] login = LoadSet.loadSet(Settings.login_def);
 
 			if ((null != login) && (null != login[0])) {
 				this.host.setText(login[0]);
@@ -112,7 +122,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				}
 			}
 
-			if (net.sf.jftp.config.Settings.getStorePasswords()) {
+			if (Settings.getStorePasswords()) {
 				if (null != login && null != login[2]) {
 					this.pass.setText(login[2]);
 				}
@@ -120,7 +130,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				this.pass.setText("");
 			}
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error initializing connection values!");
+			Log.debug("Error initializing connection values!");
 			//ex.printStackTrace();
 		}
 
@@ -162,9 +172,9 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			root.add(x1, "wrap");
 		}
 
-		this.modeBox.setSelected(!net.sf.jftp.config.Settings.getFtpPasvMode());
-		this.threadBox.setSelected(net.sf.jftp.config.Settings.getEnableMultiThreading());
-		this.dirBox.setSelected(net.sf.jftp.config.Settings.getUseDefaultDir());
+		this.modeBox.setSelected(!Settings.getFtpPasvMode());
+		this.threadBox.setSelected(Settings.getEnableMultiThreading());
+		this.dirBox.setSelected(Settings.getUseDefaultDir());
 		this.anonBox.addActionListener(this);
 		this.threadBox.addActionListener(this);
 
@@ -203,8 +213,8 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 	public void update(String url) {
 		try {
-			net.sf.jftp.net.FtpURLConnection uc = new net.sf.jftp.net.FtpURLConnection(new java.net.URL(url));
-			net.sf.jftp.net.FtpConnection con = uc.getFtpConnection();
+			FtpURLConnection uc = new FtpURLConnection(new java.net.URL(url));
+			FtpConnection con = uc.getFtpConnection();
 
 			net.sf.jftp.JFtp.statusP.jftp.addConnection(url, con);
 
@@ -212,7 +222,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 			int response = uc.getLoginResponse();
 
-			if (net.sf.jftp.net.FtpConstants.LOGIN_OK != response) {
+			if (FtpConstants.LOGIN_OK != response) {
 				this.setTitle("Wrong password!");
 				this.host.setText(uc.getHost());
 				this.port.setText(Integer.toString(uc.getPort()));
@@ -232,7 +242,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				net.sf.jftp.JFtp.mainFrame.toFront();
 			}
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error!");
+			Log.debug("Error!");
 			ex.printStackTrace();
 		}
 	}
@@ -241,22 +251,22 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		if ((e.getSource() == this.ok) || (e.getSource() == this.pass.text)) {
 			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			net.sf.jftp.net.FtpConnection con = null;
+			FtpConnection con = null;
 			net.sf.jftp.JFtp.setHost(this.host.getText());
 
-			String htmp = net.sf.jftp.system.StringUtils.cut(this.host.getText(), " ");
-			String utmp = net.sf.jftp.system.StringUtils.cut(this.user.getText(), " ");
-			String ptmp = net.sf.jftp.system.StringUtils.cut(this.pass.getText(), " ");
-			String potmp = net.sf.jftp.system.StringUtils.cut(this.port.getText(), " ");
+			String htmp = StringUtils.cut(this.host.getText(), " ");
+			String utmp = StringUtils.cut(this.user.getText(), " ");
+			String ptmp = StringUtils.cut(this.pass.getText(), " ");
+			String potmp = StringUtils.cut(this.port.getText(), " ");
 
-			net.sf.jftp.config.Settings.setProperty("jftp.ftpPasvMode", !this.modeBox.isSelected());
-			net.sf.jftp.config.Settings.setProperty("jftp.enableMultiThreading", this.threadBox.isSelected());
-			net.sf.jftp.config.Settings.setProperty("jftp.useDefaultDir", this.dirBox.isSelected());
+			Settings.setProperty("jftp.ftpPasvMode", !this.modeBox.isSelected());
+			Settings.setProperty("jftp.enableMultiThreading", this.threadBox.isSelected());
+			Settings.setProperty("jftp.useDefaultDir", this.dirBox.isSelected());
 
 			if (this.listBox.isSelected()) {
-				net.sf.jftp.net.FtpConnection.LIST = "LIST";
+				FtpConnection.LIST = "LIST";
 			} else {
-				net.sf.jftp.net.FtpConnection.LIST = "LIST -laL";
+				FtpConnection.LIST = "LIST -laL";
 			}
 
 			/* All the information of the current server are stored in JFtp.HostInfo */
@@ -266,27 +276,27 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			net.sf.jftp.JFtp.hostinfo.port = potmp;
 			net.sf.jftp.JFtp.hostinfo.type = "ftp";
 
-			boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
-			boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
+			boolean pasv = Settings.getFtpPasvMode();
+			boolean threads = Settings.getEnableMultiThreading();
 
-			net.sf.jftp.config.Settings.maxConnections = Integer.parseInt(this.dl.getText().trim());
+			Settings.maxConnections = Integer.parseInt(this.dl.getText().trim());
 
-			net.sf.jftp.config.Settings.save();
+			Settings.save();
 
 			String dtmp;
 			String ltmp;
 
 			if (this.dirBox.isSelected()) {
-				dtmp = net.sf.jftp.config.Settings.defaultDir;
-				ltmp = net.sf.jftp.config.Settings.defaultWorkDir;
+				dtmp = Settings.defaultDir;
+				ltmp = Settings.defaultWorkDir;
 			} else {
 				dtmp = this.cwd.getText();
 				ltmp = this.lcwd.getText();
 			}
 
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def, htmp, utmp, ptmp, potmp, dtmp, ltmp);
+			SaveSet s = new SaveSet(Settings.login_def, htmp, utmp, ptmp, potmp, dtmp, ltmp);
 
-			if (net.sf.jftp.JFtp.localDir instanceof net.sf.jftp.net.FilesystemConnection) {
+			if (net.sf.jftp.JFtp.localDir instanceof FilesystemConnection) {
 				if (!net.sf.jftp.JFtp.localDir.setPath(ltmp)) {
 					if (!net.sf.jftp.JFtp.localDir.setPath(System.getProperty("user.home"))) {
 						net.sf.jftp.JFtp.localDir.setPath("/");
@@ -294,7 +304,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				}
 			}
 
-			int response = net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, this.useLocal, this.crlf.getText().trim());
+			int response = StartConnection.startFtpCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, this.useLocal, this.crlf.getText().trim());
 
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
@@ -319,8 +329,8 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			this.user.setText(selectedHost.username);
 			this.port.setText(selectedHost.port);
 
-			net.sf.jftp.config.Settings.setProperty("jftp.useDefaultDir", true);
-			this.dirBox.setSelected(net.sf.jftp.config.Settings.getUseDefaultDir());
+			Settings.setProperty("jftp.useDefaultDir", true);
+			this.dirBox.setSelected(Settings.getUseDefaultDir());
 			this.lcwd.setEnabled(!this.dirBox.isSelected());
 			this.cwd.setEnabled(!this.dirBox.isSelected());
 		} else if (e.getSource() == this.dirBox) {
@@ -409,7 +419,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		//System.out.println(htmp + " " + ptmp + " " + utmp);
 		//System.out.println(potmp + " " + dtmp);
 		//***
-		if ((net.sf.jftp.net.FtpConstants.OFFLINE == response) && net.sf.jftp.config.Settings.reconnect) {
+		if ((FtpConstants.OFFLINE == response) && Settings.reconnect) {
 			//FtpConnection con;
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
@@ -421,7 +431,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 			net.sf.jftp.JFtp.mainFrame.setVisible(false);
 
-			while ((net.sf.jftp.net.FtpConstants.OFFLINE == response) && (1 == this.mode)) {
+			while ((FtpConstants.OFFLINE == response) && (1 == this.mode)) {
 				System.out.print("Server is full, next attempt in ");
 
 				int r = 5;
@@ -437,7 +447,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 				System.out.println("0...");
 
-				response = net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, useLocal);
+				response = StartConnection.startFtpCon(htmp, utmp, ptmp, Integer.parseInt(potmp), dtmp, useLocal);
 			}
 
 			if (1 == this.mode) {
@@ -449,7 +459,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				this.toFront();
 
 			}
-		} else if ((net.sf.jftp.net.FtpConstants.LOGIN_OK != response) || ((net.sf.jftp.net.FtpConstants.OFFLINE == response) && (!net.sf.jftp.config.Settings.reconnect))) {
+		} else if ((FtpConstants.LOGIN_OK != response) || ((FtpConstants.OFFLINE == response) && (!Settings.reconnect))) {
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 			//setFilesystemConnection();

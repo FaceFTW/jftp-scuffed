@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
 import java.awt.Component;
 import java.awt.Image;
@@ -46,7 +48,7 @@ public class HImage {
 			mt.addImage(img, 1);
 			mt.waitForAll();
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("\n\n\nError fetching image!");
+			Log.debug("\n\n\nError fetching image!");
 			ex.printStackTrace();
 
 			return img;

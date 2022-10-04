@@ -94,7 +94,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	}
 
 	private void transfer() {
-		if ((net.sf.jftp.config.Settings.smallSize > this.dirEntry.getRawSize()) && !this.dirEntry.isDirectory()) {
+		if ((Settings.smallSize > this.dirEntry.getRawSize()) && !this.dirEntry.isDirectory()) {
 			JFtp.remoteDir.getCon().download(this.dirEntry.file);
 		} else {
 			JFtp.remoteDir.getCon().handleDownload(this.dirEntry.file);

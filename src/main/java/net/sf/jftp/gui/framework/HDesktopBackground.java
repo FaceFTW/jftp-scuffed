@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.config.Settings;
+
 import javax.swing.*;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -39,7 +41,7 @@ public class HDesktopBackground extends JPanel implements MouseListener, ImageOb
 	}
 
 	public void paintComponent(Graphics g) {
-		if (!net.sf.jftp.config.Settings.getUseBackground()) {
+		if (!Settings.getUseBackground()) {
 			return;
 		}
 

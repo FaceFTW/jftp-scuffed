@@ -37,8 +37,8 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 		this.proxy = new net.sf.jftp.gui.framework.HTextField("Socks proxy:", "");
 		this.port = new net.sf.jftp.gui.framework.HTextField("Port:", "");
 
-		this.proxy.setText(net.sf.jftp.config.Settings.getSocksProxyHost());
-		this.port.setText(net.sf.jftp.config.Settings.getSocksProxyPort());
+		this.proxy.setText(Settings.getSocksProxyHost());
+		this.port.setText(Settings.getSocksProxyPort());
 
 		//getContentPane().
 		this.add(this.proxy);
@@ -68,11 +68,11 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 			sysprops.remove("socksProxyHost");
 			sysprops.remove("socksProxyPort");
 
-			net.sf.jftp.config.Settings.setProperty("jftp.socksProxyHost", h);
-			net.sf.jftp.config.Settings.setProperty("jftp.socksProxyPort", p);
-			net.sf.jftp.config.Settings.save();
+			Settings.setProperty("jftp.socksProxyHost", h);
+			Settings.setProperty("jftp.socksProxyPort", p);
+			Settings.save();
 
-			net.sf.jftp.system.logging.Log.out("proxy vars: " + h + ":" + p);
+			Log.out("proxy vars: " + h + ":" + p);
 
 			if (h.isEmpty() || p.isEmpty()) {
 				return;
@@ -82,7 +82,7 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 			sysprops.put("socksProxyHost", h);
 			sysprops.put("socksProxyPort", p);
 
-			net.sf.jftp.system.logging.Log.out("new proxy vars set.");
+			Log.out("new proxy vars set.");
 
 			this.remove(3);
 			this.add(new JLabel("Options set. Please restart JFtp."));

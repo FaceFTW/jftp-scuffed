@@ -398,7 +398,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			String usingLocal = "";
 			int conNumberInt;
 
-			for (int i = 0; net.sf.jftp.JFtp.CAPACITY > i; i++) {
+			for (int i = 0; JFtp.CAPACITY > i; i++) {
 				if (!(this.cons[i][0].equals("null"))) {
 					protocol = this.cons[i][0];
 					htmp = this.cons[i][1];
@@ -702,9 +702,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				for (javax.swing.UIManager.LookAndFeelInfo lookAndFeelInfo : m) {
 					if (lookAndFeelInfo.getName().equals(tmp)) {
-						net.sf.jftp.JFtp.statusP.jftp.setLookAndFeel(lookAndFeelInfo.getClassName());
-						net.sf.jftp.config.Settings.setProperty("jftp.gui.look", lookAndFeelInfo.getClassName());
-						net.sf.jftp.config.Settings.save();
+						JFtp.statusP.jftp.setLookAndFeel(lookAndFeelInfo.getClassName());
+						Settings.setProperty("jftp.gui.look", lookAndFeelInfo.getClassName());
+						Settings.save();
 					}
 				}
 			}
@@ -719,7 +719,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		Settings.save();
 
 
-		if (null == net.sf.jftp.JFtp.statusP.jftp.feeder) {
+		if (null == JFtp.statusP.jftp.feeder) {
 			JFtp.statusP.jftp.addRSS();
 		}
 
@@ -785,7 +785,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			String stringI;
 			char charI;
 
-			for (int i = 0; net.sf.jftp.JFtp.CAPACITY > i; i++) {
+			for (int i = 0; JFtp.CAPACITY > i; i++) {
 
 				if (!(this.cons[i][0].equals("null"))) {
 					intI = i + 1;
@@ -836,7 +836,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				useLocal = useLocalString.equals("true");
 
-				net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal);
+				StartConnection.startFtpCon(htmp, utmp, ptmp, potmp, dtmp, useLocal);
 
 				break;
 			case "SFTP":

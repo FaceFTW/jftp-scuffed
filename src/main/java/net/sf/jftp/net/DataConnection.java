@@ -154,10 +154,10 @@ public class DataConnection implements Runnable {
 			this.newLine = this.con.getCRLF();
 			//Log.debug("NL: "+newLine+"\n\n\n\n\n");
 
-			if (net.sf.jftp.config.Settings.getFtpPasvMode()) {
+			if (Settings.getFtpPasvMode()) {
 				try {
 					this.sock = new Socket(this.host, this.port);
-					this.sock.setSoTimeout(net.sf.jftp.config.Settings.getSocketTimeout());
+					this.sock.setSoTimeout(Settings.getSocketTimeout());
 				} catch (Exception ex) {
 					this.ok = false;
 					ex.printStackTrace();
@@ -170,7 +170,7 @@ public class DataConnection implements Runnable {
 				} catch (Exception ex) {
 					this.ok = false;
 					ex.printStackTrace();
-					net.sf.jftp.system.logging.Log.debug("Can't open ServerSocket on port " + this.port);
+					Log.debug("Can't open ServerSocket on port " + this.port);
 				}
 			}
 		} catch (Exception ex) {
@@ -186,12 +186,12 @@ public class DataConnection implements Runnable {
 		RandomAccessFile fIn = null;
 
 		try {
-			if (!net.sf.jftp.config.Settings.getFtpPasvMode()) {
+			if (!Settings.getFtpPasvMode()) {
 				int retry = 0;
 
 				while ((5 > retry++) && (null == this.sock)) {
 					try {
-						this.ssock.setSoTimeout(net.sf.jftp.config.Settings.connectionTimeout);
+						this.ssock.setSoTimeout(Settings.connectionTimeout);
 						this.sock = this.ssock.accept();
 					} catch (IOException e) {
 						this.sock = null;
@@ -213,7 +213,7 @@ public class DataConnection implements Runnable {
 			}
 
 			if (ok) {
-				byte[] buf = new byte[net.sf.jftp.config.Settings.bufferSize];
+				byte[] buf = new byte[Settings.bufferSize];
 				this.start = System.currentTimeMillis();
 
 				long buflen = 0;
@@ -232,7 +232,7 @@ public class DataConnection implements Runnable {
 									this.localfile = this.file;
 								}
 
-								File f2 = new File(net.sf.jftp.config.Settings.appHomeDir);
+								File f2 = new File(Settings.appHomeDir);
 								f2.mkdirs();
 
 								File f = new File(this.localfile);
@@ -241,7 +241,7 @@ public class DataConnection implements Runnable {
 									f.delete();
 								}
 
-								bOut = new BufferedOutputStream(new FileOutputStream(this.localfile), net.sf.jftp.config.Settings.bufferSize);
+								bOut = new BufferedOutputStream(new FileOutputStream(this.localfile), Settings.bufferSize);
 							}
 						} catch (Exception ex) {
 							this.debug("Can't create outputfile: " + this.file);
@@ -252,7 +252,7 @@ public class DataConnection implements Runnable {
 
 					if (ok) {
 						try {
-							this.in = new BufferedInputStream(this.sock.getInputStream(), net.sf.jftp.config.Settings.bufferSize);
+							this.in = new BufferedInputStream(this.sock.getInputStream(), Settings.bufferSize);
 
 							if (this.justStream) {
 								return;
@@ -274,13 +274,13 @@ public class DataConnection implements Runnable {
 										try {
 											read = this.in.read(buf);
 										} catch (IOException es) {
-											net.sf.jftp.system.logging.Log.out("got a IOException");
+											Log.out("got a IOException");
 											ok = false;
 											fOut.close();
 											this.finished = true;
 											this.con.fireProgressUpdate(this.file, FAILED, -1);
 
-											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
+											Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
 
 											return;
@@ -320,13 +320,13 @@ public class DataConnection implements Runnable {
 										try {
 											read = this.in.read(buf);
 										} catch (IOException es) {
-											net.sf.jftp.system.logging.Log.out("got a IOException");
+											Log.out("got a IOException");
 											ok = false;
 											bOut.close();
 											this.finished = true;
 											this.con.fireProgressUpdate(this.file, FAILED, -1);
 
-											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
+											Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
 
 											return;
@@ -449,7 +449,7 @@ public class DataConnection implements Runnable {
 				}
 			}
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Can't connect socket to ServerSocket");
+			Log.debug("Can't connect socket to ServerSocket");
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -497,7 +497,7 @@ public class DataConnection implements Runnable {
 			this.debug(ex.toString());
 		}
 
-		if (!net.sf.jftp.config.Settings.getFtpPasvMode()) {
+		if (!Settings.getFtpPasvMode()) {
 			try {
 				this.ssock.close();
 			} catch (Exception ex) {
@@ -523,7 +523,7 @@ public class DataConnection implements Runnable {
 	}
 
 	private void debug(String msg) {
-		net.sf.jftp.system.logging.Log.debug(msg);
+		Log.debug(msg);
 	}
 
 	public void reset() {
@@ -536,7 +536,7 @@ public class DataConnection implements Runnable {
 		long now = System.currentTimeMillis();
 		long offset = now - this.start;
 
-		if (net.sf.jftp.config.Settings.statusMessageAfterMillis < offset) {
+		if (Settings.statusMessageAfterMillis < offset) {
 			this.start = now;
 
 			return true;
@@ -562,7 +562,7 @@ public class DataConnection implements Runnable {
 	}
 
 	public void interrupt() {
-		if (net.sf.jftp.config.Settings.getFtpPasvMode() && (this.type.equals(GET) || this.type.equals(GETDIR))) {
+		if (Settings.getFtpPasvMode() && (this.type.equals(GET) || this.type.equals(GETDIR))) {
 			try {
 				this.reciever.join();
 			} catch (InterruptedException ex) {

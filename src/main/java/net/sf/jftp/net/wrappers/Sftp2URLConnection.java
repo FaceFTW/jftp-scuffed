@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.system.logging.Log;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -43,7 +45,7 @@ public class Sftp2URLConnection extends URLConnection {
 			}
 		}
 
-		net.sf.jftp.system.logging.Log.debug("Connecting...");
+		Log.debug("Connecting...");
 	}
 
 	public void connect() throws IOException {

@@ -81,7 +81,7 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
+			Log.debug(e + " @Displayer.load()");
 		}
 
 		this.info.setText(now.toString());

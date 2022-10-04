@@ -35,7 +35,7 @@ public class FtpURLConnection extends URLConnection {
 		super(u);
 
 		int port = 0 < u.getPort() ? u.getPort() : 21;
-		this.connection = new FtpConnection(u.getHost(), port, net.sf.jftp.config.Settings.defaultDir);
+		this.connection = new FtpConnection(u.getHost(), port, Settings.defaultDir);
 
 		String userInfo = u.getUserInfo();
 
@@ -48,7 +48,7 @@ public class FtpURLConnection extends URLConnection {
 			}
 		}
 
-		net.sf.jftp.system.logging.Log.debug("Connecting...");
+		Log.debug("Connecting...");
 	}
 
 	public static void main(String[] args) {

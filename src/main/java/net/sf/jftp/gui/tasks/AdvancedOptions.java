@@ -15,6 +15,11 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.net.FtpConnection;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -25,7 +30,7 @@ import java.awt.event.ActionListener;
 
 public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements ActionListener {
 	public static boolean listOptionSet;
-	private final net.sf.jftp.gui.framework.HTextField listCommand = new net.sf.jftp.gui.framework.HTextField("FTP LIST command:", net.sf.jftp.net.FtpConnection.LIST, 15);
+	private final net.sf.jftp.gui.framework.HTextField listCommand = new net.sf.jftp.gui.framework.HTextField("FTP LIST command:", FtpConnection.LIST, 15);
 	private final JButton setListCommand = new JButton("Set");
 
 	private final JLabel statusText = new JLabel();
@@ -44,14 +49,14 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 
 		String listOptionText = "";
 		if (listOptionSet) {
-			listOptionText = net.sf.jftp.net.FtpConnection.LIST;
+			listOptionText = FtpConnection.LIST;
 		} else {
-			if (null != net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings)) {
-				listOptionText = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings)[0];
+			if (null != LoadSet.loadSet(Settings.adv_settings)) {
+				listOptionText = LoadSet.loadSet(Settings.adv_settings)[0];
 			} else {
-				listOptionText = net.sf.jftp.net.FtpConnection.LIST_DEFAULT;
+				listOptionText = FtpConnection.LIST_DEFAULT;
 
-				net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, net.sf.jftp.net.FtpConnection.LIST_DEFAULT);
+				SaveSet s = new SaveSet(Settings.adv_settings, FtpConnection.LIST_DEFAULT);
 			}
 		}
 
@@ -79,17 +84,17 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.setListCommand) {
-			net.sf.jftp.net.FtpConnection.LIST = this.listCommand.getText().trim();
+			FtpConnection.LIST = this.listCommand.getText().trim();
 
 			this.statusText.setText("LIST command set.");
 			listOptionSet = true;
 
 		} else {
-			net.sf.jftp.net.FtpConnection.LIST = this.listCommand.getText().trim();
+			FtpConnection.LIST = this.listCommand.getText().trim();
 
 			listOptionSet = true;
 
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, this.listCommand.getText().trim());
+			SaveSet s = new SaveSet(Settings.adv_settings, this.listCommand.getText().trim());
 
 			this.statusText.setText("LIST command set and saved.");
 

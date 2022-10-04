@@ -17,6 +17,8 @@
 //NOTE TO SELF: use setModal here somewhere?
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.net.wrappers.StartConnection;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Panel;
@@ -206,12 +208,12 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 		//NFS: Don;t get port or dirOrDom
 		//FOR NOW: just get all data
 
-		String htmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.host.getText(), " "));
-		String utmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.user.getText(), " "));
-		String ptmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.pass.getText(), " "));
-		String potmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.port.getText(), " "));
+		String htmp = this.checkIfEmpty(StringUtils.cut(this.host.getText(), " "));
+		String utmp = this.checkIfEmpty(StringUtils.cut(this.user.getText(), " "));
+		String ptmp = this.checkIfEmpty(StringUtils.cut(this.pass.getText(), " "));
+		String potmp = this.checkIfEmpty(StringUtils.cut(this.port.getText(), " "));
 
-		String dirOrDomtmp = this.checkIfEmpty(net.sf.jftp.system.StringUtils.cut(this.dirOrDom.getText(), " "));
+		String dirOrDomtmp = this.checkIfEmpty(StringUtils.cut(this.dirOrDom.getText(), " "));
 
 		String local = "";
 
@@ -248,7 +250,7 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 			FileOutputStream fos;
 			PrintStream out;
 
-			fos = new FileOutputStream(net.sf.jftp.config.Settings.bookmarks, true);
+			fos = new FileOutputStream(Settings.bookmarks, true);
 			out = new PrintStream(fos);
 
 			//commented out, just for now
@@ -263,9 +265,9 @@ public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements Ac
 
 		if (andConnect) {
 			if (protocoltmp.equals("FTP")) {
-				net.sf.jftp.net.wrappers.StartConnection.startFtpCon(htmp, utmp, ptmp, potmpint, dirOrDomtmp, localtmp);
+				StartConnection.startFtpCon(htmp, utmp, ptmp, potmpint, dirOrDomtmp, localtmp);
 			} else {
-				net.sf.jftp.net.wrappers.StartConnection.startCon(protocoltmp, htmp, utmp, ptmp, potmpint, dirOrDomtmp, localtmp);
+				StartConnection.startCon(protocoltmp, htmp, utmp, ptmp, potmpint, dirOrDomtmp, localtmp);
 			}
 		}
 

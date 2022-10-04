@@ -5,6 +5,8 @@ import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.DataConnection;
 import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.net.Transfer;
+import net.sf.jftp.system.StringUtils;
+import net.sf.jftp.system.logging.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -32,7 +34,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 		this.listeners = listeners;
 		this.handler = handler;
 
-		this.file = net.sf.jftp.system.StringUtils.getFile(url);
+		this.file = StringUtils.getFile(url);
 
 		this.prepare();
 	}
@@ -46,12 +48,12 @@ public class HttpTransfer extends Transfer implements Runnable {
 	public void run() {
 		try {
 			if (null == this.handler.getConnections().get(this.file)) {
-				net.sf.jftp.system.logging.Log.out("download started: " + this.url);
-				net.sf.jftp.system.logging.Log.out("connection handler present: " + this.handler + ", poll size: " + this.handler.getConnections().size());
-				net.sf.jftp.system.logging.Log.out("local file: " + this.localPath + this.file);
+				Log.out("download started: " + this.url);
+				Log.out("connection handler present: " + this.handler + ", poll size: " + this.handler.getConnections().size());
+				Log.out("local file: " + this.localPath + this.file);
 				this.handler.addConnection(this.file, this);
 			} else {
-				net.sf.jftp.system.logging.Log.debug("Transfer already in progress: " + this.file);
+				Log.debug("Transfer already in progress: " + this.file);
 				this.work = false;
 				this.stat = 2;
 
@@ -85,7 +87,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 			this.fireProgressUpdate(this.file, DataConnection.FINISHED, len);
 		} catch (Exception ex) {
 			this.work = false;
-			net.sf.jftp.system.logging.Log.debug("Download failed: " + ex);
+			Log.debug("Download failed: " + ex);
 
 			File f = new File(this.localPath + this.file);
 			f.delete();
@@ -99,7 +101,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 		if (!this.work) {
 			File f = new File(this.localPath + this.file);
 			f.delete();
-			net.sf.jftp.system.logging.Log.out("download aborted: " + this.file);
+			Log.out("download aborted: " + this.file);
 		}
 	}
 

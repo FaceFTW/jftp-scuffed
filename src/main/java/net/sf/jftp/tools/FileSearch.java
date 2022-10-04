@@ -15,6 +15,9 @@
  */
 package net.sf.jftp.tools;
 
+import net.sf.jftp.system.LocalIO;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -77,23 +80,23 @@ public class FileSearch {
 
 			url = this.clear(url);
 
-			net.sf.jftp.system.logging.Log.out(">>> URL: " + url);
-			net.sf.jftp.system.logging.Log.out(">>> Scanning for ");
+			Log.out(">>> URL: " + url);
+			Log.out(">>> Scanning for ");
 
 			for (String s : this.typeArray) {
-				net.sf.jftp.system.logging.Log.out(s + " ");
+				Log.out(s + " ");
 			}
 
-			net.sf.jftp.system.logging.Log.out("");
+			Log.out("");
 
 
-			net.sf.jftp.system.logging.Log.out("Fetching initial HTML file...");
+			Log.out("Fetching initial HTML file...");
 
 			Getter urlGetter = new Getter(this.localDir);
 			urlGetter.fetch(url, true);
 
-			net.sf.jftp.system.logging.Log.out("Searching for links...");
-			net.sf.jftp.system.LocalIO.pause(500);
+			Log.out("Searching for links...");
+			LocalIO.pause(500);
 
 			this.crawl(url);
 		} catch (Exception ex) {
@@ -166,12 +169,11 @@ public class FileSearch {
 		url = this.clear(url);
 
 		int urlRating = this.checkForResult(url);
-		if (!quiet)
-			net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
+		if (!quiet) Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
 
 		if (0 < urlRating) {
 		} else if (0 > urlRating && 0 < this.currentDepth) {
-			if (!quiet) net.sf.jftp.system.logging.Log.out("SKIP " + url);
+			if (!quiet) Log.out("SKIP " + url);
 			return;
 		}
 
@@ -180,16 +182,14 @@ public class FileSearch {
 		String content = urlGetter.fetch(url);
 
 		int factor = this.rate(content);
-		if (!quiet)
-			net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
+		if (!quiet) Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
 
 		if (this.MIN_FACTOR > factor) {
-			if (!quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
+			if (!quiet) Log.out("DROP: " + url);
 			return;
 		}
 
-		if (!ultraquiet)
-			net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
+		if (!ultraquiet) Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
 
 		java.util.List<String> m = this.sort(content, url.substring(0, url.lastIndexOf('/')), "href=\"");
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "src=\""));
@@ -200,20 +200,20 @@ public class FileSearch {
 		while (links.hasNext()) {
 			String next = links.next();
 
-			if (!quiet) net.sf.jftp.system.logging.Log.out("PROCESS: " + next);
+			if (!quiet) Log.out("PROCESS: " + next);
 			boolean skip = false;
 
 			while (!skip) {
 				for (String s : this.typeArray) {
 					if (next.endsWith(s) || s.trim().equals("*")) {
-						net.sf.jftp.system.logging.Log.out("HIT: " + url + " -> " + next);
+						Log.out("HIT: " + url + " -> " + next);
 
 						if (!this.LOAD || !this.checkForScanableUrl(url)) continue;
 
 						int x = next.indexOf('/');
 
 						if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
-							net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(this.localDir);
+							Getter urlGetter2 = new Getter(this.localDir);
 							urlGetter2.fetch(next, false);
 
 						}
@@ -253,7 +253,7 @@ public class FileSearch {
 
 			was = this.createAbsoluteUrl(was, url);
 			res.add(was);
-			if (!quiet) net.sf.jftp.system.logging.Log.out("ADD: " + was);
+			if (!quiet) Log.out("ADD: " + was);
 		}
 	}
 
@@ -349,7 +349,7 @@ class Getter {
 			String host = url.substring(0, url.indexOf('/'));
 			String wo = url.substring(url.indexOf('/'));
 
-			if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> " + host + wo);
+			if (!FileSearch.quiet) Log.debug(">>> " + host + wo);
 
 			File d = new File(this.localDir);
 			d.mkdir();
@@ -357,7 +357,7 @@ class Getter {
 			File f = new File(this.localDir + wo.substring(wo.lastIndexOf('/') + 1));
 
 			if (f.exists() && !force) {
-				if (!FileSearch.quiet) net.sf.jftp.system.logging.Log.debug(">>> file already exists...");
+				if (!FileSearch.quiet) Log.debug(">>> file already exists...");
 
 				return;
 			} else {

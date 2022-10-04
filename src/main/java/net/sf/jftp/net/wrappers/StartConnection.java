@@ -75,7 +75,7 @@ public class StartConnection {
 				searchValue[1] = htmp;
 				searchValue[2] = utmp;
 
-				if (net.sf.jftp.config.Settings.getStorePasswords()) {
+				if (Settings.getStorePasswords()) {
 					searchValue[3] = ptmp;
 				} else {
 					searchValue[3] = "";
@@ -90,7 +90,7 @@ public class StartConnection {
 				return true;
 			} catch (Exception ex) {
 				ex.printStackTrace();
-				net.sf.jftp.system.logging.Log.debug("Could not create SMBConnection, does this distribution come with jcifs?");
+				Log.debug("Could not create SMBConnection, does this distribution come with jcifs?");
 			}
 		} else {
 			NfsConnection con;
@@ -118,7 +118,7 @@ public class StartConnection {
 			searchValue[1] = htmp;
 			searchValue[2] = utmp;
 
-			if (net.sf.jftp.config.Settings.getStorePasswords()) {
+			if (Settings.getStorePasswords()) {
 				searchValue[3] = ptmp;
 			} else {
 				searchValue[3] = "";
@@ -140,8 +140,8 @@ public class StartConnection {
 
 	//startCon
 	public static int startFtpCon(String htmp, String utmp, String ptmp, int potmp, String dtmp, boolean useLocal, String crlf) {
-		boolean pasv = net.sf.jftp.config.Settings.getFtpPasvMode();
-		boolean threads = net.sf.jftp.config.Settings.getEnableMultiThreading();
+		boolean pasv = Settings.getFtpPasvMode();
+		boolean threads = Settings.getEnableMultiThreading();
 
 
 		String[] searchValue = new String[net.sf.jftp.JFtp.CONNECTION_DATA_LENGTH];
@@ -172,7 +172,7 @@ public class StartConnection {
 			searchValue[1] = htmp;
 			searchValue[2] = utmp;
 
-			if (net.sf.jftp.config.Settings.getStorePasswords()) {
+			if (Settings.getStorePasswords()) {
 				searchValue[3] = ptmp;
 			} else {
 				searchValue[3] = "";

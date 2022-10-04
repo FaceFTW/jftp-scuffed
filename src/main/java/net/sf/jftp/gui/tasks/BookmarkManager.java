@@ -15,6 +15,9 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -41,7 +44,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.setSize(600, 540);
 		this.getContentPane().setLayout(new BorderLayout());
 
-		this.load(net.sf.jftp.config.Settings.bookmarks);
+		this.load(Settings.bookmarks);
 
 		JScrollPane jsp = new JScrollPane(this.info);
 		this.getContentPane().add("Center", jsp);
@@ -67,7 +70,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		if (e.getSource() == this.close) {
 			this.dispose();
 		} else {
-			this.save(net.sf.jftp.config.Settings.bookmarks);
+			this.save(Settings.bookmarks);
 			net.sf.jftp.JFtp.menuBar.loadBookmarks();
 			this.dispose();
 		}
@@ -112,7 +115,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug("No bookmarks.txt found, using defaults.");
+			Log.debug("No bookmarks.txt found, using defaults.");
 
 			this.setDefaultText();
 
@@ -130,7 +133,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug(e + " @BookmarkManager.save()");
+			Log.debug(e + " @BookmarkManager.save()");
 		}
 	}
 

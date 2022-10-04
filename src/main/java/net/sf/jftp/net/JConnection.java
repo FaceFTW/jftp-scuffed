@@ -15,6 +15,9 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,14 +59,14 @@ public class JConnection implements Runnable {
 			this.localPort = this.s.getLocalPort();
 
 			//if(time > 0) s.setSoTimeout(time);
-			this.out = new PrintStream(new BufferedOutputStream(this.s.getOutputStream(), net.sf.jftp.config.Settings.bufferSize));
-			this.in = new BufferedReader(new InputStreamReader(this.s.getInputStream()), net.sf.jftp.config.Settings.bufferSize);
+			this.out = new PrintStream(new BufferedOutputStream(this.s.getOutputStream(), Settings.bufferSize));
+			this.in = new BufferedReader(new InputStreamReader(this.s.getInputStream()), Settings.bufferSize);
 			this.isOk = true;
 
 			// }
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			net.sf.jftp.system.logging.Log.out("WARNING: connection closed due to exception (" + this.host + ":" + this.port + ")");
+			Log.out("WARNING: connection closed due to exception (" + this.host + ":" + this.port + ")");
 			this.isOk = false;
 
 			try {
@@ -80,7 +83,7 @@ public class JConnection implements Runnable {
 				}
 			} catch (Exception ex2) {
 				ex2.printStackTrace();
-				net.sf.jftp.system.logging.Log.out("WARNING: got more errors trying to close socket and streams");
+				Log.out("WARNING: got more errors trying to close socket and streams");
 			}
 		}
 
@@ -90,7 +93,7 @@ public class JConnection implements Runnable {
 	public boolean isThere() {
 		int cnt = 0;
 
-		final int timeout = net.sf.jftp.config.Settings.connectionTimeout;
+		final int timeout = Settings.connectionTimeout;
 		while (!this.established && (cnt < timeout)) {
 			this.pause(10);
 			cnt = cnt + 10;
@@ -107,9 +110,9 @@ public class JConnection implements Runnable {
 			this.out.flush();
 
 			if (data.startsWith("PASS")) {
-				net.sf.jftp.system.logging.Log.debug("> PASS ****");
+				Log.debug("> PASS ****");
 			} else {
-				net.sf.jftp.system.logging.Log.debug("> " + data);
+				Log.debug("> " + data);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

@@ -27,6 +27,7 @@ import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.FilesystemConnection;
 import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.net.FtpConstants;
 import net.sf.jftp.net.wrappers.Sftp2Connection;
 import net.sf.jftp.net.wrappers.SmbConnection;
 import net.sf.jftp.system.LocalIO;
@@ -578,11 +579,11 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			int x = this.currentPopup.getPermission();
 			String tmp;
 
-			if (net.sf.jftp.net.FtpConstants.R == x) {
+			if (FtpConstants.R == x) {
 				tmp = "read only";
-			} else if (net.sf.jftp.net.FtpConstants.W == x) {
+			} else if (FtpConstants.W == x) {
 				tmp = "read/write";
-			} else if (net.sf.jftp.net.FtpConstants.DENIED == x) {
+			} else if (FtpConstants.DENIED == x) {
 				tmp = "denied";
 			} else {
 				tmp = "undefined";
@@ -629,9 +630,9 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		this.tmpindex = index;
 
 		Runnable r = () -> {
-			boolean block = !net.sf.jftp.config.Settings.getEnableMultiThreading();
+			boolean block = !Settings.getEnableMultiThreading();
 
-			if (!(this.con instanceof net.sf.jftp.net.FtpConnection)) {
+			if (!(this.con instanceof FtpConnection)) {
 				block = true;
 			}
 
@@ -773,7 +774,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	public void connectionFailed(BasicConnection con, String reason) {
 		Log.out("remote connection failed");
 
-		if ((net.sf.jftp.net.FtpConstants.OFFLINE == Integer.parseInt(reason)) && Settings.reconnect) {
+		if ((FtpConstants.OFFLINE == Integer.parseInt(reason)) && Settings.reconnect) {
 			return;
 		}
 
@@ -804,13 +805,13 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			return;
 		}
 
-		if ((this.con instanceof FtpConnection) && (0 < ((net.sf.jftp.net.FtpConnection) this.con).dateVector.size())) {
+		if ((this.con instanceof FtpConnection) && (0 < ((FtpConnection) this.con).dateVector.size())) {
 			if (!this.dateEnabled) {
 				this.sorter.addItem("Date");
 				this.dateEnabled = true;
 				UpdateDaemon.updateRemoteDirGUI();
 			}
-		} else if ((this.con instanceof FilesystemConnection) && (0 < ((net.sf.jftp.net.FilesystemConnection) this.con).dateVector.size())) {
+		} else if ((this.con instanceof FilesystemConnection) && (0 < ((FilesystemConnection) this.con).dateVector.size())) {
 			if (!this.dateEnabled) {
 				this.sorter.addItem("Date");
 				this.dateEnabled = true;
@@ -912,7 +913,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 				JFtp.dList.sizeCache.put(entry.file, s);
 
 				// ---------------------------------
-				if ((net.sf.jftp.config.Settings.smallSize > entry.getRawSize()) && !entry.isDirectory()) {
+				if ((Settings.smallSize > entry.getRawSize()) && !entry.isDirectory()) {
 					this.con.download(entry.file);
 				} else {
 					this.con.handleDownload(this.path + entry.file);

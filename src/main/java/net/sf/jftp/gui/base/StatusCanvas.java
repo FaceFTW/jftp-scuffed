@@ -17,6 +17,7 @@ package net.sf.jftp.gui.base;
 
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.GUIDefaults;
+import net.sf.jftp.system.LocalIO;
 
 import javax.swing.*;
 import java.awt.Color;
@@ -65,7 +66,7 @@ public class StatusCanvas extends JPanel {
 				SwingUtilities.invokeLater(() -> {
 					for (this.pos = 30; 0 < this.pos; this.pos -= 1) {
 						this.paintImmediately(0, 0, this.getSize().width, this.getSize().height);
-						net.sf.jftp.system.LocalIO.pause(this.interval);
+						LocalIO.pause(this.interval);
 					}
 				});
 			} else {
@@ -90,7 +91,7 @@ public class StatusCanvas extends JPanel {
 						break;
 					}
 					this.repaint();
-					net.sf.jftp.system.LocalIO.pause(this.interval);
+					LocalIO.pause(this.interval);
 
 				}
 			} else {

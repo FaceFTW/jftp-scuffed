@@ -20,6 +20,7 @@ import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.base.dir.DirEntry;
 import net.sf.jftp.gui.base.dir.DirPanel;
 import net.sf.jftp.gui.framework.HImage;
+import net.sf.jftp.gui.framework.HImageButton;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.ProgressBarList;
 import net.sf.jftp.net.ConnectionHandler;
@@ -50,16 +51,16 @@ public class DownloadList extends HPanel implements ActionListener {
 		super();
 		this.setLayout(new BorderLayout());
 
-		net.sf.jftp.gui.framework.HImageButton resume = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.resumeImage, "resume", "Resume selected transfer...", this);
+		HImageButton resume = new HImageButton(Settings.resumeImage, "resume", "Resume selected transfer...", this);
 		resume.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.resumeImage2)));
 		resume.setRolloverEnabled(true);
-		net.sf.jftp.gui.framework.HImageButton pause = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.pauseImage, "pause", "Pause selected transfer...", this);
+		HImageButton pause = new HImageButton(Settings.pauseImage, "pause", "Pause selected transfer...", this);
 		pause.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.pauseImage2)));
 		pause.setRolloverEnabled(true);
-		net.sf.jftp.gui.framework.HImageButton clear = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.clearImage, "clear", "Remove old/stalled items from output...", this);
+		HImageButton clear = new HImageButton(Settings.clearImage, "clear", "Remove old/stalled items from output...", this);
 		clear.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.clearImage2)));
 		clear.setRolloverEnabled(true);
-		net.sf.jftp.gui.framework.HImageButton cancel = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.deleteImage, "delete", "Cancel selected transfer...", this);
+		HImageButton cancel = new HImageButton(Settings.deleteImage, "delete", "Cancel selected transfer...", this);
 		cancel.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.deleteImage2)));
 		cancel.setRolloverEnabled(true);
 
@@ -412,7 +413,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	private boolean safeUpdate() {
 		long time = System.currentTimeMillis();
 
-		if (net.sf.jftp.config.Settings.refreshDelay > (time - this.oldtime)) {
+		if (Settings.refreshDelay > (time - this.oldtime)) {
 			return false;
 		}
 

@@ -248,8 +248,8 @@ public class HostList extends JDialog {
 		int i = 0;
 
 		while (0 <= i) {
-			String filename = net.sf.jftp.config.Settings.login + String.valueOf(i);
-			String[] host_info = net.sf.jftp.config.LoadSet.loadSet(filename);
+			String filename = Settings.login + String.valueOf(i);
+			String[] host_info = LoadSet.loadSet(filename);
 
 			if ((null == host_info) || (1 == host_info.length)) {
 				// no file was loaded, break out.
@@ -310,7 +310,7 @@ public class HostList extends JDialog {
 		int i = 0;
 
 		while (true) {
-			File f = new File(net.sf.jftp.config.Settings.login + String.valueOf(i));
+			File f = new File(Settings.login + String.valueOf(i));
 
 			if (f.exists()) {
 				f.delete();
@@ -324,12 +324,12 @@ public class HostList extends JDialog {
 
 		for (i = 0; i < len; i++) {
 			net.sf.jftp.gui.base.FtpHost ftphost = (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(i);
-			String htmp = net.sf.jftp.system.StringUtils.cut(ftphost.hostname, " ");
-			String utmp = net.sf.jftp.system.StringUtils.cut(ftphost.username, " ");
-			String ptmp = net.sf.jftp.system.StringUtils.cut(ftphost.password, " ");
-			String ntmp = net.sf.jftp.system.StringUtils.cut(ftphost.name, " ");
-			String ttmp = net.sf.jftp.system.StringUtils.cut(ftphost.port, " ");
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login + String.valueOf(i), htmp, utmp, ptmp, ntmp, ttmp);
+			String htmp = StringUtils.cut(ftphost.hostname, " ");
+			String utmp = StringUtils.cut(ftphost.username, " ");
+			String ptmp = StringUtils.cut(ftphost.password, " ");
+			String ntmp = StringUtils.cut(ftphost.name, " ");
+			String ttmp = StringUtils.cut(ftphost.port, " ");
+			SaveSet s = new SaveSet(Settings.login + String.valueOf(i), htmp, utmp, ptmp, ntmp, ttmp);
 		}
 
 		this.hostList.repaint();
