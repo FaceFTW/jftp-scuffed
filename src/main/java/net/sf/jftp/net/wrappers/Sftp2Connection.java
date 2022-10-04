@@ -35,9 +35,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Vector;
 
 public class Sftp2Connection implements BasicConnection {
 	public static final int smbBuffer = 32000;
@@ -124,14 +122,14 @@ public class Sftp2Connection implements BasicConnection {
 	private void cleanSftpDir(String dir) throws Exception {
 		net.sf.jftp.system.logging.Log.out(">>>>>>>> cleanSftpDir: " + dir);
 
-		Vector v = this.channel.ls(dir);
+		List<LsEntry> v = new java.util.ArrayList<>(this.channel.ls(dir));
 
 		String[] tmp = new String[v.size()];
-		Enumeration e = v.elements();
+		java.util.Iterator<LsEntry> e = v.iterator();
 		int x = 0;
 
-		while (e.hasMoreElements()) {
-			LsEntry entry = ((LsEntry) e.nextElement());
+		while (e.hasNext()) {
+			LsEntry entry = e.next();
 			tmp[x] = entry.getFilename();
 
 			//Log.out("sftp delete: " + tmp[x]);
@@ -299,21 +297,21 @@ public class Sftp2Connection implements BasicConnection {
 	public String[] sortLs() {
 		try {
 			System.out.println(this.pwd);
-			Vector v = this.channel.ls(this.pwd);
+			List<LsEntry> v = new java.util.ArrayList<>(this.channel.ls(this.pwd));
 
 			String[] tmp = new String[v.size()];
 			String[] files = new String[tmp.length];
 			this.size = new String[tmp.length];
 			this.perms = new int[tmp.length];
 
-			Enumeration e = v.elements();
+			java.util.Iterator<LsEntry> e = v.iterator();
 			int x = 0;
 
-			while (e.hasMoreElements()) {
-				LsEntry entry = ((LsEntry) e.nextElement());
+			while (e.hasNext()) {
+				LsEntry entry = e.next();
 				tmp[x] = entry.getFilename();
 
-				this.size[x] = "" + entry.getAttrs().getSize();
+				this.size[x] = String.valueOf(entry.getAttrs().getSize());
 
 				//Log.debug("Perms: "+entry.getAttrs().getPermissionsString());
                 
@@ -417,14 +415,14 @@ public class Sftp2Connection implements BasicConnection {
 			this.shortProgress = true;
 			this.baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
 
-			Vector v = this.channel.ls(dir);
+			List<LsEntry> v = new ArrayList<>(this.channel.ls(dir));
 
 			String[] tmp = new String[v.size()];
-			Enumeration e = v.elements();
+			java.util.Iterator<LsEntry> e = v.iterator();
 			int x = 0;
 
-			while (e.hasMoreElements()) {
-				LsEntry entry = ((LsEntry) e.nextElement());
+			while (e.hasNext()) {
+				LsEntry entry = e.next();
 				tmp[x] = entry.getFilename();
 
 				if (entry.getAttrs().isDir() && !tmp[x].endsWith("/")) {
