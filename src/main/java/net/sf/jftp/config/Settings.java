@@ -65,52 +65,51 @@ public class Settings {
 	private static final String enableSftpMultiThreading = "true";
 	private static final String noUploadMultiThreading = "false";
 	private static final String storePasswords = "false";
-	public static final boolean IS_JAVA_1_6 = true;
+	public static boolean IS_JAVA_1_6 = true;
 	public static String sshHostKeyVerificationFile = System.getProperty("user.home") + File.separator + ".jftp" + File.separator + ".ssh_hostfile";
 	public static int maxConnections = 3;
 	public static boolean enableResuming = false; // overridden by JFtp
 	public static boolean enableUploadResuming = false;
 	public static boolean noUploadResumingQuestion = true;
 	public static boolean askToResume = true;
-	public static final boolean reconnect = true;
-	public static final int uiRefresh = 500;
-	public static final int logFlushInterval = 2000; // obsolete
-	public static final boolean useLogFlusher = false; // obsolete
-	public static final int ftpTransferThreadPause = 2000;
-	public static final int smallSize = 0; //100000;
-	public static final int smallSizeUp = 0; //50000;
-	public static final boolean shortProgress = true;
-	public static final boolean useFixedTableWidths = true;
-	public static final boolean enableWebDav = false;
-	public static final boolean ftpKeepAlive = true;
-	public static final int ftpKeepAliveInterval = 29000;
+	public static boolean reconnect = true;
+	public static int uiRefresh = 500;
+	public static int logFlushInterval = 2000; // obsolete
+	public static boolean useLogFlusher = false; // obsolete
+	public static int ftpTransferThreadPause = 2000;
+	public static int smallSize = 0; //100000;
+	public static int smallSizeUp = 0; //50000;
+	public static boolean shortProgress = true;
+	public static boolean useFixedTableWidths = true;
+	public static boolean enableWebDav = false;
+	public static boolean ftpKeepAlive = true;
+	public static int ftpKeepAliveInterval = 29000;
 	// 1: manual, 2: onclick, 0: off
-	public static final int runtimeCommands = 2;
-	public static final boolean askToRun = false;
+	public static int runtimeCommands = 2;
+	public static boolean askToRun = false;
 	// currently changed by remotedir on-the-fly
 	public static boolean showDateNoSize = false;
 	public static boolean showLocalDateNoSize = false;
 	// hides some messages like MODE, Type etc.
-	public static final boolean hideStatus = false;
+	public static boolean hideStatus = false;
 	public static boolean showNewlineOption = false;
 	// for DataConnection - lower means less buffer, more updates in the downloadmanager
-	// i recommend to use values greater than 2048 bytes
-	public static int bufferSize = 8192;
+	public static int bufferSize = 1400;
 	// sends NOOPs to ensure that buffers are empty
-	public static final boolean safeMode = false;
+	public static boolean safeMode = false;
 	// enables some delays
-	public static final boolean enableFtpDelays = false;
+	public static boolean enableFtpDelays = false;
 	// override ui with the insomniac client configuration
 	public static boolean isInsomniacClient = false;
-	public static final int refreshDelay = 250;
+	public static int refreshDelay = 250;
 	public static boolean useDefaultDir = true;
 	// may the windows be resized?
-	public static final boolean resize = true;
-	public static final boolean showFileSize = true;
+	public static boolean resize = true;
+	public static boolean showFileSize = true;
 	public static boolean sortDir = true;
 	public static int scrollSpeed = 9;
 	public static int numFiles = 9;
-	public static final int statusMessageAfterMillis = 1000;
+	public static int statusMessageAfterMillis = 1000;
 	public static String iconImage;
 	public static String hostImage;
 	public static String closeImage;
@@ -159,17 +158,17 @@ public class Settings {
 	public static String nextRSSImage;
 	public static String helpImage;
 
-	public static final String scrollLockImage = "images/current/drive_link.png";
-	public static final String clearLogImage = "images/current/delete.png";
+	public static String scrollLockImage = "images/current/drive_link.png";
+	public static String clearLogImage = "images/current/delete.png";
 
 
-	public static final String background = "images/back.jpg";
+	public static String background = "images/back.jpg";
 
 	//set to false if you want it to run as an applet
 	public static boolean isStandalone = true;
 
 
-	public static final String hiddenPassword = "<%hidden%>";
+	public static String hiddenPassword = "<%hidden%>";
 
 	static {
 		try {
@@ -321,13 +320,15 @@ public class Settings {
 	}
 
 	public static String getSocksProxyHost() {
+		String what = p.getProperty("jftp.socksProxyHost", "");
 
-		return p.getProperty("jftp.socksProxyHost", "");
+		return what;
 	}
 
 	public static String getSocksProxyPort() {
+		String what = p.getProperty("jftp.socksProxyPort", "");
 
-		return p.getProperty("jftp.socksProxyPort", "");
+		return what;
 	}
 
 	public static boolean getUseBackground() {
@@ -425,8 +426,9 @@ public class Settings {
 	}
 
 	public static String getRSSFeed() {
+		String what = p.getProperty("jftp.customRSSFeed", "http://slashdot.org/rss/slashdot.rss");
 
-		return p.getProperty("jftp.customRSSFeed", "http://slashdot.org/rss/slashdot.rss");
+		return what;
 	}
 
 	public static java.awt.Dimension getWindowSize() {
