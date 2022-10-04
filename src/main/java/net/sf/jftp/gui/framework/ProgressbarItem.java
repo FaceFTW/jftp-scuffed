@@ -1,5 +1,7 @@
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.gui.base.dir.DirEntry;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,10 +9,10 @@ import java.awt.Insets;
 
 public class ProgressbarItem extends JPanel {
 
-	private final net.sf.jftp.gui.base.dir.DirEntry d;
+	private final DirEntry d;
 	private final JProgressBar bar = new JProgressBar();
 
-	public ProgressbarItem(net.sf.jftp.gui.base.dir.DirEntry d) {
+	public ProgressbarItem(DirEntry d) {
 		super();
 		this.d = d;
 		this.setLayout(new BorderLayout(2, 2));
@@ -44,7 +46,7 @@ public class ProgressbarItem extends JPanel {
 		//System.out.println(""+bar.getValue()+":"+bar.getMaximum()+" -> "+lbl);
 	}
 
-	public net.sf.jftp.gui.base.dir.DirEntry getDirEntry() {
+	public DirEntry getDirEntry() {
 		return this.d;
 	}
 

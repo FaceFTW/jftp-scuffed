@@ -17,7 +17,14 @@
 //NOTE TO SELF: use setModal here somewhere?
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HComboBox;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPasswordField;
+import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.wrappers.StartConnection;
+import net.sf.jftp.system.StringUtils;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -31,18 +38,18 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 
-public class AddBookmarks extends net.sf.jftp.gui.framework.HFrame implements ActionListener, WindowListener {
+public class AddBookmarks extends HFrame implements ActionListener, WindowListener {
 	private static net.sf.jftp.JFtp jftp;
 	//public JComboBox protocols = new JComboBox();
-	public final net.sf.jftp.gui.framework.HComboBox protocols = new net.sf.jftp.gui.framework.HComboBox("Protocol:");
-	public final net.sf.jftp.gui.framework.HTextField host = new net.sf.jftp.gui.framework.HTextField("Hostname:", "localhost");
-	public final net.sf.jftp.gui.framework.HTextField user = new net.sf.jftp.gui.framework.HTextField("Username:", "anonymous");
-	public final net.sf.jftp.gui.framework.HPasswordField pass = new net.sf.jftp.gui.framework.HPasswordField("Password:", "none@nowhere.no");
-	public final net.sf.jftp.gui.framework.HTextField port = new net.sf.jftp.gui.framework.HTextField("Port:    ", "21");
-	public final net.sf.jftp.gui.framework.HTextField dirOrDom = new net.sf.jftp.gui.framework.HTextField("Directory/Domain:    ", "");
-	public final net.sf.jftp.gui.framework.HComboBox isLocal = new net.sf.jftp.gui.framework.HComboBox("Local Connection:");
-	private final net.sf.jftp.gui.framework.HButton add = new net.sf.jftp.gui.framework.HButton("Add Bookmark");
-	private final net.sf.jftp.gui.framework.HButton addAndConnect = new net.sf.jftp.gui.framework.HButton("Add Bookmark and Connect to Server");
+	public final HComboBox protocols = new HComboBox("Protocol:");
+	public final HTextField host = new HTextField("Hostname:", "localhost");
+	public final HTextField user = new HTextField("Username:", "anonymous");
+	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
+	public final HTextField port = new HTextField("Port:    ", "21");
+	public final HTextField dirOrDom = new HTextField("Directory/Domain:    ", "");
+	public final HComboBox isLocal = new HComboBox("Local Connection:");
+	private final HButton add = new HButton("Add Bookmark");
+	private final HButton addAndConnect = new HButton("Add Bookmark and Connect to Server");
 
 	public AddBookmarks(ComponentListener l, net.sf.jftp.JFtp jftp) {
 		super();

@@ -1,7 +1,7 @@
 package net.sf.jftp.tools;
 
-import logging.Log;
 import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
@@ -42,7 +42,6 @@ public class Shell extends HFrame implements Runnable {
 			Log.debug("ERROR: " + e.getMessage());
 		}
 	}
-
 
 	public Shell(BufferedReader in, OutputStream out) {
 		super();

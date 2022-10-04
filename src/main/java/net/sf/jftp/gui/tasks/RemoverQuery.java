@@ -15,15 +15,18 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
+public class RemoverQuery extends HFrame implements ActionListener {
 	private final String file;
 	private final String type;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
+	private final HButton ok = new HButton("Ok");
 
 	public RemoverQuery(String file, String type) {
 		super();
@@ -36,7 +39,7 @@ public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements Ac
 		this.setLocation(150, 150);
 
 		this.add(this.ok);
-		net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
+		HButton cancel = new HButton("Cancel");
 		this.add(cancel);
 
 		this.ok.addActionListener(this);

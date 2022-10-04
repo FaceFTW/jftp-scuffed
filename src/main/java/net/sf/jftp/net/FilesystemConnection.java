@@ -15,6 +15,10 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.StringUtils;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;

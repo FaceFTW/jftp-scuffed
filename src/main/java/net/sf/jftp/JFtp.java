@@ -16,6 +16,15 @@
 package net.sf.jftp;
 
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.AppMenuBar;
+import net.sf.jftp.gui.base.DownloadList;
+import net.sf.jftp.gui.base.DownloadQueue;
+import net.sf.jftp.gui.base.LocalDir;
+import net.sf.jftp.gui.base.LogFlusher;
+import net.sf.jftp.gui.base.RemoteDir;
+import net.sf.jftp.gui.base.StatusPanel;
+import net.sf.jftp.gui.base.dir.Dir;
+import net.sf.jftp.gui.base.dir.DirEntry;
 import net.sf.jftp.gui.framework.FileTransferable;
 import net.sf.jftp.gui.framework.GUIDefaults;
 import net.sf.jftp.gui.framework.HDesktopBackground;
@@ -74,23 +83,23 @@ import java.util.List;
 public class JFtp extends JPanel implements WindowListener, ComponentListener, Logger, ChangeListener, InternalFrameListener {
 	public static final int CAPACITY = 9;
 	public static final int CONNECTION_DATA_LENGTH = 10;
-	public static final net.sf.jftp.gui.base.DownloadList dList = new net.sf.jftp.gui.base.DownloadList();
-	public static final net.sf.jftp.gui.base.DownloadQueue dQueue = new net.sf.jftp.gui.base.DownloadQueue();
+	public static final DownloadList dList = new DownloadList();
+	public static final DownloadQueue dQueue = new DownloadQueue();
 	public static final HostInfo hostinfo = new HostInfo();
 	public static final JDesktopPane desktop = new JDesktopPane();
 	public static final int acceptableActions = DnDConstants.ACTION_COPY;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
 	public static boolean mainUsed;
-	public static net.sf.jftp.gui.base.StatusPanel statusP;
+	public static StatusPanel statusP;
 	public static JLabel statusL = new JLabel("Welcome to JFtp...                                                            ");
 	public static JFrame mainFrame;
-	public static net.sf.jftp.gui.base.dir.Dir localDir;
-	public static net.sf.jftp.gui.base.dir.Dir remoteDir;
+	public static Dir localDir;
+	public static Dir remoteDir;
 	public static boolean uiBlocked;
 	public static JTextArea log;
 	public static boolean doScroll = true;
-	public static net.sf.jftp.gui.base.AppMenuBar menuBar;
+	public static AppMenuBar menuBar;
 	public static DropTarget dropTarget;
 	public static DropTargetListener dtListener;
 	private static JScrollPane logSp;
@@ -319,13 +328,13 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		this.setBackground(GUIDefaults.mainBack);
 		this.setForeground(GUIDefaults.front);
 
-		statusP = new net.sf.jftp.gui.base.StatusPanel(this);
+		statusP = new StatusPanel(this);
 		this.add("North", statusP);
 
-		localDir = new net.sf.jftp.gui.base.LocalDir(Settings.defaultWorkDir);
+		localDir = new LocalDir(Settings.defaultWorkDir);
 		localDir.setDownloadList(dList);
 
-		remoteDir = new net.sf.jftp.gui.base.RemoteDir();
+		remoteDir = new RemoteDir();
 		remoteDir.setDownloadList(dList);
 
 		Dimension d = Settings.getWindowSize();
@@ -425,7 +434,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		this.add("Center", desktop);
 
 		this.bottomBar.setFloatable(false);
-		this.bottomBar.add(net.sf.jftp.gui.base.StatusPanel.status, FlowLayout.LEFT);
+		this.bottomBar.add(StatusPanel.status, FlowLayout.LEFT);
 
 		if (Settings.getEnableRSS()) {
 			this.addRSS();
@@ -445,7 +454,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			this.chooseHost();
 		}
 
-		net.sf.jftp.gui.base.LogFlusher flusher = new net.sf.jftp.gui.base.LogFlusher();
+		LogFlusher flusher = new LogFlusher();
 		UpdateDaemon daemon = new UpdateDaemon(this);
 
 	}
@@ -571,8 +580,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		this.validate();
 
-		System.out.println(net.sf.jftp.gui.base.StatusPanel.status);
-		net.sf.jftp.gui.base.StatusPanel.status.fresh();
+		System.out.println(StatusPanel.status);
+		StatusPanel.status.fresh();
 	}
 
 	public void addBackgroundImage() {
@@ -624,7 +633,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		mainFrame.setIconImage(icon);
 		mainFrame.setFont(GUIDefaults.font);
 
-		menuBar = new net.sf.jftp.gui.base.AppMenuBar(this);
+		menuBar = new AppMenuBar(this);
 		mainFrame.setJMenuBar(menuBar);
 
 		mainFrame.getContentPane().setLayout(new BorderLayout());
@@ -786,7 +795,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void addConnection(String name, BasicConnection con) {
 		con.addConnectionListener((ConnectionListener) localDir);
 
-		net.sf.jftp.gui.base.dir.Dir tmp = new net.sf.jftp.gui.base.RemoteDir();
+		Dir tmp = new RemoteDir();
 		tmp.setDownloadList(dList);
 		con.addConnectionListener((ConnectionListener) tmp);
 		tmp.setCon(con);
@@ -800,7 +809,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public void addLocalConnection(String name, BasicConnection con) {
 		con.addConnectionListener((ConnectionListener) remoteDir);
 
-		net.sf.jftp.gui.base.dir.Dir tmp = new net.sf.jftp.gui.base.LocalDir();
+		Dir tmp = new LocalDir();
 		tmp.setDownloadList(dList);
 		con.addConnectionListener((ConnectionListener) tmp);
 		tmp.setCon(con);
@@ -820,8 +829,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void stateChanged(ChangeEvent e) {
-		remoteDir = (net.sf.jftp.gui.base.dir.Dir) this.remoteConnectionPanel.getSelectedComponent();
-		localDir = (net.sf.jftp.gui.base.dir.Dir) this.localConnectionPanel.getSelectedComponent();
+		remoteDir = (Dir) this.remoteConnectionPanel.getSelectedComponent();
+		localDir = (Dir) this.localConnectionPanel.getSelectedComponent();
 		remoteDir.getCon().setLocalPath(localDir.getPath());
 
 	}
@@ -1055,10 +1064,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 			Log.debug("DnD: " + path + " -> " + name);
 
 			if (!path.trim().isEmpty()) {
-				((net.sf.jftp.gui.base.LocalDir) localDir).chdir(path);
+				((LocalDir) localDir).chdir(path);
 			}
 
-			((net.sf.jftp.gui.base.LocalDir) localDir).startTransfer(new net.sf.jftp.gui.base.dir.DirEntry(name, ((ActionListener) localDir)));
+			((LocalDir) localDir).startTransfer(new DirEntry(name, ((ActionListener) localDir)));
 		} else {
 			Log.debug("Dragging multiple files or dirs is not yet supported.");
 		}

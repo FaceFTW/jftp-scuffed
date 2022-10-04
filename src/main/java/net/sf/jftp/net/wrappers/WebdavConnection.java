@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.DataConnection;

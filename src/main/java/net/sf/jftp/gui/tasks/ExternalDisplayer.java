@@ -15,6 +15,10 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -29,7 +33,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 
-public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
+public class ExternalDisplayer extends HFrame implements ActionListener {
 	private final JTextArea info = new JTextArea(25, 50);
 	private final JButton close = new JButton("Close");
 
@@ -42,7 +46,7 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 
 		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				net.sf.jftp.gui.tasks.ExternalDisplayer.this.dispose();
+				ExternalDisplayer.this.dispose();
 			}
 		});
 		this.load(file);
@@ -51,7 +55,7 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 		JScrollPane jsp = new JScrollPane(this.info);
 		this.getContentPane().add("Center", jsp);
 
-		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 		closeP.add(this.close);
 

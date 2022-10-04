@@ -15,16 +15,22 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements ActionListener {
-	private final net.sf.jftp.gui.framework.HTextField proxy;
-	private final net.sf.jftp.gui.framework.HTextField port;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
+public class ProxyChooser extends HPanel implements ActionListener {
+	private final HTextField proxy;
+	private final HTextField port;
+	private final HButton ok = new HButton("Ok");
 
 	public ProxyChooser() {
 		super();
@@ -34,8 +40,8 @@ public class ProxyChooser extends net.sf.jftp.gui.framework.HPanel implements Ac
 		//getContentPane().
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		this.proxy = new net.sf.jftp.gui.framework.HTextField("Socks proxy:", "");
-		this.port = new net.sf.jftp.gui.framework.HTextField("Port:", "");
+		this.proxy = new HTextField("Socks proxy:", "");
+		this.port = new HTextField("Port:", "");
 
 		this.proxy.setText(Settings.getSocksProxyHost());
 		this.port.setText(Settings.getSocksProxyPort());

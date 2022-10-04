@@ -17,9 +17,11 @@
 //TODO: Add SFTP port number here (convert potmp to a string and pass it
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.tasks.LastConnections;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.system.logging.Log;
 
 
 // This class is used to initiate connections of all types (FTP, SFTP, SMB, NFS

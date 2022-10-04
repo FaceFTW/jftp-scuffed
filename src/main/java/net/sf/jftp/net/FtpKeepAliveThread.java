@@ -1,5 +1,7 @@
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+
 public class FtpKeepAliveThread implements Runnable {
 
 	private final FtpConnection conn;

@@ -18,6 +18,7 @@ package net.sf.jftp.gui.base;
 import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
 
 import java.awt.GridLayout;
@@ -44,7 +45,7 @@ public class Properties extends HFrame implements ActionListener {
 		this.setLocation(150, 150);
 		this.setLayout(new GridLayout(3, 1));
 
-		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
+		HPanel okP = new HPanel();
 		okP.add(this.ok);
 		this.add(this.sizeL);
 		this.add(this.fileL);

@@ -15,6 +15,9 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.wrappers.HttpTransfer;
 
 import java.awt.FlowLayout;
@@ -23,9 +26,9 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 
-public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements ActionListener {
-	private final net.sf.jftp.gui.framework.HTextField text;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Start");
+public class HttpDownloader extends HPanel implements ActionListener {
+	private final HTextField text;
+	private final HButton ok = new HButton("Start");
 
 	public HttpDownloader() {
 		super();
@@ -35,7 +38,7 @@ public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements 
 		//getContentPane().
 		this.setLayout(new FlowLayout());
 
-		this.text = new net.sf.jftp.gui.framework.HTextField("URL:", "http://", 25);
+		this.text = new HTextField("URL:", "http://", 25);
 
 		//getContentPane().
 		this.add(this.text);

@@ -15,16 +15,22 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.system.logging.Log;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class Renamer extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
-	public final net.sf.jftp.gui.framework.HTextField text;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
-	private final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
+public class Renamer extends HFrame implements ActionListener {
+	public final HTextField text;
+	private final HButton ok = new HButton("Ok");
+	private final HPanel okP = new HPanel();
 	private final String oldName;
 	private final String path;
 
@@ -38,7 +44,7 @@ public class Renamer extends net.sf.jftp.gui.framework.HFrame implements ActionL
 		this.setLocation(150, 150);
 		this.getContentPane().setLayout(new FlowLayout());
 
-		this.text = new net.sf.jftp.gui.framework.HTextField("Name: ", oldName);
+		this.text = new HTextField("Name: ", oldName);
 		this.getContentPane().add(this.text);
 		this.getContentPane().add(this.ok);
 		this.ok.addActionListener(this);

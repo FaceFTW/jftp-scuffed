@@ -1,6 +1,7 @@
 package net.sf.jftp.net;
 
-import logging.Log;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.logging.Log;
 
 import java.io.File;
 

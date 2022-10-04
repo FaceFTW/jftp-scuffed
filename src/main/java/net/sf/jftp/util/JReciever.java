@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.util;
 
+import net.sf.jftp.system.LocalIO;
+
 import javax.swing.*;
 import java.io.DataInputStream;
 

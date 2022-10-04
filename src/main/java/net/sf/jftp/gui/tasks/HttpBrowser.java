@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;

@@ -16,6 +16,8 @@
 package net.sf.jftp.gui.base;
 
 import net.sf.jftp.JFtp;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.dir.DirEntry;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
 
@@ -30,9 +32,9 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	private final JButton resume = new JButton("Resume");
 	private final JButton skip = new JButton("Skip");
 	private final JButton over = new JButton("Overwrite");
-	private net.sf.jftp.gui.base.dir.DirEntry dirEntry;
+	private DirEntry dirEntry;
 
-	public ResumeDialog(net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
+	public ResumeDialog(DirEntry dirEntry) {
 		super();
 		this.dirEntry = dirEntry;
 

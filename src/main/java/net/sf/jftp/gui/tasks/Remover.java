@@ -15,15 +15,20 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
-	private final net.sf.jftp.gui.framework.HTextField text;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Remove file/directory...");
-	private final net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
+public class Remover extends HFrame implements ActionListener {
+	private final HTextField text;
+	private final HButton ok = new HButton("Remove file/directory...");
+	private final HButton cancel = new HButton("Cancel");
 	private String type;
 
 	public Remover(String l, String type) {
@@ -35,8 +40,8 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 		this.setLocation(150, 150);
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
 
-		this.text = new net.sf.jftp.gui.framework.HTextField(l, "");
-		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
+		this.text = new HTextField(l, "");
+		HPanel okP = new HPanel();
 		okP.add(this.ok);
 		okP.add(this.cancel);
 		this.getContentPane().add("North", this.text);

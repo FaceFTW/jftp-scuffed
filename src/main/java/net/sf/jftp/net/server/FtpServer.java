@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.net.server;
 
+import net.sf.jftp.system.logging.Log;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;

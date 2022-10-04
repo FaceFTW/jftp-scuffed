@@ -1,5 +1,7 @@
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.gui.base.dir.DirEntry;
+
 import javax.swing.*;
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -16,17 +18,17 @@ public class ProgressBarList extends JPanel {
 
 		this.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent e) {
-				Component c = net.sf.jftp.gui.framework.ProgressBarList.this.getComponentAt(e.getX(), e.getY());
+				Component c = ProgressBarList.this.getComponentAt(e.getX(), e.getY());
 
-				net.sf.jftp.gui.framework.ProgressBarList.this.deselectAll();
+				ProgressBarList.this.deselectAll();
 
-				for (int i = 0; i < net.sf.jftp.gui.framework.ProgressBarList.this.getComponentCount(); i++) {
-					if (net.sf.jftp.gui.framework.ProgressBarList.this.getComponent(i) instanceof ProgressbarItem) {
-						ProgressbarItem item = (ProgressbarItem) net.sf.jftp.gui.framework.ProgressBarList.this.getComponent(i);
+				for (int i = 0; i < ProgressBarList.this.getComponentCount(); i++) {
+					if (ProgressBarList.this.getComponent(i) instanceof ProgressbarItem) {
+						ProgressbarItem item = (ProgressbarItem) ProgressBarList.this.getComponent(i);
 
 						if (item == c) {
 							item.select();
-							net.sf.jftp.gui.framework.ProgressBarList.this.index = i;
+							ProgressBarList.this.index = i;
 						}
 					}
 				}
@@ -38,13 +40,13 @@ public class ProgressBarList extends JPanel {
 		});
 	}
 
-	public void setListData(net.sf.jftp.gui.base.dir.DirEntry[] items) {
+	public void setListData(DirEntry[] items) {
 
 		this.removeAll();
 		//System.out.println("\n\n--------------------\n");
 
-		for (net.sf.jftp.gui.base.dir.DirEntry item : items) {
-			net.sf.jftp.gui.framework.ProgressbarItem p = new net.sf.jftp.gui.framework.ProgressbarItem(item);
+		for (DirEntry item : items) {
+			ProgressbarItem p = new ProgressbarItem(item);
 			p.update((int) item.getTransferred() / 1024, (int) item.getRawSize() / 1024, item.file);
 
 			//System.out.println("add: "+items[i].file+" -> "+items[i].getTransferred()+"/"+items[i].getRawSize());

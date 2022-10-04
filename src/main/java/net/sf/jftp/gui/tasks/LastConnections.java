@@ -18,6 +18,8 @@
 //*** (should it be in GUI dir?)
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.Settings;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;

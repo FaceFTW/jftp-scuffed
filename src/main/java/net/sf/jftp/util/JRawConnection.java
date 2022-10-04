@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.util;
 
+import net.sf.jftp.config.Settings;
+
 import java.io.PrintStream;
 
 

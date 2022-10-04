@@ -19,6 +19,7 @@ import net.miginfocom.swing.MigLayout;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.FtpHost;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HInsetPanel;
@@ -318,7 +319,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 		} else if (e.getSource() == this.list) {
 			HostList hl = new HostList(this);
-			net.sf.jftp.gui.base.FtpHost selectedHost = hl.getFtpHost();
+			FtpHost selectedHost = hl.getFtpHost();
 
 			if (null == selectedHost) {
 				return;

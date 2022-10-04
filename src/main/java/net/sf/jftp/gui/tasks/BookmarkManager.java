@@ -16,6 +16,7 @@
 package net.sf.jftp.gui.tasks;
 
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
@@ -49,7 +50,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		JScrollPane jsp = new JScrollPane(this.info);
 		this.getContentPane().add("Center", jsp);
 
-		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		//closeP.add(close);

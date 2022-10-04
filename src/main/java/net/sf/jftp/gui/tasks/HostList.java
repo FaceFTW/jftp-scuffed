@@ -15,6 +15,12 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.FtpHost;
+import net.sf.jftp.system.StringUtils;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -45,7 +51,7 @@ public class HostList extends JDialog {
 	/**
 	 * The currently selected FtpHost instance
 	 */
-	private net.sf.jftp.gui.base.FtpHost selectedHostInfo;
+	private FtpHost selectedHostInfo;
 
 	/**
 	 * Constructs an instance of the HostList with the
@@ -81,7 +87,7 @@ public class HostList extends JDialog {
 	 * upon clicking ok, the selected FtpHost will be returned
 	 * upon cancel, a null will be returned.
 	 */
-	public net.sf.jftp.gui.base.FtpHost getFtpHost() {
+	public FtpHost getFtpHost() {
 		this.selectedHostInfo = null;
 		this.setVisible(true);
 
@@ -258,7 +264,7 @@ public class HostList extends JDialog {
 				continue;
 			}
 
-			net.sf.jftp.gui.base.FtpHost ftpHost = new net.sf.jftp.gui.base.FtpHost();
+			FtpHost ftpHost = new FtpHost();
 
 			try {
 				ftpHost.hostname = host_info[0];
@@ -323,7 +329,7 @@ public class HostList extends JDialog {
 		int len = this.hostListModel.size();
 
 		for (i = 0; i < len; i++) {
-			net.sf.jftp.gui.base.FtpHost ftphost = (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(i);
+			FtpHost ftphost = (FtpHost) this.hostListModel.elementAt(i);
 			String htmp = StringUtils.cut(ftphost.hostname, " ");
 			String utmp = StringUtils.cut(ftphost.username, " ");
 			String ptmp = StringUtils.cut(ftphost.password, " ");
@@ -356,7 +362,7 @@ public class HostList extends JDialog {
 	 * Create a default one and stuff itin the list
 	 */
 	public void onNew() {
-		net.sf.jftp.gui.base.FtpHost ftpHost = new net.sf.jftp.gui.base.FtpHost();
+		FtpHost ftpHost = new FtpHost();
 		ftpHost.name = "undefined";
 		ftpHost.username = "undefined";
 		ftpHost.hostname = "undefined";
@@ -370,13 +376,13 @@ public class HostList extends JDialog {
 	/**
 	 * Returns the selected FtpHost from the hostList
 	 */
-	private net.sf.jftp.gui.base.FtpHost getSelected() {
+	private FtpHost getSelected() {
 		int sel = this.hostList.getSelectedIndex();
 
 		if ((0 > sel) || (sel > (this.hostListModel.size() - 1))) {
 			return null;
 		} else {
-			return (net.sf.jftp.gui.base.FtpHost) this.hostListModel.elementAt(this.hostList.getSelectedIndex());
+			return (FtpHost) this.hostListModel.elementAt(this.hostList.getSelectedIndex());
 		}
 	}
 

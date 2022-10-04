@@ -18,6 +18,8 @@ package net.sf.jftp.gui.tasks;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.FtpConnection;
 
 import javax.swing.*;
@@ -28,9 +30,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements ActionListener {
+public class AdvancedOptions extends HPanel implements ActionListener {
 	public static boolean listOptionSet;
-	private final net.sf.jftp.gui.framework.HTextField listCommand = new net.sf.jftp.gui.framework.HTextField("FTP LIST command:", FtpConnection.LIST, 15);
+	private final HTextField listCommand = new HTextField("FTP LIST command:", FtpConnection.LIST, 15);
 	private final JButton setListCommand = new JButton("Set");
 
 	private final JLabel statusText = new JLabel();
@@ -62,8 +64,8 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 
 		this.listCommand.setText(listOptionText);
 
-		net.sf.jftp.gui.framework.HPanel content = new net.sf.jftp.gui.framework.HPanel();
-		net.sf.jftp.gui.framework.HPanel panel = new net.sf.jftp.gui.framework.HPanel();
+		HPanel content = new HPanel();
+		HPanel panel = new HPanel();
 		panel.add(this.listCommand);
 		panel.add(this.setListCommand);
 

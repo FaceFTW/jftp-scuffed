@@ -15,7 +15,11 @@
  */
 package net.sf.jftp.tools;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.StatusCanvas;
 import net.sf.jftp.gui.framework.HImageButton;
+import net.sf.jftp.system.LocalIO;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -28,7 +32,7 @@ import java.util.Enumeration;
 
 public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	public static String urlstring = Settings.getRSSFeed();
-	final net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
+	final StatusCanvas can = new StatusCanvas();
 	final HImageButton next = new HImageButton(Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
 	final int HEADER_IVAL = 4000;
 	final int LOAD_IVAL = 31 * 60000;
