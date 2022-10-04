@@ -349,7 +349,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 					this.currentSizes.add("-1");
 
-					continue;
 				}
 
 				// ------------------------------------------------

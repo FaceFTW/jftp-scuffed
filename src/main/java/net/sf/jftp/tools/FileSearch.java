@@ -220,7 +220,6 @@ public class FileSearch {
 							net.sf.jftp.tools.Getter urlGetter2 = new net.sf.jftp.tools.Getter(this.localDir);
 							urlGetter2.fetch(next, false);
 
-							continue;
 						}
 					}
 				}

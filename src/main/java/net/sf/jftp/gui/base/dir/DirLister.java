@@ -78,7 +78,6 @@ public class DirLister implements ActionListener {
 			int idx = 0;
 			for (int i = 0; i < this.files.length; i++) {
 				if (null == this.files[i]) {
-					continue;
 				} else {
 					newFiles[idx] = this.files[i];
 					newSizes[idx] = this.sizes[i];

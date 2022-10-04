@@ -221,7 +221,6 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 							return;
 						}
 
-						continue;
 					}
 				}
 			}
