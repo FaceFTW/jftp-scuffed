@@ -28,12 +28,12 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	private String path = "";
 	private String pwd = "";
 	private java.util.Vector listeners = new java.util.Vector();
-	private String[] files;
+	private String[] files = null;
 	private String[] size = new String[0];
 	private int[] perms = null;
 	//private NfsHandler handler = new NfsHandler();
-	private String baseFile;
-	private int fileCount;
+	private String baseFile = null;
+	private int fileCount = 0;
 
 	public RsyncConnection(String url, String utmp, String ptmp, int port, String dtmp, String ltmp) {
 		super();

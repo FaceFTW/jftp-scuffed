@@ -24,8 +24,8 @@ import javax.swing.*;
 
 public class DirPanel extends HPanel implements Dir {
 	public int length = 0;
-	public String[] files;
-	public DirEntry[] dirEntry;
+	public String[] files = null;
+	public DirEntry[] dirEntry = null;
 	public String type = null;
 	public long oldtime = 0;
 	public DownloadList dList = null;

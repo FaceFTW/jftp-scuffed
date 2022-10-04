@@ -47,17 +47,17 @@ public class Sftp2Connection implements BasicConnection {
 	private Vector listeners = new Vector();
 	private String[] size = new String[0];
 	private int[] perms = null;
-	private String user;
-	private String pass;
-	private String baseFile;
-	private int fileCount;
+	private String user = null;
+	private String pass = null;
+	private String baseFile = null;
+	private int fileCount = 0;
 	private boolean isDirUpload = false;
 	private boolean shortProgress = false;
 	private int port = 22;
 	private boolean connected = false;
 	private String keyfile = null;
-	private Session session;
-	private ChannelSftp channel;
+	private Session session = null;
+	private ChannelSftp channel = null;
 
 	public Sftp2Connection(String host, String port, String keyfile) {
 		super();

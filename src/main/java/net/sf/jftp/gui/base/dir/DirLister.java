@@ -34,10 +34,10 @@ import java.util.Vector;
 public class DirLister implements ActionListener {
 	private final BasicConnection con;
 	public boolean finished = false;
-	private int length;
-	private String[] files;
-	private String[] sizes;
-	private int[] perms;
+	private int length = 0;
+	private String[] files = null;
+	private String[] sizes = null;
+	private int[] perms = null;
 	private boolean isDirectory = true;
 	private String sortMode = null;
 	private Date[] dates = null;

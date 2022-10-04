@@ -16,11 +16,11 @@
 package net.sf.jftp.gui.base;
 
 public class FtpHost {
-	public String name;
-	public String hostname;
-	public String username;
-	public String password;
-	public String port;
+	public String name = null;
+	public String hostname = null;
+	public String username = null;
+	public String password = null;
+	public String port = null;
 
 	public String toString() {
 		return (null == this.name) ? ("<?> @ " + this.hostname) : (this.name + " @ " + this.hostname);

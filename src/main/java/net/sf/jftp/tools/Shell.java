@@ -17,14 +17,14 @@ import java.io.StreamTokenizer;
 import java.util.Vector;
 
 public class Shell extends HFrame implements Runnable {
-	BufferedOutputStream out;
-	BufferedReader in;
-	BufferedOutputStream err;
+	BufferedOutputStream out = null;
+	BufferedReader in = null;
+	BufferedOutputStream err = null;
 	final JTextArea text = new JTextArea(25, 101);
 
-	long off;
-	Thread runner;
-	JScrollPane textP;
+	long off = 0L;
+	Thread runner = null;
+	JScrollPane textP = null;
 	String input = "";
 	final Vector commands = new Vector();
 	int currCmd = 0;

@@ -44,7 +44,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	final JMenuItem close = new JMenuItem("ExIt");
 	final JMenuItem changeHost = new JMenuItem("Host...");
 	final JMenuItem info = new JMenuItem("Info");
-	private JRawConnection c;
+	private JRawConnection c = null;
 
 	public RawConnection() {
 		this("localhost", 25);

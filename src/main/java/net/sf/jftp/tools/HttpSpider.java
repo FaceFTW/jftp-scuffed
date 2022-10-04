@@ -48,7 +48,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	private int MAX = 1;
 	private String[] typeArray = {"mpg", "avi", "mpeg", "mov", "rm", "wmv"};
 	private String localDir = ".";
-	private String[] argv;
+	private String[] argv = null;
 	private boolean stopflag = false;
 
 	public HttpSpider(String localDir) {

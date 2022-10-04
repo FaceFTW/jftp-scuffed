@@ -51,7 +51,7 @@ public class DirEntry {
 	public boolean isFile = true;
 	public Date date = null;
 	//private boolean entered = false;
-	private Image img;
+	private Image img = null;
 	private boolean isDirectory = false;
 	private long size = 0;
 	private long transferred = 0;

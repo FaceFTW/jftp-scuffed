@@ -21,7 +21,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 	private final Vector listeners;
 	public boolean work = true;
 	public boolean pause = false;
-	public Thread runner;
+	public Thread runner = null;
 	private int stat = 1;
 	private ConnectionHandler handler = new ConnectionHandler();
 

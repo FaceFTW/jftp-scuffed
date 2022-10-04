@@ -90,7 +90,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private String pwd = "";
 	private String initCWD = net.sf.jftp.config.Settings.defaultDir;
 	private String osType = "";
-	private String dataType;
+	private String dataType = null;
 	private boolean modeStreamSet = false;
 	private DataConnection dcon = null;
 	private Vector<ConnectionListener> listeners = new Vector<>();
@@ -105,11 +105,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * the user
 	 */
-	private String username;
+	private String username = null;
 	/**
 	 * the password
 	 */
-	private String password;
+	private String password = null;
 	/**
 	 * the port
 	 */
@@ -117,19 +117,19 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * the InputStream of the control connection
 	 */
-	private BufferedReader in;
+	private BufferedReader in = null;
 	/**
 	 * the OutputStream of the control connection
 	 */
-	private JConnection jcon;
+	private JConnection jcon = null;
 	/**
 	 * we are disconnected
 	 */
 	private boolean connected = false;
 	private boolean shortProgress = false;
 	private boolean isDirUpload = false;
-	private String baseFile;
-	private int fileCount;
+	private String baseFile = null;
+	private int fileCount = 0;
 	private String typeNow = "";
 	private String crlf = null;
 

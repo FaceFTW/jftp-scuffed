@@ -32,9 +32,9 @@ import java.net.Socket;
 public class JConnection implements Runnable {
 	private final String host;
 	private final int port;
-	private PrintStream out;
-	private BufferedReader in;
-	private Socket s;
+	private PrintStream out = null;
+	private BufferedReader in = null;
+	private Socket s = null;
 	private boolean isOk = false;
 	private boolean established = false;
 	private int localPort = -1;

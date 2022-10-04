@@ -22,8 +22,8 @@ import java.awt.*;
 
 
 public class HTextField extends JPanel {
-	public JTextField text;
-	private JLabel label;
+	public JTextField text = null;
+	private JLabel label = null;
 
 	public HTextField(String l, String t, int size) {
 		super();

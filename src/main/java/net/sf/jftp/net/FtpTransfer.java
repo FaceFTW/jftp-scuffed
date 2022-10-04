@@ -19,7 +19,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 	private final String type;
 	private final ConnectionHandler handler;
 	private final Vector<ConnectionListener> listeners;
-	public Thread runner;
+	public Thread runner = null;
 	private FtpConnection con = null;
 	private int stat = 0;
 	private boolean started = false;

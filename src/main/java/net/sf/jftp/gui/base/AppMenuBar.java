@@ -126,7 +126,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	String tab = this.charTab.toString();
 	final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
 	final JMenuItem add = new JMenuItem("Add Bookmark...");
-	Hashtable marks;
+	Hashtable marks = null;
 	JMenu current = this.bookmarks;
 	JMenu last = this.bookmarks;
 

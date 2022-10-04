@@ -28,8 +28,8 @@ import java.util.Enumeration;
 public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	public static String urlstring = net.sf.jftp.config.Settings.getRSSFeed();
 	Thread runner;
-	URL url;
-	RSSParser parser;
+	URL url = null;
+	RSSParser parser = null;
 	final net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
 	final HImageButton next = new HImageButton(net.sf.jftp.config.Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
 	boolean header = false;

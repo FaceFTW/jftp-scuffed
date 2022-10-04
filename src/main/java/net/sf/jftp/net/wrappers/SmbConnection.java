@@ -45,12 +45,12 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private Vector listeners = new Vector();
 	private String[] size = new String[0];
 	private int[] perms = null;
-	private String user;
-	private String pass;
-	private String host;
+	private String user = null;
+	private String pass = null;
+	private String host = null;
 	private String domain = null;
-	private String baseFile;
-	private int fileCount;
+	private String baseFile = null;
+	private int fileCount = 0;
 	private boolean isDirUpload = false;
 	private boolean shortProgress = false;
 	private boolean dummy = false;

@@ -96,14 +96,14 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	private final JSplitPane logP = null;
 	public final JTabbedPane remoteConnectionPanel = new JTabbedPane();
 	public final JTabbedPane localConnectionPanel = new JTabbedPane();
-	public HostChooser hc;
-	public RSSFeeder feeder;
-	private HDesktopBackground background;
-	private JInternalFrame j1;
-	private JInternalFrame j2;
-	private JInternalFrame j3;
-	private JInternalFrame j4;
-	private JInternalFrame j5;
+	public HostChooser hc = null;
+	public RSSFeeder feeder = null;
+	private HDesktopBackground background = null;
+	private JInternalFrame j1 = null;
+	private JInternalFrame j2 = null;
+	private JInternalFrame j3 = null;
+	private JInternalFrame j4 = null;
+	private JInternalFrame j5 = null;
 	private String buffer = "";
 	private long oldtime = 0;
 

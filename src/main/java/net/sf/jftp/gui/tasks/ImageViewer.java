@@ -44,7 +44,7 @@ public class ImageViewer extends JInternalFrame {
 
 
 class ImagePanel extends JPanel {
-	private Image img;
+	private Image img = null;
 
 	ImagePanel(String url) {
 		super();

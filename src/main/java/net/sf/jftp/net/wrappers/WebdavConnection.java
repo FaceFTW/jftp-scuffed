@@ -43,8 +43,8 @@ public class WebdavConnection implements BasicConnection {
 	private Vector listeners = new Vector();
 	private String[] size = new String[0];
 	private int[] perms = null;
-	private String baseFile;
-	private int fileCount;
+	private String baseFile = null;
+	private int fileCount = 0;
 	private boolean shortProgress = false;
 
 	public WebdavConnection(String path, String user, String pass, ConnectionListener l) {

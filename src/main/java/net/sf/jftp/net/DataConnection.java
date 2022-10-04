@@ -53,7 +53,7 @@ public class DataConnection implements Runnable {
 	private String type;
 	private boolean resume = false;
 	private boolean isThere = false;
-	private long start;
+	private long start = 0L;
 	private int skiplen = 0;
 	private boolean justStream = false;
 	private boolean ok = true;

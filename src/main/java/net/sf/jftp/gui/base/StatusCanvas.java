@@ -28,8 +28,8 @@ public class StatusCanvas extends JPanel {
 	final JLabel text = new JLabel(Settings.greeting);
 	String drawText = "";
 	int pos = 0;
-	Image image;
-	Graphics offg;
+	Image image = null;
+	Graphics offg = null;
 	boolean slide = false;
 	int interval = 3;
 	boolean fwd = false;

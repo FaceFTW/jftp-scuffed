@@ -15,7 +15,7 @@ public class Sftp2Transfer implements Runnable {
 	private final Vector listeners;
 	private final String keyfile;
 	private final String port;
-	public Thread runner;
+	public Thread runner = null;
 	private Sftp2Connection con = null;
 
 	public Sftp2Transfer(String localPath, String remotePath, String file, String user, String pass, Vector listeners, String type, String keyfile, String host, String port) {
