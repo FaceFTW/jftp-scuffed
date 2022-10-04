@@ -42,7 +42,7 @@ public class NfsConnection implements BasicConnection {
 	private String host = "";
 	private String path = "";
 	private String pwd = "";
-	private Vector listeners = new Vector();
+	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] files = null;
 	private String[] size = new String[0];
 	private int[] perms = null;
@@ -573,7 +573,7 @@ public class NfsConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
+				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
@@ -583,7 +583,7 @@ public class NfsConnection implements BasicConnection {
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(Vector l) {
+	public void setConnectionListeners(java.util.List<ConnectionListener> l) {
 		this.listeners = l;
 	}
 
@@ -594,7 +594,7 @@ public class NfsConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
+				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -607,7 +607,7 @@ public class NfsConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
+				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
 
 				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -628,7 +628,7 @@ public class NfsConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
+				((ConnectionListener) this.listeners.get(i)).actionFinished(con);
 			}
 		}
 	}

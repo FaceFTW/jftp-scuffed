@@ -9,7 +9,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -42,8 +44,7 @@ public class TableUtils {
 
 			if (null == h) h = defaultHeaderRenderer;
 
-			if (null != h)
-			{
+			if (null != h) {
 				Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(), false, false, -1, i);
 
 				width = c.getPreferredSize().width;
@@ -62,7 +63,7 @@ public class TableUtils {
 			totalWidth += column.getPreferredWidth();
 		}
 
-}
+	}
 
 	public static void setFixedWidths(JTable table) {
 		JTableHeader header = table.getTableHeader();
@@ -103,7 +104,7 @@ public class TableUtils {
 		list.setSelectedIndices(new int[0]);
 
 		int rows = listTbl.getRowCount();
-		Vector sel = new Vector();
+		java.util.List<Integer> sel = new java.util.ArrayList<>();
 
 		for (int i = 0; i < rows; i++) {
 			if (listTbl.getSelectionModel().isSelectedIndex(i)) {
@@ -150,7 +151,7 @@ public class TableUtils {
 				} else if (3 == col) {
 					return ret;
 				}
-return ret;
+				return ret;
 			}
 		};
 	}
@@ -160,7 +161,7 @@ return ret;
 		layoutTable(list, listTbl, null);
 	}
 
-	public static void layoutTable(JList list, JTable listTbl, Vector<String> names) {
+	public static void layoutTable(JList list, JTable listTbl, List<String> names) {
 		listTbl.setModel(generateTableModel(list));
 
 		if (Settings.useFixedTableWidths) {
@@ -183,7 +184,7 @@ return ret;
 
 	}
 
-	public static void modifyTableHeader(JTableHeader head, Vector columnNames) {
+	public static void modifyTableHeader(JTableHeader head, List<String> columnNames) {
 
 		TableColumnModel m = head.getColumnModel();
 

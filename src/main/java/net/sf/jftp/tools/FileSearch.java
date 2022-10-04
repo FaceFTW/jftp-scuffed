@@ -35,7 +35,7 @@ public class FileSearch {
 
 	public static final boolean quiet = true;
 	public static final boolean ultraquiet = false;
-	private final Hashtable checked = new Hashtable();
+	private final java.util.Map<String, String> checked = new java.util.HashMap<>();
 	final String localDir = ".";
 	final int MAX = 999999;
 	int MIN_TERM = 1;
@@ -115,14 +115,13 @@ public class FileSearch {
 		return url;
 	}
 
-	private Vector addVector(Vector v, Vector x) {
-		Enumeration e = x.elements();
+	private java.util.List<String> addVector(java.util.List<String> v, java.util.List<String> x) {
+		java.util.Iterator<String> e = x.iterator();
 
-		while (e.hasMoreElements()) {
-			String next = (String) e.nextElement();
+		while (e.hasNext()) {
+			String next = e.next();
 			v.add(next);
 		}
-
 		return v;
 	}
 
@@ -171,7 +170,8 @@ public class FileSearch {
 		url = this.clear(url);
 
 		int urlRating = this.checkForResult(url);
-		if (!quiet) net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
+		if (!quiet)
+			net.sf.jftp.system.logging.Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
 
 		if (0 < urlRating) {
 		} else if (0 > urlRating && 0 < this.currentDepth) {
@@ -184,25 +184,25 @@ public class FileSearch {
 		String content = urlGetter.fetch(url);
 
 		int factor = this.rate(content);
-		if (!quiet) net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
+		if (!quiet)
+			net.sf.jftp.system.logging.Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
 
 		if (this.MIN_FACTOR > factor) {
 			if (!quiet) net.sf.jftp.system.logging.Log.out("DROP: " + url);
 			return;
 		}
 
-		if (!ultraquiet) net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
+		if (!ultraquiet)
+			net.sf.jftp.system.logging.Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
 
-		Vector m = this.sort(content, url.substring(0, url.lastIndexOf('/')), "href=\"");
+		java.util.List<String> m = this.sort(content, url.substring(0, url.lastIndexOf('/')), "href=\"");
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "src=\""));
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "HREF=\""));
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "SRC=\""));
 
-		Enumeration links = m.elements();
-
-		while (links.hasMoreElements()) {
-
-			String next = (String) links.nextElement();
+		java.util.Iterator<String> links = m.iterator();
+		while (links.hasNext()) {
+			String next = links.next();
 
 			if (!quiet) net.sf.jftp.system.logging.Log.out("PROCESS: " + next);
 			boolean skip = false;

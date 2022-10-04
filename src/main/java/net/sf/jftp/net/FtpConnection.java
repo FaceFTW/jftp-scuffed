@@ -81,11 +81,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * May contain date listing
 	 */
-	public Vector<Date> dateVector = new Vector<>();
-	public final Vector<String> currentListing = new Vector<>();
-	public final Vector<String> currentFiles = new Vector<>();
-	public final Vector<String> currentSizes = new Vector<>();
-	public final Vector<String> currentPerms = new Vector<>();
+	public List<Date> dateVector = new java.util.ArrayList<>();
+	public final List<String> currentListing = new ArrayList<>();
+	public final List<String> currentFiles = new ArrayList<>();
+	public final List<String> currentSizes = new ArrayList<>();
+	public final List<String> currentPerms = new ArrayList<>();
 	private boolean ok = true;
 	private String pwd = "";
 	private String initCWD = net.sf.jftp.config.Settings.defaultDir;
@@ -93,7 +93,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private String dataType = null;
 	private boolean modeStreamSet = false;
 	private DataConnection dcon = null;
-	private Vector<ConnectionListener> listeners = new Vector<>();
+	private List<ConnectionListener> listeners = new java.util.ArrayList<>();
 	private ConnectionHandler handler = new ConnectionHandler();
 	private FtpKeepAliveThread keepAliveThread = null;
 	// directory downloaded to
@@ -327,7 +327,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	public String[] sortSize() {
 		try {
-			this.currentSizes.removeAllElements();
+			this.currentSizes.clear();
 
 			for (String tmp : this.currentListing) {
 				// ------------- VMS override -------------------
@@ -409,14 +409,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		return this.toArray(this.currentSizes);
 	}
 
-	private String[] toArray(Vector<String> in) {
+	private String[] toArray(List<String> in) {
 		String[] ret = new String[in.size()];
-
-		for (int i = 0; i < in.size(); i++) {
-			ret[i] = in.get(i);
-		}
-
-		return ret;
+		return in.toArray(ret);
 	}
 
 	/**
@@ -428,7 +423,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	public int[] getPermissions() {
 		try {
-			this.currentPerms.removeAllElements();
+			this.currentPerms.clear();
 
 			for (String tmp : this.currentListing) {
 				// ------------- VMS override -------------------
@@ -524,7 +519,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		try {
 			boolean newUnixDateStyle = false;
 			this.dateVector = new Vector<>();
-			this.currentFiles.removeAllElements();
+			this.currentFiles.clear();
 
 			for (String tmp : this.currentListing) {
 				// ------------------- VMS override --------------------
@@ -1555,7 +1550,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 
 			if ((null == tmp[i]) || tmp[i].equals("./") || tmp[i].equals("../")) {
-			continue;
+				continue;
 			}
 
 			if (tmp[i].endsWith("/")) {
@@ -1876,7 +1871,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			this.jcon.send(LIST);
 
 			String line;
-			this.currentListing.removeAllElements();
+			this.currentListing.clear();
 
 			while (null != (line = input.readLine())) {
 				//System.out.println("-> "+line);
@@ -2366,7 +2361,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param l A Vector containig ConnectionListener objects
 	 */
-	public void setConnectionListeners(Vector<ConnectionListener> l) {
+	public void setConnectionListeners(List<ConnectionListener> l) {
 		this.listeners = l;
 	}
 
@@ -2379,7 +2374,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.elementAt(i).updateRemoteDirectory(con);
+				this.listeners.get(i).updateRemoteDirectory(con);
 			}
 		}
 	}
@@ -2398,7 +2393,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = this.listeners.elementAt(i);
+				ConnectionListener listener = this.listeners.get(i);
 
 				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -2424,7 +2419,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.elementAt(i).connectionInitialized(con);
+				this.listeners.get(i).connectionInitialized(con);
 			}
 		}
 	}
@@ -2439,7 +2434,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.elementAt(i).connectionFailed(con, why);
+				this.listeners.get(i).connectionFailed(con, why);
 			}
 		}
 	}
@@ -2453,7 +2448,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.elementAt(i).actionFinished(con);
+				this.listeners.get(i).actionFinished(con);
 			}
 		}
 	}

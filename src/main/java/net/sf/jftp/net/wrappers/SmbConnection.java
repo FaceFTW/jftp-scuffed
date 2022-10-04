@@ -42,7 +42,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	public static final int smbBuffer = 128000;
 	private String path = "";
 	private String pwd = "smb://";
-	private Vector listeners = new Vector();
+	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String user = null;
@@ -609,7 +609,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
+				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
@@ -619,7 +619,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(Vector l) {
+	public void setConnectionListeners(java.util.List<ConnectionListener> l) {
 		this.listeners = l;
 	}
 
@@ -630,7 +630,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
+				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -647,7 +647,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
+				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
 
 				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -668,7 +668,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
+				((ConnectionListener) this.listeners.get(i)).actionFinished(con);
 			}
 		}
 	}

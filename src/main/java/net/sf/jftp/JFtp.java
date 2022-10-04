@@ -68,7 +68,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static final int CAPACITY = 9;
 	public static final int CONNECTION_DATA_LENGTH = 10;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
-	private static final Hashtable<String, JInternalFrame> internalFrames = new Hashtable<>();
+	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
 	public static boolean mainUsed = false;
 	public static net.sf.jftp.gui.base.StatusPanel statusP;
 	public static JLabel statusL = new JLabel("Welcome to JFtp...                                                            ");
@@ -1074,6 +1074,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 
 		public void dragExit(DropTargetEvent e) {
 		}
+
 		public void drop(DropTargetDropEvent e) {
 			try {
 				net.sf.jftp.JFtp.this.handleDrop(e, e.getTransferable());

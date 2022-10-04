@@ -20,7 +20,7 @@ import java.util.Vector;
 
 
 public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, EventHandler {
-	private static final Hashtable table = new Hashtable();
+	private static final java.util.Map<Integer, java.util.List<EventHandler>> table = new java.util.HashMap<>();
 	private final Vector buffer;
 	private boolean done = false;
 
@@ -33,14 +33,14 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 	public static void addHandler(int eventCode, EventHandler h) {
 		Integer code = eventCode;
-		Vector handlers = (Vector) (table.get(code));
+		java.util.List<EventHandler> handlers = table.get(code);
 
 		if (null == handlers) {
-			handlers = new Vector();
+			handlers = new java.util.ArrayList<EventHandler>();
 			table.put(code, handlers);
 		}
 
-		handlers.addElement(h);
+		handlers.add(h);
 	}
 
 	public void accept(Event e) {

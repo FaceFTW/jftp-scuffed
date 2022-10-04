@@ -18,7 +18,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 	private final String pass;
 	private final String type;
 	private final ConnectionHandler handler;
-	private final Vector<ConnectionListener> listeners;
+	private final java.util.List<ConnectionListener> listeners;
 	public Thread runner = null;
 	private FtpConnection con = null;
 	private int stat = 0;
@@ -27,7 +27,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 	private int transferStatus = 0;
 	private String crlf = null;
 
-	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, Vector<ConnectionListener> listeners, String newName, String crlf) {
+	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, java.util.List<ConnectionListener> listeners, String newName, String crlf) {
 		super();
 		this.host = host;
 		this.port = port;
@@ -49,7 +49,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 		this.prepare();
 	}
 
-	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, Vector<ConnectionListener> listeners, String crlf) {
+	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, java.util.List<ConnectionListener> listeners, String crlf) {
 		super();
 		this.host = host;
 		this.port = port;
@@ -96,14 +96,14 @@ public class FtpTransfer extends Transfer implements Runnable {
 
 				if (null != this.listeners) {
 					for (int i = 0; i < this.listeners.size(); i++) {
-						this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.PAUSED, -1);
+						this.listeners.get(i).updateProgress(this.file, net.sf.jftp.net.Transfer.PAUSED, -1);
 					}
 				}
 
 				if (!this.work) {
 					if (null != this.listeners) {
 						for (int i = 0; i < this.listeners.size(); i++) {
-							this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.REMOVED, -1);
+							this.listeners.get(i).updateProgress(this.file, net.sf.jftp.net.Transfer.REMOVED, -1);
 						}
 					}
 				}
@@ -120,7 +120,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 
 				if (!hasPaused && (null != this.listeners)) {
 					for (int i = 0; i < this.listeners.size(); i++) {
-						this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.QUEUED, -1);
+						this.listeners.get(i).updateProgress(this.file, net.sf.jftp.net.Transfer.QUEUED, -1);
 					}
 				} else {
 					break;
@@ -133,7 +133,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 		if (!this.work) {
 			if (null != this.listeners) {
 				for (int i = 0; i < this.listeners.size(); i++) {
-					this.listeners.elementAt(i).updateProgress(this.file, net.sf.jftp.net.Transfer.REMOVED, -1);
+					this.listeners.get(i).updateProgress(this.file, net.sf.jftp.net.Transfer.REMOVED, -1);
 				}
 			}
 

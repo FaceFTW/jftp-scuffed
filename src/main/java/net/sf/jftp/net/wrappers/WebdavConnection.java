@@ -40,7 +40,7 @@ public class WebdavConnection implements BasicConnection {
 	private final String pass;
 	private String path = "";
 	private String pwd = "";
-	private Vector listeners = new Vector();
+	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String baseFile = null;
@@ -503,7 +503,7 @@ public class WebdavConnection implements BasicConnection {
 				String name = outfile.substring(outfile.lastIndexOf('/') + 1);
 
 				net.sf.jftp.system.logging.Log.debug("Uploading " + file + " to " + resPath + " as " + name);
-WebdavResource res = this.getResource(resPath);
+				WebdavResource res = this.getResource(resPath);
 
 				if (res.putMethod(new File(file))) {
 					this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
@@ -519,19 +519,19 @@ WebdavResource res = this.getResource(resPath);
 
 			out = new BufferedOutputStream(new FileOutputStream(outfile));
 			in = new BufferedInputStream(this.getResource(file).getMethodData());
-byte[] buf = new byte[webdavBuffer];
+			byte[] buf = new byte[webdavBuffer];
 			int len = 0;
 			int reallen = 0;
-while (true) {
+			while (true) {
 				len = in.read(buf);
-if (java.io.StreamTokenizer.TT_EOF == len) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
 				out.write(buf, 0, len);
 
 				reallen += len;
-	this.fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
+				this.fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
 			}
 
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
@@ -556,6 +556,7 @@ if (java.io.StreamTokenizer.TT_EOF == len) {
 
 		return -1;
 	}
+
 	public InputStream getDownloadInputStream(String file) {
 		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
 			file = this.pwd + file;
@@ -577,14 +578,15 @@ if (java.io.StreamTokenizer.TT_EOF == len) {
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(Vector l) {
+	public void setConnectionListeners(java.util.List<net.sf.jftp.net.ConnectionListener> l) {
 		this.listeners = l;
 	}
+
 	public void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
+				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -597,7 +599,7 @@ if (java.io.StreamTokenizer.TT_EOF == len) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.elementAt(i);
+				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
 
 				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {

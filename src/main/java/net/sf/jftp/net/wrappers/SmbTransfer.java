@@ -13,11 +13,11 @@ public class SmbTransfer implements Runnable {
 	private final String user;
 	private final String pass;
 	private final String type;
-	private final Vector listeners;
+	private final java.util.List<net.sf.jftp.net.ConnectionListener> listeners;
 	public Thread runner = null;
 	private SmbConnection con = null;
 
-	public SmbTransfer(String url, String localPath, String file, String user, String pass, String domain, Vector listeners, String type) {
+	public SmbTransfer(String url, String localPath, String file, String user, String pass, String domain, java.util.List<net.sf.jftp.net.ConnectionListener> listeners, String type) {
 		super();
 		this.url = url;
 		this.localPath = localPath;

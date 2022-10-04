@@ -123,9 +123,9 @@ public class DirLister implements ActionListener {
 	}
 
 	private void sort(String type) {
-		Vector fv = new Vector();
-		Vector sv = new Vector();
-		Vector pv = new Vector();
+		java.util.List<String> fv = new java.util.ArrayList<>();
+		java.util.List<String> sv = new java.util.ArrayList<>();
+		java.util.List<Integer> pv = new java.util.ArrayList<>();
 
 		if (type.equals("Reverse")) {
 			for (int i = 0; i < this.length; i++) {
@@ -157,7 +157,7 @@ public class DirLister implements ActionListener {
 			}
 		} else if (type.startsWith("Size")) {
 			int cnt = 0;
-			Hashtable processed = new Hashtable();
+			java.util.Map<Integer, String> processed = new java.util.HashMap<>();
 			boolean reverse = type.endsWith("/Re");
 
 			while (cnt < this.length) {
@@ -184,7 +184,7 @@ public class DirLister implements ActionListener {
 					}
 				}
 
-				processed.put("" + idx, "" + this.sizes[idx]);
+				processed.put(idx, this.sizes[idx]);
 				fv.add(this.files[idx]);
 				sv.add(this.sizes[idx]);
 
@@ -196,11 +196,11 @@ public class DirLister implements ActionListener {
 			}
 
 			for (int i = 0; i < this.length; i++) {
-				this.files[i] = (String) fv.elementAt(i);
-				this.sizes[i] = (String) sv.elementAt(i);
+				this.files[i] = (String) fv.get(i);
+				this.sizes[i] = (String) sv.get(i);
 
 				if (null != this.perms) {
-					this.perms[i] = (Integer) pv.elementAt(i);
+					this.perms[i] = (Integer) pv.get(i);
 				}
 			}
 		} else if (type.equals("Date")) {

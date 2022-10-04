@@ -27,7 +27,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	private String url = "";
 	private String path = "";
 	private String pwd = "";
-	private java.util.Vector listeners = new java.util.Vector();
+	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] files = null;
 	private String[] size = new String[0];
 	private int[] perms = null;
@@ -433,7 +433,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
+				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.get(i);
 				listener.updateProgress(file, type, bytes);
 			}
 		}
@@ -443,7 +443,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(java.util.Vector l) {
+	public void setConnectionListeners(java.util.List<net.sf.jftp.net.ConnectionListener> l) {
 		this.listeners = l;
 	}
 
@@ -454,7 +454,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i)).updateRemoteDirectory(this);
+				((net.sf.jftp.net.ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -467,7 +467,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i);
+				net.sf.jftp.net.ConnectionListener listener = (net.sf.jftp.net.ConnectionListener) this.listeners.get(i);
 
 				final boolean shortProgress = false;
 				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
@@ -490,7 +490,7 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				((net.sf.jftp.net.ConnectionListener) this.listeners.elementAt(i)).actionFinished(con);
+				((net.sf.jftp.net.ConnectionListener) this.listeners.get(i)).actionFinished(con);
 			}
 		}
 	}

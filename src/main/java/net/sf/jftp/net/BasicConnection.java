@@ -74,7 +74,7 @@ public interface BasicConnection {
 
 	void addConnectionListener(ConnectionListener listener);
 
-	void setConnectionListeners(Vector<ConnectionListener> listeners);
+	void setConnectionListeners(java.util.List<ConnectionListener> listeners);
 
 	boolean rename(String from, String to);
 }

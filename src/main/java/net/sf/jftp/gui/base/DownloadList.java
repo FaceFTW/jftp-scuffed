@@ -39,8 +39,8 @@ import java.util.Hashtable;
 public class DownloadList extends HPanel implements ActionListener {
 	private final ProgressBarList list = new ProgressBarList();
 	private final JScrollPane scroll;
-	public final Hashtable sizeCache = new Hashtable();
-	private Hashtable downloads = new Hashtable();
+	public final java.util.Map<String, Long> sizeCache = new java.util.HashMap<>();
+	private java.util.Map<String, net.sf.jftp.gui.base.dir.DirEntry> downloads = new java.util.HashMap<>();
 	private long oldtime = 0;
 
 	public DownloadList() {
@@ -327,10 +327,10 @@ public class DownloadList extends HPanel implements ActionListener {
 		net.sf.jftp.gui.base.dir.DirEntry[] f = new net.sf.jftp.gui.base.dir.DirEntry[this.downloads.size()];
 		int i = 0;
 
-		Enumeration k = this.downloads.elements();
+		java.util.Iterator<net.sf.jftp.gui.base.dir.DirEntry> k = this.downloads.values().iterator();
 
-		while (k.hasMoreElements()) {
-			Object o = k.nextElement();
+		while (k.hasNext()) {
+			Object o = k.next();
 			if (o instanceof net.sf.jftp.gui.base.dir.DirEntry) {
 				f[i] = (net.sf.jftp.gui.base.dir.DirEntry) o;
 			} else {
@@ -384,10 +384,10 @@ public class DownloadList extends HPanel implements ActionListener {
 
 	private String getRealName(String file) {
 		try {
-			java.util.Enumeration<String> e = JFtp.getConnectionHandler().getConnections().keys();
+			java.util.Iterator<String> e = JFtp.getConnectionHandler().getConnections().keySet().iterator();
 
-			while (e.hasMoreElements()) {
-				String tmp = (String) e.nextElement();
+			while (e.hasNext()) {
+				String tmp = e.next();
 
 				if (tmp.endsWith(file)) {
 					return tmp;

@@ -969,7 +969,6 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 				String ext = url.toLowerCase();
 
 
-
 				if (Settings.runtimeCommands > 1) {
 					try {
 						if (!Settings.askToRun || (Settings.askToRun && UITool.askToRun(this))) {

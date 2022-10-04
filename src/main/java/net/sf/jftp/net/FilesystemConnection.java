@@ -29,10 +29,10 @@ import java.util.Vector;
 
 public class FilesystemConnection implements BasicConnection {
 	public static final int filesystemBuffer = 128000;
-	public Vector<Date> dateVector = new Vector<>();
+	public java.util.List<java.util.Date> dateVector = new java.util.ArrayList<>();
 	private String path = "";
 	private String pwd = "";
-	private Vector<ConnectionListener> listeners = new Vector<>();
+	private java.util.List<ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String baseFile = null;
@@ -514,7 +514,7 @@ public class FilesystemConnection implements BasicConnection {
 		this.fireDirectoryUpdate();
 	}
 
-	public void setConnectionListeners(Vector<ConnectionListener> l) {
+	public void setConnectionListeners(java.util.List<ConnectionListener> l) {
 		this.listeners = l;
 		this.fireDirectoryUpdate();
 	}
@@ -526,7 +526,7 @@ public class FilesystemConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.elementAt(i).updateRemoteDirectory(this);
+				this.listeners.get(i).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -539,7 +539,7 @@ public class FilesystemConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = this.listeners.elementAt(i);
+				ConnectionListener listener = this.listeners.get(i);
 
 				if (this.shortProgress && net.sf.jftp.config.Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
