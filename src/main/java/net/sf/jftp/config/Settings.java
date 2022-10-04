@@ -87,7 +87,6 @@ public class Settings {
 	public static int ftpKeepAliveInterval = 29000;
 	// 1: manual, 2: onclick, 0: off
 	public static int runtimeCommands = 2;
-	public static boolean askToRun;
 	public static boolean askToRun = false;
 	// currently changed by remotedir on-the-fly
 	public static boolean showDateNoSize;
