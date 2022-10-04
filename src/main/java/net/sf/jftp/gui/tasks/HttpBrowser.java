@@ -20,7 +20,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.Vector;
 
 

@@ -18,7 +18,7 @@ package net.sf.jftp.gui.base;
 import net.sf.jftp.tools.Shell;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 

@@ -19,9 +19,8 @@ import net.sf.jftp.net.FtpClient;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 
 public class FtpEventHandler implements EventHandler {
@@ -104,38 +103,38 @@ public class FtpEventHandler implements EventHandler {
 		}
 	}
 
-	public void open(java.util.List<String> args) {
+	public void open(List<String> args) {
 		System.out.println("***open");
 		this.client.login(args.get(1));
 	}
 
-	public void disconnect(java.util.List<String> args) {
+	public void disconnect(List<String> args) {
 		System.out.println("***disconnect");
 		this.client.disconnect();
 	}
 
-	public void cd(java.util.List<String> args) {
+	public void cd(List<String> args) {
 		System.out.println("***cd");
 		this.client.cd(args.get(1));
 	}
 
-	public void pwd(java.util.List<String> args) {
+	public void pwd(List<String> args) {
 		System.out.println("***pwd");
 
 		String directory = this.client.pwd();
 	}
 
-	public void get(java.util.List<String> args) {
+	public void get(List<String> args) {
 		System.out.println("***get");
 		this.client.get(args.get(1));
 	}
 
-	public void put(java.util.List<String> args) {
+	public void put(List<String> args) {
 		System.out.println("***put");
 		this.client.put(args.get(1));
 	}
 
-	public void quit(java.util.List<String> args) {
+	public void quit(List<String> args) {
 		this.disconnect(args);
 	}
 
@@ -144,7 +143,7 @@ public class FtpEventHandler implements EventHandler {
 		System.out.println(((FtpEvent) e).eventMsg());
 
 		StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
-		java.util.List<String> list = new ArrayList<>();
+		List<String> list = new ArrayList<>();
 
 		while (st.hasMoreTokens()) {
 			list.add(st.nextToken());

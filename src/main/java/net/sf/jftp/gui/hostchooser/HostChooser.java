@@ -25,7 +25,10 @@ import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.gui.tasks.HostList;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;

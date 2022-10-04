@@ -1,8 +1,9 @@
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.Transfer;
 
-import java.util.Vector;
+import java.util.List;
 
 public class Sftp2Transfer implements Runnable {
 	private final String host;
@@ -12,7 +13,7 @@ public class Sftp2Transfer implements Runnable {
 	private final String user;
 	private final String pass;
 	private final String type;
-	private final java.util.List<net.sf.jftp.net.ConnectionListener> listeners;
+	private final List<ConnectionListener> listeners;
 	private final String keyfile;
 	private final String port;
 	public Thread runner = null;

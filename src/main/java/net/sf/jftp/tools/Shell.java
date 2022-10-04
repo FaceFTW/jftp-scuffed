@@ -4,7 +4,9 @@ import net.sf.jftp.gui.framework.HFrame;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedOutputStream;
@@ -13,8 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.StreamTokenizer;
-import java.util.Vector;
 
 public class Shell extends HFrame implements Runnable {
 	BufferedOutputStream out = null;

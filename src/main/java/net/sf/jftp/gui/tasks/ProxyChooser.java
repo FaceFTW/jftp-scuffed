@@ -16,7 +16,7 @@
 package net.sf.jftp.gui.tasks;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

@@ -18,7 +18,7 @@ package net.sf.jftp.gui.framework;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Insets;
 
 
 public class HTextField extends JPanel {

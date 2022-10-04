@@ -15,12 +15,14 @@
  */
 package net.sf.jftp.event;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 
 public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, EventHandler {
-	private static final java.util.Map<Integer, java.util.List<EventHandler>> table = new java.util.HashMap<>();
+	private static final Map<Integer, List<EventHandler>> table = new java.util.HashMap<>();
 	private final Vector buffer;
 	private boolean done = false;
 
@@ -33,10 +35,10 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 	public static void addHandler(int eventCode, EventHandler h) {
 		Integer code = eventCode;
-		java.util.List<EventHandler> handlers = table.get(code);
+		List<EventHandler> handlers = table.get(code);
 
 		if (null == handlers) {
-			handlers = new java.util.ArrayList<EventHandler>();
+			handlers = new ArrayList<EventHandler>();
 			table.put(code, handlers);
 		}
 
@@ -45,7 +47,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 	public void accept(Event e) {
 		Integer code = e.eventCode();
-		java.util.List<EventHandler> handlers = (table.get(code));
+		List<EventHandler> handlers = (table.get(code));
 
 		if (null != handlers) {
 			for (int i = 0, max = handlers.size(); i < max; i++) {

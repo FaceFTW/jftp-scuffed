@@ -18,7 +18,6 @@ package net.sf.jftp.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.Vector;
 
 
 /**

@@ -16,7 +16,8 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 
 public class BorderPanel extends JPanel {

@@ -20,7 +20,7 @@ import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.BasicConnection;
 
-import java.awt.*;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

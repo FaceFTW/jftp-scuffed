@@ -15,7 +15,7 @@
  */
 package net.sf.jftp.gui.framework;
 
-import java.awt.*;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

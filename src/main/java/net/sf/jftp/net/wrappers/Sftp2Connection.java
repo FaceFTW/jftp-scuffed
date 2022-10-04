@@ -24,7 +24,6 @@ import com.jcraft.jsch.UserInfo;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.DataConnection;
-import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.net.Transfer;
 
 import java.io.BufferedInputStream;
@@ -34,9 +33,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StreamTokenizer;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Vector;
 
 public class Sftp2Connection implements BasicConnection {
@@ -44,7 +44,7 @@ public class Sftp2Connection implements BasicConnection {
 	private final String host;
 	private String path = "";
 	private String pwd = "/";
-	private java.util.List<ConnectionListener> listeners = new java.util.ArrayList<>();
+	private List<ConnectionListener> listeners = new ArrayList<>();
 	private String[] size = new String[0];
 	private int[] perms = null;
 	private String user = null;
@@ -665,7 +665,7 @@ public class Sftp2Connection implements BasicConnection {
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(java.util.List<ConnectionListener> l) {
+	public void setConnectionListeners(List<ConnectionListener> l) {
 		this.listeners = l;
 	}
 

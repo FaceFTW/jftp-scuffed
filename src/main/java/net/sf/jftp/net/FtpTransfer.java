@@ -1,7 +1,6 @@
 package net.sf.jftp.net;
 
 import java.io.File;
-import java.util.Vector;
 
 
 /**

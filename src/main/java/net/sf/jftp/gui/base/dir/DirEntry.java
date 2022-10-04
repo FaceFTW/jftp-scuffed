@@ -17,14 +17,12 @@ package net.sf.jftp.gui.base.dir;
 
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HImage;
-import net.sf.jftp.net.FtpConnection;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Hashtable;
 
 
 public class DirEntry {

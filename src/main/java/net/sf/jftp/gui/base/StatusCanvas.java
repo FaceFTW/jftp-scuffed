@@ -19,7 +19,10 @@ import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.GUIDefaults;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 
 
 public class StatusCanvas extends JPanel {

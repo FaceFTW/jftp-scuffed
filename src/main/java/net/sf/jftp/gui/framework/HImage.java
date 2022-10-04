@@ -16,7 +16,10 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 
 
 public class HImage {

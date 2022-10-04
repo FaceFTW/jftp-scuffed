@@ -19,7 +19,9 @@ import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -33,7 +35,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 
 public class HttpSpider extends HPanel implements Runnable, ActionListener {

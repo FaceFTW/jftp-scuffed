@@ -22,7 +22,7 @@ import net.sf.jftp.gui.framework.GUIDefaults;
 import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 
 
 // Display an icon and a string for each object in the list.

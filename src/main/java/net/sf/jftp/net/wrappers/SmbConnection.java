@@ -23,7 +23,6 @@ import jcifs.smb.SmbFileOutputStream;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.DataConnection;
-import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.net.Transfer;
 
 import java.io.BufferedInputStream;
@@ -33,9 +32,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StreamTokenizer;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
 
 public class SmbConnection extends NtlmAuthenticator implements BasicConnection {
@@ -619,7 +617,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		this.listeners.add(l);
 	}
 
-	public void setConnectionListeners(java.util.List<ConnectionListener> l) {
+	public void setConnectionListeners(List<ConnectionListener> l) {
 		this.listeners = l;
 	}
 

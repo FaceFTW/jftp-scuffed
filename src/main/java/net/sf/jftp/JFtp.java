@@ -40,7 +40,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -61,7 +68,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.Hashtable;
+import java.util.List;
 
 
 public class JFtp extends JPanel implements WindowListener, ComponentListener, Logger, ChangeListener, InternalFrameListener {
@@ -965,7 +972,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		if (t.isDataFlavorSupported(chosen)) {
 			System.out.println("Using List DnD style");
 
-			java.util.List myList = (java.util.List) t.getTransferData(chosen);
+			List myList = (java.util.List) t.getTransferData(chosen);
 
 			File[] f = (File[]) myList.toArray();
 

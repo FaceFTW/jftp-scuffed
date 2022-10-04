@@ -4,7 +4,9 @@ import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Insets;
 
 public class ColoredCellRenderer extends DefaultTableCellRenderer {
 

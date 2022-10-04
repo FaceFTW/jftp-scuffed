@@ -22,7 +22,10 @@ import net.sf.jftp.gui.tasks.PathChanger;
 import net.sf.jftp.net.FilesystemConnection;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 

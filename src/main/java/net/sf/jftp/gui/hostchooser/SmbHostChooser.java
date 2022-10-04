@@ -24,7 +24,10 @@ import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;

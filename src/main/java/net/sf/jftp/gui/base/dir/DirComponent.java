@@ -3,7 +3,8 @@ package net.sf.jftp.gui.base.dir;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DirComponent extends DirPanel implements ListSelectionListener {
@@ -22,7 +23,7 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	}
 
 	public void update() {
-		java.util.List<String> colNames = new java.util.ArrayList<>();
+		List<String> colNames = new ArrayList<>();
 		colNames.add("");
 		colNames.add("Name");
 		colNames.add("Size");

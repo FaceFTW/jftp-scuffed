@@ -1,7 +1,8 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 

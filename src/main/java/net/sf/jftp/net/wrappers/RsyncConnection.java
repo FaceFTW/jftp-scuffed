@@ -16,10 +16,10 @@
 package net.sf.jftp.net.wrappers;
 
 
-import com.github.fracpete.rsync4j.SshPass;
-import com.github.fracpete.rsync4j.RSync;
-import com.github.fracpete.rsync4j.core.Binaries;
 import com.github.fracpete.processoutput4j.output.ConsoleOutputProcessOutput;
+import com.github.fracpete.rsync4j.RSync;
+import com.github.fracpete.rsync4j.SshPass;
+import com.github.fracpete.rsync4j.core.Binaries;
 
 public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 	public static final int buffer = 128000;

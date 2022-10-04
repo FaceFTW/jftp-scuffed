@@ -12,7 +12,6 @@ import javax.swing.table.TableRowSorter;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.util.List;
-import java.util.Vector;
 
 
 public class TableUtils {

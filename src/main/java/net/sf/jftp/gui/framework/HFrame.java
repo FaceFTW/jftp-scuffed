@@ -16,7 +16,8 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Toolkit;
+import java.awt.Window;
 
 
 public class HFrame extends JDialog {

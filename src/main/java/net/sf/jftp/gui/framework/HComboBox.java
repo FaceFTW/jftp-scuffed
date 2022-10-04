@@ -16,7 +16,7 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 
 
 public class HComboBox extends JPanel //implements ActionListener

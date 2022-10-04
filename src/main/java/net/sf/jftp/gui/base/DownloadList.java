@@ -29,11 +29,9 @@ import net.sf.jftp.system.UpdateDaemon;
 import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 
 public class DownloadList extends HPanel implements ActionListener {

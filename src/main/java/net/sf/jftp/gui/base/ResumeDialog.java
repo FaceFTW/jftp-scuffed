@@ -16,12 +16,11 @@
 package net.sf.jftp.gui.base;
 
 import net.sf.jftp.JFtp;
-import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;

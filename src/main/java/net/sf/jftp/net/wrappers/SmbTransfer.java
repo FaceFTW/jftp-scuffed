@@ -1,8 +1,9 @@
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.Transfer;
 
-import java.util.Vector;
+import java.util.List;
 
 
 public class SmbTransfer implements Runnable {
@@ -13,11 +14,11 @@ public class SmbTransfer implements Runnable {
 	private final String user;
 	private final String pass;
 	private final String type;
-	private final java.util.List<net.sf.jftp.net.ConnectionListener> listeners;
+	private final List<ConnectionListener> listeners;
 	public Thread runner = null;
 	private SmbConnection con = null;
 
-	public SmbTransfer(String url, String localPath, String file, String user, String pass, String domain, java.util.List<net.sf.jftp.net.ConnectionListener> listeners, String type) {
+	public SmbTransfer(String url, String localPath, String file, String user, String pass, String domain, List<ConnectionListener> listeners, String type) {
 		super();
 		this.url = url;
 		this.localPath = localPath;

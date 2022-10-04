@@ -15,9 +15,6 @@
  */
 package net.sf.jftp.net;
 
-import java.util.Enumeration;
-
-
 /**
  * This class manages a connection pool.
  * You do not have to create an instance, but when you do use FtpConnection.setConnectionHandler

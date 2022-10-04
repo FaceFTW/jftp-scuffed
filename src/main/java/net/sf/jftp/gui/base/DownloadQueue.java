@@ -16,8 +16,6 @@
 package net.sf.jftp.gui.base;
 
 import net.sf.jftp.JFtp;
-import net.sf.jftp.config.Settings;
-import net.sf.jftp.gui.framework.HImageButton;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionHandler;
@@ -28,7 +26,7 @@ import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;

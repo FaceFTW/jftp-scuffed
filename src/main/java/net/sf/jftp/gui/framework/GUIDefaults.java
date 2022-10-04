@@ -15,7 +15,8 @@
  */
 package net.sf.jftp.gui.framework;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
 
 public class GUIDefaults {

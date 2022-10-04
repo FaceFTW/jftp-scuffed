@@ -22,12 +22,10 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.ResourceBundle;
 

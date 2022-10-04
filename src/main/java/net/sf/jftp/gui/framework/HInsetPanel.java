@@ -15,7 +15,7 @@
  */
 package net.sf.jftp.gui.framework;
 
-import java.awt.*;
+import java.awt.Insets;
 
 
 public class HInsetPanel extends HPanel {

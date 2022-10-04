@@ -21,7 +21,6 @@ import com.sun.xfile.XFileOutputStream;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.DataConnection;
-import net.sf.jftp.net.FtpConnection;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -30,9 +29,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StreamTokenizer;
 import java.util.Date;
-import java.util.Vector;
 
 
 public class NfsConnection implements BasicConnection {

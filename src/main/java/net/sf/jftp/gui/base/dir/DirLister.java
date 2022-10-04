@@ -23,12 +23,11 @@ import net.sf.jftp.system.LocalIO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
 
 
 public class DirLister implements ActionListener {
@@ -123,9 +122,9 @@ public class DirLister implements ActionListener {
 	}
 
 	private void sort(String type) {
-		java.util.List<String> fv = new java.util.ArrayList<>();
-		java.util.List<String> sv = new java.util.ArrayList<>();
-		java.util.List<Integer> pv = new java.util.ArrayList<>();
+		List<String> fv = new ArrayList<>();
+		List<String> sv = new ArrayList<>();
+		List<Integer> pv = new ArrayList<>();
 
 		if (type.equals("Reverse")) {
 			for (int i = 0; i < this.length; i++) {

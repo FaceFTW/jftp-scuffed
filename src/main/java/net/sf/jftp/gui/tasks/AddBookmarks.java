@@ -17,7 +17,9 @@
 //NOTE TO SELF: use setModal here somewhere?
 package net.sf.jftp.gui.tasks;
 
-import java.awt.*;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentListener;
