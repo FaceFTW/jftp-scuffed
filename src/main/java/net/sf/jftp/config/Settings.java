@@ -88,20 +88,21 @@ public class Settings {
 	// 1: manual, 2: onclick, 0: off
 	public static int runtimeCommands = 2;
 	public static boolean askToRun;
+	public static boolean askToRun = false;
 	// currently changed by remotedir on-the-fly
 	public static boolean showDateNoSize;
 	public static boolean showLocalDateNoSize;
 	// hides some messages like MODE, Type etc.
-	public static boolean hideStatus;
-	public static boolean showNewlineOption;
+	public static boolean hideStatus = false;
+	public static boolean showNewlineOption = false;
 	// for DataConnection - lower means less buffer, more updates in the downloadmanager
 	public static int bufferSize = 1400;
 	// sends NOOPs to ensure that buffers are empty
-	public static boolean safeMode;
+	public static boolean safeMode = false;
 	// enables some delays
-	public static boolean enableFtpDelays;
+	public static boolean enableFtpDelays = false;
 	// override ui with the insomniac client configuration
-	public static boolean isInsomniacClient;
+	public static boolean isInsomniacClient = false;
 	public static int refreshDelay = 250;
 	public static boolean useDefaultDir = true;
 	// may the windows be resized?
