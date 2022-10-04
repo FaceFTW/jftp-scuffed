@@ -301,7 +301,7 @@ public class FileSearch {
 class Getter {
 	private String localDir = null;
 
-	public Getter(String localDir) {
+	Getter(String localDir) {
 		super();
 		this.localDir = localDir;
 	}

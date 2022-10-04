@@ -53,7 +53,7 @@ public class UIUtils {
 class Spawn implements Runnable {
 	private String cmd;
 
-	public Spawn(String cmd) {
+	Spawn(String cmd) {
 		super();
 		this.cmd = cmd;
 

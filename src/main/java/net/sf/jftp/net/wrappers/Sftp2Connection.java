@@ -810,7 +810,7 @@ class MyUserInfo implements UserInfo {
 
 	final String password;
 
-	public MyUserInfo(String pass) {
+	MyUserInfo(String pass) {
 		super();
 		this.password = pass;
 	}

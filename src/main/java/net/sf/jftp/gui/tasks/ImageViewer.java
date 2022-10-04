@@ -46,7 +46,7 @@ public class ImageViewer extends JInternalFrame {
 class ImagePanel extends JPanel {
 	private Image img;
 
-	public ImagePanel(String url) {
+	ImagePanel(String url) {
 		super();
 		try {
 			this.setBackground(Color.white);

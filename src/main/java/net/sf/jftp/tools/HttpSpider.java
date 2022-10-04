@@ -320,7 +320,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 class Holer {
 	private String localDir = null;
 
-	public Holer(String localDir) {
+	Holer(String localDir) {
 		super();
 		this.localDir = localDir;
 	}
