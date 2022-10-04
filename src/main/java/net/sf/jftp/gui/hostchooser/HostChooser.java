@@ -174,7 +174,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		this.ok.addActionListener(this);
 
 		this.dirBox.addActionListener(this);
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		this.lcwd.setEnabled(!this.dirBox.isSelected());
 		this.cwd.setEnabled(!this.dirBox.isSelected());
@@ -209,7 +209,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 			int response = uc.getLoginResponse();
 
-			if (net.sf.jftp.net.FtpConnection.LOGIN_OK != response) {
+			if (net.sf.jftp.net.FtpConstants.LOGIN_OK != response) {
 				this.setTitle("Wrong password!");
 				this.host.setText(uc.getHost());
 				this.port.setText(Integer.toString(uc.getPort()));
@@ -406,7 +406,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		//System.out.println(htmp + " " + ptmp + " " + utmp);
 		//System.out.println(potmp + " " + dtmp);
 		//***
-		if ((net.sf.jftp.net.FtpConnection.OFFLINE == response) && net.sf.jftp.config.Settings.reconnect) {
+		if ((net.sf.jftp.net.FtpConstants.OFFLINE == response) && net.sf.jftp.config.Settings.reconnect) {
 			//FtpConnection con;
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
@@ -418,7 +418,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 			net.sf.jftp.JFtp.mainFrame.setVisible(false);
 
-			while ((net.sf.jftp.net.FtpConnection.OFFLINE == response) && (1 == this.mode)) {
+			while ((net.sf.jftp.net.FtpConstants.OFFLINE == response) && (1 == this.mode)) {
 				System.out.print("Server is full, next attempt in ");
 
 				int r = 5;
@@ -446,7 +446,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				this.toFront();
 
 			}
-		} else if ((net.sf.jftp.net.FtpConnection.LOGIN_OK != response) || ((net.sf.jftp.net.FtpConnection.OFFLINE == response) && (!net.sf.jftp.config.Settings.reconnect))) {
+		} else if ((net.sf.jftp.net.FtpConstants.LOGIN_OK != response) || ((net.sf.jftp.net.FtpConstants.OFFLINE == response) && (!net.sf.jftp.config.Settings.reconnect))) {
 			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 			//setFilesystemConnection();

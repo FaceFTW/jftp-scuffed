@@ -131,7 +131,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		this.ok.addActionListener(this);
 
 		host.setEnabled(!this.lan.isSelected());
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		this.lan.addActionListener(this);
 		pass.text.addActionListener(this);

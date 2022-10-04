@@ -19,9 +19,9 @@ public class ColoredCellRenderer extends DefaultTableCellRenderer {
 		((JComponent) cell).setBorder(new CompoundBorder(new EmptyBorder(new Insets(2, 4, 2, 4)), ((JComponent) cell).getBorder()));
 
 		if (2 == column || 3 == column) {
-			this.setHorizontalAlignment(JLabel.RIGHT);
+			this.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 		} else {
-			this.setHorizontalAlignment(JLabel.LEFT);
+			this.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 		}
 
 		if (3 == column) {

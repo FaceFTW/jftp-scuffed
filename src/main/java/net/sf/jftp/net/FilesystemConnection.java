@@ -298,11 +298,11 @@ public class FilesystemConnection implements BasicConnection {
 			this.size[i] = "" + new File(this.pwd + files[i]).length();
 
 			if (f2.canWrite()) {
-				accessible = FtpConnection.W;
+				accessible = FtpConstants.W;
 			} else if (f2.canRead()) {
-				accessible = FtpConnection.R;
+				accessible = FtpConstants.R;
 			} else {
-				accessible = FtpConnection.DENIED;
+				accessible = FtpConstants.DENIED;
 			}
 
 			this.perms[i] = accessible;

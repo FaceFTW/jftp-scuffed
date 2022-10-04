@@ -63,7 +63,7 @@ public class RemoteCommand extends HFrame implements ActionListener {
 			}
 
 			JDialog j = new JDialog();
-			j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			j.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 			j.setTitle("Command response");
 			j.setLocation(150, 150);
 

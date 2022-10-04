@@ -346,7 +346,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		this.j1.getContentPane().add(this.localConnectionPanel);
 		localDir.fresh();
 		desktop.add(this.j1);
-		this.j1.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+		this.j1.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.j1.addInternalFrameListener(this);
 		this.j1.pack();
 		this.j1.setSize(new Dimension(460, 480));
@@ -359,7 +359,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		this.remoteConnectionPanel.addChangeListener(this);
 		this.j2.getContentPane().add(this.remoteConnectionPanel);
 		desktop.add(this.j2);
-		this.j2.setDefaultCloseOperation(JInternalFrame.DO_NOTHING_ON_CLOSE);
+		this.j2.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.j2.addInternalFrameListener(this);
 		this.j2.pack();
 		this.j2.setSize(new Dimension(460, this.j1.getSize().height));

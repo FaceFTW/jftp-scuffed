@@ -339,11 +339,11 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 				this.size[i] = "" + f[i].length();
 
 				if (f[i].canRead()) {
-					this.perms[i] = FtpConnection.R;
+					this.perms[i] = net.sf.jftp.net.FtpConstants.R;
 				} else if (f[i].canWrite()) {
-					this.perms[i] = FtpConnection.R;
+					this.perms[i] = net.sf.jftp.net.FtpConstants.R;
 				} else {
-					this.perms[i] = FtpConnection.DENIED;
+					this.perms[i] = net.sf.jftp.net.FtpConstants.DENIED;
 				}
 			}
 

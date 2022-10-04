@@ -28,9 +28,9 @@ import java.util.Hashtable;
 
 
 public class DirEntry {
-	public static final int R = FtpConnection.R;
-	public static final int W = FtpConnection.W;
-	public static final int DENIED = FtpConnection.DENIED;
+	public static final int R = net.sf.jftp.net.FtpConstants.R;
+	public static final int W = net.sf.jftp.net.FtpConstants.W;
+	public static final int DENIED = net.sf.jftp.net.FtpConstants.DENIED;
 	static final Object[] extensions = {new String[]{Settings.textFileImage, ".txt", ".doc", ".rtf"}, new String[]{Settings.htmlFileImage, ".htm", ".html"}, new String[]{Settings.zipFileImage, ".arj", ".bz", ".bz2", ".deb", ".jar", ".gz", ".rav", ".rpm", ".tar", ".tgz", ".zip", ".z", ".iso"}, new String[]{Settings.imageFileImage, "bmp", ".gif", ".jpg", ".png", ".xbm", ".xpm"}, new String[]{Settings.codeFileImage, ".c", ".cc", ".h", ".java"}, new String[]{Settings.audioFileImage, ".au", ".mid", ".midi", ".mp3", ".wav"}, new String[]{Settings.execFileImage, ".bat", ".csh", ".cgi", ".com", ".class", ".cmd", ".csh", ".dtksh", ".exe", ".ksh", ".pdksh", ".pl", ".sh", ".tcl", ".tksh", ".zsh"}, new String[]{Settings.presentationFileImage, ".ppt"}, new String[]{Settings.spreadsheetFileImage, ".xls"}, new String[]{Settings.videoFileImage, ".asf", ".avi", ".mpg", "mpeg", ".wmf"}};
 	static final Hashtable extensionMap = new Hashtable();
 

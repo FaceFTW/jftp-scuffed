@@ -324,7 +324,7 @@ public class Sftp2Connection implements BasicConnection {
                 }
                 else
                 {*/
-				this.perms[x] = FtpConnection.R;
+				this.perms[x] = net.sf.jftp.net.FtpConstants.R;
 				//}
 
 				//Log.debugRaw(".");

@@ -574,11 +574,11 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			int x = this.currentPopup.getPermission();
 			String tmp;
 
-			if (net.sf.jftp.net.FtpConnection.R == x) {
+			if (net.sf.jftp.net.FtpConstants.R == x) {
 				tmp = "read only";
-			} else if (net.sf.jftp.net.FtpConnection.W == x) {
+			} else if (net.sf.jftp.net.FtpConstants.W == x) {
 				tmp = "read/write";
-			} else if (net.sf.jftp.net.FtpConnection.DENIED == x) {
+			} else if (net.sf.jftp.net.FtpConstants.DENIED == x) {
 				tmp = "denied";
 			} else {
 				tmp = "undefined";
@@ -767,7 +767,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	public void connectionFailed(BasicConnection con, String reason) {
 		Log.out("remote connection failed");
 
-		if ((net.sf.jftp.net.FtpConnection.OFFLINE == Integer.parseInt(reason)) && Settings.reconnect) {
+		if ((net.sf.jftp.net.FtpConstants.OFFLINE == Integer.parseInt(reason)) && Settings.reconnect) {
 			return;
 		}
 

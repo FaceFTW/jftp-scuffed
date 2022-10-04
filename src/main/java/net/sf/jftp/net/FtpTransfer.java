@@ -157,7 +157,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 
 		int status = this.con.login(this.user, this.pass);
 
-		if (net.sf.jftp.net.FtpConnection.LOGIN_OK == status) {
+		if (FtpConstants.LOGIN_OK == status) {
 			File f = new File(this.localPath);
 			this.con.setLocalPath(f.getAbsolutePath());
 

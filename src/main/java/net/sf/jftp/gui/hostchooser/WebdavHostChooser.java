@@ -85,7 +85,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 
 		this.ok.addActionListener(this);
 
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		pass.text.addActionListener(this);
 

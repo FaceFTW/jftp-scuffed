@@ -154,7 +154,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 
 		this.ok.addActionListener(this);
 		this.keyfile.addActionListener(this);
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.pass.text.addActionListener(this);
 
 		this.pack();

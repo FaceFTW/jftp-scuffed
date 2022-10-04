@@ -347,7 +347,7 @@ public class WebdavConnection implements BasicConnection {
 
 				//size[i] = "" + (int) f[i].length();
 				this.size[i] = "" + (int) f[i].getGetContentLength();
-				this.perms[i] = FtpConnection.R;
+				this.perms[i] = net.sf.jftp.net.FtpConstants.R;
 
 				if (f[i].isCollection() && !files[i].endsWith("/")) {
 					files[i] = files[i] + "/";

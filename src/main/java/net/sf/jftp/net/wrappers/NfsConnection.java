@@ -351,11 +351,11 @@ public class NfsConnection implements BasicConnection {
 			this.size[i] = "" + f2.length();
 
 			if (f2.canWrite()) {
-				accessible = FtpConnection.W;
+				accessible = net.sf.jftp.net.FtpConstants.W;
 			} else if (f2.canRead()) {
-				accessible = FtpConnection.R;
+				accessible = net.sf.jftp.net.FtpConstants.R;
 			} else {
-				accessible = FtpConnection.DENIED;
+				accessible = net.sf.jftp.net.FtpConstants.DENIED;
 			}
 
 			this.perms[i] = accessible;

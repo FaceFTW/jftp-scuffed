@@ -129,7 +129,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
 		this.ok.addActionListener(this);
 		info.addActionListener(this);
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		pass.text.addActionListener(this);
 
 		this.pack();

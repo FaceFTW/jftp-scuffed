@@ -313,11 +313,11 @@ public class RsyncConnection implements net.sf.jftp.net.BasicConnection {
 			this.size[i] = "" + f2.length();
 
 			if (f2.canWrite()) {
-				accessible = net.sf.jftp.net.FtpConnection.W;
+				accessible = net.sf.jftp.net.FtpConstants.W;
 			} else if (f2.canRead()) {
-				accessible = net.sf.jftp.net.FtpConnection.R;
+				accessible = net.sf.jftp.net.FtpConstants.R;
 			} else {
-				accessible = net.sf.jftp.net.FtpConnection.DENIED;
+				accessible = net.sf.jftp.net.FtpConstants.DENIED;
 			}
 
 			this.perms[i] = accessible;

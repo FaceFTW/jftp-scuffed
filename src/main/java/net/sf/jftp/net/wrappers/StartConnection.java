@@ -161,7 +161,7 @@ public class StartConnection {
 		int response = con.login(utmp, ptmp);
 
 		//boolean isConnected = false;
-		if (net.sf.jftp.net.FtpConnection.LOGIN_OK == response) {
+		if (net.sf.jftp.net.FtpConstants.LOGIN_OK == response) {
 
 			String potmpString = Integer.toString(potmp);
 			String useLocalString = "false";

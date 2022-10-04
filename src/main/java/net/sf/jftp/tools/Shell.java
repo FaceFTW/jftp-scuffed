@@ -66,7 +66,7 @@ public class Shell extends HFrame implements Runnable {
 	public void init() throws Exception {
 		this.setTitle("Shell");
 
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		HFrame.fixLocation(this);
 
 		this.textP = new JScrollPane(this.text);

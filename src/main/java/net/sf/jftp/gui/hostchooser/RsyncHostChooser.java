@@ -147,7 +147,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.okP.add(this.ok);
 		this.ok.addActionListener(this);
 
-		this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		this.lcwd.setEnabled(true);
 		this.cwd.setEnabled(true);

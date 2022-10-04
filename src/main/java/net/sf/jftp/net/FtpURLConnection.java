@@ -62,7 +62,7 @@ public class FtpURLConnection extends URLConnection {
 	public void connect() throws IOException {
 		this.loginFlag = this.connection.login(this.username, this.password);
 
-		if (net.sf.jftp.net.FtpConnection.LOGIN_OK != this.loginFlag) {
+		if (FtpConstants.LOGIN_OK != this.loginFlag) {
 			return;
 		}
 
@@ -109,6 +109,6 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public boolean loginSucceeded() {
-		return net.sf.jftp.net.FtpConnection.LOGIN_OK == this.loginFlag;
+		return FtpConstants.LOGIN_OK == this.loginFlag;
 	}
 }
