@@ -27,6 +27,7 @@ import net.sf.jftp.gui.hostchooser.SmbHostChooser;
 import net.sf.jftp.gui.hostchooser.WebdavHostChooser;
 import net.sf.jftp.gui.tasks.AddBookmarks;
 import net.sf.jftp.gui.tasks.AdvancedOptions;
+import net.sf.jftp.gui.tasks.BookmarkItem;
 import net.sf.jftp.gui.tasks.BookmarkManager;
 import net.sf.jftp.gui.tasks.Displayer;
 import net.sf.jftp.gui.tasks.HttpBrowser;
@@ -49,7 +50,8 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class AppMenuBar extends JMenuBar implements ActionListener {
@@ -126,7 +128,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	String tab = this.charTab.toString();
 	final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
 	final JMenuItem add = new JMenuItem("Add Bookmark...");
-	Hashtable marks;
+	Map<String, BookmarkItem> marks;
 	JMenu current = this.bookmarks;
 	JMenu last = this.bookmarks;
 
@@ -289,7 +291,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	}
 
 	public void loadBookmarks() {
-		this.marks = new Hashtable();
+		this.marks = new HashMap<>();
 		this.bookmarks.removeAll();
 		this.bookmarks.add(this.add);
 		this.bookmarks.add(this.manage);
@@ -634,9 +636,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (e.getSource() == askToDelete) {
 				Settings.setProperty("jftp.gui.askToDelete", askToDelete.getState());
 				Settings.save();
-			}
-
-			else if ((e.getSource() == this.lastConnections[0]) && (!JFtp.uiBlocked)) {
+			} else if ((e.getSource() == this.lastConnections[0]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(0);
 			} else if ((e.getSource() == this.lastConnections[1]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(1);
@@ -661,7 +661,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (e.getSource() == this.manage) {
 				BookmarkManager m = new BookmarkManager();
 				JFtp.desktop.add(m, new Integer(Integer.MAX_VALUE - 10));
-			} else if (this.marks.contains(e.getSource())) {
+			} else if (this.marks.containsKey(e.getSource())) {
 				((net.sf.jftp.gui.tasks.BookmarkItem) e.getSource()).connect();
 			} else if (e.getSource() == this.storePasswords) {
 				boolean state = this.storePasswords.getState();
@@ -695,9 +695,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				Settings.setProperty("jftp.security.storePasswords", state);
 				Settings.save();
-			}
-
-			else {
+			} else {
 				String tmp = ((JMenuItem) e.getSource()).getLabel();
 
 				UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
@@ -845,7 +843,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				potmpString = this.cons[position][4];
 				useLocalString = this.cons[position][5];
-break;
+				break;
 			case "NFS":
 				useLocalString = this.cons[position][4];
 				break;
@@ -853,7 +851,7 @@ break;
 
 				dtmp = this.cons[position][4];
 				useLocalString = this.cons[position][5];
-break;
+				break;
 		}
 
 		potmp = Integer.parseInt(potmpString);
