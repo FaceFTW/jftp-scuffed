@@ -22,7 +22,7 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	}
 
 	public void update() {
-		Vector<String> colNames = new Vector<String>();
+		Vector<String> colNames = new Vector<>();
 		colNames.add("");
 		colNames.add("Name");
 		colNames.add("Size");
