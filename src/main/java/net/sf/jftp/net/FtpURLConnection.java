@@ -26,10 +26,10 @@ import java.net.URLConnection;
  *
  */
 public class FtpURLConnection extends URLConnection {
-	private FtpConnection connection = null;
+	private FtpConnection connection;
 	private String username = "ftp";
 	private String password = "none@no.no";
-	private int loginFlag = 0;
+	private int loginFlag;
 
 	public FtpURLConnection(URL u) {
 		super(u);

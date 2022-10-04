@@ -63,7 +63,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 	private final HFrame h = new HFrame();
 	private final HPanel listP = new HPanel();
 	//	private HButton list = new HButton("Choose from or edit list...");
-	private ComponentListener listener = null;
+	private ComponentListener listener;
 	private final boolean ext = Settings.showNewlineOption;
 
 	public RsyncHostChooser(ComponentListener l, boolean local) {

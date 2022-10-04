@@ -39,10 +39,10 @@ public class WebdavConnection implements BasicConnection {
 	private String pwd = "";
 	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] size = new String[0];
-	private int[] perms = null;
-	private String baseFile = null;
-	private int fileCount = 0;
-	private boolean shortProgress = false;
+	private int[] perms;
+	private String baseFile;
+	private int fileCount;
+	private boolean shortProgress;
 
 	public WebdavConnection(String path, String user, String pass, ConnectionListener l) {
 		super();

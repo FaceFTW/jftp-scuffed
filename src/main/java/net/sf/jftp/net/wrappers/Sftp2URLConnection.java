@@ -21,10 +21,10 @@ import java.net.URLConnection;
 
 
 public class Sftp2URLConnection extends URLConnection {
-	private Sftp2Connection connection = null;
+	private Sftp2Connection connection;
 	private String username = "user";
 	private String password = "none@no.no";
-	private boolean loginFlag = false;
+	private boolean loginFlag;
 
 	public Sftp2URLConnection(URL u) {
 		super(u);

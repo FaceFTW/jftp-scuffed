@@ -18,13 +18,13 @@ public class FtpTransfer extends Transfer implements Runnable {
 	private final String type;
 	private final ConnectionHandler handler;
 	private final java.util.List<ConnectionListener> listeners;
-	public Thread runner = null;
-	private FtpConnection con = null;
-	private int stat = 0;
-	private boolean started = false;
-	private String newName = null;
-	private int transferStatus = 0;
-	private String crlf = null;
+	public Thread runner;
+	private FtpConnection con;
+	private int stat;
+	private boolean started;
+	private String newName;
+	private int transferStatus;
+	private String crlf;
 
 	public FtpTransfer(String host, int port, String localPath, String remotePath, String file, String user, String pass, String type, ConnectionHandler handler, java.util.List<ConnectionListener> listeners, String newName, String crlf) {
 		super();

@@ -30,7 +30,7 @@ public class ResumeDialog extends HFrame implements ActionListener {
 	private final JButton resume = new JButton("Resume");
 	private final JButton skip = new JButton("Skip");
 	private final JButton over = new JButton("Overwrite");
-	private net.sf.jftp.gui.base.dir.DirEntry dirEntry = null;
+	private net.sf.jftp.gui.base.dir.DirEntry dirEntry;
 
 	public ResumeDialog(net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
 		super();

@@ -74,7 +74,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * Used to determine the type of transfer.
 	 */
-	public boolean hasUploaded = false;
+	public boolean hasUploaded;
 	public boolean work = true;
 	/**
 	 * May contain date listing
@@ -88,14 +88,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private String pwd = "";
 	private String initCWD = net.sf.jftp.config.Settings.defaultDir;
 	private String osType = "";
-	private String dataType = null;
-	private boolean modeStreamSet = false;
-	private DataConnection dcon = null;
+	private String dataType;
+	private boolean modeStreamSet;
+	private DataConnection dcon;
 	private List<ConnectionListener> listeners = new java.util.ArrayList<>();
 	private ConnectionHandler handler = new ConnectionHandler();
-	private FtpKeepAliveThread keepAliveThread = null;
+	private FtpKeepAliveThread keepAliveThread;
 	// directory downloaded to
-	private String localPath = null;
+	private String localPath;
 	/**
 	 * the host
 	 */
@@ -103,11 +103,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * the user
 	 */
-	private String username = null;
+	private String username;
 	/**
 	 * the password
 	 */
-	private String password = null;
+	private String password;
 	/**
 	 * the port
 	 */
@@ -115,21 +115,21 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * the InputStream of the control connection
 	 */
-	private BufferedReader in = null;
+	private BufferedReader in;
 	/**
 	 * the OutputStream of the control connection
 	 */
-	private JConnection jcon = null;
+	private JConnection jcon;
 	/**
 	 * we are disconnected
 	 */
-	private boolean connected = false;
-	private boolean shortProgress = false;
-	private boolean isDirUpload = false;
-	private String baseFile = null;
-	private int fileCount = 0;
+	private boolean connected;
+	private boolean shortProgress;
+	private boolean isDirUpload;
+	private String baseFile;
+	private int fileCount;
 	private String typeNow = "";
-	private String crlf = null;
+	private String crlf;
 
 	/**
 	 * Create an instance with a given host

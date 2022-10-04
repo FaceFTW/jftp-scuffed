@@ -44,18 +44,18 @@ public class DirEntry {
 
 	private final JLabel c = new JLabel();
 	public String file = "";
-	public boolean selected = false;
-	public ActionListener who = null;
+	public boolean selected;
+	public ActionListener who;
 	public boolean isFile = true;
-	public Date date = null;
+	public Date date;
 	//private boolean entered = false;
-	private Image img = null;
-	private boolean isDirectory = false;
-	private long size = 0;
-	private long transferred = 0;
-	private boolean isLink = false;
+	private Image img;
+	private boolean isDirectory;
+	private long size;
+	private long transferred;
+	private boolean isLink;
 	private int accessible = -1;
-	private boolean noRender = false;
+	private boolean noRender;
 
 	public DirEntry(String file, ActionListener who) {
 		super();

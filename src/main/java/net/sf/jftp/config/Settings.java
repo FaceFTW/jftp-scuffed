@@ -69,39 +69,39 @@ public class Settings {
 	public static boolean IS_JAVA_1_6 = true;
 	public static String sshHostKeyVerificationFile = System.getProperty("user.home") + File.separator + ".jftp" + File.separator + ".ssh_hostfile";
 	public static int maxConnections = 3;
-	public static boolean enableResuming = false; // overridden by JFtp
-	public static boolean enableUploadResuming = false;
+	public static boolean enableResuming; // overridden by JFtp
+	public static boolean enableUploadResuming;
 	public static boolean noUploadResumingQuestion = true;
 	public static boolean askToResume = true;
 	public static boolean reconnect = true;
 	public static int uiRefresh = 500;
 	public static int logFlushInterval = 2000; // obsolete
-	public static boolean useLogFlusher = false; // obsolete
+	public static boolean useLogFlusher; // obsolete
 	public static int ftpTransferThreadPause = 2000;
-	public static int smallSize = 0; //100000;
-	public static int smallSizeUp = 0; //50000;
+	public static int smallSize; //100000;
+	public static int smallSizeUp; //50000;
 	public static boolean shortProgress = true;
 	public static boolean useFixedTableWidths = true;
-	public static boolean enableWebDav = false;
+	public static boolean enableWebDav;
 	public static boolean ftpKeepAlive = true;
 	public static int ftpKeepAliveInterval = 29000;
 	// 1: manual, 2: onclick, 0: off
 	public static int runtimeCommands = 2;
-	public static boolean askToRun = false;
+	public static boolean askToRun;
 	// currently changed by remotedir on-the-fly
-	public static boolean showDateNoSize = false;
-	public static boolean showLocalDateNoSize = false;
+	public static boolean showDateNoSize;
+	public static boolean showLocalDateNoSize;
 	// hides some messages like MODE, Type etc.
-	public static boolean hideStatus = false;
-	public static boolean showNewlineOption = false;
+	public static boolean hideStatus;
+	public static boolean showNewlineOption;
 	// for DataConnection - lower means less buffer, more updates in the downloadmanager
 	public static int bufferSize = 1400;
 	// sends NOOPs to ensure that buffers are empty
-	public static boolean safeMode = false;
+	public static boolean safeMode;
 	// enables some delays
-	public static boolean enableFtpDelays = false;
+	public static boolean enableFtpDelays;
 	// override ui with the insomniac client configuration
-	public static boolean isInsomniacClient = false;
+	public static boolean isInsomniacClient;
 	public static int refreshDelay = 250;
 	public static boolean useDefaultDir = true;
 	// may the windows be resized?

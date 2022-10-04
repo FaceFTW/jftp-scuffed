@@ -42,23 +42,23 @@ public class DataConnection implements Runnable {
 	private final String host;
 	private final FtpConnection con;
 	private final String LINEEND = System.getProperty("line.separator");
-	public Socket sock = null;
-	public boolean finished = false;
-	private BufferedInputStream in = null;
-	private BufferedOutputStream out = null;
+	public Socket sock;
+	public boolean finished;
+	private BufferedInputStream in;
+	private BufferedOutputStream out;
 	private Thread reciever;
 	private int port = 7000;
-	private ServerSocket ssock = null;
+	private ServerSocket ssock;
 	private String type;
-	private boolean resume = false;
-	private boolean isThere = false;
-	private long start = 0L;
-	private int skiplen = 0;
-	private boolean justStream = false;
+	private boolean resume;
+	private boolean isThere;
+	private long start;
+	private int skiplen;
+	private boolean justStream;
 	private boolean ok = true;
-	private String localfile = null;
+	private String localfile;
 	//private String outputCharset = "CP037";
-	private String newLine = null;
+	private String newLine;
 
 	public DataConnection(FtpConnection con, int port, String host, String file, String type) {
 		super();

@@ -21,11 +21,11 @@ import java.io.PrintStream;
 public class JRawConnection implements Runnable {
 	private final String host;
 	private final int port;
-	private PrintStream out = null;
-	private JReciever jrcv = null;
-	private boolean isOk = false;
-	private boolean established = false;
-	private boolean reciever = false;
+	private PrintStream out;
+	private JReciever jrcv;
+	private boolean isOk;
+	private boolean established;
+	private boolean reciever;
 
 	public JRawConnection(String host, int port, boolean reciever) {
 		super();

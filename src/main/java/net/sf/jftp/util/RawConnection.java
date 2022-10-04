@@ -32,8 +32,8 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	public static final HTextField host = new HTextField("Host:", "", 20);
 	public static final HTextField port = new HTextField("Port:", "", 5);
 	public static final JTextArea output = new JTextArea();
-	public static boolean established = false;
-	public static boolean mayDispose = false;
+	public static boolean established;
+	public static boolean mayDispose;
 	public static JScrollPane outputPane;
 	private final HTextField com = new HTextField("Command:", "", 20);
 	private final JButton send = new JButton("Send");
@@ -45,7 +45,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	final JMenuItem close = new JMenuItem("ExIt");
 	final JMenuItem changeHost = new JMenuItem("Host...");
 	final JMenuItem info = new JMenuItem("Info");
-	private JRawConnection c = null;
+	private JRawConnection c;
 
 	public RawConnection() {
 		this("localhost", 25);

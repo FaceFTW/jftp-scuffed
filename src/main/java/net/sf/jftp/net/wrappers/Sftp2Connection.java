@@ -44,18 +44,18 @@ public class Sftp2Connection implements BasicConnection {
 	private String pwd = "/";
 	private List<ConnectionListener> listeners = new ArrayList<>();
 	private String[] size = new String[0];
-	private int[] perms = null;
-	private String user = null;
-	private String pass = null;
-	private String baseFile = null;
-	private int fileCount = 0;
-	private boolean isDirUpload = false;
-	private boolean shortProgress = false;
+	private int[] perms;
+	private String user;
+	private String pass;
+	private String baseFile;
+	private int fileCount;
+	private boolean isDirUpload;
+	private boolean shortProgress;
 	private int port = 22;
-	private boolean connected = false;
-	private String keyfile = null;
-	private Session session = null;
-	private ChannelSftp channel = null;
+	private boolean connected;
+	private String keyfile;
+	private Session session;
+	private ChannelSftp channel;
 
 	public Sftp2Connection(String host, String port, String keyfile) {
 		super();

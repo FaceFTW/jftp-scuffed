@@ -24,7 +24,7 @@ public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionL
 	private final net.sf.jftp.gui.framework.HTextField text;
 	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Remove file/directory...");
 	private final net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
-	private String type = null;
+	private String type;
 
 	public Remover(String l, String type) {
 		super();

@@ -42,8 +42,8 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
-	private ComponentListener listener = null;
-	private boolean useLocal = false;
+	private ComponentListener listener;
+	private boolean useLocal;
 
 	public WebdavHostChooser(ComponentListener l, boolean local) {
 		super();

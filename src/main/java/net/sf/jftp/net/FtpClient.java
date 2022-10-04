@@ -19,7 +19,7 @@ package net.sf.jftp.net;
 public class FtpClient {
 	private String name = "ftp";
 	private String password = "ftp@sourceforge.net";
-	private FtpConnection connection = null;
+	private FtpConnection connection;
 
 	public FtpClient() {
 		super();

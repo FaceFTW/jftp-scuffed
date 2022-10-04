@@ -31,7 +31,7 @@ public class BookmarkItem extends JMenuItem {
 	private String protocol = "FTP";
 	private int port = 21;
 	private String dirOrDom = "/";
-	private boolean useLocal = false;
+	private boolean useLocal;
 
 	public BookmarkItem(String host) {
 		super(host);

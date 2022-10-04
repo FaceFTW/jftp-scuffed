@@ -16,8 +16,8 @@ public class Sftp2Transfer implements Runnable {
 	private final List<ConnectionListener> listeners;
 	private final String keyfile;
 	private final String port;
-	public Thread runner = null;
-	private Sftp2Connection con = null;
+	public Thread runner;
+	private Sftp2Connection con;
 
 	public Sftp2Transfer(String localPath, String remotePath, String file, String user, String pass, java.util.List<net.sf.jftp.net.ConnectionListener> listeners, String type, String keyfile, String host, String port) {
 		super();

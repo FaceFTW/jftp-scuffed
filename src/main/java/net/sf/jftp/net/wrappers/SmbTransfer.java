@@ -15,8 +15,8 @@ public class SmbTransfer implements Runnable {
 	private final String pass;
 	private final String type;
 	private final List<ConnectionListener> listeners;
-	public Thread runner = null;
-	private SmbConnection con = null;
+	public Thread runner;
+	private SmbConnection con;
 
 	public SmbTransfer(String url, String localPath, String file, String user, String pass, String domain, List<ConnectionListener> listeners, String type) {
 		super();

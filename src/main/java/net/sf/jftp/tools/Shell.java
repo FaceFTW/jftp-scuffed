@@ -17,17 +17,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class Shell extends HFrame implements Runnable {
-	BufferedOutputStream out = null;
-	BufferedReader in = null;
-	BufferedOutputStream err = null;
+	BufferedOutputStream out;
+	BufferedReader in;
+	BufferedOutputStream err;
 	final JTextArea text = new JTextArea(25, 101);
 
-	long off = 0L;
-	Thread runner = null;
-	JScrollPane textP = null;
+	long off;
+	Thread runner;
+	JScrollPane textP;
 	String input = "";
 	final java.util.List<String> commands = new java.util.ArrayList<>();
-	int currCmd = 0;
+	int currCmd;
 
 	public Shell(InputStream in, OutputStream out) {
 		super();

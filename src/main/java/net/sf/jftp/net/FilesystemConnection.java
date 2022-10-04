@@ -32,10 +32,10 @@ public class FilesystemConnection implements BasicConnection {
 	private String pwd = "";
 	private java.util.List<ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] size = new String[0];
-	private int[] perms = null;
-	private String baseFile = null;
-	private int fileCount = 0;
-	private boolean shortProgress = false;
+	private int[] perms;
+	private String baseFile;
+	private int fileCount;
+	private boolean shortProgress;
 
 	public FilesystemConnection() {
 		super();

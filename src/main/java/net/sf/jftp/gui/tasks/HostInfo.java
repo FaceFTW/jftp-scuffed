@@ -18,21 +18,21 @@ package net.sf.jftp.gui.tasks;
 
 /* Incapsulate all the information of the current connection */
 public class HostInfo {
-	public String type = null;
+	public String type;
 
 	// parameter used for ftp
-	public String hostname = null;
-	public String username = null;
-	public String password = null;
-	public String port = null;
+	public String hostname;
+	public String username;
+	public String password;
+	public String port;
 
 	// local path + filename
 	// public String local;
 	// remote path + filename
 	// public String remote;
 	// used only for smb
-	public String localip = null;
-	public String domain = null;
+	public String localip;
+	public String domain;
 
 	public HostInfo() {
 		super();

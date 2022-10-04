@@ -53,9 +53,9 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	public final JLabel csL = new JLabel("Preferred Message Authentication");
 	public final JLabel keysL = new JLabel("Preferred Public Key");
 	public final JLabel keyfileL = new JLabel("None, maybe look in ~/.ssh");
-	private ComponentListener listener = null;
-	private boolean useLocal = false;
-	private String keyfileName = null;
+	private ComponentListener listener;
+	private boolean useLocal;
+	private String keyfileName;
 
 	public SftpHostChooser(ComponentListener l, boolean local) {
 		super();

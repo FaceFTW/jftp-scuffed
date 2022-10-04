@@ -23,13 +23,13 @@ import javax.swing.*;
 
 
 public class DirPanel extends HPanel implements Dir {
-	public int length = 0;
-	public String[] files = null;
-	public DirEntry[] dirEntry = null;
-	public String type = null;
-	public long oldtime = 0;
-	public DownloadList dList = null;
-	public BasicConnection con = null;
+	public int length;
+	public String[] files;
+	public DirEntry[] dirEntry;
+	public String type;
+	public long oldtime;
+	public DownloadList dList;
+	public BasicConnection con;
 	public String path = "./";
 	public JList jl = new JList();
 

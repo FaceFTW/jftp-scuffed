@@ -88,26 +88,26 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	private final JMenuItem runFile = new JMenuItem("Launch file");
 	private final JMenuItem viewFile = new JMenuItem("View file");
 	private final JMenuItem props = new JMenuItem("Properties");
-	HImageButton deleteButton = null;
-	HImageButton mkdirButton = null;
-	HImageButton cmdButton = null;
-	HImageButton refreshButton = null;
-	HImageButton cdButton = null;
-	HImageButton uploadButton = null;
-	HImageButton zipButton = null;
-	HImageButton cpButton = null;
-	HImageButton rnButton = null;
+	HImageButton deleteButton;
+	HImageButton mkdirButton;
+	HImageButton cmdButton;
+	HImageButton refreshButton;
+	HImageButton cdButton;
+	HImageButton uploadButton;
+	HImageButton zipButton;
+	HImageButton cpButton;
+	HImageButton rnButton;
 	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
 	private final JComboBox sorter = new JComboBox(this.sortTypes);
-	HImageButton cdUpButton = null;
+	HImageButton cdUpButton;
 	private boolean pathChanged = true;
 	private boolean firstGui = true;
-	private DefaultListModel jlm = null;
+	private DefaultListModel jlm;
 	private JScrollPane jsp = new JScrollPane(this.jl);
 	private int tmpindex = -1;
-	private net.sf.jftp.gui.base.dir.DirEntry currentPopup = null;
-	private String sortMode = null;
-	private boolean dateEnabled = false;
+	private net.sf.jftp.gui.base.dir.DirEntry currentPopup;
+	private String sortMode;
+	private boolean dateEnabled;
 
 	/**
 	 * LocalDir constructor.

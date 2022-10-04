@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
 
 
 public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements ActionListener {
-	public static boolean listOptionSet = false;
+	public static boolean listOptionSet;
 	private final net.sf.jftp.gui.framework.HTextField listCommand = new net.sf.jftp.gui.framework.HTextField("FTP LIST command:", net.sf.jftp.net.FtpConnection.LIST, 15);
 	private final JButton setListCommand = new JButton("Set");
 

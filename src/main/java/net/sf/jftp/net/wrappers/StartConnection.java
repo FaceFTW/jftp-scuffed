@@ -28,8 +28,8 @@ import net.sf.jftp.net.FtpConnection;
 // connection establishing classes. This puts much common functionality into
 // one method (so in creating this I did some code cleanup.)
 public class StartConnection {
-	public static FtpConnection con = null;
-	public static String keyfile = null;
+	public static FtpConnection con;
+	public static String keyfile;
 
 	public static void setSshKeyfile(String file) {
 		keyfile = file;

@@ -27,25 +27,25 @@ public class HostList extends JDialog {
 
 	// has an ok, cancel button, and a save
 	// needs to load itself too.
-	private JPanel jpHostInfo = null;
-	private JTextField jtfHost = null;
-	private JTextField jtfUser = null;
-	private JPasswordField jtfPass = null;
-	private JTextField jtfName = null;
-	private JTextField jtfPort = null;
-	private JPanel jpbuttons = null;
-	private JButton jbsave = null;
-	private JButton jbcancel = null;
-	private JButton jbok = null;
-	private JButton jbnew = null;
-	private JButton jbdelete = null;
-	private JList hostList = null;
-	private DefaultListModel hostListModel = null;
+	private JPanel jpHostInfo;
+	private JTextField jtfHost;
+	private JTextField jtfUser;
+	private JPasswordField jtfPass;
+	private JTextField jtfName;
+	private JTextField jtfPort;
+	private JPanel jpbuttons;
+	private JButton jbsave;
+	private JButton jbcancel;
+	private JButton jbok;
+	private JButton jbnew;
+	private JButton jbdelete;
+	private JList hostList;
+	private DefaultListModel hostListModel;
 
 	/**
 	 * The currently selected FtpHost instance
 	 */
-	private net.sf.jftp.gui.base.FtpHost selectedHostInfo = null;
+	private net.sf.jftp.gui.base.FtpHost selectedHostInfo;
 
 	/**
 	 * Constructs an instance of the HostList with the

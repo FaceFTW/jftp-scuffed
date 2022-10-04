@@ -20,7 +20,7 @@ import java.io.PrintStream;
 
 
 public class SaveSet {
-	private PrintStream out = null;
+	private PrintStream out;
 
 	public SaveSet(String file, String host, String user, String pass, String name, String port) {
 		super();

@@ -42,17 +42,17 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private String pwd = "smb://";
 	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] size = new String[0];
-	private int[] perms = null;
-	private String user = null;
-	private String pass = null;
-	private String host = null;
-	private String domain = null;
-	private String baseFile = null;
-	private int fileCount = 0;
-	private boolean isDirUpload = false;
-	private boolean shortProgress = false;
-	private boolean dummy = false;
-	private boolean connected = false;
+	private int[] perms;
+	private String user;
+	private String pass;
+	private String host;
+	private String domain;
+	private String baseFile;
+	private int fileCount;
+	private boolean isDirUpload;
+	private boolean shortProgress;
+	private boolean dummy;
+	private boolean connected;
 
 	public SmbConnection() {
 		super();

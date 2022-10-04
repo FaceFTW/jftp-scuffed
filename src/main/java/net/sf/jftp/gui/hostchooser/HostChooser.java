@@ -61,9 +61,9 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	public final HTextField lcwd = new HTextField("Local:   ", net.sf.jftp.config.Settings.defaultWorkDir);
 	public final HTextField dl = new HTextField("Max. connections:    ", "3");
 	public final HTextField crlf = new HTextField("Override server newline:    ", "<default>");
-	private ComponentListener listener = null;
-	private int mode = 0;
-	private boolean useLocal = false;
+	private ComponentListener listener;
+	private int mode;
+	private boolean useLocal;
 
 	public HostChooser(ComponentListener l, boolean local) {
 		super();

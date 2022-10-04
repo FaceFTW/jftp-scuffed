@@ -30,12 +30,12 @@ public class StatusCanvas extends JPanel {
 	JLabel separator = new JLabel("   ");
 	final JLabel text = new JLabel(Settings.greeting);
 	String drawText = "";
-	int pos = 0;
-	Image image = null;
-	Graphics offg = null;
-	boolean slide = false;
+	int pos;
+	Image image;
+	Graphics offg;
+	boolean slide;
 	int interval = 3;
-	boolean fwd = false;
+	boolean fwd;
 
 	public StatusCanvas() {
 		super();

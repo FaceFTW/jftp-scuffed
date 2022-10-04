@@ -44,12 +44,12 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	private final HTextField dir = new HTextField("Store files in:", "", 25);
 	private final JButton ok = new JButton("Start");
 	private final JButton stop = new JButton("Stop download (ASAP)");
-	private int currentDepth = 0;
+	private int currentDepth;
 	private int MAX = 1;
 	private String[] typeArray = {"mpg", "avi", "mpeg", "mov", "rm", "wmv"};
 	private String localDir = ".";
-	private String[] argv = null;
-	private boolean stopflag = false;
+	private String[] argv;
+	private boolean stopflag;
 
 	public HttpSpider(String localDir) {
 		super();
@@ -311,7 +311,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 
 class Holer {
-	private String localDir = null;
+	private String localDir;
 
 	Holer(String localDir) {
 		super();

@@ -39,7 +39,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	private final JScrollPane scroll;
 	public final java.util.Map<String, Long> sizeCache = new java.util.HashMap<>();
 	private java.util.Map<String, net.sf.jftp.gui.base.dir.DirEntry> downloads = new java.util.HashMap<>();
-	private long oldtime = 0;
+	private long oldtime;
 
 	public DownloadList() {
 		super();

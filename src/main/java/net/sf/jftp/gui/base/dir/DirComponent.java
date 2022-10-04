@@ -10,7 +10,7 @@ import java.util.List;
 public class DirComponent extends DirPanel implements ListSelectionListener {
 
 	public final JTable table = new JTable();
-	DirPanel target = null;
+	DirPanel target;
 
 	public DirComponent() {
 		super();

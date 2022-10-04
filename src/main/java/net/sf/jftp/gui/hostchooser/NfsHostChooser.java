@@ -47,8 +47,8 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 	public static final HButton info = new HButton("Read me!");
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
-	private ComponentListener listener = null;
-	private boolean useLocal = false;
+	private ComponentListener listener;
+	private boolean useLocal;
 
 	public NfsHostChooser(ComponentListener l, boolean local) {
 		super();

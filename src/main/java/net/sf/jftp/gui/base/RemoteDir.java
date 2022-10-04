@@ -88,25 +88,25 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	private final HImageButton transferType = new HImageButton(Settings.typeImage, "type", "Toggle transfer type...", this);
 	private final JPopupMenu popupMenu = new JPopupMenu();
 	private final JMenuItem props = new JMenuItem("Properties");
-	HImageButton deleteButton = null;
-	HImageButton mkdirButton = null;
-	HImageButton cmdButton = null;
-	HImageButton refreshButton = null;
-	HImageButton cdButton = null;
-	HImageButton downloadButton = null;
-	HImageButton queueButton = null;
-	HImageButton cdUpButton = null;
-	HImageButton rnButton = null;
+	HImageButton deleteButton;
+	HImageButton mkdirButton;
+	HImageButton cmdButton;
+	HImageButton refreshButton;
+	HImageButton cdButton;
+	HImageButton downloadButton;
+	HImageButton queueButton;
+	HImageButton cdUpButton;
+	HImageButton rnButton;
 	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
 	private final JComboBox sorter = new JComboBox(this.sortTypes);
 	private boolean pathChanged = true;
 	private boolean firstGui = true;
-	private DefaultListModel jlm = null;
+	private DefaultListModel jlm;
 	private JScrollPane jsp = new JScrollPane(this.jl);
 	private int tmpindex = -1;
-	private net.sf.jftp.gui.base.dir.DirEntry currentPopup = null;
-	private String sortMode = null;
-	private boolean dateEnabled = false;
+	private net.sf.jftp.gui.base.dir.DirEntry currentPopup;
+	private String sortMode;
+	private boolean dateEnabled;
 
 	public RemoteDir() {
 		super();

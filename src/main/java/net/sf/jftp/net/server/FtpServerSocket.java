@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
 public class FtpServerSocket extends Thread {
 	public static final int port = 21;
 	public static final int dataPort = 20;
-	private static ArrayList commands = null;
+	private static ArrayList commands;
 
 	static {
 		commands = new ArrayList();
@@ -72,12 +72,12 @@ public class FtpServerSocket extends Thread {
 	private final String structure = "file";
 	private final String transferMode = "stream";
 	private final String type = "ascii";
-	private Socket socket = null;
-	private BufferedReader in = null;
-	private PrintWriter out = null;
+	private Socket socket;
+	private BufferedReader in;
+	private PrintWriter out;
 	private File directory = new File(".");
 	private final ServerSocket pasvSocket = null;
-	private int activePort = 0;
+	private int activePort;
 	private final String rootDir = null;
 	private final String currentDir = null;
 

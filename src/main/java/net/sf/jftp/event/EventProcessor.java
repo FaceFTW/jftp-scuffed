@@ -24,7 +24,7 @@ import java.util.Vector;
 public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, EventHandler {
 	private static final Map<Integer, List<EventHandler>> table = new java.util.HashMap<>();
 	private final Vector buffer;
-	private boolean done = false;
+	private boolean done;
 
 	public EventProcessor(Vector b) {
 		super();

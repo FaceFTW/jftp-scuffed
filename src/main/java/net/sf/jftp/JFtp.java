@@ -76,7 +76,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static final int CONNECTION_DATA_LENGTH = 10;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
-	public static boolean mainUsed = false;
+	public static boolean mainUsed;
 	public static net.sf.jftp.gui.base.StatusPanel statusP;
 	public static JLabel statusL = new JLabel("Welcome to JFtp...                                                            ");
 	public static JFrame mainFrame;
@@ -84,12 +84,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static net.sf.jftp.gui.base.dir.Dir remoteDir;
 	public static final net.sf.jftp.gui.base.DownloadList dList = new net.sf.jftp.gui.base.DownloadList();
 	public static final net.sf.jftp.gui.base.DownloadQueue dQueue = new net.sf.jftp.gui.base.DownloadQueue();
-	public static boolean uiBlocked = false;
+	public static boolean uiBlocked;
 	public static final HostInfo hostinfo = new HostInfo();
 	public static final JDesktopPane desktop = new JDesktopPane();
 	public static JTextArea log;
 	public static boolean doScroll = true;
-	public static net.sf.jftp.gui.base.AppMenuBar menuBar = null;
+	public static net.sf.jftp.gui.base.AppMenuBar menuBar;
 	public static DropTarget dropTarget;
 	public static DropTargetListener dtListener;
 	public static final int acceptableActions = DnDConstants.ACTION_COPY;
@@ -103,16 +103,16 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	private final JSplitPane logP = null;
 	public final JTabbedPane remoteConnectionPanel = new JTabbedPane();
 	public final JTabbedPane localConnectionPanel = new JTabbedPane();
-	public HostChooser hc = null;
-	public RSSFeeder feeder = null;
-	private HDesktopBackground background = null;
-	private JInternalFrame j1 = null;
-	private JInternalFrame j2 = null;
-	private JInternalFrame j3 = null;
-	private JInternalFrame j4 = null;
-	private JInternalFrame j5 = null;
+	public HostChooser hc;
+	public RSSFeeder feeder;
+	private HDesktopBackground background;
+	private JInternalFrame j1;
+	private JInternalFrame j2;
+	private JInternalFrame j3;
+	private JInternalFrame j4;
+	private JInternalFrame j5;
 	private String buffer = "";
-	private long oldtime = 0;
+	private long oldtime;
 
 	public JFtp() {
 		super();

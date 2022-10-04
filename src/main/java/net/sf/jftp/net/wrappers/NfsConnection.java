@@ -40,13 +40,13 @@ public class NfsConnection implements BasicConnection {
 	private String path = "";
 	private String pwd = "";
 	private java.util.List<net.sf.jftp.net.ConnectionListener> listeners = new java.util.ArrayList<>();
-	private String[] files = null;
+	private String[] files;
 	private String[] size = new String[0];
-	private int[] perms = null;
-	private String baseFile = null;
-	private int fileCount = 0;
-	private boolean isDirUpload = false;
-	private boolean shortProgress = false;
+	private int[] perms;
+	private String baseFile;
+	private int fileCount;
+	private boolean isDirUpload;
+	private boolean shortProgress;
 
 	public NfsConnection(String url) {
 		super();

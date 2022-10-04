@@ -47,9 +47,9 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	private final JLabel statuslabel;
 	final int NumRetry = 5;
 	private queueDownloader thread = new queueDownloader();
-	private QueueRecord lastDownload = null;
-	private BasicConnection con = null;
-	private boolean isThere = false;
+	private QueueRecord lastDownload;
+	private BasicConnection con;
+	private boolean isThere;
 
 	public DownloadQueue() {
 		super();
@@ -315,24 +315,24 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	}
 
 	class QueueRecord {
-		public String type = null;
+		public String type;
 
 		// parameter used for ftp
-		public String hostname = null;
-		public String username = null;
-		public String password = null;
-		public String port = null;
-		public String file = null;
+		public String hostname;
+		public String username;
+		public String password;
+		public String port;
+		public String file;
 
 		// local path
-		public String local = null;
+		public String local;
 
 		// remote path
-		public String remote = null;
+		public String remote;
 
 		// used only for smb
-		public String localip = null;
-		public String domain = null;
+		public String localip;
+		public String domain;
 
 		QueueRecord() {
 			super();
@@ -340,10 +340,10 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	}
 
 	class queueDownloader extends Thread implements ConnectionListener {
-		public boolean block = false;
-		public boolean connected = false;
-		public QueueRecord last = null;
-		private FtpConnection conFtp = null;
+		public boolean block;
+		public boolean connected;
+		public QueueRecord last;
+		private FtpConnection conFtp;
 
 		public void run() {
 			try {

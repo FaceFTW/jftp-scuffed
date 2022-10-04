@@ -51,8 +51,8 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 
 	public final JComboBox ip = new JComboBox();
 	final JCheckBox lan = new JCheckBox("Browse LAN", true);
-	private ComponentListener listener = null;
-	private boolean useLocal = false;
+	private ComponentListener listener;
+	private boolean useLocal;
 
 	public SmbHostChooser(ComponentListener l, boolean local) {
 		super();

@@ -42,7 +42,7 @@ public class FileSearch {
 	String[] optArray = {""};
 	String[] ignoreArray = {""};
 	String[] scanArray = {""};
-	private int currentDepth = 0;
+	private int currentDepth;
 
 	public static void main(String[] argv) {
 		String[] typeArray = {".gz", ".bz2", ".zip", ".rar"};
@@ -294,7 +294,7 @@ public class FileSearch {
 
 
 class Getter {
-	private String localDir = null;
+	private String localDir;
 
 	Getter(String localDir) {
 		super();

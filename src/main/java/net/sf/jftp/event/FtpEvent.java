@@ -16,8 +16,8 @@
 package net.sf.jftp.event;
 
 public class FtpEvent extends Event {
-	private int code = 0;
-	private String message = null;
+	private int code;
+	private String message;
 
 	public FtpEvent(int code) {
 		super();

@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 
 
 public class FtpEventHandler implements EventHandler {
-	private static ArrayList commands = null;
+	private static ArrayList commands;
 
 	static {
 		commands = new ArrayList();
