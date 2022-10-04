@@ -92,9 +92,7 @@ public class StartConnection {
 				ex.printStackTrace();
 				net.sf.jftp.system.logging.Log.debug("Could not create SMBConnection, does this distribution come with jcifs?");
 			}
-		}
-
-		else {
+		} else {
 			NfsConnection con;
 
 			//***
@@ -186,9 +184,7 @@ public class StartConnection {
 
 			searchValue[7] = LastConnections.SENTINEL;
 			updateFileMenu(searchValue);
-		}
-
-		else {
+		} else {
 			if (useLocal) {
 				net.sf.jftp.JFtp.statusP.jftp.closeCurrentLocalTab();
 			} else {
@@ -223,7 +219,7 @@ public class StartConnection {
 
 		//***
 		con = new RsyncConnection(htmp, utmp, ptmp, port, dtmp, ltmp);
-		con.transfer(ltmp, htmp, dtmp, utmp ,ptmp);
+		con.transfer(ltmp, htmp, dtmp, utmp, ptmp);
 
 		return 0;
 	}

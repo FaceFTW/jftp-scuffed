@@ -71,6 +71,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	static final String cpString = "cp";
 	static final String rnString = "rn";
 	static final String cdUpString = "cdUp";
+	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
 	private final net.sf.jftp.gui.base.dir.DirCanvas label = new net.sf.jftp.gui.base.dir.DirCanvas(this);
 	private final int pos = 0;
 	private final JPanel p = new JPanel();
@@ -88,6 +89,7 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	private final JMenuItem runFile = new JMenuItem("Launch file");
 	private final JMenuItem viewFile = new JMenuItem("View file");
 	private final JMenuItem props = new JMenuItem("Properties");
+	private final JComboBox sorter = new JComboBox(this.sortTypes);
 	HImageButton deleteButton;
 	HImageButton mkdirButton;
 	HImageButton cmdButton;
@@ -97,8 +99,6 @@ public class LocalDir extends net.sf.jftp.gui.base.dir.DirComponent implements L
 	HImageButton zipButton;
 	HImageButton cpButton;
 	HImageButton rnButton;
-	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
-	private final JComboBox sorter = new JComboBox(this.sortTypes);
 	HImageButton cdUpButton;
 	private boolean pathChanged = true;
 	private boolean firstGui = true;

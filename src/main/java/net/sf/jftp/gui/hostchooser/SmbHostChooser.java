@@ -44,13 +44,12 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 	public static final HTextField host = new HTextField("URL:", "smb://localhost/");
 	public static final HTextField user = new HTextField("Username:", "guest");
 	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
-	private final HButton ok = new HButton("Connect");
 	public final HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
 	public final HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
 	public final HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
-
 	public final JComboBox ip = new JComboBox();
 	final JCheckBox lan = new JCheckBox("Browse LAN", true);
+	private final HButton ok = new HButton("Connect");
 	private ComponentListener listener;
 	private boolean useLocal;
 

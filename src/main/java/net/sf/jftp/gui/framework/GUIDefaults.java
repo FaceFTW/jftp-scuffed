@@ -27,19 +27,19 @@ public class GUIDefaults {
 	public static final Font status = new Font("Arial", Font.BOLD, 12);
 	public static final Font monospaced = font;
 	public static final Color mainBack = Color.lightGray;
-	public static Color back = new Color(230, 230, 230);
-	public static Color sizeBack = new Color(255, 200, 0);
 	public static final Color front = new Color(0, 0, 0);
-	public static Color white = new Color(255, 255, 255);
-	public static Color red = new Color(255, 0, 0);
-	public static Color blue = new Color(0, 255, 0);
-	public static Color green = new Color(0, 0, 255);
-	public static Color activeColor = new Color(100, 190, 240);
-	public static Color activatedColor = new Color(0, 0, 255);
 	public static final Color cdColor = new Color(230, 230, 230);
 	public static final Color deniedColor = new Color(140, 0, 0);
 	public static final Color writableColor = new Color(0, 140, 0);
 	public static final Color defaultColor = new Color(0, 0, 0);
 	public static final Color light = new Color(233, 233, 233);
 	public static final Color lightActive = new Color(222, 222, 255);
+	public static Color back = new Color(230, 230, 230);
+	public static Color sizeBack = new Color(255, 200, 0);
+	public static Color white = new Color(255, 255, 255);
+	public static Color red = new Color(255, 0, 0);
+	public static Color blue = new Color(0, 255, 0);
+	public static Color green = new Color(0, 0, 255);
+	public static Color activeColor = new Color(100, 190, 240);
+	public static Color activatedColor = new Color(0, 0, 255);
 }

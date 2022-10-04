@@ -159,6 +159,7 @@ public class StringUtils {
 		return (2 >= file.length()) || (':' != file.charAt(1));
 
 	}
+
 	public static void main(String[] argv) {
 		final String a1 = "E:\\programme\\test.html";
 		final String a2 = "programme\\test.html";

@@ -206,8 +206,8 @@ public class DirLister implements ActionListener {
 			String style = "ftp";
 
 			//TODO: may be slow
-			if (!(this.con instanceof FtpConnection) || (null == ((net.sf.jftp.net.FtpConnection) this.con).dateVector) || (1 > ((net.sf.jftp.net.FtpConnection) this.con).dateVector.size())) {
-				if (!(this.con instanceof FilesystemConnection) || (null == ((net.sf.jftp.net.FilesystemConnection) this.con).dateVector) || (1 > ((net.sf.jftp.net.FilesystemConnection) this.con).dateVector.size())) {
+			if (!(this.con instanceof FtpConnection) || (null == ((FtpConnection) this.con).dateVector) || (1 > ((FtpConnection) this.con).dateVector.size())) {
+				if (!(this.con instanceof FilesystemConnection) || (null == ((FilesystemConnection) this.con).dateVector) || (1 > ((FilesystemConnection) this.con).dateVector.size())) {
 				} else {
 					style = "file";
 				}

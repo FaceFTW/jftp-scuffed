@@ -28,13 +28,13 @@ public class ColoredCellRenderer extends DefaultTableCellRenderer {
 
 		if (3 == column) {
 			int x = ((DirEntry) value).getPermission();
-			if (net.sf.jftp.gui.base.dir.DirEntry.R == x) {
+			if (DirEntry.R == x) {
 				cell.setBackground(Color.WHITE);
 				((JLabel) cell).setText("r-");
-			} else if (net.sf.jftp.gui.base.dir.DirEntry.W == x) {
+			} else if (DirEntry.W == x) {
 				cell.setBackground(new Color(230, 255, 230));
 				((JLabel) cell).setText("rw");
-			} else if (net.sf.jftp.gui.base.dir.DirEntry.DENIED == x) {
+			} else if (DirEntry.DENIED == x) {
 				cell.setBackground(new Color(255, 230, 230));
 				((JLabel) cell).setText("--");
 			}

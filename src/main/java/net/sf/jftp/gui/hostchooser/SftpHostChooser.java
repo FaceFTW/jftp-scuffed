@@ -40,8 +40,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class SftpHostChooser extends HFrame implements ActionListener, WindowListener, ChangeListener {
-	private final HButton ok = new HButton("Connect");
-	private final HButton keyfile = new HButton("Choose Key File");
 	public final HTextField host = new HTextField("Host:", "localhost");
 	public final HTextField user = new HTextField("Username:", "guest");
 	public final HTextField port = new HTextField("Port:", "22");
@@ -53,6 +51,8 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 	public final JLabel csL = new JLabel("Preferred Message Authentication");
 	public final JLabel keysL = new JLabel("Preferred Public Key");
 	public final JLabel keyfileL = new JLabel("None, maybe look in ~/.ssh");
+	private final HButton ok = new HButton("Connect");
+	private final HButton keyfile = new HButton("Choose Key File");
 	private ComponentListener listener;
 	private boolean useLocal;
 	private String keyfileName;

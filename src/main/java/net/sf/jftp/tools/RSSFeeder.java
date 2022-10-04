@@ -28,15 +28,15 @@ import java.util.Enumeration;
 
 public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 	public static String urlstring = net.sf.jftp.config.Settings.getRSSFeed();
+	final net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
+	final HImageButton next = new HImageButton(net.sf.jftp.config.Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
+	final int HEADER_IVAL = 4000;
+	final int LOAD_IVAL = 31 * 60000;
 	Thread runner;
 	URL url;
 	RSSParser parser;
-	final net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
-	final HImageButton next = new HImageButton(net.sf.jftp.config.Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
 	boolean header;
 	boolean breakHeader;
-	final int HEADER_IVAL = 4000;
-	final int LOAD_IVAL = 31 * 60000;
 
 	public RSSFeeder() {
 		super();

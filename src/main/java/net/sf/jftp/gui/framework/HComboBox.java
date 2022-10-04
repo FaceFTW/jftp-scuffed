@@ -21,8 +21,8 @@ import java.awt.BorderLayout;
 
 public class HComboBox extends JPanel //implements ActionListener
 {
-	private final JLabel label;
 	public final JComboBox comboBox;
+	private final JLabel label;
 
 	public HComboBox(String l) {
 		super();

@@ -35,9 +35,6 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	public static boolean established;
 	public static boolean mayDispose;
 	public static JScrollPane outputPane;
-	private final HTextField com = new HTextField("Command:", "", 20);
-	private final JButton send = new JButton("Send");
-	private final JButton clear = new JButton("Clear");
 	final JMenuBar mb = new JMenuBar();
 	final JMenu file = new JMenu("Prog");
 	final JMenu about = new JMenu("About");
@@ -45,6 +42,9 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	final JMenuItem close = new JMenuItem("ExIt");
 	final JMenuItem changeHost = new JMenuItem("Host...");
 	final JMenuItem info = new JMenuItem("Info");
+	private final HTextField com = new HTextField("Command:", "", 20);
+	private final JButton send = new JButton("Send");
+	private final JButton clear = new JButton("Clear");
 	private JRawConnection c;
 
 	public RawConnection() {

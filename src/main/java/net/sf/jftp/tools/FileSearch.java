@@ -31,12 +31,12 @@ public class FileSearch {
 
 	public static final boolean quiet = true;
 	public static final boolean ultraquiet = false;
-	private final java.util.Map<String, String> checked = new java.util.HashMap<>();
 	final String localDir = ".";
 	final int MAX = 999999;
-	int MIN_TERM = 1;
 	final int MIN_FACTOR = 1;
 	final boolean LOAD = false;
+	private final java.util.Map<String, String> checked = new java.util.HashMap<>();
+	int MIN_TERM = 1;
 	String[] typeArray = {""};
 	String[] termArray = {""};
 	String[] optArray = {""};

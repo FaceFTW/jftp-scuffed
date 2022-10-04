@@ -60,7 +60,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	public static final JCheckBoxMenuItem debug = new JCheckBoxMenuItem("Verbose Console Debugging", Settings.getEnableDebug());
 	public static final JCheckBoxMenuItem disableLog = new JCheckBoxMenuItem("Disable Log", Settings.getDisableLog());
 	public static final JMenuItem clearItems = new JMenuItem("Clear Finished Items");
-	private final JFtp jftp;
 	final JMenu file = new JMenu("File");
 	final JMenu opt = new JMenu("Options");
 	final JMenu view = new JMenu("View");
@@ -73,7 +72,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	final JMenu smb = new JMenu(" SMB");
 	final JMenu sftp = new JMenu(" SFTP");
 	final JMenu security = new JMenu("Security");
-	JMenu experimental = new JMenu("Experimental Features");
 	final JMenu rss = new JMenu("RSS Feed");
 	final JMenu cnn = new JMenu("CNN");
 	final JMenuItem localFtpCon = new JMenuItem("Open FTP Connection in Local Tab...");
@@ -120,14 +118,16 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	final JMenuItem clear = new JMenuItem("Clear Log");
 	//*** the menu items for the last connections
 	final JMenuItem[] lastConnections = new JMenuItem[JFtp.CAPACITY];
+	final String[] lastConData = new String[JFtp.CAPACITY];
+	final Character charTab = '\t';
+	final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
+	final JMenuItem add = new JMenuItem("Add Bookmark...");
+	private final JFtp jftp;
+	JMenu experimental = new JMenu("Experimental Features");
 	//*** information on each of the last connections
 	//BUGFIX
 	String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
-	final String[] lastConData = new String[JFtp.CAPACITY];
-	final Character charTab = '\t';
 	String tab = this.charTab.toString();
-	final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
-	final JMenuItem add = new JMenuItem("Add Bookmark...");
 	Map<String, BookmarkItem> marks;
 	JMenu current = this.bookmarks;
 	JMenu last = this.bookmarks;
@@ -341,7 +341,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	}
 
 	public void addBookmark(String pr, String h, String u, String p, int po, String d, String l) {
-		net.sf.jftp.gui.tasks.BookmarkItem x = new net.sf.jftp.gui.tasks.BookmarkItem(h);
+		BookmarkItem x = new BookmarkItem(h);
 		x.setUserdata(u, p);
 
 		if (l.trim().startsWith("t")) {
@@ -662,7 +662,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				BookmarkManager m = new BookmarkManager();
 				JFtp.desktop.add(m, new Integer(Integer.MAX_VALUE - 10));
 			} else if (this.marks.containsKey(e.getSource())) {
-				((net.sf.jftp.gui.tasks.BookmarkItem) e.getSource()).connect();
+				((BookmarkItem) e.getSource()).connect();
 			} else if (e.getSource() == this.storePasswords) {
 				boolean state = this.storePasswords.getState();
 

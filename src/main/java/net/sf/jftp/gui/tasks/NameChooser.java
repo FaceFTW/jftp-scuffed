@@ -21,9 +21,9 @@ import java.awt.event.ActionListener;
 
 
 public class NameChooser extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
+	public final net.sf.jftp.gui.framework.HTextField text;
 	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
 	private final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
-	public final net.sf.jftp.gui.framework.HTextField text;
 
 	public NameChooser() {
 		super();

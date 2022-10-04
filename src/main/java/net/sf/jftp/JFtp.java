@@ -74,6 +74,11 @@ import java.util.List;
 public class JFtp extends JPanel implements WindowListener, ComponentListener, Logger, ChangeListener, InternalFrameListener {
 	public static final int CAPACITY = 9;
 	public static final int CONNECTION_DATA_LENGTH = 10;
+	public static final net.sf.jftp.gui.base.DownloadList dList = new net.sf.jftp.gui.base.DownloadList();
+	public static final net.sf.jftp.gui.base.DownloadQueue dQueue = new net.sf.jftp.gui.base.DownloadQueue();
+	public static final HostInfo hostinfo = new HostInfo();
+	public static final JDesktopPane desktop = new JDesktopPane();
+	public static final int acceptableActions = DnDConstants.ACTION_COPY;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
 	public static boolean mainUsed;
@@ -82,27 +87,20 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static JFrame mainFrame;
 	public static net.sf.jftp.gui.base.dir.Dir localDir;
 	public static net.sf.jftp.gui.base.dir.Dir remoteDir;
-	public static final net.sf.jftp.gui.base.DownloadList dList = new net.sf.jftp.gui.base.DownloadList();
-	public static final net.sf.jftp.gui.base.DownloadQueue dQueue = new net.sf.jftp.gui.base.DownloadQueue();
 	public static boolean uiBlocked;
-	public static final HostInfo hostinfo = new HostInfo();
-	public static final JDesktopPane desktop = new JDesktopPane();
 	public static JTextArea log;
 	public static boolean doScroll = true;
 	public static net.sf.jftp.gui.base.AppMenuBar menuBar;
 	public static DropTarget dropTarget;
 	public static DropTargetListener dtListener;
-	public static final int acceptableActions = DnDConstants.ACTION_COPY;
 	private static JScrollPane logSp;
+	public final JTabbedPane remoteConnectionPanel = new JTabbedPane();
+	public final JTabbedPane localConnectionPanel = new JTabbedPane();
 	private final boolean initSize = true;
 	private final String oldText = "";
 	private final JToolBar bottomBar = new JToolBar();
-
 	private final JSplitPane workP = null;
-
 	private final JSplitPane logP = null;
-	public final JTabbedPane remoteConnectionPanel = new JTabbedPane();
-	public final JTabbedPane localConnectionPanel = new JTabbedPane();
 	public HostChooser hc;
 	public RSSFeeder feeder;
 	private HDesktopBackground background;

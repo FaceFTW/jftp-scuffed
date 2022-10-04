@@ -72,14 +72,14 @@ public class FtpServerSocket extends Thread {
 	private final String structure = "file";
 	private final String transferMode = "stream";
 	private final String type = "ascii";
+	private final ServerSocket pasvSocket = null;
+	private final String rootDir = null;
+	private final String currentDir = null;
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
 	private File directory = new File(".");
-	private final ServerSocket pasvSocket = null;
 	private int activePort;
-	private final String rootDir = null;
-	private final String currentDir = null;
 
 	public FtpServerSocket(Socket s) throws IOException {
 		super();

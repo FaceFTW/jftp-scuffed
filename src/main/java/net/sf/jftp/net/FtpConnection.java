@@ -69,6 +69,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	// active ftp ports
 	private static int porta = 5; // 5 * 256 + 1 = 1281
 	private static int portb = 1;
+	public final List<String> currentListing = new ArrayList<>();
+	public final List<String> currentFiles = new ArrayList<>();
+	public final List<String> currentSizes = new ArrayList<>();
+	public final List<String> currentPerms = new ArrayList<>();
 	private final String[] loginAck = new String[]{net.sf.jftp.net.FtpConstants.FTP331_USER_OK_NEED_PASSWORD, net.sf.jftp.net.FtpConstants.FTP230_LOGGED_IN};
 	private final List<FtpTransfer> transfers = new ArrayList<>();
 	/**
@@ -80,10 +84,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * May contain date listing
 	 */
 	public List<Date> dateVector = new java.util.ArrayList<>();
-	public final List<String> currentListing = new ArrayList<>();
-	public final List<String> currentFiles = new ArrayList<>();
-	public final List<String> currentSizes = new ArrayList<>();
-	public final List<String> currentPerms = new ArrayList<>();
 	private boolean ok = true;
 	private String pwd = "";
 	private String initCWD = net.sf.jftp.config.Settings.defaultDir;

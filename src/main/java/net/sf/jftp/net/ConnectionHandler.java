@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.net;
 
+import java.util.Map;
+
 /**
  * This class manages a connection pool.
  * You do not have to create an instance, but when you do use FtpConnection.setConnectionHandler
@@ -31,7 +33,7 @@ public class ConnectionHandler {
 		this.connections.remove(file);
 	}
 
-	public java.util.Map<String, Transfer> getConnections() {
+	public Map<String, Transfer> getConnections() {
 		return this.connections;
 	}
 

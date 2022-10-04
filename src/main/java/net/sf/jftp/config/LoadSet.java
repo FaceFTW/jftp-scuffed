@@ -15,6 +15,10 @@
  */
 package net.sf.jftp.config;
 
+import net.sf.jftp.JFtp;
+import net.sf.jftp.gui.base.UIUtils;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 
@@ -32,8 +36,8 @@ public class LoadSet {
 			result[5] = breader.readLine();
 
 			if ((result[2].isEmpty() || !Settings.getStorePasswords()) && ask) {
-				result[2] = net.sf.jftp.gui.base.UIUtils.getPasswordFromUser(net.sf.jftp.JFtp.statusP.jftp);
-				net.sf.jftp.system.logging.Log.debug("fetched: " + result[2] + ", storing: " + Settings.getStorePasswords());
+				result[2] = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+				Log.debug("fetched: " + result[2] + ", storing: " + Settings.getStorePasswords());
 			} else if (!result[2].isEmpty() || Settings.getStorePasswords()) {
 				// need to decode
 				String decoded = Crypto.Decrypt(result[2]);
@@ -41,7 +45,7 @@ public class LoadSet {
 					// failed to decode
 					if (ask) {
 						// ask for a password
-						result[2] = net.sf.jftp.gui.base.UIUtils.getPasswordFromUser(net.sf.jftp.JFtp.statusP.jftp);
+						result[2] = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 					} else {
 						// fallback to empty string
 						result[2] = "";

@@ -11,6 +11,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -103,7 +104,7 @@ public class TableUtils {
 		list.setSelectedIndices(new int[0]);
 
 		int rows = listTbl.getRowCount();
-		java.util.List<Integer> sel = new java.util.ArrayList<>();
+		List<Integer> sel = new ArrayList<>();
 
 		for (int i = 0; i < rows; i++) {
 			if (listTbl.getSelectionModel().isSelectedIndex(i)) {
@@ -120,7 +121,7 @@ public class TableUtils {
 
 	private static synchronized TableModel generateTableModel(JList l) {
 
-		return new net.sf.jftp.gui.base.dir.MaterializedTableModel(l) {
+		return new MaterializedTableModel(l) {
 
 			public Class getColumnClass(int columnIndex) {
 				if (0 == columnIndex) return javax.swing.ImageIcon.class;
@@ -140,7 +141,7 @@ public class TableUtils {
 
 				if (0 == this.list.getModel().getSize()) return "" + null;
 
-				net.sf.jftp.gui.base.dir.DirEntry ret = (net.sf.jftp.gui.base.dir.DirEntry) this.list.getModel().getElementAt(row);
+				DirEntry ret = (DirEntry) this.list.getModel().getElementAt(row);
 
 				if (0 == col) return ret.getImageIcon();
 				else if (1 == col) return ret.toString();

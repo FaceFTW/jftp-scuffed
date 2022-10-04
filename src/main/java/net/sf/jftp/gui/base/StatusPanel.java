@@ -41,9 +41,9 @@ import java.util.Vector;
 
 public class StatusPanel extends HPanel implements ActionListener {
 	public static final StatusCanvas status = new StatusCanvas();
-	private final JTextField address = new JTextField("http://www.xkcd.com", 30);
 	public final HImageButton close = new HImageButton(Settings.closeImage, "close", "Close active tab...", this);
 	public final JFtp jftp;
+	private final JTextField address = new JTextField("http://www.xkcd.com", 30);
 
 	public StatusPanel(JFtp jftp) {
 		super();

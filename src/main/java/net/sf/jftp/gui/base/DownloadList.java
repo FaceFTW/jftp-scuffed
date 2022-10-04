@@ -17,6 +17,8 @@ package net.sf.jftp.gui.base;
 
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.dir.DirEntry;
+import net.sf.jftp.gui.base.dir.DirPanel;
 import net.sf.jftp.gui.framework.HImage;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.ProgressBarList;
@@ -32,13 +34,16 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class DownloadList extends HPanel implements ActionListener {
+	public final Map<String, Long> sizeCache = new HashMap<>();
 	private final ProgressBarList list = new ProgressBarList();
 	private final JScrollPane scroll;
-	public final java.util.Map<String, Long> sizeCache = new java.util.HashMap<>();
-	private java.util.Map<String, net.sf.jftp.gui.base.dir.DirEntry> downloads = new java.util.HashMap<>();
+	private Map<String, DirEntry> downloads = new HashMap<>();
 	private long oldtime;
 
 	public DownloadList() {
@@ -88,7 +93,7 @@ public class DownloadList extends HPanel implements ActionListener {
 	}
 
 	public void fresh() {
-		this.downloads = new java.util.HashMap<>();
+		this.downloads = new HashMap<>();
 		this.updateArea();
 	}
 
@@ -112,7 +117,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				return;
 			}
 
-			if ((cmd.contains(net.sf.jftp.net.Transfer.QUEUED)) || (cmd.contains(net.sf.jftp.net.Transfer.PAUSED))) {
+			if ((cmd.contains(Transfer.QUEUED)) || (cmd.contains(Transfer.PAUSED))) {
 				cmd = this.getFile(cmd);
 
 				try {
@@ -175,7 +180,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				return;
 			}
 
-			if ((cmd.contains(net.sf.jftp.net.DataConnection.GET)) || (cmd.contains(net.sf.jftp.net.DataConnection.PUT))) {
+			if ((cmd.contains(DataConnection.GET)) || (cmd.contains(DataConnection.PUT))) {
 				cmd = this.getFile(cmd);
 
 				Object o = JFtp.getConnectionHandler().getConnections().get(cmd);
@@ -210,7 +215,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				return;
 			}
 
-			if ((cmd.contains(net.sf.jftp.net.Transfer.PAUSED)) || (cmd.contains(net.sf.jftp.net.Transfer.QUEUED))) {
+			if ((cmd.contains(Transfer.PAUSED)) || (cmd.contains(Transfer.QUEUED))) {
 				cmd = this.getFile(cmd);
 
 				try {
@@ -263,9 +268,9 @@ public class DownloadList extends HPanel implements ActionListener {
 		}
 
 		if (type.equals(DataConnection.GET)) {
-			net.sf.jftp.gui.base.dir.DirEntry[] e = ((net.sf.jftp.gui.base.dir.DirPanel) JFtp.remoteDir).dirEntry;
+			DirEntry[] e = ((DirPanel) JFtp.remoteDir).dirEntry;
 
-			for (net.sf.jftp.gui.base.dir.DirEntry dirEntry : e) {
+			for (DirEntry dirEntry : e) {
 				if (dirEntry.file.equals(file)) {
 					size = dirEntry.getRawSize();
 				}
@@ -302,11 +307,11 @@ public class DownloadList extends HPanel implements ActionListener {
 			UpdateDaemon.updateCall();
 		}
 
-		net.sf.jftp.gui.base.dir.DirEntry d = null;
+		DirEntry d = null;
 		if (this.downloads.containsKey(message)) {
-			d = (net.sf.jftp.gui.base.dir.DirEntry) this.downloads.get(message);
+			d = (DirEntry) this.downloads.get(message);
 		} else {
-			d = new net.sf.jftp.gui.base.dir.DirEntry(message, null);
+			d = new DirEntry(message, null);
 			d.setNoRender();
 			if (this.getFile(tmp).endsWith("/")) {
 				d.setDirectory();
@@ -321,20 +326,20 @@ public class DownloadList extends HPanel implements ActionListener {
 		this.updateArea();
 	}
 
-	private synchronized net.sf.jftp.gui.base.dir.DirEntry[] toArray() {
-		net.sf.jftp.gui.base.dir.DirEntry[] f = new net.sf.jftp.gui.base.dir.DirEntry[this.downloads.size()];
+	private synchronized DirEntry[] toArray() {
+		DirEntry[] f = new DirEntry[this.downloads.size()];
 		int i = 0;
 
-		java.util.Iterator<net.sf.jftp.gui.base.dir.DirEntry> k = this.downloads.values().iterator();
+		Iterator<DirEntry> k = this.downloads.values().iterator();
 
 		while (k.hasNext()) {
 			Object o = k.next();
-			if (o instanceof net.sf.jftp.gui.base.dir.DirEntry) {
-				f[i] = (net.sf.jftp.gui.base.dir.DirEntry) o;
+			if (o instanceof DirEntry) {
+				f[i] = (DirEntry) o;
 			} else {
 
 				String tmp = (String) o;
-				net.sf.jftp.gui.base.dir.DirEntry d = new net.sf.jftp.gui.base.dir.DirEntry(tmp, null);
+				DirEntry d = new DirEntry(tmp, null);
 
 				if (this.getFile(tmp).endsWith("/")) {
 					d.setDirectory();
@@ -354,7 +359,7 @@ public class DownloadList extends HPanel implements ActionListener {
 
 		int idx = this.list.getSelectedIndex();
 
-		net.sf.jftp.gui.base.dir.DirEntry[] f = this.toArray();
+		DirEntry[] f = this.toArray();
 
 		this.list.setListData(f);
 
@@ -382,7 +387,7 @@ public class DownloadList extends HPanel implements ActionListener {
 
 	private String getRealName(String file) {
 		try {
-			java.util.Iterator<String> e = JFtp.getConnectionHandler().getConnections().keySet().iterator();
+			Iterator<String> e = JFtp.getConnectionHandler().getConnections().keySet().iterator();
 
 			while (e.hasNext()) {
 				String tmp = e.next();

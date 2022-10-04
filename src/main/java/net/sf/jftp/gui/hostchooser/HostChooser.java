@@ -39,6 +39,15 @@ import java.io.IOException;
 
 
 public class HostChooser extends HFrame implements ActionListener, WindowListener {
+	public final HTextField host = new HTextField("Hostname:", "localhost        ");
+	public final HTextField user = new HTextField("Username:", "anonymous        ");
+	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
+	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
+	public final HTextField port = new HTextField("Port:    ", "21");
+	public final HTextField cwd = new HTextField("Remote:  ", net.sf.jftp.config.Settings.defaultDir);
+	public final HTextField lcwd = new HTextField("Local:   ", net.sf.jftp.config.Settings.defaultWorkDir);
+	public final HTextField dl = new HTextField("Max. connections:    ", "3");
+	public final HTextField crlf = new HTextField("Override server newline:    ", "<default>");
 	private final JCheckBox anonBox = new JCheckBox("Use anonymous login", false);
 	private final JCheckBox listBox = new JCheckBox("LIST compatibility mode", false);
 	private final JCheckBox dirBox = new JCheckBox("Use default directories", net.sf.jftp.config.Settings.getUseDefaultDir());
@@ -52,15 +61,6 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	private final HPanel listP = new HPanel();
 	private final HButton list = new HButton("Choose from or edit list...");
 	private final boolean ext = net.sf.jftp.config.Settings.showNewlineOption;
-	public final HTextField host = new HTextField("Hostname:", "localhost        ");
-	public final HTextField user = new HTextField("Username:", "anonymous        ");
-	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
-	public final HTextField port = new HTextField("Port:    ", "21");
-	public final HTextField cwd = new HTextField("Remote:  ", net.sf.jftp.config.Settings.defaultDir);
-	public final HTextField lcwd = new HTextField("Local:   ", net.sf.jftp.config.Settings.defaultWorkDir);
-	public final HTextField dl = new HTextField("Max. connections:    ", "3");
-	public final HTextField crlf = new HTextField("Override server newline:    ", "<default>");
 	private ComponentListener listener;
 	private int mode;
 	private boolean useLocal;

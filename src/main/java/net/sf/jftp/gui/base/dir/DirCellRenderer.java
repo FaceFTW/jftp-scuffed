@@ -99,9 +99,9 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 
 		int ok = ((DirEntry) value).getPermission();
 
-		if (net.sf.jftp.gui.base.dir.DirEntry.DENIED == ok) {
+		if (DirEntry.DENIED == ok) {
 			this.setForeground(GUIDefaults.deniedColor);
-		} else if (net.sf.jftp.gui.base.dir.DirEntry.W == ok) {
+		} else if (DirEntry.W == ok) {
 			this.setForeground(GUIDefaults.writableColor);
 		} else {
 			this.setForeground(GUIDefaults.defaultColor);

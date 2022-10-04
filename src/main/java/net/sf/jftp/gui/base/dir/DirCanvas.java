@@ -31,8 +31,8 @@ import java.awt.event.MouseListener;
 
 
 public class DirCanvas extends JPanel implements MouseListener {
-	private final Dir target;
 	final JLabel text = new JLabel(" ");
+	private final Dir target;
 	boolean active;
 
 

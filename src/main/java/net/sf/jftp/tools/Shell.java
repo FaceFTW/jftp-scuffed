@@ -1,6 +1,7 @@
 package net.sf.jftp.tools;
 
 import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
@@ -15,18 +16,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Shell extends HFrame implements Runnable {
+	final JTextArea text = new JTextArea(25, 101);
+	final List<String> commands = new ArrayList<>();
 	BufferedOutputStream out;
 	BufferedReader in;
 	BufferedOutputStream err;
-	final JTextArea text = new JTextArea(25, 101);
-
 	long off;
 	Thread runner;
 	JScrollPane textP;
 	String input = "";
-	final java.util.List<String> commands = new java.util.ArrayList<>();
 	int currCmd;
 
 	public Shell(InputStream in, OutputStream out) {
@@ -37,7 +39,7 @@ public class Shell extends HFrame implements Runnable {
 			this.init();
 		} catch (Exception e) {
 			e.printStackTrace();
-			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
+			Log.debug("ERROR: " + e.getMessage());
 		}
 	}
 
@@ -50,7 +52,7 @@ public class Shell extends HFrame implements Runnable {
 			this.init();
 		} catch (Exception e) {
 			e.printStackTrace();
-			net.sf.jftp.system.logging.Log.debug("ERROR: " + e.getMessage());
+			Log.debug("ERROR: " + e.getMessage());
 		}
 	}
 
@@ -89,42 +91,42 @@ public class Shell extends HFrame implements Runnable {
 		this.text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				if ((java.awt.event.KeyEvent.VK_BACK_SPACE == e.getKeyCode()) && (0 < Shell.this.input.length())) {
-					net.sf.jftp.tools.Shell.this.input = net.sf.jftp.tools.Shell.this.input.substring(0, net.sf.jftp.tools.Shell.this.input.length() - 1);
+					Shell.this.input = Shell.this.input.substring(0, Shell.this.input.length() - 1);
 
-					String t = net.sf.jftp.tools.Shell.this.text.getText();
+					String t = Shell.this.text.getText();
 					t = t.substring(0, t.length() - 1);
-					net.sf.jftp.tools.Shell.this.text.setText(t);
+					Shell.this.text.setText(t);
 				} else if (java.awt.event.KeyEvent.VK_UP == e.getKeyCode()) {
-					String t = net.sf.jftp.tools.Shell.this.text.getText();
-					t = t.substring(0, t.length() - net.sf.jftp.tools.Shell.this.input.length());
+					String t = Shell.this.text.getText();
+					t = t.substring(0, t.length() - Shell.this.input.length());
 
-					if ((net.sf.jftp.tools.Shell.this.currCmd <= net.sf.jftp.tools.Shell.this.commands.size()) && (0 < Shell.this.currCmd)) {
-						net.sf.jftp.tools.Shell.this.currCmd--;
+					if ((Shell.this.currCmd <= Shell.this.commands.size()) && (0 < Shell.this.currCmd)) {
+						Shell.this.currCmd--;
 
-						String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
-						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
-						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
+						String cmd = (String) Shell.this.commands.get(Shell.this.currCmd);
+						Shell.this.input = cmd.substring(0, cmd.length() - 1);
+						Shell.this.text.setText(t + Shell.this.input);
 					}
 				} else if (java.awt.event.KeyEvent.VK_DOWN == e.getKeyCode()) {
-					String t = net.sf.jftp.tools.Shell.this.text.getText();
-					t = t.substring(0, t.length() - net.sf.jftp.tools.Shell.this.input.length());
+					String t = Shell.this.text.getText();
+					t = t.substring(0, t.length() - Shell.this.input.length());
 
-					if (((net.sf.jftp.tools.Shell.this.currCmd + 1) < net.sf.jftp.tools.Shell.this.commands.size()) && (0 <= Shell.this.currCmd)) {
-						net.sf.jftp.tools.Shell.this.currCmd++;
+					if (((Shell.this.currCmd + 1) < Shell.this.commands.size()) && (0 <= Shell.this.currCmd)) {
+						Shell.this.currCmd++;
 
-						String cmd = (String) net.sf.jftp.tools.Shell.this.commands.get(net.sf.jftp.tools.Shell.this.currCmd);
-						net.sf.jftp.tools.Shell.this.input = cmd.substring(0, cmd.length() - 1);
-						net.sf.jftp.tools.Shell.this.text.setText(t + net.sf.jftp.tools.Shell.this.input);
+						String cmd = (String) Shell.this.commands.get(Shell.this.currCmd);
+						Shell.this.input = cmd.substring(0, cmd.length() - 1);
+						Shell.this.text.setText(t + Shell.this.input);
 					}
 				} else if (java.awt.event.KeyEvent.VK_SHIFT != e.getKeyCode()) {
 					if (!e.isActionKey()) {
-						net.sf.jftp.tools.Shell.this.input += e.getKeyChar();
-						net.sf.jftp.tools.Shell.this.text.append("" + e.getKeyChar());
+						Shell.this.input += e.getKeyChar();
+						Shell.this.text.append("" + e.getKeyChar());
 					}
 				}
 
 				if (java.awt.event.KeyEvent.VK_ENTER == e.getKeyCode()) {
-					net.sf.jftp.tools.Shell.this.send();
+					Shell.this.send();
 				}
 			}
 		});
@@ -169,7 +171,7 @@ public class Shell extends HFrame implements Runnable {
 			this.text.setEnabled(false);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());
+			Log.debug("ERROR: " + ex.getMessage());
 			this.dispose();
 		}
 	}
@@ -187,7 +189,7 @@ public class Shell extends HFrame implements Runnable {
 
 		} catch (IOException ex) {
 			ex.printStackTrace();
-			net.sf.jftp.system.logging.Log.debug("ERROR: " + ex.getMessage());
+			Log.debug("ERROR: " + ex.getMessage());
 			this.dispose();
 		}
 	}

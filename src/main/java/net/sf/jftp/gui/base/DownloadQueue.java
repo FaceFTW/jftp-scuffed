@@ -39,13 +39,13 @@ import java.util.ArrayList;
 
 public class DownloadQueue extends HPanel implements ActionListener {
 	private static final String SEP = "--> ";
+	final int NumRetry = 5;
 	private final DefaultListModel liststr = new DefaultListModel();
 	private final JList list = new JList(this.liststr);
 	private final ArrayList queue = new ArrayList();
 	private final boolean downloading = false;
 	private final ConnectionHandler handler = new ConnectionHandler();
 	private final JLabel statuslabel;
-	final int NumRetry = 5;
 	private queueDownloader thread = new queueDownloader();
 	private QueueRecord lastDownload;
 	private BasicConnection con;

@@ -84,9 +84,7 @@ public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements
 			this.statusText.setText("LIST command set.");
 			listOptionSet = true;
 
-		}
-
-		else {
+		} else {
 			net.sf.jftp.net.FtpConnection.LIST = this.listCommand.getText().trim();
 
 			listOptionSet = true;
