@@ -83,7 +83,7 @@ public class SaveSet {
 
 	private void savePW(String pass, PrintStream out) throws Exception {
 		String coded = Crypto.Encrypt(pass);
-		if ("" == coded) {
+		if ("".equals(coded)) {
 			// we failed to encrypt for some reason, so lets just save it
 			out.println(pass);
 		} else {
