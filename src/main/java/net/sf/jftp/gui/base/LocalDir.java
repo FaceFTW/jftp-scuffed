@@ -44,7 +44,6 @@ import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.util.ZipFileCreator;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
