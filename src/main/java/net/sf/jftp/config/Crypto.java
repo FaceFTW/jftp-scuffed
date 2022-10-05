@@ -44,9 +44,7 @@ enum Crypto {
 		try {
 			keyFactory = SecretKeyFactory.getInstance("PBEWtihMD5AndDES");
 			key = keyFactory.generateSecret(new PBEKeySpec(PASSWORD));
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		} catch (InvalidKeySpecException e) {
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			throw new RuntimeException(e);
 		}
 	}
@@ -89,9 +87,8 @@ enum Crypto {
 		try {
 			pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
 			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-		} catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-			return "";
-		} catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
+		         InvalidAlgorithmParameterException e) {
 			return "";
 		}
 
