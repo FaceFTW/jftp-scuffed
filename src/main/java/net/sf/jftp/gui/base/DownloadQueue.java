@@ -336,9 +336,6 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		String localip;
 		String domain;
 
-		QueueRecord() {
-			super();
-		}
 	}
 
 	class queueDownloader extends Thread implements ConnectionListener {

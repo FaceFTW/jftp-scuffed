@@ -31,10 +31,6 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 	static final ImageIcon longIcon = new ImageIcon(Settings.dirImage);
 	static final ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
 
-	public DirCellRenderer() {
-		super();
-	}
-
 	// This is the only method defined by ListCellRenderer.
 	// We just reconfigure the JLabel each time we're called.
 	public Component getListCellRendererComponent(JList list, Object value, // value to display

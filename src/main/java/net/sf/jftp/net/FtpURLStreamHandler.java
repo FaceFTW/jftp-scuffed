@@ -24,9 +24,6 @@ import java.net.URLStreamHandler;
  * An URLStreamHandler for handling ftp urls.
  */
 class FtpURLStreamHandler extends URLStreamHandler {
-	public FtpURLStreamHandler() {
-		super();
-	}
 
 	public URLConnection openConnection(URL u) {
 		return null;

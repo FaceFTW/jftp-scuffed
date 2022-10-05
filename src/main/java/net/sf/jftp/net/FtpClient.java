@@ -21,10 +21,6 @@ public class FtpClient {
 	private String password = "ftp@sourceforge.net";
 	private FtpConnection connection;
 
-	public FtpClient() {
-		super();
-	}
-
 	public void login(String host) {
 		this.connection = new FtpConnection(host);
 		this.connection.login(this.name, this.password);

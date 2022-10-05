@@ -34,7 +34,4 @@ public class HostInfo {
 	public String localip;
 	public String domain;
 
-	public HostInfo() {
-		super();
-	}
 }
