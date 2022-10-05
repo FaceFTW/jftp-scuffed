@@ -282,7 +282,7 @@ public class Settings {
 	}
 
 	public static String getProperty(String key) {
-		return "" + p.getProperty(key);
+		return p.getProperty(key);
 	}
 
 	public static Object setProperty(String key, int value) {

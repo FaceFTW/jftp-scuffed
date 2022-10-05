@@ -317,7 +317,7 @@ public class RsyncConnection implements BasicConnection {
 				this.files[i] = this.files[i] + "/";
 			}
 
-			this.size[i] = "" + f2.length();
+			this.size[i] = String.valueOf(f2.length());
 
 			if (f2.canWrite()) {
 				accessible = FtpConstants.W;

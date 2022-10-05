@@ -338,7 +338,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 					files[i] = StringUtils.getFile(files[i]);
 				}
 
-				this.size[i] = "" + f[i].length();
+				this.size[i] = String.valueOf(f[i].length());
 
 				if (f[i].canRead()) {
 					this.perms[i] = FtpConstants.R;

@@ -120,7 +120,7 @@ public class Shell extends HFrame implements Runnable {
 				} else if (java.awt.event.KeyEvent.VK_SHIFT != e.getKeyCode()) {
 					if (!e.isActionKey()) {
 						Shell.this.input += e.getKeyChar();
-						Shell.this.text.append("" + e.getKeyChar());
+						Shell.this.text.append(String.valueOf(e.getKeyChar()));
 					}
 				}
 

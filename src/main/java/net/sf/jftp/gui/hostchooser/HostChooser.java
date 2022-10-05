@@ -438,7 +438,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				int r = 5;
 
 				for (final int i = 0; i < r; r--) {
-					System.out.print("" + r + "-");
+					System.out.print(r + "-");
 
 					try {
 						Thread.sleep(1000);

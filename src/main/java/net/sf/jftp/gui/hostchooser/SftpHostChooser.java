@@ -239,9 +239,9 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 			try {
 				boolean status;
 
-				SaveSet s = new SaveSet(Settings.login_def_sftp, htmp, utmp, ptmp, "" + potmp, "null", "null");
+				SaveSet s = new SaveSet(Settings.login_def_sftp, htmp, utmp, ptmp, String.valueOf(potmp), "null", "null");
 
-				Sftp2Connection con2 = new Sftp2Connection(htmp, "" + potmp, this.keyfileName);
+				Sftp2Connection con2 = new Sftp2Connection(htmp, String.valueOf(potmp), this.keyfileName);
 
 				if (con2.login(utmp, ptmp)) {
 					if (this.useLocal) {

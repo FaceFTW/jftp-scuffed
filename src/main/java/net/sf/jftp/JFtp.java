@@ -515,8 +515,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	private void saveInternalPosition(JInternalFrame f, String desc) {
 		Point p = f.getLocation();
 
-		Settings.setProperty("jftp.iframes." + desc + ".x", "" + p.getX());
-		Settings.setProperty("jftp.iframes." + desc + ".y", "" + p.getY());
+		Settings.setProperty("jftp.iframes." + desc + ".x", String.valueOf(p.getX()));
+		Settings.setProperty("jftp.iframes." + desc + ".y", String.valueOf(p.getY()));
 		Settings.setProperty("jftp.iframes." + desc + ".width", f.getWidth());
 		Settings.setProperty("jftp.iframes." + desc + ".height", f.getHeight());
 	}
@@ -883,7 +883,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		jt.getContentPane().add(c);
 		desktop.add(jt);
 
-		internalFrames.put("" + c.hashCode(), jt);
+		internalFrames.put(String.valueOf(c.hashCode()), jt);
 
 		jt.pack();
 		jt.setSize(new Dimension(w, h));
@@ -891,7 +891,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void removeFromDesktop(int component) {
-		JInternalFrame f = internalFrames.get("" + component);
+		JInternalFrame f = internalFrames.get(String.valueOf(component));
 
 		if (null != f) {
 			f.dispose();
@@ -902,7 +902,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void setClosable(int component, boolean ok) {
-		JInternalFrame f = internalFrames.get("" + component);
+		JInternalFrame f = internalFrames.get(String.valueOf(component));
 
 		if (null != f) {
 			f.setClosable(ok);
@@ -912,7 +912,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	}
 
 	public void setLocation(int component, int x, int y) {
-		JInternalFrame f = internalFrames.get("" + component);
+		JInternalFrame f = internalFrames.get(String.valueOf(component));
 
 		if (null != f) {
 			f.setLocation(x, y);
@@ -1013,7 +1013,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 					i++;
 				}
 			} else {
-				str = new StringBuilder("" + data);
+				str = new StringBuilder(String.valueOf(data));
 			}
 
 			System.out.println("Object data: \"" + str + "\"");

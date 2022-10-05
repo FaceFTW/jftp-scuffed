@@ -168,7 +168,7 @@ public class DirLister implements ActionListener {
 				}
 
 				for (int i = 0; i < this.length; i++) {
-					if (processed.containsKey("" + i)) {
+					if (processed.containsKey(String.valueOf(i))) {
 						continue;
 					}
 

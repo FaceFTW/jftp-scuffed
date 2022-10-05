@@ -139,14 +139,14 @@ public class TableUtils {
 
 			public Object getValueAt(int row, int col) {
 
-				if (0 == this.list.getModel().getSize()) return "" + null;
+				if (0 == this.list.getModel().getSize()) return String.valueOf((Object) null);
 
 				DirEntry ret = (DirEntry) this.list.getModel().getElementAt(row);
 
 				if (0 == col) return ret.getImageIcon();
 				else if (1 == col) return ret.toString();
 				else if (2 == col) {
-					String tmp = "" + ret.getFileSize();
+					String tmp = ret.getFileSize();
 					return tmp.replaceAll(" >", "");
 				} else if (3 == col) {
 					return ret;

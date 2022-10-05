@@ -297,7 +297,7 @@ public class FilesystemConnection implements BasicConnection {
 				files[i] = files[i] + "/";
 			}
 
-			this.size[i] = "" + new File(this.pwd + files[i]).length();
+			this.size[i] = String.valueOf(new File(this.pwd + files[i]).length());
 
 			if (f2.canWrite()) {
 				accessible = FtpConstants.W;

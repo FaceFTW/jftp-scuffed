@@ -347,7 +347,7 @@ public class WebdavConnection implements BasicConnection {
 				Log.out("sortLs files[" + i + "]: " + files[i]);
 
 				//size[i] = "" + (int) f[i].length();
-				this.size[i] = "" + (int) f[i].getGetContentLength();
+				this.size[i] = String.valueOf((int) f[i].getGetContentLength());
 				this.perms[i] = FtpConstants.R;
 
 				if (f[i].isCollection() && !files[i].endsWith("/")) {

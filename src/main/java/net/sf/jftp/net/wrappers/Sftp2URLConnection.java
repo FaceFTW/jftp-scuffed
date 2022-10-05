@@ -32,7 +32,7 @@ public class Sftp2URLConnection extends URLConnection {
 		super(u);
 
 		int port = 0 < u.getPort() ? u.getPort() : 22;
-		this.connection = new Sftp2Connection(u.getHost(), "" + port, null);
+		this.connection = new Sftp2Connection(u.getHost(), String.valueOf(port), null);
 
 		String userInfo = u.getUserInfo();
 

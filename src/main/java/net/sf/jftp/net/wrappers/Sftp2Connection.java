@@ -358,7 +358,7 @@ public class Sftp2Connection implements BasicConnection {
 	public int handleUpload(String f) {
 		if (Settings.getEnableSftpMultiThreading()) {
 
-			Sftp2Transfer t = new Sftp2Transfer(this.path, this.getPWD(), f, this.user, this.pass, this.listeners, Transfer.UPLOAD, this.keyfile, this.host, "" + this.port);
+			Sftp2Transfer t = new Sftp2Transfer(this.path, this.getPWD(), f, this.user, this.pass, this.listeners, Transfer.UPLOAD, this.keyfile, this.host, String.valueOf(this.port));
 		} else {
 			this.upload(f);
 		}
@@ -368,7 +368,7 @@ public class Sftp2Connection implements BasicConnection {
 
 	public int handleDownload(String f) {
 		if (Settings.getEnableSftpMultiThreading()) {
-			Sftp2Transfer t = new Sftp2Transfer(this.path, this.getPWD(), f, this.user, this.pass, this.listeners, Transfer.DOWNLOAD, this.keyfile, this.host, "" + this.port);
+			Sftp2Transfer t = new Sftp2Transfer(this.path, this.getPWD(), f, this.user, this.pass, this.listeners, Transfer.DOWNLOAD, this.keyfile, this.host, String.valueOf(this.port));
 		} else {
 			this.download(f);
 		}
