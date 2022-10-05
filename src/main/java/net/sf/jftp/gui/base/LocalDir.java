@@ -81,7 +81,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 	private static final String cpString = "cp";
 	private static final String rnString = "rn";
 	private static final String cdUpString = "cdUp";
-	private final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
+	private final String[] sortTypes = {"Normal", "Reverse", "Size", "Size/Re"};
 	private final DirCanvas label = new DirCanvas(this);
 	private final int pos = 0;
 	private final JPanel p = new JPanel();

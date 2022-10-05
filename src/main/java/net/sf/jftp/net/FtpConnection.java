@@ -79,7 +79,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private final List<String> currentFiles = new ArrayList<>();
 	private final List<String> currentSizes = new ArrayList<>();
 	private final List<String> currentPerms = new ArrayList<>();
-	private final String[] loginAck = new String[]{FtpConstants.FTP331_USER_OK_NEED_PASSWORD, FtpConstants.FTP230_LOGGED_IN};
+	private final String[] loginAck = {FtpConstants.FTP331_USER_OK_NEED_PASSWORD, FtpConstants.FTP230_LOGGED_IN};
 	private final List<FtpTransfer> transfers = new ArrayList<>();
 	/**
 	 * Used to determine the type of transfer.

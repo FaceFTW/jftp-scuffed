@@ -79,7 +79,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 	private static final String queueString = "que";
 	private static final String cdUpString = "cdUp";
 	private static final String rnString = "rn";
-	private final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
+	private final String[] sortTypes = {"Normal", "Reverse", "Size", "Size/Re"};
 	private final DirCanvas label = new DirCanvas(this);
 	private final int pos = 0;
 	private final JPanel p = new JPanel();
