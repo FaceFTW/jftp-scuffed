@@ -354,7 +354,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		//bookmarks
 		this.current.add(x);
-		this.marks.put(x.getLabel(), x);
+		this.marks.put(x.getText(), x);
 		x.addActionListener(this);
 	}
 
@@ -696,7 +696,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				Settings.setProperty("jftp.security.storePasswords", state);
 				Settings.save();
 			} else {
-				String tmp = ((JMenuItem) e.getSource()).getLabel();
+				String tmp = ((JMenuItem) e.getSource()).getText();
 
 				UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 

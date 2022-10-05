@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 
 public class UIUtils {
@@ -30,7 +31,7 @@ public class UIUtils {
 
 		int ret = JOptionPane.showOptionDialog(parent, pField, "Password required", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-		return pField.getText();
+		return Arrays.toString(pField.getPassword());
 	}
 
 	public static void runCommand(String cmd) throws IOException {

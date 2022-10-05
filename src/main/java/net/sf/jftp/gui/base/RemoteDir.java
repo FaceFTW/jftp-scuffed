@@ -46,7 +46,6 @@ import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.tools.Shell;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -358,13 +357,13 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		this.setLabel();
 
 		if (this.con instanceof FtpConnection) {
-			this.list.show();
-			this.cmdButton.show();
-			this.transferType.show();
+			this.list.setVisible(true);
+			this.cmdButton.setVisible(true);
+			this.transferType.setVisible(true);
 		} else {
-			this.list.hide();
-			this.cmdButton.hide();
-			this.transferType.hide();
+			this.list.setVisible(false);
+			this.cmdButton.setVisible(false);
+			this.transferType.setVisible(false);
 		}
 
 		if (!fakeInit) {
@@ -799,7 +798,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		JFtp.log.setText("");
 		text.setEditable(false);
 		h.pack();
-		h.show();
+		h.setVisible(true);
 	}
 
 	private void setDate() {
@@ -1076,7 +1075,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			f.setLocation(100, 100);
 			f.setSize(600, 400);
 
-			f.show();
+			f.setVisible(true);
 
 			this.dList.fresh();
 			JFtp.localDir.getCon().removeFileOrDir(StringUtils.getFile(url));
