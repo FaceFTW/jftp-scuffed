@@ -20,8 +20,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 
-public class BorderPanel extends JPanel {
-	public final boolean left = true;
+class BorderPanel extends JPanel {
+	private final boolean left = true;
 
 	public void paintComponent(Graphics g) {
 		if (this.left) {

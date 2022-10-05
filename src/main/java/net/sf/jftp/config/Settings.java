@@ -24,11 +24,11 @@ import java.util.Properties;
 
 
 public class Settings {
-	public static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
-	public static final String defaultWidth = "1000";
-	public static final String defaultHeight = "740";
-	public static final String defaultX = "20";
-	public static final String defaultY = "20";
+	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
+	private static final String defaultWidth = "1000";
+	private static final String defaultHeight = "740";
+	private static final String defaultX = "20";
+	private static final String defaultY = "20";
 	// title of the app
 	public static final String title = "JFtp - The Java Network Browser";
 	// overridden title for insomniac client
@@ -38,7 +38,7 @@ public class Settings {
 	public static final int testTimeout = 5000;
 	public static final String defaultDir = "<default>";
 	public static final String defaultWorkDir = System.getProperty("user.home");
-	public static final String userHomeDir = System.getProperty("user.home");
+	private static final String userHomeDir = System.getProperty("user.home");
 	public static final String appHomeDir = userHomeDir + "/.jftp/".replace('/', File.separatorChar);
 	public static final String bookmarks = appHomeDir + "bookmarks.txt".replace('/', File.separatorChar);
 	public static final String ls_out = appHomeDir + ".ls_out".replace('/', File.separatorChar);
@@ -114,10 +114,10 @@ public class Settings {
 	public static String iconImage;
 	public static String hostImage;
 	public static String closeImage;
-	public static String infoImage;
+	private static String infoImage;
 	public static String listImage;
 
-	public static String rmdirImage;
+	private static String rmdirImage;
 	public static String mkdirImage;
 	public static String refreshImage;
 	public static String refreshImage2;
@@ -138,7 +138,7 @@ public class Settings {
 	public static String imageFileImage;
 	public static String presentationFileImage;
 	public static String spreadsheetFileImage;
-	public static String bookFileImage;
+	private static String bookFileImage;
 	public static String copyImage;
 	public static String openImage;
 	public static String sftpImage;

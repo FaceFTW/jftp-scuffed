@@ -44,12 +44,12 @@ import java.io.IOException;
 
 
 public class NfsHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static final HTextField host = new HTextField("URL:", "nfs://localhost:v2m/tmp", 20);
-	public static final HTextField user = new HTextField("Username:", "<anonymous>", 15);
+	private static final HTextField host = new HTextField("URL:", "nfs://localhost:v2m/tmp", 20);
+	private static final HTextField user = new HTextField("Username:", "<anonymous>", 15);
 
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
-	public static final HButton info = new HButton("Read me!");
+	private static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	private static final HButton info = new HButton("Read me!");
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
 	private ComponentListener listener;
@@ -73,7 +73,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		//setSize(600, 220);
 		this.setLocation(100, 150);
 		this.setTitle("NFS Connection...");

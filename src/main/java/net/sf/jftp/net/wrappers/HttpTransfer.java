@@ -21,9 +21,9 @@ public class HttpTransfer extends Transfer implements Runnable {
 	private final String localPath;
 	private final String file;
 	private final Vector listeners;
-	public boolean work = true;
+	private boolean work = true;
 	public boolean pause;
-	public Thread runner;
+	private Thread runner;
 	private int stat = 1;
 	private ConnectionHandler handler = new ConnectionHandler();
 
@@ -105,7 +105,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 		}
 	}
 
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	private void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 			return;
 		}

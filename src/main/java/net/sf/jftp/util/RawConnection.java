@@ -35,13 +35,13 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	public static boolean established;
 	public static boolean mayDispose;
 	public static JScrollPane outputPane;
-	final JMenuBar mb = new JMenuBar();
-	final JMenu file = new JMenu("Prog");
-	final JMenu about = new JMenu("About");
-	final JMenu session = new JMenu("Session");
-	final JMenuItem close = new JMenuItem("ExIt");
-	final JMenuItem changeHost = new JMenuItem("Host...");
-	final JMenuItem info = new JMenuItem("Info");
+	private final JMenuBar mb = new JMenuBar();
+	private final JMenu file = new JMenu("Prog");
+	private final JMenu about = new JMenu("About");
+	private final JMenu session = new JMenu("Session");
+	private final JMenuItem close = new JMenuItem("ExIt");
+	private final JMenuItem changeHost = new JMenuItem("Host...");
+	private final JMenuItem info = new JMenuItem("Info");
 	private final HTextField com = new HTextField("Command:", "", 20);
 	private final JButton send = new JButton("Send");
 	private final JButton clear = new JButton("Clear");
@@ -51,7 +51,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		this("localhost", 25);
 	}
 
-	public RawConnection(String hostname, int p) {
+	private RawConnection(String hostname, int p) {
 		super();
 		host.setText(hostname);
 

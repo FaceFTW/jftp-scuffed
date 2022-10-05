@@ -28,7 +28,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class ResumeDialog extends HFrame implements ActionListener {
+class ResumeDialog extends HFrame implements ActionListener {
 	private final JButton resume = new JButton("Resume");
 	private final JButton skip = new JButton("Skip");
 	private final JButton over = new JButton("Overwrite");

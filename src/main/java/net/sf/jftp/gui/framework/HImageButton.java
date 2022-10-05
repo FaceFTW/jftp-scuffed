@@ -26,8 +26,8 @@ import java.awt.event.MouseListener;
 
 
 public class HImageButton extends JButton implements MouseListener {
-	public String label = "";
-	public ActionListener who;
+	private String label = "";
+	private ActionListener who;
 	private String cmd = "default";
 
 	public HImageButton(String image, String cmd, String label, ActionListener who) {

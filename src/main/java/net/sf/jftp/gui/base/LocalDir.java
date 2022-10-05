@@ -70,18 +70,18 @@ import java.util.zip.ZipFile;
 
 
 public class LocalDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
-	static final String deleteString = "rm";
-	static final String mkdirString = "mkdir";
-	static final String refreshString = "fresh";
-	static final String cdString = "cd";
+	private static final String deleteString = "rm";
+	private static final String mkdirString = "mkdir";
+	private static final String refreshString = "fresh";
+	private static final String cdString = "cd";
 	static final String cmdString = "cmd";
 	static final String downloadString = "<-";
-	static final String uploadString = "->";
-	static final String zipString = "zip";
-	static final String cpString = "cp";
-	static final String rnString = "rn";
-	static final String cdUpString = "cdUp";
-	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
+	private static final String uploadString = "->";
+	private static final String zipString = "zip";
+	private static final String cpString = "cp";
+	private static final String rnString = "rn";
+	private static final String cdUpString = "cdUp";
+	private final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
 	private final DirCanvas label = new DirCanvas(this);
 	private final int pos = 0;
 	private final JPanel p = new JPanel();
@@ -100,16 +100,16 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 	private final JMenuItem viewFile = new JMenuItem("View file");
 	private final JMenuItem props = new JMenuItem("Properties");
 	private final JComboBox sorter = new JComboBox(this.sortTypes);
-	HImageButton deleteButton;
-	HImageButton mkdirButton;
+	private HImageButton deleteButton;
+	private HImageButton mkdirButton;
 	HImageButton cmdButton;
-	HImageButton refreshButton;
-	HImageButton cdButton;
-	HImageButton uploadButton;
-	HImageButton zipButton;
-	HImageButton cpButton;
-	HImageButton rnButton;
-	HImageButton cdUpButton;
+	private HImageButton refreshButton;
+	private HImageButton cdButton;
+	private HImageButton uploadButton;
+	private HImageButton zipButton;
+	private HImageButton cpButton;
+	private HImageButton rnButton;
+	private HImageButton cdUpButton;
 	private boolean pathChanged = true;
 	private boolean firstGui = true;
 	private DefaultListModel jlm;
@@ -145,7 +145,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 	/**
 	 * Creates the gui and adds the MouseListener etc.
 	 */
-	public void gui_init() {
+	private void gui_init() {
 		this.setLayout(new BorderLayout());
 		this.currDirPanel.setFloatable(false);
 		this.buttonPanel.setFloatable(false);
@@ -326,14 +326,14 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		this.setVisible(true);
 	}
 
-	public void doChdir(String path) {
+	private void doChdir(String path) {
 
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		this.con.chdir(path);
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
-	public void gui(boolean fakeInit) {
+	private void gui(boolean fakeInit) {
 		if (this.firstGui) {
 			this.gui_init();
 			this.firstGui = false;
@@ -353,7 +353,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		this.validate();
 	}
 
-	public void setDirList(boolean fakeInit) {
+	private void setDirList(boolean fakeInit) {
 		this.jlm = new DefaultListModel();
 
 		DirEntry dwn = new DirEntry("..", this);
@@ -674,7 +674,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		}
 	}
 
-	public synchronized void blockedTransfer(int index) {
+	private synchronized void blockedTransfer(int index) {
 		this.tmpindex = index;
 
 		Runnable r = () -> { // --------------- local -------------------
@@ -754,7 +754,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
-	public synchronized void transfer() {
+	private synchronized void transfer() {
 		boolean[] bFileSelected = new boolean[this.dirEntry.length + 1];
 		DirEntry[] cacheEntry = new DirEntry[this.dirEntry.length];
 		System.arraycopy(this.dirEntry, 0, cacheEntry, 0, cacheEntry.length);
@@ -812,7 +812,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		}
 	}
 
-	public void transfer(int i) {
+	private void transfer(int i) {
 		if (-2 == i) {
 			this.transfer();
 
@@ -821,7 +821,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		}
 	}
 
-	public void safeUpdate() {
+	private void safeUpdate() {
 		UpdateDaemon.updateLocalDir();
 	}
 
@@ -958,7 +958,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
-	public void showContentWindow(String url, DirEntry d) {
+	private void showContentWindow(String url, DirEntry d) {
 		//------- popup -> run
 		if (Settings.runtimeCommands > 0 && url.startsWith("popup-run@")) {
 			String ext = url.substring(10);

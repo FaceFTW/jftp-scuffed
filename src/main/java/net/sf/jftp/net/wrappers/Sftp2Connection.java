@@ -42,7 +42,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Sftp2Connection implements BasicConnection {
-	public static final int smbBuffer = 32000;
+	private static final int smbBuffer = 32000;
 	private final String host;
 	private String path = "";
 	private String pwd = "/";
@@ -215,7 +215,7 @@ public class Sftp2Connection implements BasicConnection {
 		return this.chdir(p, true);
 	}
 
-	public boolean chdir(String p, boolean refresh) {
+	private boolean chdir(String p, boolean refresh) {
 		String tmp = this.toSFTP(p);
 
 		try {
@@ -674,7 +674,7 @@ public class Sftp2Connection implements BasicConnection {
 	/**
 	 * remote directory has changed
 	 */
-	public void fireDirectoryUpdate() {
+	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -703,7 +703,7 @@ public class Sftp2Connection implements BasicConnection {
 	/**
 	 * progress update
 	 */
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	private void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 			return;
 		}
@@ -725,7 +725,7 @@ public class Sftp2Connection implements BasicConnection {
 		}
 	}
 
-	public void fireActionFinished(Sftp2Connection con) {
+	private void fireActionFinished(Sftp2Connection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -810,7 +810,7 @@ public class Sftp2Connection implements BasicConnection {
 
 class MyUserInfo implements UserInfo {
 
-	final String password;
+	private final String password;
 
 	MyUserInfo(String pass) {
 		super();

@@ -55,7 +55,7 @@ public class StringUtils {
 	/**
 	 * Returns the rest of a string after a given character
 	 */
-	public static String cutAfter(String str, char c) {
+	private static String cutAfter(String str, char c) {
 		for (int i = 0; i < str.length(); i++) {
 			if (str.charAt(i) == c) {
 				//   System.out.println(str.substring(i+1));
@@ -98,7 +98,7 @@ public class StringUtils {
 	/**
 	 * Returns a string representing a given character
 	 */
-	public static String string(char c) {
+	private static String string(char c) {
 		char[] buf = new char[1];
 		buf[0] = c;
 

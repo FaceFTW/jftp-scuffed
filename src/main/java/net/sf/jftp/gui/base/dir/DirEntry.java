@@ -30,8 +30,8 @@ public class DirEntry {
 	public static final int R = FtpConstants.R;
 	public static final int W = FtpConstants.W;
 	public static final int DENIED = FtpConstants.DENIED;
-	static final Object[] extensions = {new String[]{Settings.textFileImage, ".txt", ".doc", ".rtf"}, new String[]{Settings.htmlFileImage, ".htm", ".html"}, new String[]{Settings.zipFileImage, ".arj", ".bz", ".bz2", ".deb", ".jar", ".gz", ".rav", ".rpm", ".tar", ".tgz", ".zip", ".z", ".iso"}, new String[]{Settings.imageFileImage, "bmp", ".gif", ".jpg", ".png", ".xbm", ".xpm"}, new String[]{Settings.codeFileImage, ".c", ".cc", ".h", ".java"}, new String[]{Settings.audioFileImage, ".au", ".mid", ".midi", ".mp3", ".wav"}, new String[]{Settings.execFileImage, ".bat", ".csh", ".cgi", ".com", ".class", ".cmd", ".csh", ".dtksh", ".exe", ".ksh", ".pdksh", ".pl", ".sh", ".tcl", ".tksh", ".zsh"}, new String[]{Settings.presentationFileImage, ".ppt"}, new String[]{Settings.spreadsheetFileImage, ".xls"}, new String[]{Settings.videoFileImage, ".asf", ".avi", ".mpg", "mpeg", ".wmf"}};
-	static final java.util.Map<String, String> extensionMap = new java.util.HashMap<>();
+	private static final Object[] extensions = {new String[]{Settings.textFileImage, ".txt", ".doc", ".rtf"}, new String[]{Settings.htmlFileImage, ".htm", ".html"}, new String[]{Settings.zipFileImage, ".arj", ".bz", ".bz2", ".deb", ".jar", ".gz", ".rav", ".rpm", ".tar", ".tgz", ".zip", ".z", ".iso"}, new String[]{Settings.imageFileImage, "bmp", ".gif", ".jpg", ".png", ".xbm", ".xpm"}, new String[]{Settings.codeFileImage, ".c", ".cc", ".h", ".java"}, new String[]{Settings.audioFileImage, ".au", ".mid", ".midi", ".mp3", ".wav"}, new String[]{Settings.execFileImage, ".bat", ".csh", ".cgi", ".com", ".class", ".cmd", ".csh", ".dtksh", ".exe", ".ksh", ".pdksh", ".pl", ".sh", ".tcl", ".tksh", ".zsh"}, new String[]{Settings.presentationFileImage, ".ppt"}, new String[]{Settings.spreadsheetFileImage, ".xls"}, new String[]{Settings.videoFileImage, ".asf", ".avi", ".mpg", "mpeg", ".wmf"}};
+	private static final java.util.Map<String, String> extensionMap = new java.util.HashMap<>();
 
 	static {
 		for (Object extension : extensions) {
@@ -47,8 +47,8 @@ public class DirEntry {
 	public String file = "";
 	public boolean selected;
 	public ActionListener who;
-	public boolean isFile = true;
-	public Date date;
+	private boolean isFile = true;
+	private Date date;
 	//private boolean entered = false;
 	private Image img;
 	private boolean isDirectory;

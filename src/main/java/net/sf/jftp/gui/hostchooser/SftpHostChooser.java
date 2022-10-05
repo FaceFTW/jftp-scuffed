@@ -46,17 +46,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class SftpHostChooser extends HFrame implements ActionListener, WindowListener, ChangeListener {
-	public final HTextField host = new HTextField("Host:", "localhost");
-	public final HTextField user = new HTextField("Username:", "guest");
-	public final HTextField port = new HTextField("Port:", "22");
-	public final HPasswordField pass = new HPasswordField("Password/Phrase:", "nopasswd");
-	public final JComboBox enc = new JComboBox();
-	public final JComboBox cs = new JComboBox();
-	public final JComboBox keys = new JComboBox();
-	public final JLabel encL = new JLabel("Preferred Encryption");
-	public final JLabel csL = new JLabel("Preferred Message Authentication");
-	public final JLabel keysL = new JLabel("Preferred Public Key");
-	public final JLabel keyfileL = new JLabel("None, maybe look in ~/.ssh");
+	private final HTextField host = new HTextField("Host:", "localhost");
+	private final HTextField user = new HTextField("Username:", "guest");
+	private final HTextField port = new HTextField("Port:", "22");
+	private final HPasswordField pass = new HPasswordField("Password/Phrase:", "nopasswd");
+	private final JComboBox enc = new JComboBox();
+	private final JComboBox cs = new JComboBox();
+	private final JComboBox keys = new JComboBox();
+	private final JLabel encL = new JLabel("Preferred Encryption");
+	private final JLabel csL = new JLabel("Preferred Message Authentication");
+	private final JLabel keysL = new JLabel("Preferred Public Key");
+	private final JLabel keyfileL = new JLabel("None, maybe look in ~/.ssh");
 	private final HButton ok = new HButton("Connect");
 	private final HButton keyfile = new HButton("Choose Key File");
 	private ComponentListener listener;
@@ -81,7 +81,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		this.setLocation(100, 150);
 		this.setTitle("Sftp Connection...");
 		this.setBackground(new HPanel().getBackground());

@@ -31,7 +31,7 @@ import java.awt.event.ActionListener;
 
 
 public class AdvancedOptions extends HPanel implements ActionListener {
-	public static boolean listOptionSet;
+	private static boolean listOptionSet;
 	private final HTextField listCommand = new HTextField("FTP LIST command:", FtpConnection.LIST, 15);
 	private final JButton setListCommand = new JButton("Set");
 

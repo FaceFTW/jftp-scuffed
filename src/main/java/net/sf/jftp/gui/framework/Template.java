@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Template extends HPanel implements ActionListener {
+class Template extends HPanel implements ActionListener {
 	public Template() {
 		super();
 		this.setVisible(true);

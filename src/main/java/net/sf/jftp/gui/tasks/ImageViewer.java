@@ -26,7 +26,7 @@ import java.awt.Toolkit;
 import java.net.URL;
 
 
-public class ImageViewer extends JInternalFrame {
+class ImageViewer extends JInternalFrame {
 	public ImageViewer(String img) {
 		super(img, true, true, true, true);
 		this.setLocation(150, 50);

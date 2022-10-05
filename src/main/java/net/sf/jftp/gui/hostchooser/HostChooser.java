@@ -50,15 +50,15 @@ import java.io.IOException;
 
 
 public class HostChooser extends HFrame implements ActionListener, WindowListener {
-	public final HTextField host = new HTextField("Hostname:", "localhost        ");
-	public final HTextField user = new HTextField("Username:", "anonymous        ");
+	private final HTextField host = new HTextField("Hostname:", "localhost        ");
+	private final HTextField user = new HTextField("Username:", "anonymous        ");
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
-	public final HTextField port = new HTextField("Port:    ", "21");
-	public final HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
-	public final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
-	public final HTextField dl = new HTextField("Max. connections:    ", "3");
-	public final HTextField crlf = new HTextField("Override server newline:    ", "<default>");
+	private final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
+	private final HTextField port = new HTextField("Port:    ", "21");
+	private final HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
+	private final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
+	private final HTextField dl = new HTextField("Max. connections:    ", "3");
+	private final HTextField crlf = new HTextField("Override server newline:    ", "<default>");
 	private final JCheckBox anonBox = new JCheckBox("Use anonymous login", false);
 	private final JCheckBox listBox = new JCheckBox("LIST compatibility mode", false);
 	private final JCheckBox dirBox = new JCheckBox("Use default directories", Settings.getUseDefaultDir());
@@ -94,7 +94,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		this.setTitle("Ftp Connection...");
 		this.setBackground(this.okP.getBackground());
 
@@ -408,7 +408,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	public void windowOpened(WindowEvent e) {
 	}
 
-	public void pause(int time) {
+	private void pause(int time) {
 		try {
 			Thread.sleep(time);
 		} catch (Exception ex) {

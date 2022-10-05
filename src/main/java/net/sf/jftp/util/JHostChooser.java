@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class JHostChooser extends HFrame implements ActionListener {
+class JHostChooser extends HFrame implements ActionListener {
 	private final JTextField host = new JTextField(20);
 	private final JTextField port = new JTextField(5);
 	private final JButton ok = new JButton("Use these settings");

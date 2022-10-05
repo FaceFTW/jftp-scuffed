@@ -41,7 +41,7 @@ import java.util.List;
 
 
 public class SmbConnection extends NtlmAuthenticator implements BasicConnection {
-	public static final int smbBuffer = 128000;
+	private static final int smbBuffer = 128000;
 	private String path = "";
 	private String pwd = "smb://";
 	private java.util.List<ConnectionListener> listeners = new java.util.ArrayList<>();
@@ -212,7 +212,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return this.chdir(p, true);
 	}
 
-	public boolean chdir(String p, boolean refresh) {
+	private boolean chdir(String p, boolean refresh) {
 		try {
 			if (p.endsWith("..")) {
 				return this.cdup();
@@ -628,7 +628,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	/**
 	 * remote directory has changed
 	 */
-	public void fireDirectoryUpdate() {
+	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -644,7 +644,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	/**
 	 * progress update
 	 */
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	private void fireProgressUpdate(String file, String type, int bytes) {
 		//System.out.println(listener);
 		if (null == this.listeners) {
 		} else {
@@ -666,7 +666,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		}
 	}
 
-	public void fireActionFinished(SmbConnection con) {
+	private void fireActionFinished(SmbConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {

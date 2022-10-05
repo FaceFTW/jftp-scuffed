@@ -45,14 +45,14 @@ import java.awt.event.WindowListener;
 public class RsyncHostChooser extends HFrame implements ActionListener, WindowListener {
 
 
-	public final HTextField host = new HTextField("Hostname:", "localhost        ");
-	public final HTextField user = new HTextField("Username:", "anonymous        ");
+	private final HTextField host = new HTextField("Hostname:", "localhost        ");
+	private final HTextField user = new HTextField("Username:", "anonymous        ");
 
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
-	public final HTextField port = new HTextField("Port:    ", "21");
-	public final HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
-	public final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
+	private final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
+	private final HTextField port = new HTextField("Port:    ", "21");
+	private final HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
+	private final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
 	private final HButton backMode = new HButton("Yes");
@@ -82,7 +82,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.init();
 	}
 
-	public void init() {
+	private void init() {
 
 
 		this.setTitle("RSync Connection...");

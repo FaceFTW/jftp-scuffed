@@ -25,7 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Remover extends HFrame implements ActionListener {
+class Remover extends HFrame implements ActionListener {
 	private final HTextField text;
 	private final HButton ok = new HButton("Remove file/directory...");
 	private final HButton cancel = new HButton("Cancel");

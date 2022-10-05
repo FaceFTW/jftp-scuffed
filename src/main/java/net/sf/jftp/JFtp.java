@@ -87,10 +87,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static final DownloadQueue dQueue = new DownloadQueue();
 	public static final HostInfo hostinfo = new HostInfo();
 	public static final JDesktopPane desktop = new JDesktopPane();
-	public static final int acceptableActions = DnDConstants.ACTION_COPY;
+	private static final int acceptableActions = DnDConstants.ACTION_COPY;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
-	public static boolean mainUsed;
+	private static boolean mainUsed;
 	public static StatusPanel statusP;
 	public static JLabel statusL = new JLabel("Welcome to JFtp...                                                            ");
 	public static JFrame mainFrame;
@@ -98,19 +98,19 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static Dir remoteDir;
 	public static boolean uiBlocked;
 	public static JTextArea log;
-	public static boolean doScroll = true;
+	private static boolean doScroll = true;
 	public static AppMenuBar menuBar;
 	public static DropTarget dropTarget;
-	public static DropTargetListener dtListener;
+	private static DropTargetListener dtListener;
 	private static JScrollPane logSp;
-	public final JTabbedPane remoteConnectionPanel = new JTabbedPane();
-	public final JTabbedPane localConnectionPanel = new JTabbedPane();
+	private final JTabbedPane remoteConnectionPanel = new JTabbedPane();
+	private final JTabbedPane localConnectionPanel = new JTabbedPane();
 	private final boolean initSize = true;
 	private final String oldText = "";
 	private final JToolBar bottomBar = new JToolBar();
 	private final JSplitPane workP = null;
 	private final JSplitPane logP = null;
-	public HostChooser hc;
+	private HostChooser hc;
 	public RSSFeeder feeder;
 	private HDesktopBackground background;
 	private JInternalFrame j1;
@@ -133,7 +133,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		this.displayGUI();
 	}
 
-	public JFtp(boolean mainUsed) {
+	private JFtp(boolean mainUsed) {
 		super();
 		Log.setLogger(this);
 		JFtp.mainUsed = mainUsed;
@@ -266,7 +266,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		logSp.paintImmediately(0, 0, logSp.getSize().width, logSp.getSize().height);
 	}
 
-	public static String getVersion() {
+	private static String getVersion() {
 		try {
 			URL u = ClassLoader.getSystemResource(Settings.readme);
 
@@ -319,7 +319,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		menuBar.resetFileItems();
 	}
 
-	public void init() {
+	private void init() {
 		dtListener = new DTListener();
 		dropTarget = new DropTarget(this, acceptableActions, dtListener, true);
 
@@ -467,7 +467,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		System.out.println("dfdfsgsd");
 	}
 
-	protected void chooseHost() {
+	private void chooseHost() {
 		this.hc = new HostChooser(this);
 
 		if (!mainUsed) {
@@ -584,7 +584,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		StatusPanel.status.fresh();
 	}
 
-	public void addBackgroundImage() {
+	private void addBackgroundImage() {
 		try {
 			this.background = new HDesktopBackground(Settings.background, null);
 			this.background.setBounds(0, 0, this.getSize().width, this.getSize().height);
@@ -594,7 +594,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		}
 	}
 
-	protected void displayGUI() {
+	private void displayGUI() {
 		UIManager.getLookAndFeelDefaults().put("ClassLoader", this.getClass().getClassLoader());
 
 		String tmp = Settings.getLookAndFeel();
@@ -955,7 +955,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		}
 	}
 
-	public void handleDrop(DropTargetDropEvent e, Transferable t) throws Exception {
+	private void handleDrop(DropTargetDropEvent e, Transferable t) throws Exception {
 		System.out.println("Starting dropAttempt");
 
 		DataFlavor chosen = DataFlavor.javaFileListFlavor;

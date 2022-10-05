@@ -27,16 +27,16 @@ import java.awt.Image;
 
 
 public class StatusCanvas extends JPanel {
-	final JLabel host = new JLabel("");
-	final JLabel text = new JLabel(Settings.greeting);
+	private final JLabel host = new JLabel("");
+	private final JLabel text = new JLabel(Settings.greeting);
 	JLabel separator = new JLabel("   ");
-	String drawText = "";
-	int pos;
-	Image image;
-	Graphics offg;
-	boolean slide;
-	int interval = 3;
-	boolean fwd;
+	private String drawText = "";
+	private int pos;
+	private Image image;
+	private Graphics offg;
+	private boolean slide;
+	private int interval = 3;
+	private boolean fwd;
 
 	public StatusCanvas() {
 		super();

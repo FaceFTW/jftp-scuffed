@@ -17,7 +17,7 @@ import java.util.List;
 
 public class TableUtils {
 
-	public static void calcColumnWidths(JTable table) {
+	private static void calcColumnWidths(JTable table) {
 		JTableHeader header = table.getTableHeader();
 
 		TableCellRenderer defaultHeaderRenderer = null;
@@ -65,7 +65,7 @@ public class TableUtils {
 
 	}
 
-	public static void setFixedWidths(JTable table) {
+	private static void setFixedWidths(JTable table) {
 		JTableHeader header = table.getTableHeader();
 
 		TableCellRenderer defaultHeaderRenderer = null;
@@ -184,7 +184,7 @@ public class TableUtils {
 
 	}
 
-	public static void modifyTableHeader(JTableHeader head, List<String> columnNames) {
+	private static void modifyTableHeader(JTableHeader head, List<String> columnNames) {
 
 		TableColumnModel m = head.getColumnModel();
 

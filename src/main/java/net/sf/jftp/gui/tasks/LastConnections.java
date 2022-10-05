@@ -47,7 +47,7 @@ public class LastConnections {
 	//succeeded
 	//SHOULD THIS BE PRIVATE?
 	//public static void writeToFile(String[] a, int capacity) {
-	public static void writeToFile(String[][] a, int capacity) {
+	private static void writeToFile(String[][] a, int capacity) {
 		try {
 			File f1 = new File(Settings.appHomeDir);
 			f1.mkdir();

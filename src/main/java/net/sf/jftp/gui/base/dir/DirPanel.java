@@ -33,7 +33,7 @@ public class DirPanel extends HPanel implements Dir {
 	public String path = "./";
 	public JList jl = new JList();
 
-	public DirPanel() {
+	DirPanel() {
 		super();
 	}
 

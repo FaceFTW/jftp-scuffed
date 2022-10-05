@@ -30,21 +30,21 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 
-public class FileSearch {
+class FileSearch {
 
 	public static final boolean quiet = true;
-	public static final boolean ultraquiet = false;
-	final String localDir = ".";
-	final int MAX = 999999;
-	final int MIN_FACTOR = 1;
-	final boolean LOAD = false;
+	private static final boolean ultraquiet = false;
+	private final String localDir = ".";
+	private final int MAX = 999999;
+	private final int MIN_FACTOR = 1;
+	private final boolean LOAD = false;
 	private final java.util.Map<String, String> checked = new java.util.HashMap<>();
-	int MIN_TERM = 1;
-	String[] typeArray = {""};
-	String[] termArray = {""};
-	String[] optArray = {""};
-	String[] ignoreArray = {""};
-	String[] scanArray = {""};
+	private int MIN_TERM = 1;
+	private String[] typeArray = {""};
+	private String[] termArray = {""};
+	private String[] optArray = {""};
+	private String[] ignoreArray = {""};
+	private String[] scanArray = {""};
 	private int currentDepth;
 
 	public static void main(String[] argv) {
@@ -301,7 +301,7 @@ class Getter {
 		this.localDir = localDir;
 	}
 
-	public static void chill(int time) {
+	private static void chill(int time) {
 		try {
 			Thread.sleep(time);
 		} catch (Exception ex) {

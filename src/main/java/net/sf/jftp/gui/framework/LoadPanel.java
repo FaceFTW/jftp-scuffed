@@ -16,5 +16,5 @@
 package net.sf.jftp.gui.framework;
 
 // class is obsolete
-public class LoadPanel extends HPanel {
+class LoadPanel extends HPanel {
 }

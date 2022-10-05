@@ -20,7 +20,7 @@ import net.sf.jftp.config.Settings;
 import java.io.PrintStream;
 
 
-public class JRawConnection implements Runnable {
+class JRawConnection implements Runnable {
 	private final String host;
 	private final int port;
 	private PrintStream out;

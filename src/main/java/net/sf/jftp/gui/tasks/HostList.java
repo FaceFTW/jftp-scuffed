@@ -72,7 +72,7 @@ public class HostList extends JDialog {
 	/**
 	 * Adds listeners to any components that need them
 	 */
-	protected void initListeners() {
+	private void initListeners() {
 		this.hostList.addListSelectionListener(lse -> this.onSelectHost());
 		this.jbsave.addActionListener(ae -> this.onSave());
 		this.jbok.addActionListener(ae -> this.onOk());
@@ -97,7 +97,7 @@ public class HostList extends JDialog {
 	/**
 	 * overall initialization routine called from the ctor
 	 */
-	protected void init() {
+	private void init() {
 		this.initPrompts();
 		this.initHostInfoPanel();
 		this.initButtonPanel();
@@ -120,14 +120,14 @@ public class HostList extends JDialog {
 	 * take hold, you can change the values of the prompt
 	 * strings to whatever
 	 */
-	protected void initPrompts() {
+	private void initPrompts() {
 		// do nothing
 	}
 
 	/**
 	 * initialize the button panel
 	 */
-	protected void initButtonPanel() {
+	private void initButtonPanel() {
 		this.jpbuttons = new JPanel();
 		this.jpbuttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		final String promptButtonCancel = "Cancel";
@@ -148,7 +148,7 @@ public class HostList extends JDialog {
 	/**
 	 * Build the host info panel
 	 */
-	protected void initHostInfoPanel() {
+	private void initHostInfoPanel() {
 		this.jtfHost = new JTextField(20);
 		this.jtfUser = new JTextField(20);
 		this.jtfPass = new JPasswordField(20);
@@ -224,7 +224,7 @@ public class HostList extends JDialog {
 	/**
 	 * Initializes the overall dialog/frame
 	 */
-	protected void initHostListFrame() {
+	private void initHostListFrame() {
 		this.hostListModel = new DefaultListModel();
 		this.hostList = new JList(this.hostListModel);
 		javax.swing.JScrollPane jscrollpane = new javax.swing.JScrollPane(this.hostList);
@@ -248,7 +248,7 @@ public class HostList extends JDialog {
 	/**
 	 * Loads the host list from the hard drive
 	 */
-	protected void loadHostList() {
+	private void loadHostList() {
 		//Log.out("x");
 		// current host number
 		int i = 0;
@@ -281,7 +281,7 @@ public class HostList extends JDialog {
 		}
 	}
 
-	public void onSelectHost() {
+	private void onSelectHost() {
 		// update the old one, then show the new one
 		this.updateHostInfoObject();
 		this.selectedHostInfo = this.getSelected();
@@ -291,7 +291,7 @@ public class HostList extends JDialog {
 	/**
 	 * Delete button handler
 	 */
-	public void onDelete() {
+	private void onDelete() {
 		Object selected = this.hostList.getSelectedValue();
 		this.hostListModel.removeElement(selected);
 		this.selectedHostInfo = null;
@@ -309,7 +309,7 @@ public class HostList extends JDialog {
 	/**
 	 * Save button handler
 	 */
-	public void onSave() {
+	private void onSave() {
 		this.updateHostInfoObject();
 
 		// remove all previously saved hosts
@@ -344,7 +344,7 @@ public class HostList extends JDialog {
 	/**
 	 * OK Button handler
 	 */
-	public void onOk() {
+	private void onOk() {
 		this.selectedHostInfo = this.getSelected();
 		this.onSave();
 		this.dispose();
@@ -353,7 +353,7 @@ public class HostList extends JDialog {
 	/**
 	 * Cancel button handler
 	 */
-	public void onCancel() {
+	private void onCancel() {
 		this.selectedHostInfo = null;
 		this.dispose();
 	}
@@ -361,7 +361,7 @@ public class HostList extends JDialog {
 	/**
 	 * Create a default one and stuff itin the list
 	 */
-	public void onNew() {
+	private void onNew() {
 		FtpHost ftpHost = new FtpHost();
 		ftpHost.name = "undefined";
 		ftpHost.username = "undefined";

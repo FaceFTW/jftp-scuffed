@@ -27,8 +27,8 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class Renamer extends HFrame implements ActionListener {
-	public final HTextField text;
+class Renamer extends HFrame implements ActionListener {
+	private final HTextField text;
 	private final HButton ok = new HButton("Ok");
 	private final HPanel okP = new HPanel();
 	private final String oldName;

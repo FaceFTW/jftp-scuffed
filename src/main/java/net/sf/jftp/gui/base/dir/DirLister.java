@@ -92,7 +92,7 @@ public class DirLister implements ActionListener {
 		}
 	}
 
-	public void init() {
+	private void init() {
 		try {
 			String outfile = Settings.ls_out;
 
@@ -276,7 +276,7 @@ public class DirLister implements ActionListener {
 		return 0 < c.getTime().compareTo(c2.getTime());
 	}
 
-	public void sortFirst() {
+	private void sortFirst() {
 		String[] tmpx = new String[this.length];
 
 		for (int x = 0; x < this.length; x++) {

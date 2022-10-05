@@ -55,7 +55,7 @@ public class FtpEventHandler implements EventHandler {
 		this.client.login(args.get(1));
 	}
 
-	public void disconnect(List<String> args) {
+	private void disconnect(List<String> args) {
 		System.out.println("***disconnect");
 		this.client.disconnect();
 	}

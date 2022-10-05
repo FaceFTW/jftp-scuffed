@@ -5,7 +5,7 @@ import net.sf.jftp.net.Transfer;
 
 import java.util.List;
 
-public class Sftp2Transfer implements Runnable {
+class Sftp2Transfer implements Runnable {
 	private final String host;
 	private final String localPath;
 	private final String remotePath;
@@ -16,7 +16,7 @@ public class Sftp2Transfer implements Runnable {
 	private final List<ConnectionListener> listeners;
 	private final String keyfile;
 	private final String port;
-	public Thread runner;
+	private Thread runner;
 	private Sftp2Connection con;
 
 	public Sftp2Transfer(String localPath, String remotePath, String file, String user, String pass, java.util.List<ConnectionListener> listeners, String type, String keyfile, String host, String port) {
@@ -35,7 +35,7 @@ public class Sftp2Transfer implements Runnable {
 		this.prepare();
 	}
 
-	public void prepare() {
+	private void prepare() {
 		this.runner = new Thread(this);
 		this.runner.setPriority(Thread.MIN_PRIORITY);
 		this.runner.start();

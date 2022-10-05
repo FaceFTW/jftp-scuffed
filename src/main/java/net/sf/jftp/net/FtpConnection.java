@@ -48,9 +48,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	public static final String BINARY = "I";
 	public static final String EBCDIC = "E";
 	public static final String L8 = "L 8";
-	public static final String STREAM = "S";
-	public static final String BLOCKED = "B";
-	public static final String COMPRESSED = "C";
+	private static final String STREAM = "S";
+	private static final String BLOCKED = "B";
+	private static final String COMPRESSED = "C";
 	private static final boolean TESTMODE = false;
 	// everything starting with this will be treated
 	// as a negative response
@@ -76,9 +76,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private static int porta = 5; // 5 * 256 + 1 = 1281
 	private static int portb = 1;
 	public final List<String> currentListing = new ArrayList<>();
-	public final List<String> currentFiles = new ArrayList<>();
-	public final List<String> currentSizes = new ArrayList<>();
-	public final List<String> currentPerms = new ArrayList<>();
+	private final List<String> currentFiles = new ArrayList<>();
+	private final List<String> currentSizes = new ArrayList<>();
+	private final List<String> currentPerms = new ArrayList<>();
 	private final String[] loginAck = new String[]{FtpConstants.FTP331_USER_OK_NEED_PASSWORD, FtpConstants.FTP230_LOGGED_IN};
 	private final List<FtpTransfer> transfers = new ArrayList<>();
 	/**
@@ -835,7 +835,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @return A Part of the SYST comman server response
 	 */
-	public String getOsType() {
+	private String getOsType() {
 		if (TESTMODE) {
 			return "MVS";
 		} else {
@@ -1197,7 +1197,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param realName The file to rename the uploaded file to
 	 * @return An int-statuscode, NEW_TRANSFER_SPAWNED,TRANSFER_FAILED or TRANSFER_SUCCESSFUL
 	 */
-	public int handleUpload(String file, String realName) {
+	private int handleUpload(String file, String realName) {
 		if (Settings.getEnableMultiThreading() && (!Settings.getNoUploadMultiThreading())) {
 			Log.out("spawning new thread for this upload.");
 
@@ -1265,7 +1265,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param in       InputStream to read from
 	 * @return An int responsecode
 	 */
-	public int upload(String file, String realName, InputStream in) {
+	private int upload(String file, String realName, InputStream in) {
 		this.hasUploaded = true;
 		Log.out("ftp upload started: " + this);
 
@@ -1653,7 +1653,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param until The String the response line hast to start with, 2 for succesful return codes for example
 	 */
-	public String getLine(String until) {
+	private String getLine(String until) {
 		return this.getLine(new String[]{until});
 	}
 
@@ -1661,7 +1661,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Reads the response until line found or error.
 	 * (Used internally)
 	 */
-	public String getLine(String[] until) {
+	private String getLine(String[] until) {
 		BufferedReader in = null;
 
 		try {
@@ -1779,7 +1779,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param dirName The raw directory name
 	 * @return True if successful, false otherwise
 	 */
-	public boolean chdirRaw(String dirName) {
+	private boolean chdirRaw(String dirName) {
 		this.jcon.send(FtpConstants.CWD + " " + dirName);
 
 		return this.success(POSITIVE);//FTP250_COMPLETED);
@@ -2046,7 +2046,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param time The time to sleep in milliseconds
 	 */
-	public void pause(int time) {
+	private void pause(int time) {
 		try {
 			Thread.sleep(time);
 		} catch (Exception ex) {
@@ -2184,11 +2184,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		return "PORT " + ip + "," + porta + "," + portb;
 	}
 
-	public void binary() {
+	private void binary() {
 		this.type(BINARY);
 	}
 
-	public void ascii() {
+	private void ascii() {
 		this.type(ASCII);
 	}
 
@@ -2240,7 +2240,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @return The server response of the SYST command
 	 */
-	public String system() { // possible responses 215, 500, 501, 502, and 421
+	private String system() { // possible responses 215, 500, 501, 502, and 421
 		this.jcon.send(FtpConstants.SYST);
 
 		String response = this.getLine(POSITIVE);//FTP215_SYSTEM_TYPE);
@@ -2258,7 +2258,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Set mode to Stream.
 	 * Used internally.
 	 */
-	public void modeStream() {
+	private void modeStream() {
 		if (useStream && !this.modeStreamSet) {
 			String ret = this.mode(STREAM);
 
@@ -2298,7 +2298,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param code The mode code wanted, I, A, L8 for example
 	 * @return The server's response to the request
 	 */
-	public String mode(String code) {
+	private String mode(String code) {
 		this.jcon.send(FtpConstants.MODE + " " + code);
 
 		String ret = "";
@@ -2374,7 +2374,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param con The FtpConnection calling the event
 	 */
-	public void fireDirectoryUpdate(FtpConnection con) {
+	private void fireDirectoryUpdate(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -2419,7 +2419,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param con The FtpConnection calling the event
 	 */
-	public void fireConnectionInitialized(FtpConnection con) {
+	private void fireConnectionInitialized(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -2434,7 +2434,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @param con The FtpConnection calling the event
 	 * @param why The login() response code
 	 */
-	public void fireConnectionFailed(FtpConnection con, String why) {
+	private void fireConnectionFailed(FtpConnection con, String why) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -2448,7 +2448,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 *
 	 * @param con The FtpConnection calling the event
 	 */
-	public void fireActionFinished(FtpConnection con) {
+	private void fireActionFinished(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {

@@ -21,12 +21,12 @@ import java.net.URL;
 import java.util.Vector;
 
 
-public class RSSParser {
-	final URL file;
+class RSSParser {
+	private final URL file;
 	final Vector titles = new Vector();
 	final Vector descs = new Vector();
-	final Vector links = new Vector();
-	final Vector content = new Vector();
+	private final Vector links = new Vector();
+	private final Vector content = new Vector();
 
 	public RSSParser(URL f) {
 		super();

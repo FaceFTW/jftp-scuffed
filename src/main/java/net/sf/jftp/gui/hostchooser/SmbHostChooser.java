@@ -47,14 +47,14 @@ import java.net.NetworkInterface;
 
 
 public class SmbHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static final HTextField host = new HTextField("URL:", "smb://localhost/");
-	public static final HTextField user = new HTextField("Username:", "guest");
-	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
-	public final HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
-	public final HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
-	public final HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
-	public final JComboBox ip = new JComboBox();
-	final JCheckBox lan = new JCheckBox("Browse LAN", true);
+	private static final HTextField host = new HTextField("URL:", "smb://localhost/");
+	private static final HTextField user = new HTextField("Username:", "guest");
+	private static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	private final HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
+	private final HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
+	private final HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
+	private final JComboBox ip = new JComboBox();
+	private final JCheckBox lan = new JCheckBox("Browse LAN", true);
 	private final HButton ok = new HButton("Connect");
 	private ComponentListener listener;
 	private boolean useLocal;
@@ -77,7 +77,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		this.setPreferredSize(new Dimension(500, 320));
 		this.setLocation(100, 150);
 		this.setTitle("Smb Connection...");

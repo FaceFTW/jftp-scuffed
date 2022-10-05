@@ -35,12 +35,12 @@ public class HTextField extends JPanel {
 		this.init(l, t, 12, false);
 	}
 
-	public HTextField(String l, String t, boolean isPw) {
+	HTextField(String l, String t, boolean isPw) {
 		super();
 		this.init(l, t, 12, isPw);
 	}
 
-	public void init(String l, String t, int size, boolean isPw) {
+	private void init(String l, String t, int size, boolean isPw) {
 		this.setLayout(new MigLayout());
 
 		this.label = new JLabel(l);

@@ -70,17 +70,17 @@ import java.util.Date;
 
 
 public class RemoteDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
-	static final String deleteString = "rm";
-	static final String mkdirString = "mkdir";
-	static final String refreshString = "fresh";
-	static final String cdString = "cd";
-	static final String cmdString = "cmd";
-	static final String downloadString = "<-";
+	private static final String deleteString = "rm";
+	private static final String mkdirString = "mkdir";
+	private static final String refreshString = "fresh";
+	private static final String cdString = "cd";
+	private static final String cmdString = "cmd";
+	private static final String downloadString = "<-";
 	static final String uploadString = "->";
-	static final String queueString = "que";
-	static final String cdUpString = "cdUp";
-	static final String rnString = "rn";
-	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
+	private static final String queueString = "que";
+	private static final String cdUpString = "cdUp";
+	private static final String rnString = "rn";
+	private final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
 	private final DirCanvas label = new DirCanvas(this);
 	private final int pos = 0;
 	private final JPanel p = new JPanel();
@@ -99,15 +99,15 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 	private final JPopupMenu popupMenu = new JPopupMenu();
 	private final JMenuItem props = new JMenuItem("Properties");
 	private final JComboBox sorter = new JComboBox(this.sortTypes);
-	HImageButton deleteButton;
-	HImageButton mkdirButton;
-	HImageButton cmdButton;
-	HImageButton refreshButton;
-	HImageButton cdButton;
-	HImageButton downloadButton;
-	HImageButton queueButton;
-	HImageButton cdUpButton;
-	HImageButton rnButton;
+	private HImageButton deleteButton;
+	private HImageButton mkdirButton;
+	private HImageButton cmdButton;
+	private HImageButton refreshButton;
+	private HImageButton cdButton;
+	private HImageButton downloadButton;
+	private HImageButton queueButton;
+	private HImageButton cdUpButton;
+	private HImageButton rnButton;
 	private boolean pathChanged = true;
 	private boolean firstGui = true;
 	private DefaultListModel jlm;
@@ -141,7 +141,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		this.setDate();
 	}
 
-	public void gui_init() {
+	private void gui_init() {
 		this.setLayout(new BorderLayout());
 		this.currDirPanel.setFloatable(false);
 		this.buttonPanel.setFloatable(false);
@@ -326,7 +326,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		this.setVisible(true);
 	}
 
-	public void doChdir(String path) {
+	private void doChdir(String path) {
 
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		this.con.chdir(path);
@@ -376,7 +376,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 
 	}
 
-	public void setDirList(boolean fakeInit) {
+	private void setDirList(boolean fakeInit) {
 		this.jlm = new DefaultListModel();
 
 		DirEntry dwn = new DirEntry("..", this);
@@ -635,7 +635,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 	}
 
 
-	public synchronized void blockedTransfer(int index) {
+	private synchronized void blockedTransfer(int index) {
 		this.tmpindex = index;
 
 		Runnable r = () -> {
@@ -873,7 +873,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		UpdateDaemon.updateLog();
 	}
 
-	public synchronized void transfer() {
+	private synchronized void transfer() {
 		boolean[] bFileSelected = new boolean[this.dirEntry.length + 1];
 		DirEntry[] cacheEntry = new DirEntry[this.dirEntry.length];
 		System.arraycopy(this.dirEntry, 0, cacheEntry, 0, cacheEntry.length);
@@ -902,7 +902,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 	 * <p>
 	 * WARNING: If you do anything here, please check LocalDir.startTransfer(), too!
 	 */
-	public void startTransfer(DirEntry entry) {
+	private void startTransfer(DirEntry entry) {
 		if (this.con instanceof FtpConnection && JFtp.localDir.getCon() instanceof FtpConnection) {
 			if (entry.isDirectory()) {
 				Log.debug("Directory transfer between remote connections is not supported yet!");
@@ -958,7 +958,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		}
 	}
 
-	public void transfer(int i) {
+	private void transfer(int i) {
 		if (-2 == i) {
 			this.transfer();
 
@@ -1015,7 +1015,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 	/**
 	 * Mime type handler for doubleclicks on files
 	 */
-	public void showContentWindow(String url, DirEntry d) {
+	private void showContentWindow(String url, DirEntry d) {
 		try {
 			if (200000 < d.getRawSize()) {
 				Log.debug("File is too big - 200kb is the maximum, sorry.");

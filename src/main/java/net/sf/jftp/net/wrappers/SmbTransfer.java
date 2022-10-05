@@ -6,7 +6,7 @@ import net.sf.jftp.net.Transfer;
 import java.util.List;
 
 
-public class SmbTransfer implements Runnable {
+class SmbTransfer implements Runnable {
 	private final String url;
 	private final String domain;
 	private final String localPath;
@@ -15,7 +15,7 @@ public class SmbTransfer implements Runnable {
 	private final String pass;
 	private final String type;
 	private final List<ConnectionListener> listeners;
-	public Thread runner;
+	private Thread runner;
 	private SmbConnection con;
 
 	public SmbTransfer(String url, String localPath, String file, String user, String pass, String domain, List<ConnectionListener> listeners, String type) {
@@ -32,7 +32,7 @@ public class SmbTransfer implements Runnable {
 		this.prepare();
 	}
 
-	public void prepare() {
+	private void prepare() {
 		this.runner = new Thread(this);
 		this.runner.setPriority(Thread.MIN_PRIORITY);
 		this.runner.start();

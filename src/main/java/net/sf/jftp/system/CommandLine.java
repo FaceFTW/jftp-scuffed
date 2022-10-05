@@ -33,7 +33,7 @@ import java.io.InputStreamReader;
 public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 	private final EventCollector eventCollector;
 
-	public CommandLine() {
+	private CommandLine() {
 		super();
 		Log.setLogger(new SystemLogger());
 		this.eventCollector = new EventCollector();

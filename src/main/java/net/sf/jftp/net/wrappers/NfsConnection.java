@@ -37,7 +37,7 @@ import java.util.Date;
 
 
 public class NfsConnection implements BasicConnection {
-	public static final int buffer = 128000;
+	private static final int buffer = 128000;
 	private final boolean dummy = false;
 	private String url = "";
 	private String host = "";
@@ -95,7 +95,7 @@ public class NfsConnection implements BasicConnection {
 		return true;
 	}
 
-	public String[] getExports() throws Exception {
+	private String[] getExports() throws Exception {
 		XFile xf = new XFile(this.url);
 		com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
@@ -224,7 +224,7 @@ public class NfsConnection implements BasicConnection {
 		return this.chdir(p, true);
 	}
 
-	public boolean chdir(String p, boolean refresh) {
+	private boolean chdir(String p, boolean refresh) {
 		if (p.endsWith("..")) {
 			return this.cdup();
 		}
@@ -591,7 +591,7 @@ public class NfsConnection implements BasicConnection {
 	/**
 	 * remote directory has changed
 	 */
-	public void fireDirectoryUpdate() {
+	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -603,7 +603,7 @@ public class NfsConnection implements BasicConnection {
 	/**
 	 * progress update
 	 */
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	private void fireProgressUpdate(String file, String type, int bytes) {
 		//System.out.println(listener);
 		if (null == this.listeners) {
 		} else {
@@ -625,7 +625,7 @@ public class NfsConnection implements BasicConnection {
 		}
 	}
 
-	public void fireActionFinished(NfsConnection con) {
+	private void fireActionFinished(NfsConnection con) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {

@@ -21,7 +21,7 @@ import javax.swing.*;
 import java.io.DataInputStream;
 
 
-public class JReciever implements Runnable {
+class JReciever implements Runnable {
 	private final byte[] buf = new byte[4048];
 	private final DataInputStream in;
 

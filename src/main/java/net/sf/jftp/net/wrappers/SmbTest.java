@@ -4,9 +4,9 @@ import jcifs.smb.NtlmAuthenticator;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 
-public class SmbTest extends NtlmAuthenticator {
+class SmbTest extends NtlmAuthenticator {
 
-	public SmbTest(String[] argv) throws Exception {
+	private SmbTest(String[] argv) throws Exception {
 		super();
 		NtlmAuthenticator.setDefault(this);
 

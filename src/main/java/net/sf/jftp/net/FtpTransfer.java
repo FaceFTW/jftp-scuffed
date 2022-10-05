@@ -21,7 +21,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 	private final String type;
 	private final ConnectionHandler handler;
 	private final java.util.List<ConnectionListener> listeners;
-	public Thread runner;
+	private Thread runner;
 	private FtpConnection con;
 	private int stat;
 	private boolean started;

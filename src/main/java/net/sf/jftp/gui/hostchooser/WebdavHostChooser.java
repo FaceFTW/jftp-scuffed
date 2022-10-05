@@ -37,11 +37,11 @@ import java.awt.event.WindowListener;
 
 
 public class WebdavHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static final HTextField host = new HTextField("URL:", "http://localhost", 35);
-	public static final HTextField user = new HTextField("Username:", "guest");
+	private static final HTextField host = new HTextField("URL:", "http://localhost", 35);
+	private static final HTextField user = new HTextField("Username:", "guest");
 
 	//public static HTextField port = new HTextField("Port:","22");
-	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	private static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
 	private ComponentListener listener;
@@ -65,7 +65,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		//setSize(500, 200);
 		this.setLocation(100, 150);
 		this.setTitle("WebDAV Connection... (ALPHA STATE)");

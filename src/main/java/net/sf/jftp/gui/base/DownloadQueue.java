@@ -41,7 +41,7 @@ import java.util.ArrayList;
 
 public class DownloadQueue extends HPanel implements ActionListener {
 	private static final String SEP = "--> ";
-	final int NumRetry = 5;
+	private final int NumRetry = 5;
 	private final DefaultListModel liststr = new DefaultListModel();
 	private final JList list = new JList(this.liststr);
 	private final ArrayList queue = new ArrayList();
@@ -317,24 +317,24 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	}
 
 	class QueueRecord {
-		public String type;
+		String type;
 
 		// parameter used for ftp
-		public String hostname;
-		public String username;
-		public String password;
-		public String port;
-		public String file;
+		String hostname;
+		String username;
+		String password;
+		String port;
+		String file;
 
 		// local path
-		public String local;
+		String local;
 
 		// remote path
-		public String remote;
+		String remote;
 
 		// used only for smb
-		public String localip;
-		public String domain;
+		String localip;
+		String domain;
 
 		QueueRecord() {
 			super();
@@ -342,9 +342,9 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	}
 
 	class queueDownloader extends Thread implements ConnectionListener {
-		public boolean block;
-		public boolean connected;
-		public QueueRecord last;
+		boolean block;
+		boolean connected;
+		QueueRecord last;
 		private FtpConnection conFtp;
 
 		public void run() {

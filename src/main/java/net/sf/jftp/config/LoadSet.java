@@ -24,7 +24,7 @@ import java.io.FileReader;
 
 
 public class LoadSet {
-	public static String[] loadSet(String file, boolean ask) {
+	private static String[] loadSet(String file, boolean ask) {
 		try {
 			BufferedReader breader = new BufferedReader(new FileReader(file));
 			String[] result = new String[6];

@@ -32,7 +32,7 @@ import java.io.IOException;
 
 
 public class Displayer extends JInternalFrame implements ActionListener {
-	public static final boolean showCloseButton = false;
+	private static final boolean showCloseButton = false;
 
 	private final JTextArea info = new JTextArea(25, 50) {
 		public Insets getInsets() {

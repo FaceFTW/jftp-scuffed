@@ -36,7 +36,7 @@ import java.util.Date;
 
 
 public class WebdavConnection implements BasicConnection {
-	public static final int webdavBuffer = 32000;
+	private static final int webdavBuffer = 32000;
 	private final String user;
 	private final String pass;
 	private String path = "";
@@ -236,7 +236,7 @@ public class WebdavConnection implements BasicConnection {
 		return this.path;
 	}
 
-	public String processPath(String p) {
+	private String processPath(String p) {
 		try {
 			if (!p.startsWith("http://")) {
 				p = this.pwd + p;
@@ -583,7 +583,7 @@ public class WebdavConnection implements BasicConnection {
 		this.listeners = l;
 	}
 
-	public void fireDirectoryUpdate() {
+	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -596,7 +596,7 @@ public class WebdavConnection implements BasicConnection {
 		return true;
 	}
 
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	private void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {

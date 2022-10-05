@@ -31,16 +31,16 @@ import java.util.Enumeration;
 
 
 public class RSSFeeder extends JPanel implements Runnable, ActionListener {
-	public static String urlstring = Settings.getRSSFeed();
-	final StatusCanvas can = new StatusCanvas();
-	final HImageButton next = new HImageButton(Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
-	final int HEADER_IVAL = 4000;
-	final int LOAD_IVAL = 31 * 60000;
-	Thread runner;
-	URL url;
-	RSSParser parser;
-	boolean header;
-	boolean breakHeader;
+	private static String urlstring = Settings.getRSSFeed();
+	private final StatusCanvas can = new StatusCanvas();
+	private final HImageButton next = new HImageButton(Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
+	private final int HEADER_IVAL = 4000;
+	private final int LOAD_IVAL = 31 * 60000;
+	private Thread runner;
+	private URL url;
+	private RSSParser parser;
+	private boolean header;
+	private boolean breakHeader;
 
 	public RSSFeeder() {
 		super();

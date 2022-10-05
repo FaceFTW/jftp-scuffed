@@ -28,7 +28,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class Properties extends HFrame implements ActionListener {
+class Properties extends HFrame implements ActionListener {
 	private final Label fileL = new Label("File:                      ");
 	private final Label sizeL = new Label("Size: ? bytes              ");
 	private final HButton ok = new HButton("Dismiss");

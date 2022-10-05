@@ -29,7 +29,7 @@ import java.awt.image.ImageObserver;
 public class HDesktopBackground extends JPanel implements MouseListener {
 	private final Image img;
 	private final String cmd = "default";
-	public ActionListener who;
+	private ActionListener who;
 
 	public HDesktopBackground(String image, ActionListener who) {
 		super();

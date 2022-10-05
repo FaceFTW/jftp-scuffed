@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class RemoverQuery extends HFrame implements ActionListener {
+class RemoverQuery extends HFrame implements ActionListener {
 	private final String file;
 	private final String type;
 	private final HButton ok = new HButton("Ok");

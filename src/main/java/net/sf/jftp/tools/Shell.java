@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Shell extends HFrame implements Runnable {
-	final JTextArea text = new JTextArea(25, 101);
-	final List<String> commands = new ArrayList<>();
-	BufferedOutputStream out;
-	BufferedReader in;
+	private final JTextArea text = new JTextArea(25, 101);
+	private final List<String> commands = new ArrayList<>();
+	private BufferedOutputStream out;
+	private BufferedReader in;
 	BufferedOutputStream err;
 	long off;
-	Thread runner;
-	JScrollPane textP;
-	String input = "";
-	int currCmd;
+	private Thread runner;
+	private JScrollPane textP;
+	private String input = "";
+	private int currCmd;
 
 	public Shell(InputStream in, OutputStream out) {
 		super();
@@ -64,7 +64,7 @@ public class Shell extends HFrame implements Runnable {
 		}
 	}
 
-	public void init() throws Exception {
+	private void init() throws Exception {
 		this.setTitle("Shell");
 
 		this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);

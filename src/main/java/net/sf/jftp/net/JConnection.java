@@ -32,7 +32,7 @@ import java.net.Socket;
  * timeout sets (as the name says) the maximum time the Thread
  * waits for the target host...
  */
-public class JConnection implements Runnable {
+class JConnection implements Runnable {
 	private final String host;
 	private final int port;
 	private PrintStream out;

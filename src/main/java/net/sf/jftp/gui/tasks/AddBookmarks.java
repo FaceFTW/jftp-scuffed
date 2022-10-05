@@ -41,13 +41,13 @@ import java.io.PrintStream;
 public class AddBookmarks extends HFrame implements ActionListener, WindowListener {
 	private static net.sf.jftp.JFtp jftp;
 	//public JComboBox protocols = new JComboBox();
-	public final HComboBox protocols = new HComboBox("Protocol:");
-	public final HTextField host = new HTextField("Hostname:", "localhost");
-	public final HTextField user = new HTextField("Username:", "anonymous");
-	public final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
-	public final HTextField port = new HTextField("Port:    ", "21");
-	public final HTextField dirOrDom = new HTextField("Directory/Domain:    ", "");
-	public final HComboBox isLocal = new HComboBox("Local Connection:");
+	private final HComboBox protocols = new HComboBox("Protocol:");
+	private final HTextField host = new HTextField("Hostname:", "localhost");
+	private final HTextField user = new HTextField("Username:", "anonymous");
+	private final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
+	private final HTextField port = new HTextField("Port:    ", "21");
+	private final HTextField dirOrDom = new HTextField("Directory/Domain:    ", "");
+	private final HComboBox isLocal = new HComboBox("Local Connection:");
 	private final HButton add = new HButton("Add Bookmark");
 	private final HButton addAndConnect = new HButton("Add Bookmark and Connect to Server");
 
@@ -64,7 +64,7 @@ public class AddBookmarks extends HFrame implements ActionListener, WindowListen
 		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		this.setSize(650, 400);
 		this.setLocation(50, 150);
 		this.setTitle("Add Bookmarks...");

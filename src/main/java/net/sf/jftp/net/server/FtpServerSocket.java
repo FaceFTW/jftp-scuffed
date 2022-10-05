@@ -35,7 +35,7 @@ import java.util.ResourceBundle;
 /**
  *
  */
-public class FtpServerSocket extends Thread {
+class FtpServerSocket extends Thread {
 	public static final int port = 21;
 	public static final int dataPort = 20;
 	private static ArrayList commands;
@@ -122,7 +122,7 @@ public class FtpServerSocket extends Thread {
 		this.out.flush();
 	}
 
-	public void motd() {
+	private void motd() {
 		this.send("220motd");
 	}
 

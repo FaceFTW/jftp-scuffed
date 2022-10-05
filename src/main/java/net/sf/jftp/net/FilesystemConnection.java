@@ -30,7 +30,7 @@ import java.util.Date;
 
 
 public class FilesystemConnection implements BasicConnection {
-	public static final int filesystemBuffer = 128000;
+	private static final int filesystemBuffer = 128000;
 	public java.util.List<java.util.Date> dateVector = new java.util.ArrayList<>();
 	private String path = "";
 	private String pwd = "";
@@ -202,7 +202,7 @@ public class FilesystemConnection implements BasicConnection {
 		return this.path;
 	}
 
-	public String processPath(String p) {
+	private String processPath(String p) {
 		p = p.replace('\\', '/');
 
 		//System.out.print("processPath 1: "+p);
@@ -524,7 +524,7 @@ public class FilesystemConnection implements BasicConnection {
 	/**
 	 * remote directory has changed
 	 */
-	public void fireDirectoryUpdate() {
+	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {
@@ -537,7 +537,7 @@ public class FilesystemConnection implements BasicConnection {
 		return true;
 	}
 
-	public void fireProgressUpdate(String file, String type, int bytes) {
+	private void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
 			for (int i = 0; i < this.listeners.size(); i++) {

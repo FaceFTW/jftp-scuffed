@@ -30,8 +30,8 @@ import net.sf.jftp.system.logging.Log;
 // connection establishing classes. This puts much common functionality into
 // one method (so in creating this I did some code cleanup.)
 public class StartConnection {
-	public static FtpConnection con;
-	public static String keyfile;
+	private static FtpConnection con;
+	private static String keyfile;
 
 	public static void setSshKeyfile(String file) {
 		keyfile = file;

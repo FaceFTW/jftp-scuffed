@@ -16,6 +16,6 @@
 package net.sf.jftp.gui.framework;
 
 // obsolete
-public class Updater // implements ActionListener
+class Updater // implements ActionListener
 {
 }

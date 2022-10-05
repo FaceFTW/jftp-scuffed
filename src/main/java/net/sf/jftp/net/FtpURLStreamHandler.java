@@ -23,7 +23,7 @@ import java.net.URLStreamHandler;
 /**
  * An URLStreamHandler for handling ftp urls.
  */
-public class FtpURLStreamHandler extends URLStreamHandler {
+class FtpURLStreamHandler extends URLStreamHandler {
 	public FtpURLStreamHandler() {
 		super();
 	}
