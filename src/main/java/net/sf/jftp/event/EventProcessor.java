@@ -34,12 +34,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 	public static void addHandler(int eventCode, EventHandler h) {
 		Integer code = eventCode;
-		List<EventHandler> handlers = table.get(code);
-
-		if (null == handlers) {
-			handlers = new ArrayList<EventHandler>();
-			table.put(code, handlers);
-		}
+		List<EventHandler> handlers = table.computeIfAbsent(code, k -> new ArrayList<EventHandler>());
 
 		handlers.add(h);
 	}
