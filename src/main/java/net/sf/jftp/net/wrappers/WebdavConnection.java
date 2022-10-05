@@ -586,8 +586,8 @@ public class WebdavConnection implements BasicConnection {
 	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
+			for (ConnectionListener listener : this.listeners) {
+				((ConnectionListener) listener).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -599,8 +599,8 @@ public class WebdavConnection implements BasicConnection {
 	private void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
+			for (ConnectionListener connectionListener : this.listeners) {
+				ConnectionListener listener = (ConnectionListener) connectionListener;
 
 				if (this.shortProgress && Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {

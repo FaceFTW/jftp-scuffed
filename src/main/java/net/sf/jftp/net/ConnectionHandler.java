@@ -39,11 +39,8 @@ public class ConnectionHandler {
 
 	public int getConnectionSize() {
 		int size = 0;
-		java.util.Iterator<Transfer> e = this.connections.values().iterator();
 
-		while (e.hasNext()) {
-			Transfer t = e.next();
-
+		for (Transfer t : this.connections.values()) {
 			if (t.hasStarted()) {
 				size++;
 			}

@@ -331,10 +331,7 @@ public class DownloadList extends HPanel implements ActionListener {
 		DirEntry[] f = new DirEntry[this.downloads.size()];
 		int i = 0;
 
-		Iterator<DirEntry> k = this.downloads.values().iterator();
-
-		while (k.hasNext()) {
-			Object o = k.next();
+		for (Object o : this.downloads.values()) {
 			if (o instanceof DirEntry) {
 				f[i] = (DirEntry) o;
 			} else {
@@ -388,11 +385,8 @@ public class DownloadList extends HPanel implements ActionListener {
 
 	private String getRealName(String file) {
 		try {
-			Iterator<String> e = JFtp.getConnectionHandler().getConnections().keySet().iterator();
 
-			while (e.hasNext()) {
-				String tmp = e.next();
-
+			for (String tmp : JFtp.getConnectionHandler().getConnections().keySet()) {
 				if (tmp.endsWith(file)) {
 					return tmp;
 				}

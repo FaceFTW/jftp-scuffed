@@ -527,8 +527,8 @@ public class FilesystemConnection implements BasicConnection {
 	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.get(i).updateRemoteDirectory(this);
+			for (ConnectionListener listener : this.listeners) {
+				listener.updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -540,9 +540,7 @@ public class FilesystemConnection implements BasicConnection {
 	private void fireProgressUpdate(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = this.listeners.get(i);
-
+			for (ConnectionListener listener : this.listeners) {
 				if (this.shortProgress && Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
 						listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);

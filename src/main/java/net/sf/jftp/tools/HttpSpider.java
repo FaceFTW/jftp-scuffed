@@ -194,14 +194,12 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "HREF=\""));
 		m = this.addVector(m, this.sortiermal(zeug, url.substring(0, url.lastIndexOf('/')), "SRC=\""));
 
-		java.util.Iterator<String> mischen = m.iterator();
-
-		while (mischen.hasNext()) {
+		for (String value : m) {
 			if (this.stopflag) {
 				return;
 			}
 
-			String next = mischen.next();
+			String next = value;
 
 			Log.out("Processing: " + next);
 

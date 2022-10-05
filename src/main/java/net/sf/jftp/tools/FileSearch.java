@@ -115,10 +115,8 @@ class FileSearch {
 	}
 
 	private java.util.List<String> addVector(java.util.List<String> v, java.util.List<String> x) {
-		java.util.Iterator<String> e = x.iterator();
 
-		while (e.hasNext()) {
-			String next = e.next();
+		for (String next : x) {
 			v.add(next);
 		}
 		return v;
@@ -196,10 +194,7 @@ class FileSearch {
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "HREF=\""));
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "SRC=\""));
 
-		java.util.Iterator<String> links = m.iterator();
-		while (links.hasNext()) {
-			String next = links.next();
-
+		for (String next : m) {
 			if (!quiet) Log.out("PROCESS: " + next);
 			boolean skip = false;
 

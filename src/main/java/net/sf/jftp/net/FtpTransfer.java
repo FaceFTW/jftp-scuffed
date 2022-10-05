@@ -97,15 +97,15 @@ public class FtpTransfer extends Transfer implements Runnable {
 				Thread.sleep(100);
 
 				if (null != this.listeners) {
-					for (int i = 0; i < this.listeners.size(); i++) {
-						this.listeners.get(i).updateProgress(this.file, Transfer.PAUSED, -1);
+					for (ConnectionListener listener : this.listeners) {
+						listener.updateProgress(this.file, Transfer.PAUSED, -1);
 					}
 				}
 
 				if (!this.work) {
 					if (null != this.listeners) {
-						for (int i = 0; i < this.listeners.size(); i++) {
-							this.listeners.get(i).updateProgress(this.file, Transfer.REMOVED, -1);
+						for (ConnectionListener listener : this.listeners) {
+							listener.updateProgress(this.file, Transfer.REMOVED, -1);
 						}
 					}
 				}
@@ -121,8 +121,8 @@ public class FtpTransfer extends Transfer implements Runnable {
 				Thread.sleep(400);
 
 				if (!hasPaused && (null != this.listeners)) {
-					for (int i = 0; i < this.listeners.size(); i++) {
-						this.listeners.get(i).updateProgress(this.file, Transfer.QUEUED, -1);
+					for (ConnectionListener listener : this.listeners) {
+						listener.updateProgress(this.file, Transfer.QUEUED, -1);
 					}
 				} else {
 					break;
@@ -134,8 +134,8 @@ public class FtpTransfer extends Transfer implements Runnable {
 
 		if (!this.work) {
 			if (null != this.listeners) {
-				for (int i = 0; i < this.listeners.size(); i++) {
-					this.listeners.get(i).updateProgress(this.file, Transfer.REMOVED, -1);
+				for (ConnectionListener listener : this.listeners) {
+					listener.updateProgress(this.file, Transfer.REMOVED, -1);
 				}
 			}
 

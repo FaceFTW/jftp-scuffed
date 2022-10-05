@@ -439,8 +439,8 @@ public class RsyncConnection implements BasicConnection {
 	private void update(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
+			for (ConnectionListener connectionListener : this.listeners) {
+				ConnectionListener listener = (ConnectionListener) connectionListener;
 				listener.updateProgress(file, type, bytes);
 			}
 		}
@@ -460,8 +460,8 @@ public class RsyncConnection implements BasicConnection {
 	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
+			for (ConnectionListener listener : this.listeners) {
+				((ConnectionListener) listener).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -473,8 +473,8 @@ public class RsyncConnection implements BasicConnection {
 		//System.out.println(listener);
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
+			for (ConnectionListener connectionListener : this.listeners) {
+				ConnectionListener listener = (ConnectionListener) connectionListener;
 
 				final boolean shortProgress = false;
 				if (shortProgress && Settings.shortProgress) {
@@ -496,8 +496,8 @@ public class RsyncConnection implements BasicConnection {
 	private void fireActionFinished(RsyncConnection con) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.get(i)).actionFinished(con);
+			for (ConnectionListener listener : this.listeners) {
+				((ConnectionListener) listener).actionFinished(con);
 			}
 		}
 	}

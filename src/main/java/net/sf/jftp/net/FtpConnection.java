@@ -2377,8 +2377,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private void fireDirectoryUpdate(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.get(i).updateRemoteDirectory(con);
+			for (ConnectionListener listener : this.listeners) {
+				listener.updateRemoteDirectory(con);
 			}
 		}
 	}
@@ -2396,9 +2396,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		//System.out.println(listener);
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = this.listeners.get(i);
-
+			for (ConnectionListener listener : this.listeners) {
 				if (this.shortProgress && Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
 						listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
@@ -2422,8 +2420,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private void fireConnectionInitialized(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.get(i).connectionInitialized(con);
+			for (ConnectionListener listener : this.listeners) {
+				listener.connectionInitialized(con);
 			}
 		}
 	}
@@ -2437,8 +2435,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private void fireConnectionFailed(FtpConnection con, String why) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.get(i).connectionFailed(con, why);
+			for (ConnectionListener listener : this.listeners) {
+				listener.connectionFailed(con, why);
 			}
 		}
 	}
@@ -2451,8 +2449,8 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private void fireActionFinished(FtpConnection con) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				this.listeners.get(i).actionFinished(con);
+			for (ConnectionListener listener : this.listeners) {
+				listener.actionFinished(con);
 			}
 		}
 	}

@@ -656,8 +656,8 @@ public class Sftp2Connection implements BasicConnection {
 	private void update(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
+			for (ConnectionListener connectionListener : this.listeners) {
+				ConnectionListener listener = (ConnectionListener) connectionListener;
 				listener.updateProgress(file, type, bytes);
 			}
 		}
@@ -677,8 +677,8 @@ public class Sftp2Connection implements BasicConnection {
 	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
+			for (ConnectionListener listener : this.listeners) {
+				((ConnectionListener) listener).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -708,8 +708,8 @@ public class Sftp2Connection implements BasicConnection {
 			return;
 		}
 
-		for (int i = 0; i < this.listeners.size(); i++) {
-			ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
+		for (ConnectionListener connectionListener : this.listeners) {
+			ConnectionListener listener = (ConnectionListener) connectionListener;
 
 			if (this.shortProgress && Settings.shortProgress) {
 				if (type.startsWith(DataConnection.DFINISHED)) {
@@ -728,8 +728,8 @@ public class Sftp2Connection implements BasicConnection {
 	private void fireActionFinished(Sftp2Connection con) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.get(i)).actionFinished(con);
+			for (ConnectionListener listener : this.listeners) {
+				((ConnectionListener) listener).actionFinished(con);
 			}
 		}
 	}

@@ -610,8 +610,8 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private void update(String file, String type, int bytes) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
+			for (ConnectionListener connectionListener : this.listeners) {
+				ConnectionListener listener = (ConnectionListener) connectionListener;
 				listener.updateProgress(file, type, bytes);
 			}
 		}
@@ -631,8 +631,8 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private void fireDirectoryUpdate() {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.get(i)).updateRemoteDirectory(this);
+			for (ConnectionListener listener : this.listeners) {
+				((ConnectionListener) listener).updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -648,8 +648,8 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		//System.out.println(listener);
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				ConnectionListener listener = (ConnectionListener) this.listeners.get(i);
+			for (ConnectionListener connectionListener : this.listeners) {
+				ConnectionListener listener = (ConnectionListener) connectionListener;
 
 				if (this.shortProgress && Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
@@ -669,8 +669,8 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 	private void fireActionFinished(SmbConnection con) {
 		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < this.listeners.size(); i++) {
-				((ConnectionListener) this.listeners.get(i)).actionFinished(con);
+			for (ConnectionListener listener : this.listeners) {
+				((ConnectionListener) listener).actionFinished(con);
 			}
 		}
 	}
