@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 
 public class RSSFeeder extends JPanel implements Runnable, ActionListener {
@@ -87,11 +88,11 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		while (true) {
 			try {
-				Enumeration e = this.parser.titles.elements();
-				Enumeration e2 = this.parser.descs.elements();
+				Iterator iterator1 = this.parser.titles.iterator();
+				Iterator iterator = this.parser.descs.iterator();
 
-				while (e.hasMoreElements()) {
-					this.can.setText((String) e.nextElement());
+				while (iterator1.hasNext()) {
+					this.can.setText((String) iterator1.next());
 					this.next.setEnabled(true);
 					this.header = true;
 
@@ -106,9 +107,9 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 					this.breakHeader = false;
 					this.header = false;
 
-					if (e2.hasMoreElements()) {
+					if (iterator.hasNext()) {
 						this.next.setEnabled(true);
-						this.can.scrollText((String) e2.nextElement());
+						this.can.scrollText((String) iterator.next());
 						this.next.setEnabled(false);
 					}
 				}
