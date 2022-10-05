@@ -15,7 +15,9 @@
  */
 package net.sf.jftp.system;
 
-public class StringUtils {
+public enum StringUtils {
+	;
+
 	/**
 	 * Makes a (path) string shorter to get it displayed correctly
 	 */

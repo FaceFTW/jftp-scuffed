@@ -29,7 +29,8 @@ import net.sf.jftp.system.logging.Log;
 // any protocol, this class is the intermediary between the GUI and the actual
 // connection establishing classes. This puts much common functionality into
 // one method (so in creating this I did some code cleanup.)
-public class StartConnection {
+public enum StartConnection {
+	;
 	private static FtpConnection con;
 	private static String keyfile;
 

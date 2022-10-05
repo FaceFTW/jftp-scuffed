@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TableUtils {
+public enum TableUtils {
+	;
 
 	private static void calcColumnWidths(JTable table) {
 		JTableHeader header = table.getTableHeader();

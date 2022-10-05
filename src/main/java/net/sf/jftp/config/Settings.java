@@ -23,7 +23,8 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 
-public class Settings {
+public enum Settings {
+	;
 	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
 	private static final String defaultWidth = "1000";
 	private static final String defaultHeight = "740";

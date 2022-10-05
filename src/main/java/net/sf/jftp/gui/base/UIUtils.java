@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
-public class UIUtils {
+public enum UIUtils {
+	;
+
 	public static String getPasswordFromUser(JComponent parent) {
 		JOptionPane j = new JOptionPane();
 		JPasswordField pField = new JPasswordField();

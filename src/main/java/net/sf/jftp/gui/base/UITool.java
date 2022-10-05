@@ -19,7 +19,9 @@ import javax.swing.*;
 import java.io.File;
 
 
-public class UITool {
+public enum UITool {
+	;
+
 	public static boolean askToDelete(JComponent parent) {
 		int res = JOptionPane.showConfirmDialog(parent, "Do you really want to continue?");
 

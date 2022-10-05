@@ -24,7 +24,9 @@ import java.awt.MediaTracker;
 import java.awt.Toolkit;
 
 
-public class HImage {
+public enum HImage {
+	;
+
 	public static synchronized Image getImage(Component c, String name) {
 		Image img = null;
 

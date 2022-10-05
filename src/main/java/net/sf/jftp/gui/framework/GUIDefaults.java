@@ -19,7 +19,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 
-public class GUIDefaults {
+public enum GUIDefaults {
+	;
 	public static final Font small = new Font("Arial", Font.PLAIN, 10);
 	public static final Font font = new Font("monospaced", Font.PLAIN, 12);
 	public static final Font active = new Font("Arial", Font.PLAIN, 14);

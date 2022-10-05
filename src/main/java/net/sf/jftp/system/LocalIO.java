@@ -18,7 +18,9 @@ package net.sf.jftp.system;
 import java.io.File;
 
 
-public class LocalIO {
+public enum LocalIO {
+	;
+
 	/**
 	 * sorts a string alphabetically
 	 * probably better off just calling java.util.Arrays.sort
