@@ -69,7 +69,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 
-public class LocalDir extends DirComponent implements ListSelectionListener, ActionListener, ConnectionListener, KeyListener {
+public class LocalDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
 	static final String deleteString = "rm";
 	static final String mkdirString = "mkdir";
 	static final String refreshString = "fresh";

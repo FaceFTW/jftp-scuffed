@@ -69,7 +69,7 @@ import java.lang.reflect.Array;
 import java.util.Date;
 
 
-public class RemoteDir extends DirComponent implements ListSelectionListener, ActionListener, ConnectionListener, KeyListener {
+public class RemoteDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
 	static final String deleteString = "rm";
 	static final String mkdirString = "mkdir";
 	static final String refreshString = "fresh";

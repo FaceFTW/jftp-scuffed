@@ -26,7 +26,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.ImageObserver;
 
 
-public class HDesktopBackground extends JPanel implements MouseListener, ImageObserver {
+public class HDesktopBackground extends JPanel implements MouseListener {
 	private final Image img;
 	private final String cmd = "default";
 	public ActionListener who;
