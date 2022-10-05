@@ -223,16 +223,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 			int response = uc.getLoginResponse();
 
-			if (FtpConstants.LOGIN_OK != response) {
-				this.setTitle("Wrong password!");
-				this.host.setText(uc.getHost());
-				this.port.setText(Integer.toString(uc.getPort()));
-				this.user.setText(uc.getUser());
-				this.pass.setText(uc.getPass());
-				this.setVisible(true);
-				this.toFront();
-				this.host.requestFocus();
-			} else {
+			if (FtpConstants.LOGIN_OK == response) {
 				this.dispose();
 
 				if (null != this.listener) {
@@ -241,6 +232,15 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 				net.sf.jftp.JFtp.mainFrame.setVisible(true);
 				net.sf.jftp.JFtp.mainFrame.toFront();
+			} else {
+				this.setTitle("Wrong password!");
+				this.host.setText(uc.getHost());
+				this.port.setText(Integer.toString(uc.getPort()));
+				this.user.setText(uc.getUser());
+				this.pass.setText(uc.getPass());
+				this.setVisible(true);
+				this.toFront();
+				this.host.requestFocus();
 			}
 		} catch (IOException ex) {
 			Log.debug("Error!");
@@ -335,22 +335,22 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			this.lcwd.setEnabled(!this.dirBox.isSelected());
 			this.cwd.setEnabled(!this.dirBox.isSelected());
 		} else if (e.getSource() == this.dirBox) {
-			if (!this.dirBox.isSelected()) {
-				this.lcwd.setEnabled(true);
-				this.cwd.setEnabled(true);
-			} else {
+			if (this.dirBox.isSelected()) {
 				this.lcwd.setEnabled(false);
 				this.cwd.setEnabled(false);
+			} else {
+				this.lcwd.setEnabled(true);
+				this.cwd.setEnabled(true);
 			}
 		} else if (e.getSource() == this.anonBox) {
-			if (!this.anonBox.isSelected()) {
-				this.user.setEnabled(true);
-				this.pass.text.setEnabled(true);
-			} else {
+			if (this.anonBox.isSelected()) {
 				this.user.setText("anonymous");
 				this.pass.setText("no@no.no");
 				this.user.setEnabled(false);
 				this.pass.text.setEnabled(false);
+			} else {
+				this.user.setEnabled(true);
+				this.pass.text.setEnabled(true);
 			}
 		} else if (e.getSource() == this.threadBox) {
 			this.dl.setEnabled(this.threadBox.isSelected());

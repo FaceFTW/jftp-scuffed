@@ -134,10 +134,10 @@ public class StatusCanvas extends JPanel {
 		this.offg.fillRect(0, 0, this.getSize().width, this.getSize().height);
 		this.offg.setColor(new Color(125, 125, 175));
 
-		if (!this.slide) {
-			this.offg.drawString(this.drawText, 10, 15 + this.pos);
-		} else {
+		if (this.slide) {
 			this.offg.drawString(this.drawText, 10 + this.pos, 15);
+		} else {
+			this.offg.drawString(this.drawText, 10, 15 + this.pos);
 		}
 
 		this.offg.setColor(GUIDefaults.front);

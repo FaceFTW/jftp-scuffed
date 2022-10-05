@@ -1122,10 +1122,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		File f = new File(path);
 
 		if (!f.exists()) {
-			if (!f.mkdir()) {
-				Log.debug("Can't create directory: " + dir);
-			} else {
+			if (f.mkdir()) {
 				Log.debug("Created directory...");
+			} else {
+				Log.debug("Can't create directory: " + dir);
 			}
 		}
 
@@ -1320,11 +1320,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * uploads a file
 	 */
 	private int rawUpload(String file, String realName, InputStream in) {
-		if (!file.equals(realName)) {
-			Log.debug("File: " + file + ", stored as " + realName);
-		} else {
+		if (file.equals(realName)) {
 			Log.debug("File: " + file);
 			realName = null;
+		} else {
+			Log.debug("File: " + file + ", stored as " + realName);
 		}
 
 		file = this.parse(file);
@@ -1912,12 +1912,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		boolean tmp = this.chdirWork(p);
 
-		if (!tmp) {
-			return false;
-		} else {
+		if (tmp) {
 			this.fireDirectoryUpdate(this);
 
 			return true;
+		} else {
+			return false;
 		}
 	}
 

@@ -104,13 +104,13 @@ public class Sftp2Connection implements BasicConnection {
 
 		try {
 
-			if (!file.endsWith("/")) {
-				Log.out(">>>>>>>> remove file: " + file);
-				this.channel.rm(file);
-			} else {
+			if (file.endsWith("/")) {
 				Log.out(">>>>>>>> remove dir: " + file);
 				this.cleanSftpDir(file);
 				this.channel.rmdir(file);
+			} else {
+				Log.out(">>>>>>>> remove file: " + file);
+				this.channel.rm(file);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -687,14 +687,14 @@ public class Sftp2Connection implements BasicConnection {
 		this.user = user;
 		this.pass = pass;
 
-		if (!this.login()) {
-			Log.debug("Login failed.");
-
-			return false;
-		} else {
+		if (this.login()) {
 			Log.debug("Authed successfully.");
 
 			//if(!chdir(getPWD())) chdir("/");
+		} else {
+			Log.debug("Login failed.");
+
+			return false;
 		}
 
 		return true;

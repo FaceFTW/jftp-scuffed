@@ -81,12 +81,12 @@ public class NfsConnection implements BasicConnection {
 
 			com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
-			if (!nfsx.loginPCNFSD(this.host, user, pass)) {
+			if (nfsx.loginPCNFSD(this.host, user, pass)) {
+				Log.debug("Login successful...");
+			} else {
 				Log.out("login failed!");
 
 				return false;
-			} else {
-				Log.debug("Login successful...");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -129,10 +129,10 @@ public class NfsConnection implements BasicConnection {
 				this.cleanLocalDir(tmp);
 			}
 
-			if (!f.delete()) {
-				return -1;
-			} else {
+			if (f.delete()) {
 				return 1;
+			} else {
+				return -1;
 			}
 		} catch (IOException ex) {
 			Log.debug("Error: " + ex);

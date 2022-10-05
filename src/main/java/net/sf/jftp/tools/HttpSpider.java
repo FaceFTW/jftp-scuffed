@@ -101,10 +101,10 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 	public void run() {
 		this.spider(this.argv);
 
-		if (!this.stopflag) {
-			Log.debug("\nRecursive download finished.\nOuptut dir: " + this.localDir);
-		} else {
+		if (this.stopflag) {
 			Log.debug("\nRecursive download aborted.");
+		} else {
+			Log.debug("\nRecursive download finished.\nOuptut dir: " + this.localDir);
 		}
 
 		net.sf.jftp.JFtp.statusP.jftp.ensureLogging();

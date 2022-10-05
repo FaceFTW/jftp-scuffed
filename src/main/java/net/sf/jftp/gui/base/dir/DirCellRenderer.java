@@ -54,7 +54,12 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 
 		Log.devnull(value); // prevents eclipse warning
 
-		if (!((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
+		if (((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
+			this.setFont(GUIDefaults.small);
+
+			String s = value.toString();
+			this.setText(s);
+		} else {
 			StringBuilder size = new StringBuilder();
 
 			if (Settings.showFileSize) {
@@ -86,11 +91,6 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 			}
 
 			this.setText(size + s);
-		} else {
-			this.setFont(GUIDefaults.small);
-
-			String s = value.toString();
-			this.setText(s);
 		}
 
 		int ok = ((DirEntry) value).getPermission();

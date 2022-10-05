@@ -299,17 +299,17 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 	public static void setAppCursor(Cursor cursor) {
 
 		if (null != mainFrame) {
-			if (java.awt.Cursor.DEFAULT_CURSOR != cursor.getType()) {
-				mainFrame.getGlassPane().addMouseListener(new MouseAdapter() {
-				});
-				mainFrame.getGlassPane().setCursor(cursor);
-				mainFrame.getGlassPane().setVisible(true);
-			} else {
+			if (Cursor.DEFAULT_CURSOR == cursor.getType()) {
 				mainFrame.getGlassPane().setCursor(cursor);
 				for (int i = 0; i < mainFrame.getGlassPane().getMouseListeners().length; i++) {
 					mainFrame.getGlassPane().removeMouseListener(mainFrame.getGlassPane().getMouseListeners()[i]);
 				}
 				mainFrame.getGlassPane().setVisible(false);
+			} else {
+				mainFrame.getGlassPane().addMouseListener(new MouseAdapter() {
+				});
+				mainFrame.getGlassPane().setCursor(cursor);
+				mainFrame.getGlassPane().setVisible(true);
 			}
 		}
 
@@ -448,10 +448,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		this.validate();
 		this.setVisible(true);
 
-		if (!mainUsed) {
-			SwingUtilities.invokeLater(this::chooseHost);
-		} else {
+		if (mainUsed) {
 			this.chooseHost();
+		} else {
+			SwingUtilities.invokeLater(this::chooseHost);
 		}
 
 		LogFlusher flusher = new LogFlusher();
@@ -527,12 +527,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		Settings.setProperty("jftp.window.width", this.getWidth());
 		Settings.setProperty("jftp.window.height", this.getHeight());
 
-		if (!mainUsed) {
-			Settings.setProperty("jftp.window.x", (int) this.getLocationOnScreen().getX());
-			Settings.setProperty("jftp.window.y", (int) this.getLocationOnScreen().getY());
-		} else {
+		if (mainUsed) {
 			Settings.setProperty("jftp.window.x", (int) mainFrame.getLocationOnScreen().getX());
 			Settings.setProperty("jftp.window.y", (int) mainFrame.getLocationOnScreen().getY());
+		} else {
+			Settings.setProperty("jftp.window.x", (int) this.getLocationOnScreen().getX());
+			Settings.setProperty("jftp.window.y", (int) this.getLocationOnScreen().getY());
 		}
 
 		Settings.save();

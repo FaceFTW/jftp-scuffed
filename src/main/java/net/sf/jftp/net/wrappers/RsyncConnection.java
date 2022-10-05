@@ -92,10 +92,10 @@ public class RsyncConnection implements BasicConnection {
 			}
 
 			//System.out.println(tmp);
-			if (!f.delete()) {
-				return -1;
-			} else {
+			if (f.delete()) {
 				return 1;
+			} else {
+				return -1;
 			}
 		} catch (java.io.IOException ex) {
 			Log.debug("Error: " + ex);

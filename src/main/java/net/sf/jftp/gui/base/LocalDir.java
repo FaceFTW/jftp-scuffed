@@ -573,11 +573,11 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 			String val = JOptionPane.showInternalInputDialog(JFtp.desktop, "Choose a name...");
 
 			if (null != val) {
-				if (!this.con.rename(target[0].toString(), val)) {
-					Log.debug("Rename failed.");
-				} else {
+				if (this.con.rename(target[0].toString(), val)) {
 					Log.debug("Successfully renamed.");
 					this.fresh();
+				} else {
+					Log.debug("Rename failed.");
 				}
 			}
 		} else if (e.getSource() == this.props) {

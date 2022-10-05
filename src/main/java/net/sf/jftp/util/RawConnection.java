@@ -115,18 +115,18 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	}
 
 	private void transmit() {
-		if (!established) {
+		if (established) {
+			if (this.c.isThere()) {
+				this.c.send(this.com.getText());
+			} else {
+				this.debugWrite("No connection!");
+			}
+		} else {
 			this.c = new JRawConnection(host.getText(), Integer.parseInt(port.getText()), true);
 
 			if (this.c.isThere()) {
 				this.c.send(this.com.getText());
 				established = true;
-			} else {
-				this.debugWrite("No connection!");
-			}
-		} else {
-			if (this.c.isThere()) {
-				this.c.send(this.com.getText());
 			} else {
 				this.debugWrite("No connection!");
 			}

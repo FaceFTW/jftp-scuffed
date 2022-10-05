@@ -83,10 +83,10 @@ public class DirCanvas extends JPanel implements MouseListener {
 	}
 
 	public void paintComponent(Graphics g) {
-		if (!this.active) {
-			g.setColor(GUIDefaults.light);
-		} else {
+		if (this.active) {
 			g.setColor(GUIDefaults.lightActive);
+		} else {
+			g.setColor(GUIDefaults.light);
 		}
 		g.fillRect(3, 0, this.getSize().width - 6, this.getSize().height);
 		g.setColor(GUIDefaults.front);

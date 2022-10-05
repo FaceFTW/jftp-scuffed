@@ -624,11 +624,11 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			String val = JOptionPane.showInternalInputDialog(this, "Choose a name...");
 
 			if (null != val) {
-				if (!this.con.rename(target[0].toString(), val)) {
-					Log.debug("Rename failed.");
-				} else {
+				if (this.con.rename(target[0].toString(), val)) {
 					Log.debug("Successfully renamed.");
 					this.fresh();
+				} else {
+					Log.debug("Rename failed.");
 				}
 			}
 		}
@@ -1031,13 +1031,15 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 
 			File file = new File(path + StringUtils.getFile(url));
 
-			if (!(this.con instanceof FilesystemConnection)) {
-				if (!file.exists()) {
-					this.con.download(url);
-				} else {
+			if (this.con instanceof FilesystemConnection) {
+				file = new File(this.getPath() + StringUtils.getFile(url));
+			} else {
+				if (file.exists()) {
 					Log.debug("\nRemote file must be downloaded to be viewed and\n" + " you already have a local copy present, pleasen rename it\n" + " and try again.");
 
 					return;
+				} else {
+					this.con.download(url);
 				}
 
 				file = new File(JFtp.localDir.getPath() + StringUtils.getFile(url));
@@ -1045,8 +1047,6 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 				if (!file.exists()) {
 					Log.debug("File not found: " + JFtp.localDir.getPath() + StringUtils.getFile(url));
 				}
-			} else {
-				file = new File(this.getPath() + StringUtils.getFile(url));
 			}
 
 			HFrame f = new HFrame();

@@ -195,16 +195,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 
 			uc.connect();
 
-			if (!uc.loginSucceeded()) {
-				this.setTitle("Wrong password!");
-				this.host.setText(uc.getHost());
-				this.port.setText(Integer.toString(uc.getPort()));
-				this.user.setText(uc.getUser());
-				this.pass.setText(uc.getPass());
-				this.setVisible(true);
-				this.toFront();
-				this.host.requestFocus();
-			} else {
+			if (uc.loginSucceeded()) {
 				this.dispose();
 
 				if (null != this.listener) {
@@ -213,6 +204,15 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 
 				net.sf.jftp.JFtp.mainFrame.setVisible(true);
 				net.sf.jftp.JFtp.mainFrame.toFront();
+			} else {
+				this.setTitle("Wrong password!");
+				this.host.setText(uc.getHost());
+				this.port.setText(Integer.toString(uc.getPort()));
+				this.user.setText(uc.getUser());
+				this.pass.setText(uc.getPass());
+				this.setVisible(true);
+				this.toFront();
+				this.host.requestFocus();
 			}
 		} catch (IOException ex) {
 			Log.debug("Error!");
