@@ -960,7 +960,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 
 	private void showContentWindow(String url, DirEntry d) {
 		//------- popup -> run
-		if (Settings.runtimeCommands > 0 && url.startsWith("popup-run@")) {
+		if (0 < Settings.runtimeCommands && url.startsWith("popup-run@")) {
 			String ext = url.substring(10);
 
 			try {
@@ -981,7 +981,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 				String ext = url.toLowerCase();
 
 
-				if (Settings.runtimeCommands > 1) {
+				if (1 < Settings.runtimeCommands) {
 					try {
 						if (!Settings.askToRun || (Settings.askToRun && UITool.askToRun(this))) {
 							UIUtils.runCommand(ext);

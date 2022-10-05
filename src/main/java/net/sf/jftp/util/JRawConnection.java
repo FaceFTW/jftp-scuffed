@@ -62,7 +62,7 @@ class JRawConnection implements Runnable {
 		int cnt = 0;
 
 		final int timeout = Settings.connectionTimeout;
-		while (!this.established && (cnt < timeout)) {
+		while (!this.established && (timeout > cnt)) {
 			this.pause(100);
 			cnt = cnt + 100;
 		}

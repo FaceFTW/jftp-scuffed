@@ -436,7 +436,7 @@ public class Settings {
 		int width = Integer.parseInt(p.getProperty("jftp.window.width", defaultWidth));
 		int height = Integer.parseInt(p.getProperty("jftp.window.height", defaultHeight));
 
-		if (width < 100 || height < 100) {
+		if (100 > width || 100 > height) {
 			width = Integer.parseInt(defaultWidth);
 			height = Integer.parseInt(defaultHeight);
 		}
@@ -448,7 +448,7 @@ public class Settings {
 		int x = Integer.parseInt(p.getProperty("jftp.window.x", defaultX));
 		int y = Integer.parseInt(p.getProperty("jftp.window.y", defaultY));
 
-		if (x < 0 || y < 0) {
+		if (0 > x || 0 > y) {
 			x = 0;
 			y = 0;
 		}

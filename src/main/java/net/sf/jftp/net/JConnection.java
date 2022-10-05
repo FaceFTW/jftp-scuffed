@@ -94,7 +94,7 @@ class JConnection implements Runnable {
 		int cnt = 0;
 
 		final int timeout = Settings.connectionTimeout;
-		while (!this.established && (cnt < timeout)) {
+		while (!this.established && (timeout > cnt)) {
 			this.pause(10);
 			cnt = cnt + 10;
 		}

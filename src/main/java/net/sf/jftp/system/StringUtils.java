@@ -22,7 +22,7 @@ public class StringUtils {
 	public static String cutPath(String s) {
 		final int maxlabel = 64;
 
-		if (s.length() > maxlabel) {
+		if (maxlabel < s.length()) {
 			while (s.contains("/")) {
 
 				s = cutAfter(s, '/');
