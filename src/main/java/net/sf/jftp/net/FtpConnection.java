@@ -2479,7 +2479,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Get the last FtpTransfer object spawned.
 	 */
 	public FtpTransfer getLastInitiatedTransfer() {
-		return 0 < this.transfers.size() ? this.transfers.get(this.transfers.size() - 1) : null;
+		return !this.transfers.isEmpty() ? this.transfers.get(this.transfers.size() - 1) : null;
 	}
 
 	/**
@@ -2506,7 +2506,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	}
 
 	public Date[] sortDates() {
-		if (0 < this.dateVector.size()) {
+		if (!this.dateVector.isEmpty()) {
 			return (Date[]) this.dateVector.toArray();
 		} else {
 			return null;

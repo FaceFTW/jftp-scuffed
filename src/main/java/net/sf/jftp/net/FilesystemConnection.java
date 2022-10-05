@@ -557,7 +557,7 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public Date[] sortDates() {
-		if (0 < this.dateVector.size()) {
+		if (!this.dateVector.isEmpty()) {
 			return (Date[]) this.dateVector.toArray();
 		} else {
 			return null;

@@ -89,7 +89,7 @@ public class Shell extends HFrame implements Runnable {
 
 		this.text.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if ((java.awt.event.KeyEvent.VK_BACK_SPACE == e.getKeyCode()) && (0 < Shell.this.input.length())) {
+				if ((java.awt.event.KeyEvent.VK_BACK_SPACE == e.getKeyCode()) && (!Shell.this.input.isEmpty())) {
 					Shell.this.input = Shell.this.input.substring(0, Shell.this.input.length() - 1);
 
 					String t = Shell.this.text.getText();

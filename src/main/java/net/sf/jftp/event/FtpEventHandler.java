@@ -96,7 +96,7 @@ public class FtpEventHandler implements EventHandler {
 			list.add(st.nextToken());
 		}
 
-		if (0 != list.size()) {
+		if (!list.isEmpty()) {
 			String command = (String) list.get(0);
 			Method o = (Method) this.methods.get(command.toLowerCase());
 

@@ -41,7 +41,7 @@ class SmbTest extends NtlmAuthenticator {
 			final String username = "guest";
 			final String password = "";
 
-			if (0 == password.length()) {
+			if (password.isEmpty()) {
 				return null;
 			}
 			return new NtlmPasswordAuthentication(null, username, password);

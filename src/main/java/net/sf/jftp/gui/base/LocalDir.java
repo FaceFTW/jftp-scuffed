@@ -881,13 +881,13 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 
 			return;
 		}
-		if ((this.con instanceof FtpConnection) && (0 < ((FtpConnection) this.con).dateVector.size())) {
+		if ((this.con instanceof FtpConnection) && (!((FtpConnection) this.con).dateVector.isEmpty())) {
 			if (!this.dateEnabled) {
 				this.sorter.addItem("Date");
 				this.dateEnabled = true;
 				UpdateDaemon.updateRemoteDirGUI();
 			}
-		} else if ((this.con instanceof FilesystemConnection) && (0 < ((FilesystemConnection) this.con).dateVector.size())) {
+		} else if ((this.con instanceof FilesystemConnection) && (!((FilesystemConnection) this.con).dateVector.isEmpty())) {
 			if (!this.dateEnabled) {
 				this.sorter.addItem("Date");
 				this.dateEnabled = true;

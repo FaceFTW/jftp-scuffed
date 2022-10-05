@@ -105,7 +105,7 @@ public class HostList extends JDialog {
 		this.loadHostList();
 		this.initListeners();
 
-		if (0 < this.hostListModel.size()) {
+		if (!this.hostListModel.isEmpty()) {
 			this.hostList.setSelectedIndex(0);
 		} else {
 			this.updateHostInfoPanel();
@@ -296,7 +296,7 @@ public class HostList extends JDialog {
 		this.hostListModel.removeElement(selected);
 		this.selectedHostInfo = null;
 
-		if (0 < this.hostListModel.size()) {
+		if (!this.hostListModel.isEmpty()) {
 			this.hostList.setSelectedIndex(0);
 		} else {
 			this.updateHostInfoPanel();
