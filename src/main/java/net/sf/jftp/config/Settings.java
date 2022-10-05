@@ -87,21 +87,21 @@ public class Settings {
 	public static int ftpKeepAliveInterval = 29000;
 	// 1: manual, 2: onclick, 0: off
 	public static int runtimeCommands = 2;
-	public static boolean askToRun = false;
+	public static boolean askToRun;
 	// currently changed by remotedir on-the-fly
 	public static boolean showDateNoSize;
 	public static boolean showLocalDateNoSize;
 	// hides some messages like MODE, Type etc.
-	public static boolean hideStatus = false;
-	public static boolean showNewlineOption = false;
+	public static boolean hideStatus;
+	public static boolean showNewlineOption;
 	// for DataConnection - lower means less buffer, more updates in the downloadmanager
 	public static int bufferSize = 1400;
 	// sends NOOPs to ensure that buffers are empty
-	public static boolean safeMode = false;
+	public static boolean safeMode;
 	// enables some delays
-	public static boolean enableFtpDelays = false;
+	public static boolean enableFtpDelays;
 	// override ui with the insomniac client configuration
-	public static boolean isInsomniacClient = false;
+	public static boolean isInsomniacClient;
 	public static int refreshDelay = 250;
 	public static boolean useDefaultDir = true;
 	// may the windows be resized?
