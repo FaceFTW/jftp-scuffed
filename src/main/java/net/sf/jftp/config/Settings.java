@@ -15,8 +15,7 @@
  */
 package net.sf.jftp.config;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,7 +23,8 @@ import java.util.Properties;
 
 
 public enum Settings {
-	
+	;
+
 	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
 	private static final String defaultWidth = "1000";
 	private static final String defaultHeight = "740";
