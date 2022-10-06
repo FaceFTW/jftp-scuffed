@@ -436,6 +436,9 @@ public class DataConnection implements Runnable {
 									if (java.io.StreamTokenizer.TT_EOF == read) {
 										break;
 									}
+
+									//DO NOT REMOVE - Fixes race condition in upload
+									Thread.sleep(10);
 								}
 
 								this.out.flush();
@@ -446,6 +449,12 @@ public class DataConnection implements Runnable {
 								this.debug("Error: Data connection closed.");
 								this.con.fireProgressUpdate(this.file, FAILED, -1);
 								ex.printStackTrace();
+							} catch (InterruptedException e) {
+								ok = false;
+								this.debug("Error: Latency Pause delayed!");
+								this.con.fireProgressUpdate(this.file, FAILED, -1);
+								e.printStackTrace();
+
 							}
 						}
 					}
