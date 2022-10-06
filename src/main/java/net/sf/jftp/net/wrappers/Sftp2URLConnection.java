@@ -15,67 +15,69 @@
  */
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.system.logging.Log;
+
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
 
 public class Sftp2URLConnection extends URLConnection {
-	private Sftp2Connection connection = null;
+	private Sftp2Connection connection;
 	private String username = "user";
 	private String password = "none@no.no";
-	private boolean loginFlag = false;
+	private boolean loginFlag;
 
 	public Sftp2URLConnection(URL u) {
 		super(u);
 
-		int port = u.getPort() > 0 ? u.getPort() : 22;
-		connection = new Sftp2Connection(u.getHost(), "" + port, null);
+		int port = 0 < u.getPort() ? u.getPort() : 22;
+		this.connection = new Sftp2Connection(u.getHost(), String.valueOf(port), null);
 
 		String userInfo = u.getUserInfo();
 
-		if (userInfo != null) {
-			int index = userInfo.indexOf(":");
+		if (null != userInfo) {
+			int index = userInfo.indexOf(':');
 
-			if (index != -1) {
-				username = userInfo.substring(0, index);
-				password = userInfo.substring(index + 1);
+			if (-1 != index) {
+				this.username = userInfo.substring(0, index);
+				this.password = userInfo.substring(index + 1);
 			}
 		}
 
-		net.sf.jftp.system.logging.Log.debug("Connecting...");
+		Log.debug("Connecting...");
 	}
 
 	public void connect() throws IOException {
-		loginFlag = connection.login(username, password);
+		this.loginFlag = this.connection.login(this.username, this.password);
 
-		if (!loginFlag) {
+		if (!this.loginFlag) {
 			return;
 		}
 
-		connection.chdir(url.getPath());
+		this.connection.chdir(this.url.getPath());
 	}
 
 	public Sftp2Connection getSftp2Connection() {
-		return connection;
+		return this.connection;
 	}
 
 	public String getUser() {
-		return username;
+		return this.username;
 	}
 
 	public String getPass() {
-		return password;
+		return this.password;
 	}
 
 	public String getHost() {
-		return url.getHost();
+		return this.url.getHost();
 	}
 
 	public int getPort() {
-		int ret = url.getPort();
+		int ret = this.url.getPort();
 
-		if (ret <= 0) {
+		if (0 >= ret) {
 			return 22;
 		} else {
 			return ret;
@@ -83,7 +85,7 @@ public class Sftp2URLConnection extends URLConnection {
 	}
 
 	public boolean loginSucceeded() {
-		return loginFlag;
+		return this.loginFlag;
 	}
 
 }

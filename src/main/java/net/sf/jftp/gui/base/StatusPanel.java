@@ -32,7 +32,8 @@ import net.sf.jftp.net.wrappers.HttpTransfer;
 import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
@@ -40,80 +41,73 @@ import java.util.Vector;
 
 public class StatusPanel extends HPanel implements ActionListener {
 	public static final StatusCanvas status = new StatusCanvas();
-	private final JTextField address = new JTextField("http://www.xkcd.com", 30);
 	public final HImageButton close = new HImageButton(Settings.closeImage, "close", "Close active tab...", this);
 	public final JFtp jftp;
+	private final JTextField address = new JTextField("http://www.xkcd.com", 30);
 
 	public StatusPanel(JFtp jftp) {
+		super();
 		this.jftp = jftp;
-		setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout());
 
 		JToolBar bar = new JToolBar();
 
-        /*
-                FlowLayout f = new FlowLayout(FlowLayout.LEFT);
-                f.setHgap(1);
-                f.setVgap(2);
-                bar.setLayout(f);
-                bar.setMargin(new Insets(0,0,0,0));
-        */
 		Insets in = bar.getMargin();
 		bar.setMargin(new Insets(in.top + 2, in.left + 4, in.bottom + 2, in.right + 4));
 
-		net.sf.jftp.gui.framework.HImageButton newcon = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.hostImage, "newcon", "Add FTP Connection...", this);
+		HImageButton newcon = new HImageButton(Settings.hostImage, "newcon", "Add FTP Connection...", this);
 		bar.add(newcon);
 		newcon.setSize(24, 24);
 		newcon.setToolTipText("New FTP Connection...");
 		bar.add(new JLabel(" "));
 
-		net.sf.jftp.gui.framework.HImageButton smbcon = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.openImage, "smbcon", "Add SMB Connection...", this);
+		HImageButton smbcon = new HImageButton(Settings.openImage, "smbcon", "Add SMB Connection...", this);
 		bar.add(smbcon);
 		smbcon.setSize(24, 24);
 		smbcon.setToolTipText("New SMB Connection...");
 		bar.add(new JLabel(" "));
 
-		net.sf.jftp.gui.framework.HImageButton sftpcon = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.sftpImage, "sftpcon", "Add SFTP Connection...", this);
+		HImageButton sftpcon = new HImageButton(Settings.sftpImage, "sftpcon", "Add SFTP Connection...", this);
 		bar.add(sftpcon);
 		sftpcon.setSize(24, 24);
 		sftpcon.setToolTipText("New SFTP Connection...");
 		bar.add(new JLabel(" "));
 
-		net.sf.jftp.gui.framework.HImageButton nfscon = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.nfsImage, "nfscon", "Add NFS Connection...", this);
+		HImageButton nfscon = new HImageButton(Settings.nfsImage, "nfscon", "Add NFS Connection...", this);
 		bar.add(nfscon);
 		nfscon.setSize(24, 24);
 		nfscon.setToolTipText("New NFS Connection...");
 		bar.add(new JLabel(" "));
 
-		net.sf.jftp.gui.framework.HImageButton webdavcon = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.webdavImage, "webdavcon", "Add WebDAV Connection...", this);
+		HImageButton webdavcon = new HImageButton(Settings.webdavImage, "webdavcon", "Add WebDAV Connection...", this);
 		if (Settings.enableWebDav) bar.add(webdavcon);
 		webdavcon.setSize(24, 24);
 		webdavcon.setToolTipText("New WebDAV Connection...");
 		bar.add(new JLabel("   "));
 
-		bar.add(close);
-		close.setSize(24, 24);
-		close.setToolTipText("Close Active Remote tab...");
+		bar.add(this.close);
+		this.close.setSize(24, 24);
+		this.close.setToolTipText("Close Active Remote tab...");
 		bar.add(new JLabel("    "));
 
-		address.addActionListener(this);
+		this.address.addActionListener(this);
 		bar.add(new JLabel("URL: "));
-		bar.add(address);
+		bar.add(this.address);
 		bar.add(new JLabel(" "));
-		net.sf.jftp.gui.framework.HImageButton go = new net.sf.jftp.gui.framework.HImageButton(net.sf.jftp.config.Settings.refreshImage, "go", "Download URL now...", this);
+		HImageButton go = new HImageButton(Settings.refreshImage, "go", "Download URL now...", this);
 		bar.add(go);
 
-		//***
+
 		go.setToolTipText("Download URL Now...");
 
-		//***
+
 		bar.add(new JLabel("    "));
 
-		//bar.add(status);
-		add("North", bar);
+		this.add("North", bar);
 
-		validate();
-		setFont(GUIDefaults.menuFont);
-		setVisible(true);
+		this.validate();
+		this.setFont(GUIDefaults.menuFont);
+		this.setVisible(true);
 	}
 
 	public void status(String msg) {
@@ -129,62 +123,52 @@ public class StatusPanel extends HPanel implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("go") || (e.getSource() == address)) {
+		if (e.getActionCommand().equals("go") || (e.getSource() == this.address)) {
 			Vector listeners = new Vector();
 			listeners.add(JFtp.localDir);
 
-			String url = address.getText().trim();
+			String url = this.address.getText().trim();
 
-			startTransfer(url, JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
+			this.startTransfer(url, JFtp.localDir.getPath(), listeners, JFtp.getConnectionHandler());
 		} else if (e.getActionCommand().equals("smbcon")) {
-			//jftp.safeDisconnect();
+
 			SmbHostChooser hc = new SmbHostChooser();
 			hc.toFront();
 
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("sftpcon")) {
-			//jftp.safeDisconnect();
+
 			SftpHostChooser hc = new SftpHostChooser();
 			hc.toFront();
 
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("nfscon")) {
-			//jftp.safeDisconnect();
 			NfsHostChooser hc = new NfsHostChooser();
 			hc.toFront();
 
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("webdavcon")) {
-			//jftp.safeDisconnect();
+
 			WebdavHostChooser hc = new WebdavHostChooser();
 			hc.toFront();
-
-			//hc.setModal(true);
 			hc.update();
 		} else if (e.getActionCommand().equals("close")) {
-			jftp.closeCurrentTab();
+			this.jftp.closeCurrentTab();
 		} else if (e.getActionCommand().equals("newcon") && (!JFtp.uiBlocked)) {
-			// jftp.safeDisconnect();
-			// Switch windows
-			// jftp.mainFrame.setVisible(false);
+
 			HostChooser hc = new HostChooser();
 			hc.toFront();
-
-			//hc.setModal(true);
 			hc.update();
 		}
 	}
 
 	public void startTransfer(String url, String localPath, Vector listeners, ConnectionHandler handler) {
-		if (url.startsWith("ftp://") && (url.endsWith("/") || (url.lastIndexOf("/") < 10))) {
+		if (url.startsWith("ftp://") && (url.endsWith("/") || (10 > url.lastIndexOf('/')))) {
 			JFtp.safeDisconnect();
 
 			HostChooser hc = new HostChooser();
 			hc.update(url);
-		} else if (url.startsWith("http://") && (url.endsWith("/") || (url.lastIndexOf("/") < 10))) {
+		} else if (url.startsWith("http://") && (url.endsWith("/") || (10 > url.lastIndexOf('/')))) {
 			try {
 				NativeHttpBrowser.main(new String[]{url});
 			} catch (Throwable ex) {

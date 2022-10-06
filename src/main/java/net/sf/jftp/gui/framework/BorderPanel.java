@@ -16,37 +16,38 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 
 
-public class BorderPanel extends JPanel {
-	public final boolean left = true;
+class BorderPanel extends JPanel {
+	private final boolean left = true;
 
 	public void paintComponent(Graphics g) {
-		if (left) {
+		if (this.left) {
 			g.setColor(Color.black);
-			g.drawLine(2, 2, 2, getSize().height - 3);
-			g.drawLine(2, 2, getSize().width - 3, 2);
+			g.drawLine(2, 2, 2, this.getSize().height - 3);
+			g.drawLine(2, 2, this.getSize().width - 3, 2);
 
 			g.setColor(new Color(80, 80, 80));
-			g.drawLine(1, 1, 1, getSize().height - 2);
-			g.drawLine(1, 1, getSize().width - 2, 1);
+			g.drawLine(1, 1, 1, this.getSize().height - 2);
+			g.drawLine(1, 1, this.getSize().width - 2, 1);
 
 			g.setColor(new Color(180, 180, 180));
-			g.drawLine(0, 0, 0, getSize().height - 1);
-			g.drawLine(0, 0, getSize().width - 1, 0);
+			g.drawLine(0, 0, 0, this.getSize().height - 1);
+			g.drawLine(0, 0, this.getSize().width - 1, 0);
 		} else {
 			g.setColor(Color.black);
-			g.drawLine(getSize().width - 1, 2, getSize().width - 1, getSize().height - 3);
-			g.drawLine(0, 2, getSize().width - 3, 2);
+			g.drawLine(this.getSize().width - 1, 2, this.getSize().width - 1, this.getSize().height - 3);
+			g.drawLine(0, 2, this.getSize().width - 3, 2);
 
 			g.setColor(new Color(80, 80, 80));
-			g.drawLine(getSize().width - 2, 1, getSize().width - 2, getSize().height - 2);
-			g.drawLine(1, 1, getSize().width - 2, 1);
+			g.drawLine(this.getSize().width - 2, 1, this.getSize().width - 2, this.getSize().height - 2);
+			g.drawLine(1, 1, this.getSize().width - 2, 1);
 
 			g.setColor(new Color(180, 180, 180));
-			g.drawLine(getSize().width - 3, 0, getSize().width - 3, getSize().height - 1);
-			g.drawLine(0, 0, getSize().width - 1, 0);
+			g.drawLine(this.getSize().width - 3, 0, this.getSize().width - 3, this.getSize().height - 1);
+			g.drawLine(0, 0, this.getSize().width - 1, 0);
 		}
 	}
 }

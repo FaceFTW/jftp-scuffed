@@ -15,45 +15,50 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import java.awt.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HTextField;
+
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class PathChanger extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
-	private final net.sf.jftp.gui.framework.HTextField text;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Change Directory");
+public class PathChanger extends HFrame implements ActionListener {
+	private final HTextField text;
+	private final HButton ok = new HButton("Change Directory");
 	private String type = "";
 
 	public PathChanger(String type) {
+		super();
 		this.type = type;
 
 		//setSize(400, 80);
-		setTitle("Choose path...");
+		this.setTitle("Choose path...");
 		//setLocation(150, 150);
-		getContentPane().setLayout(new FlowLayout());
+		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new net.sf.jftp.gui.framework.HTextField("Path:", "");
-		getContentPane().add(text);
-		getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new HTextField("Path:", "");
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
+			this.setVisible(false);
 
-			if (type.equals("remote")) {
-				net.sf.jftp.JFtp.remoteDir.getCon().chdir(text.getText());
+			if (this.type.equals("remote")) {
+				net.sf.jftp.JFtp.remoteDir.getCon().chdir(this.text.getText());
 			}
 
-			if (type.equals("local")) {
-				net.sf.jftp.JFtp.localDir.getCon().chdir(text.getText());
+			if (this.type.equals("local")) {
+				net.sf.jftp.JFtp.localDir.getCon().chdir(this.text.getText());
 			}
 		}
 	}

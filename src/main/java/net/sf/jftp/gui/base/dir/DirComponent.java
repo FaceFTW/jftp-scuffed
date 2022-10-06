@@ -3,7 +3,8 @@ package net.sf.jftp.gui.base.dir;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DirComponent extends DirPanel implements ListSelectionListener {
@@ -12,23 +13,23 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	DirPanel target;
 
 	public DirComponent() {
+		super();
 
-		table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
-		table.getSelectionModel().addListSelectionListener(this);
+		this.table.setDefaultRenderer(Object.class, new ColoredCellRenderer());
+		this.table.getSelectionModel().addListSelectionListener(this);
 
-		//table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setRowSelectionAllowed(true);
-		table.setColumnSelectionAllowed(false);
+		this.table.setRowSelectionAllowed(true);
+		this.table.setColumnSelectionAllowed(false);
 	}
 
 	public void update() {
-		Vector<String> colNames = new Vector<String>();
+		List<String> colNames = new ArrayList<>();
 		colNames.add("");
 		colNames.add("Name");
 		colNames.add("Size");
 		colNames.add("##");
 
-		TableUtils.layoutTable(jl, table, colNames);
+		TableUtils.layoutTable(this.jl, this.table, colNames);
 	}
 
 	/**
@@ -36,18 +37,17 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	 */
 	public void valueChanged(ListSelectionEvent e) {
 		if (!e.getValueIsAdjusting()) {
-			TableUtils.copyTableSelectionsToJList(jl, table);
+			TableUtils.copyTableSelectionsToJList(this.jl, this.table);
 
-			//  ui refresh bugfix
-			int index = jl.getSelectedIndex() - 1;
+			int index = this.jl.getSelectedIndex() - 1;
 
-			if ((index < 0) || (dirEntry == null) || (dirEntry.length < index) || (dirEntry[index] == null)) {
+			if ((0 > index) || (null == this.dirEntry) || (this.dirEntry.length < index) || (null == this.dirEntry[index])) {
 			} else { // -------------------- local --------------------------
 
-				String tgt = jl.getSelectedValue().toString();
+				String tgt = this.jl.getSelectedValue().toString();
 
-				for (int i = 0; i < dirEntry.length; i++) {
-					dirEntry[i].setSelected(jl.isSelectedIndex(i + 1));
+				for (int i = 0; i < this.dirEntry.length; i++) {
+					this.dirEntry[i].setSelected(this.jl.isSelectedIndex(i + 1));
 				}
 			}
 		}

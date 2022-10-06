@@ -25,7 +25,7 @@ public class HPasswordField extends HTextField {
 	}
 
 	public String getText() {
-		return new String(((JPasswordField) text).getPassword());
+		return new String(((JPasswordField) this.text).getPassword());
 	}
 
 }

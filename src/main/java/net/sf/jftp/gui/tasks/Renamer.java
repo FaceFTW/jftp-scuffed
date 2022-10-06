@@ -15,51 +15,58 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import java.awt.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.system.logging.Log;
+
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class Renamer extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
-	private final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
+class Renamer extends HFrame implements ActionListener {
+	private final HTextField text;
+	private final HButton ok = new HButton("Ok");
+	private final HPanel okP = new HPanel();
 	private final String oldName;
 	private final String path;
-	public final net.sf.jftp.gui.framework.HTextField text;
 
 	public Renamer(String oldName, String path) {
+		super();
 		this.oldName = oldName;
 		this.path = path;
 
-		setSize(400, 80);
-		setTitle("Enter new name...");
-		setLocation(150, 150);
-		getContentPane().setLayout(new FlowLayout());
+		this.setSize(400, 80);
+		this.setTitle("Enter new name...");
+		this.setLocation(150, 150);
+		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new net.sf.jftp.gui.framework.HTextField("Name: ", oldName);
-		getContentPane().add(text);
-		getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new HTextField("Name: ", oldName);
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			String name = text.getText();
-			setVisible(false);
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
+			String name = this.text.getText();
+			this.setVisible(false);
 
-			File f = new File(path + oldName);
+			File f = new File(this.path + this.oldName);
 
 			if (f.exists()) {
-				f.renameTo(new File(path + name));
+				f.renameTo(new File(this.path + name));
 			}
 
 			net.sf.jftp.JFtp.localUpdate();
 
-			net.sf.jftp.system.logging.Log.debug("Successfully renamed.");
+			Log.debug("Successfully renamed.");
 		}
 	}
 }

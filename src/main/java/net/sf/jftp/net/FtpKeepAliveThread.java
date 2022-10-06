@@ -1,10 +1,13 @@
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+
 public class FtpKeepAliveThread implements Runnable {
 
 	private final FtpConnection conn;
 
 	public FtpKeepAliveThread(FtpConnection conn) {
+		super();
 		this.conn = conn;
 
 		Thread runner = new Thread(this);
@@ -12,11 +15,11 @@ public class FtpKeepAliveThread implements Runnable {
 	}
 
 	public void run() {
-		while (conn.isConnected()) {
+		while (this.conn.isConnected()) {
 			try {
-				Thread.sleep(net.sf.jftp.config.Settings.ftpKeepAliveInterval);
+				Thread.sleep(Settings.ftpKeepAliveInterval);
 
-				conn.noop();
+				this.conn.noop();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

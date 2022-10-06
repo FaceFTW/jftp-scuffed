@@ -18,7 +18,8 @@ package net.sf.jftp.util;
 import net.sf.jftp.gui.framework.HTextField;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -31,32 +32,33 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 	public static final HTextField host = new HTextField("Host:", "", 20);
 	public static final HTextField port = new HTextField("Port:", "", 5);
 	public static final JTextArea output = new JTextArea();
-	public static boolean established = false;
-	public static boolean mayDispose = false;
+	public static boolean established;
+	public static boolean mayDispose;
 	public static JScrollPane outputPane;
+	private final JMenuBar mb = new JMenuBar();
+	private final JMenu file = new JMenu("Prog");
+	private final JMenu about = new JMenu("About");
+	private final JMenu session = new JMenu("Session");
+	private final JMenuItem close = new JMenuItem("ExIt");
+	private final JMenuItem changeHost = new JMenuItem("Host...");
+	private final JMenuItem info = new JMenuItem("Info");
 	private final HTextField com = new HTextField("Command:", "", 20);
 	private final JButton send = new JButton("Send");
 	private final JButton clear = new JButton("Clear");
-	final JMenuBar mb = new JMenuBar();
-	final JMenu file = new JMenu("Prog");
-	final JMenu about = new JMenu("About");
-	final JMenu session = new JMenu("Session");
-	final JMenuItem close = new JMenuItem("ExIt");
-	final JMenuItem changeHost = new JMenuItem("Host...");
-	final JMenuItem info = new JMenuItem("Info");
 	private JRawConnection c;
 
 	public RawConnection() {
 		this("localhost", 25);
 	}
 
-	public RawConnection(String hostname, int p) {
+	private RawConnection(String hostname, int p) {
+		super();
 		host.setText(hostname);
 
-		setSize(550, 300);
-		setLocation(150, 150);
-		setTitle("Direct TCP/IP connection");
-		getContentPane().setLayout(new BorderLayout(2, 2));
+		this.setSize(550, 300);
+		this.setLocation(150, 150);
+		this.setTitle("Direct TCP/IP connection");
+		this.getContentPane().setLayout(new BorderLayout(2, 2));
 
 		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		p1.add(host);
@@ -65,90 +67,88 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		port.text.setEditable(false);
 		port.setText(Integer.toString(p));
 
-		com.text.addActionListener(this);
+		this.com.text.addActionListener(this);
 
 		javax.swing.JPanel p2 = new javax.swing.JPanel();
-		p2.add(com);
+		p2.add(this.com);
 
-		com.addKeyListener(new KeyAdapter() {
+		this.com.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					transmit();
+				if (java.awt.event.KeyEvent.VK_ENTER == e.getKeyCode()) {
+					RawConnection.this.transmit();
 				}
 			}
 		});
 
-		p2.add(send);
-		send.addActionListener(this);
-		p2.add(clear);
-		clear.addActionListener(this);
+		p2.add(this.send);
+		this.send.addActionListener(this);
+		p2.add(this.clear);
+		this.clear.addActionListener(this);
 
 		output.setEditable(false);
 
 		outputPane = new JScrollPane(output);
 		outputPane.setMinimumSize(new Dimension(400, 300));
 
-		getContentPane().add("North", p1);
-		getContentPane().add("Center", outputPane);
-		getContentPane().add("South", p2);
+		this.getContentPane().add("North", p1);
+		this.getContentPane().add("Center", outputPane);
+		this.getContentPane().add("South", p2);
 
-		com.setText("");
+		this.com.setText("");
 
-		file.add(close);
-		close.addActionListener(this);
-		session.add(changeHost);
-		changeHost.addActionListener(this);
-		about.add(info);
-		info.addActionListener(this);
+		this.file.add(this.close);
+		this.close.addActionListener(this);
+		this.session.add(this.changeHost);
+		this.changeHost.addActionListener(this);
+		this.about.add(this.info);
+		this.info.addActionListener(this);
 
-		//mb.add(file);
-		session.add(close);
-		mb.add(session);
+		this.session.add(this.close);
+		this.mb.add(this.session);
 
-		//mb.add(about);
-		setJMenuBar(mb);
+		this.setJMenuBar(this.mb);
 
-		addWindowListener(this);
-		setVisible(true);
+		this.addWindowListener(this);
+		this.setVisible(true);
 
 		JHostChooser jhc = new JHostChooser();
 	}
 
 	private void transmit() {
-		if (!established) {
-			c = new JRawConnection(host.getText(), Integer.parseInt(port.getText()), true);
-
-			if (c.isThere()) {
-				c.send(com.getText());
-				established = true;
+		if (established) {
+			if (this.c.isThere()) {
+				this.c.send(this.com.getText());
 			} else {
-				debugWrite("No connection!");
+				this.debugWrite("No connection!");
 			}
 		} else {
-			if (c.isThere()) {
-				c.send(com.getText());
+			this.c = new JRawConnection(host.getText(), Integer.parseInt(port.getText()), true);
+
+			if (this.c.isThere()) {
+				this.c.send(this.com.getText());
+				established = true;
 			} else {
-				debugWrite("No connection!");
+				this.debugWrite("No connection!");
 			}
 		}
 
-		com.setText("");
+		this.com.setText("");
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == send) || (e.getSource() == com.text)) {
-			transmit();
+		if ((e.getSource() == this.send) || (e.getSource() == this.com.text)) {
+			this.transmit();
 		}
 
-		if (e.getSource() == clear) {
+		if (e.getSource() == this.clear) {
 			output.setText("");
 		}
 
-		if (e.getSource() == close) {
+		if (e.getSource() == this.close) {
 			this.dispose();
 		}
 
-		if (e.getSource() == changeHost) {
+		if (e.getSource() == this.changeHost) {
 			JHostChooser jhc = new JHostChooser();
 		}
 	}

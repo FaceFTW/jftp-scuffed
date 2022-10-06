@@ -18,19 +18,22 @@ package net.sf.jftp.gui.base;
 import net.sf.jftp.tools.Shell;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 
-public class UIUtils {
+public enum UIUtils {
+	;
+
 	public static String getPasswordFromUser(JComponent parent) {
 		JOptionPane j = new JOptionPane();
 		JPasswordField pField = new JPasswordField();
 
 		int ret = JOptionPane.showOptionDialog(parent, pField, "Password required", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
-		return pField.getText();
+		return Arrays.toString(pField.getPassword());
 	}
 
 	public static void runCommand(String cmd) throws IOException {
@@ -53,7 +56,8 @@ public class UIUtils {
 class Spawn implements Runnable {
 	private String cmd;
 
-	public Spawn(String cmd) {
+	Spawn(String cmd) {
+		super();
 		this.cmd = cmd;
 
 		Thread runner = new Thread(this);
@@ -62,16 +66,13 @@ class Spawn implements Runnable {
 
 	public void run() {
 		try {
-			String str = "";
+			final String str = "";
 
-			if (cmd.startsWith("file://")) cmd = cmd.substring(7);
+			if (this.cmd.startsWith("file://")) this.cmd = this.cmd.substring(7);
 
-			Process p = Runtime.getRuntime().exec(cmd);
+			Process p = Runtime.getRuntime().exec(this.cmd);
 			new Shell(p.getInputStream(), p.getOutputStream());
 
-			//while ((str = stdout.readLine()) !=null) {
-			//	Log.debug(str);
-			//}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

@@ -18,47 +18,50 @@ package net.sf.jftp.util;
 import net.sf.jftp.gui.framework.HFrame;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class JHostChooser extends HFrame implements ActionListener {
+class JHostChooser extends HFrame implements ActionListener {
 	private final JTextField host = new JTextField(20);
 	private final JTextField port = new JTextField(5);
 	private final JButton ok = new JButton("Use these settings");
 
 	public JHostChooser() {
-		setSize(400, 120);
-		setLocation(200, 250);
-		setTitle("Connection...");
-		getContentPane().setLayout(new BorderLayout());
-		setBackground(Color.lightGray);
+		super();
+		this.setSize(400, 120);
+		this.setLocation(200, 250);
+		this.setTitle("Connection...");
+		this.getContentPane().setLayout(new BorderLayout());
+		this.setBackground(Color.lightGray);
 
 		javax.swing.JPanel p1 = new javax.swing.JPanel();
 		javax.swing.JLabel hostL = new javax.swing.JLabel("Host:");
 		p1.add(hostL);
-		p1.add(host);
+		p1.add(this.host);
 		javax.swing.JLabel portL = new javax.swing.JLabel("Port:");
 		p1.add(portL);
-		p1.add(port);
+		p1.add(this.port);
 
-		host.setText(RawConnection.host.getText());
-		port.setText(RawConnection.port.getText());
+		this.host.setText(RawConnection.host.getText());
+		this.port.setText(RawConnection.port.getText());
 
-		getContentPane().add("Center", p1);
+		this.getContentPane().add("Center", p1);
 		javax.swing.JPanel okP = new javax.swing.JPanel();
-		getContentPane().add("South", okP);
-		okP.add(ok);
-		ok.addActionListener(this);
+		this.getContentPane().add("South", okP);
+		okP.add(this.ok);
+		this.ok.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == ok) {
-			RawConnection.host.setText(host.getText());
-			RawConnection.port.setText(port.getText());
+		if (e.getSource() == this.ok) {
+			RawConnection.host.setText(this.host.getText());
+			RawConnection.port.setText(this.port.getText());
 			RawConnection.established = false;
 			RawConnection.mayDispose = true;
 			this.dispose();

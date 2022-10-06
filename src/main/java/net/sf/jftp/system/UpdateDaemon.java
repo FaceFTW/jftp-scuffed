@@ -16,6 +16,7 @@
 package net.sf.jftp.system;
 
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.RemoteDir;
 
 public class UpdateDaemon implements Runnable {
 	private static int rem;
@@ -26,6 +27,7 @@ public class UpdateDaemon implements Runnable {
 	private final net.sf.jftp.JFtp jftp;
 
 	public UpdateDaemon(net.sf.jftp.JFtp jftp) {
+		super();
 		this.jftp = jftp;
 
 		Thread runner = new Thread(this);
@@ -33,22 +35,18 @@ public class UpdateDaemon implements Runnable {
 	}
 
 	public static void updateRemoteDirGUI() {
-		//System.out.print("+");
 		reg++;
 	}
 
 	public static void updateRemoteDir() {
-		//System.out.print("-");
 		rem++;
 	}
 
 	public static void updateLocalDir() {
-		//System.out.print("#");
 		loc++;
 	}
 
 	public static void updateLog() {
-		//System.out.print(".");
 		log++;
 	}
 
@@ -59,41 +57,33 @@ public class UpdateDaemon implements Runnable {
 	public void run() {
 		while (true) {
 			try {
-				//System.out.print(":");
-				if (rem > 0) {
+				if (0 < rem) {
 					net.sf.jftp.JFtp.remoteDir.fresh();
 
-					//System.out.print("R");
 					rem = 0;
 					Thread.sleep(100);
 				}
 
-				if (reg > 0) {
-					((net.sf.jftp.gui.base.RemoteDir) net.sf.jftp.JFtp.remoteDir).gui(true);
-
-					//System.out.print("r");
+				if (0 < reg) {
+					((RemoteDir) net.sf.jftp.JFtp.remoteDir).gui(true);
 					reg = 0;
 					Thread.sleep(100);
 				}
 
-				if (loc > 0) {
+				if (0 < loc) {
 					net.sf.jftp.JFtp.localDir.fresh();
-
-					//System.out.print("L");
 					loc = 0;
 					Thread.sleep(100);
 				}
 
-				if (cal > 0) {
-					jftp.fireUpdate();
+				if (0 < cal) {
+					this.jftp.fireUpdate();
 					cal = 0;
 					Thread.sleep(100);
 				}
 
-				if (log > 0) {
-					jftp.ensureLogging();
-
-					//System.out.print("O");
+				if (0 < log) {
+					this.jftp.ensureLogging();
 					log = 0;
 					Thread.sleep(500);
 				}

@@ -15,39 +15,44 @@
  */
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 
 
-public class HImage {
+public enum HImage {
+	;
+
 	public static synchronized Image getImage(Component c, String name) {
 		Image img = null;
 
 		try {
 			java.net.URL url = ClassLoader.getSystemResource(name);
 
-			if (url == null) {
+			if (null == url) {
 				url = HImage.class.getResource("/" + name);
 			}
 
 			//System.out.println(name + ":" + url);
 			// this is used in case the image not found, and we are packaged as a jar.
-			if (url == null) {
+			if (null == url) {
 				url = HImage.class.getResource("/" + name.replace('\\', '/'));
 			}
 
-			img = (url != null) ? Toolkit.getDefaultToolkit().getImage(url) : null;
+			img = (null != url) ? Toolkit.getDefaultToolkit().getImage(url) : null;
 
 			//Image img = Toolkit.getDefaultToolkit().getImage(name);
 			MediaTracker mt = new MediaTracker(c);
 			mt.addImage(img, 1);
 			mt.waitForAll();
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("\n\n\nError fetching image!");
+			Log.debug("\n\n\nError fetching image!");
 			ex.printStackTrace();
 
-			//System.exit(1);
-			//System.out.println(ex);
 			return img;
 		}
 
@@ -57,12 +62,9 @@ public class HImage {
 	public static synchronized ImageIcon getImageIcon(String name, String desc) {
 		java.net.URL url = ClassLoader.getSystemResource(name);
 
-		if (url == null) {
+		if (null == url) {
 			url = HImage.class.getResource("/" + name);
 		}
-
-		//System.out.println(name + ":" + url);
-
-		return (url != null) ? new javax.swing.ImageIcon(url) : null;
+		return (null != url) ? new javax.swing.ImageIcon(url) : null;
 	}
 }

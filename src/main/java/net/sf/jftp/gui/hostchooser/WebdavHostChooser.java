@@ -20,9 +20,14 @@ import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.ConnectionListener;
+import net.sf.jftp.net.wrappers.WebdavConnection;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -32,162 +37,106 @@ import java.awt.event.WindowListener;
 
 
 public class WebdavHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static final HTextField host = new HTextField("URL:", "http://localhost", 35);
-	public static final HTextField user = new HTextField("Username:", "guest");
+	private static final HTextField host = new HTextField("URL:", "http://localhost", 35);
+	private static final HTextField user = new HTextField("Username:", "guest");
 
 	//public static HTextField port = new HTextField("Port:","22");
-	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	private static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
-	private ComponentListener listener = null;
-	private boolean useLocal = false;
+	private ComponentListener listener;
+	private boolean useLocal;
 
 	public WebdavHostChooser(ComponentListener l, boolean local) {
-		listener = l;
-		useLocal = local;
-		init();
+		super();
+		this.listener = l;
+		this.useLocal = local;
+		this.init();
 	}
 
 	public WebdavHostChooser(ComponentListener l) {
-		listener = l;
-		init();
+		super();
+		this.listener = l;
+		this.init();
 	}
 
 	public WebdavHostChooser() {
-		init();
+		super();
+		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		//setSize(500, 200);
-		setLocation(100, 150);
-		setTitle("WebDAV Connection... (ALPHA STATE)");
-		setBackground(okP.getBackground());
+		this.setLocation(100, 150);
+		this.setTitle("WebDAV Connection... (ALPHA STATE)");
+		this.setBackground(this.okP.getBackground());
 
 		host.setMinimumSize(new Dimension(500, 50));
-		getContentPane().setLayout(new BorderLayout(5, 5));
-		getContentPane().add("North", host);
+		this.getContentPane().setLayout(new BorderLayout(5, 5));
+		this.getContentPane().add("North", host);
 
 		HPanel p = new HPanel();
 		p.setLayout(new GridLayout(2, 2, 5, 3));
 
-		//***MY CHANGES
-        /*
-        try {
-                File f = new File(Settings.appHomeDir);
-                f.mkdir();
-                File f1 = new File(Settings.login);
-                f1.createNewFile();
-                File f2 = new File(Settings.login_def_sftp);
-                f2.createNewFile();
-                File f3 = new File(Settings.ls_out);
-                f3.createNewFile();
-                File f4 = new File(Settings.sortls_out);
-                f4.createNewFile();
-                File f5 = new File(Settings.sortsize_out);
-                f5.createNewFile();
-                File f6 = new File(Settings.permissions_out);
-                f6.createNewFile();
-        } catch (IOException ex) {
-                ex.printStackTrace();
-        }
 
-        LoadSet l = new LoadSet();
-        String login[] = l.loadSet(Settings.login_def_sftp);
-
-
-        if (login[0] != null) {
-                host.setText(login[0]);
-                user.setText(login[1]);
-
-        }
-        */
-        /*
-        else {
-                host.setText("localhost");
-                user.setText("guest");
-
-        }
-        */
-        /*
-        if (Settings.getStorePasswords()) {
-                if (login != null) {
-                        pass.setText(login[2]);
-                }
-
-        } else
-                pass.setText("");
-
-        */
-		//***end of my changes (for this section)
-		//getContentPane().add(host);
-		//getContentPane().add(new JLabel(" "));//port);
-		//getContentPane()
 		p.add(user);
-
-		//getContentPane()
 		p.add(pass);
-
-		//getContentPane()
 		p.add(new JLabel(""));
+		p.add(this.okP);
 
-		//getContentPane()
-		p.add(okP);
+		this.okP.add(this.ok);
 
-		okP.add(ok);
+		this.getContentPane().add("South", p);
 
-		getContentPane().add("South", p);
+		this.ok.addActionListener(this);
 
-		ok.addActionListener(this);
-
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
 		pass.text.addActionListener(this);
 
-		setModal(false);
-		setVisible(false);
-		addWindowListener(this);
-
-		//novell webdav test site
+		this.setModal(false);
+		this.setVisible(false);
+		this.addWindowListener(this);
 		host.setText("http://www.planetpdf.com/planetpdf/webdavdemo/");
 		user.setText("guest");
 		pass.setText("guest");
 
-		pack();
+		this.pack();
 	}
 
 	public void update() {
-		setVisible(true);
-		toFront();
+		this.setVisible(true);
+		this.toFront();
 		host.requestFocus();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+		if ((e.getSource() == this.ok) || (e.getSource() == pass.text)) {
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
 			String htmp = host.getText().trim();
 			String utmp = user.getText().trim();
 			String ptmp = pass.getText();
 
-			net.sf.jftp.net.wrappers.WebdavConnection con;
+			WebdavConnection con;
 
-			if (useLocal) {
-				con = new net.sf.jftp.net.wrappers.WebdavConnection(htmp, utmp, ptmp, (net.sf.jftp.net.ConnectionListener) net.sf.jftp.JFtp.localDir);
+			if (this.useLocal) {
+				con = new WebdavConnection(htmp, utmp, ptmp, (ConnectionListener) net.sf.jftp.JFtp.localDir);
 				net.sf.jftp.JFtp.statusP.jftp.addLocalConnection("Webdav", con);
 				con.chdir(htmp);
 			} else {
-				con = new net.sf.jftp.net.wrappers.WebdavConnection(htmp, utmp, ptmp, (net.sf.jftp.net.ConnectionListener) net.sf.jftp.JFtp.remoteDir);
+				con = new WebdavConnection(htmp, utmp, ptmp, (ConnectionListener) net.sf.jftp.JFtp.remoteDir);
 				net.sf.jftp.JFtp.statusP.jftp.addConnection("Webdav", con);
 				con.chdir(htmp);
 			}
 
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (listener != null) {
-				listener.componentResized(new ComponentEvent(this, 0));
+			if (null != this.listener) {
+				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}
 	}
@@ -215,15 +164,6 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 	public void windowOpened(WindowEvent e) {
 	}
 
-    /*
-    public Insets getInsets()
-    {
-        Insets std = super.getInsets();
-
-        return new Insets(std.top + 10, std.left + 10, std.bottom + 10,
-                          std.right + 10);
-    }
-    */
 
 	public void pause(int time) {
 		try {

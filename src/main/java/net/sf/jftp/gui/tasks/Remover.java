@@ -15,59 +15,65 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import java.awt.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Remover extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
-	private final net.sf.jftp.gui.framework.HTextField text;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Remove file/directory...");
-	private final net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
-	private String type = null;
+class Remover extends HFrame implements ActionListener {
+	private final HTextField text;
+	private final HButton ok = new HButton("Remove file/directory...");
+	private final HButton cancel = new HButton("Cancel");
+	private String type;
 
 	public Remover(String l, String type) {
+		super();
 		this.type = type;
 
-		setSize(350, 100);
-		setTitle("Choose...");
-		setLocation(150, 150);
-		getContentPane().setLayout(new BorderLayout(10, 10));
+		this.setSize(350, 100);
+		this.setTitle("Choose...");
+		this.setLocation(150, 150);
+		this.getContentPane().setLayout(new BorderLayout(10, 10));
 
-		text = new net.sf.jftp.gui.framework.HTextField(l, "");
-		net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
-		okP.add(ok);
-		okP.add(cancel);
-		getContentPane().add("North", text);
-		getContentPane().add("South", okP);
-		ok.addActionListener(this);
-		cancel.addActionListener(this);
+		this.text = new HTextField(l, "");
+		HPanel okP = new HPanel();
+		okP.add(this.ok);
+		okP.add(this.cancel);
+		this.getContentPane().add("North", this.text);
+		this.getContentPane().add("South", okP);
+		this.ok.addActionListener(this);
+		this.cancel.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == ok) {
-			setVisible(false);
+		if (e.getSource() == this.ok) {
+			this.setVisible(false);
 
-			String tmp = text.getText();
+			String tmp = this.text.getText();
 
 			if (!tmp.endsWith("/")) {
 				tmp = tmp + "/";
 			}
 
-			AutoRemover armv = new AutoRemover(tmp, type);
+			AutoRemover armv = new AutoRemover(tmp, this.type);
 
-			if (type.equals("local")) {
+			if (this.type.equals("local")) {
 				net.sf.jftp.JFtp.localUpdate();
 			}
 
-			if (type.equals("remote")) {
+			if (this.type.equals("remote")) {
 				net.sf.jftp.JFtp.remoteUpdate();
 			}
 		}
 
-		if (e.getSource() == cancel) {
+		if (e.getSource() == this.cancel) {
 			this.dispose();
 		}
 	}

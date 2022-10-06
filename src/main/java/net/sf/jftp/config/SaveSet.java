@@ -20,23 +20,24 @@ import java.io.PrintStream;
 
 
 public class SaveSet {
-	private PrintStream out = null;
+	private PrintStream out;
 
 	public SaveSet(String file, String host, String user, String pass, String name, String port) {
+		super();
 		try {
 			FileOutputStream fos;
-			out = new PrintStream((fos = new FileOutputStream(file)));
-			out.println(host);
-			out.println(user);
+			this.out = new PrintStream((fos = new FileOutputStream(file)));
+			this.out.println(host);
+			this.out.println(user);
 
 			if (Settings.getStorePasswords()) {
-				savePW(pass, out);
+				this.savePW(pass, this.out);
 			} else {
-				out.println();
+				this.out.println();
 			}
 
-			out.println(name);
-			out.println(port);
+			this.out.println(name);
+			this.out.println(port);
 			fos.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -44,20 +45,21 @@ public class SaveSet {
 	}
 
 	public SaveSet(String file, String host, String user, String pass, String port, String cwd, String lcwd) {
+		super();
 		try {
-			out = new PrintStream(new FileOutputStream(file));
-			out.println(host);
-			out.println(user);
+			this.out = new PrintStream(new FileOutputStream(file));
+			this.out.println(host);
+			this.out.println(user);
 
 			if (Settings.getStorePasswords()) {
-				savePW(pass, out);
+				this.savePW(pass, this.out);
 			} else {
-				out.println();
+				this.out.println();
 			}
 
-			out.println(port);
-			out.println(cwd);
-			out.println(lcwd);
+			this.out.println(port);
+			this.out.println(cwd);
+			this.out.println(lcwd);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -70,9 +72,10 @@ public class SaveSet {
 	//*** file: the file name
 	//*** lsCMD: the FTP LIST command to be saved
 	public SaveSet(String file, String lsCmd) {
+		super();
 		try {
-			out = new PrintStream(new FileOutputStream(file));
-			out.println(lsCmd);
+			this.out = new PrintStream(new FileOutputStream(file));
+			this.out.println(lsCmd);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -80,7 +83,7 @@ public class SaveSet {
 
 	private void savePW(String pass, PrintStream out) throws Exception {
 		String coded = Crypto.Encrypt(pass);
-		if (coded == "") {
+		if ("".equals(coded)) {
 			// we failed to encrypt for some reason, so lets just save it
 			out.println(pass);
 		} else {

@@ -16,33 +16,35 @@
 package net.sf.jftp.gui.tasks;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
 import java.net.URL;
 
 
-public class ImageViewer extends JInternalFrame {
+class ImageViewer extends JInternalFrame {
 	public ImageViewer(String img) {
 		super(img, true, true, true, true);
-		setLocation(150, 50);
-		setSize(400, 300);
+		this.setLocation(150, 50);
+		this.setSize(400, 300);
 
-		setLayout(new BorderLayout(2, 2));
+		this.setLayout(new BorderLayout(2, 2));
 
 		ImagePanel p = new ImagePanel(img);
 		JScrollPane scroll = new JScrollPane(p);
 
-		getContentPane().add("Center", scroll);
+		this.getContentPane().add("Center", scroll);
 
 		p.setMinimumSize(new Dimension(1500, 1500));
 		p.setPreferredSize(new Dimension(1500, 1500));
 		p.setMaximumSize(new Dimension(1500, 1500));
 
-		setVisible(true);
+		this.setVisible(true);
 
-		//doLayout();
-		//validate();
-		//p.repaint();
-		//Log.out(""+p.getSize().width);
 	}
 }
 
@@ -50,21 +52,19 @@ public class ImageViewer extends JInternalFrame {
 class ImagePanel extends JPanel {
 	private Image img;
 
-	public ImagePanel(String url) {
+	ImagePanel(String url) {
+		super();
 		try {
-			setBackground(Color.white);
+			this.setBackground(Color.white);
 
-			img = Toolkit.getDefaultToolkit().getImage(new URL(url));
+			this.img = Toolkit.getDefaultToolkit().getImage(new URL(url));
 
 			MediaTracker mt = new MediaTracker(this);
-			mt.addImage(img, 1);
+			mt.addImage(this.img, 1);
 			mt.waitForAll();
 
-			//System.out.println(img);
-			//setVisible(true);
-			repaint();
+			this.repaint();
 
-			//validate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -73,10 +73,10 @@ class ImagePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, 1500, 1500);
-		g.drawImage(img, 0, 0, null);
+		g.drawImage(this.img, 0, 0, null);
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 }

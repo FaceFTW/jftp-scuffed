@@ -15,19 +15,23 @@
  */
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.config.Settings;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Toolkit;
+import java.awt.Window;
 
 
 public class HFrame extends JDialog {
 	public HFrame() {
-		setFont(GUIDefaults.font);
-		setTitle("JFtp...");
-		setBackground(new JLabel().getBackground());
-		setResizable(net.sf.jftp.config.Settings.resize);
+		super();
+		this.setFont(GUIDefaults.font);
+		this.setTitle("JFtp...");
+		this.setBackground(new JLabel().getBackground());
+		this.setResizable(Settings.resize);
 
 		//setModal(true);
-		fixLocation();
+		this.fixLocation();
 	}
 
 	public static void fixLocation(Window w) {
@@ -39,15 +43,7 @@ public class HFrame extends JDialog {
 	public void fixLocation() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 
-		setLocation((tk.getScreenSize().width - getSize().width) / 2, (tk.getScreenSize().height - getSize().height) / 2);
+		this.setLocation((tk.getScreenSize().width - this.getSize().width) / 2, (tk.getScreenSize().height - this.getSize().height) / 2);
 	}
 
-	/*
-	public Insets getInsets()
-	{
-		Insets in = super.getInsets();
-
-		return new Insets(in.top + 5, in.left + 5, in.bottom + 5, in.right + 5);
-	}
-	*/
 }

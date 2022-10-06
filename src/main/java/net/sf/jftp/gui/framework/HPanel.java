@@ -20,15 +20,9 @@ import javax.swing.*;
 
 public class HPanel extends JPanel {
 	public HPanel() {
-		setFont(GUIDefaults.font);
-		setBackground(new JLabel().getBackground());
+		super();
+		this.setFont(GUIDefaults.font);
+		this.setBackground(new JLabel().getBackground());
 	}
 
-    /*
-    public Insets getInsets()
-    {
-        Insets in = super.getInsets();
-        return new Insets(in.top+2,in.left+2,in.bottom+2,in.right+2);
-    }
-    */
 }

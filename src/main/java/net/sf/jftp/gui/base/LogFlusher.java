@@ -7,6 +7,7 @@ import net.sf.jftp.config.Settings;
 public class LogFlusher implements Runnable {
 
 	public LogFlusher() {
+		super();
 		Thread runner = new Thread(this);
 
 		if (Settings.useLogFlusher) {
@@ -22,7 +23,6 @@ public class LogFlusher implements Runnable {
 				ex.printStackTrace();
 			}
 
-			//System.out.println("logflush");
 			JFtp.statusP.jftp.ensureLogging();
 		}
 	}

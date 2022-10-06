@@ -16,23 +16,25 @@
 package net.sf.jftp.event;
 
 public class FtpEvent extends Event {
-	private int code = 0;
+	private int code;
 	private String message;
 
 	public FtpEvent(int code) {
+		super();
 		this.code = code;
 	}
 
 	public FtpEvent(int code, String message) {
+		super();
 		this.code = code;
 		this.message = message;
 	}
 
 	public String eventMsg() {
-		return message;
+		return this.message;
 	}
 
 	public int eventCode() {
-		return code;
+		return this.code;
 	}
 }

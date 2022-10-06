@@ -15,9 +15,7 @@
  */
 package net.sf.jftp.net;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-
+import java.util.Map;
 
 /**
  * This class manages a connection pool.
@@ -25,27 +23,24 @@ import java.util.Hashtable;
  * for each connection to make the connection recognize its handler.
  */
 public class ConnectionHandler {
-	private final Hashtable<String, Transfer> connections = new Hashtable<>();
+	private final java.util.Map<String, Transfer> connections = new java.util.HashMap<>();
 
 	public void addConnection(String file, Transfer t) {
-		connections.put(file, t);
+		this.connections.put(file, t);
 	}
 
 	public void removeConnection(String file) {
-		connections.remove(file);
+		this.connections.remove(file);
 	}
 
-	public Hashtable<String, Transfer> getConnections() {
-		return connections;
+	public Map<String, Transfer> getConnections() {
+		return this.connections;
 	}
 
 	public int getConnectionSize() {
 		int size = 0;
-		Enumeration<Transfer> e = connections.elements();
 
-		while (e.hasMoreElements()) {
-			Transfer t = e.nextElement();
-
+		for (Transfer t : this.connections.values()) {
 			if (t.hasStarted()) {
 				size++;
 			}

@@ -15,6 +15,9 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -22,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
-import java.io.StreamTokenizer;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -32,46 +34,48 @@ import java.net.Socket;
  * It is used internally by FtpConnection, so you probably don't have to use it directly.
  */
 public class DataConnection implements Runnable {
-	public final static String GET = "GET";
-	public final static String PUT = "PUT";
-	public final static String FAILED = "FAILED";
-	public final static String FINISHED = "FINISHED";
-	public final static String DFINISHED = "DFINISHED";
-	public final static String GETDIR = "DGET";
-	public final static String PUTDIR = "DPUT";
+	public static final String GET = "GET";
+	public static final String PUT = "PUT";
+	public static final String FAILED = "FAILED";
+	public static final String FINISHED = "FINISHED";
+	public static final String DFINISHED = "DFINISHED";
+	public static final String GETDIR = "DGET";
+	public static final String PUTDIR = "DPUT";
 	private final String file;
 	private final String host;
 	private final FtpConnection con;
 	private final String LINEEND = System.getProperty("line.separator");
-	public Socket sock = null;
-	public boolean finished = false;
-	private BufferedInputStream in = null;
-	private BufferedOutputStream out = null;
+	public Socket sock;
+	public boolean finished;
+	private BufferedInputStream in;
+	private BufferedOutputStream out;
 	private Thread reciever;
 	private int port = 7000;
-	private ServerSocket ssock = null;
+	private ServerSocket ssock;
 	private String type;
-	private boolean resume = false;
-	private boolean isThere = false;
+	private boolean resume;
+	private boolean isThere;
 	private long start;
-	private int skiplen = 0;
-	private boolean justStream = false;
+	private int skiplen;
+	private boolean justStream;
 	private boolean ok = true;
-	private String localfile = null;
+	private String localfile;
 	//private String outputCharset = "CP037";
-	private String newLine = null;
+	private String newLine;
 
 	public DataConnection(FtpConnection con, int port, String host, String file, String type) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
 		this.port = port;
 		this.type = type;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(FtpConnection con, int port, String host, String file, String type, boolean resume) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -80,11 +84,12 @@ public class DataConnection implements Runnable {
 		this.resume = resume;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(FtpConnection con, int port, String host, String file, String type, boolean resume, boolean justStream) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -94,11 +99,12 @@ public class DataConnection implements Runnable {
 		this.justStream = justStream;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(FtpConnection con, int port, String host, String file, String type, boolean resume, String localfile) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -108,11 +114,12 @@ public class DataConnection implements Runnable {
 		this.localfile = localfile;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(FtpConnection con, int port, String host, String file, String type, boolean resume, int skiplen) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -122,11 +129,12 @@ public class DataConnection implements Runnable {
 		this.skiplen = skiplen;
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public DataConnection(FtpConnection con, int port, String host, String file, String type, boolean resume, int skiplen, InputStream i) {
+		super();
 		this.con = con;
 		this.file = file;
 		this.host = host;
@@ -135,44 +143,44 @@ public class DataConnection implements Runnable {
 		this.resume = resume;
 		this.skiplen = skiplen;
 
-		if (i != null) {
+		if (null != i) {
 			this.in = new BufferedInputStream(i);
 		}
 
 		//resume = false;
-		reciever = new Thread(this);
-		reciever.start();
+		this.reciever = new Thread(this);
+		this.reciever.start();
 	}
 
 	public void run() {
 		try {
-			newLine = con.getCRLF();
+			this.newLine = this.con.getCRLF();
 			//Log.debug("NL: "+newLine+"\n\n\n\n\n");
 
-			if (net.sf.jftp.config.Settings.getFtpPasvMode()) {
+			if (Settings.getFtpPasvMode()) {
 				try {
-					sock = new Socket(host, port);
-					sock.setSoTimeout(net.sf.jftp.config.Settings.getSocketTimeout());
+					this.sock = new Socket(this.host, this.port);
+					this.sock.setSoTimeout(Settings.getSocketTimeout());
 				} catch (Exception ex) {
-					ok = false;
+					this.ok = false;
 					ex.printStackTrace();
-					debug("Can't open Socket on " + host + ":" + port);
+					this.debug("Can't open Socket on " + this.host + ":" + this.port);
 				}
 			} else {
 				//Log.debug("trying new server socket: "+port);
 				try {
-					ssock = new ServerSocket(port);
+					this.ssock = new ServerSocket(this.port);
 				} catch (Exception ex) {
-					ok = false;
+					this.ok = false;
 					ex.printStackTrace();
-					net.sf.jftp.system.logging.Log.debug("Can't open ServerSocket on port " + port);
+					Log.debug("Can't open ServerSocket on port " + this.port);
 				}
 			}
 		} catch (Exception ex) {
-			debug(ex.toString());
+			this.debug(ex.toString());
 		}
 
-		isThere = true;
+		this.isThere = true;
 
 		boolean ok = true;
 
@@ -181,65 +189,65 @@ public class DataConnection implements Runnable {
 		RandomAccessFile fIn = null;
 
 		try {
-			if (!net.sf.jftp.config.Settings.getFtpPasvMode()) {
+			if (!Settings.getFtpPasvMode()) {
 				int retry = 0;
 
-				while ((retry++ < 5) && (sock == null)) {
+				while ((5 > retry++) && (null == this.sock)) {
 					try {
-						ssock.setSoTimeout(net.sf.jftp.config.Settings.connectionTimeout);
-						sock = ssock.accept();
+						this.ssock.setSoTimeout(Settings.connectionTimeout);
+						this.sock = this.ssock.accept();
 					} catch (IOException e) {
-						sock = null;
-						debug("Got IOException while trying to open a socket!");
+						this.sock = null;
+						this.debug("Got IOException while trying to open a socket!");
 
-						if (retry == 5) {
-							debug("Connection failed, tried 5 times - maybe try a higher timeout in Settings.java...");
+						if (5 == retry) {
+							this.debug("Connection failed, tried 5 times - maybe try a higher timeout in Settings.java...");
 						}
 
-						finished = true;
+						this.finished = true;
 
 						throw e;
 					} finally {
-						ssock.close();
+						this.ssock.close();
 					}
 
-					debug("Attempt timed out, retrying...");
+					this.debug("Attempt timed out, retrying...");
 				}
 			}
 
 			if (ok) {
-				byte[] buf = new byte[net.sf.jftp.config.Settings.bufferSize];
-				start = System.currentTimeMillis();
+				byte[] buf = new byte[Settings.bufferSize];
+				this.start = System.currentTimeMillis();
 
 				long buflen = 0;
 
 				//---------------download----------------------
-				if (type.equals(GET) || type.equals(GETDIR)) {
-					if (!justStream) {
+				if (this.type.equals(GET) || this.type.equals(GETDIR)) {
+					if (!this.justStream) {
 						try {
-							if (resume) {
-								File f = new File(file);
-								fOut = new RandomAccessFile(file, "rw");
+							if (this.resume) {
+								File f = new File(this.file);
+								fOut = new RandomAccessFile(this.file, "rw");
 								fOut.seek(f.length());
 								buflen = f.length();
 							} else {
-								if (localfile == null) {
-									localfile = file;
+								if (null == this.localfile) {
+									this.localfile = this.file;
 								}
 
-								File f2 = new File(net.sf.jftp.config.Settings.appHomeDir);
+								File f2 = new File(Settings.appHomeDir);
 								f2.mkdirs();
 
-								File f = new File(localfile);
+								File f = new File(this.localfile);
 
 								if (f.exists()) {
 									f.delete();
 								}
 
-								bOut = new BufferedOutputStream(new FileOutputStream(localfile), net.sf.jftp.config.Settings.bufferSize);
+								bOut = new BufferedOutputStream(new FileOutputStream(this.localfile), Settings.bufferSize);
 							}
 						} catch (Exception ex) {
-							debug("Can't create outputfile: " + file);
+							this.debug("Can't create outputfile: " + this.file);
 							ok = false;
 							ex.printStackTrace();
 						}
@@ -247,35 +255,35 @@ public class DataConnection implements Runnable {
 
 					if (ok) {
 						try {
-							in = new BufferedInputStream(sock.getInputStream(), net.sf.jftp.config.Settings.bufferSize);
+							this.in = new BufferedInputStream(this.sock.getInputStream(), Settings.bufferSize);
 
-							if (justStream) {
+							if (this.justStream) {
 								return;
 							}
 						} catch (Exception ex) {
 							ok = false;
-							debug("Can't get InputStream");
+							this.debug("Can't get InputStream");
 						}
 
 						if (ok) {
 							try {
 								long len = buflen;
 
-								if (fOut != null) {
+								if (null != fOut) {
 									while (true) {
 										// resuming
 										int read = -2;
 
 										try {
-											read = in.read(buf);
+											read = this.in.read(buf);
 										} catch (IOException es) {
-											net.sf.jftp.system.logging.Log.out("got a IOException");
+											Log.out("got a IOException");
 											ok = false;
 											fOut.close();
-											finished = true;
-											con.fireProgressUpdate(file, FAILED, -1);
+											this.finished = true;
+											this.con.fireProgressUpdate(this.file, FAILED, -1);
 
-											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
+											Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
 
 											return;
@@ -283,24 +291,24 @@ public class DataConnection implements Runnable {
 
 										len += read;
 
-										if (read == -1) {
+										if (-1 == read) {
 											break;
 										}
 
-										if (newLine != null) {
-											byte[] buf2 = modifyGet(buf, read);
+										if (null != this.newLine) {
+											byte[] buf2 = this.modifyGet(buf, read);
 											fOut.write(buf2, 0, buf2.length);
 										} else {
 											fOut.write(buf, 0, read);
 										}
 
-										con.fireProgressUpdate(file, type, len);
+										this.con.fireProgressUpdate(this.file, this.type, len);
 
-										if (time()) {
+										if (this.time()) {
 											// Log.debugSize(len, true, false, file);
 										}
 
-										if (read == StreamTokenizer.TT_EOF) {
+										if (java.io.StreamTokenizer.TT_EOF == read) {
 											break;
 										}
 									}
@@ -313,15 +321,15 @@ public class DataConnection implements Runnable {
 										int read = -2;
 
 										try {
-											read = in.read(buf);
+											read = this.in.read(buf);
 										} catch (IOException es) {
-											net.sf.jftp.system.logging.Log.out("got a IOException");
+											Log.out("got a IOException");
 											ok = false;
 											bOut.close();
-											finished = true;
-											con.fireProgressUpdate(file, FAILED, -1);
+											this.finished = true;
+											this.con.fireProgressUpdate(this.file, FAILED, -1);
 
-											net.sf.jftp.system.logging.Log.out("last read: " + read + ", len: " + (len + read));
+											Log.out("last read: " + read + ", len: " + (len + read));
 											es.printStackTrace();
 
 											return;
@@ -329,24 +337,24 @@ public class DataConnection implements Runnable {
 
 										len += read;
 
-										if (read == -1) {
+										if (-1 == read) {
 											break;
 										}
 
-										if (newLine != null) {
-											byte[] buf2 = modifyGet(buf, read);
+										if (null != this.newLine) {
+											byte[] buf2 = this.modifyGet(buf, read);
 											bOut.write(buf2, 0, buf2.length);
 										} else {
 											bOut.write(buf, 0, read);
 										}
 
-										con.fireProgressUpdate(file, type, len);
+										this.con.fireProgressUpdate(this.file, this.type, len);
 
-										if (time()) {
+										if (this.time()) {
 											//Log.debugSize(len, true, false, file);
 										}
 
-										if (read == StreamTokenizer.TT_EOF) {
+										if (java.io.StreamTokenizer.TT_EOF == read) {
 											break;
 										}
 									}
@@ -357,8 +365,8 @@ public class DataConnection implements Runnable {
 								}
 							} catch (IOException ex) {
 								ok = false;
-								debug("Old connection removed");
-								con.fireProgressUpdate(file, FAILED, -1);
+								this.debug("Old connection removed");
+								this.con.fireProgressUpdate(this.file, FAILED, -1);
 
 								//debug(ex + ": " + ex.getMessage());
 								ex.printStackTrace();
@@ -368,171 +376,79 @@ public class DataConnection implements Runnable {
 				}
 
 				//---------------upload----------------------
-				if (type.equals(PUT) || type.equals(PUTDIR)) {
-					if (in == null) {
-						try {
-							fIn = new RandomAccessFile(file, "r");
-
-							if (resume) {
-								fIn.seek(skiplen);
-							}
-
-							//fIn = new BufferedInputStream(new FileInputStream(file));
-						} catch (Exception ex) {
-							debug("Can't open inputfile: " + " (" + ex + ")");
-							ok = false;
-						}
-					}
-
-					if (ok) {
-						try {
-							out = new BufferedOutputStream(sock.getOutputStream());
-						} catch (Exception ex) {
-							ok = false;
-							debug("Can't get OutputStream");
-						}
-
-						if (ok) {
-							try {
-								int len = skiplen;
-
-								while (true) {
-									int read;
-
-									if (in != null) {
-										read = in.read(buf);
-									} else {
-										read = fIn.read(buf);
-									}
-
-									len += read;
-
-									//System.out.println(file + " " + type+ " " + len + " " + read);
-									if (read == -1) {
-										break;
-									}
-
-									if (newLine != null) {
-										byte[] buf2 = modifyPut(buf, read);
-										out.write(buf2, 0, buf2.length);
-									} else {
-										out.write(buf, 0, read);
-									}
-
-									con.fireProgressUpdate(file, type, len);
-
-									if (time()) {
-										//   Log.debugSize(len, false, false, file);
-									}
-
-									if (read == StreamTokenizer.TT_EOF) {
-										break;
-									}
-								}
-
-								out.flush();
-
-								//Log.debugSize(len, false, true, file);
-							} catch (IOException ex) {
-								ok = false;
-								debug("Error: Data connection closed.");
-								con.fireProgressUpdate(file, FAILED, -1);
-								ex.printStackTrace();
-							}
-						}
-					}
+				if (this.type.equals(PUT) || this.type.equals(PUTDIR)) {
+					doUpload(fIn, buf);
 				}
 			}
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Can't connect socket to ServerSocket");
+			Log.debug("Can't connect socket to ServerSocket");
 			ex.printStackTrace();
 		} finally {
 			try {
-				if (out != null) {
-					out.flush();
-					out.close();
+				if (null != this.out) {
+					this.out.flush();
+					this.out.close();
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-			try {
-				if (bOut != null) {
+				if (null != bOut) {
 					bOut.flush();
 					bOut.close();
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-			try {
-				if (fOut != null) {
+				if (null != fOut) {
 					fOut.close();
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-			try {
-				if (in != null && !justStream) {
-					in.close();
+				if (null != this.in && !this.justStream) {
+					this.in.close();
 				}
 
-				if (fIn != null) {
+				if (null != fIn) {
 					fIn.close();
 				}
-			} catch (Exception ex) {
+			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
 
 		try {
-			sock.close();
+			this.sock.close();
 		} catch (Exception ex) {
-			debug(ex.toString());
+			this.debug(ex.toString());
 		}
 
-		if (!net.sf.jftp.config.Settings.getFtpPasvMode()) {
+		if (!Settings.getFtpPasvMode()) {
 			try {
-				ssock.close();
+				this.ssock.close();
 			} catch (Exception ex) {
-				debug(ex.toString());
+				this.debug(ex.toString());
 			}
 		}
 
-		finished = true;
+		this.finished = true;
 
 		if (ok) {
-			con.fireProgressUpdate(file, FINISHED, -1);
+			this.con.fireProgressUpdate(this.file, FINISHED, -1);
 		} else {
-			con.fireProgressUpdate(file, FAILED, -1);
+			this.con.fireProgressUpdate(this.file, FAILED, -1);
 		}
 	}
 
 	public InputStream getInputStream() {
-		return in;
+		return this.in;
 	}
 
 	public FtpConnection getCon() {
-		return con;
+		return this.con;
 	}
 
 	private void debug(String msg) {
-		net.sf.jftp.system.logging.Log.debug(msg);
-	}
-
-	public void reset() {
-		//reciever.destroy();
-		reciever = new Thread(this);
-		reciever.start();
+		Log.debug(msg);
 	}
 
 	private boolean time() {
 		long now = System.currentTimeMillis();
-		long offset = now - start;
+		long offset = now - this.start;
 
-		if (offset > net.sf.jftp.config.Settings.statusMessageAfterMillis) {
-			start = now;
+		if (Settings.statusMessageAfterMillis < offset) {
+			this.start = now;
 
 			return true;
 		}
@@ -541,37 +457,23 @@ public class DataConnection implements Runnable {
 	}
 
 	public boolean isThere() {
-		if (finished) {
+		if (this.finished) {
 			return true;
 		}
 
-		return isThere;
+		return this.isThere;
 	}
 
 	public void setType(String tmp) {
-		type = tmp;
-	}
-
-	public boolean isOK() {
-		return ok;
-	}
-
-	public void interrupt() {
-		if (net.sf.jftp.config.Settings.getFtpPasvMode() && (type.equals(GET) || type.equals(GETDIR))) {
-			try {
-				reciever.join();
-			} catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
-		}
+		this.type = tmp;
 	}
 
 	private byte[] modifyPut(byte[] buf, int len) {
 		//Log.debug("\n\n\n\nNewline: "+newLine);
-		if (newLine == null) return buf;
+		if (null == this.newLine) return buf;
 
 		String s = (new String(buf)).substring(0, len);
-		s = s.replaceAll(LINEEND, newLine);
+		s = s.replaceAll(this.LINEEND, this.newLine);
 		//Log.debug("Newline_own: "+LINEEND+", s:"+s);
 
 		return s.getBytes();
@@ -579,12 +481,96 @@ public class DataConnection implements Runnable {
 
 	private byte[] modifyGet(byte[] buf, int len) {
 		//Log.debug("\n\n\n\nNewline: "+newLine);
-		if (newLine == null) return buf;
+		if (null == this.newLine) return buf;
 
 		String s = (new String(buf)).substring(0, len);
-		s = s.replaceAll(newLine, LINEEND);
+		s = s.replaceAll(this.newLine, this.LINEEND);
 		//Log.debug("Newline_own: "+LINEEND+", s:"+s);
 
 		return s.getBytes();
+	}
+
+	private void doUpload(RandomAccessFile fIn, byte[] buf) {
+		if (null == this.in) {
+			try {
+				fIn = new RandomAccessFile(this.file, "r");
+
+				if (this.resume) {
+					fIn.seek(this.skiplen);
+				}
+
+				//fIn = new BufferedInputStream(new FileInputStream(file));
+			} catch (Exception ex) {
+				this.debug("Can't open inputfile: " + " (" + ex + ")");
+				ok = false;
+			}
+		}
+
+		if (ok) {
+			try {
+				this.out = new BufferedOutputStream(this.sock.getOutputStream());
+			} catch (Exception ex) {
+				ok = false;
+				this.debug("Can't get OutputStream");
+			}
+
+			if (ok) {
+				try {
+					int len = this.skiplen;
+
+					while (true) {
+						int read;
+
+						if (null != this.in) {
+							read = this.in.read(buf);
+						} else {
+							read = fIn.read(buf);
+						}
+
+						len += read;
+
+						//System.out.println(file + " " + type+ " " + len + " " + read);
+						if (-1 == read) {
+							break;
+						}
+
+						if (null != this.newLine) {
+							byte[] buf2 = this.modifyPut(buf, read);
+							this.out.write(buf2, 0, buf2.length);
+						} else {
+							this.out.write(buf, 0, read);
+						}
+
+						this.con.fireProgressUpdate(this.file, this.type, len);
+
+						if (this.time()) {
+							//   Log.debugSize(len, false, false, file);
+						}
+
+						if (java.io.StreamTokenizer.TT_EOF == read) {
+							break;
+						}
+
+						//DO NOT REMOVE - Fixes race condition in upload
+						Thread.sleep(10);
+					}
+
+					this.out.flush();
+
+					//Log.debugSize(len, false, true, file);
+				} catch (IOException ex) {
+					ok = false;
+					this.debug("Error: Data connection closed.");
+					this.con.fireProgressUpdate(this.file, FAILED, -1);
+					ex.printStackTrace();
+				} catch (InterruptedException e) {
+					ok = false;
+					this.debug("Error: Latency Pause delayed!");
+					this.con.fireProgressUpdate(this.file, FAILED, -1);
+					e.printStackTrace();
+
+				}
+			}
+		}
 	}
 }

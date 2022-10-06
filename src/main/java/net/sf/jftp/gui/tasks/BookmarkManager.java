@@ -15,8 +15,14 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -35,68 +41,68 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 
 	public BookmarkManager() {
 		super("Manage Bookmarks", true, true, true, true);
-		setLocation(50, 50);
-		setSize(600, 540);
-		getContentPane().setLayout(new BorderLayout());
+		this.setLocation(50, 50);
+		this.setSize(600, 540);
+		this.getContentPane().setLayout(new BorderLayout());
 
-		load(net.sf.jftp.config.Settings.bookmarks);
+		this.load(Settings.bookmarks);
 
-		JScrollPane jsp = new JScrollPane(info);
-		getContentPane().add("Center", jsp);
+		JScrollPane jsp = new JScrollPane(this.info);
+		this.getContentPane().add("Center", jsp);
 
-		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		//closeP.add(close);
 		javax.swing.JButton save = new javax.swing.JButton("Save and close");
 		closeP.add(save);
 
-		close.addActionListener(this);
+		this.close.addActionListener(this);
 		save.addActionListener(this);
 
-		getContentPane().add("South", closeP);
+		this.getContentPane().add("South", closeP);
 
-		info.setCaretPosition(0);
-		pack();
-		setVisible(true);
+		this.info.setCaretPosition(0);
+		this.pack();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == close) {
+		if (e.getSource() == this.close) {
 			this.dispose();
 		} else {
-			save(net.sf.jftp.config.Settings.bookmarks);
+			this.save(Settings.bookmarks);
 			net.sf.jftp.JFtp.menuBar.loadBookmarks();
 			this.dispose();
 		}
 	}
 
 	private void setDefaultText() {
-		info.setText("");
-		info.append("# JFtp Bookmark Configuration file\n");
-		info.append("#\n");
-		info.append("# Syntax: protocol#host#user#password#port#dir/domain#local\n");
-		info.append("#\n");
-		info.append("# Note: not all values are used by every connection, but all fields must contain at least\n");
-		info.append("# one character.\n");
-		info.append("Use \"<%hidden%>\" for password fields you don't want to fill out.");
-		info.append("#\n");
-		info.append("# protocol: FTP, SFTP, SMB or NFS (uppercase)\n");
-		info.append("# host: hostname or ip for ftp + sftp, valid url for smb + nfs  (\"(LAN)\" for smb lan browsing)\n");
-		info.append("# user, password: the login data\n");
-		info.append("# port: this must be a number (even if it is not used for smb+nfs, set it in the url for nfs)\n");
-		info.append("# dir/domain: inital directory for the connection, domainname for smb\n");
-		info.append("# local: \"true\" if connection should be opened in local tab, \"false\" otherwise\n");
-		info.append("# directories must be included in <dir></dir> tags and can be ended" + " using a single\n# <enddir> tag");
-		info.append("#\n");
-		info.append("#\n");
-		info.append("\n<dir>JFtp</dir>\n");
-		info.append("FTP#upload.sourceforge.net#anonymous#j-ftp@sf.net#21#/incoming#false\n");
-		info.append("<enddir>\n");
-		info.append("\n");
-		info.append("FTP#ftp.kernel.org#anonymous#j-ftp@sf.net#21#/pub/linux/kernel/v2.6#false\n");
-		info.append("\n");
-		info.append("SMB#(LAN)#guest#guest#-1#-#false\n\n");
+		this.info.setText("");
+		this.info.append("# JFtp Bookmark Configuration file\n");
+		this.info.append("#\n");
+		this.info.append("# Syntax: protocol#host#user#password#port#dir/domain#local\n");
+		this.info.append("#\n");
+		this.info.append("# Note: not all values are used by every connection, but all fields must contain at least\n");
+		this.info.append("# one character.\n");
+		this.info.append("Use \"<%hidden%>\" for password fields you don't want to fill out.");
+		this.info.append("#\n");
+		this.info.append("# protocol: FTP, SFTP, SMB or NFS (uppercase)\n");
+		this.info.append("# host: hostname or ip for ftp + sftp, valid url for smb + nfs  (\"(LAN)\" for smb lan browsing)\n");
+		this.info.append("# user, password: the login data\n");
+		this.info.append("# port: this must be a number (even if it is not used for smb+nfs, set it in the url for nfs)\n");
+		this.info.append("# dir/domain: inital directory for the connection, domainname for smb\n");
+		this.info.append("# local: \"true\" if connection should be opened in local tab, \"false\" otherwise\n");
+		this.info.append("# directories must be included in <dir></dir> tags and can be ended" + " using a single\n# <enddir> tag");
+		this.info.append("#\n");
+		this.info.append("#\n");
+		this.info.append("\n<dir>JFtp</dir>\n");
+		this.info.append("FTP#upload.sourceforge.net#anonymous#j-ftp@sf.net#21#/incoming#false\n");
+		this.info.append("<enddir>\n");
+		this.info.append("\n");
+		this.info.append("FTP#ftp.kernel.org#anonymous#j-ftp@sf.net#21#/pub/linux/kernel/v2.6#false\n");
+		this.info.append("\n");
+		this.info.append("SMB#(LAN)#guest#guest#-1#-#false\n\n");
 	}
 
 	private void load(String file) {
@@ -106,29 +112,29 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		try {
 			DataInput in = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
 
-			while ((data = in.readLine()) != null) {
+			while (null != (data = in.readLine())) {
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug("No bookmarks.txt found, using defaults.");
+			Log.debug("No bookmarks.txt found, using defaults.");
 
-			setDefaultText();
+			this.setDefaultText();
 
 			return;
 		}
 
-		info.setText(now.toString());
+		this.info.setText(now.toString());
 	}
 
 	private void save(String file) {
 		try {
 			PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)));
 
-			out.println(info.getText());
+			out.println(this.info.getText());
 			out.flush();
 			out.close();
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug(e + " @BookmarkManager.save()");
+			Log.debug(e + " @BookmarkManager.save()");
 		}
 	}
 

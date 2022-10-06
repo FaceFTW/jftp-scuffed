@@ -23,24 +23,27 @@ import javax.swing.*;
 
 
 public class DirPanel extends HPanel implements Dir {
-	public int length = 0;
+	public int length;
 	public String[] files;
 	public DirEntry[] dirEntry;
-	public String type = null;
-	public long oldtime = 0;
-	public DownloadList dList = null;
-	public BasicConnection con = null;
+	public String type;
+	public long oldtime;
+	public DownloadList dList;
+	public BasicConnection con;
 	public String path = "./";
 	public JList jl = new JList();
 
-	public DirPanel() {
+	DirPanel() {
+		super();
 	}
 
 	public DirPanel(String path) {
+		super();
 		this.path = path;
 	}
 
 	public DirPanel(String path, String type) {
+		super();
 		this.path = path;
 		this.type = type;
 	}
@@ -52,11 +55,11 @@ public class DirPanel extends HPanel implements Dir {
 	}
 
 	public String getPath() {
-		return path;
+		return this.path;
 	}
 
 	public String getType() {
-		return type;
+		return this.type;
 	}
 
 	public void setType(String type) {
@@ -64,11 +67,11 @@ public class DirPanel extends HPanel implements Dir {
 	}
 
 	public void setDownloadList(DownloadList d) {
-		dList = d;
+		this.dList = d;
 	}
 
 	public BasicConnection getCon() {
-		return con;
+		return this.con;
 	}
 
 	public void setCon(BasicConnection con) {

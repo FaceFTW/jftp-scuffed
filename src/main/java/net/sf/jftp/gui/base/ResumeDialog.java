@@ -17,29 +17,31 @@ package net.sf.jftp.gui.base;
 
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.dir.DirEntry;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 
-public class ResumeDialog extends HFrame implements ActionListener {
+class ResumeDialog extends HFrame implements ActionListener {
 	private final JButton resume = new JButton("Resume");
 	private final JButton skip = new JButton("Skip");
 	private final JButton over = new JButton("Overwrite");
-	private net.sf.jftp.gui.base.dir.DirEntry dirEntry = null;
+	private DirEntry dirEntry;
 
-	public ResumeDialog(net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
+	public ResumeDialog(DirEntry dirEntry) {
+		super();
 		this.dirEntry = dirEntry;
 
-		setLocation(150, 150);
-		setTitle("Question");
+		this.setLocation(150, 150);
+		this.setTitle("Question");
 
-		resume.setEnabled(false);
+		this.resume.setEnabled(false);
 
 		JTextArea text = new JTextArea();
 		text.append("A file named " + dirEntry.file + " already exists.                       \n\n");
@@ -49,55 +51,55 @@ public class ResumeDialog extends HFrame implements ActionListener {
 
 		diff = dirEntry.getRawSize() - f.length();
 
-		if (diff == 0) {
+		if (0 == diff) {
 			text.append("It has exactly the same size as the remote file.\n\n");
-		} else if (diff < 0) {
+		} else if (0 > diff) {
 			text.append("It is bigger than the remote file.\n\n");
 		} else {
 			text.append("It is smaller than the remote file.\n\n");
-			resume.setEnabled(true);
+			this.resume.setEnabled(true);
 		}
 
-		getContentPane().setLayout(new BorderLayout(5, 5));
-		getContentPane().add("Center", text);
+		this.getContentPane().setLayout(new BorderLayout(5, 5));
+		this.getContentPane().add("Center", text);
 
 		HPanel p = new HPanel();
-		p.add(resume);
-		p.add(skip);
-		p.add(over);
+		p.add(this.resume);
+		p.add(this.skip);
+		p.add(this.over);
 
-		getContentPane().add("South", p);
+		this.getContentPane().add("South", p);
 
-		resume.addActionListener(this);
-		skip.addActionListener(this);
-		over.addActionListener(this);
+		this.resume.addActionListener(this);
+		this.skip.addActionListener(this);
+		this.over.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == resume) {
+		if (e.getSource() == this.resume) {
 			this.dispose();
-			transfer();
-		} else if (e.getSource() == skip) {
+			this.transfer();
+		} else if (e.getSource() == this.skip) {
 			this.dispose();
-		} else if (e.getSource() == over) {
+		} else if (e.getSource() == this.over) {
 			this.dispose();
 
-			File f = new File(JFtp.localDir.getPath() + dirEntry.file);
+			File f = new File(JFtp.localDir.getPath() + this.dirEntry.file);
 			f.delete();
 
-			transfer();
+			this.transfer();
 		}
 	}
 
 	private void transfer() {
-		if ((dirEntry.getRawSize() < Settings.smallSize) && !dirEntry.isDirectory()) {
-			JFtp.remoteDir.getCon().download(dirEntry.file);
+		if ((Settings.smallSize > this.dirEntry.getRawSize()) && !this.dirEntry.isDirectory()) {
+			JFtp.remoteDir.getCon().download(this.dirEntry.file);
 		} else {
-			JFtp.remoteDir.getCon().handleDownload(dirEntry.file);
+			JFtp.remoteDir.getCon().handleDownload(this.dirEntry.file);
 		}
 	}
 }

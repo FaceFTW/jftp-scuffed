@@ -15,8 +15,14 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedInputStream;
@@ -26,7 +32,7 @@ import java.io.IOException;
 
 
 public class Displayer extends JInternalFrame implements ActionListener {
-	public static final boolean showCloseButton = false;
+	private static final boolean showCloseButton = false;
 
 	private final JTextArea info = new JTextArea(25, 50) {
 		public Insets getInsets() {
@@ -40,38 +46,38 @@ public class Displayer extends JInternalFrame implements ActionListener {
 
 	public Displayer(java.net.URL file, Font font) {
 		super(file.getFile(), true, true, true, true);
-		setLocation(50, 50);
-		setSize(600, 540);
-		getContentPane().setLayout(new BorderLayout());
+		this.setLocation(50, 50);
+		this.setSize(600, 540);
+		this.getContentPane().setLayout(new BorderLayout());
 
-		load(file);
-		if (font != null) {
-			info.setFont(font);
+		this.load(file);
+		if (null != font) {
+			this.info.setFont(font);
 		} else {
-			info.setFont(new Font("monospaced", Font.PLAIN, 11));
+			this.info.setFont(new Font("monospaced", Font.PLAIN, 11));
 		}
-		info.setEditable(false);
+		this.info.setEditable(false);
 
-		JScrollPane jsp = new JScrollPane(info);
-		getContentPane().add("Center", jsp);
+		JScrollPane jsp = new JScrollPane(this.info);
+		this.getContentPane().add("Center", jsp);
 
-		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
-		closeP.add(close);
+		closeP.add(this.close);
 
-		close.addActionListener(this);
+		this.close.addActionListener(this);
 
 		if (showCloseButton) {
-			getContentPane().add("South", closeP);
+			this.getContentPane().add("South", closeP);
 		}
 
-		info.setCaretPosition(0);
+		this.info.setCaretPosition(0);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == close) {
+		if (e.getSource() == this.close) {
 			this.dispose();
 		}
 	}
@@ -83,14 +89,14 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		try {
 			DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-			while ((data = in.readLine()) != null) {
+			while (null != (data = in.readLine())) {
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
+			Log.debug(e + " @Displayer.load()");
 		}
 
-		info.setText(now.toString());
+		this.info.setText(now.toString());
 	}
 
 	public Insets getInsets() {

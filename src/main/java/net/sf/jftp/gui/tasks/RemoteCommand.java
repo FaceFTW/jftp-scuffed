@@ -22,7 +22,9 @@ import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,26 +34,27 @@ public class RemoteCommand extends HFrame implements ActionListener {
 	private final HButton ok = new HButton("Execute");
 
 	public RemoteCommand() {
+		super();
 		//setSize(400, 80);
-		setTitle("Choose command...");
-		setLocation(150, 150);
-		getContentPane().setLayout(new FlowLayout());
+		this.setTitle("Choose command...");
+		this.setLocation(150, 150);
+		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
-		getContentPane().add(text);
-		getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
-		pack();
-		setVisible(true);
+		this.pack();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
+			this.setVisible(false);
 
-			String cmd = text.getText();
+			String cmd = this.text.getText();
 			Log.debug("-> " + cmd);
 			JFtp.remoteDir.getCon().sendRawCommand(cmd);
 
@@ -62,7 +65,7 @@ public class RemoteCommand extends HFrame implements ActionListener {
 			}
 
 			JDialog j = new JDialog();
-			j.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			j.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 			j.setTitle("Command response");
 			j.setLocation(150, 150);
 

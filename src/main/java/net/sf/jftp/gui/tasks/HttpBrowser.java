@@ -15,12 +15,14 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.util.Vector;
 
 
@@ -29,7 +31,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 		super("Http Browser", true, true, true, true);
 
 		try {
-			setTitle(url);
+			this.setTitle(url);
 
 			JEditorPane pane = new JEditorPane(url);
 			pane.setEditable(false);
@@ -37,7 +39,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 
 			if (!pane.getEditorKit().getContentType().equals("text/html") && !pane.getEditorKit().getContentType().equals("text/rtf")) {
 				if (!pane.getEditorKit().getContentType().equals("text/plain")) {
-					net.sf.jftp.system.logging.Log.debug("Could not display URL.");
+					Log.debug("Could not display URL.");
 
 					return;
 				}
@@ -48,15 +50,15 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 
 			JScrollPane jsp = new JScrollPane(pane);
 
-			getContentPane().setLayout(new BorderLayout());
-			getContentPane().add("Center", jsp);
+			this.getContentPane().setLayout(new BorderLayout());
+			this.getContentPane().add("Center", jsp);
 
-			setLocation(50, 50);
-			setSize(800, 500);
-			show();
-			requestFocus();
+			this.setLocation(50, 50);
+			this.setSize(800, 500);
+			this.show();
+			this.requestFocus();
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error fetching URL: " + ex);
+			Log.debug("Error fetching URL: " + ex);
 			ex.printStackTrace();
 		}
 	}
@@ -72,7 +74,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 			} else {
 				try {
 					String url = e.getURL().toString();
-					String tmp = url.substring(url.lastIndexOf("/"));
+					String tmp = url.substring(url.lastIndexOf('/'));
 
 					Vector listeners = new Vector();
 					listeners.add(net.sf.jftp.JFtp.localDir);

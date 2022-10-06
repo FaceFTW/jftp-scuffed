@@ -18,17 +18,19 @@ package net.sf.jftp.system;
 import java.io.File;
 
 
-public class LocalIO {
+public enum LocalIO {
+	;
+
 	/**
 	 * sorts a string alphabetically
 	 * probably better off just calling java.util.Arrays.sort
 	 */
 	public static String[] sortStrings(String[] array) {
-		for (int i = array.length; --i >= 0; ) {
+		for (int i = array.length; 0 <= --i; ) {
 			boolean swapped = false;
 
 			for (int j = 0; j < i; j++) {
-				if (array[j].compareTo(array[j + 1]) > 0) {
+				if (0 < array[j].compareTo(array[j + 1])) {
 					String T = array[j];
 					array[j] = array[j + 1];
 					array[j + 1] = T;
@@ -56,8 +58,6 @@ public class LocalIO {
 			dir = dir + "/";
 		}
 
-		//String remoteDir = StringUtils.removeStart(dir,path);
-		//System.out.println(">>> " + dir);
 		File f2 = new File(path + dir);
 		String[] tmp = f2.list();
 

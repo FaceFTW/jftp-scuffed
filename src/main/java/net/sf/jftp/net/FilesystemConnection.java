@@ -15,6 +15,10 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.StringUtils;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -22,66 +26,63 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StreamTokenizer;
 import java.util.Date;
-import java.util.Vector;
 
 
 public class FilesystemConnection implements BasicConnection {
-	public static final int filesystemBuffer = 128000;
-	public Vector<Date> dateVector = new Vector<>();
+	private static final int filesystemBuffer = 128000;
+	public java.util.List<java.util.Date> dateVector = new java.util.ArrayList<>();
 	private String path = "";
 	private String pwd = "";
-	private Vector<ConnectionListener> listeners = new Vector<>();
+	private java.util.List<ConnectionListener> listeners = new java.util.ArrayList<>();
 	private String[] size = new String[0];
-	private int[] perms = null;
+	private int[] perms;
 	private String baseFile;
 	private int fileCount;
-	private boolean shortProgress = false;
+	private boolean shortProgress;
 
 	public FilesystemConnection() {
+		super();
 	}
 
 	public FilesystemConnection(String path, ConnectionListener l) {
-		listeners.add(l);
-		chdir(path);
+		super();
+		this.listeners.add(l);
+		this.chdir(path);
 	}
 
 	public int removeFileOrDir(String file) {
 		try {
-			if ((file == null) || file.isEmpty()) {
+			if ((null == file) || file.isEmpty()) {
 				return -1;
 			}
 
 			String tmp = file;
 
-			if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-				tmp = pwd + file;
+			if (StringUtils.isRelative(file)) {
+				tmp = this.pwd + file;
 			}
 
 			File f = new File(tmp);
 
 			if (!f.getAbsolutePath().equals(f.getCanonicalPath())) {
-				//Log.debug("WARNING: Symlink removed");//Skipping symlink, remove failed.");
-				//Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
-				//return -1;
+
 				if (!f.delete()) {
 					return -1;
 				}
 			}
 
 			if (f.exists() && f.isDirectory()) {
-				cleanLocalDir(tmp);
+				this.cleanLocalDir(tmp);
 			}
 
-			//System.out.println(tmp);
 			if (!f.delete()) {
-				net.sf.jftp.system.logging.Log.debug("Removal failed.");
+				Log.debug("Removal failed.");
 
 				return -1;
 			}
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
+			Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
 
@@ -96,12 +97,10 @@ public class FilesystemConnection implements BasicConnection {
 				dir = dir + "/";
 			}
 
-			//String remoteDir = StringUtils.removeStart(dir,path);
-			//System.out.println(">>> " + dir);
 			File f2 = new File(dir);
 			String[] tmp = f2.list();
 
-			if (tmp == null) {
+			if (null == tmp) {
 				return;
 			}
 
@@ -109,16 +108,14 @@ public class FilesystemConnection implements BasicConnection {
 				java.io.File f3 = new java.io.File(dir + s);
 
 				if (!f3.getAbsolutePath().equals(f3.getCanonicalPath())) {
-					//Log.debug("WARNING: Symlink remove");//Skipping symlink, remove may fail.");
 					f3.delete();
 
-					//Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
-					//continue;
+
 				}
 
 				if (f3.isDirectory()) {
 					//System.out.println(dir);
-					cleanLocalDir(dir + s);
+					this.cleanLocalDir(dir + s);
 					f3.delete();
 				} else {
 					//System.out.println(dir+tmp[i]);
@@ -126,7 +123,7 @@ public class FilesystemConnection implements BasicConnection {
 				}
 			}
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
+			Log.debug("Error: " + ex);
 			ex.printStackTrace();
 		}
 	}
@@ -142,22 +139,22 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public String getPWD() {
-		return pwd;
+		return this.pwd;
 	}
 
 	public boolean cdup() {
-		return chdir(pwd.substring(0, pwd.lastIndexOf("/") + 1));
+		return this.chdir(this.pwd.substring(0, this.pwd.lastIndexOf('/') + 1));
 	}
 
 	public boolean mkdir(String dirName) {
-		if (net.sf.jftp.system.StringUtils.isRelative(dirName)) {
-			dirName = pwd + dirName;
+		if (StringUtils.isRelative(dirName)) {
+			dirName = this.pwd + dirName;
 		}
 
 		File f = new File(dirName);
 
 		boolean x = f.mkdir();
-		fireDirectoryUpdate();
+		this.fireDirectoryUpdate();
 
 		return x;
 	}
@@ -166,51 +163,51 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public boolean chdir(String p) {
-		String p2 = processPath(p);
+		String p2 = this.processPath(p);
 
-		if (p2 == null) {
+		if (null == p2) {
 			return false;
 		}
 
 		File f = new File(p2);
 
 		if (!f.exists() || !f.isDirectory() || !f.canRead()) {
-			net.sf.jftp.system.logging.Log.debug("Access denied.");
+			Log.debug("Access denied.");
 
 			return false;
 		}
 
-		pwd = p2;
+		this.pwd = p2;
 
-		fireDirectoryUpdate();
+		this.fireDirectoryUpdate();
 
 		return true;
 	}
 
 	public boolean chdirNoRefresh(String p) {
-		String p2 = processPath(p);
+		String p2 = this.processPath(p);
 
-		if (p2 == null) {
+		if (null == p2) {
 			return false;
 		}
 
 		//System.out.println(p2);
-		pwd = p2;
+		this.pwd = p2;
 
 		return true;
 	}
 
 	public String getLocalPath() {
 		//System.out.println("local: " + path);
-		return path;
+		return this.path;
 	}
 
-	public String processPath(String p) {
+	private String processPath(String p) {
 		p = p.replace('\\', '/');
 
 		//System.out.print("processPath 1: "+p);
-		if (net.sf.jftp.system.StringUtils.isRelative(p)) {
-			p = pwd + p;
+		if (StringUtils.isRelative(p)) {
+			p = this.pwd + p;
 		}
 
 		p = p.replace('\\', '/');
@@ -230,12 +227,12 @@ public class FilesystemConnection implements BasicConnection {
 
 				return p2;
 			} catch (IOException ex) {
-				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (processPath)!");
+				Log.debug("Error: can not get pathname (processPath)!");
 
 				return null;
 			}
 		} else {
-			net.sf.jftp.system.logging.Log.debug("(processpPath) No such path: \"" + p + "\"");
+			Log.debug("(processpPath) No such path: \"" + p + "\"");
 
 			return null;
 		}
@@ -245,8 +242,8 @@ public class FilesystemConnection implements BasicConnection {
 		p = p.replace('\\', '/');
 
 		//System.out.print("local 1:" + p);
-		if (net.sf.jftp.system.StringUtils.isRelative(p)) {
-			p = path + p;
+		if (StringUtils.isRelative(p)) {
+			p = this.path + p;
 		}
 
 		p = p.replace('\\', '/');
@@ -256,21 +253,21 @@ public class FilesystemConnection implements BasicConnection {
 
 		if (f.exists()) {
 			try {
-				path = f.getCanonicalPath();
-				path = path.replace('\\', '/');
+				this.path = f.getCanonicalPath();
+				this.path = this.path.replace('\\', '/');
 
-				if (!path.endsWith("/")) {
-					path = path + "/";
+				if (!this.path.endsWith("/")) {
+					this.path = this.path + "/";
 				}
 
 				//System.out.println("localPath: "+path);
 			} catch (IOException ex) {
-				net.sf.jftp.system.logging.Log.debug("Error: can not get pathname (local)!");
+				Log.debug("Error: can not get pathname (local)!");
 
 				return false;
 			}
 		} else {
-			net.sf.jftp.system.logging.Log.out("(local) obsolete setLocalDir: \"" + p + "\"");
+			Log.out("(local) obsolete setLocalDir: \"" + p + "\"");
 
 			return false;
 		}
@@ -279,97 +276,97 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public String[] sortLs() {
-		dateVector = new Vector<>();
+		this.dateVector = new java.util.ArrayList<>();
 
-		File f = new File(pwd);
+		File f = new File(this.pwd);
 		String[] files = f.list();
 
-		if (files == null) {
+		if (null == files) {
 			return new String[0];
 		}
 
-		size = new String[files.length];
-		perms = new int[files.length];
+		this.size = new String[files.length];
+		this.perms = new int[files.length];
 
 		int accessible = 0;
 
 		for (int i = 0; i < files.length; i++) {
-			File f2 = new File(pwd + files[i]);
+			File f2 = new File(this.pwd + files[i]);
 
 			if (f2.isDirectory() && !files[i].endsWith("/")) {
 				files[i] = files[i] + "/";
 			}
 
-			size[i] = "" + new File(pwd + files[i]).length();
+			this.size[i] = String.valueOf(new File(this.pwd + files[i]).length());
 
 			if (f2.canWrite()) {
-				accessible = FtpConnection.W;
+				accessible = FtpConstants.W;
 			} else if (f2.canRead()) {
-				accessible = FtpConnection.R;
+				accessible = FtpConstants.R;
 			} else {
-				accessible = FtpConnection.DENIED;
+				accessible = FtpConstants.DENIED;
 			}
 
-			perms[i] = accessible;
+			this.perms[i] = accessible;
 
 			//System.out.println(pwd+files[i] +" : " +accessible + " : " + size[i]);
 			Date d = new Date(f2.lastModified());
 
 			//System.out.println(d.toString());
-			dateVector.add(d);
+			this.dateVector.add(d);
 		}
 
 		return files;
 	}
 
 	public String[] sortSize() {
-		return size;
+		return this.size;
 	}
 
 	public int[] getPermissions() {
-		return perms;
+		return this.perms;
 	}
 
 	public int handleDownload(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
 
 	public int handleUpload(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
 
 	public int download(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
 
 	public int upload(String file) {
-		transfer(file);
+		this.transfer(file);
 
 		return 0;
 	}
 
 	private void transferDir(String dir, String out) {
-		fileCount = 0;
-		shortProgress = true;
-		baseFile = net.sf.jftp.system.StringUtils.getDir(dir);
+		this.fileCount = 0;
+		this.shortProgress = true;
+		this.baseFile = StringUtils.getDir(dir);
 
 		File f2 = new File(dir);
 		String[] tmp = f2.list();
 
-		if (tmp == null) {
+		if (null == tmp) {
 			return;
 		}
 
 		File fx = new File(out);
 
 		if (!fx.mkdir()) {
-			net.sf.jftp.system.logging.Log.debug("Can not create directory: " + out + " - already exist or permission denied?");
+			Log.debug("Can not create directory: " + out + " - already exist or permission denied?");
 		}
 
 		for (int i = 0; i < tmp.length; i++) {
@@ -383,34 +380,34 @@ public class FilesystemConnection implements BasicConnection {
 					tmp[i] = tmp[i] + "/";
 				}
 
-				transferDir(dir + tmp[i], out + tmp[i]);
+				this.transferDir(dir + tmp[i], out + tmp[i]);
 			} else {
-				fireProgressUpdate(baseFile, DataConnection.GETDIR + ":" + fileCount, -1);
-				work(dir + tmp[i], out + tmp[i]);
+				this.fireProgressUpdate(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, -1);
+				this.work(dir + tmp[i], out + tmp[i]);
 			}
 		}
 
-		fireProgressUpdate(baseFile, DataConnection.DFINISHED + ":" + fileCount, -1);
-		shortProgress = false;
+		this.fireProgressUpdate(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, -1);
+		this.shortProgress = false;
 	}
 
 	private void transfer(String file) {
-		String out = net.sf.jftp.system.StringUtils.getDir(file);
+		String out = StringUtils.getDir(file);
 
-		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = pwd + file;
+		if (StringUtils.isRelative(file)) {
+			file = this.pwd + file;
 		}
 
 		file = file.replace('\\', '/');
 		out = out.replace('\\', '/');
 
-		String outfile = net.sf.jftp.system.StringUtils.getFile(file);
+		String outfile = StringUtils.getFile(file);
 
 		if (file.endsWith("/")) {
-			transferDir(file, path + out);
+			this.transferDir(file, this.path + out);
 
 		} else {
-			work(file, path + outfile);
+			this.work(file, this.path + outfile);
 		}
 	}
 
@@ -427,39 +424,39 @@ public class FilesystemConnection implements BasicConnection {
 				len = in.read(buf);
 
 				//System.out.print(".");
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
 				out.write(buf, 0, len);
 
 				reallen += len;
-				fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
+				this.fireProgressUpdate(StringUtils.getFile(file), DataConnection.GET, reallen);
 			}
 
 			out.flush();
 			out.close();
 			in.close();
-			fireProgressUpdate(file, DataConnection.FINISHED, -1);
+			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
-			fireProgressUpdate(file, DataConnection.FAILED, -1);
+			Log.debug("Error with file IO (" + ex + ")!");
+			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
 	}
 
 	public int upload(String file, InputStream in) {
-		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = pwd + file;
+		if (StringUtils.isRelative(file)) {
+			file = this.pwd + file;
 		}
 
 		file = file.replace('\\', '/');
 
 		try {
-			work(new BufferedInputStream(in), file, file);
+			this.work(new BufferedInputStream(in), file, file);
 
 			return 0;
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error: " + ex);
+			Log.debug("Error: " + ex);
 			ex.printStackTrace();
 
 			return -1;
@@ -477,29 +474,29 @@ public class FilesystemConnection implements BasicConnection {
 				len = in.read(buf);
 				System.out.print(".");
 
-				if (len == StreamTokenizer.TT_EOF) {
+				if (java.io.StreamTokenizer.TT_EOF == len) {
 					break;
 				}
 
 				out.write(buf, 0, len);
 
 				reallen += len;
-				fireProgressUpdate(net.sf.jftp.system.StringUtils.getFile(file), DataConnection.GET, reallen);
+				this.fireProgressUpdate(StringUtils.getFile(file), DataConnection.GET, reallen);
 			}
 
 			out.flush();
 			out.close();
 			in.close();
-			fireProgressUpdate(file, DataConnection.FINISHED, -1);
+			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (IOException ex) {
-			net.sf.jftp.system.logging.Log.debug("Error with file IO (" + ex + ")!");
-			fireProgressUpdate(file, DataConnection.FAILED, -1);
+			Log.debug("Error with file IO (" + ex + ")!");
+			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
 	}
 
 	public InputStream getDownloadInputStream(String file) {
-		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = pwd + file;
+		if (StringUtils.isRelative(file)) {
+			file = this.pwd + file;
 		}
 
 		file = file.replace('\\', '/');
@@ -508,30 +505,30 @@ public class FilesystemConnection implements BasicConnection {
 			return new FileInputStream(file);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			net.sf.jftp.system.logging.Log.debug(ex + " @Filesystemconnection::getDownloadInputStream");
+			Log.debug(ex + " @Filesystemconnection::getDownloadInputStream");
 
 			return null;
 		}
 	}
 
 	public void addConnectionListener(ConnectionListener l) {
-		listeners.add(l);
-		fireDirectoryUpdate();
+		this.listeners.add(l);
+		this.fireDirectoryUpdate();
 	}
 
-	public void setConnectionListeners(Vector<ConnectionListener> l) {
-		listeners = l;
-		fireDirectoryUpdate();
+	public void setConnectionListeners(java.util.List<ConnectionListener> l) {
+		this.listeners = l;
+		this.fireDirectoryUpdate();
 	}
 
 	/**
 	 * remote directory has changed
 	 */
-	public void fireDirectoryUpdate() {
-		if (listeners == null) {
+	private void fireDirectoryUpdate() {
+		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				listeners.elementAt(i).updateRemoteDirectory(this);
+			for (ConnectionListener listener : this.listeners) {
+				listener.updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -540,18 +537,16 @@ public class FilesystemConnection implements BasicConnection {
 		return true;
 	}
 
-	public void fireProgressUpdate(String file, String type, int bytes) {
-		if (listeners == null) {
+	private void fireProgressUpdate(String file, String type, int bytes) {
+		if (null == this.listeners) {
 		} else {
-			for (int i = 0; i < listeners.size(); i++) {
-				ConnectionListener listener = listeners.elementAt(i);
-
-				if (shortProgress && net.sf.jftp.config.Settings.shortProgress) {
+			for (ConnectionListener listener : this.listeners) {
+				if (this.shortProgress && Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
-						listener.updateProgress(baseFile, DataConnection.DFINISHED + ":" + fileCount, bytes);
+						listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
 					}
 
-					listener.updateProgress(baseFile, DataConnection.GETDIR + ":" + fileCount, bytes);
+					listener.updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
 				} else {
 					listener.updateProgress(file, type, bytes);
 				}
@@ -560,24 +555,24 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public Date[] sortDates() {
-		if (dateVector.size() > 0) {
-			return (Date[]) dateVector.toArray();
+		if (!this.dateVector.isEmpty()) {
+			return (Date[]) this.dateVector.toArray();
 		} else {
 			return null;
 		}
 	}
 
 	public boolean rename(String file, String to) {
-		if (net.sf.jftp.system.StringUtils.isRelative(file)) {
-			file = pwd + file;
+		if (StringUtils.isRelative(file)) {
+			file = this.pwd + file;
 		}
 
 		file = file.replace('\\', '/');
 
 		File f = new File(file);
 
-		if (net.sf.jftp.system.StringUtils.isRelative(to)) {
-			to = pwd + to;
+		if (StringUtils.isRelative(to)) {
+			to = this.pwd + to;
 		}
 
 		to = to.replace('\\', '/');

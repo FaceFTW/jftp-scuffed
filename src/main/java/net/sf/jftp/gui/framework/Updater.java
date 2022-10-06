@@ -16,22 +16,6 @@
 package net.sf.jftp.gui.framework;
 
 // obsolete
-public class Updater // implements ActionListener
+class Updater // implements ActionListener
 {
-    /*
-        public void actionPerformed(ActionEvent e)
-        {
-            if(e.getActionCommand().equals("remoteUpdate"))
-            {
-                JFtp.remoteUpdate();
-                System.out.println("remoteUpdate");
-                Log.debug("Finished upload...");
-            }
-            else if(e.getActionCommand().equals("localUpdate"))
-            {
-                JFtp.localUpdate();
-                Log.debug("Finished download...");
-            }
-        }
-    */
 }

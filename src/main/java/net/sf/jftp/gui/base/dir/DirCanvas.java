@@ -22,36 +22,40 @@ import net.sf.jftp.gui.tasks.PathChanger;
 import net.sf.jftp.net.FilesystemConnection;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
 public class DirCanvas extends JPanel implements MouseListener {
+	private final JLabel text = new JLabel(" ");
 	private final Dir target;
-	final JLabel text = new JLabel(" ");
-	boolean active = false;
+	private boolean active;
 
 
 	public DirCanvas(Dir target) {
+		super();
 		this.target = target;
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-		add(text);
-		addMouseListener(this);
-		setVisible(true);
+		this.setLayout(new FlowLayout(FlowLayout.LEFT));
+		this.add(this.text);
+		this.addMouseListener(this);
+		this.setVisible(true);
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (target.getType().equals("local") || target.getCon() instanceof FilesystemConnection) {
+		if (this.target.getType().equals("local") || this.target.getCon() instanceof FilesystemConnection) {
 			String tmp = UITool.getPathFromDialog(Settings.defaultWorkDir);
 
-			if (tmp != null) {
-				target.setPath(tmp);
-				target.fresh();
+			if (null != tmp) {
+				this.target.setPath(tmp);
+				this.target.fresh();
 			}
 		} else {
 			PathChanger p = new PathChanger("remote");
-			target.fresh();
+			this.target.fresh();
 		}
 	}
 
@@ -62,32 +66,32 @@ public class DirCanvas extends JPanel implements MouseListener {
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
-		active = true;
-		repaint();
+		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.active = true;
+		this.repaint();
 	}
 
 	public void mouseExited(MouseEvent e) {
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-		active = false;
-		repaint();
+		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		this.active = false;
+		this.repaint();
 	}
 
 	public void setText(String msg) {
-		text.setText(msg);
-		validate();
+		this.text.setText(msg);
+		this.validate();
 	}
 
 	public void paintComponent(Graphics g) {
-		if (!active) {
-			g.setColor(GUIDefaults.light);
-		} else {
+		if (this.active) {
 			g.setColor(GUIDefaults.lightActive);
+		} else {
+			g.setColor(GUIDefaults.light);
 		}
-		g.fillRect(3, 0, getSize().width - 6, getSize().height);
+		g.fillRect(3, 0, this.getSize().width - 6, this.getSize().height);
 		g.setColor(GUIDefaults.front);
-		g.drawRect(3, 0, getSize().width - 7, getSize().height - 1);
-		g.drawRect(3, 0, getSize().width - 8, getSize().height - 2);
+		g.drawRect(3, 0, this.getSize().width - 7, this.getSize().height - 1);
+		g.drawRect(3, 0, this.getSize().width - 8, this.getSize().height - 2);
 	}
 
 	public Insets getInsets() {

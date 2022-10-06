@@ -15,36 +15,42 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import java.awt.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class NameChooser extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
-	private final net.sf.jftp.gui.framework.HPanel okP = new net.sf.jftp.gui.framework.HPanel();
-	public final net.sf.jftp.gui.framework.HTextField text;
+public class NameChooser extends HFrame implements ActionListener {
+	public final HTextField text;
+	private final HButton ok = new HButton("Ok");
+	private final HPanel okP = new HPanel();
 
 	public NameChooser() {
+		super();
 		//setSize(400, 80);
-		setTitle("Enter a name for the file...");
+		this.setTitle("Enter a name for the file...");
 		//setLocation(150, 150);
-		getContentPane().setLayout(new FlowLayout());
+		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new net.sf.jftp.gui.framework.HTextField("Filename: ", "tmp.zip");
-		getContentPane().add(text);
-		getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new HTextField("Filename: ", "tmp.zip");
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
+			this.setVisible(false);
 		}
 	}
 }

@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.hostchooser;
 
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HImage;
@@ -23,9 +25,14 @@ import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.gui.tasks.ExternalDisplayer;
+import net.sf.jftp.net.wrappers.NfsConnection;
+import net.sf.jftp.net.wrappers.StartConnection;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -37,73 +44,74 @@ import java.io.IOException;
 
 
 public class NfsHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static final HTextField host = new HTextField("URL:", "nfs://localhost:v2m/tmp", 20);
-	public static final HTextField user = new HTextField("Username:", "<anonymous>", 15);
+	private static final HTextField host = new HTextField("URL:", "nfs://localhost:v2m/tmp", 20);
+	private static final HTextField user = new HTextField("Username:", "<anonymous>", 15);
 
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
-	public static final HButton info = new HButton("Read me!");
+	private static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	private static final HButton info = new HButton("Read me!");
 	private final HPanel okP = new HPanel();
 	private final HButton ok = new HButton("Connect");
-	private ComponentListener listener = null;
-	private boolean useLocal = false;
+	private ComponentListener listener;
+	private boolean useLocal;
 
 	public NfsHostChooser(ComponentListener l, boolean local) {
-		listener = l;
-		useLocal = local;
-		init();
+		super();
+		this.listener = l;
+		this.useLocal = local;
+		this.init();
 	}
 
 	public NfsHostChooser(ComponentListener l) {
-		listener = l;
-		init();
+		super();
+		this.listener = l;
+		this.init();
 	}
 
 	public NfsHostChooser() {
-		init();
+		super();
+		this.init();
 	}
 
-	public void init() {
+	private void init() {
 		//setSize(600, 220);
-		setLocation(100, 150);
-		setTitle("NFS Connection...");
-		setBackground(okP.getBackground());
+		this.setLocation(100, 150);
+		this.setTitle("NFS Connection...");
+		this.setBackground(this.okP.getBackground());
 
 		JPanel p = new JPanel();
 		p.add(info);
 
 		//*** MY ADDITIONS
 		try {
-			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f = new File(Settings.appHomeDir);
 			f.mkdir();
 
-			File f1 = new File(net.sf.jftp.config.Settings.login);
+			File f1 = new File(Settings.login);
 			f1.createNewFile();
 
-			File f2 = new File(net.sf.jftp.config.Settings.login_def_nfs);
+			File f2 = new File(Settings.login_def_nfs);
 			f2.createNewFile();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		net.sf.jftp.config.LoadSet l = new net.sf.jftp.config.LoadSet();
-		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_nfs);
+		LoadSet l = new LoadSet();
+		String[] login = LoadSet.loadSet(Settings.login_def_nfs);
 
-		if ((login[0] != null) && (login.length > 1)) {
+		if ((null != login[0]) && (1 < login.length)) {
 			host.setText(login[0]);
 			user.setText(login[1]);
 		}
 
         /*
-        else {
-                System.out.println("made it here");
                 host.setText("nfs://localhost:v2m/tmp");
                 user.setText("guest");
 
         }
         */
-		if (net.sf.jftp.config.Settings.getStorePasswords()) {
-			if ((login[0] != null) && (login.length > 2) && (login[2] != null)) {
+		if (Settings.getStorePasswords()) {
+			if ((null != login[0]) && (2 < login.length) && (null != login[2])) {
 				pass.setText(login[2]);
 			}
 		} else {
@@ -119,60 +127,60 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		root.add(pass);
 
 		root.add(new JLabel(""));
-		root.add(okP);
+		root.add(this.okP);
 
-		okP.add(ok);
+		this.okP.add(this.ok);
 
-		getContentPane().setLayout(new BorderLayout(10, 10));
-		getContentPane().add("Center", root);
+		this.getContentPane().setLayout(new BorderLayout(10, 10));
+		this.getContentPane().add("Center", root);
 
-		ok.addActionListener(this);
+		this.ok.addActionListener(this);
 		info.addActionListener(this);
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		pass.text.addActionListener(this);
 
-		pack();
-		setModal(false);
-		setVisible(false);
-		addWindowListener(this);
+		this.pack();
+		this.setModal(false);
+		this.setVisible(false);
+		this.addWindowListener(this);
 	}
 
 	public void update() {
-		fixLocation();
-		setVisible(true);
-		toFront();
+		this.fixLocation();
+		this.setVisible(true);
+		this.toFront();
 		host.requestFocus();
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == info) {
-			java.net.URL url = ClassLoader.getSystemResource(net.sf.jftp.config.Settings.nfsinfo);
+			java.net.URL url = ClassLoader.getSystemResource(Settings.nfsinfo);
 
-			if (url == null) {
-				url = HImage.class.getResource("/" + net.sf.jftp.config.Settings.nfsinfo);
+			if (null == url) {
+				url = HImage.class.getResource("/" + Settings.nfsinfo);
 			}
 
 			ExternalDisplayer d = new ExternalDisplayer(url);
-		} else if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
+		} else if ((e.getSource() == this.ok) || (e.getSource() == pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			net.sf.jftp.net.wrappers.NfsConnection con = null;
+			NfsConnection con = null;
 
 			String htmp = host.getText().trim();
 			String utmp = user.getText().trim();
 			String ptmp = pass.getText();
 
 			//*** MY ADDITIONS
-			int potmp = 0; //*** just filler for the port number
+			final int potmp = 0; //*** just filler for the port number
 
 			String userName = user.text.getText();
 
 			//***
 			try {
 				boolean status;
-				status = net.sf.jftp.net.wrappers.StartConnection.startCon("NFS", htmp, userName, ptmp, potmp, "", useLocal);
+				status = StartConnection.startCon("NFS", htmp, userName, ptmp, potmp, "", this.useLocal);
 
                 /*
 
@@ -200,16 +208,16 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 
                 */
 			} catch (Exception ex) {
-				net.sf.jftp.system.logging.Log.debug("Could not create NfsConnection!");
+				Log.debug("Could not create NfsConnection!");
 			}
 
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (listener != null) {
-				listener.componentResized(new ComponentEvent(this, 0));
+			if (null != this.listener) {
+				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}
 	}

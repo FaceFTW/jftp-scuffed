@@ -27,14 +27,14 @@ import org.eclipse.swt.widgets.Shell;
 
 public class NativeHttpBrowser extends Composite {
 
-	public NativeHttpBrowser(Composite parent, String url) throws Exception {
+	private NativeHttpBrowser(Composite parent, String url) throws Exception {
 		super(parent, SWT.NONE);
-		setLayout(new GridLayout());
+		this.setLayout(new GridLayout());
 		Group webBrowserPanel = new Group(this, SWT.NONE);
 		webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		webBrowserPanel.setLayout(new FillLayout());
 
-		final JWebBrowser webBrowser = new JWebBrowser(webBrowserPanel);
+		JWebBrowser webBrowser = new JWebBrowser(webBrowserPanel);
 		webBrowser.navigate(url);
 
 		webBrowserPanel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

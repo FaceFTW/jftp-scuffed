@@ -15,42 +15,48 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import java.awt.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.wrappers.HttpTransfer;
+
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
 
-public class HttpDownloader extends net.sf.jftp.gui.framework.HPanel implements ActionListener {
-	private final net.sf.jftp.gui.framework.HTextField text;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Start");
+public class HttpDownloader extends HPanel implements ActionListener {
+	private final HTextField text;
+	private final HButton ok = new HButton("Start");
 
 	public HttpDownloader() {
+		super();
 		//setSize(480,100);
 		//setTitle("Download a file via an URL");
 		//setLocation(150,150);
 		//getContentPane().
-		setLayout(new FlowLayout());
+		this.setLayout(new FlowLayout());
 
-		text = new net.sf.jftp.gui.framework.HTextField("URL:", "http://", 25);
-
-		//getContentPane().
-		add(text);
+		this.text = new HTextField("URL:", "http://", 25);
 
 		//getContentPane().
-		add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.add(this.text);
 
-		setVisible(true);
+		//getContentPane().
+		this.add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
+
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
 			Vector listeners = new Vector();
 			listeners.add(net.sf.jftp.JFtp.localDir);
 
-			net.sf.jftp.net.wrappers.HttpTransfer t = new net.sf.jftp.net.wrappers.HttpTransfer(text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
+			HttpTransfer t = new HttpTransfer(this.text.getText().trim(), net.sf.jftp.JFtp.localDir.getPath(), listeners, net.sf.jftp.JFtp.getConnectionHandler());
 
 			net.sf.jftp.JFtp.statusP.jftp.removeFromDesktop(this.hashCode());
 

@@ -19,123 +19,70 @@ import net.sf.jftp.net.FtpClient;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 
 public class FtpEventHandler implements EventHandler {
-	private static ArrayList commands = null;
-
-	static {
-		commands = new ArrayList();
-		commands.add("account");
-		commands.add("append");
-		commands.add("ascii");
-		commands.add("bell");
-		commands.add("bye");
-		commands.add("cd");
-		commands.add("cdup");
-		commands.add("chmod");
-		commands.add("close");
-		commands.add("cr"); // unsupported
-		commands.add("delete");
-		commands.add("dir");
-		commands.add("disconnect");
-		commands.add("form"); // unsupported
-		commands.add("get");
-		commands.add("glob"); // unsupported
-		commands.add("hash");
-		commands.add("idle");
-		commands.add("image");
-		commands.add("lcd");
-		commands.add("mdelete");
-		commands.add("mdir");
-		commands.add("mget");
-		commands.add("mkdir");
-		commands.add("mls");
-		commands.add("mode");
-		commands.add("modtime");
-		commands.add("mput");
-		commands.add("newer");
-		commands.add("nlist");
-		commands.add("open");
-		commands.add("passive");
-		commands.add("put");
-		commands.add("pwd");
-		commands.add("quote");
-		commands.add("recv");
-		commands.add("reget");
-		commands.add("rstatus");
-		commands.add("rhelp");
-		commands.add("rename");
-		commands.add("reset");
-		commands.add("restart");
-		commands.add("rmdir");
-		commands.add("runique");
-		commands.add("send");
-		commands.add("sendport");
-		commands.add("site");
-		commands.add("size");
-		commands.add("status");
-		commands.add("struct");
-		commands.add("system");
-		commands.add("sunique");
-		commands.add("type");
-		commands.add("user");
-	}
+	private static List<String> commands = Arrays.asList(new String[]{"account", "append", "ascii", "bell", "bye", "cd", "cdup", "chmod", "close", "cr", // unsupported
+			"delete", "dir", "disconnect", "form", // unsupported
+			"get", "glob", // unsupported
+			"hash", "idle", "image", "lcd", "mdelete", "mdir", "mget", "mkdir", "mls", "mode", "modtime", "mput", "newer", "nlist", "open", "passive", "put", "pwd", "quote", "recv", "reget", "rstatus", "rhelp", "rename", "reset", "restart", "rmdir", "runique", "send", "sendport", "site", "size", "status", "struct", "system", "sunique", "type", "user"});
 
 	private final FtpClient client;
-	private final Hashtable methods = new Hashtable();
+	private final java.util.Map<String, Method> methods = new HashMap<>();
 
 	public FtpEventHandler() {
+		super();
 		this.client = new FtpClient();
 
 		Method[] m = this.getClass().getDeclaredMethods();
 		String methodName = null;
 
-		for (java.lang.reflect.Method method : m) {
+		for (Method method : m) {
 			methodName = method.getName();
 
 			if (commands.contains(methodName)) {
-				methods.put(methodName, method);
+				this.methods.put(methodName, method);
 			}
 		}
 	}
 
-	public void open(Vector args) {
+	public void open(List<String> args) {
 		System.out.println("***open");
-		client.login((String) args.elementAt(1));
+		this.client.login(args.get(1));
 	}
 
-	public void disconnect(Vector args) {
+	private void disconnect(List<String> args) {
 		System.out.println("***disconnect");
-		client.disconnect();
+		this.client.disconnect();
 	}
 
-	public void cd(Vector args) {
+	public void cd(List<String> args) {
 		System.out.println("***cd");
-		client.cd((String) args.elementAt(1));
+		this.client.cd(args.get(1));
 	}
 
-	public void pwd(Vector args) {
+	public void pwd(List<String> args) {
 		System.out.println("***pwd");
 
-		String directory = client.pwd();
+		String directory = this.client.pwd();
 	}
 
-	public void get(Vector args) {
+	public void get(List<String> args) {
 		System.out.println("***get");
-		client.get((String) args.elementAt(1));
+		this.client.get(args.get(1));
 	}
 
-	public void put(Vector args) {
+	public void put(List<String> args) {
 		System.out.println("***put");
-		client.put((String) args.elementAt(1));
+		this.client.put(args.get(1));
 	}
 
-	public void quit(Vector args) {
-		disconnect(args);
+	public void quit(List<String> args) {
+		this.disconnect(args);
 	}
 
 	public boolean handle(Event e) {
@@ -143,17 +90,17 @@ public class FtpEventHandler implements EventHandler {
 		System.out.println(((FtpEvent) e).eventMsg());
 
 		StringTokenizer st = new StringTokenizer(((FtpEvent) e).eventMsg());
-		Vector list = new Vector();
+		List<String> list = new ArrayList<>();
 
 		while (st.hasMoreTokens()) {
-			list.addElement(st.nextToken());
+			list.add(st.nextToken());
 		}
 
-		if (list.size() != 0) {
-			String command = (String) list.elementAt(0);
-			Method o = (Method) methods.get(command.toLowerCase());
+		if (!list.isEmpty()) {
+			String command = (String) list.get(0);
+			Method o = (Method) this.methods.get(command.toLowerCase());
 
-			if (o != null) {
+			if (null != o) {
 				try {
 					o.invoke(this, list);
 				} catch (Exception ex) {

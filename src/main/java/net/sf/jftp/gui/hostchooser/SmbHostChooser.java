@@ -16,15 +16,24 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HInsetPanel;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.wrappers.SmbConnection;
+import net.sf.jftp.net.wrappers.StartConnection;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -35,107 +44,108 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
-import java.util.Enumeration;
 
 
 public class SmbHostChooser extends HFrame implements ActionListener, WindowListener {
-	public static final HTextField host = new HTextField("URL:", "smb://localhost/");
-	public static final HTextField user = new HTextField("Username:", "guest");
-	public static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	private static final HTextField host = new HTextField("URL:", "smb://localhost/");
+	private static final HTextField user = new HTextField("Username:", "guest");
+	private static final HPasswordField pass = new HPasswordField("Password:", "nopasswd");
+	private final HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
+	private final HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
+	private final HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
+	private final JComboBox ip = new JComboBox();
+	private final JCheckBox lan = new JCheckBox("Browse LAN", true);
 	private final HButton ok = new HButton("Connect");
-	public final HTextField domain = new HTextField("Domain:    ", "WORKGROUP");
-	public final HTextField broadcast = new HTextField("Broadcast IP:    ", "AUTO");
-	public final HTextField wins = new HTextField("WINS Server IP:    ", "NONE");
-
-	public final JComboBox ip = new JComboBox();
-	final JCheckBox lan = new JCheckBox("Browse LAN", true);
-	private ComponentListener listener = null;
-	private boolean useLocal = false;
+	private ComponentListener listener;
+	private boolean useLocal;
 
 	public SmbHostChooser(ComponentListener l, boolean local) {
-		listener = l;
-		useLocal = local;
-		init();
+		super();
+		this.listener = l;
+		this.useLocal = local;
+		this.init();
 	}
 
 	public SmbHostChooser(ComponentListener l) {
-		listener = l;
-		init();
+		super();
+		this.listener = l;
+		this.init();
 	}
 
 	public SmbHostChooser() {
-		init();
+		super();
+		this.init();
 	}
 
-	public void init() {
-		setPreferredSize(new Dimension(500, 320));
-		setLocation(100, 150);
-		setTitle("Smb Connection...");
-		setBackground(new HPanel().getBackground());
+	private void init() {
+		this.setPreferredSize(new Dimension(500, 320));
+		this.setLocation(100, 150);
+		this.setTitle("Smb Connection...");
+		this.setBackground(new HPanel().getBackground());
 
 		try {
-			File f = new File(net.sf.jftp.config.Settings.appHomeDir);
+			File f = new File(Settings.appHomeDir);
 			f.mkdir();
 
-			File f1 = new File(net.sf.jftp.config.Settings.login);
+			File f1 = new File(Settings.login);
 			f1.createNewFile();
 
-			File f2 = new File(net.sf.jftp.config.Settings.login_def_smb);
+			File f2 = new File(Settings.login_def_smb);
 			f2.createNewFile();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 
-		String[] login = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.login_def_smb);
+		String[] login = LoadSet.loadSet(Settings.login_def_smb);
 
-		if ((login[0] != null) && (login.length > 1)) {
+		if ((null != login[0]) && (1 < login.length)) {
 			host.setText(login[0]);
 			user.setText(login[1]);
-			domain.setText(login[5]);
+			this.domain.setText(login[5]);
 		}
 
 
-		if (net.sf.jftp.config.Settings.getStorePasswords()) {
-			if ((login != null) && (login.length > 2) && (login[2] != null)) {
+		if (Settings.getStorePasswords()) {
+			if ((null != login) && (2 < login.length) && (null != login[2])) {
 				pass.setText(login[2]);
 			}
 		} else {
 			pass.setText("");
 		}
 
-		ip.setEditable(true);
+		this.ip.setEditable(true);
 
 		HInsetPanel root = new HInsetPanel();
 		root.setLayout(new MigLayout());
 
 		root.add(host);
-		root.add(lan, "wrap");
+		root.add(this.lan, "wrap");
 		root.add(user);
 		root.add(pass, "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
-		root.add(ip);
-		root.add(domain, "wrap");
+		root.add(this.ip);
+		root.add(this.domain, "wrap");
 
-		root.add(broadcast);
-		root.add(wins, "wrap");
+		root.add(this.broadcast);
+		root.add(this.wins, "wrap");
 
 		root.add(new JLabel(" "), "wrap");
 
 		root.add(new JLabel(" "));
-		root.add(ok, "align right");
+		root.add(this.ok, "align right");
 
-		ok.addActionListener(this);
+		this.ok.addActionListener(this);
 
-		host.setEnabled(!lan.isSelected());
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		host.setEnabled(!this.lan.isSelected());
+		this.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
-		lan.addActionListener(this);
+		this.lan.addActionListener(this);
 		pass.text.addActionListener(this);
 
-		getContentPane().setLayout(new BorderLayout(3, 3));
-		getContentPane().add("Center", root);
+		this.getContentPane().setLayout(new BorderLayout(3, 3));
+		this.getContentPane().add("Center", root);
 
 		JTextArea t = new JTextArea() {
 			public Insets getInsets() {
@@ -145,108 +155,107 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		t.setLineWrap(true);
 		t.setText("Note: Please use URL format \"smb://host/\"");
 
-		getContentPane().add("North", t);
+		this.getContentPane().add("North", t);
 
-		setModal(false);
-		setVisible(false);
-		addWindowListener(this);
+		this.setModal(false);
+		this.setVisible(false);
+		this.addWindowListener(this);
 
-		ip.addItem("<default>");
+		this.ip.addItem("<default>");
 
 		try {
-			Enumeration e = NetworkInterface.getNetworkInterfaces();
+			java.util.Enumeration<java.net.NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 
 			while (e.hasMoreElements()) {
-				Enumeration f = ((NetworkInterface) e.nextElement()).getInetAddresses();
+				java.util.Enumeration<java.net.InetAddress> f = ((NetworkInterface) e.nextElement()).getInetAddresses();
 
 				while (f.hasMoreElements()) {
-					ip.addItem(((InetAddress) f.nextElement()).getHostAddress());
+					this.ip.addItem(((InetAddress) f.nextElement()).getHostAddress());
 				}
 			}
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error determining default network interface: " + ex);
+			Log.debug("Error determining default network interface: " + ex);
 
 			//ex.printStackTrace();
 		}
 
 		//setBCast();
-		domain.setEnabled(false);
-		broadcast.setEnabled(false);
-		wins.setEnabled(false);
+		this.domain.setEnabled(false);
+		this.broadcast.setEnabled(false);
+		this.wins.setEnabled(false);
 
-		ip.addActionListener(this);
+		this.ip.addActionListener(this);
 
-		pack();
+		this.pack();
 	}
 
 	private void setBCast() {
 		try {
-			String tmp = ((String) ip.getSelectedItem()).trim();
-			String x = tmp.substring(0, tmp.lastIndexOf(".") + 1) + "255";
-			broadcast.setText(x);
+			String tmp = ((String) this.ip.getSelectedItem()).trim();
+			String x = tmp.substring(0, tmp.lastIndexOf('.') + 1) + "255";
+			this.broadcast.setText(x);
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.out("Error (SMBHostChooser): " + ex);
+			Log.out("Error (SMBHostChooser): " + ex);
 		}
 	}
 
 	public void update() {
-		fixLocation();
-		setVisible(true);
-		toFront();
+		this.fixLocation();
+		this.setVisible(true);
+		this.toFront();
 		user.requestFocus();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == lan) {
-			host.setEnabled(!lan.isSelected());
-		} else if (e.getSource() == ip) {
-			if (ip.getSelectedItem().equals("<default>")) {
-				domain.setEnabled(false);
-				broadcast.setEnabled(false);
-				wins.setEnabled(false);
+		if (e.getSource() == this.lan) {
+			host.setEnabled(!this.lan.isSelected());
+		} else if (e.getSource() == this.ip) {
+			if (this.ip.getSelectedItem().equals("<default>")) {
+				this.domain.setEnabled(false);
+				this.broadcast.setEnabled(false);
+				this.wins.setEnabled(false);
 			} else {
-				domain.setEnabled(true);
-				broadcast.setEnabled(true);
-				wins.setEnabled(true);
-				setBCast();
+				this.domain.setEnabled(true);
+				this.broadcast.setEnabled(true);
+				this.wins.setEnabled(true);
+				this.setBCast();
 			}
-		} else if ((e.getSource() == ok) || (e.getSource() == pass.text)) {
+		} else if ((e.getSource() == this.ok) || (e.getSource() == pass.text)) {
 			// Switch windows
 			//this.setVisible(false);
-			setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
 
-			net.sf.jftp.net.wrappers.SmbConnection con = null;
+			SmbConnection con = null;
 
 			//System.out.println(jcifs.Config.getProperty("jcifs.smb.client.laddr"));
-			String tmp = ((String) ip.getSelectedItem()).trim();
+			String tmp = ((String) this.ip.getSelectedItem()).trim();
 
 			if (!tmp.isEmpty() && !tmp.equals("<default>")) {
-				String x = tmp.trim().substring(0, tmp.lastIndexOf(".") + 1) + "255";
-				String bcast = broadcast.getText().trim();
+				String x = tmp.trim().substring(0, tmp.lastIndexOf('.') + 1) + "255";
+				String bcast = this.broadcast.getText().trim();
 
 				if (!bcast.equals("AUTO")) {
 					x = bcast;
 				}
 
-				net.sf.jftp.system.logging.Log.debug("Setting LAN interface to: " + tmp + "/" + x);
+				Log.debug("Setting LAN interface to: " + tmp + "/" + x);
 				jcifs.Config.setProperty("jcifs.netbios.laddr", tmp);
 				jcifs.Config.setProperty("jcifs.smb.client.laddr", tmp);
 				jcifs.Config.setProperty("jcifs.netbios.baddr", x);
 
-				String y = wins.getText().trim();
+				String y = this.wins.getText().trim();
 
 				if (!y.equals("NONE")) {
-					net.sf.jftp.system.logging.Log.debug("Setting WINS server IP to: " + y);
+					Log.debug("Setting WINS server IP to: " + y);
 					jcifs.Config.setProperty("jcifs.netbios.wins", y);
 				}
 			}
 
-			//System.out.println(jcifs.Config.getProperty("jcifs.smb.client.laddr"));
-			//JFtp.setHost(host.getText());
+
 			String htmp = host.getText().trim();
 			String utmp = user.getText().trim();
 			String ptmp = pass.getText();
-			String dtmp = domain.getText().trim();
+			String dtmp = this.domain.getText().trim();
 
 			//***
 			//if(dtmp.equals("")) dtmp = null;
@@ -255,19 +264,19 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			}
 
 			//if(lan.isSelected()) htmp = null;
-			if (lan.isSelected()) {
+			if (this.lan.isSelected()) {
 				htmp = "(LAN)";
 			}
 
 			//***save the set of selected data
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.login_def_smb, htmp, utmp, ptmp, "", "", dtmp);
+			SaveSet s = new SaveSet(Settings.login_def_smb, htmp, utmp, ptmp, "", "", dtmp);
 
 			//*** Now make the function call to the methos for starting
 			//connections
 			boolean status;
-			int potmp = 0; //*** port number: unlikely to be needed in the future
+			final int potmp = 0; //*** port number: unlikely to be needed in the future
 
-			status = net.sf.jftp.net.wrappers.StartConnection.startCon("SMB", htmp, utmp, ptmp, potmp, dtmp, useLocal);
+			status = StartConnection.startCon("SMB", htmp, utmp, ptmp, potmp, dtmp, this.useLocal);
 
             /*
             try
@@ -296,13 +305,13 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
             {
                     Log.debug("Could not create SMBConnection, does this distribution come with jcifs?");
             } */
-			setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+			this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 			this.dispose();
 			net.sf.jftp.JFtp.mainFrame.setVisible(true);
 			net.sf.jftp.JFtp.mainFrame.toFront();
 
-			if (listener != null) {
-				listener.componentResized(new ComponentEvent(this, 0));
+			if (null != this.listener) {
+				this.listener.componentResized(new ComponentEvent(this, 0));
 			}
 		}
 	}

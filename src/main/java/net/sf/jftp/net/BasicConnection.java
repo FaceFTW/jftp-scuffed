@@ -18,7 +18,6 @@ package net.sf.jftp.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.Vector;
 
 
 /**
@@ -74,7 +73,7 @@ public interface BasicConnection {
 
 	void addConnectionListener(ConnectionListener listener);
 
-	void setConnectionListeners(Vector<ConnectionListener> listeners);
+	void setConnectionListeners(java.util.List<ConnectionListener> listeners);
 
 	boolean rename(String from, String to);
 }

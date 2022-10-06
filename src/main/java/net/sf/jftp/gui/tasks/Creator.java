@@ -20,7 +20,7 @@ import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.BasicConnection;
 
-import java.awt.*;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,26 +35,27 @@ public class Creator extends HFrame implements ActionListener {
 	private final BasicConnection con;
 
 	public Creator(String l, BasicConnection con) {
+		super();
 		this.con = con;
 
-		setTitle("Choose...");
-		getContentPane().setLayout(new FlowLayout());
+		this.setTitle("Choose...");
+		this.getContentPane().setLayout(new FlowLayout());
 
-		text = new HTextField(l, "");
-		getContentPane().add(text);
-		getContentPane().add(ok);
-		ok.addActionListener(this);
-		text.text.addActionListener(this);
+		this.text = new HTextField(l, "");
+		this.getContentPane().add(this.text);
+		this.getContentPane().add(this.ok);
+		this.ok.addActionListener(this);
+		this.text.text.addActionListener(this);
 
-		pack();
-		fixLocation();
-		setVisible(true);
+		this.pack();
+		this.fixLocation();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if ((e.getSource() == ok) || (e.getSource() == text.text)) {
-			setVisible(false);
-			con.mkdir(text.getText());
+		if ((e.getSource() == this.ok) || (e.getSource() == this.text.text)) {
+			this.setVisible(false);
+			this.con.mkdir(this.text.getText());
 		}
 	}
 }

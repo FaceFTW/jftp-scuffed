@@ -15,8 +15,14 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.gui.framework.HFrame;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.system.logging.Log;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -27,42 +33,43 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 
-public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
+public class ExternalDisplayer extends HFrame implements ActionListener {
 	private final JTextArea info = new JTextArea(25, 50);
 	private final JButton close = new JButton("Close");
 
 	public ExternalDisplayer(java.net.URL file) {
-		setTitle("Info...");
-		setLocation(50, 50);
-		setSize(600, 540);
-		getContentPane().setLayout(new BorderLayout());
+		super();
+		this.setTitle("Info...");
+		this.setLocation(50, 50);
+		this.setSize(600, 540);
+		this.getContentPane().setLayout(new BorderLayout());
 
-		addWindowListener(new WindowAdapter() {
+		this.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
-				dispose();
+				ExternalDisplayer.this.dispose();
 			}
 		});
-		load(file);
-		info.setEditable(false);
+		this.load(file);
+		this.info.setEditable(false);
 
-		JScrollPane jsp = new JScrollPane(info);
-		getContentPane().add("Center", jsp);
+		JScrollPane jsp = new JScrollPane(this.info);
+		this.getContentPane().add("Center", jsp);
 
-		net.sf.jftp.gui.framework.HPanel closeP = new net.sf.jftp.gui.framework.HPanel();
+		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
-		closeP.add(close);
+		closeP.add(this.close);
 
-		close.addActionListener(this);
+		this.close.addActionListener(this);
 
-		getContentPane().add("South", closeP);
+		this.getContentPane().add("South", closeP);
 
-		info.setCaretPosition(0);
-		setVisible(true);
-		pack();
+		this.info.setCaretPosition(0);
+		this.setVisible(true);
+		this.pack();
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == close) {
+		if (e.getSource() == this.close) {
 			this.dispose();
 		}
 	}
@@ -74,14 +81,14 @@ public class ExternalDisplayer extends net.sf.jftp.gui.framework.HFrame implemen
 		try {
 			DataInput in = new DataInputStream(new BufferedInputStream(file.openStream()));
 
-			while ((data = in.readLine()) != null) {
+			while (null != (data = in.readLine())) {
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			net.sf.jftp.system.logging.Log.debug(e + " @Displayer.load()");
+			Log.debug(e + " @Displayer.load()");
 		}
 
-		info.setText(now.toString());
+		this.info.setText(now.toString());
 	}
 
 	public Insets getInsets() {

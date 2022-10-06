@@ -18,20 +18,36 @@ package net.sf.jftp.config;
 
 import org.apache.commons.codec.binary.Base64;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 @SuppressWarnings("restriction")
-public class Crypto {
+enum Crypto {
+	
 	private static final char[] PASSWORD = "(l_[m^5][:]FQ8D* ;zoG,7".toCharArray();
-
 	private static final byte[] SALT = {(byte) 0x56, (byte) 0x40, (byte) 0x77, (byte) 0x32, (byte) 0x10, (byte) 0x63, (byte) 0x25, (byte) 0x3C,};
+	private static SecretKeyFactory keyFactory;
+	private static SecretKey key;
+
+	static {
+		try {
+			keyFactory = SecretKeyFactory.getInstance("PBEWtihMD5AndDES");
+			key = keyFactory.generateSecret(new PBEKeySpec(PASSWORD));
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private static String base64Encode(byte[] bytes) {
 		return new String(Base64.encodeBase64(bytes));
@@ -42,77 +58,37 @@ public class Crypto {
 	}
 
 	public static String Encrypt(String str) {
-		// create cryptography object
-		SecretKeyFactory factory;
-		try {
-			factory = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
-		} catch (NoSuchAlgorithmException e) {
-			// We could try another algorithm, but it is highly unlikely that this would be the case
-			return "";
-		}
-
-		// init key
-		SecretKey key;
-
-		try {
-			key = factory.generateSecret(new PBEKeySpec(PASSWORD));
-		} catch (InvalidKeySpecException e) {
-			// The password is hard coded - this exception can't be the case
-			return "";
-		}
 
 		// init cipher
 		Cipher pbeCipher;
 		try {
 			pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
-		} catch (javax.crypto.NoSuchPaddingException | java.security.NoSuchAlgorithmException e) {
+			pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
+		} catch (NoSuchPaddingException | NoSuchAlgorithmException e) {
 			// We could try another algorithm, but it is highly unlikely that this would be the case
 			return "";
-		}
-
-		try {
-			pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-		} catch (java.security.InvalidKeyException | java.security.InvalidAlgorithmParameterException e) {
+		} catch (InvalidKeyException | InvalidAlgorithmParameterException e) {
 			return "";
 		}
 
 		// encode & return encoded string
 		try {
 			return base64Encode(pbeCipher.doFinal(str.getBytes()));
-		} catch (javax.crypto.IllegalBlockSizeException | javax.crypto.BadPaddingException e) {
+		} catch (IllegalBlockSizeException | BadPaddingException e) {
 			return "";
 		}
+
 	}
 
 	public static String Decrypt(String str) {
-		// create cryptography object
-		SecretKeyFactory keyFactory;
-		try {
-			keyFactory = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
-		} catch (NoSuchAlgorithmException e) {
-			// We could try another algorithm, but it is highly unlikely that this would be the case
-			return "";
-		}
-
-		// init key
-		SecretKey key;
-		try {
-			key = keyFactory.generateSecret(new PBEKeySpec(PASSWORD));
-		} catch (InvalidKeySpecException e) {
-			return "";
-		}
 
 		// init cipher
 		Cipher pbeCipher;
 		try {
 			pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
-		} catch (java.security.NoSuchAlgorithmException | javax.crypto.NoSuchPaddingException e) {
-			return "";
-		}
-
-		try {
 			pbeCipher.init(Cipher.DECRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
-		} catch (java.security.InvalidKeyException | java.security.InvalidAlgorithmParameterException e) {
+		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
+		         InvalidAlgorithmParameterException e) {
 			return "";
 		}
 
@@ -121,7 +97,7 @@ public class Crypto {
 
 		try {
 			dec = new String(pbeCipher.doFinal(base64Decode(str)));
-		} catch (javax.crypto.IllegalBlockSizeException | java.io.IOException | javax.crypto.BadPaddingException e) {
+		} catch (IllegalBlockSizeException | java.io.IOException | BadPaddingException e) {
 			return "";
 		}
 

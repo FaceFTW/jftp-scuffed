@@ -15,12 +15,13 @@
  */
 package net.sf.jftp.util;
 
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.StreamTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -29,11 +30,12 @@ public class ZipFileCreator {
 	private final ZipOutputStream z;
 
 	public ZipFileCreator(String[] files, String path, String name) throws Exception {
-		z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path + name)));
-		perform(files, path, "");
-		z.finish();
-		z.flush();
-		z.close();
+		super();
+		this.z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path + name)));
+		this.perform(files, path, "");
+		this.z.finish();
+		this.z.flush();
+		this.z.close();
 	}
 
 	private void perform(String[] files, String path, String offset) {
@@ -51,27 +53,27 @@ public class ZipFileCreator {
 						files[i] = files[i] + "/";
 					}
 
-					perform(f.list(), path, offset + files[i]);
+					this.perform(f.list(), path, offset + files[i]);
 				}
 
 				ZipEntry tmp = new ZipEntry(offset + files[i]);
-				z.putNextEntry(tmp);
+				this.z.putNextEntry(tmp);
 
 				int len = 0;
 
-				while ((in != null) && (len != StreamTokenizer.TT_EOF)) {
+				while ((null != in) && (java.io.StreamTokenizer.TT_EOF != len)) {
 					len = in.read(buf);
 
-					if (len == StreamTokenizer.TT_EOF) {
+					if (java.io.StreamTokenizer.TT_EOF == len) {
 						break;
 					}
 
-					z.write(buf, 0, len);
+					this.z.write(buf, 0, len);
 				}
 
-				z.closeEntry();
+				this.z.closeEntry();
 			} catch (Exception ex) {
-				net.sf.jftp.system.logging.Log.debug("Skipping a file (no permission?)");
+				Log.debug("Skipping a file (no permission?)");
 			}
 		}
 	}

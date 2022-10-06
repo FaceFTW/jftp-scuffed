@@ -15,29 +15,22 @@
  */
 package net.sf.jftp.util;
 
-import java.io.DataInputStream;
+import net.sf.jftp.config.Settings;
+
 import java.io.PrintStream;
-import java.net.Socket;
 
 
-/*
-alternative connection class, used for raw tcp/ip connection
-*/
-public class JRawConnection implements Runnable {
+class JRawConnection implements Runnable {
 	private final String host;
 	private final int port;
 	private PrintStream out;
-	private DataInputStream in;
 	private JReciever jrcv;
-	private boolean isOk = false;
-	private boolean established = false;
-	private boolean reciever = false;
-
-	public JRawConnection(String host, int port) {
-		this(host, port, false);
-	}
+	private boolean isOk;
+	private boolean established;
+	private boolean reciever;
 
 	public JRawConnection(String host, int port, boolean reciever) {
+		super();
 		this.host = host;
 		this.port = port;
 		this.reciever = reciever;
@@ -48,50 +41,41 @@ public class JRawConnection implements Runnable {
 
 	public void run() {
 		try {
-			java.net.Socket s = new java.net.Socket(host, port);
+			java.net.Socket s = new java.net.Socket(this.host, this.port);
 
-			//  s.setSoTimeout(Resource.socketTimeout);
-			out = new PrintStream(s.getOutputStream());
-			in = new DataInputStream(s.getInputStream());
+			this.out = new PrintStream(s.getOutputStream());
+			java.io.DataInputStream in = new java.io.DataInputStream(s.getInputStream());
 
-			if (reciever) {
+			if (this.reciever) {
 				JReciever jrcv = new JReciever(in);
 			}
 
-			isOk = true;
+			this.isOk = true;
 		} catch (Exception ex) {
-			isOk = false;
+			this.isOk = false;
 		}
 
-		established = true;
+		this.established = true;
 	}
 
 	public boolean isThere() {
 		int cnt = 0;
 
-		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
-		while (!established && (cnt < timeout)) {
-			pause(100);
+		final int timeout = Settings.connectionTimeout;
+		while (!this.established && (timeout > cnt)) {
+			this.pause(100);
 			cnt = cnt + 100;
 		}
 
-		return isOk;
+		return this.isOk;
 	}
 
 	public void send(String data) {
 		try {
-			out.println(data);
+			this.out.println(data);
 		} catch (Exception ex) {
 			System.out.println(ex + "@JConnection.send()");
 		}
-	}
-
-	public PrintStream getInetOutputStream() {
-		return out;
-	}
-
-	public DataInputStream getInetInputStream() {
-		return in;
 	}
 
 	private void pause(int time) {

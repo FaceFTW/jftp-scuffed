@@ -15,14 +15,15 @@
  */
 package net.sf.jftp.gui.framework;
 
-import java.awt.*;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Template extends HPanel implements ActionListener {
+class Template extends HPanel implements ActionListener {
 	public Template() {
-		setVisible(true);
+		super();
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {

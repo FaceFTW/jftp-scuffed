@@ -12,7 +12,7 @@ public abstract class Transfer {
 	public static final String UPLOAD = "UPLOAD";
 	public static final String DOWNLOAD = "DOWNLOAD";
 	public boolean work = true;
-	public boolean pause = false;
+	public boolean pause;
 
 	public abstract void prepare();
 

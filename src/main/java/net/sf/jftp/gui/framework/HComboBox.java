@@ -16,92 +16,63 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 
 
 public class HComboBox extends JPanel //implements ActionListener
 {
+	private final JComboBox comboBox;
 	private final JLabel label;
-	public final JComboBox comboBox;
 
 	public HComboBox(String l) {
-		setLayout(new BorderLayout(5, 5));
+		super();
+		this.setLayout(new BorderLayout(5, 5));
 
-		label = new JLabel(l + "  ");
-		add("West", label);
+		this.label = new JLabel(l + "  ");
+		this.add("West", this.label);
 
 		//comboBox = new JComboBox(t, 12);
-		comboBox = new JComboBox();
-		add("East", comboBox);
+		this.comboBox = new JComboBox();
+		this.add("East", this.comboBox);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public HComboBox(String l, String[] t) {
-		setLayout(new BorderLayout(5, 5));
+		super();
+		this.setLayout(new BorderLayout(5, 5));
 
-		label = new JLabel(l + "  ");
-		add("West", label);
+		this.label = new JLabel(l + "  ");
+		this.add("West", this.label);
 
 		//comboBox = new JComboBox(t, 12);
-		comboBox = new JComboBox(t);
-		add("East", comboBox);
+		this.comboBox = new JComboBox(t);
+		this.add("East", this.comboBox);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
-	/*
-	public HComboBox(String l, String t, int size)
-	{
-		setLayout(new BorderLayout(5, 5));
-
-		label = new JLabel(l + "  ");
-		add("West", label);
-
-		comboBox = new JComboBox(t, size);
-		add("East", comboBox);
-
-		setVisible(true);
-	}
-	*/
 	public String getLabel() {
-		return label.getText();
+		return this.label.getText();
 	}
 
 	public void setLabel(String l) {
-		label.setText(l + "  ");
+		this.label.setText(l + "  ");
 	}
 
 	public Object getSelectedItem() {
-		return comboBox.getSelectedItem();
+		return this.comboBox.getSelectedItem();
 	}
 
 	public void addItem(Object obj) {
-		comboBox.addItem(obj);
+		this.comboBox.addItem(obj);
 	}
 
 	public void addActionListener(java.awt.event.ActionListener actListen) {
-		comboBox.addActionListener(actListen);
+		this.comboBox.addActionListener(actListen);
 	}
 
-	/*
-	public String getText()
-	{
-		return comboBox.getText();
-	}
-
-	public void setText(String t)
-	{
-		comboBox.setText(t);
-	}
-
-	/*
-	public void requestFocus()
-	{
-		text.requestFocus();
-	}
-	*/
 	public void setEditable(boolean yesno) {
-		comboBox.setEditable(yesno);
+		this.comboBox.setEditable(yesno);
 	}
 }

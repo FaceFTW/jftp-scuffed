@@ -20,7 +20,8 @@ import javax.swing.*;
 
 public class HButton extends JButton {
 	public HButton(String str) {
-		setFont(GUIDefaults.font);
-		setText(str);
+		super();
+		this.setFont(GUIDefaults.font);
+		this.setText(str);
 	}
 }

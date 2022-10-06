@@ -22,6 +22,8 @@ import net.sf.jftp.event.EventProcessor;
 import net.sf.jftp.event.FtpEvent;
 import net.sf.jftp.event.FtpEventConstants;
 import net.sf.jftp.event.FtpEventHandler;
+import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.system.logging.SystemLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,11 +33,12 @@ import java.io.InputStreamReader;
 public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 	private final EventCollector eventCollector;
 
-	public CommandLine() {
-		net.sf.jftp.system.logging.Log.setLogger(new net.sf.jftp.system.logging.SystemLogger());
-		eventCollector = new EventCollector();
-		EventProcessor.addHandler(FTPCommand, new FtpEventHandler());
-		EventProcessor.addHandler(FTPPrompt, this);
+	private CommandLine() {
+		super();
+		Log.setLogger(new SystemLogger());
+		this.eventCollector = new EventCollector();
+		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPCommand, new FtpEventHandler());
+		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPPrompt, this);
 		new Thread(this).start();
 	}
 
@@ -55,13 +58,13 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 
 		do {
 			try {
-				eventCollector.accept(new FtpEvent(FTPPrompt));
+				this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPPrompt));
 				line = in.readLine();
-				eventCollector.accept(new FtpEvent(FTPCommand, line));
+				this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPCommand, line));
 			} catch (IOException e) {
 			}
 		} while (!line.toLowerCase().startsWith("quit"));
 
-		eventCollector.accept(new FtpEvent(FTPShutdown)); // make the quit command spawn this event?
+		this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPShutdown)); // make the quit command spawn this event?
 	}
 }

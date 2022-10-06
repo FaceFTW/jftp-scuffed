@@ -15,6 +15,9 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -26,29 +29,29 @@ import java.net.URLConnection;
  *
  */
 public class FtpURLConnection extends URLConnection {
-	private FtpConnection connection = null;
+	private FtpConnection connection;
 	private String username = "ftp";
 	private String password = "none@no.no";
-	private int loginFlag = 0;
+	private int loginFlag;
 
 	public FtpURLConnection(URL u) {
 		super(u);
 
-		int port = u.getPort() > 0 ? u.getPort() : 21;
-		connection = new FtpConnection(u.getHost(), port, net.sf.jftp.config.Settings.defaultDir);
+		int port = 0 < u.getPort() ? u.getPort() : 21;
+		this.connection = new FtpConnection(u.getHost(), port, Settings.defaultDir);
 
 		String userInfo = u.getUserInfo();
 
-		if (userInfo != null) {
-			int index = userInfo.indexOf(":");
+		if (null != userInfo) {
+			int index = userInfo.indexOf(':');
 
-			if (index != -1) {
-				username = userInfo.substring(0, index);
-				password = userInfo.substring(index + 1);
+			if (-1 != index) {
+				this.username = userInfo.substring(0, index);
+				this.password = userInfo.substring(index + 1);
 			}
 		}
 
-		net.sf.jftp.system.logging.Log.debug("Connecting...");
+		Log.debug("Connecting...");
 	}
 
 	public static void main(String[] args) {
@@ -60,18 +63,18 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public void connect() throws IOException {
-		loginFlag = connection.login(username, password);
+		this.loginFlag = this.connection.login(this.username, this.password);
 
-		if (loginFlag != FtpConnection.LOGIN_OK) {
+		if (FtpConstants.LOGIN_OK != this.loginFlag) {
 			return;
 		}
 
 		//System.out.println(url.getPath());
-		connection.chdir(url.getPath());
+		this.connection.chdir(this.url.getPath());
 	}
 
 	public FtpConnection getFtpConnection() {
-		return connection;
+		return this.connection;
 	}
 
 	public InputStream getInputStream() throws IOException {
@@ -83,21 +86,21 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public String getUser() {
-		return username;
+		return this.username;
 	}
 
 	public String getPass() {
-		return password;
+		return this.password;
 	}
 
 	public String getHost() {
-		return url.getHost();
+		return this.url.getHost();
 	}
 
 	public int getPort() {
-		int ret = url.getPort();
+		int ret = this.url.getPort();
 
-		if (ret <= 0) {
+		if (0 >= ret) {
 			return 21;
 		} else {
 			return ret;
@@ -105,10 +108,10 @@ public class FtpURLConnection extends URLConnection {
 	}
 
 	public int getLoginResponse() {
-		return loginFlag;
+		return this.loginFlag;
 	}
 
 	public boolean loginSucceeded() {
-		return loginFlag == FtpConnection.LOGIN_OK;
+		return FtpConstants.LOGIN_OK == this.loginFlag;
 	}
 }

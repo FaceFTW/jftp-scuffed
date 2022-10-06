@@ -22,17 +22,14 @@ import net.sf.jftp.gui.framework.GUIDefaults;
 import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Component;
 
 
 // Display an icon and a string for each object in the list.
 // class DirCellRenderer extends JLabel implements ListCellRenderer {
 public class DirCellRenderer extends DefaultListCellRenderer {
-	final static ImageIcon longIcon = new ImageIcon(Settings.dirImage);
-	final static ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
-
-	public DirCellRenderer() {
-	}
+	static final ImageIcon longIcon = new ImageIcon(Settings.dirImage);
+	static final ImageIcon shortIcon = new ImageIcon(Settings.fileImage);
 
 	// This is the only method defined by ListCellRenderer.
 	// We just reconfigure the JLabel each time we're called.
@@ -49,26 +46,31 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 
 		ImageIcon i = new ImageIcon(((DirEntry) value).getImage());
 
-		if (i == null) {
+		if (null == i) {
 			System.out.println("Img null: " + value.toString() + "/" + ((DirEntry) value).getImage());
 		} else {
-			setIcon(i);
+			this.setIcon(i);
 		}
 
 		Log.devnull(value); // prevents eclipse warning
 
-		if (!((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
+		if (((DirEntry) list.getModel().getElementAt(index)).getNoRender()) {
+			this.setFont(GUIDefaults.small);
+
+			String s = value.toString();
+			this.setText(s);
+		} else {
 			StringBuilder size = new StringBuilder();
 
 			if (Settings.showFileSize) {
 				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getFileSize());
 			}
 
-			setFont(GUIDefaults.monospaced);
+			this.setFont(GUIDefaults.monospaced);
 
 			String s = value.toString();
 
-			String date = "";
+			final String date = "";
 
 			if (Settings.showDateNoSize && (((DirEntry) list.getModel().getElementAt(index)).who instanceof RemoteDir)) {
 				size = new StringBuilder(((DirEntry) list.getModel().getElementAt(index)).getDate());
@@ -88,26 +90,21 @@ public class DirCellRenderer extends DefaultListCellRenderer {
 				}
 			}
 
-			setText(size + s);
-		} else {
-			setFont(GUIDefaults.small);
-
-			String s = value.toString();
-			setText(s);
+			this.setText(size + s);
 		}
 
 		int ok = ((DirEntry) value).getPermission();
 
-		if (ok == DirEntry.DENIED) {
-			setForeground(GUIDefaults.deniedColor);
-		} else if (ok == DirEntry.W) {
-			setForeground(GUIDefaults.writableColor);
+		if (DirEntry.DENIED == ok) {
+			this.setForeground(GUIDefaults.deniedColor);
+		} else if (DirEntry.W == ok) {
+			this.setForeground(GUIDefaults.writableColor);
 		} else {
-			setForeground(GUIDefaults.defaultColor);
+			this.setForeground(GUIDefaults.defaultColor);
 		}
 
 		if (((DirEntry) value).file.equals("..")) {
-			setBackground(GUIDefaults.cdColor);
+			this.setBackground(GUIDefaults.cdColor);
 		}
 
 		return this;

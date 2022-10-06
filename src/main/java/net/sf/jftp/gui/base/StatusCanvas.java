@@ -17,139 +17,136 @@ package net.sf.jftp.gui.base;
 
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.GUIDefaults;
+import net.sf.jftp.system.LocalIO;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 
 
 public class StatusCanvas extends JPanel {
-	final JLabel host = new JLabel("");
+	private final JLabel host = new JLabel("");
+	private final JLabel text = new JLabel(Settings.greeting);
 	JLabel separator = new JLabel("   ");
-	final JLabel text = new JLabel(Settings.greeting);
-	String drawText = "";
-	int pos = 0;
-	Image image;
-	Graphics offg;
-	boolean slide = false;
-	int interval = 3;
-	boolean fwd = false;
+	private String drawText = "";
+	private int pos;
+	private Image image;
+	private Graphics offg;
+	private boolean slide;
+	private int interval = 3;
+	private boolean fwd;
 
 	public StatusCanvas() {
-		setMinimumSize(new Dimension(200, 25));
-		setPreferredSize(new Dimension(320, 25));
-		setLayout(null);
-
-		//setLayout(new FlowLayout(FlowLayout.LEFT));
-		//add(host);
-		//add(separator);
-		//add(text);
-		setVisible(true);
+		super();
+		this.setMinimumSize(new Dimension(200, 25));
+		this.setPreferredSize(new Dimension(320, 25));
+		this.setLayout(null);
+		this.setVisible(true);
 	}
 
 	public void setInterval(int x) {
-		interval = x;
+		this.interval = x;
 	}
 
 	public void forward() {
-		fwd = true;
+		this.fwd = true;
 	}
 
 	public void setText(String msg) {
 		if (false) {
-			text.setText(msg);
+			this.text.setText(msg);
 		} else {
-			text.setText("");
-			drawText = msg;
-			slide = false;
+			this.text.setText("");
+			this.drawText = msg;
+			this.slide = false;
 
 			if (AppMenuBar.fadeMenu.getState()) {
 				SwingUtilities.invokeLater(() -> {
-					for (pos = 30; pos > 0; pos -= 1) {
-						paintImmediately(0, 0, getSize().width, getSize().height);
-						net.sf.jftp.system.LocalIO.pause(interval);
+					for (this.pos = 30; 0 < this.pos; this.pos -= 1) {
+						this.paintImmediately(0, 0, this.getSize().width, this.getSize().height);
+						LocalIO.pause(this.interval);
 					}
 				});
 			} else {
-				repaint();
+				this.repaint();
 			}
 		}
 
-		validate();
+		this.validate();
 	}
 
 	public void scrollText(String msg) {
 		if (false) {
-			text.setText(msg);
+			this.text.setText(msg);
 		} else {
-			text.setText("");
-			drawText = msg;
-			slide = true;
+			this.text.setText("");
+			this.drawText = msg;
+			this.slide = true;
 
 			if (AppMenuBar.fadeMenu.getState()) {
-				for (pos = 700; pos > (msg.length() * -6); pos -= 1) {
-					if (fwd) {
+				for (this.pos = 700; this.pos > (msg.length() * -6); this.pos -= 1) {
+					if (this.fwd) {
 						break;
 					}
+					this.repaint();
+					LocalIO.pause(this.interval);
 
-					//paintImmediately(0, 0, getSize().width, getSize().height);
-					repaint();
-					net.sf.jftp.system.LocalIO.pause(interval);
-
-					//JFtp.statusP.jftp.validate();
 				}
 			} else {
-				repaint();
+				this.repaint();
 			}
 
-			fwd = false;
+			this.fwd = false;
 		}
 
-		validate();
+		this.validate();
 	}
 
 	public String getHost() {
-		return host.getText();
+		return this.host.getText();
 	}
 
 	public void setHost(String h) {
-		host.setText(h);
-		validate();
+		this.host.setText(h);
+		this.validate();
 	}
 
 	public void fresh() {
-		image = null;
-		offg = null;
+		this.image = null;
+		this.offg = null;
 
-		repaint();
+		this.repaint();
 	}
 
 	public void paintComponent(Graphics g) {
-		if (image == null) {
-			image = createImage(getWidth(), getHeight());
+		if (null == this.image) {
+			this.image = this.createImage(this.getWidth(), this.getHeight());
 		}
 
-		if (offg == null) {
-			offg = image.getGraphics();
+		if (null == this.offg) {
+			this.offg = this.image.getGraphics();
 		}
 
-		offg.setColor(GUIDefaults.light);
-		offg.setFont(GUIDefaults.status);
-		offg.fillRect(0, 0, getSize().width, getSize().height);
-		offg.setColor(new Color(125, 125, 175));
+		this.offg.setColor(GUIDefaults.light);
+		this.offg.setFont(GUIDefaults.status);
+		this.offg.fillRect(0, 0, this.getSize().width, this.getSize().height);
+		this.offg.setColor(new Color(125, 125, 175));
 
-		if (!slide) {
-			offg.drawString(drawText, 10, 15 + pos);
+		if (this.slide) {
+			this.offg.drawString(this.drawText, 10 + this.pos, 15);
 		} else {
-			offg.drawString(drawText, 10 + pos, 15);
+			this.offg.drawString(this.drawText, 10, 15 + this.pos);
 		}
 
-		offg.setColor(GUIDefaults.front);
-		offg.drawRect(0, 0, getSize().width - 1, getSize().height - 1);
-		offg.drawRect(0, 0, getSize().width - 2, getSize().height - 2);
-		g.drawImage(image, 0, 0, this);
+		this.offg.setColor(GUIDefaults.front);
+		this.offg.drawRect(0, 0, this.getSize().width - 1, this.getSize().height - 1);
+		this.offg.drawRect(0, 0, this.getSize().width - 2, this.getSize().height - 2);
+		g.drawImage(this.image, 0, 0, this);
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 }

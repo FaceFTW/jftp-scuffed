@@ -15,5 +15,5 @@
  */
 package net.sf.jftp.gui.framework;
 
-public class TransferComponent extends HPanel {
+class TransferComponent extends HPanel {
 }

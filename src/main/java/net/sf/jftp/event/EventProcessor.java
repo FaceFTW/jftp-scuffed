@@ -15,55 +15,52 @@
  */
 package net.sf.jftp.event;
 
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
-
 public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, EventHandler {
-	private static final Hashtable table = new Hashtable();
+	private static final Map<Integer, List<EventHandler>> table = new java.util.HashMap<>();
 	private final Vector buffer;
-	private boolean done = false;
+	private boolean done;
 
 	public EventProcessor(Vector b) {
-		buffer = b;
+		super();
+		this.buffer = b;
 		new Thread(this).start();
-		addHandler(FTPShutdown, this);
+		addHandler(FtpEventConstants.FTPShutdown, this);
 	}
 
 	public static void addHandler(int eventCode, EventHandler h) {
 		Integer code = eventCode;
-		Vector handlers = (Vector) (table.get(code));
+		List<EventHandler> handlers = table.computeIfAbsent(code, k -> new ArrayList<EventHandler>());
 
-		if (handlers == null) {
-			handlers = new Vector();
-			table.put(code, handlers);
-		}
-
-		handlers.addElement(h);
+		handlers.add(h);
 	}
 
 	public void accept(Event e) {
 		Integer code = e.eventCode();
-		Vector handlers = (Vector) (table.get(code));
+		List<EventHandler> handlers = (table.get(code));
 
-		if (handlers != null) {
-			for (int i = 0, max = handlers.size(); i < max; i++) {
-				((EventHandler) (handlers.elementAt(i))).handle(e);
+		if (null != handlers) {
+			for (EventHandler handler : handlers) {
+				((EventHandler) handler).handle(e);
 			}
 		}
 	}
 
 	public boolean handle(Event e) {
-		done = true;
+		this.done = true;
 
 		return true;
 	}
 
 	public void run() {
-		while (!done) {
-			if (buffer.size() != 0) {
-				accept((Event) buffer.firstElement());
-				buffer.removeElementAt(0);
+		while (!this.done) {
+			if (!this.buffer.isEmpty()) {
+				this.accept((Event) this.buffer.firstElement());
+				this.buffer.removeElementAt(0);
 			}
 		}
 	}

@@ -15,16 +15,19 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.system.LocalIO;
+
 import java.io.File;
 
 
-public class AutoRemover {
+class AutoRemover {
 	public AutoRemover(String file, String type) {
+		super();
 		if (type.equals("local")) {
 			File f = new File(net.sf.jftp.JFtp.localDir.getPath() + file);
 
 			if (f.isDirectory()) {
-				net.sf.jftp.system.LocalIO.cleanLocalDir(file, net.sf.jftp.JFtp.localDir.getPath());
+				LocalIO.cleanLocalDir(file, net.sf.jftp.JFtp.localDir.getPath());
 				f.delete();
 			} else {
 				f.delete();

@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.net.server;
 
+import net.sf.jftp.system.logging.Log;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,14 +25,12 @@ import java.net.Socket;
 /**
  *
  */
-public class FtpServer extends Thread {
+class FtpServer extends Thread {
 	private final int dataPort = 20;
-	private int port = 21;
+	private int port;
 
-	public FtpServer() {
-	}
-
-	public FtpServer(int port) {
+	private FtpServer(int port) {
+		super();
 		this.port = port;
 	}
 
@@ -41,14 +41,14 @@ public class FtpServer extends Thread {
 
 	public void run() {
 		try {
-			ServerSocket listener = new ServerSocket(port);
+			ServerSocket listener = new ServerSocket(this.port);
 
 			while (true) {
 				Socket s = listener.accept();
 				new FtpServerSocket(s);
 			}
 		} catch (IOException ioe) {
-			net.sf.jftp.system.logging.Log.debug("ServerSocket error: " + ioe);
+			Log.debug("ServerSocket error: " + ioe);
 		}
 	}
 }

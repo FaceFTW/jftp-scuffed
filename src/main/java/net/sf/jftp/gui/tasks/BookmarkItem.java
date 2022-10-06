@@ -31,7 +31,7 @@ public class BookmarkItem extends JMenuItem {
 	private String protocol = "FTP";
 	private int port = 21;
 	private String dirOrDom = "/";
-	private boolean useLocal = false;
+	private boolean useLocal;
 
 	public BookmarkItem(String host) {
 		super(host);
@@ -39,56 +39,48 @@ public class BookmarkItem extends JMenuItem {
 	}
 
 	public void setProtocol(String proto) {
-		protocol = proto;
-		setLabel(proto + ": " + getLabel());
+		this.protocol = proto;
+		this.setText(proto + ": " + this.getText());
 	}
 
 	public void setDirectory(String dir) {
-		dirOrDom = dir;
+		this.dirOrDom = dir;
 	}
 
 	public void setPort(int p) {
-		port = p;
+		this.port = p;
 	}
 
 	public void setLocal(boolean local) {
-		useLocal = local;
+		this.useLocal = local;
 	}
 
 	public void setUserdata(String u, String p) {
-		user = u;
-		pass = p;
+		this.user = u;
+		this.pass = p;
 	}
 
 	public void connect() {
-		if (protocol.equals("FTP")) {
-			if (pass.equals(Settings.hiddenPassword)) {
-				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+		if (this.protocol.equals("FTP")) {
+			if (this.pass.equals(Settings.hiddenPassword)) {
+				this.pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 			}
 
-			int i = StartConnection.startFtpCon(host, user, pass, port, dirOrDom, useLocal);
+			int i = StartConnection.startFtpCon(this.host, this.user, this.pass, this.port, this.dirOrDom, this.useLocal);
 
-			if (i < 0) {
-				pass = Settings.hiddenPassword;
+			if (0 > i) {
+				this.pass = Settings.hiddenPassword;
 			}
 
-            /*
-            FtpConnection con = StartConnection.con;
-
-            if(con != null)
-            {
-                    con.chdir(dirOrDom);
-            }
-            */
 		} else {
-			if (pass.equals(Settings.hiddenPassword)) {
-				pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
+			if (this.pass.equals(Settings.hiddenPassword)) {
+				this.pass = UIUtils.getPasswordFromUser(JFtp.statusP.jftp);
 			}
 
-			boolean ok = StartConnection.startCon(protocol, host, user, pass, port, dirOrDom, useLocal);
+			boolean ok = StartConnection.startCon(this.protocol, this.host, this.user, this.pass, this.port, this.dirOrDom, this.useLocal);
 
 			if (!ok) {
-				pass = Settings.hiddenPassword;
+				this.pass = Settings.hiddenPassword;
 			}
 		}
 	}

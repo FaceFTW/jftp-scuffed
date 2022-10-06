@@ -15,6 +15,9 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.system.logging.Log;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,159 +32,87 @@ import java.net.Socket;
  * timeout sets (as the name says) the maximum time the Thread
  * waits for the target host...
  */
-public class JConnection implements Runnable {
+class JConnection implements Runnable {
 	private final String host;
 	private final int port;
 	private PrintStream out;
 	private BufferedReader in;
 	private Socket s;
-	private boolean isOk = false;
-	private boolean established = false;
+	private boolean isOk;
+	private boolean established;
 	private int localPort = -1;
-	//private int time = 0;
 
-	/*
-	private boolean useSocks4 = false;
-	private String socks4Host = "192.168.0.1";
-	private int socks4Port = 1080;
-	*/
 	public JConnection(String host, int port) {
+		super();
 		this.host = host;
 		this.port = port;
-
-		//private boolean reciever = false;
 		Thread runner = new Thread(this);
 		runner.start();
 	}
 
-	/*
-		public JConnection(String host, int port, int time)
-		{
-			this.host = host;
-			this.port = port;
-			this.timeout = time;
-			this.time = time;
 
-			runner = new Thread(this);
-			runner.start();
-		}
-	*/
-    /*
-    private int swabInt(int v)
-    {
-            return  (v >>> 24) | (v << 24) |
-      ((v << 8) & 0x00FF0000) | ((v >> 8) & 0x0000FF00);
-    }
-    */
 	public void run() {
 		try {
-            /*
-                if(useSocks4)
-                {
-                        s = new Socket(socks4Host, socks4Port);
 
-                    Log.debug("\nsending socks4-request...");
+			this.s = new Socket(this.host, this.port);
 
-                    OutputStream o = s.getOutputStream();
-
-                    byte buf[] = new byte[9];
-
-                    buf[0] = (byte) 4;
-                    buf[1] = (byte) 0x1;
-                    buf[2] = (byte) 1;
-                    buf[3] = (byte) 1;
-                    buf[4] = (byte) 1;
-                    buf[5] = (byte) 1;
-                    buf[6] = (byte) 1;
-                    buf[7] = (byte) 1;
-                    buf[8] = (byte) 0;
-
-                    o.write(buf);
-                    o.flush();
-
-                        Log.debug("reading response...");
-                    byte ret[] = new byte[8];
-                    int bytes = s.getInputStream().read(ret);
-
-                    if(ret[1] == 90)
-                    {
-                            Log.debug("connection accepted");
-
-                                localPort = s.getLocalPort();
-                                out = new PrintStream(new BufferedOutputStream(s.getOutputStream(), Settings.bufferSize));
-                                in = new BufferedReader(new InputStreamReader(s.getInputStream()), Settings.bufferSize);
-                            isOk = true;
-                    }
-                    else
-                    {
-                            Log.debug("socks-connection refused (returncode " + ret[1] + ")");
-                            isOk = false;
-                    }
-                }
-                else
-                {
-                */
-			s = new Socket(host, port);
-
-			localPort = s.getLocalPort();
+			this.localPort = this.s.getLocalPort();
 
 			//if(time > 0) s.setSoTimeout(time);
-			out = new PrintStream(new BufferedOutputStream(s.getOutputStream(), net.sf.jftp.config.Settings.bufferSize));
-			in = new BufferedReader(new InputStreamReader(s.getInputStream()), net.sf.jftp.config.Settings.bufferSize);
-			isOk = true;
+			this.out = new PrintStream(new BufferedOutputStream(this.s.getOutputStream(), Settings.bufferSize));
+			this.in = new BufferedReader(new InputStreamReader(this.s.getInputStream()), Settings.bufferSize);
+			this.isOk = true;
 
 			// }
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			net.sf.jftp.system.logging.Log.out("WARNING: connection closed due to exception (" + host + ":" + port + ")");
-			isOk = false;
+			Log.out("WARNING: connection closed due to exception (" + this.host + ":" + this.port + ")");
+			this.isOk = false;
 
 			try {
-				if ((s != null) && !s.isClosed()) {
-					s.close();
+				if ((null != this.s) && !this.s.isClosed()) {
+					this.s.close();
 				}
 
-				if (out != null) {
-					out.close();
+				if (null != this.out) {
+					this.out.close();
 				}
 
-				if (in != null) {
-					in.close();
+				if (null != this.in) {
+					this.in.close();
 				}
 			} catch (Exception ex2) {
 				ex2.printStackTrace();
-				net.sf.jftp.system.logging.Log.out("WARNING: got more errors trying to close socket and streams");
+				Log.out("WARNING: got more errors trying to close socket and streams");
 			}
 		}
 
-		established = true;
+		this.established = true;
 	}
 
 	public boolean isThere() {
 		int cnt = 0;
 
-		int timeout = net.sf.jftp.config.Settings.connectionTimeout;
-		while (!established && (cnt < timeout)) {
-			pause(10);
+		final int timeout = Settings.connectionTimeout;
+		while (!this.established && (timeout > cnt)) {
+			this.pause(10);
 			cnt = cnt + 10;
-
-			//System.out.println(cnt + "/" + timeout);
 		}
 
-		return isOk;
+		return this.isOk;
 	}
 
 	public void send(String data) {
 		try {
 			//System.out.println(":"+data+":");
-			out.print(data);
-			out.print("\r\n");
-			out.flush();
+			this.out.print(data);
+			this.out.print("\r\n");
+			this.out.flush();
 
 			if (data.startsWith("PASS")) {
-				net.sf.jftp.system.logging.Log.debug("> PASS ****");
+				Log.debug("> PASS ****");
 			} else {
-				net.sf.jftp.system.logging.Log.debug("> " + data);
+				Log.debug("> " + data);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -189,19 +120,19 @@ public class JConnection implements Runnable {
 	}
 
 	public PrintStream getInetOutputStream() {
-		return out;
+		return this.out;
 	}
 
 	public BufferedReader getReader() {
-		return in;
+		return this.in;
 	}
 
 	public int getLocalPort() {
-		return localPort;
+		return this.localPort;
 	}
 
 	public InetAddress getLocalAddress() throws IOException {
-		return s.getLocalAddress();
+		return this.s.getLocalAddress();
 	}
 
 	private void pause(int time) {
@@ -212,7 +143,7 @@ public class JConnection implements Runnable {
 	}
 
 	public BufferedReader getIn() {
-		return in;
+		return this.in;
 	}
 
 	public void setIn(BufferedReader in) {
@@ -220,7 +151,7 @@ public class JConnection implements Runnable {
 	}
 
 	public PrintStream getOut() {
-		return out;
+		return this.out;
 	}
 
 	public void setOut(PrintStream out) {

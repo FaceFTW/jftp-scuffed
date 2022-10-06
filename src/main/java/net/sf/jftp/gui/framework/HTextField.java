@@ -18,7 +18,7 @@ package net.sf.jftp.gui.framework;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Insets;
 
 
 public class HTextField extends JPanel {
@@ -26,24 +26,27 @@ public class HTextField extends JPanel {
 	private JLabel label;
 
 	public HTextField(String l, String t, int size) {
-		init(l, t, size, false);
+		super();
+		this.init(l, t, size, false);
 	}
 
 	public HTextField(String l, String t) {
-		init(l, t, 12, false);
+		super();
+		this.init(l, t, 12, false);
 	}
 
-	public HTextField(String l, String t, boolean isPw) {
-		init(l, t, 12, isPw);
+	HTextField(String l, String t, boolean isPw) {
+		super();
+		this.init(l, t, 12, isPw);
 	}
 
-	public void init(String l, String t, int size, boolean isPw) {
-		setLayout(new MigLayout());
+	private void init(String l, String t, int size, boolean isPw) {
+		this.setLayout(new MigLayout());
 
-		label = new JLabel(l);
-		add(label);
+		this.label = new JLabel(l);
+		this.add(this.label);
 
-		text = isPw ? new JPasswordField(t, size) {
+		this.text = isPw ? new JPasswordField(t, size) {
 			public Insets getInsets() {
 				return new Insets(4, 4, 4, 4);
 			}
@@ -53,33 +56,33 @@ public class HTextField extends JPanel {
 			}
 		};
 
-		add(text, "align right");
+		this.add(this.text, "align right");
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 
 	public String getLabel() {
-		return label.getText();
+		return this.label.getText();
 	}
 
 	public void setLabel(String l) {
-		label.setText(l + "  ");
+		this.label.setText(l + "  ");
 	}
 
 	public String getText() {
-		return text.getText();
+		return this.text.getText();
 	}
 
 	public void setText(String t) {
-		text.setText(t);
+		this.text.setText(t);
 	}
 
 	public void requestFocus() {
-		text.requestFocus();
+		this.text.requestFocus();
 	}
 
 	public void setEnabled(boolean yesno) {
-		text.setEnabled(yesno);
+		this.text.setEnabled(yesno);
 	}
 }

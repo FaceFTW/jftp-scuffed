@@ -16,7 +16,9 @@
 package net.sf.jftp.gui.framework;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -24,31 +26,32 @@ import java.awt.event.MouseListener;
 
 
 public class HImageButton extends JButton implements MouseListener {
-	public String label = "";
-	public ActionListener who = null;
+	private String label = "";
+	private ActionListener who;
 	private String cmd = "default";
 
 	public HImageButton(String image, String cmd, String label, ActionListener who) {
+		super();
 		this.cmd = cmd;
 		this.label = label;
 		this.who = who;
 
 		try {
-			setIcon(new ImageIcon(HImage.getImage(this, image)));
+			this.setIcon(new ImageIcon(HImage.getImage(this, image)));
 		} catch (Exception ex) {
 			System.out.println("Image file: " + image);
 			ex.printStackTrace();
 		}
-		addMouseListener(this);
+		this.addMouseListener(this);
 
-		setVisible(true);
-		setMinimumSize(new Dimension(25, 25));
-		setPreferredSize(new Dimension(25, 25));
-		setMaximumSize(new Dimension(25, 25));
+		this.setVisible(true);
+		this.setMinimumSize(new Dimension(25, 25));
+		this.setPreferredSize(new Dimension(25, 25));
+		this.setMaximumSize(new Dimension(25, 25));
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -58,18 +61,18 @@ public class HImageButton extends JButton implements MouseListener {
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		who.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, cmd));
+		this.who.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, this.cmd));
 
 	}
 
 	public void mouseEntered(MouseEvent e) {
-		setCursor(new Cursor(Cursor.HAND_CURSOR));
+		this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-		net.sf.jftp.JFtp.statusP.status(label);
+		net.sf.jftp.JFtp.statusP.status(this.label);
 	}
 
 	public void mouseExited(MouseEvent e) {
-		setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 
 		net.sf.jftp.JFtp.statusP.status("");
 	}

@@ -15,68 +15,72 @@
  */
 package net.sf.jftp.tools;
 
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.StatusCanvas;
 import net.sf.jftp.gui.framework.HImageButton;
+import net.sf.jftp.system.LocalIO;
+import net.sf.jftp.system.logging.Log;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 
 public class RSSFeeder extends JPanel implements Runnable, ActionListener {
-	public static String urlstring = net.sf.jftp.config.Settings.getRSSFeed();
-	Thread runner;
-	URL url;
-	RSSParser parser;
-	final net.sf.jftp.gui.base.StatusCanvas can = new net.sf.jftp.gui.base.StatusCanvas();
-	final HImageButton next = new HImageButton(net.sf.jftp.config.Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
-	boolean header = false;
-	boolean breakHeader = false;
-	final int HEADER_IVAL = 4000;
-	final int LOAD_IVAL = 31 * 60000;
+	private static String urlstring = Settings.getRSSFeed();
+	private final StatusCanvas can = new StatusCanvas();
+	private final HImageButton next = new HImageButton(Settings.nextRSSImage, "nextRSS", "Display next RSS news item", this);
+	private final int HEADER_IVAL = 4000;
+	private final int LOAD_IVAL = 31 * 60000;
+	private Thread runner;
+	private URL url;
+	private RSSParser parser;
+	private boolean header;
+	private boolean breakHeader;
 
-	//"http://www.spiegel.de/schlagzeilen/rss/0,5291,,00.xml";
 	public RSSFeeder() {
-		setLayout(new BorderLayout(0, 0));
-		next.setPreferredSize(new Dimension(22, 22));
-		next.setMaximumSize(new Dimension(22, 22));
-
-		//next.addActionListener(this);
-		add("West", next);
-		add("Center", can);
-		setPreferredSize(new Dimension(500, 25));
-		runner = new Thread(this);
-		runner.start();
+		super();
+		this.setLayout(new BorderLayout(0, 0));
+		this.next.setPreferredSize(new Dimension(22, 22));
+		this.next.setMaximumSize(new Dimension(22, 22));
+		this.add("West", this.next);
+		this.add("Center", this.can);
+		this.setPreferredSize(new Dimension(500, 25));
+		this.runner = new Thread(this);
+		this.runner.start();
 	}
 
 	public void switchTo(String u) {
-		if (u == null) {
+		if (null == u) {
 			return;
 		}
 
 		urlstring = u;
 
-		runner.stop();
-		runner = new Thread(this);
-		runner.start();
+		this.runner.stop();
+		this.runner = new Thread(this);
+		this.runner.start();
 	}
 
 	public void run() {
 		long time;
 
-		net.sf.jftp.system.LocalIO.pause(3000);
+		LocalIO.pause(3000);
 
-		net.sf.jftp.system.logging.Log.out("Starting RSS Feed");
+		Log.out("Starting RSS Feed");
 
 		try {
-			can.setInterval(10);
-			url = new URL(urlstring);
-			parser = new RSSParser(url);
+			this.can.setInterval(10);
+			this.url = new URL(urlstring);
+			this.parser = new RSSParser(this.url);
 			time = System.currentTimeMillis();
 		} catch (Exception ex) {
-			net.sf.jftp.system.logging.Log.debug("Error: Can't load RSS feed (" + ex + ")");
+			Log.debug("Error: Can't load RSS feed (" + ex + ")");
 			ex.printStackTrace();
 
 			return;
@@ -84,48 +88,48 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 
 		while (true) {
 			try {
-				Enumeration e = parser.titles.elements();
-				Enumeration e2 = parser.descs.elements();
+				Iterator iterator1 = this.parser.titles.iterator();
+				Iterator iterator = this.parser.descs.iterator();
 
-				while (e.hasMoreElements()) {
-					can.setText((String) e.nextElement());
-					next.setEnabled(true);
-					header = true;
+				while (iterator1.hasNext()) {
+					this.can.setText((String) iterator1.next());
+					this.next.setEnabled(true);
+					this.header = true;
 
 					int i = 0;
 
-					while (!breakHeader && (i < 100)) {
-						net.sf.jftp.system.LocalIO.pause(HEADER_IVAL / 100);
+					while (!this.breakHeader && (100 > i)) {
+						LocalIO.pause(this.HEADER_IVAL / 100);
 						i++;
 					}
 
-					next.setEnabled(false);
-					breakHeader = false;
-					header = false;
+					this.next.setEnabled(false);
+					this.breakHeader = false;
+					this.header = false;
 
-					if (e2.hasMoreElements()) {
-						next.setEnabled(true);
-						can.scrollText((String) e2.nextElement());
-						next.setEnabled(false);
+					if (iterator.hasNext()) {
+						this.next.setEnabled(true);
+						this.can.scrollText((String) iterator.next());
+						this.next.setEnabled(false);
 					}
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 
-			if (System.currentTimeMillis() > (LOAD_IVAL + time)) {
-				parser = new RSSParser(url);
+			if (System.currentTimeMillis() > (this.LOAD_IVAL + time)) {
+				this.parser = new RSSParser(this.url);
 				time = System.currentTimeMillis();
 			}
 		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == next) {
-			if (header) {
-				breakHeader = true;
+		if (e.getSource() == this.next) {
+			if (this.header) {
+				this.breakHeader = true;
 			} else {
-				can.forward();
+				this.can.forward();
 			}
 		}
 	}

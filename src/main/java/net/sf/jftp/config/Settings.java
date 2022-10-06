@@ -15,19 +15,21 @@
  */
 package net.sf.jftp.config;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
 
-public class Settings {
-	public static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
-	public static final String defaultWidth = "1000";
-	public static final String defaultHeight = "740";
-	public static final String defaultX = "20";
-	public static final String defaultY = "20";
+public enum Settings {
+	
+	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
+	private static final String defaultWidth = "1000";
+	private static final String defaultHeight = "740";
+	private static final String defaultX = "20";
+	private static final String defaultY = "20";
 	// title of the app
 	public static final String title = "JFtp - The Java Network Browser";
 	// overridden title for insomniac client
@@ -37,7 +39,7 @@ public class Settings {
 	public static final int testTimeout = 5000;
 	public static final String defaultDir = "<default>";
 	public static final String defaultWorkDir = System.getProperty("user.home");
-	public static final String userHomeDir = System.getProperty("user.home");
+	private static final String userHomeDir = System.getProperty("user.home");
 	public static final String appHomeDir = userHomeDir + "/.jftp/".replace('/', File.separatorChar);
 	public static final String bookmarks = appHomeDir + "bookmarks.txt".replace('/', File.separatorChar);
 	public static final String ls_out = appHomeDir + ".ls_out".replace('/', File.separatorChar);
@@ -68,39 +70,39 @@ public class Settings {
 	public static boolean IS_JAVA_1_6 = true;
 	public static String sshHostKeyVerificationFile = System.getProperty("user.home") + File.separator + ".jftp" + File.separator + ".ssh_hostfile";
 	public static int maxConnections = 3;
-	public static boolean enableResuming = false; // overridden by JFtp
-	public static boolean enableUploadResuming = false;
+	public static boolean enableResuming; // overridden by JFtp
+	public static boolean enableUploadResuming;
 	public static boolean noUploadResumingQuestion = true;
 	public static boolean askToResume = true;
 	public static boolean reconnect = true;
 	public static int uiRefresh = 500;
 	public static int logFlushInterval = 2000; // obsolete
-	public static boolean useLogFlusher = false; // obsolete
+	public static boolean useLogFlusher; // obsolete
 	public static int ftpTransferThreadPause = 2000;
-	public static int smallSize = 0; //100000;
-	public static int smallSizeUp = 0; //50000;
+	public static int smallSize; //100000;
+	public static int smallSizeUp; //50000;
 	public static boolean shortProgress = true;
 	public static boolean useFixedTableWidths = true;
-	public static boolean enableWebDav = false;
+	public static boolean enableWebDav;
 	public static boolean ftpKeepAlive = true;
 	public static int ftpKeepAliveInterval = 29000;
 	// 1: manual, 2: onclick, 0: off
 	public static int runtimeCommands = 2;
-	public static boolean askToRun = false;
+	public static boolean askToRun;
 	// currently changed by remotedir on-the-fly
-	public static boolean showDateNoSize = false;
-	public static boolean showLocalDateNoSize = false;
+	public static boolean showDateNoSize;
+	public static boolean showLocalDateNoSize;
 	// hides some messages like MODE, Type etc.
-	public static boolean hideStatus = false;
-	public static boolean showNewlineOption = false;
+	public static boolean hideStatus;
+	public static boolean showNewlineOption;
 	// for DataConnection - lower means less buffer, more updates in the downloadmanager
 	public static int bufferSize = 1400;
 	// sends NOOPs to ensure that buffers are empty
-	public static boolean safeMode = false;
+	public static boolean safeMode;
 	// enables some delays
-	public static boolean enableFtpDelays = false;
+	public static boolean enableFtpDelays;
 	// override ui with the insomniac client configuration
-	public static boolean isInsomniacClient = false;
+	public static boolean isInsomniacClient;
 	public static int refreshDelay = 250;
 	public static boolean useDefaultDir = true;
 	// may the windows be resized?
@@ -113,10 +115,10 @@ public class Settings {
 	public static String iconImage;
 	public static String hostImage;
 	public static String closeImage;
-	public static String infoImage;
+	private static String infoImage;
 	public static String listImage;
 
-	public static String rmdirImage;
+	private static String rmdirImage;
 	public static String mkdirImage;
 	public static String refreshImage;
 	public static String refreshImage2;
@@ -137,7 +139,7 @@ public class Settings {
 	public static String imageFileImage;
 	public static String presentationFileImage;
 	public static String spreadsheetFileImage;
-	public static String bookFileImage;
+	private static String bookFileImage;
 	public static String copyImage;
 	public static String openImage;
 	public static String sftpImage;
@@ -177,54 +179,7 @@ public class Settings {
 			System.out.println("no property file loaded, using defaults... (" + e + ")");
 		}
 
-		if (!getUseNewIcons()) {
-			iconImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
-			hostImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
-			closeImage = "images/org/javalobby/icons/20x20/Error.gif";
-			infoImage = "images/org/javalobby/icons/20x20/Inform.gif";
-			listImage = "images/org/javalobby/icons/20x20/List.gif";
-			deleteImage = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
-			deleteImage2 = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
-			rmdirImage = "images/org/javalobby/icons/16x16/DeleteFolder.gif";
-			mkdirImage = "images/org/javalobby/icons/16x16/NewFolder.gif";
-			refreshImage = "images/org/javalobby/icons/16x16/Undo.gif";
-			refreshImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
-			cdImage = "images/org/javalobby/icons/16x16/Open.gif";
-			cmdImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
-			downloadImage = "images/org/javalobby/icons/16x16/Left.gif";
-			uploadImage = "images/org/javalobby/icons/16x16/Right.gif";
-			queueImage = "images/org/javalobby/icons/16x16/Left.gif";
-			fileImage = "images/org/javalobby/icons/16x16/Document.gif";
-			dirImage = "images/org/javalobby/icons/16x16/Folder.gif";
-			codeFileImage = "images/org/javalobby/icons/16x16/List.gif";
-			textFileImage = "images/org/javalobby/icons/16x16/DocumentDraw.gif";
-			execFileImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
-			audioFileImage = "images/org/javalobby/icons/16x16/cd.gif";
-			videoFileImage = "images/org/javalobby/icons/16x16/CameraFlash.gif";
-			htmlFileImage = "images/org/javalobby/icons/16x16/World2.gif";
-			zipFileImage = "images/org/javalobby/icons/16x16/DataStore.gif";
-			imageFileImage = "images/org/javalobby/icons/16x16/Camera.gif";
-			presentationFileImage = "images/org/javalobby/icons/16x16/DocumentDiagram.gif";
-			spreadsheetFileImage = "images/org/javalobby/icons/16x16/DatePicker.gif";
-			bookFileImage = "images/org/javalobby/icons/16x16/Book.gif";
-			copyImage = "images/org/javalobby/icons/16x16/Copy.gif";
-			openImage = "images/org/javalobby/icons/16x16/World2.gif";
-			sftpImage = "images/org/javalobby/icons/16x16/NewEnvelope.gif";
-			nfsImage = "images/org/javalobby/icons/16x16/TrafficGreen.gif";
-			webdavImage = "images/org/javalobby/icons/16x16/DataStore.gif";
-			linkImage = "images/org/javalobby/icons/16x16/Right.gif";
-			typeImage = "images/org/javalobby/icons/20x20/Type.gif";
-			clearImage = "images/org/javalobby/icons/16x16/Undo.gif";
-			resumeImage = "images/org/javalobby/icons/16x16/GreenCircle.gif";
-			pauseImage = "images/org/javalobby/icons/16x16/RedCircle.gif";
-			clearImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
-			resumeImage2 = "images/org/javalobby/icons/16x16/GreenCircle.gif";
-			pauseImage2 = "images/org/javalobby/icons/16x16/RedCircle.gif";
-			saveImage = "images/org/javalobby/icons/16x16/Save.gif";
-			cdUpImage = "images/org/javalobby/icons/16x16/Exit.gif";
-			nextRSSImage = "images/org/javalobby/icons/16x16/Forward.gif";
-			helpImage = "images/current/help.png";
-		} else {
+		if (getUseNewIcons()) {
 			iconImage = "images/current/server_add.png";
 			hostImage = "images/current/server_add.png";
 			closeImage = "images/current/cancel.png";
@@ -272,6 +227,53 @@ public class Settings {
 			cdUpImage = "images/current/arrow_up.png";
 			nextRSSImage = "images/current/rss_go.png";
 			helpImage = "images/current/help.png";
+		} else {
+			iconImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
+			hostImage = "images/org/javalobby/icons/20x20/ComputerIn.gif";
+			closeImage = "images/org/javalobby/icons/20x20/Error.gif";
+			infoImage = "images/org/javalobby/icons/20x20/Inform.gif";
+			listImage = "images/org/javalobby/icons/20x20/List.gif";
+			deleteImage = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
+			deleteImage2 = "images/org/javalobby/icons/16x16/DeleteDocument.gif";
+			rmdirImage = "images/org/javalobby/icons/16x16/DeleteFolder.gif";
+			mkdirImage = "images/org/javalobby/icons/16x16/NewFolder.gif";
+			refreshImage = "images/org/javalobby/icons/16x16/Undo.gif";
+			refreshImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
+			cdImage = "images/org/javalobby/icons/16x16/Open.gif";
+			cmdImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
+			downloadImage = "images/org/javalobby/icons/16x16/Left.gif";
+			uploadImage = "images/org/javalobby/icons/16x16/Right.gif";
+			queueImage = "images/org/javalobby/icons/16x16/Left.gif";
+			fileImage = "images/org/javalobby/icons/16x16/Document.gif";
+			dirImage = "images/org/javalobby/icons/16x16/Folder.gif";
+			codeFileImage = "images/org/javalobby/icons/16x16/List.gif";
+			textFileImage = "images/org/javalobby/icons/16x16/DocumentDraw.gif";
+			execFileImage = "images/org/javalobby/icons/16x16/ExecuteProject.gif";
+			audioFileImage = "images/org/javalobby/icons/16x16/cd.gif";
+			videoFileImage = "images/org/javalobby/icons/16x16/CameraFlash.gif";
+			htmlFileImage = "images/org/javalobby/icons/16x16/World2.gif";
+			zipFileImage = "images/org/javalobby/icons/16x16/DataStore.gif";
+			imageFileImage = "images/org/javalobby/icons/16x16/Camera.gif";
+			presentationFileImage = "images/org/javalobby/icons/16x16/DocumentDiagram.gif";
+			spreadsheetFileImage = "images/org/javalobby/icons/16x16/DatePicker.gif";
+			bookFileImage = "images/org/javalobby/icons/16x16/Book.gif";
+			copyImage = "images/org/javalobby/icons/16x16/Copy.gif";
+			openImage = "images/org/javalobby/icons/16x16/World2.gif";
+			sftpImage = "images/org/javalobby/icons/16x16/NewEnvelope.gif";
+			nfsImage = "images/org/javalobby/icons/16x16/TrafficGreen.gif";
+			webdavImage = "images/org/javalobby/icons/16x16/DataStore.gif";
+			linkImage = "images/org/javalobby/icons/16x16/Right.gif";
+			typeImage = "images/org/javalobby/icons/20x20/Type.gif";
+			clearImage = "images/org/javalobby/icons/16x16/Undo.gif";
+			resumeImage = "images/org/javalobby/icons/16x16/GreenCircle.gif";
+			pauseImage = "images/org/javalobby/icons/16x16/RedCircle.gif";
+			clearImage2 = "images/org/javalobby/icons/16x16/Undo.gif";
+			resumeImage2 = "images/org/javalobby/icons/16x16/GreenCircle.gif";
+			pauseImage2 = "images/org/javalobby/icons/16x16/RedCircle.gif";
+			saveImage = "images/org/javalobby/icons/16x16/Save.gif";
+			cdUpImage = "images/org/javalobby/icons/16x16/Exit.gif";
+			nextRSSImage = "images/org/javalobby/icons/16x16/Forward.gif";
+			helpImage = "images/current/help.png";
 		}
 
 	}
@@ -281,7 +283,7 @@ public class Settings {
 	}
 
 	public static String getProperty(String key) {
-		return "" + p.getProperty(key);
+		return p.getProperty(key);
 	}
 
 	public static Object setProperty(String key, int value) {
@@ -435,7 +437,7 @@ public class Settings {
 		int width = Integer.parseInt(p.getProperty("jftp.window.width", defaultWidth));
 		int height = Integer.parseInt(p.getProperty("jftp.window.height", defaultHeight));
 
-		if (width < 100 || height < 100) {
+		if (100 > width || 100 > height) {
 			width = Integer.parseInt(defaultWidth);
 			height = Integer.parseInt(defaultHeight);
 		}
@@ -447,7 +449,7 @@ public class Settings {
 		int x = Integer.parseInt(p.getProperty("jftp.window.x", defaultX));
 		int y = Integer.parseInt(p.getProperty("jftp.window.y", defaultY));
 
-		if (x < 0 || y < 0) {
+		if (0 > x || 0 > y) {
 			x = 0;
 			y = 0;
 		}

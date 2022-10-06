@@ -23,50 +23,49 @@ import net.sf.jftp.system.LocalIO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Hashtable;
-import java.util.Vector;
+import java.util.List;
 
 
 public class DirLister implements ActionListener {
 	private final BasicConnection con;
-	public boolean finished = false;
+	public boolean finished;
 	private int length;
 	private String[] files;
 	private String[] sizes;
 	private int[] perms;
 	private boolean isDirectory = true;
-	private String sortMode = null;
-	private Date[] dates = null;
+	private String sortMode;
+	private Date[] dates;
 
-	public DirLister(BasicConnection con) //String type)
-	{
+	public DirLister(BasicConnection con) {
+		super();
 		this.con = con;
-		init();
+		this.init();
 	}
 
-	public DirLister(BasicConnection con, String sortMode) //String type)
-	{
+	public DirLister(BasicConnection con, String sortMode) {
+		super();
 		this.con = con;
 		this.sortMode = sortMode;
-		init();
+		this.init();
 	}
 
-	public DirLister(BasicConnection con, String sortMode, boolean hide) //String type)
-	{
+	public DirLister(BasicConnection con, String sortMode, boolean hide) {
+		super();
 		this.con = con;
 		this.sortMode = sortMode;
-		init();
+		this.init();
 
-		int cnt = files.length;
+		int cnt = this.files.length;
 
 		if (hide) {
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].startsWith(".") && !files[i].startsWith("..")) {
-					files[i] = null;
+			for (int i = 0; i < this.files.length; i++) {
+				if (this.files[i].startsWith(".") && !this.files[i].startsWith("..")) {
+					this.files[i] = null;
 					cnt--;
 				}
 			}
@@ -76,113 +75,91 @@ public class DirLister implements ActionListener {
 			int[] newPerms = new int[cnt];
 
 			int idx = 0;
-			for (int i = 0; i < files.length; i++) {
-				if (files[i] == null) {
-					continue;
+			for (int i = 0; i < this.files.length; i++) {
+				if (null == this.files[i]) {
 				} else {
-					newFiles[idx] = files[i];
-					newSizes[idx] = sizes[i];
-					newPerms[idx] = perms[i];
+					newFiles[idx] = this.files[i];
+					newSizes[idx] = this.sizes[i];
+					newPerms[idx] = this.perms[i];
 					idx++;
 				}
 			}
 
-			files = newFiles;
-			sizes = newSizes;
-			perms = newPerms;
-			length = files.length;
+			this.files = newFiles;
+			this.sizes = newSizes;
+			this.perms = newPerms;
+			this.length = this.files.length;
 		}
 	}
 
-	public void init() {
+	private void init() {
 		try {
 			String outfile = Settings.ls_out;
 
-			//BasicConnection con = JFtp.getControlConnection();
-			con.list();
-			files = con.sortLs();
-			sizes = con.sortSize();
+			this.con.list();
+			this.files = this.con.sortLs();
+			this.sizes = this.con.sortSize();
 
+			this.length = this.files.length;
+			this.perms = this.con.getPermissions();
+			this.isDirectory = true;
 
-			//Log.debug("sizes: " + sizes.length);
-            /*
-            for(int i=0; i<files.length; i++)
-            {
-                    Log.out("parser: "+files[i]+":"+sizes[i]);
-            }
-            */
-			length = files.length;
-			perms = con.getPermissions();
-			isDirectory = true;
-            /*
-            for(int i=0; i<files.length; i++)
-            {
-                    if((con instanceof FtpConnection) && sortMode.equals("Date"))
-                {
-                        Vector v = ((FtpConnection)con).dateVector;
-                        if(v.size() > 0) Log.out(files[i]+":"+v.elementAt(i));
-                }
-            }*/
-			if (sortMode != null) {
-				if (!sortMode.equals("Date")) {
-					//Log.out("0"+sortMode);
-					sortFirst();
+			if (null != this.sortMode) {
+				if (!this.sortMode.equals("Date")) {
+					this.sortFirst();
 				}
 
-				sort(sortMode);
-			} else if (sortMode == null) {
-				//Log.out("1"+sortMode);
-				sortFirst();
+				this.sort(this.sortMode);
+			} else if (null == this.sortMode) {
+				this.sortFirst();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			isDirectory = false;
+			this.isDirectory = false;
 		}
 
-		finished = true;
+		this.finished = true;
 	}
 
 	private void sort(String type) {
-		Vector fv = new Vector();
-		Vector sv = new Vector();
-		Vector pv = new Vector();
+		List<String> fv = new ArrayList<>();
+		List<String> sv = new ArrayList<>();
+		List<Integer> pv = new ArrayList<>();
 
 		if (type.equals("Reverse")) {
-			for (int i = 0; i < length; i++) {
-				fv.add(files[i]);
-				sv.add(sizes[i]);
+			for (int i = 0; i < this.length; i++) {
+				fv.add(this.files[i]);
+				sv.add(this.sizes[i]);
 
-				if (perms != null) {
-					pv.add(perms[i]);
+				if (null != this.perms) {
+					pv.add(this.perms[i]);
 				}
 			}
 
 			fv.sort(java.util.Collections.reverseOrder());
 
-			//	Collections.sort(sv, Collections.reverseOrder());
-			//	if(perms != null) Collections.sort(pv, Collections.reverseOrder());
 			Object[] filesTmp = fv.toArray();
 			Object[] sizesTmp = sv.toArray();
 			Object[] permsTmp = null;
 
-			if (perms != null) {
+			if (null != this.perms) {
 				permsTmp = pv.toArray();
 			}
 
-			for (int i = 0; i < length; i++) {
-				files[i] = (String) filesTmp[i];
-				sizes[i] = (String) sizesTmp[length - i - 1];
+			for (int i = 0; i < this.length; i++) {
+				this.files[i] = (String) filesTmp[i];
+				this.sizes[i] = (String) sizesTmp[this.length - i - 1];
 
-				if (perms != null) {
-					perms[i] = (Integer) permsTmp[length - i - 1];
+				if (null != this.perms) {
+					this.perms[i] = (Integer) permsTmp[this.length - i - 1];
 				}
 			}
 		} else if (type.startsWith("Size")) {
 			int cnt = 0;
-			Hashtable processed = new Hashtable();
+			java.util.Map<Integer, String> processed = new java.util.HashMap<>();
 			boolean reverse = type.endsWith("/Re");
 
-			while (cnt < length) {
+			while (cnt < this.length) {
 				int idx = 0;
 				double current = 0;
 
@@ -190,15 +167,14 @@ public class DirLister implements ActionListener {
 					current = Double.MAX_VALUE;
 				}
 
-				for (int i = 0; i < length; i++) {
-					if (processed.containsKey("" + i)) {
+				for (int i = 0; i < this.length; i++) {
+					if (processed.containsKey(String.valueOf(i))) {
 						continue;
 					}
 
-					int si = Integer.parseInt(sizes[i]);
+					int si = Integer.parseInt(this.sizes[i]);
 
 					if (!reverse && (si >= current)) {
-						//Log.out(sizes[i]+"/"+i);
 						idx = i;
 						current = si;
 					} else if (reverse && (si <= current)) {
@@ -207,32 +183,31 @@ public class DirLister implements ActionListener {
 					}
 				}
 
-				processed.put("" + idx, "" + sizes[idx]);
-				fv.add(files[idx]);
-				sv.add(sizes[idx]);
+				processed.put(idx, this.sizes[idx]);
+				fv.add(this.files[idx]);
+				sv.add(this.sizes[idx]);
 
-				//System.out.println(files[idx]+":"+sizes[idx]+":"+idx);
-				if (perms != null) {
-					pv.add(perms[idx]);
+				if (null != this.perms) {
+					pv.add(this.perms[idx]);
 				}
 
 				cnt++;
 			}
 
-			for (int i = 0; i < length; i++) {
-				files[i] = (String) fv.elementAt(i);
-				sizes[i] = (String) sv.elementAt(i);
+			for (int i = 0; i < this.length; i++) {
+				this.files[i] = (String) fv.get(i);
+				this.sizes[i] = (String) sv.get(i);
 
-				if (perms != null) {
-					perms[i] = (Integer) pv.elementAt(i);
+				if (null != this.perms) {
+					this.perms[i] = (Integer) pv.get(i);
 				}
 			}
 		} else if (type.equals("Date")) {
 			String style = "ftp";
 
 			//TODO: may be slow
-			if (!(con instanceof FtpConnection) || (((FtpConnection) con).dateVector == null) || (((FtpConnection) con).dateVector.size() < 1)) {
-				if (!(con instanceof FilesystemConnection) || (((FilesystemConnection) con).dateVector == null) || (((FilesystemConnection) con).dateVector.size() < 1)) {
+			if (!(this.con instanceof FtpConnection) || (null == ((FtpConnection) this.con).dateVector) || (1 > ((FtpConnection) this.con).dateVector.size())) {
+				if (!(this.con instanceof FilesystemConnection) || (null == ((FilesystemConnection) this.con).dateVector) || (1 > ((FilesystemConnection) this.con).dateVector.size())) {
 				} else {
 					style = "file";
 				}
@@ -241,16 +216,10 @@ public class DirLister implements ActionListener {
 			Object[] date = null;
 
 			if (style.equals("ftp")) {
-				date = ((FtpConnection) con).dateVector.toArray();
+				date = ((FtpConnection) this.con).dateVector.toArray();
 
-                /*
-                        for(int v=0; v<date.length; v++)
-                        {
-                                System.out.println(files[v]+":"+((Date)date[v]).toString());
-                        }
-                */
 			} else {
-				date = ((FilesystemConnection) con).dateVector.toArray();
+				date = ((FilesystemConnection) this.con).dateVector.toArray();
 			}
 
 			for (int j = 0; j < date.length; j++) {
@@ -261,50 +230,35 @@ public class DirLister implements ActionListener {
 						break;
 					}
 
-					if (comp(x, (Date) date[i + 1])) {
-						//Log.debug("switch");
+					if (this.comp(x, (Date) date[i + 1])) {
 						Date swp = (Date) date[i + 1];
 						date[i + 1] = x;
 						date[i] = swp;
 
-						String s1 = files[i + 1];
-						String s2 = files[i];
-						files[i] = s1;
-						files[i + 1] = s2;
+						String s1 = this.files[i + 1];
+						String s2 = this.files[i];
+						this.files[i] = s1;
+						this.files[i + 1] = s2;
 
-						//if(files[i].startsWith(".cross")) Log.out(files[i]+" / "+ ((Date)date[i]).toString());
-						s1 = sizes[i + 1];
-						s2 = sizes[i];
-						sizes[i] = s1;
-						sizes[i + 1] = s2;
+						s1 = this.sizes[i + 1];
+						s2 = this.sizes[i];
+						this.sizes[i] = s1;
+						this.sizes[i + 1] = s2;
 
-						int s3 = perms[i + 1];
-						int s4 = perms[i];
-						perms[i] = s3;
-						perms[i + 1] = s4;
+						int s3 = this.perms[i + 1];
+						int s4 = this.perms[i];
+						this.perms[i] = s3;
+						this.perms[i + 1] = s4;
 					}
 				}
 			}
 
-			dates = new Date[date.length];
+			this.dates = new Date[date.length];
 
-			for (int i = 0; i < dates.length; i++) {
-				dates[i] = (Date) date[i];
+			for (int i = 0; i < this.dates.length; i++) {
+				this.dates[i] = (Date) date[i];
 			}
 
-            /*
-            try
-            {
-            for(int k=0; k<date.length; k++)
-            {
-                    Log.out("+++ " + date[k].toString());
-            }
-            }
-            catch(Exception ex)
-            {
-                    ex.printStackTrace();
-            }
-            */
 		} else if (type.equals("Normal")) {
 			// already done.
 		}
@@ -319,33 +273,31 @@ public class DirLister implements ActionListener {
 		c2.clear();
 		c2.setTime(two);
 
-		// c.compareTo(c2) > 0)
-		return c.getTime().compareTo(c2.getTime()) > 0;
+		return 0 < c.getTime().compareTo(c2.getTime());
 	}
 
-	public void sortFirst() {
-		String[] tmpx = new String[length];
+	private void sortFirst() {
+		String[] tmpx = new String[this.length];
 
-		for (int x = 0; x < length; x++) {
-			if (perms != null) {
-				tmpx[x] = files[x] + "@@@" + sizes[x] + "@@@" + perms[x];
+		for (int x = 0; x < this.length; x++) {
+			if (null != this.perms) {
+				tmpx[x] = this.files[x] + "@@@" + this.sizes[x] + "@@@" + this.perms[x];
 
-				//Log.debug(tmpx[x]);
 			} else {
-				tmpx[x] = files[x] + "@@@" + sizes[x];
+				tmpx[x] = this.files[x] + "@@@" + this.sizes[x];
 			}
 		}
 
 		LocalIO.sortStrings(tmpx);
 
-		for (int y = 0; y < length; y++) {
-			files[y] = tmpx[y].substring(0, tmpx[y].indexOf("@@@"));
+		for (int y = 0; y < this.length; y++) {
+			this.files[y] = tmpx[y].substring(0, tmpx[y].indexOf("@@@"));
 
 			String tmp = tmpx[y].substring(tmpx[y].indexOf("@@@") + 3);
-			sizes[y] = tmp.substring(0, tmp.lastIndexOf("@@@"));
+			this.sizes[y] = tmp.substring(0, tmp.lastIndexOf("@@@"));
 
-			if (perms != null) {
-				perms[y] = Integer.parseInt(tmpx[y].substring(tmpx[y].lastIndexOf("@@@") + 3));
+			if (null != this.perms) {
+				this.perms[y] = Integer.parseInt(tmpx[y].substring(tmpx[y].lastIndexOf("@@@") + 3));
 			}
 		}
 	}
@@ -354,26 +306,26 @@ public class DirLister implements ActionListener {
 	}
 
 	public boolean isOk() {
-		return isDirectory;
+		return this.isDirectory;
 	}
 
 	public int getLength() {
-		return length;
+		return this.length;
 	}
 
 	public String[] list() {
-		return files;
+		return this.files;
 	}
 
 	public String[] sList() {
-		return sizes;
+		return this.sizes;
 	}
 
 	public int[] getPermissions() {
-		return perms;
+		return this.perms;
 	}
 
 	public Date[] getDates() {
-		return dates;
+		return this.dates;
 	}
 }

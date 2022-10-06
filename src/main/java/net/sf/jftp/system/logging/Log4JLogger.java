@@ -27,6 +27,7 @@ public class Log4JLogger implements Logger {
 	private final Category cat = Category.getInstance("net/sf/jftp");
 
 	public Log4JLogger() {
+		super();
 		BasicConfigurator.configure();
 	}
 
@@ -38,51 +39,51 @@ public class Log4JLogger implements Logger {
 	}
 
 	public void debug(String msg) {
-		cat.debug(msg);
+		this.cat.debug(msg);
 	}
 
 	public void debugRaw(String msg) {
-		cat.debug(msg);
+		this.cat.debug(msg);
 	}
 
 	public void debug(String msg, Throwable throwable) {
-		cat.debug(msg);
-		cat.debug(stacktrace(throwable));
+		this.cat.debug(msg);
+		this.cat.debug(this.stacktrace(throwable));
 	}
 
 	public void warn(String msg) {
-		cat.warn(msg);
+		this.cat.warn(msg);
 	}
 
 	public void warn(String msg, Throwable throwable) {
-		cat.warn(msg);
-		cat.warn(stacktrace(throwable));
+		this.cat.warn(msg);
+		this.cat.warn(this.stacktrace(throwable));
 	}
 
 	public void error(String msg) {
-		cat.error(msg);
+		this.cat.error(msg);
 	}
 
 	public void error(String msg, Throwable throwable) {
-		cat.error(msg);
-		cat.error(stacktrace(throwable));
+		this.cat.error(msg);
+		this.cat.error(this.stacktrace(throwable));
 	}
 
 	public void info(String msg) {
-		cat.info(msg);
+		this.cat.info(msg);
 	}
 
 	public void info(String msg, Throwable throwable) {
-		cat.info(msg);
-		cat.info(stacktrace(throwable));
+		this.cat.info(msg);
+		this.cat.info(this.stacktrace(throwable));
 	}
 
 	public void fatal(String msg) {
-		cat.fatal(msg);
+		this.cat.fatal(msg);
 	}
 
 	public void fatal(String msg, Throwable throwable) {
-		cat.fatal(msg);
-		cat.fatal(stacktrace(throwable));
+		this.cat.fatal(msg);
+		this.cat.fatal(this.stacktrace(throwable));
 	}
 }

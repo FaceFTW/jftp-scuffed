@@ -18,15 +18,25 @@ package net.sf.jftp.gui.base;
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.base.dir.DirCanvas;
+import net.sf.jftp.gui.base.dir.DirCellRenderer;
+import net.sf.jftp.gui.base.dir.DirComponent;
+import net.sf.jftp.gui.base.dir.DirEntry;
+import net.sf.jftp.gui.base.dir.DirLister;
+import net.sf.jftp.gui.base.dir.DirPanel;
+import net.sf.jftp.gui.base.dir.TableUtils;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HImage;
 import net.sf.jftp.gui.framework.HImageButton;
+import net.sf.jftp.gui.tasks.Creator;
 import net.sf.jftp.gui.tasks.Displayer;
 import net.sf.jftp.gui.tasks.PathChanger;
+import net.sf.jftp.gui.tasks.RemoteCommand;
 import net.sf.jftp.net.BasicConnection;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.FilesystemConnection;
 import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.net.FtpConstants;
 import net.sf.jftp.net.wrappers.Sftp2Connection;
 import net.sf.jftp.net.wrappers.SmbConnection;
 import net.sf.jftp.system.LocalIO;
@@ -36,8 +46,12 @@ import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.tools.Shell;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionListener;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentListener;
@@ -54,20 +68,19 @@ import java.lang.reflect.Array;
 import java.util.Date;
 
 
-public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements ListSelectionListener, ActionListener, ConnectionListener, KeyListener {
-	//HImageButton openButton;
-	static final String deleteString = "rm";
-	static final String mkdirString = "mkdir";
-	static final String refreshString = "fresh";
-	static final String cdString = "cd";
-	static final String cmdString = "cmd";
-	static final String downloadString = "<-";
+public class RemoteDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
+	private static final String deleteString = "rm";
+	private static final String mkdirString = "mkdir";
+	private static final String refreshString = "fresh";
+	private static final String cdString = "cd";
+	private static final String cmdString = "cmd";
+	private static final String downloadString = "<-";
 	static final String uploadString = "->";
-	static final String queueString = "que";
-	static final String cdUpString = "cdUp";
-	static final String rnString = "rn";
-	//static final String openString = "open";
-	private final net.sf.jftp.gui.base.dir.DirCanvas label = new net.sf.jftp.gui.base.dir.DirCanvas(this);
+	private static final String queueString = "que";
+	private static final String cdUpString = "cdUp";
+	private static final String rnString = "rn";
+	private final String[] sortTypes = {"Normal", "Reverse", "Size", "Size/Re"};
+	private final DirCanvas label = new DirCanvas(this);
 	private final int pos = 0;
 	private final JPanel p = new JPanel();
 	private final JToolBar buttonPanel = new JToolBar() {
@@ -75,7 +88,6 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			return new Insets(0, 0, 0, 0);
 		}
 	};
-	//private JPanel buttonPanel = new JPanel();
 	private final JToolBar currDirPanel = new JToolBar() {
 		public Insets getInsets() {
 			return new Insets(0, 0, 0, 0);
@@ -85,166 +97,150 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	private final HImageButton transferType = new HImageButton(Settings.typeImage, "type", "Toggle transfer type...", this);
 	private final JPopupMenu popupMenu = new JPopupMenu();
 	private final JMenuItem props = new JMenuItem("Properties");
-	HImageButton deleteButton;
-	HImageButton mkdirButton;
-	HImageButton cmdButton;
-	HImageButton refreshButton;
-	HImageButton cdButton;
-	HImageButton uploadButton;
-	HImageButton downloadButton;
-	HImageButton queueButton;
-	HImageButton cdUpButton;
-	HImageButton rnButton;
-	final String[] sortTypes = new String[]{"Normal", "Reverse", "Size", "Size/Re"};
-	private final JComboBox sorter = new JComboBox(sortTypes);
+	private final JComboBox sorter = new JComboBox(this.sortTypes);
+	private HImageButton deleteButton;
+	private HImageButton mkdirButton;
+	private HImageButton cmdButton;
+	private HImageButton refreshButton;
+	private HImageButton cdButton;
+	private HImageButton downloadButton;
+	private HImageButton queueButton;
+	private HImageButton cdUpButton;
+	private HImageButton rnButton;
 	private boolean pathChanged = true;
 	private boolean firstGui = true;
 	private DefaultListModel jlm;
-	private JScrollPane jsp = new JScrollPane(jl);
+	private JScrollPane jsp = new JScrollPane(this.jl);
 	private int tmpindex = -1;
-	private net.sf.jftp.gui.base.dir.DirEntry currentPopup = null;
-	private String sortMode = null;
-	private boolean dateEnabled = false;
+	private DirEntry currentPopup;
+	private String sortMode;
+	private boolean dateEnabled;
 
-	/**
-	 * RemoteDir constructor.
-	 */
 	public RemoteDir() {
-		type = "remote";
-		con = new FilesystemConnection();
-		con.addConnectionListener(this);
+		super();
+		this.type = "remote";
+		this.con = new FilesystemConnection();
+		this.con.addConnectionListener(this);
 
-		if (!con.chdir("/")) {
-			con.chdir("C:\\");
+		if (!this.con.chdir("/")) {
+			this.con.chdir("C:\\");
 		}
 
-		setDate();
+		this.setDate();
 	}
 
-	/**
-	 * RemoteDir constructor.
-	 */
 	public RemoteDir(String path) {
-		type = "remote";
+		super();
+		this.type = "remote";
 		this.path = path;
-		con = new FilesystemConnection();
-		con.addConnectionListener(this);
-		con.chdir(path);
+		this.con = new FilesystemConnection();
+		this.con.addConnectionListener(this);
+		this.con.chdir(path);
 
-		setDate();
+		this.setDate();
 	}
 
-	/**
-	 * Creates the gui and adds the MouseListener etc.
-	 */
-	public void gui_init() {
-		setLayout(new BorderLayout());
-		currDirPanel.setFloatable(false);
-		buttonPanel.setFloatable(false);
+	private void gui_init() {
+		this.setLayout(new BorderLayout());
+		this.currDirPanel.setFloatable(false);
+		this.buttonPanel.setFloatable(false);
 
 		FlowLayout f = new FlowLayout(FlowLayout.LEFT);
 		f.setHgap(1);
 		f.setVgap(2);
 
-		buttonPanel.setLayout(f);
-		buttonPanel.setMargin(new Insets(0, 0, 0, 0));
+		this.buttonPanel.setLayout(f);
+		this.buttonPanel.setMargin(new Insets(0, 0, 0, 0));
 
-		props.addActionListener(this);
-		popupMenu.add(props);
+		this.props.addActionListener(this);
+		this.popupMenu.add(this.props);
 
-		rnButton = new HImageButton(Settings.textFileImage, rnString, "Rename selected file or directory", this);
-		rnButton.setToolTipText("Rename selected");
+		this.rnButton = new HImageButton(Settings.textFileImage, rnString, "Rename selected file or directory", this);
+		this.rnButton.setToolTipText("Rename selected");
 
-		list.setToolTipText("Show remote listing...");
-		transferType.setToolTipText("Toggle transfer type...");
+		this.list.setToolTipText("Show remote listing...");
+		this.transferType.setToolTipText("Toggle transfer type...");
 
-		deleteButton = new HImageButton(Settings.deleteImage, deleteString, "Delete  selected", this);
-		deleteButton.setToolTipText("Delete selected");
+		this.deleteButton = new HImageButton(Settings.deleteImage, deleteString, "Delete  selected", this);
+		this.deleteButton.setToolTipText("Delete selected");
 
-		mkdirButton = new HImageButton(Settings.mkdirImage, mkdirString, "Create a new directory", this);
-		mkdirButton.setToolTipText("Create directory");
+		this.mkdirButton = new HImageButton(Settings.mkdirImage, mkdirString, "Create a new directory", this);
+		this.mkdirButton.setToolTipText("Create directory");
 
-		refreshButton = new HImageButton(Settings.refreshImage, refreshString, "Refresh current directory", this);
-		refreshButton.setToolTipText("Refresh directory");
-		refreshButton.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.refreshImage2)));
-		refreshButton.setRolloverEnabled(true);
+		this.refreshButton = new HImageButton(Settings.refreshImage, refreshString, "Refresh current directory", this);
+		this.refreshButton.setToolTipText("Refresh directory");
+		this.refreshButton.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.refreshImage2)));
+		this.refreshButton.setRolloverEnabled(true);
 
-		cdButton = new HImageButton(Settings.cdImage, cdString, "Change directory", this);
-		cdButton.setToolTipText("Change directory");
+		this.cdButton = new HImageButton(Settings.cdImage, cdString, "Change directory", this);
+		this.cdButton.setToolTipText("Change directory");
 
-		cmdButton = new HImageButton(Settings.cmdImage, cmdString, "Execute remote command", this);
-		cmdButton.setToolTipText("Execute remote command");
+		this.cmdButton = new HImageButton(Settings.cmdImage, cmdString, "Execute remote command", this);
+		this.cmdButton.setToolTipText("Execute remote command");
 
-		downloadButton = new HImageButton(Settings.downloadImage, downloadString, "Download selected", this);
-		downloadButton.setToolTipText("Download selected");
+		this.downloadButton = new HImageButton(Settings.downloadImage, downloadString, "Download selected", this);
+		this.downloadButton.setToolTipText("Download selected");
 
-		queueButton = new HImageButton(Settings.queueImage, queueString, "Queue selected", this);
-		queueButton.setToolTipText("Queue selected");
+		this.queueButton = new HImageButton(Settings.queueImage, queueString, "Queue selected", this);
+		this.queueButton.setToolTipText("Queue selected");
 
-		cdUpButton = new HImageButton(Settings.cdUpImage, cdUpString, "Go to Parent Directory", this);
-		cdUpButton.setToolTipText("Go to Parent Directory");
+		this.cdUpButton = new HImageButton(Settings.cdUpImage, cdUpString, "Go to Parent Directory", this);
+		this.cdUpButton.setToolTipText("Go to Parent Directory");
 
-		//openButton = new HImageButton(Settings.openImage,openString,"Connect to server",this);
-		//openButton.setToolTipText("Connect");
-		setLabel();
-		label.setSize(getSize().width - 10, 24);
-		currDirPanel.add(label);
-		currDirPanel.setSize(getSize().width - 10, 32);
-		label.setSize(getSize().width - 20, 24);
+		this.setLabel();
+		this.label.setSize(this.getSize().width - 10, 24);
+		this.currDirPanel.add(this.label);
+		this.currDirPanel.setSize(this.getSize().width - 10, 32);
+		this.label.setSize(this.getSize().width - 20, 24);
 
-		p.setLayout(new BorderLayout());
-		p.add("North", currDirPanel);
+		this.p.setLayout(new BorderLayout());
+		this.p.add("North", this.currDirPanel);
 
-		buttonPanel.add(new JLabel("           "));
-		buttonPanel.add(queueButton);
+		this.buttonPanel.add(new JLabel("           "));
+		this.buttonPanel.add(this.queueButton);
 
-		buttonPanel.add(new JLabel("    "));
+		this.buttonPanel.add(new JLabel("    "));
 
-		//buttonPanel.add(openButton);
-		//buttonPanel.add(new JLabel("   "));
-		buttonPanel.add(refreshButton);
-		buttonPanel.add(new JLabel("  "));
-		buttonPanel.add(rnButton);
-		buttonPanel.add(mkdirButton);
-		buttonPanel.add(cdButton);
-		buttonPanel.add(deleteButton);
-		buttonPanel.add(cdUpButton);
-		buttonPanel.add(new JLabel("  "));
+		this.buttonPanel.add(this.refreshButton);
+		this.buttonPanel.add(new JLabel("  "));
+		this.buttonPanel.add(this.rnButton);
+		this.buttonPanel.add(this.mkdirButton);
+		this.buttonPanel.add(this.cdButton);
+		this.buttonPanel.add(this.deleteButton);
+		this.buttonPanel.add(this.cdUpButton);
+		this.buttonPanel.add(new JLabel("  "));
 
-		buttonPanel.add(cmdButton);
-		buttonPanel.add(list);
-		buttonPanel.add(transferType);
+		this.buttonPanel.add(this.cmdButton);
+		this.buttonPanel.add(this.list);
+		this.buttonPanel.add(this.transferType);
 
-		//buttonPanel.add(new JLabel(" "));
-		buttonPanel.add(sorter);
+		this.buttonPanel.add(this.sorter);
 
-		buttonPanel.setVisible(true);
+		this.buttonPanel.setVisible(true);
 
-		buttonPanel.setSize(getSize().width - 10, 32);
+		this.buttonPanel.setSize(this.getSize().width - 10, 32);
 
-		p.add("South", buttonPanel);
+		this.p.add("South", this.buttonPanel);
 
 		JPanel second = new JPanel();
 		second.setLayout(new BorderLayout());
-		second.add("Center", p);
-		downloadButton.setMinimumSize(new Dimension(50, 50));
-		downloadButton.setPreferredSize(new Dimension(50, 50));
-		downloadButton.setMaximumSize(new Dimension(50, 50));
-		second.add("West", downloadButton);
+		second.add("Center", this.p);
+		this.downloadButton.setMinimumSize(new Dimension(50, 50));
+		this.downloadButton.setPreferredSize(new Dimension(50, 50));
+		this.downloadButton.setMaximumSize(new Dimension(50, 50));
+		second.add("West", this.downloadButton);
 
-		add("North", second);
+		this.add("North", second);
 
-		sorter.addActionListener(this);
+		this.sorter.addActionListener(this);
 
-		//setDirList(true);
-		jlm = new DefaultListModel();
-		jl = new JList(jlm);
-		jl.setCellRenderer(new net.sf.jftp.gui.base.dir.DirCellRenderer());
-		jl.setVisibleRowCount(Settings.visibleFileRows);
-		jl.setDragEnabled(true);
-		jl.setDropTarget(JFtp.dropTarget);
+		this.jlm = new DefaultListModel();
+		this.jl = new JList(this.jlm);
+		this.jl.setCellRenderer(new DirCellRenderer());
+		this.jl.setVisibleRowCount(Settings.visibleFileRows);
+		this.jl.setDragEnabled(true);
+		this.jl.setDropTarget(JFtp.dropTarget);
 
-		// add this becaus we need to fetch only doubleclicks
 		MouseListener mouseListener = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (JFtp.uiBlocked) {
@@ -252,19 +248,19 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 				}
 
 				if (e.isPopupTrigger() || SwingUtilities.isRightMouseButton(e)) {
-					int index = jl.getSelectedIndex() - 1;
+					int index = RemoteDir.this.jl.getSelectedIndex() - 1;
 
-					if (index < -1) {
+					if (-1 > index) {
 						return;
 					}
 
-					String tgt = jl.getSelectedValue().toString();
+					String tgt = RemoteDir.this.jl.getSelectedValue().toString();
 
-					if (index < 0) {
-					} else if ((dirEntry == null) || (dirEntry.length < index) || (dirEntry[index] == null)) {
+					if (0 > index) {
+					} else if ((null == RemoteDir.this.dirEntry) || (RemoteDir.this.dirEntry.length < index) || (null == RemoteDir.this.dirEntry[index])) {
 					} else {
-						currentPopup = dirEntry[index];
-						popupMenu.show(e.getComponent(), e.getX(), e.getY());
+						RemoteDir.this.currentPopup = RemoteDir.this.dirEntry[index];
+						RemoteDir.this.popupMenu.show(e.getComponent(), e.getX(), e.getY());
 					}
 				}
 			}
@@ -274,85 +270,77 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 					return;
 				}
 
-				net.sf.jftp.gui.base.dir.TableUtils.copyTableSelectionsToJList(jl, table);
+				TableUtils.copyTableSelectionsToJList(RemoteDir.this.jl, RemoteDir.this.table);
 
-				//System.out.println("DirEntryListener::");
-				if (e.getClickCount() == 2) {
-					//System.out.println("2xList selection: "+jl.getSelectedValue().toString());
-					int index = jl.getSelectedIndex() - 1;
+				if (2 == e.getClickCount()) {
+					int index = RemoteDir.this.jl.getSelectedIndex() - 1;
 
 					// mousewheel bugfix
-					if (index < -1) {
+					if (-1 > index) {
 						return;
 					}
 
-					String tgt = jl.getSelectedValue().toString();
+					String tgt = RemoteDir.this.jl.getSelectedValue().toString();
 
-					if (index < 0) {
-						doChdir(path + tgt);
-					} else if ((dirEntry == null) || (dirEntry.length < index) || (dirEntry[index] == null)) {
-					} else if (dirEntry[index].isDirectory()) {
-						doChdir(path + tgt);
-					} else if (dirEntry[index].isLink()) {
-						if (!con.chdir(path + tgt)) {
-							showContentWindow(path + dirEntry[index].toString(), dirEntry[index]);
+					if (0 > index) {
+						RemoteDir.this.doChdir(RemoteDir.this.path + tgt);
+					} else if ((null == RemoteDir.this.dirEntry) || (RemoteDir.this.dirEntry.length < index) || (null == RemoteDir.this.dirEntry[index])) {
+					} else if (RemoteDir.this.dirEntry[index].isDirectory()) {
+						RemoteDir.this.doChdir(RemoteDir.this.path + tgt);
+					} else if (RemoteDir.this.dirEntry[index].isLink()) {
+						if (!RemoteDir.this.con.chdir(RemoteDir.this.path + tgt)) {
+							RemoteDir.this.showContentWindow(RemoteDir.this.path + RemoteDir.this.dirEntry[index].toString(), RemoteDir.this.dirEntry[index]);
 
-							//blockedTransfer(index);
 						}
 					} else {
-						showContentWindow(path + dirEntry[index].toString(), dirEntry[index]);
+						RemoteDir.this.showContentWindow(RemoteDir.this.path + RemoteDir.this.dirEntry[index].toString(), RemoteDir.this.dirEntry[index]);
 
-						//blockedTransfer(index);
 					}
 				}
 			}
 		};
 
-		jsp = new JScrollPane(table);
-		table.getSelectionModel().addListSelectionListener(this);
-		table.addMouseListener(mouseListener);
+		this.jsp = new JScrollPane(this.table);
+		this.table.getSelectionModel().addListSelectionListener(this);
+		this.table.addMouseListener(mouseListener);
 
 		AdjustmentListener adjustmentListener = e -> {
-			jsp.repaint();
-			jsp.revalidate();
+			this.jsp.repaint();
+			this.jsp.revalidate();
 		};
 
-		jsp.getHorizontalScrollBar().addAdjustmentListener(adjustmentListener);
-		jsp.getVerticalScrollBar().addAdjustmentListener(adjustmentListener);
+		this.jsp.getHorizontalScrollBar().addAdjustmentListener(adjustmentListener);
+		this.jsp.getVerticalScrollBar().addAdjustmentListener(adjustmentListener);
 
-		jsp.setSize(getSize().width - 20, getSize().height - 72);
-		add("Center", jsp);
-		jsp.setVisible(true);
+		this.jsp.setSize(this.getSize().width - 20, this.getSize().height - 72);
+		this.add("Center", this.jsp);
+		this.jsp.setVisible(true);
 
-		net.sf.jftp.gui.base.dir.TableUtils.tryToEnableRowSorting(table);
+		TableUtils.tryToEnableRowSorting(this.table);
 
 		if (Settings.IS_JAVA_1_6) {
-			//sorter.setVisible(false);
-			buttonPanel.remove(sorter);
+			this.buttonPanel.remove(this.sorter);
 		}
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
-	public void doChdir(String path) {
+	private void doChdir(String path) {
 
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		con.chdir(path);
+		this.con.chdir(path);
 		JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 
-	public void setViewPort() {
-	}
-
 	private void setLabel() {
-		if (con instanceof FilesystemConnection) {
-			label.setText("Filesystem: " + StringUtils.cutPath(path));
-		} else if (con instanceof FtpConnection) {
-			label.setText("Ftp: " + StringUtils.cutPath(path));
-		} else if (con instanceof Sftp2Connection) {
-			label.setText("Sftp: " + StringUtils.cutPath(path));
+		if (this.con instanceof FilesystemConnection) {
+			this.label.setText("Filesystem: " + StringUtils.cutPath(this.path));
+		} else if (this.con instanceof FtpConnection) {
+			this.label.setText("Ftp: " + StringUtils.cutPath(this.path));
+		} else if (this.con instanceof Sftp2Connection) {
+			this.label.setText("Sftp: " + StringUtils.cutPath(this.path));
 		} else {
-			label.setText(StringUtils.cutPath(path));
+			this.label.setText(StringUtils.cutPath(this.path));
 		}
 	}
 
@@ -361,51 +349,44 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	 * There's no need to call this by hand.
 	 */
 	public void gui(boolean fakeInit) {
-		if (firstGui) {
-			gui_init();
-			firstGui = false;
+		if (this.firstGui) {
+			this.gui_init();
+			this.firstGui = false;
 		}
 
-		setLabel();
+		this.setLabel();
 
-		if (con instanceof FtpConnection) {
-			list.show();
-			cmdButton.show();
-			transferType.show();
+		if (this.con instanceof FtpConnection) {
+			this.list.setVisible(true);
+			this.cmdButton.setVisible(true);
+			this.transferType.setVisible(true);
 		} else {
-			list.hide();
-			cmdButton.hide();
-			transferType.hide();
+			this.list.setVisible(false);
+			this.cmdButton.setVisible(false);
+			this.transferType.setVisible(false);
 		}
 
 		if (!fakeInit) {
-			setDirList(false);
+			this.setDirList(false);
 		}
 
-		//TODO Log.debug("invalidate()");
-		invalidate();
-		validate();
+		this.invalidate();
+		this.validate();
 
-		//TODO .debug("validated.");
 	}
 
-	/**
-	 * List directory and create/update the whole file list.
-	 * There's no need to call this by hand.
-	 */
-	public void setDirList(boolean fakeInit) {
-		jlm = new DefaultListModel();
+	private void setDirList(boolean fakeInit) {
+		this.jlm = new DefaultListModel();
 
-		net.sf.jftp.gui.base.dir.DirEntry dwn = new net.sf.jftp.gui.base.dir.DirEntry("..", this);
+		DirEntry dwn = new DirEntry("..", this);
 		dwn.setDirectory();
-		jlm.addElement(dwn);
+		this.jlm.addElement(dwn);
 
 		if (!fakeInit) {
-			if (pathChanged) {
-				pathChanged = false;
+			if (this.pathChanged) {
+				this.pathChanged = false;
 
-				//TODO .debug("before DirLister");
-				net.sf.jftp.gui.base.dir.DirLister dir = new net.sf.jftp.gui.base.dir.DirLister(con, sortMode);
+				DirLister dir = new DirLister(this.con, this.sortMode);
 
 				while (!dir.finished) {
 					LocalIO.pause(10);
@@ -413,121 +394,105 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 
 				if (dir.isOk()) {
 					//TODO .debug("dir is ok");
-					length = dir.getLength();
-					dirEntry = new net.sf.jftp.gui.base.dir.DirEntry[length];
-					files = dir.list();
+					this.length = dir.getLength();
+					this.dirEntry = new DirEntry[this.length];
+					this.files = dir.list();
 
 					String[] fSize = dir.sList();
 					int[] perms = dir.getPermissions();
 
-					for (int i = 0; i < length; i++) {
-						//System.out.println(files[i]);
-						if ((files == null) || (files[i] == null)) {
-							//System.out.println("Critical error, files or files[i] is null!\nPlease report when and how this happened...");
+					for (int i = 0; i < this.length; i++) {
+						if ((null == this.files) || (null == this.files[i])) {
 							System.out.println("skipping setDirList, files or files[i] is null!");
 
 							return;
 						}
+						this.dirEntry[i] = new DirEntry(this.files[i], this);
 
-						//Log.debug("adding: " + files[i]);
-						dirEntry[i] = new net.sf.jftp.gui.base.dir.DirEntry(files[i], this);
-
-						if (dirEntry[i] == null) {
+						if (null == this.dirEntry[i]) {
 							System.out.println("\nskipping setDirList, dirEntry[i] is null!");
 
 							return;
 						}
 
-						if (dirEntry[i].file == null) {
+						if (null == this.dirEntry[i].file) {
 							System.out.println("\nskipping setDirList, dirEntry[i].file is null!");
 
 							return;
 						}
 
-						if (perms != null) {
-							dirEntry[i].setPermission(perms[i]);
+						if (null != perms) {
+							this.dirEntry[i].setPermission(perms[i]);
 						}
 
 						if (fSize[i].startsWith("@")) {
 							fSize[i] = fSize[i].substring(1);
 						}
 
-						dirEntry[i].setFileSize(Long.parseLong(fSize[i]));
+						this.dirEntry[i].setFileSize(Long.parseLong(fSize[i]));
 
-						if (dirEntry[i].file.endsWith("/")) {
-							dirEntry[i].setDirectory();
+						if (this.dirEntry[i].file.endsWith("/")) {
+							this.dirEntry[i].setDirectory();
 						} else {
-							dirEntry[i].setFile();
+							this.dirEntry[i].setFile();
 						}
 
-						if (dirEntry[i].file.endsWith("###")) {
-							dirEntry[i].setLink();
+						if (this.dirEntry[i].file.endsWith("###")) {
+							this.dirEntry[i].setLink();
 						}
 
 						//------ date parser -------
 						Object[] d = dir.getDates();
 
-						if (d != null) {
-							dirEntry[i].setDate((Date) d[i]);
+						if (null != d) {
+							this.dirEntry[i].setDate((Date) d[i]);
 						}
 
 						//--------------------------
-						jlm.addElement(dirEntry[i]);
+						this.jlm.addElement(this.dirEntry[i]);
 					}
 				} else {
-					Log.debug("Not a directory: " + path);
+					Log.debug("Not a directory: " + this.path);
 				}
 			}
 
-			//System.out.println("length: "+dirEntry.length);
 		}
 
-		jl.setModel(jlm);
-		jl.grabFocus();
-		jl.setSelectedIndex(0);
-
-		//Log.debug("ListModel set.");
-		//System.out.print("x");
-		//new Exception().printStackTrace();
-		//System.out.println("\n\n\n");
-
-		update();
+		this.jl.setModel(this.jlm);
+		this.jl.grabFocus();
+		this.jl.setSelectedIndex(0);
+		this.update();
 	}
 
-	/**
-	 * Handles the user events if the ui is unlocked
-	 */
 	public void actionPerformed(ActionEvent e) {
 		if (JFtp.uiBlocked) {
 			return;
 		}
 
 		if (e.getActionCommand().equals("rm")) {
-			lock(false);
+			this.lock(false);
 
 			if (Settings.getAskToDelete()) {
 				if (!UITool.askToDelete(this)) {
-					unlock(false);
+					this.unlock(false);
 
 					return;
 				}
 			}
 
-			for (int i = 0; i < length; i++) {
-				if (dirEntry[i].selected) {
-					con.removeFileOrDir(dirEntry[i].file);
+			for (int i = 0; i < this.length; i++) {
+				if (this.dirEntry[i].selected) {
+					this.con.removeFileOrDir(this.dirEntry[i].file);
 				}
 			}
 
-			unlock(false);
-			fresh();
+			this.unlock(false);
+			this.fresh();
 		} else if (e.getActionCommand().equals("mkdir")) {
-			net.sf.jftp.gui.tasks.Creator c = new net.sf.jftp.gui.tasks.Creator("Create:", con);
+			Creator c = new Creator("Create:", this.con);
 
-			//TODO: do we need this on events? UpdateDaemon.updateRemoteDirGUI();
-			//fresh();
 		} else if (e.getActionCommand().equals("cmd")) {
-			if (!(con instanceof FtpConnection)) {
+			if (!(this.con instanceof FtpConnection)) {
 				Log.debug("This feature is for ftp only.");
 
 				return;
@@ -536,35 +501,31 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 
 			int opt = JOptionPane.showOptionDialog(this, "Would you like to type one command or to open a shell?", "Question", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, new ImageIcon(HImage.getImage(this, Settings.helpImage)), new String[]{"Shell", "Command", "Cancel"}, "Command");
 
-			if (opt == 1) {
-				net.sf.jftp.gui.tasks.RemoteCommand rc = new net.sf.jftp.gui.tasks.RemoteCommand();
-			} else if (opt == 0) {
-				FtpConnection conn = (FtpConnection) con;
+			if (1 == opt) {
+				RemoteCommand rc = new RemoteCommand();
+			} else if (0 == opt) {
+				FtpConnection conn = (FtpConnection) this.con;
 				Shell s = new Shell(conn.getCommandInputReader(), conn.getCommandOutputStream());
 			}
 
-			//fresh();
 		} else if (e.getActionCommand().equals("cd")) {
 			PathChanger pthc = new PathChanger("remote");
 
-			//fresh();
-			//String tmp = UITool.getPathFromDialog();
-			//setPath(tmp);
 		} else if (e.getActionCommand().equals("fresh")) {
-			fresh();
+			this.fresh();
 		} else if (e.getActionCommand().equals("->")) {
-			blockedTransfer(-2);
+			this.blockedTransfer(-2);
 		} else if (e.getActionCommand().equals("<-")) {
-			blockedTransfer(-2);
+			this.blockedTransfer(-2);
 		} else if (e.getActionCommand().equals("list")) {
 			try {
-				if (!(con instanceof FtpConnection)) {
+				if (!(this.con instanceof FtpConnection)) {
 					Log.debug("Can only list FtpConnection output!");
 				}
 
 				PrintStream out = new PrintStream(Settings.ls_out);
-				for (int i = 0; i < ((FtpConnection) con).currentListing.size(); i++) {
-					out.println(((FtpConnection) con).currentListing.get(i));
+				for (int i = 0; i < ((FtpConnection) this.con).currentListing.size(); i++) {
+					out.println(((FtpConnection) this.con).currentListing.get(i));
 				}
 				out.flush();
 				out.close();
@@ -580,13 +541,13 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 				Log.debug("ERROR: File not found!");
 			}
 		} else if (e.getActionCommand().equals("type") && (!JFtp.uiBlocked)) {
-			if (!(con instanceof FtpConnection)) {
+			if (!(this.con instanceof FtpConnection)) {
 				Log.debug("You can only set the transfer type for ftp connections.");
 
 				return;
 			}
 
-			FtpConnection c = (FtpConnection) con;
+			FtpConnection c = (FtpConnection) this.con;
 			String t = c.getTypeNow();
 			boolean ret = false;
 
@@ -606,54 +567,54 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			}
 
 			Log.debug("Type is now " + c.getTypeNow());
-		} else if (e.getActionCommand().equals("que")) /*&& (!JFtp.uiBlocked))*/ {
-			if (!(con instanceof FtpConnection)) {
+		} else if (e.getActionCommand().equals("que")) {
+			if (!(this.con instanceof FtpConnection)) {
 				Log.debug("Queue supported only for FTP");
 
 				return;
 			}
 
-			Object[] o = jl.getSelectedValues();
-			net.sf.jftp.gui.base.dir.DirEntry[] tmp = new net.sf.jftp.gui.base.dir.DirEntry[Array.getLength(o)];
+			Object[] o = this.jl.getSelectedValues();
+			DirEntry[] tmp = new DirEntry[Array.getLength(o)];
 
 			for (int i = 0; i < Array.getLength(o); i++) {
-				tmp[i] = (net.sf.jftp.gui.base.dir.DirEntry) o[i];
+				tmp[i] = (DirEntry) o[i];
 				JFtp.dQueue.addFtp(tmp[i].toString());
 			}
-		} else if (e.getSource() == props) {
+		} else if (e.getSource() == this.props) {
 			JFtp.clearLog();
 
-			int x = currentPopup.getPermission();
+			int x = this.currentPopup.getPermission();
 			String tmp;
 
-			if (x == FtpConnection.R) {
+			if (FtpConstants.R == x) {
 				tmp = "read only";
-			} else if (x == FtpConnection.W) {
+			} else if (FtpConstants.W == x) {
 				tmp = "read/write";
-			} else if (x == FtpConnection.DENIED) {
+			} else if (FtpConstants.DENIED == x) {
 				tmp = "denied";
 			} else {
 				tmp = "undefined";
 			}
 
-			String msg = "File: " + currentPopup.toString() + "\n" + " Size: " + currentPopup.getFileSize() + " raw size: " + currentPopup.getRawSize() + "\n" + " Symlink: " + currentPopup.isLink() + "\n" + " Directory: " + currentPopup.isDirectory() + "\n" + " Permission: " + tmp + "\n";
+			String msg = "File: " + this.currentPopup.toString() + "\n" + " Size: " + this.currentPopup.getFileSize() + " raw size: " + this.currentPopup.getRawSize() + "\n" + " Symlink: " + this.currentPopup.isLink() + "\n" + " Directory: " + this.currentPopup.isDirectory() + "\n" + " Permission: " + tmp + "\n";
 			Log.debug(msg);
-		} else if (e.getSource() == sorter) {
-			sortMode = (String) sorter.getSelectedItem();
+		} else if (e.getSource() == this.sorter) {
+			this.sortMode = (String) this.sorter.getSelectedItem();
 
-			Settings.showDateNoSize = sortMode.equals("Date");
+			Settings.showDateNoSize = this.sortMode.equals("Date");
 
-			fresh();
+			this.fresh();
 		} else if (e.getActionCommand().equals("cdUp")) {
 			JFtp.remoteDir.getCon().chdir("..");
 		} else if (e.getActionCommand().equals("rn")) {
-			Object[] target = jl.getSelectedValues();
+			Object[] target = this.jl.getSelectedValues();
 
-			if ((target == null) || (target.length == 0)) {
+			if ((null == target) || (0 == target.length)) {
 				Log.debug("No file selected");
 
 				return;
-			} else if (target.length > 1) {
+			} else if (1 < target.length) {
 				Log.debug("Too many files selected");
 
 				return;
@@ -661,39 +622,37 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 
 			String val = JOptionPane.showInternalInputDialog(this, "Choose a name...");
 
-			if (val != null) {
-				if (!con.rename(target[0].toString(), val)) {
-					Log.debug("Rename failed.");
-				} else {
+			if (null != val) {
+				if (this.con.rename(target[0].toString(), val)) {
 					Log.debug("Successfully renamed.");
-					fresh();
+					this.fresh();
+				} else {
+					Log.debug("Rename failed.");
 				}
 			}
 		}
 	}
 
-	/**
-	 * Initiate a tranfer with ui locking enabled
-	 */
-	public synchronized void blockedTransfer(int index) {
-		tmpindex = index;
+
+	private synchronized void blockedTransfer(int index) {
+		this.tmpindex = index;
 
 		Runnable r = () -> {
-			boolean block = !net.sf.jftp.config.Settings.getEnableMultiThreading();
+			boolean block = !Settings.getEnableMultiThreading();
 
-			if (!(con instanceof net.sf.jftp.net.FtpConnection)) {
+			if (!(this.con instanceof FtpConnection)) {
 				block = true;
 			}
 
 			if (block) {
-				lock(false);
+				this.lock(false);
 			}
 
-			transfer(tmpindex);
+			this.transfer(this.tmpindex);
 
 			if (block) {
 				net.sf.jftp.JFtp.localDir.fresh();
-				unlock(false);
+				this.unlock(false);
 			}
 		};
 
@@ -701,12 +660,9 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		t.start();
 	}
 
-	/**
-	 * Lock the gui.
-	 */
 	public void lock(boolean first) {
 		JFtp.uiBlocked = true;
-		jl.setEnabled(false);
+		this.jl.setEnabled(false);
 
 		if (!first) {
 			JFtp.localDir.lock(true);
@@ -715,12 +671,9 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		Log.out("ui locked.");
 	}
 
-	/**
-	 * Unlock the gui.
-	 */
 	public void unlock(boolean first) {
 		JFtp.uiBlocked = false;
-		jl.setEnabled(true);
+		this.jl.setEnabled(true);
 
 		if (!first) {
 			JFtp.localDir.unlock(true);
@@ -729,65 +682,58 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		Log.out("ui unlocked.");
 	}
 
-	/**
-	 * Do a hard UI refresh - do no longe call this directly, use
-	 * safeUpdate() instead if possible.
-	 */
+
 	public void fresh() {
 		Log.out("fresh() called.");
 
 		Cursor x = null;
 
-		if (JFtp.mainFrame != null) {
+		if (null != net.sf.jftp.JFtp.mainFrame) {
 			x = JFtp.mainFrame.getCursor();
 			JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		}
 
-		//TODO .debug("fresh()");
 		String i = "";
-		int idx = jl.getSelectedIndex();
+		int idx = this.jl.getSelectedIndex();
 
-		if (idx >= 0) {
-			Object o = jl.getSelectedValue();
+		if (0 <= idx) {
+			Object o = this.jl.getSelectedValue();
 
-			if (o != null) {
+			if (null != o) {
 				i = o.toString();
 			}
 		}
 
-		con.chdir(path);
+		this.con.chdir(this.path);
 
-		if ((idx >= 0) && (idx < jl.getModel().getSize())) {
-			if (jl.getModel().getElementAt(idx).toString().equals(i)) {
-				jl.setSelectedIndex(idx);
+		if ((0 <= idx) && (idx < this.jl.getModel().getSize())) {
+			if (this.jl.getModel().getElementAt(idx).toString().equals(i)) {
+				this.jl.setSelectedIndex(idx);
 			} else {
-				jl.setSelectedIndex(0);
+				this.jl.setSelectedIndex(0);
 			}
 		}
 
-		update();
+		this.update();
 
-		if ((JFtp.mainFrame != null) && (x.getType() != Cursor.WAIT_CURSOR)) {
+		if ((null != net.sf.jftp.JFtp.mainFrame) && (java.awt.Cursor.WAIT_CURSOR != x.getType())) {
 			JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		}
 	}
 
-	/**
-	 * Called by FtpConnection, DownloadList is updated from here
-	 */
 	public void updateProgress(String file, String type, long bytes) {
-		if ((dList == null) || (dirEntry == null) || file == null) {
+		if ((null == this.dList) || (null == this.dirEntry) || null == file) {
 			return;
 		}
 
 		boolean flag = false;
 
-		if (file.endsWith("/") && (file.length() > 1)) {
+		if (file.endsWith("/") && (1 < file.length())) {
 			flag = true;
-			file = file.substring(0, file.lastIndexOf("/"));
+			file = file.substring(0, file.lastIndexOf('/'));
 		}
 
-		file = file.substring(file.lastIndexOf("/") + 1);
+		file = file.substring(file.lastIndexOf('/') + 1);
 
 		if (flag) {
 			file = file + "/";
@@ -798,8 +744,8 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		if (JFtp.dList.sizeCache.containsKey(file)) {
 			s = (Long) net.sf.jftp.JFtp.dList.sizeCache.get(file);
 		} else {
-			for (net.sf.jftp.gui.base.dir.DirEntry entry : dirEntry) {
-				if (entry == null) {
+			for (DirEntry entry : this.dirEntry) {
+				if (null == entry) {
 					continue;
 				}
 
@@ -811,7 +757,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 				}
 			}
 
-			if (s <= 0) {
+			if (0 >= s) {
 				File f = new File(JFtp.localDir.getPath() + file);
 
 				if (f.exists()) {
@@ -820,37 +766,29 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			}
 		}
 
-		dList.updateList(file, type, bytes, s);
+		this.dList.updateList(file, type, bytes, s);
 	}
 
-	/**
-	 * Called by FtpConnection
-	 */
 	public void connectionInitialized(BasicConnection con) {
-		if (con == null) {
+		if (null == con) {
 			return;
 		}
 
-		setDate();
+		this.setDate();
 
 		Log.out("remote connection initialized");
 	}
 
-	/**
-	 * Called by FtpConnection
-	 */
 	public void connectionFailed(BasicConnection con, String reason) {
 		Log.out("remote connection failed");
 
-		if ((Integer.parseInt(reason) == FtpConnection.OFFLINE) && Settings.reconnect) {
+		if ((FtpConstants.OFFLINE == Integer.parseInt(reason)) && Settings.reconnect) {
 			return;
 		}
 
-		//this.con = con;
 		HFrame h = new HFrame();
 		h.getContentPane().setLayout(new BorderLayout(10, 10));
 		h.setTitle("Connection failed!");
-		//h.setLocation(150, 200);
 		h.setMinimumSize(new Dimension(400, 250));
 		h.setLocation((int) JFtp.mainFrame.getLocation().getX() + 300, (int) JFtp.mainFrame.getLocation().getY() + 300);
 
@@ -860,39 +798,38 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		JFtp.log.setText("");
 		text.setEditable(false);
 		h.pack();
-		h.show();
+		h.setVisible(true);
 	}
 
 	private void setDate() {
-		if (!(con instanceof FtpConnection) && !(con instanceof FilesystemConnection)) {
+		if (!(this.con instanceof FtpConnection) && !(this.con instanceof FilesystemConnection)) {
 			try {
-				sorter.removeItem("Date");
+				this.sorter.removeItem("Date");
 			} catch (Exception ex) {
 			}
 
-			dateEnabled = false;
+			this.dateEnabled = false;
 
 			return;
 		}
 
-		//Log.debug(">>> date gui init");
-		if ((con instanceof FtpConnection) && (((FtpConnection) con).dateVector.size() > 0)) {
-			if (!dateEnabled) {
-				sorter.addItem("Date");
-				dateEnabled = true;
+		if ((this.con instanceof FtpConnection) && (!((FtpConnection) this.con).dateVector.isEmpty())) {
+			if (!this.dateEnabled) {
+				this.sorter.addItem("Date");
+				this.dateEnabled = true;
 				UpdateDaemon.updateRemoteDirGUI();
 			}
-		} else if ((con instanceof FilesystemConnection) && (((FilesystemConnection) con).dateVector.size() > 0)) {
-			if (!dateEnabled) {
-				sorter.addItem("Date");
-				dateEnabled = true;
+		} else if ((this.con instanceof FilesystemConnection) && (!((FilesystemConnection) this.con).dateVector.isEmpty())) {
+			if (!this.dateEnabled) {
+				this.sorter.addItem("Date");
+				this.dateEnabled = true;
 				UpdateDaemon.updateRemoteDirGUI();
 			}
 		} else {
-			if (dateEnabled) {
+			if (this.dateEnabled) {
 				try {
-					sorter.removeItem("Date");
-					dateEnabled = false;
+					this.sorter.removeItem("Date");
+					this.dateEnabled = false;
 					Settings.showDateNoSize = false;
 					UpdateDaemon.updateRemoteDirGUI();
 				} catch (Exception ex) {
@@ -901,72 +838,56 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		}
 	}
 
-	/**
-	 * Called by FtpConnection
-	 */
 	public void updateRemoteDirectory(BasicConnection c) {
 		//TODO Log.debug("updateRemoteDirectory()");
-		if (con == null) {
+		if (null == this.con) {
 			return;
 		}
 
-		if ((c != con) && !c.hasUploaded && con instanceof FtpConnection) {
-			//System.out.println("Skipping connection: " + con.getCachedPWD() + " : " + JFtp.remoteDir.path);
+		if ((c != this.con) && !c.hasUploaded && this.con instanceof FtpConnection) {
 			return;
 		}
+		this.setDate();
 
-		//Log.out(">>> update remote dir");
-		setDate();
-
-		if (con instanceof FtpConnection) {
-			path = ((FtpConnection) con).getCachedPWD();
-		} else if (con instanceof SmbConnection && !path.startsWith("smb://")) {
-			path = c.getPWD();
+		if (this.con instanceof FtpConnection) {
+			this.path = ((FtpConnection) this.con).getCachedPWD();
+		} else if (this.con instanceof SmbConnection && !this.path.startsWith("smb://")) {
+			this.path = c.getPWD();
 		} else {
-			path = con.getPWD();
+			this.path = this.con.getPWD();
 		}
 
-		//System.out.println("path: "+path +":"+ con +":" +con.getPWD() +":"+c+":" +c.getPWD());
-
-		if ((c != null) && (c instanceof FtpConnection)) {
+		if ((null != c) && (c instanceof FtpConnection)) {
 			FtpConnection con = (FtpConnection) c;
 
 			String tmp = con.getCachedPWD();
 			SaveSet s = new SaveSet(Settings.login_def, con.getHost(), con.getUsername(), con.getPassword(), Integer.toString(con.getPort()), tmp, con.getLocalPath());
-		} else if ((c != null) && (c instanceof FilesystemConnection)) {
-			JFtp.localDir.getCon().setLocalPath(path);
+		} else if ((null != c) && (c instanceof FilesystemConnection)) {
+			JFtp.localDir.getCon().setLocalPath(this.path);
 		}
 
-		//TODO .debug("before gui()");
-		//Log.debug(c.toString());
-		pathChanged = true;
-		gui(false);
+		this.pathChanged = true;
+		this.gui(false);
 
 		UpdateDaemon.updateLog();
-
-		//JFtp.statusP.jftp.ensureLogging();
-		//TODO .debug("after gui()");
 	}
 
-	/**
-	 * Transfers all selected files
-	 */
-	public synchronized void transfer() {
-		boolean[] bFileSelected = new boolean[dirEntry.length + 1];
-		net.sf.jftp.gui.base.dir.DirEntry[] cacheEntry = new net.sf.jftp.gui.base.dir.DirEntry[dirEntry.length];
-		System.arraycopy(dirEntry, 0, cacheEntry, 0, cacheEntry.length);
+	private synchronized void transfer() {
+		boolean[] bFileSelected = new boolean[this.dirEntry.length + 1];
+		DirEntry[] cacheEntry = new DirEntry[this.dirEntry.length];
+		System.arraycopy(this.dirEntry, 0, cacheEntry, 0, cacheEntry.length);
 
-		for (int i = 0; i < dirEntry.length; i++) {
+		for (int i = 0; i < this.dirEntry.length; i++) {
 			bFileSelected[i] = cacheEntry[i].selected;
 
-			if (!cacheEntry[i].equals(dirEntry[i])) {
+			if (!cacheEntry[i].equals(this.dirEntry[i])) {
 				Log.out("mismatch");
 			}
 		}
 
 		for (int i = 0; i < cacheEntry.length; i++) {
 			if (bFileSelected[i]) {
-				startTransfer(cacheEntry[i]);
+				this.startTransfer(cacheEntry[i]);
 			}
 		}
 	}
@@ -980,8 +901,8 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	 * <p>
 	 * WARNING: If you do anything here, please check LocalDir.startTransfer(), too!
 	 */
-	public void startTransfer(net.sf.jftp.gui.base.dir.DirEntry entry) {
-		if (con instanceof FtpConnection && JFtp.localDir.getCon() instanceof FtpConnection) {
+	private void startTransfer(DirEntry entry) {
+		if (this.con instanceof FtpConnection && JFtp.localDir.getCon() instanceof FtpConnection) {
 			if (entry.isDirectory()) {
 				Log.debug("Directory transfer between remote connections is not supported yet!");
 
@@ -989,59 +910,40 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			}
 
 			Log.out("direct ftp transfer started (download)");
-			JFtp.localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(path + entry.file));
-		} else if (con instanceof FtpConnection && JFtp.localDir.getCon() instanceof FilesystemConnection) {
+			JFtp.localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(this.path + entry.file));
+		} else if (this.con instanceof FtpConnection && JFtp.localDir.getCon() instanceof FilesystemConnection) {
 			// local: file, remote: ftp
-			int status = checkForExistingFile(entry);
+			int status = this.checkForExistingFile(entry);
 
-			if (status >= 0) {
-				//--------------------------------------------
-				// dirty bugfix for sizes that would be
-				// messed up otherwise
+			if (0 <= status) {
 
-                /*
-                boolean flag = false;
-                String file = entry.file;
-
-                if(file.endsWith("/") && (file.length() > 1))
-                {
-                    flag = true;
-                    file = file.substring(0, file.lastIndexOf("/"));
-                }
-
-                file = file.substring(file.lastIndexOf("/") + 1);
-
-                if(flag)
-                {
-                    file = file + "/";
-                } */
 				long s = entry.getRawSize();
 				JFtp.dList.sizeCache.put(entry.file, s);
 
 				// ---------------------------------
-				if ((entry.getRawSize() < Settings.smallSize) && !entry.isDirectory()) {
-					con.download(entry.file);
+				if ((Settings.smallSize > entry.getRawSize()) && !entry.isDirectory()) {
+					this.con.download(entry.file);
 				} else {
-					con.handleDownload(path + entry.file);
+					this.con.handleDownload(this.path + entry.file);
 				}
 			}
-		} else if (con instanceof FilesystemConnection && JFtp.localDir.getCon() instanceof FtpConnection) {
+		} else if (this.con instanceof FilesystemConnection && JFtp.localDir.getCon() instanceof FtpConnection) {
 			try {
-				File f = new File(path + entry.file);
+				File f = new File(this.path + entry.file);
 				FileInputStream in = new FileInputStream(f);
-				JFtp.localDir.getCon().setLocalPath(path);
+				JFtp.localDir.getCon().setLocalPath(this.path);
 				Log.debug(JFtp.localDir.getCon().getPWD());
 				JFtp.localDir.getCon().upload(entry.file, in);
 			} catch (FileNotFoundException ex) {
-				Log.debug("Error: File not found: " + path + entry.file);
+				Log.debug("Error: File not found: " + this.path + entry.file);
 			}
-		} else if (con instanceof FilesystemConnection && JFtp.localDir.getCon() instanceof FilesystemConnection) {
-			con.download(path + entry.file);
-			JFtp.localDir.actionPerformed(con, "");
+		} else if (this.con instanceof FilesystemConnection && JFtp.localDir.getCon() instanceof FilesystemConnection) {
+			this.con.download(this.path + entry.file);
+			JFtp.localDir.actionPerformed(this.con, "");
 		} else if (JFtp.localDir.getCon() instanceof FilesystemConnection) {
 			// local: file, remote: smb, sftp, nfs
-			con.handleDownload(entry.file);
-			JFtp.localDir.actionPerformed(con, "");
+			this.con.handleDownload(entry.file);
+			JFtp.localDir.actionPerformed(this.con, "");
 		} else {
 			if (entry.isDirectory()) {
 				Log.debug("Directory transfer between remote connections is not supported yet!");
@@ -1050,27 +952,21 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			}
 
 			Log.out("direct transfer started (download)");
-			JFtp.localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(path + entry.file));
-			JFtp.localDir.actionPerformed(con, "FRESH");
+			JFtp.localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(this.path + entry.file));
+			JFtp.localDir.actionPerformed(this.con, "FRESH");
 		}
 	}
 
-	/**
-	 * Transfers single file, or all selected files if index is -1
-	 */
-	public void transfer(int i) {
-		if (i == -2) {
-			transfer();
+	private void transfer(int i) {
+		if (-2 == i) {
+			this.transfer();
 
-		} else if (dirEntry[i].selected) {
-			startTransfer(dirEntry[i]);
+		} else if (this.dirEntry[i].selected) {
+			this.startTransfer(this.dirEntry[i]);
 		}
 	}
 
-	/**
-	 * Ask for resuming or overwrite if a local file does already exist for a download
-	 */
-	private int checkForExistingFile(net.sf.jftp.gui.base.dir.DirEntry dirEntry) {
+	private int checkForExistingFile(DirEntry dirEntry) {
 		File f = new File(JFtp.localDir.getPath() + dirEntry.file);
 
 		if (f.exists() && Settings.enableResuming && Settings.askToResume) {
@@ -1082,9 +978,7 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		return 1;
 	}
 
-	/**
-	 * Called by FtpConnection
-	 */
+
 	public void actionFinished(BasicConnection c) {
 		JFtp.localDir.actionPerformed(c, "LOWFRESH");
 
@@ -1092,7 +986,6 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			if (((FtpConnection) c).hasUploaded) {
 				Log.out("actionFinished called by upload: " + c);
 
-				//fresh();
 				UpdateDaemon.updateRemoteDir();
 			}
 
@@ -1100,40 +993,30 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 		} else {
 			Log.out("actionFinished called by: " + c);
 
-			//fresh();
 			UpdateDaemon.updateRemoteDir();
 		}
 
-		//JFtp.statusP.jftp.ensureLogging();
 		UpdateDaemon.updateLog();
 	}
 
-	/**
-	 * Called by FtpConnection
-	 */
+
 	public void actionPerformed(Object target, String msg) {
-		if (msg.equals(type)) {
+		if (msg.equals(this.type)) {
 			UpdateDaemon.updateRemoteDirGUI();
 
-			//gui(true);
-			//updateRemoteDirectory(con);
 		} else if (msg.equals("FRESH")) {
 			UpdateDaemon.updateRemoteDir();
 
-			//fresh();
 		}
-
-		//Log.out("actionPerformed called.");
-		//JFtp.statusP.jftp.ensureLogging();
 		UpdateDaemon.updateLog();
 	}
 
 	/**
 	 * Mime type handler for doubleclicks on files
 	 */
-	public void showContentWindow(String url, net.sf.jftp.gui.base.dir.DirEntry d) {
+	private void showContentWindow(String url, DirEntry d) {
 		try {
-			if (d.getRawSize() > 200000) {
+			if (200000 < d.getRawSize()) {
 				Log.debug("File is too big - 200kb is the maximum, sorry.");
 
 				return;
@@ -1147,13 +1030,15 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 
 			File file = new File(path + StringUtils.getFile(url));
 
-			if (!(con instanceof FilesystemConnection)) {
-				if (!file.exists()) {
-					con.download(url);
-				} else {
+			if (this.con instanceof FilesystemConnection) {
+				file = new File(this.getPath() + StringUtils.getFile(url));
+			} else {
+				if (file.exists()) {
 					Log.debug("\nRemote file must be downloaded to be viewed and\n" + " you already have a local copy present, pleasen rename it\n" + " and try again.");
 
 					return;
+				} else {
+					this.con.download(url);
 				}
 
 				file = new File(JFtp.localDir.getPath() + StringUtils.getFile(url));
@@ -1161,8 +1046,6 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 				if (!file.exists()) {
 					Log.debug("File not found: " + JFtp.localDir.getPath() + StringUtils.getFile(url));
 				}
-			} else {
-				file = new File(getPath() + StringUtils.getFile(url));
 			}
 
 			HFrame f = new HFrame();
@@ -1192,10 +1075,9 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 			f.setLocation(100, 100);
 			f.setSize(600, 400);
 
-			//f.pack();
-			f.show();
+			f.setVisible(true);
 
-			dList.fresh();
+			this.dList.fresh();
 			JFtp.localDir.getCon().removeFileOrDir(StringUtils.getFile(url));
 			JFtp.localDir.fresh();
 		} catch (Exception ex) {
@@ -1204,29 +1086,29 @@ public class RemoteDir extends net.sf.jftp.gui.base.dir.DirComponent implements 
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-			Object o = jl.getSelectedValue();
+		if (java.awt.event.KeyEvent.VK_ENTER == e.getKeyCode()) {
+			Object o = this.jl.getSelectedValue();
 
-			if (o == null) {
+			if (null == o) {
 				return;
 			}
 
 			String tmp = o.toString();
 
 			if (tmp.endsWith("/")) {
-				con.chdir(tmp);
+				this.con.chdir(tmp);
 			} else {
-				showContentWindow(path + tmp, (net.sf.jftp.gui.base.dir.DirEntry) o);
+				this.showContentWindow(this.path + tmp, (DirEntry) o);
 			}
-		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			int x = ((net.sf.jftp.gui.base.dir.DirPanel) JFtp.localDir).jl.getSelectedIndex();
+		} else if (java.awt.event.KeyEvent.VK_SPACE == e.getKeyCode()) {
+			int x = ((DirPanel) JFtp.localDir).jl.getSelectedIndex();
 
-			if (x == -1) {
+			if (-1 == x) {
 				x = 0;
 			}
 
-			((net.sf.jftp.gui.base.dir.DirPanel) JFtp.localDir).jl.grabFocus();
-			((net.sf.jftp.gui.base.dir.DirPanel) JFtp.localDir).jl.setSelectedIndex(x);
+			((DirPanel) JFtp.localDir).jl.grabFocus();
+			((DirPanel) JFtp.localDir).jl.setSelectedIndex(x);
 		}
 	}
 

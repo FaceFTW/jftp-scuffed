@@ -15,122 +15,92 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.config.LoadSet;
+import net.sf.jftp.config.SaveSet;
+import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.framework.HPanel;
+import net.sf.jftp.gui.framework.HTextField;
+import net.sf.jftp.net.FtpConnection;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-//***
-public class AdvancedOptions extends net.sf.jftp.gui.framework.HPanel implements ActionListener {
-	//used this to see if it needs to look up file value
-	public static boolean listOptionSet = false;
-	private final net.sf.jftp.gui.framework.HTextField listCommand = new net.sf.jftp.gui.framework.HTextField("FTP LIST command:", net.sf.jftp.net.FtpConnection.LIST, 15);
+public class AdvancedOptions extends HPanel implements ActionListener {
+	private static boolean listOptionSet;
+	private final HTextField listCommand = new HTextField("FTP LIST command:", FtpConnection.LIST, 15);
 	private final JButton setListCommand = new JButton("Set");
 
-	//private JLabel note = new JLabel();
-
-	//***
 	private final JLabel statusText = new JLabel();
 
-	//***
 	public AdvancedOptions() {
-		setLayout(new BorderLayout(5, 5));
+		super();
+		this.setLayout(new BorderLayout(5, 5));
 
-		//text.setText("You can override the default values here, but note that " +
-		//	     "the values are not saved\n and lost after closing the application.");
-		//***
-		//*** should it really be set up so that the original message here on top
-		//*** is cleared out when events such as changing settings occurs
-		//*** (the text area which contains instructions at first has these
-		//*** instructions cleared out when some events occur.)
-		//*** So maybe should have a text box at the bottom? And a label at top
-		//*** with the instruction text?
-		//***this line may be deprecated
 		javax.swing.JLabel text = new javax.swing.JLabel();
-		text.setText("Default values for commands can be overidden here.");
-		statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
+		text.setText("Default values for commands can be overridden here.");
+		this.statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
 
 		text.setPreferredSize(new Dimension(400, 30));
 
-		//text.setLineWrap(true);
-		//***
-		statusText.setPreferredSize(new Dimension(400, 30));
+		this.statusText.setPreferredSize(new Dimension(400, 30));
 
-		//statusText.setLineWrap(true);
-		//***
-		//load initial advanced options here
-		//JUST FOR NOW: We just know that value 0 is the FTP LIST command
-		//what the text in the box initially is
 		String listOptionText = "";
 		if (listOptionSet) {
-			listOptionText = net.sf.jftp.net.FtpConnection.LIST;
+			listOptionText = FtpConnection.LIST;
 		} else {
-			//AND NEED TO CHECK IF FILE DOESN'T EXIST (if not, create it
-			//and set the file and settings to the default
-			if (net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings) != null) {
-				listOptionText = net.sf.jftp.config.LoadSet.loadSet(net.sf.jftp.config.Settings.adv_settings)[0];
+			if (null != LoadSet.loadSet(Settings.adv_settings)) {
+				listOptionText = LoadSet.loadSet(Settings.adv_settings)[0];
 			} else {
-				listOptionText = net.sf.jftp.net.FtpConnection.LIST_DEFAULT;
+				listOptionText = FtpConnection.LIST_DEFAULT;
 
-				net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, net.sf.jftp.net.FtpConnection.LIST_DEFAULT);
+				SaveSet s = new SaveSet(Settings.adv_settings, FtpConnection.LIST_DEFAULT);
 			}
 		}
 
-		listCommand.setText(listOptionText);
+		this.listCommand.setText(listOptionText);
 
-		net.sf.jftp.gui.framework.HPanel content = new net.sf.jftp.gui.framework.HPanel();
-		net.sf.jftp.gui.framework.HPanel panel = new net.sf.jftp.gui.framework.HPanel();
-		panel.add(listCommand);
-		panel.add(setListCommand);
+		HPanel content = new HPanel();
+		HPanel panel = new HPanel();
+		panel.add(this.listCommand);
+		panel.add(this.setListCommand);
 
-		//***
-		//***
 		javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
 		panel.add(saveCommand);
 
-		//***
+
 		content.add(panel);
 
-		add("North", text);
-		add("Center", content);
+		this.add("North", text);
+		this.add("Center", content);
 
-		add("South", statusText);
+		this.add("South", this.statusText);
 
-		setListCommand.addActionListener(this);
+		this.setListCommand.addActionListener(this);
 		saveCommand.addActionListener(this);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == setListCommand) {
-			net.sf.jftp.net.FtpConnection.LIST = listCommand.getText().trim();
+		if (e.getSource() == this.setListCommand) {
+			FtpConnection.LIST = this.listCommand.getText().trim();
 
-			//text.setText("LIST command set.");
-			//***
-			statusText.setText("LIST command set.");
+			this.statusText.setText("LIST command set.");
 			listOptionSet = true;
 
-			//***
-		}
-
-		//if(e.getSource() == saveCommand)
-		else {
-			//isn't the following line redundant? So I commented it out
-			//it would be redundant if the LIST command is read in by LoadSet each time
-			//FtpConnection.LIST = listCommand.getText().trim();
-			net.sf.jftp.net.FtpConnection.LIST = listCommand.getText().trim();
+		} else {
+			FtpConnection.LIST = this.listCommand.getText().trim();
 
 			listOptionSet = true;
 
-			//text.setText("LIST command set and saved");
-			//statusText.setText("LIST command set and saved.");
-			net.sf.jftp.config.SaveSet s = new net.sf.jftp.config.SaveSet(net.sf.jftp.config.Settings.adv_settings, listCommand.getText().trim());
+			SaveSet s = new SaveSet(Settings.adv_settings, this.listCommand.getText().trim());
 
-			//***
-			//text.setText("LIST command set and saved");
-			statusText.setText("LIST command set and saved.");
+			this.statusText.setText("LIST command set and saved.");
 
-			//***
+
 		}
 	}
 

@@ -15,38 +15,42 @@
  */
 package net.sf.jftp.gui.tasks;
 
-import java.awt.*;
+import net.sf.jftp.gui.framework.HButton;
+import net.sf.jftp.gui.framework.HFrame;
+
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class RemoverQuery extends net.sf.jftp.gui.framework.HFrame implements ActionListener {
+class RemoverQuery extends HFrame implements ActionListener {
 	private final String file;
 	private final String type;
-	private final net.sf.jftp.gui.framework.HButton ok = new net.sf.jftp.gui.framework.HButton("Ok");
+	private final HButton ok = new HButton("Ok");
 
 	public RemoverQuery(String file, String type) {
+		super();
 		this.file = file;
 		this.type = type;
 
-		setSize(200, 70);
-		setTitle("Really?");
-		setLayout(new FlowLayout());
-		setLocation(150, 150);
+		this.setSize(200, 70);
+		this.setTitle("Really?");
+		this.setLayout(new FlowLayout());
+		this.setLocation(150, 150);
 
-		add(ok);
-		net.sf.jftp.gui.framework.HButton cancel = new net.sf.jftp.gui.framework.HButton("Cancel");
-		add(cancel);
+		this.add(this.ok);
+		HButton cancel = new HButton("Cancel");
+		this.add(cancel);
 
-		ok.addActionListener(this);
+		this.ok.addActionListener(this);
 		cancel.addActionListener(this);
 
-		setVisible(true);
+		this.setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == ok) {
-			AutoRemover armv = new AutoRemover(file, type);
+		if (e.getSource() == this.ok) {
+			AutoRemover armv = new AutoRemover(this.file, this.type);
 			this.dispose();
 		} else {
 			this.dispose();

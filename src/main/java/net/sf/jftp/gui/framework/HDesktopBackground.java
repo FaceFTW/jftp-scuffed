@@ -15,46 +15,49 @@
  */
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.config.Settings;
+
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 
 
-public class HDesktopBackground extends JPanel implements MouseListener, ImageObserver {
+public class HDesktopBackground extends JPanel implements MouseListener {
 	private final Image img;
 	private final String cmd = "default";
-	public ActionListener who = null;
+	private ActionListener who;
 
 	public HDesktopBackground(String image, ActionListener who) {
+		super();
 		this.who = who;
 
-		img = HImage.getImage(this, image);
-		addMouseListener(this);
-		setVisible(true);
+		this.img = HImage.getImage(this, image);
+		this.addMouseListener(this);
+		this.setVisible(true);
 	}
 
 	public void paintComponent(Graphics g) {
-		if (!net.sf.jftp.config.Settings.getUseBackground()) {
+		if (!Settings.getUseBackground()) {
 			return;
 		}
 
-		int x = img.getWidth(this);
-		int y = img.getHeight(this);
+		int x = this.img.getWidth(this);
+		int y = this.img.getHeight(this);
 		int w = 2000 / x;
 		int h = 2000 / y;
 
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
-				g.drawImage(img, i * x, j * y, this);
+				g.drawImage(this.img, i * x, j * y, this);
 			}
 		}
 	}
 
 	public void update(Graphics g) {
-		paintComponent(g);
+		this.paintComponent(g);
 	}
 
 	public void mouseClicked(MouseEvent e) {

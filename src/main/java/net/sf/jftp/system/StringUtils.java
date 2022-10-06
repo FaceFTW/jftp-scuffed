@@ -15,19 +15,21 @@
  */
 package net.sf.jftp.system;
 
-public class StringUtils {
+public enum StringUtils {
+	;
+
 	/**
 	 * Makes a (path) string shorter to get it displayed correctly
 	 */
 	public static String cutPath(String s) {
-		int maxlabel = 64;
+		final int maxlabel = 64;
 
-		if (s.length() > maxlabel) {
+		if (maxlabel < s.length()) {
 			while (s.contains("/")) {
 
-				s = StringUtils.cutAfter(s, '/');
+				s = cutAfter(s, '/');
 
-				if (s.length() < 16) {
+				if (16 > s.length()) {
 					StringBuilder sb = new StringBuilder(s);
 					sb.insert(0, ".../");
 
@@ -55,7 +57,7 @@ public class StringUtils {
 	/**
 	 * Returns the rest of a string after a given character
 	 */
-	public static String cutAfter(String str, char c) {
+	private static String cutAfter(String str, char c) {
 		for (int i = 0; i < str.length(); i++) {
 			if (str.charAt(i) == c) {
 				//   System.out.println(str.substring(i+1));
@@ -98,7 +100,7 @@ public class StringUtils {
 	/**
 	 * Returns a string representing a given character
 	 */
-	public static String string(char c) {
+	private static String string(char c) {
 		char[] buf = new char[1];
 		buf[0] = c;
 
@@ -109,38 +111,29 @@ public class StringUtils {
 	 * Get a filename out of a full path string
 	 */
 	public static String getFile(String file) {
-		int x = file.lastIndexOf("/");
+		int x = file.lastIndexOf('/');
 
 		// unix
-		if (x >= 0) {
+		if (0 <= x) {
 			file = file.substring(x + 1);
 		}
 
 		// windows
-		x = file.lastIndexOf("\\");
+		x = file.lastIndexOf('\\');
 
-		if (x >= 0) {
+		if (0 <= x) {
 			file = file.substring(x + 1);
 		}
-
-		// may work, but can test the other method better
-		//int x  = file.lastIndexOf(File.separatorChar);
-		//if(x >= 0) file = file.substring(x+1);
-		//System.out.println(file);
 		return file;
 	}
 
-	/**
-	 * Returns a string representing a relative directory path.
-	 * Examples: "/tmp/dir/" -> "dir/" and "/tmp/dir" -> "dir"
-	 */
 	public static String getDir(String tmp) {
 		int x;
 
 		while (true) {
-			x = tmp.indexOf("/");
+			x = tmp.indexOf('/');
 
-			if ((x == (tmp.length() - 1)) || (x < 0)) {
+			if ((x == (tmp.length() - 1)) || (0 > x)) {
 				break;
 			} else {
 				tmp = tmp.substring(x + 1);
@@ -148,9 +141,9 @@ public class StringUtils {
 		}
 
 		while (true) {
-			x = tmp.indexOf("\\");
+			x = tmp.indexOf('\\');
 
-			if ((x == (tmp.length() - 1)) || (x < 0)) {
+			if ((x == (tmp.length() - 1)) || (0 > x)) {
 				break;
 			} else {
 				tmp = tmp.substring(x + 1);
@@ -160,31 +153,21 @@ public class StringUtils {
 		return tmp;
 	}
 
-	/*
-	 * Returns true if the string represents a relative filename, false otherwise
-	 */
 	public static boolean isRelative(String file) {
-		// unix
 		if (file.startsWith("/")) {
 			return false;
 		}
 
-		// windows
-		return (file.length() <= 2) || (file.charAt(1) != ':');
+		return (2 >= file.length()) || (':' != file.charAt(1));
 
-		//System.out.println("true: " + file);
-		// default
 	}
 
-	/**
-	 * Main method containing a few testcases for getFile() / isRelative()
-	 */
 	public static void main(String[] argv) {
-		String a1 = "E:\\programme\\test.html";
-		String a2 = "programme\\test.html";
-		String a3 = "test.html";
-		String a4 = "/programme/test.html";
-		String a5 = "programme/test.html";
+		final String a1 = "E:\\programme\\test.html";
+		final String a2 = "programme\\test.html";
+		final String a3 = "test.html";
+		final String a4 = "/programme/test.html";
+		final String a5 = "programme/test.html";
 
 		System.out.println("getfile: " + getFile(a1) + " - false, " + isRelative(a1));
 		System.out.println("getfile: " + getFile(a2) + " - true, " + isRelative(a2));
