@@ -377,87 +377,7 @@ public class DataConnection implements Runnable {
 
 				//---------------upload----------------------
 				if (this.type.equals(PUT) || this.type.equals(PUTDIR)) {
-					if (null == this.in) {
-						try {
-							fIn = new RandomAccessFile(this.file, "r");
-
-							if (this.resume) {
-								fIn.seek(this.skiplen);
-							}
-
-							//fIn = new BufferedInputStream(new FileInputStream(file));
-						} catch (Exception ex) {
-							this.debug("Can't open inputfile: " + " (" + ex + ")");
-							ok = false;
-						}
-					}
-
-					if (ok) {
-						try {
-							this.out = new BufferedOutputStream(this.sock.getOutputStream());
-						} catch (Exception ex) {
-							ok = false;
-							this.debug("Can't get OutputStream");
-						}
-
-						if (ok) {
-							try {
-								int len = this.skiplen;
-
-								while (true) {
-									int read;
-
-									if (null != this.in) {
-										read = this.in.read(buf);
-									} else {
-										read = fIn.read(buf);
-									}
-
-									len += read;
-
-									//System.out.println(file + " " + type+ " " + len + " " + read);
-									if (-1 == read) {
-										break;
-									}
-
-									if (null != this.newLine) {
-										byte[] buf2 = this.modifyPut(buf, read);
-										this.out.write(buf2, 0, buf2.length);
-									} else {
-										this.out.write(buf, 0, read);
-									}
-
-									this.con.fireProgressUpdate(this.file, this.type, len);
-
-									if (this.time()) {
-										//   Log.debugSize(len, false, false, file);
-									}
-
-									if (java.io.StreamTokenizer.TT_EOF == read) {
-										break;
-									}
-
-									//DO NOT REMOVE - Fixes race condition in upload
-									Thread.sleep(10);
-								}
-
-								this.out.flush();
-
-								//Log.debugSize(len, false, true, file);
-							} catch (IOException ex) {
-								ok = false;
-								this.debug("Error: Data connection closed.");
-								this.con.fireProgressUpdate(this.file, FAILED, -1);
-								ex.printStackTrace();
-							} catch (InterruptedException e) {
-								ok = false;
-								this.debug("Error: Latency Pause delayed!");
-								this.con.fireProgressUpdate(this.file, FAILED, -1);
-								e.printStackTrace();
-
-							}
-						}
-					}
+					doUpload(fIn, buf);
 				}
 			}
 		} catch (IOException ex) {
@@ -469,28 +389,13 @@ public class DataConnection implements Runnable {
 					this.out.flush();
 					this.out.close();
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-			try {
 				if (null != bOut) {
 					bOut.flush();
 					bOut.close();
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-			try {
 				if (null != fOut) {
 					fOut.close();
 				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-			try {
 				if (null != this.in && !this.justStream) {
 					this.in.close();
 				}
@@ -498,7 +403,7 @@ public class DataConnection implements Runnable {
 				if (null != fIn) {
 					fIn.close();
 				}
-			} catch (Exception ex) {
+			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -538,12 +443,6 @@ public class DataConnection implements Runnable {
 		Log.debug(msg);
 	}
 
-	public void reset() {
-		//reciever.destroy();
-		this.reciever = new Thread(this);
-		this.reciever.start();
-	}
-
 	private boolean time() {
 		long now = System.currentTimeMillis();
 		long offset = now - this.start;
@@ -569,20 +468,6 @@ public class DataConnection implements Runnable {
 		this.type = tmp;
 	}
 
-	public boolean isOK() {
-		return this.ok;
-	}
-
-	public void interrupt() {
-		if (Settings.getFtpPasvMode() && (this.type.equals(GET) || this.type.equals(GETDIR))) {
-			try {
-				this.reciever.join();
-			} catch (InterruptedException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-
 	private byte[] modifyPut(byte[] buf, int len) {
 		//Log.debug("\n\n\n\nNewline: "+newLine);
 		if (null == this.newLine) return buf;
@@ -603,5 +488,89 @@ public class DataConnection implements Runnable {
 		//Log.debug("Newline_own: "+LINEEND+", s:"+s);
 
 		return s.getBytes();
+	}
+
+	private void doUpload(RandomAccessFile fIn, byte[] buf) {
+		if (null == this.in) {
+			try {
+				fIn = new RandomAccessFile(this.file, "r");
+
+				if (this.resume) {
+					fIn.seek(this.skiplen);
+				}
+
+				//fIn = new BufferedInputStream(new FileInputStream(file));
+			} catch (Exception ex) {
+				this.debug("Can't open inputfile: " + " (" + ex + ")");
+				ok = false;
+			}
+		}
+
+		if (ok) {
+			try {
+				this.out = new BufferedOutputStream(this.sock.getOutputStream());
+			} catch (Exception ex) {
+				ok = false;
+				this.debug("Can't get OutputStream");
+			}
+
+			if (ok) {
+				try {
+					int len = this.skiplen;
+
+					while (true) {
+						int read;
+
+						if (null != this.in) {
+							read = this.in.read(buf);
+						} else {
+							read = fIn.read(buf);
+						}
+
+						len += read;
+
+						//System.out.println(file + " " + type+ " " + len + " " + read);
+						if (-1 == read) {
+							break;
+						}
+
+						if (null != this.newLine) {
+							byte[] buf2 = this.modifyPut(buf, read);
+							this.out.write(buf2, 0, buf2.length);
+						} else {
+							this.out.write(buf, 0, read);
+						}
+
+						this.con.fireProgressUpdate(this.file, this.type, len);
+
+						if (this.time()) {
+							//   Log.debugSize(len, false, false, file);
+						}
+
+						if (java.io.StreamTokenizer.TT_EOF == read) {
+							break;
+						}
+
+						//DO NOT REMOVE - Fixes race condition in upload
+						Thread.sleep(10);
+					}
+
+					this.out.flush();
+
+					//Log.debugSize(len, false, true, file);
+				} catch (IOException ex) {
+					ok = false;
+					this.debug("Error: Data connection closed.");
+					this.con.fireProgressUpdate(this.file, FAILED, -1);
+					ex.printStackTrace();
+				} catch (InterruptedException e) {
+					ok = false;
+					this.debug("Error: Latency Pause delayed!");
+					this.con.fireProgressUpdate(this.file, FAILED, -1);
+					e.printStackTrace();
+
+				}
+			}
+		}
 	}
 }
