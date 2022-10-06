@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="non-mvn">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/non-mvn.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
