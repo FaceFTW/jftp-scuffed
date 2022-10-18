@@ -558,10 +558,10 @@ public class FilesystemConnection implements BasicConnection {
 	}
 
 	public LocalDateTime[] sortDates() {
-		if (!this.dateVector.isEmpty()) {
-			return (LocalDateTime[]) this.dateVector.toArray();
-		} else {
+		if (this.dateVector.isEmpty()) {
 			return null;
+		} else {
+			return (LocalDateTime[]) this.dateVector.toArray();
 		}
 	}
 

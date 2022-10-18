@@ -105,10 +105,10 @@ public class HostList extends JDialog {
 		this.loadHostList();
 		this.initListeners();
 
-		if (!this.hostListModel.isEmpty()) {
-			this.hostList.setSelectedIndex(0);
-		} else {
+		if (this.hostListModel.isEmpty()) {
 			this.updateHostInfoPanel();
+		} else {
+			this.hostList.setSelectedIndex(0);
 		}
 
 		this.selectedHostInfo = this.getSelected();
@@ -296,10 +296,10 @@ public class HostList extends JDialog {
 		this.hostListModel.removeElement(selected);
 		this.selectedHostInfo = null;
 
-		if (!this.hostListModel.isEmpty()) {
-			this.hostList.setSelectedIndex(0);
-		} else {
+		if (this.hostListModel.isEmpty()) {
 			this.updateHostInfoPanel();
+		} else {
+			this.hostList.setSelectedIndex(0);
 		}
 
 		this.onSave();
