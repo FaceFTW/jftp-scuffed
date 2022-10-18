@@ -109,12 +109,12 @@ public enum TableUtils {
 
 		for (int i = 0; i < rows; i++) {
 			if (listTbl.getSelectionModel().isSelectedIndex(i)) {
-				sel.add(listTbl.convertRowIndexToModel(i));
+				sel.add(Integer.valueOf(listTbl.convertRowIndexToModel(i)));
 			}
 		}
 
 		int[] tmp = new int[sel.size()];
-		for (int i = 0; i < sel.size(); i++) tmp[i] = (Integer) sel.get(i);
+		for (int i = 0; i < sel.size(); i++) tmp[i] = ((Integer) sel.get(i)).intValue();
 
 		list.setSelectedIndices(tmp);
 	}

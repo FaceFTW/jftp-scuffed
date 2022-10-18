@@ -742,7 +742,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		long s = 0;
 
 		if (JFtp.dList.sizeCache.containsKey(file)) {
-			s = (Long) net.sf.jftp.JFtp.dList.sizeCache.get(file);
+			s = ((Long) JFtp.dList.sizeCache.get(file)).longValue();
 		} else {
 			for (DirEntry entry : this.dirEntry) {
 				if (null == entry) {
@@ -751,7 +751,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 
 				if (entry.toString().equals(file)) {
 					s = entry.getRawSize();
-					net.sf.jftp.JFtp.dList.sizeCache.put(file, s);
+					net.sf.jftp.JFtp.dList.sizeCache.put(file, Long.valueOf(s));
 
 					break;
 				}
@@ -918,7 +918,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			if (0 <= status) {
 
 				long s = entry.getRawSize();
-				JFtp.dList.sizeCache.put(entry.file, s);
+				JFtp.dList.sizeCache.put(entry.file, Long.valueOf(s));
 
 				// ---------------------------------
 				if ((Settings.smallSize > entry.getRawSize()) && !entry.isDirectory()) {

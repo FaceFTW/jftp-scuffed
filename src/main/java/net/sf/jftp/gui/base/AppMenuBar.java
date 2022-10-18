@@ -119,7 +119,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	//*** the menu items for the last connections
 	private final JMenuItem[] lastConnections = new JMenuItem[JFtp.CAPACITY];
 	private final String[] lastConData = new String[JFtp.CAPACITY];
-	private final Character charTab = '\t';
+	private final Character charTab = Character.valueOf('\t');
 	private final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
 	private final JMenuItem add = new JMenuItem("Add Bookmark...");
 	private final JFtp jftp;

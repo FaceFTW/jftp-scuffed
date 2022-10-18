@@ -224,7 +224,7 @@ public class AddBookmarks extends HFrame implements ActionListener, WindowListen
 
 		String local = "";
 
-		int potmpint = new Integer(potmp);
+		int potmpint = new Integer(potmp).intValue();
 
 		local = this.isLocal.getSelectedItem().toString();
 
