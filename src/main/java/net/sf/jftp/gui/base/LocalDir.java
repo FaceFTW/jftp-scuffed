@@ -849,10 +849,10 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		long s = 0;
 
 		if (JFtp.dList.sizeCache.containsKey(file)) {
-			s = ((Long) JFtp.dList.sizeCache.get(file)).longValue();
+			s = dList.sizeCache.get(file);
 		} else {
 			s = new File(this.getPath() + file).length();
-			JFtp.dList.sizeCache.put(file, Long.valueOf(s));
+			JFtp.dList.sizeCache.put(file, s);
 		}
 
 		this.dList.updateList(file, type, bytes, s);

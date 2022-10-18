@@ -588,7 +588,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, L
 		try {
 			this.background = new HDesktopBackground(Settings.background, null);
 			this.background.setBounds(0, 0, this.getSize().width, this.getSize().height);
-			desktop.add(this.background, new Integer(Integer.MIN_VALUE));
+			desktop.add(this.background, Integer.MIN_VALUE);
 		} catch (Exception ex) {
 			Log.out(Settings.background + " missing, no background image used");
 		}

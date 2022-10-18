@@ -176,7 +176,7 @@ public class StatusPanel extends HPanel implements ActionListener {
 				Log.debug("Native browser intialization failed, using JContentPane...");
 
 				HttpBrowser h = new HttpBrowser(url);
-				JFtp.desktop.add(h, new Integer(Integer.MAX_VALUE - 10));
+				JFtp.desktop.add(h, Integer.MAX_VALUE - 10);
 			}
 		} else {
 			HttpTransfer t = new HttpTransfer(url, localPath, listeners, handler);

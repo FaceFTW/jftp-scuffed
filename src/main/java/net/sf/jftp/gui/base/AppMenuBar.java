@@ -119,7 +119,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	//*** the menu items for the last connections
 	private final JMenuItem[] lastConnections = new JMenuItem[JFtp.CAPACITY];
 	private final String[] lastConData = new String[JFtp.CAPACITY];
-	private final Character charTab = Character.valueOf('\t');
+	private final char charTab = '\t';
 	private final JMenuItem manage = new JMenuItem("Manage Bookmarks...");
 	private final JMenuItem add = new JMenuItem("Add Bookmark...");
 	private final JFtp jftp;
@@ -127,7 +127,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	//*** information on each of the last connections
 	//BUGFIX
 	private String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
-	String tab = this.charTab.toString();
+	String tab = Character.toString(this.charTab);
 	private Map<String, BookmarkItem> marks;
 	private JMenu current = this.bookmarks;
 	private JMenu last = this.bookmarks;
@@ -498,7 +498,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					Log.debug("Native browser intialization failed, using JContentPane...");
 
 					HttpBrowser h = new HttpBrowser("http://j-ftp.sourceforge.net");
-					JFtp.desktop.add(h, new Integer(Integer.MAX_VALUE - 10));
+					JFtp.desktop.add(h, Integer.MAX_VALUE - 10);
 				}
 			} else if (e.getSource() == this.raw) {
 				RawConnection c = new RawConnection();
@@ -660,7 +660,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				this.jftp.setLocation(adv.hashCode(), 110, 180);
 			} else if (e.getSource() == this.manage) {
 				BookmarkManager m = new BookmarkManager();
-				JFtp.desktop.add(m, new Integer(Integer.MAX_VALUE - 10));
+				JFtp.desktop.add(m, Integer.MAX_VALUE - 10);
 			} else if (this.marks.containsKey(e.getSource())) {
 				((BookmarkItem) e.getSource()).connect();
 			} else if (e.getSource() == this.storePasswords) {
@@ -734,7 +734,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		}
 
 		Displayer d = new Displayer(url, null);
-		JFtp.desktop.add(d, new Integer(Integer.MAX_VALUE - 11));
+		JFtp.desktop.add(d, Integer.MAX_VALUE - 11);
 	}
 
 	// by jake
