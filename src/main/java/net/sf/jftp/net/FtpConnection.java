@@ -1013,7 +1013,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			this.dcon = new DataConnection(this, p, this.host, path, this.dataType, false, true);
 
-			while (!this.dcon.isThere()) {
+			while (this.dcon.isThere()) {
 				this.pause(10);
 			}
 
@@ -1060,7 +1060,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			this.dcon = new DataConnection(this, p, this.host, path, this.dataType, resume); //, new Updater());
 
-			while (!this.dcon.isThere()) {
+			while (this.dcon.isThere()) {
 				this.pause(10);
 			}
 
@@ -1398,7 +1398,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			this.dcon = new DataConnection(this, p, this.host, path, this.dataType, resume, Integer.parseInt(size), in); //, new Updater());
 
-			while (!this.dcon.isThere()) {
+			while (this.dcon.isThere()) {
 				this.pause(10);
 			}
 			if (null != realName) {

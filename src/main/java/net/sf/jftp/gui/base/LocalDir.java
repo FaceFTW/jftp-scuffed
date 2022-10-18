@@ -480,7 +480,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 			this.lock(false);
 
 			if (Settings.getAskToDelete()) {
-				if (!UITool.askToDelete(this)) {
+				if (UITool.askToDelete(this)) {
 					this.unlock(false);
 
 					return;

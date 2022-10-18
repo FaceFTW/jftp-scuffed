@@ -25,7 +25,7 @@ public enum UITool {
 	public static boolean askToDelete(JComponent parent) {
 		int res = JOptionPane.showConfirmDialog(parent, "Do you really want to continue?");
 
-		return javax.swing.JOptionPane.OK_OPTION == res;
+		return JOptionPane.OK_OPTION != res;
 	}
 
 	public static boolean askToRun(JComponent parent) {

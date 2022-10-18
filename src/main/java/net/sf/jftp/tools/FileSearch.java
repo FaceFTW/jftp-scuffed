@@ -143,7 +143,7 @@ class FileSearch {
 			if (url.contains(s)) return -1;
 		}
 
-		if (!this.checkForScanableUrl(url)) return -1;
+		if (this.checkForScanableUrl(url)) return -1;
 
 		return 1;
 	}
@@ -151,16 +151,16 @@ class FileSearch {
 	private boolean checkForScanableUrl(String url) {
 
 		if (this.checked.containsKey(url)) {
-			return false;
+			return true;
 		} else {
 			this.checked.put(url, "");
 		}
 
 		for (String s : this.scanArray) {
-			if (url.endsWith(s)) return true;
+			if (url.endsWith(s)) return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	private void crawl(String url) throws Exception {
@@ -203,7 +203,7 @@ class FileSearch {
 					if (next.endsWith(s) || s.trim().equals("*")) {
 						Log.out("HIT: " + url + " -> " + next);
 
-						if (!this.LOAD || !this.checkForScanableUrl(url)) continue;
+						if (!this.LOAD || this.checkForScanableUrl(url)) continue;
 
 						int x = next.indexOf('/');
 

@@ -458,10 +458,10 @@ public class DataConnection implements Runnable {
 
 	public boolean isThere() {
 		if (this.finished) {
-			return true;
+			return false;
 		}
 
-		return this.isThere;
+		return !this.isThere;
 	}
 
 	public void setType(String tmp) {
