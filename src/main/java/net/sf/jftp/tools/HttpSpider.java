@@ -199,17 +199,15 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				return;
 			}
 
-			String next = value;
-
-			Log.out("Processing: " + next);
+			Log.out("Processing: " + value);
 
 			for (String s : this.typeArray) {
-				if (next.endsWith(s) || s.trim().equals("*")) {
-					int x = next.indexOf('/');
+				if (value.endsWith(s) || s.trim().equals("*")) {
+					int x = value.indexOf('/');
 
-					if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
+					if ((0 < x) && (0 < value.substring(0, x).indexOf('.'))) {
 						Holer nochnsammy = new Holer(this.localDir);
-						nochnsammy.bringAnStart(next, false);
+						nochnsammy.bringAnStart(value, false);
 
 						if (this.stopflag) {
 							return;
@@ -224,11 +222,11 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 					return;
 				}
 
-				int x = next.indexOf('/');
+				int x = value.indexOf('/');
 
-				if ((0 < x) && (0 < next.substring(0, x).indexOf('.'))) {
+				if ((0 < x) && (0 < value.substring(0, x).indexOf('.'))) {
 					this.currentDepth++;
-					this.smoke(next);
+					this.smoke(value);
 					this.currentDepth--;
 				}
 			}

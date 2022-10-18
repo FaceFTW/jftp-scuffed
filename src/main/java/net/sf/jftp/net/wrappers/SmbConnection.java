@@ -611,8 +611,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (ConnectionListener connectionListener : this.listeners) {
-				ConnectionListener listener = (ConnectionListener) connectionListener;
-				listener.updateProgress(file, type, bytes);
+				((ConnectionListener) connectionListener).updateProgress(file, type, bytes);
 			}
 		}
 	}
@@ -649,18 +648,17 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (ConnectionListener connectionListener : this.listeners) {
-				ConnectionListener listener = (ConnectionListener) connectionListener;
 
 				if (this.shortProgress && Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
-						listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
+						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
 					} else if (this.isDirUpload) {
-						listener.updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
+						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
 					} else {
-						listener.updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
+						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
 					}
 				} else {
-					listener.updateProgress(file, type, bytes);
+					((ConnectionListener) connectionListener).updateProgress(file, type, bytes);
 				}
 			}
 		}

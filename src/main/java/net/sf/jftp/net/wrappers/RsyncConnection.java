@@ -442,8 +442,7 @@ public class RsyncConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (ConnectionListener connectionListener : this.listeners) {
-				ConnectionListener listener = (ConnectionListener) connectionListener;
-				listener.updateProgress(file, type, bytes);
+				((ConnectionListener) connectionListener).updateProgress(file, type, bytes);
 			}
 		}
 	}
@@ -476,20 +475,19 @@ public class RsyncConnection implements BasicConnection {
 		if (null == this.listeners) {
 		} else {
 			for (ConnectionListener connectionListener : this.listeners) {
-				ConnectionListener listener = (ConnectionListener) connectionListener;
 
 				final boolean shortProgress = false;
 				if (shortProgress && Settings.shortProgress) {
 					final boolean isDirUpload = false;
 					if (type.startsWith(DataConnection.DFINISHED)) {
-						listener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
+						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
 					} else if (isDirUpload) {
-						listener.updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
+						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
 					} else {
-						listener.updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
+						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
 					}
 				} else {
-					listener.updateProgress(file, type, bytes);
+					((ConnectionListener) connectionListener).updateProgress(file, type, bytes);
 				}
 			}
 		}
@@ -575,19 +573,15 @@ public class RsyncConnection implements BasicConnection {
 	}
 
 	public void transfer(String ltmp, String htmp, String dtmp, String utmp, String ptmp) {
-		String sourcePath = ltmp;
 		String destinationUserHost = utmp + "@" + htmp;
-		String destinationPath = dtmp;
-		String password = ptmp;
 
-		SshPass pass = new SshPass().password(password);
+		SshPass pass = new SshPass().password(ptmp);
 
-		String source = sourcePath;
-		String destination = destinationUserHost + ":" + destinationPath;
+		String destination = destinationUserHost + ":" + dtmp;
 
 		RSync rsync = null;
 		try {
-			rsync = new RSync().recursive(true).sshPass(pass).source(source).destination(destination).verbose(true).rsh(Binaries.sshBinary() + " -o StrictHostKeyChecking=no");
+			rsync = new RSync().recursive(true).sshPass(pass).source(ltmp).destination(destination).verbose(true).rsh(Binaries.sshBinary() + " -o StrictHostKeyChecking=no");
 
 			ConsoleOutputProcessOutput output = new ConsoleOutputProcessOutput();
 			output.monitor(rsync.builder());
