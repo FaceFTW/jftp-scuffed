@@ -26,15 +26,18 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class FilesystemConnection implements BasicConnection {
 	private static final int filesystemBuffer = 128000;
-	public java.util.List<java.util.Date> dateVector = new java.util.ArrayList<>();
+	public List<LocalDateTime> dateVector = new ArrayList<>();
 	private String path = "";
 	private String pwd = "";
-	private java.util.List<ConnectionListener> listeners = new java.util.ArrayList<>();
+	private java.util.List<ConnectionListener> listeners = new ArrayList<>();
 	private String[] size = new String[0];
 	private int[] perms;
 	private String baseFile;
@@ -310,7 +313,7 @@ public class FilesystemConnection implements BasicConnection {
 			this.perms[i] = accessible;
 
 			//System.out.println(pwd+files[i] +" : " +accessible + " : " + size[i]);
-			Date d = new Date(f2.lastModified());
+			LocalDateTime d = LocalDateTime.ofEpochSecond(f2.lastModified(), 0, ZoneOffset.UTC);
 
 			//System.out.println(d.toString());
 			this.dateVector.add(d);
@@ -554,9 +557,9 @@ public class FilesystemConnection implements BasicConnection {
 		}
 	}
 
-	public Date[] sortDates() {
+	public LocalDateTime[] sortDates() {
 		if (!this.dateVector.isEmpty()) {
-			return (Date[]) this.dateVector.toArray();
+			return (LocalDateTime[]) this.dateVector.toArray();
 		} else {
 			return null;
 		}

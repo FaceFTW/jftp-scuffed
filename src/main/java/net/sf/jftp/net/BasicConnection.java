@@ -17,7 +17,7 @@ package net.sf.jftp.net;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 /**
@@ -53,7 +53,7 @@ public interface BasicConnection {
 
 	String[] sortSize();
 
-	Date[] sortDates();
+	LocalDateTime[] sortDates();
 
 	int[] getPermissions();
 

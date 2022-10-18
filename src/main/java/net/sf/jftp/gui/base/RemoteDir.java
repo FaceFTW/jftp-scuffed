@@ -65,7 +65,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.reflect.Array;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 public class RemoteDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
@@ -445,7 +445,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 						Object[] d = dir.getDates();
 
 						if (null != d) {
-							this.dirEntry[i].setDate((Date) d[i]);
+							this.dirEntry[i].setDate((LocalDateTime) d[i]);
 						}
 
 						//--------------------------

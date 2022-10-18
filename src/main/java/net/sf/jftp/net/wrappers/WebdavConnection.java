@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 public class WebdavConnection implements BasicConnection {
@@ -615,7 +615,7 @@ public class WebdavConnection implements BasicConnection {
 		}
 	}
 
-	public Date[] sortDates() {
+	public LocalDateTime[] sortDates() {
 		return null;
 	}
 

@@ -28,6 +28,8 @@ import net.sf.jftp.net.FtpConstants;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
 
+import java.time.LocalDateTime;
+
 public class RsyncConnection implements BasicConnection {
 	private static final int buffer = 128000;
 	private final boolean dummy = false;
@@ -562,7 +564,7 @@ public class RsyncConnection implements BasicConnection {
 		}
 	}
 
-	public java.util.Date[] sortDates() {
+	public LocalDateTime[] sortDates() {
 		return null;
 	}
 

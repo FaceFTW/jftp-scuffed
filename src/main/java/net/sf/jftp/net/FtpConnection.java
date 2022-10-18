@@ -29,8 +29,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -89,7 +89,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	/**
 	 * May contain date listing
 	 */
-	public List<Date> dateVector = new java.util.ArrayList<>();
+	public List<LocalDateTime> dateVector = new ArrayList<>();
 	private boolean ok = true;
 	private String pwd = "";
 	private String initCWD = Settings.defaultDir;
@@ -681,22 +681,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						String date2 = date.substring(date.indexOf('-') + 1);
 						date2 = date2.substring(date.indexOf('-') + 2);
 
-						String y = date.substring(0, date.indexOf('-'));
-						String m = date.substring(date.indexOf('-') + 1, date.indexOf('-') + 3);
+						int year = Integer.parseInt(date.substring(0, date.indexOf('-')));
+						int month = Integer.parseInt(date.substring(date.indexOf('-') + 1, date.indexOf('-') + 3)) - 1;
 						String m1 = date.substring(date.indexOf('-') + 1);
-						String day = m1.substring(m1.indexOf('-') + 1, m1.indexOf('-') + 3);
-						String h = date2.substring(0, date2.indexOf(':'));
-						String min = date2.substring(date2.indexOf(':') + 1, date2.indexOf(':') + 3);
+						int day = Integer.parseInt(m1.substring(m1.indexOf('-') + 1, m1.indexOf('-') + 3));
+						int hour = Integer.parseInt(date2.substring(0, date2.indexOf(':')));
+						int min = Integer.parseInt( date2.substring(date2.indexOf(':') + 1, date2.indexOf(':') + 3));
 
 						//Log.out("day:"+day+"year:"+y+"mon:"+m+"hour:"+h+"m:"+min);
-						java.util.Calendar c = new java.util.GregorianCalendar();
-						c.set(java.util.Calendar.DAY_OF_MONTH, Integer.parseInt(day));
-						c.set(java.util.Calendar.YEAR, Integer.parseInt(y));
-						c.set(java.util.Calendar.MONTH, Integer.parseInt(m) - 1);
-						c.set(java.util.Calendar.HOUR, Integer.parseInt(h));
-						c.set(java.util.Calendar.MINUTE, Integer.parseInt(min));
+						LocalDateTime dateTime = LocalDateTime.of(year, month, day, hour, min);
 
-						this.dateVector.add(c.getTime());
+						this.dateVector.add(dateTime);
 
 						//Log.out("+++ date: \"" + d.toString() + "\"");
 					} catch (Exception ex) {
@@ -709,7 +704,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					tmp = this.giveFile(to2, 7);
 
 					if (1 < lcount) {
-						this.dateVector = new java.util.ArrayList<>();
+						this.dateVector = new ArrayList<>();
 					}
 				} else if (8 < tokens) // unix
 				{
@@ -2503,9 +2498,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 	}
 
-	public Date[] sortDates() {
+	public LocalDateTime[] sortDates() {
 		if (!this.dateVector.isEmpty()) {
-			return (Date[]) this.dateVector.toArray();
+			return (LocalDateTime[]) this.dateVector.toArray();
 		} else {
 			return null;
 		}

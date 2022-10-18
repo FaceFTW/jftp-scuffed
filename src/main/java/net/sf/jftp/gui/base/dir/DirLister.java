@@ -23,10 +23,8 @@ import net.sf.jftp.system.LocalIO;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -39,7 +37,7 @@ public class DirLister implements ActionListener {
 	private int[] perms;
 	private boolean isDirectory = true;
 	private String sortMode;
-	private Date[] dates;
+	private LocalDateTime[] dates;
 
 	public DirLister(BasicConnection con) {
 		super();
@@ -213,25 +211,25 @@ public class DirLister implements ActionListener {
 				}
 			}
 
-			Object[] date = null;
+			LocalDateTime[] date = null;
 
 			if (style.equals("ftp")) {
-				date = ((FtpConnection) this.con).dateVector.toArray();
+				date = ((FtpConnection) this.con).dateVector.toArray(date);
 
 			} else {
-				date = ((FilesystemConnection) this.con).dateVector.toArray();
+				date = ((FilesystemConnection) this.con).dateVector.toArray(date);
 			}
 
 			for (int j = 0; j < date.length; j++) {
 				for (int i = 0; i < date.length; i++) {
-					Date x = (Date) date[i];
+					LocalDateTime x = (LocalDateTime) date[i];
 
 					if (i == (date.length - 1)) {
 						break;
 					}
 
-					if (this.comp(x, (Date) date[i + 1])) {
-						Date swp = (Date) date[i + 1];
+					if (this.comp(x, (LocalDateTime) date[i + 1])) {
+						LocalDateTime swp = (LocalDateTime) date[i + 1];
 						date[i + 1] = x;
 						date[i] = swp;
 
@@ -253,10 +251,10 @@ public class DirLister implements ActionListener {
 				}
 			}
 
-			this.dates = new Date[date.length];
+			this.dates = new LocalDateTime[date.length];
 
 			for (int i = 0; i < this.dates.length; i++) {
-				this.dates[i] = (Date) date[i];
+				this.dates[i] = (LocalDateTime) date[i];
 			}
 
 		} else if (type.equals("Normal")) {
@@ -264,16 +262,8 @@ public class DirLister implements ActionListener {
 		}
 	}
 
-	private boolean comp(Date one, Date two) {
-		Calendar c = new GregorianCalendar();
-		c.clear();
-		c.setTime(one);
-
-		Calendar c2 = new GregorianCalendar();
-		c2.clear();
-		c2.setTime(two);
-
-		return 0 < c.getTime().compareTo(c2.getTime());
+	private boolean comp(LocalDateTime one, LocalDateTime two) {
+		return 0 < one.compareTo(two);
 	}
 
 	private void sortFirst() {
@@ -325,7 +315,7 @@ public class DirLister implements ActionListener {
 		return this.perms;
 	}
 
-	public Date[] getDates() {
+	public LocalDateTime[] getDates() {
 		return this.dates;
 	}
 }

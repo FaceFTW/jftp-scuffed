@@ -23,7 +23,7 @@ import javax.swing.*;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 public class DirEntry {
@@ -48,7 +48,7 @@ public class DirEntry {
 	public boolean selected;
 	public ActionListener who;
 	private boolean isFile = true;
-	private Date date;
+	private LocalDateTime date;
 	//private boolean entered = false;
 	private Image img;
 	private boolean isDirectory;
@@ -156,7 +156,7 @@ public class DirEntry {
 		return df.format(this.date);
 	}
 
-	public void setDate(Date d) {
+	public void setDate(LocalDateTime d) {
 		this.date = d;
 	}
 

@@ -33,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -694,7 +695,7 @@ public class NfsConnection implements BasicConnection {
 		}
 	}
 
-	public Date[] sortDates() {
+	public LocalDateTime[] sortDates() {
 		return null;
 	}
 
