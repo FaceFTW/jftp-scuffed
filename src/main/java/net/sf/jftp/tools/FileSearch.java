@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.List;
 
 
 class FileSearch {
@@ -114,11 +115,8 @@ class FileSearch {
 		return url;
 	}
 
-	private java.util.List<String> addVector(java.util.List<String> v, java.util.List<String> x) {
-
-		for (String next : x) {
-			v.add(next);
-		}
+	private List<String> addVector(List<String> v, List<String> x) {
+		v.addAll(x);
 		return v;
 	}
 

@@ -1998,12 +1998,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				if (2 < stok.countTokens()) {
 					String pold1 = "";
 					String pold2 = "";
-					String pnew = "";
+					StringBuilder pnew = new StringBuilder();
 
 					while (stok.hasMoreTokens()) {
 						pold1 = pold2;
-						pold2 = pnew;
-						pnew = pnew + "/" + stok.nextToken();
+						pold2 = pnew.toString();
+						pnew.append("/" + stok.nextToken());
 					}
 
 					p = pold1;
