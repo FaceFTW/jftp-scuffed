@@ -32,6 +32,8 @@
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: net.sf.squirrel-sql.thirdparty-non-maven:metouia:1.0.0-beta" level="project" />
-    <orderEntry type="library" name="Maven: cringe:deps:0.0.1" level="project" />
+    <orderEntry type="library" name="Maven: cringe:deps:0.0.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.19.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.19.0" level="project" />
   </component>
 </module>

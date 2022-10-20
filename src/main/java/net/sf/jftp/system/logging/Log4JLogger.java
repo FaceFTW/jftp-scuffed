@@ -15,20 +15,17 @@
  */
 package net.sf.jftp.system.logging;
 
-
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Category;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
 
-public class Log4JLogger implements Logger {
-	private final Category cat = Category.getInstance("net/sf/jftp");
+public class Log4JLogger implements net.sf.jftp.system.logging.Logger {
+	private final Logger logger = LogManager.getLogger("net/sf/jftp");
 
 	public Log4JLogger() {
 		super();
-		BasicConfigurator.configure();
 	}
 
 	private String stacktrace(Throwable throwable) {
@@ -39,51 +36,51 @@ public class Log4JLogger implements Logger {
 	}
 
 	public void debug(String msg) {
-		this.cat.debug(msg);
+		this.logger.debug(msg);
 	}
 
 	public void debugRaw(String msg) {
-		this.cat.debug(msg);
+		this.logger.debug(msg);
 	}
 
 	public void debug(String msg, Throwable throwable) {
-		this.cat.debug(msg);
-		this.cat.debug(this.stacktrace(throwable));
+		this.logger.debug(msg);
+		this.logger.debug(this.stacktrace(throwable));
 	}
 
 	public void warn(String msg) {
-		this.cat.warn(msg);
+		this.logger.warn(msg);
 	}
 
 	public void warn(String msg, Throwable throwable) {
-		this.cat.warn(msg);
-		this.cat.warn(this.stacktrace(throwable));
+		this.logger.warn(msg);
+		this.logger.warn(this.stacktrace(throwable));
 	}
 
 	public void error(String msg) {
-		this.cat.error(msg);
+		this.logger.error(msg);
 	}
 
 	public void error(String msg, Throwable throwable) {
-		this.cat.error(msg);
-		this.cat.error(this.stacktrace(throwable));
+		this.logger.error(msg);
+		this.logger.error(this.stacktrace(throwable));
 	}
 
 	public void info(String msg) {
-		this.cat.info(msg);
+		this.logger.info(msg);
 	}
 
 	public void info(String msg, Throwable throwable) {
-		this.cat.info(msg);
-		this.cat.info(this.stacktrace(throwable));
+		this.logger.info(msg);
+		this.logger.info(this.stacktrace(throwable));
 	}
 
 	public void fatal(String msg) {
-		this.cat.fatal(msg);
+		this.logger.fatal(msg);
 	}
 
 	public void fatal(String msg, Throwable throwable) {
-		this.cat.fatal(msg);
-		this.cat.fatal(this.stacktrace(throwable));
+		this.logger.fatal(msg);
+		this.logger.fatal(this.stacktrace(throwable));
 	}
 }
