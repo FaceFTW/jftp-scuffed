@@ -90,11 +90,11 @@ fabric.properties
 
 # Ignore built for distribution
 dist/
-
 # Ignore javadoc build output
 doc/javadoc/
-
 # Libraries auto-downloaded during the build process
 .idea/libraries/
+# Ignore log4j log file output
+logs/
 
 # Anything below this line should be placed into a category above instead! Explain why it's ignored.
