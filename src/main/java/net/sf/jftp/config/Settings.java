@@ -174,6 +174,7 @@ public enum Settings {
 
 	static {
 		try {
+			System.out.println("Using user configuration file: " + propertyFilename);
 			p.load(new FileInputStream(propertyFilename));
 		} catch (Exception e) {
 			System.out.println("no property file loaded, using defaults... (" + e + ")");
