@@ -69,12 +69,12 @@ import java.util.zip.ZipFile;
 
 
 public class LocalDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
+	static final String cmdString = "cmd";
+	static final String downloadString = "<-";
 	private static final String deleteString = "rm";
 	private static final String mkdirString = "mkdir";
 	private static final String refreshString = "fresh";
 	private static final String cdString = "cd";
-	static final String cmdString = "cmd";
-	static final String downloadString = "<-";
 	private static final String uploadString = "->";
 	private static final String zipString = "zip";
 	private static final String cpString = "cp";
@@ -99,9 +99,9 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 	private final JMenuItem viewFile = new JMenuItem("View file");
 	private final JMenuItem props = new JMenuItem("Properties");
 	private final JComboBox sorter = new JComboBox(this.sortTypes);
+	HImageButton cmdButton;
 	private HImageButton deleteButton;
 	private HImageButton mkdirButton;
-	HImageButton cmdButton;
 	private HImageButton refreshButton;
 	private HImageButton cdButton;
 	private HImageButton uploadButton;

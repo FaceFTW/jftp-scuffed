@@ -17,13 +17,13 @@ package net.sf.jftp.system.logging;
 
 
 public class SystemLogger implements JftpLogger {
-	private void printLog(String msg) {
-		System.out.println(msg);
-	}
-
 	private static void printLog(String msg, Throwable throwable) {
 		System.out.println(msg);
 		throwable.printStackTrace();
+	}
+
+	private void printLog(String msg) {
+		System.out.println(msg);
 	}
 
 	public void debug(String msg) {

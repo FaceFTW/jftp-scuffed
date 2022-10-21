@@ -56,10 +56,10 @@ import java.util.StringTokenizer;
 
 public class AppMenuBar extends JMenuBar implements ActionListener {
 	public static final JCheckBoxMenuItem fadeMenu = new JCheckBoxMenuItem("Enable Status Animation", Settings.getEnableStatusAnimation());
+	public static final JMenuItem clearItems = new JMenuItem("Clear Finished Items");
 	private static final JCheckBoxMenuItem askToDelete = new JCheckBoxMenuItem("Confirm Remove", Settings.getAskToDelete());
 	private static final JCheckBoxMenuItem debug = new JCheckBoxMenuItem("Verbose Console Debugging", Settings.getEnableDebug());
 	private static final JCheckBoxMenuItem disableLog = new JCheckBoxMenuItem("Disable Log", Settings.getDisableLog());
-	public static final JMenuItem clearItems = new JMenuItem("Clear Finished Items");
 	private final JMenu file = new JMenu("File");
 	private final JMenu opt = new JMenu("Options");
 	private final JMenu view = new JMenu("View");
@@ -124,10 +124,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final JMenuItem add = new JMenuItem("Add Bookmark...");
 	private final JFtp jftp;
 	JMenu experimental = new JMenu("Experimental Features");
+	String tab = Character.toString(this.charTab);
 	//*** information on each of the last connections
 	//BUGFIX
 	private String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
-	String tab = Character.toString(this.charTab);
 	private Map<String, BookmarkItem> marks;
 	private JMenu current = this.bookmarks;
 	private JMenu last = this.bookmarks;

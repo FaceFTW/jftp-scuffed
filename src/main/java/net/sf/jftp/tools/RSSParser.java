@@ -22,9 +22,9 @@ import java.util.Vector;
 
 
 class RSSParser {
-	private final URL file;
 	final Vector titles = new Vector();
 	final Vector descs = new Vector();
+	private final URL file;
 	private final Vector links = new Vector();
 	private final Vector content = new Vector();
 

@@ -67,17 +67,15 @@ import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 
-import static net.sf.jftp.JFtp.localDir;
-
 
 public class RemoteDir extends DirComponent implements ActionListener, ConnectionListener, KeyListener {
+	static final String uploadString = "->";
 	private static final String deleteString = "rm";
 	private static final String mkdirString = "mkdir";
 	private static final String refreshString = "fresh";
 	private static final String cdString = "cd";
 	private static final String cmdString = "cmd";
 	private static final String downloadString = "<-";
-	static final String uploadString = "->";
 	private static final String queueString = "que";
 	private static final String cdUpString = "cdUp";
 	private static final String rnString = "rn";
@@ -653,7 +651,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			this.transfer(this.tmpindex);
 
 			if (block) {
-				localDir.fresh();
+				JFtp.localDir.fresh();
 				this.unlock(false);
 			}
 		};
@@ -667,7 +665,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		this.jl.setEnabled(false);
 
 		if (!first) {
-			localDir.lock(true);
+			JFtp.localDir.lock(true);
 		}
 
 		Log.out("ui locked.");
@@ -678,7 +676,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		this.jl.setEnabled(true);
 
 		if (!first) {
-			localDir.unlock(true);
+			JFtp.localDir.unlock(true);
 		}
 
 		Log.out("ui unlocked.");
@@ -690,7 +688,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 
 		Cursor x = null;
 
-		if (null != net.sf.jftp.JFtp.mainFrame) {
+		if (JFtp.mainFrame != null) {
 			x = JFtp.mainFrame.getCursor();
 			JFtp.setAppCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		}
@@ -701,7 +699,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		if (0 <= idx) {
 			Object o = this.jl.getSelectedValue();
 
-			if (null != o) {
+			if (o != null) {
 				i = o.toString();
 			}
 		}
@@ -760,7 +758,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			}
 
 			if (0 >= s) {
-				File f = new File(localDir.getPath() + file);
+				File f = new File(JFtp.localDir.getPath() + file);
 
 				if (f.exists()) {
 					s = f.length();
@@ -865,7 +863,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			String tmp = con.getCachedPWD();
 			SaveSet s = new SaveSet(Settings.login_def, con.getHost(), con.getUsername(), con.getPassword(), Integer.toString(con.getPort()), tmp, con.getLocalPath());
 		} else if ((null != c) && (c instanceof FilesystemConnection)) {
-			localDir.getCon().setLocalPath(this.path);
+			JFtp.localDir.getCon().setLocalPath(this.path);
 		}
 
 		this.pathChanged = true;
@@ -904,7 +902,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 	 * WARNING: If you do anything here, please check LocalDir.startTransfer(), too!
 	 */
 	private void startTransfer(DirEntry entry) {
-		if (this.con instanceof FtpConnection && localDir.getCon() instanceof FtpConnection) {
+		if (this.con instanceof FtpConnection && JFtp.localDir.getCon() instanceof FtpConnection) {
 			if (entry.isDirectory()) {
 				Log.debug("Directory transfer between remote connections is not supported yet!");
 
@@ -912,8 +910,8 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			}
 
 			Log.out("direct ftp transfer started (download)");
-			localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(this.path + entry.file));
-		} else if (this.con instanceof FtpConnection && localDir.getCon() instanceof FilesystemConnection) {
+			JFtp.localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(this.path + entry.file));
+		} else if (this.con instanceof FtpConnection && JFtp.localDir.getCon() instanceof FilesystemConnection) {
 			// local: file, remote: ftp
 			int status = this.checkForExistingFile(entry);
 
@@ -929,23 +927,23 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 					this.con.handleDownload(this.path + entry.file);
 				}
 			}
-		} else if (this.con instanceof FilesystemConnection && localDir.getCon() instanceof FtpConnection) {
+		} else if (this.con instanceof FilesystemConnection && JFtp.localDir.getCon() instanceof FtpConnection) {
 			try {
 				File f = new File(this.path + entry.file);
 				FileInputStream in = new FileInputStream(f);
-				localDir.getCon().setLocalPath(this.path);
-				Log.debug(localDir.getCon().getPWD());
-				localDir.getCon().upload(entry.file, in);
+				JFtp.localDir.getCon().setLocalPath(this.path);
+				Log.debug(JFtp.localDir.getCon().getPWD());
+				JFtp.localDir.getCon().upload(entry.file, in);
 			} catch (FileNotFoundException ex) {
 				Log.debug("Error: File not found: " + this.path + entry.file);
 			}
-		} else if (this.con instanceof FilesystemConnection && localDir.getCon() instanceof FilesystemConnection) {
+		} else if (this.con instanceof FilesystemConnection && JFtp.localDir.getCon() instanceof FilesystemConnection) {
 			this.con.download(this.path + entry.file);
-			localDir.actionPerformed(this.con, "");
-		} else if (localDir.getCon() instanceof FilesystemConnection) {
+			JFtp.localDir.actionPerformed(this.con, "");
+		} else if (JFtp.localDir.getCon() instanceof FilesystemConnection) {
 			// local: file, remote: smb, sftp, nfs
 			this.con.handleDownload(entry.file);
-			localDir.actionPerformed(this.con, "");
+			JFtp.localDir.actionPerformed(this.con, "");
 		} else {
 			if (entry.isDirectory()) {
 				Log.debug("Directory transfer between remote connections is not supported yet!");
@@ -954,8 +952,8 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			}
 
 			Log.out("direct transfer started (download)");
-			localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(this.path + entry.file));
-			localDir.actionPerformed(this.con, "FRESH");
+			JFtp.localDir.getCon().upload(entry.file, JFtp.remoteDir.getCon().getDownloadInputStream(this.path + entry.file));
+			JFtp.localDir.actionPerformed(this.con, "FRESH");
 		}
 	}
 
@@ -969,7 +967,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 	}
 
 	private int checkForExistingFile(DirEntry dirEntry) {
-		File f = new File(localDir.getPath() + dirEntry.file);
+		File f = new File(JFtp.localDir.getPath() + dirEntry.file);
 
 		if (f.exists() && Settings.enableResuming && Settings.askToResume) {
 			ResumeDialog r = new ResumeDialog(dirEntry); // ResumeDialog handels the rest
@@ -982,7 +980,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 
 
 	public void actionFinished(BasicConnection c) {
-		localDir.actionPerformed(c, "LOWFRESH");
+		JFtp.localDir.actionPerformed(c, "LOWFRESH");
 
 		if (c instanceof FtpConnection) {
 			if (((FtpConnection) c).hasUploaded) {
@@ -1024,7 +1022,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 				return;
 			}
 
-			String path = localDir.getPath();
+			String path = JFtp.localDir.getPath();
 
 			if (!path.endsWith("/")) {
 				path = path + "/";
@@ -1043,10 +1041,10 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 					this.con.download(url);
 				}
 
-				file = new File(localDir.getPath() + StringUtils.getFile(url));
+				file = new File(JFtp.localDir.getPath() + StringUtils.getFile(url));
 
 				if (!file.exists()) {
-					Log.debug("File not found: " + localDir.getPath() + StringUtils.getFile(url));
+					Log.debug("File not found: " + JFtp.localDir.getPath() + StringUtils.getFile(url));
 				}
 			}
 
@@ -1080,8 +1078,8 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			f.setVisible(true);
 
 			this.dList.fresh();
-			localDir.getCon().removeFileOrDir(StringUtils.getFile(url));
-			localDir.fresh();
+			JFtp.localDir.getCon().removeFileOrDir(StringUtils.getFile(url));
+			JFtp.localDir.fresh();
 		} catch (Exception ex) {
 			Log.debug("File error: " + ex);
 		}
@@ -1103,14 +1101,14 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 				this.showContentWindow(this.path + tmp, (DirEntry) o);
 			}
 		} else if (java.awt.event.KeyEvent.VK_SPACE == e.getKeyCode()) {
-			int x = ((DirPanel) localDir).jl.getSelectedIndex();
+			int x = ((DirPanel) JFtp.localDir).jl.getSelectedIndex();
 
 			if (-1 == x) {
 				x = 0;
 			}
 
-			((DirPanel) localDir).jl.grabFocus();
-			((DirPanel) localDir).jl.setSelectedIndex(x);
+			((DirPanel) JFtp.localDir).jl.grabFocus();
+			((DirPanel) JFtp.localDir).jl.setSelectedIndex(x);
 		}
 	}
 

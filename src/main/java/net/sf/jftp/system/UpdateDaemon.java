@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.system;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.base.RemoteDir;
 
@@ -58,20 +59,20 @@ public class UpdateDaemon implements Runnable {
 		while (true) {
 			try {
 				if (0 < rem) {
-					net.sf.jftp.JFtp.remoteDir.fresh();
+					JFtp.remoteDir.fresh();
 
 					rem = 0;
 					Thread.sleep(100);
 				}
 
 				if (0 < reg) {
-					((RemoteDir) net.sf.jftp.JFtp.remoteDir).gui(true);
+					((RemoteDir) JFtp.remoteDir).gui(true);
 					reg = 0;
 					Thread.sleep(100);
 				}
 
 				if (0 < loc) {
-					net.sf.jftp.JFtp.localDir.fresh();
+					JFtp.localDir.fresh();
 					loc = 0;
 					Thread.sleep(100);
 				}

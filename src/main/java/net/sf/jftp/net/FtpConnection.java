@@ -70,7 +70,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	//***       And if the file for it is not found, then create it
 	//***       with LIST -laL as the default
 	public static String LIST_DEFAULT = "LIST -laL";
-	public static String LIST = "default";
+	public static String LIST = "LIST";
 
 	private static boolean useStream = true;
 	private static boolean useBlocked = true;
@@ -244,11 +244,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				Log.debug("Connection established...");
 			}
 
-			this.jcon.send(FtpConstants.USER + " " + username);
+			this.jcon.send(FtpCommand.USER.name() + " " + username);
 
 			if (!this.getLine(this.loginAck).startsWith(POSITIVE))//FTP230_LOGGED_IN))
 			{
-				this.jcon.send(FtpConstants.PASS + " " + password);
+				this.jcon.send(FtpCommand.PASS.name() + " " + password);
 
 				if (this.success(POSITIVE))//FTP230_LOGGED_IN))
 				{
@@ -1027,7 +1027,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				this.pause(10);
 			}
 
-			this.jcon.send(FtpConstants.RETR + " " + file);
+			this.jcon.send(FtpCommand.RETR.name() + " " + file);
 
 			return this.dcon.getInputStream();
 		} catch (Exception ex) {
@@ -1061,7 +1061,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			boolean resume = false;
 
 			if (f.exists() && Settings.enableResuming) {
-				this.jcon.send(FtpConstants.REST + " " + f.length());
+				this.jcon.send(FtpCommand.REST.name() + " " + f.length());
 
 				if (null != this.getLine(PROCEED)) {
 					resume = true;
@@ -1074,7 +1074,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				this.pause(10);
 			}
 
-			this.jcon.send(FtpConstants.RETR + " " + file);
+			this.jcon.send(FtpCommand.RETR.name() + " " + file);
 
 			String line = this.getLine(POSITIVE);
 			Log.debug(line);
@@ -1419,7 +1419,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			p = this.negotiatePort();
 
 			if (resume && Settings.enableUploadResuming) {
-				this.jcon.send(FtpConstants.REST + " " + size);
+				this.jcon.send(FtpCommand.REST.name() + " " + size);
 
 				if (null == this.getLine(PROCEED)) {
 					resume = false;
@@ -1432,9 +1432,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				this.pause(10);
 			}
 			if (null != realName) {
-				this.jcon.send(FtpConstants.STOR + " " + realName);
+				this.jcon.send(FtpCommand.STOR.name() + " " + realName);
 			} else {
-				this.jcon.send(FtpConstants.STOR + " " + file);
+				this.jcon.send(FtpCommand.STOR.name() + " " + file);
 			}
 
 			String tmp = this.getLine(POSITIVE);
@@ -1635,9 +1635,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				return ret;
 			}
 
-			this.jcon.send(FtpConstants.RMD + " " + file);
+			this.jcon.send(FtpCommand.RMD.name() + " " + file);
 		} else {
-			this.jcon.send(FtpConstants.DELE + " " + file);
+			this.jcon.send(FtpCommand.DELE.name() + " " + file);
 		}
 
 		if (this.success(POSITIVE))//FTP250_COMPLETED))
@@ -1654,7 +1654,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * if it fails for any reason the connection should just time out
 	 */
 	public void disconnect() {
-		this.jcon.send(FtpConstants.QUIT);
+		this.jcon.send(FtpCommand.QUIT.name());
 		this.getLine(POSITIVE);//FTP221_SERVICE_CLOSING);
 		this.connected = false;
 	}
@@ -1768,7 +1768,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * updates PWD
 	 */
 	private void updatePWD() {
-		this.jcon.send(FtpConstants.PWD);
+		this.jcon.send(FtpCommand.PWD.name());
 
 		String tmp = this.getLine(POSITIVE);//FTP257_PATH_CREATED);
 
@@ -1805,7 +1805,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return True if successful, false otherwise
 	 */
 	private boolean chdirRaw(String dirName) {
-		this.jcon.send(FtpConstants.CWD + " " + dirName);
+		this.jcon.send(FtpCommand.CWD.name() + " " + dirName);
 
 		return this.success(POSITIVE);//FTP250_COMPLETED);
 	}
@@ -1826,7 +1826,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return True if successful, false otherwise
 	 */
 	public boolean cdup() {
-		this.jcon.send(FtpConstants.CDUP);
+		this.jcon.send(FtpCommand.CDUP.name());
 
 		return this.success(POSITIVE);//FTP200_OK);
 	}
@@ -1838,7 +1838,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return True if successful, false otherwise
 	 */
 	public boolean mkdir(String dirName) {
-		this.jcon.send(FtpConstants.MKD + " " + dirName);
+		this.jcon.send(FtpCommand.MKD.name() + " " + dirName);
 
 		boolean ret = this.success(POSITIVE); // Filezille server bugfix, was: FTP257_PATH_CREATED);
 		Log.out("mkdir(" + dirName + ")  returned: " + ret);
@@ -1854,7 +1854,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		String tmp = "";
 
 		if (Settings.getFtpPasvMode()) {
-			this.jcon.send(FtpConstants.PASV);
+			this.jcon.send(FtpCommand.PASV.name());
 
 			tmp = this.getLine(FtpConstants.FTP227_ENTERING_PASSIVE_MODE);
 
@@ -1945,7 +1945,6 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		if (tmp) {
 			this.fireDirectoryUpdate(this);
-
 			return true;
 		} else {
 			return false;
@@ -2224,7 +2223,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	}
 
 	public boolean type(String code) {
-		this.jcon.send(FtpConstants.TYPE + " " + code);
+		this.jcon.send(FtpCommand.TYPE.name() + " " + code);
 
 		String tmp = this.getLine(POSITIVE);//FTP200_OK);
 
@@ -2251,7 +2250,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Do nothing, but flush buffers
 	 */
 	public void noop() {
-		this.jcon.send(FtpConstants.NOOP);
+		this.jcon.send(FtpCommand.NOOP.name());
 		this.getLine(POSITIVE);//FTP200_OK);
 	}
 
@@ -2259,7 +2258,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * Try to abort the transfer.
 	 */
 	public void abort() {
-		this.jcon.send(FtpConstants.ABOR);
+		this.jcon.send(FtpCommand.ABOR.name());
 		this.getLine(POSITIVE); // 226
 	}
 
@@ -2272,7 +2271,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return The server response of the SYST command
 	 */
 	private String system() { // possible responses 215, 500, 501, 502, and 421
-		this.jcon.send(FtpConstants.SYST);
+		this.jcon.send(FtpCommand.SYST.name());
 
 		String response = this.getLine(POSITIVE);//FTP215_SYSTEM_TYPE);
 
@@ -2330,7 +2329,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return The server's response to the request
 	 */
 	private String mode(String code) {
-		this.jcon.send(FtpConstants.MODE + " " + code);
+		this.jcon.send(FtpCommand.MODE.name() + " " + code);
 
 		String ret = "";
 

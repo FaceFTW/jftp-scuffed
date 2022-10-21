@@ -197,7 +197,7 @@ public class DirLister implements ActionListener {
 				this.sizes[i] = (String) sv.get(i);
 
 				if (null != this.perms) {
-					this.perms[i] =  pv.get(i);
+					this.perms[i] = pv.get(i);
 				}
 			}
 		} else if (type.equals("Date")) {

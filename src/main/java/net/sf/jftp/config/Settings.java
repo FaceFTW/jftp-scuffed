@@ -15,7 +15,8 @@
  */
 package net.sf.jftp.config;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,12 +28,6 @@ public enum Settings {
 
 	public static final String CONFIG_FALSE = "false";
 	public static final String CONFIG_TRUE = "true";
-	
-	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
-	private static final String defaultWidth = "1000";
-	private static final String defaultHeight = "740";
-	private static final String defaultX = "20";
-	private static final String defaultY = "20";
 	// title of the app
 	public static final String title = "JFtp - The Java Network Browser";
 	// overridden title for insomniac client
@@ -42,6 +37,17 @@ public enum Settings {
 	public static final int testTimeout = 5000;
 	public static final String defaultDir = "<default>";
 	public static final String defaultWorkDir = System.getProperty("user.home");
+	public static final String greeting = "Have a lot of fun...";
+	//***
+	public static final String readme = "docs/readme";
+	public static final String changelog = "docs/CHANGELOG";
+	public static final String todo = "docs/TODO";
+	public static final String nfsinfo = "docs/doc/nfsinfo";
+	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
+	private static final String defaultWidth = "1000";
+	private static final String defaultHeight = "740";
+	private static final String defaultX = "20";
+	private static final String defaultY = "20";
 	private static final String userHomeDir = System.getProperty("user.home");
 	public static final String appHomeDir = userHomeDir + "/.jftp/".replace('/', File.separatorChar);
 	public static final String bookmarks = appHomeDir + "bookmarks.txt".replace('/', File.separatorChar);
@@ -56,12 +62,6 @@ public enum Settings {
 	//***
 	//*** added in version 1.44
 	public static final String adv_settings = appHomeDir + ".adv_settings".replace('/', File.separatorChar);
-	public static final String greeting = "Have a lot of fun...";
-	//***
-	public static final String readme = "docs/readme";
-	public static final String changelog = "docs/CHANGELOG";
-	public static final String todo = "docs/TODO";
-	public static final String nfsinfo = "docs/doc/nfsinfo";
 	private static final Properties p = new Properties();
 	private static final String defaultFtpPasvMode = CONFIG_TRUE;
 	private static final String defaultEnableDebug = CONFIG_FALSE;
@@ -118,10 +118,7 @@ public enum Settings {
 	public static String iconImage;
 	public static String hostImage;
 	public static String closeImage;
-	private static String infoImage;
 	public static String listImage;
-
-	private static String rmdirImage;
 	public static String mkdirImage;
 	public static String refreshImage;
 	public static String refreshImage2;
@@ -142,7 +139,6 @@ public enum Settings {
 	public static String imageFileImage;
 	public static String presentationFileImage;
 	public static String spreadsheetFileImage;
-	private static String bookFileImage;
 	public static String copyImage;
 	public static String openImage;
 	public static String sftpImage;
@@ -162,18 +158,15 @@ public enum Settings {
 	public static String cdUpImage;
 	public static String nextRSSImage;
 	public static String helpImage;
-
 	public static String scrollLockImage = "images/current/drive_link.png";
 	public static String clearLogImage = "images/current/delete.png";
-
-
 	public static String background = "images/back.jpg";
-
 	//set to false if you want it to run as an applet
 	public static boolean isStandalone = true;
-
-
 	public static String hiddenPassword = "<%hidden%>";
+	private static String infoImage;
+	private static String rmdirImage;
+	private static String bookFileImage;
 
 	static {
 		try {

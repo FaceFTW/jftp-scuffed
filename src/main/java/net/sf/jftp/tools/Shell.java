@@ -22,10 +22,10 @@ import java.util.List;
 public class Shell extends HFrame implements Runnable {
 	private final JTextArea text = new JTextArea(25, 101);
 	private final List<String> commands = new ArrayList<>();
-	private BufferedOutputStream out;
-	private BufferedReader in;
 	BufferedOutputStream err;
 	long off;
+	private BufferedOutputStream out;
+	private BufferedReader in;
 	private Thread runner;
 	private JScrollPane textP;
 	private String input = "";
