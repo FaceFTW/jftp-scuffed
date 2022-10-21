@@ -25,6 +25,7 @@ import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 
 public class ProxyChooser extends HPanel implements ActionListener {
@@ -68,7 +69,7 @@ public class ProxyChooser extends HPanel implements ActionListener {
 			String h = this.proxy.getText().trim();
 			String p = this.port.getText().trim();
 
-			java.util.Properties sysprops = System.getProperties();
+			Map sysprops = System.getProperties();
 
 			// Remove previous values
 			sysprops.remove("socksProxyHost");

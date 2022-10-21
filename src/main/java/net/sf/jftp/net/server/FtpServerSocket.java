@@ -29,6 +29,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -39,7 +40,7 @@ import java.util.ResourceBundle;
 class FtpServerSocket extends Thread {
 	public static final int port = 21;
 	public static final int dataPort = 20;
-	private static ArrayList commands;
+	private static List commands;
 
 	static {
 		commands = new ArrayList();

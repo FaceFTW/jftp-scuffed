@@ -33,14 +33,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ResourceBundle;
 
 
 public class BookmarkManager extends JInternalFrame implements ActionListener {
+	private static final ResourceBundle uiResources = ResourceBundle.getBundle("UIText");
 	private final JTextArea info = new JTextArea(25, 50);
-	private final JButton close = new JButton("Close");
+	private final JButton close = new JButton(uiResources.getString("close"));
 
 	public BookmarkManager() {
-		super("Manage Bookmarks", true, true, true, true);
+		super(uiResources.getString("manage.bookmarks"), true, true, true, true);
 		this.setLocation(50, 50);
 		this.setSize(600, 540);
 		this.getContentPane().setLayout(new BorderLayout());
@@ -48,19 +50,19 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.load(Settings.bookmarks);
 
 		JScrollPane jsp = new JScrollPane(this.info);
-		this.getContentPane().add("Center", jsp);
+		this.getContentPane().add(uiResources.getString("center"), jsp);
 
 		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		//closeP.add(close);
-		javax.swing.JButton save = new javax.swing.JButton("Save and close");
+		javax.swing.JButton save = new javax.swing.JButton(uiResources.getString("save.and.close"));
 		closeP.add(save);
 
 		this.close.addActionListener(this);
 		save.addActionListener(this);
 
-		this.getContentPane().add("South", closeP);
+		this.getContentPane().add(uiResources.getString("south"), closeP);
 
 		this.info.setCaretPosition(0);
 		this.pack();
@@ -116,7 +118,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			Log.debug("No bookmarks.txt found, using defaults.");
+			Log.debug(uiResources.getString("no.bookmarks.txt.found.using.defaults"));
 
 			this.setDefaultText();
 
