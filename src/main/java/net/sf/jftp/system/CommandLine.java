@@ -36,8 +36,6 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 	private CommandLine() {
 		super();
 		Log.setLogger(new Log4JLogger());
-		Log.out("Testing a getEnableDebug dependent log message");
-		Log.debug("Testing a getDisableLog dependent log message");
 
 		this.eventCollector = new EventCollector();
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPCommand, new FtpEventHandler());

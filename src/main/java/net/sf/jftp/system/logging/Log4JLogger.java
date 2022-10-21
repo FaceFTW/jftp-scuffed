@@ -32,7 +32,6 @@ public class Log4JLogger implements JftpLogger {
 	private static String stacktrace(Throwable throwable) {
 		StringWriter out = new StringWriter();
 		throwable.printStackTrace(new PrintWriter(out));
-
 		return (throwable.toString());
 	}
 

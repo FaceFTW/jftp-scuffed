@@ -40,8 +40,9 @@ import net.sf.jftp.net.FilesystemConnection;
 import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.UpdateDaemon;
-import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.system.logging.JftpLogger;
+import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.system.logging.Log4JLogger;
 import net.sf.jftp.tools.RSSFeeder;
 
 import javax.swing.*;
@@ -120,6 +121,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	private JInternalFrame j5;
 	private String buffer = "";
 	private long oldtime;
+	private static Log4JLogger log4JLogger = new Log4JLogger();
 
 	public JFtp() {
 		super();
@@ -258,6 +260,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			}
 		} catch (Error ex) {
 			ex.printStackTrace();
+			log4JLogger.debug(ex.getMessage(), ex);
 		}
 	}
 
@@ -661,6 +664,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		}
 
 		logTextArea.append(this.buffer);
+		log4JLogger.debug(this.buffer);
 		this.buffer = "";
 
 		long time = System.currentTimeMillis();
@@ -684,6 +688,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 	private void logRaw(String msg) {
 		logTextArea.append(" " + msg);
+		log4JLogger.debug(msg);
 		Log.out("NOTE: logRaw called");
 		this.paintImmediately(0, 0, this.getSize().width, this.getSize().height);
 
