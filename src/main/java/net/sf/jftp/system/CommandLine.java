@@ -23,7 +23,7 @@ import net.sf.jftp.event.FtpEvent;
 import net.sf.jftp.event.FtpEventConstants;
 import net.sf.jftp.event.FtpEventHandler;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.system.logging.SystemLogger;
+import net.sf.jftp.system.logging.Log4JLogger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +35,10 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 
 	private CommandLine() {
 		super();
-		Log.setLogger(new SystemLogger());
+		Log.setLogger(new Log4JLogger());
+		Log.out("Testing a getEnableDebug dependent log message");
+		Log.debug("Testing a getDisableLog dependent log message");
+
 		this.eventCollector = new EventCollector();
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPCommand, new FtpEventHandler());
 		EventProcessor.addHandler(net.sf.jftp.event.FtpEventConstants.FTPPrompt, this);

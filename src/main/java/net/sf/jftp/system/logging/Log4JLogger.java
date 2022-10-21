@@ -17,6 +17,7 @@ package net.sf.jftp.system.logging;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -28,59 +29,59 @@ public class Log4JLogger implements JftpLogger {
 		super();
 	}
 
-	private String stacktrace(Throwable throwable) {
+	private static String stacktrace(Throwable throwable) {
 		StringWriter out = new StringWriter();
 		throwable.printStackTrace(new PrintWriter(out));
 
 		return (throwable.toString());
 	}
 
-	public void debug(String msg) {
-		this.logger.debug(msg);
+	public void debugRaw(String msg) {
+		logger.debug(msg);
 	}
 
-	public void debugRaw(String msg) {
-		this.logger.debug(msg);
+	public void debug(String msg) {
+		logger.debug(msg);
 	}
 
 	public void debug(String msg, Throwable throwable) {
-		this.logger.debug(msg);
-		this.logger.debug(this.stacktrace(throwable));
+		logger.debug(msg);
+		logger.debug(stacktrace(throwable));
 	}
 
 	public void warn(String msg) {
-		this.logger.warn(msg);
+		logger.warn(msg);
 	}
 
 	public void warn(String msg, Throwable throwable) {
-		this.logger.warn(msg);
-		this.logger.warn(this.stacktrace(throwable));
+		logger.warn(msg);
+		logger.warn(stacktrace(throwable));
 	}
 
 	public void error(String msg) {
-		this.logger.error(msg);
+		logger.error(msg);
 	}
 
 	public void error(String msg, Throwable throwable) {
-		this.logger.error(msg);
-		this.logger.error(this.stacktrace(throwable));
+		logger.error(msg);
+		logger.error(stacktrace(throwable));
 	}
 
 	public void info(String msg) {
-		this.logger.info(msg);
+		logger.info(msg);
 	}
 
 	public void info(String msg, Throwable throwable) {
-		this.logger.info(msg);
-		this.logger.info(this.stacktrace(throwable));
+		logger.info(msg);
+		logger.info(stacktrace(throwable));
 	}
 
 	public void fatal(String msg) {
-		this.logger.fatal(msg);
+		logger.fatal(msg);
 	}
 
 	public void fatal(String msg, Throwable throwable) {
-		this.logger.fatal(msg);
-		this.logger.fatal(this.stacktrace(throwable));
+		logger.fatal(msg);
+		logger.fatal(stacktrace(throwable));
 	}
 }
