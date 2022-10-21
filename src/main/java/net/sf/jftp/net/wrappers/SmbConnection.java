@@ -135,7 +135,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		return 1;
 	}
 
-	private void cleanSmbDir(String dir) throws Exception {
+	private void cleanSmbDir(String dir) throws Exception, java.net.MalformedURLException, jcifs.smb.SmbException {
 		dir = this.toSMB(dir);
 
 		SmbFile f2 = new SmbFile(dir, this.getAuth());

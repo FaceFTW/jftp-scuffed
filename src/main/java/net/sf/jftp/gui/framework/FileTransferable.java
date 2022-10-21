@@ -22,7 +22,7 @@ public class FileTransferable implements Transferable //, ClipboardOwner
 		return (flavorList.contains(flavor));
 	}
 
-	public synchronized Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+	public synchronized Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, java.io.UnsupportedEncodingException {
 		if (flavor.equals(plainTextFlavor)) {
 			return new ByteArrayInputStream(this.toString().getBytes("iso8859-1"));
 		} else {

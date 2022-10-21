@@ -972,7 +972,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (Settings.enableFtpDelays) {
 				try {
 					Thread.sleep(100);
-				} catch (Exception ex) {
+				} catch (InterruptedException e) {
+					Log.debug("FtpConnection InterruptedException in Thread sleep in download");
+				} catch (RuntimeException ex) {
+					Log.debug("FtpConnection RuntimeException in Thread sleep in download");
 				}
 			}
 
@@ -982,7 +985,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		if (Settings.enableFtpDelays) {
 			try {
 				Thread.sleep(400);
-			} catch (Exception ex) {
+			} catch (InterruptedException e) {
+				Log.debug("FtpConnection InterruptedException in Thread sleep in download");
+			} catch (RuntimeException ex) {
+				Log.debug("FtpConnection RuntimeException in Thread sleep in download");
 			}
 		}
 
@@ -1288,7 +1294,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			try {
 				Thread.sleep(100);
-			} catch (Exception ex) {
+			} catch (InterruptedException e) {
+				Log.debug("FtpConnection InterruptedException in Thread sleep in upload");
+			} catch (RuntimeException ex) {
+				Log.debug("FtpConnection RuntimeException in Thread sleep in upload");
 			}
 
 			this.fireActionFinished(this);
@@ -1297,7 +1306,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		try {
 			Thread.sleep(500);
-		} catch (Exception ex) {
+		} catch (InterruptedException e) {
+			Log.debug("FtpConnection InterruptedException in Thread sleep in upload");
+		} catch (RuntimeException ex) {
+			Log.debug("FtpConnection RuntimeException in Thread sleep in upload");
 		}
 
 		return stat;
@@ -1893,7 +1905,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 
 			ex.printStackTrace();
-			throw new IOException(ex.getMessage());
+			throw new IOException(ex);
 		}
 	}
 

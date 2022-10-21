@@ -6,7 +6,7 @@ import jcifs.smb.SmbFile;
 
 class SmbTest extends NtlmAuthenticator {
 
-	private SmbTest(String[] argv) throws Exception {
+	private SmbTest(String[] argv) throws java.net.MalformedURLException, jcifs.smb.SmbException {
 		super();
 		NtlmAuthenticator.setDefault(this);
 
@@ -20,7 +20,7 @@ class SmbTest extends NtlmAuthenticator {
 		System.out.println("EOL");
 	}
 
-	public static String readLine() throws Exception {
+	public static String readLine() throws java.io.IOException {
 		int c;
 		StringBuilder sb = new StringBuilder();
 		while ('\n' != (c = System.in.read())) {

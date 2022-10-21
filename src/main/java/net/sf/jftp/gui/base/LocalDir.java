@@ -626,7 +626,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 		}
 	}
 
-	private void copy(Object[] fRaw, String path, String offset, String target) throws Exception {
+	private void copy(Object[] fRaw, String path, String offset, String target) throws Exception, java.io.FileNotFoundException, IOException {
 		String[] files = new String[fRaw.length];
 
 		for (int j = 0; j < fRaw.length; j++) {

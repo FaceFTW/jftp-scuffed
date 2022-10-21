@@ -454,7 +454,7 @@ public class WebdavConnection implements BasicConnection {
 		}
 	}
 
-	private WebdavResource getResource(String res) throws IOException {
+	private WebdavResource getResource(String res) throws IOException, org.apache.commons.httpclient.HttpException {
 		return new WebdavResource(this.getURL(res));
 	}
 

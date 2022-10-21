@@ -269,6 +269,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					this.lf.add(tmp);
 				}
 			} catch (ClassNotFoundException | IllegalAccessException | InstantiationException cnfe) {
+				Log.debug("AppMenuBar error in look and feel");
 			}
 		}
 
