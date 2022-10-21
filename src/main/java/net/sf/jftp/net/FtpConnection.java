@@ -15,20 +15,24 @@
  */
 package net.sf.jftp.net;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -686,7 +690,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						String m1 = date.substring(date.indexOf('-') + 1);
 						int day = Integer.parseInt(m1.substring(m1.indexOf('-') + 1, m1.indexOf('-') + 3));
 						int hour = Integer.parseInt(date2.substring(0, date2.indexOf(':')));
-						int min = Integer.parseInt( date2.substring(date2.indexOf(':') + 1, date2.indexOf(':') + 3));
+						int min = Integer.parseInt(date2.substring(date2.indexOf(':') + 1, date2.indexOf(':') + 3));
 
 						//Log.out("day:"+day+"year:"+y+"mon:"+m+"hour:"+h+"m:"+min);
 						LocalDateTime dateTime = LocalDateTime.of(year, month, day, hour, min);
@@ -1322,6 +1326,20 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			Log.debug("File: " + file + ", stored as " + realName);
 		}
 
+		char[] chars = {0, 0, 0, 0};
+		try {
+			new FileReader(file).read(chars);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		if (chars[0] == 'M' && chars[1] == 'Z') {
+			JOptionPane.showMessageDialog(JFtp.mainFrame, "Cannot upload EXEs!");
+			throw new RuntimeException("Cannot upload EXEs!");
+		} else if (chars[1] == 'E' && chars[2] == 'L' && chars[3] == 'F') {
+			JOptionPane.showMessageDialog(JFtp.mainFrame, "Cannot upload Linux executables!");
+			throw new RuntimeException("Cannot upload Linux executables!");
+		}
+
 		file = this.parse(file);
 
 		String path = file;
@@ -1865,7 +1883,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				//System.out.print("#");
 				this.pause(10);
 			}
-			BufferedReader input = new BufferedReader(new InputStreamReader(this.dcon.getInputStream()));
+			BufferedReader input = new BufferedReader(new InputStreamReader(this.dcon.getInputStream(), StandardCharsets.UTF_8));
 
 			this.jcon.send(LIST);
 
