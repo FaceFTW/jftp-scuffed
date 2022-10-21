@@ -94,4 +94,7 @@ dist/
 # Ignore javadoc build output
 doc/javadoc/
 
+# Libraries auto-downloaded during the build process
+.idea/libraries/
+
 # Anything below this line should be placed into a category above instead! Explain why it's ignored.
