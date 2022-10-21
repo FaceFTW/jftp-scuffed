@@ -121,7 +121,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	private JInternalFrame j5;
 	private String buffer = "";
 	private long oldtime;
-	private static Log4JLogger log4JLogger = new Log4JLogger();
+	public static Log4JLogger log4JLogger = new Log4JLogger();
 
 	public JFtp() {
 		super();
@@ -179,6 +179,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			log4JLogger.debug(ex.getMessage(), ex);
 		}
 	}
 
@@ -957,6 +958,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			this.handleDrop(null, Toolkit.getDefaultToolkit().getSystemClipboard().getContents(this));
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			log4JLogger.debug(ex.getMessage(), ex);
 		}
 	}
 

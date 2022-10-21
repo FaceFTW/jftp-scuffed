@@ -1922,9 +1922,13 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				this.type(oldType);
 			}
 
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(JFtp.mainFrame, ex.getMessage());
-			// TODO_ROSE - should it both message and throw?
+			String message = ex.getMessage();
+			if (message.equals("Read timed out")) {
+				JOptionPane.showMessageDialog(JFtp.mainFrame, message + ". Try using LIST compatibility mode?");
+			} else {
+				JOptionPane.showMessageDialog(JFtp.mainFrame, message);
+			}
+			JFtp.log4JLogger.debug("EXCEPTION: " + message, ex);
 			throw new IOException(ex);
 		}
 	}

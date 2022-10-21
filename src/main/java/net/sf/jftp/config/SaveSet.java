@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.config;
 
+import net.sf.jftp.JFtp;
+
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
@@ -41,6 +43,7 @@ public class SaveSet {
 			fos.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			JFtp.log4JLogger.debug(ex.getMessage(), ex);
 		}
 	}
 
