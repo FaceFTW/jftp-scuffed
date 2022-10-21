@@ -796,8 +796,8 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 
 		JTextArea text = new JTextArea();
 		h.getContentPane().add("Center", text);
-		text.setText(" ---------------- Output -----------------\n" + JFtp.log.getText());
-		JFtp.log.setText("");
+		text.setText(" ---------------- Output -----------------\n" + JFtp.logTextArea.getText());
+		JFtp.logTextArea.setText("");
 		text.setEditable(false);
 		h.pack();
 		h.setVisible(true);

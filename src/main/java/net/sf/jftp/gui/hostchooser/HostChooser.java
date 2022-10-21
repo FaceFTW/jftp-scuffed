@@ -380,7 +380,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		this.h.getContentPane().add("Center", text);
 		this.h.getContentPane().add("South", p);
 		text.setText(" ---------------- Output -----------------\n\n" + "The server is busy at the moment.\n\n" + "Do you want JFtp to go to disappear and try to login\n" + "continuously?\n\n" + "(It will show up again when it has initiated a connection)\n\n");
-		net.sf.jftp.JFtp.log.setText("");
+		net.sf.jftp.JFtp.logTextArea.setText("");
 		text.setEditable(false);
 		this.h.pack();
 	}

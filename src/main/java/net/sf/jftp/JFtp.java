@@ -90,17 +90,17 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	private static final int acceptableActions = DnDConstants.ACTION_COPY;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
-	private static boolean mainUsed;
 	public static StatusPanel statusP;
 	public static JLabel statusL = new JLabel("Welcome to JFtp...                                                            ");
 	public static JFrame mainFrame;
 	public static Dir localDir;
 	public static Dir remoteDir;
 	public static boolean uiBlocked;
-	public static JTextArea log;
-	private static boolean doScroll = true;
+	public static JTextArea logTextArea;
 	public static AppMenuBar menuBar;
 	public static DropTarget dropTarget;
+	private static boolean mainUsed;
+	private static boolean doScroll = true;
 	private static DropTargetListener dtListener;
 	private static JScrollPane logSp;
 	private final JTabbedPane remoteConnectionPanel = new JTabbedPane();
@@ -110,8 +110,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	private final JToolBar bottomBar = new JToolBar();
 	private final JSplitPane workP = null;
 	private final JSplitPane logP = null;
-	private HostChooser hc;
 	public RSSFeeder feeder;
+	private HostChooser hc;
 	private HDesktopBackground background;
 	private JInternalFrame j1;
 	private JInternalFrame j2;
@@ -262,7 +262,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	}
 
 	public static void clearLog() {
-		log.setText("");
+		logTextArea.setText("");
 		logSp.paintImmediately(0, 0, logSp.getSize().width, logSp.getSize().height);
 	}
 
@@ -379,11 +379,11 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.j2.setSize(new Dimension(460, this.j1.getSize().height));
 		this.j2.show();
 
-		log = new JTextArea();
-		log.setBackground(GUIDefaults.light);
-		log.setForeground(GUIDefaults.front);
-		log.setEditable(false);
-		logSp = new JScrollPane(log);
+		logTextArea = new JTextArea();
+		logTextArea.setBackground(GUIDefaults.light);
+		logTextArea.setForeground(GUIDefaults.front);
+		logTextArea.setEditable(false);
+		logSp = new JScrollPane(logTextArea);
 		logSp.setSize(new Dimension(428, 148));
 
 		this.j5 = new JInternalFrame("Queue System", true, false, true, true);
@@ -443,7 +443,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.add("South", this.bottomBar);
 
 		this.addComponentListener(this);
-		this.componentResized(new ComponentEvent(log, 0));
+		this.componentResized(new ComponentEvent(logTextArea, 0));
 
 		this.validate();
 		this.setVisible(true);
@@ -652,7 +652,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 					return;
 				}
 			}
-		} else if (null == log) {
+		} else if (null == logTextArea) {
 			return;
 		}
 
@@ -660,7 +660,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			this.buffer = this.buffer + " " + msg;
 		}
 
-		log.append(this.buffer);
+		logTextArea.append(this.buffer);
 		this.buffer = "";
 
 		long time = System.currentTimeMillis();
@@ -683,7 +683,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	}
 
 	private void logRaw(String msg) {
-		log.append(" " + msg);
+		logTextArea.append(" " + msg);
 		Log.out("NOTE: logRaw called");
 		this.paintImmediately(0, 0, this.getSize().width, this.getSize().height);
 
