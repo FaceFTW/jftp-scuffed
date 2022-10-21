@@ -1,9 +1,13 @@
 package net.sf.jftp.net;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.logging.Log;
 
+import javax.swing.*;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 /**
@@ -167,7 +171,19 @@ public class FtpTransfer extends Transfer implements Runnable {
 				if (null != this.newName) {
 					this.transferStatus = this.con.upload(this.file, this.newName);
 				} else {
-					this.transferStatus = this.con.upload(this.file);
+					Path p = Paths.get(this.file + ".lock");
+					System.out.println(p.getFileName().toString());
+					System.out.println("d: " + this.con.download(p.getFileName().toString()));
+					int stat = this.con.download(p.getFileName().toString());
+					System.out.println("stat: " + stat);
+					if (stat == FtpConstants.PERMISSION_DENIED) {
+						JFtp.remoteDir.getCon().sendRawCommand("STOR " + p.getFileName());
+						this.transferStatus = this.con.upload(this.file);
+						this.con.removeFileOrDir(p.getFileName().toString());
+					} else {
+						JOptionPane.showMessageDialog(JFtp.mainFrame, "Lock file exists! Someone else is concurrently editing this file");
+					}
+					if (stat == FtpConstants.TRANSFER_SUCCESSFUL) p.toFile().delete();
 				}
 			} else {
 				this.transferStatus = this.con.download(this.file);
