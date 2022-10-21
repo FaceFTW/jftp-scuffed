@@ -955,7 +955,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		}
 	}
 
-	private void handleDrop(DropTargetDropEvent e, Transferable t) throws Exception {
+	private void handleDrop(DropTargetDropEvent e, Transferable t) throws java.awt.datatransfer.UnsupportedFlavorException, java.io.IOException {
 		System.out.println("Starting dropAttempt");
 
 		DataFlavor chosen = DataFlavor.javaFileListFlavor;

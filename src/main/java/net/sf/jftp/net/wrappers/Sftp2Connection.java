@@ -123,7 +123,7 @@ public class Sftp2Connection implements BasicConnection {
 		return 1;
 	}
 
-	private void cleanSftpDir(String dir) throws Exception {
+	private void cleanSftpDir(String dir) throws Exception, SftpException {
 		Log.out(">>>>>>>> cleanSftpDir: " + dir);
 
 		List<LsEntry> v = new java.util.ArrayList<>(this.channel.ls(dir));

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -87,12 +88,8 @@ class FtpServerSocket extends Thread {
 		super();
 		this.socket = s;
 
-		try {
-			this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
-			this.out = new PrintWriter(this.socket.getOutputStream(), true);
-		} catch (IOException ioe) {
-			throw ioe;
-		}
+		this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+		this.out = new PrintWriter(this.socket.getOutputStream(), true);
 
 		Method[] m = this.getClass().getDeclaredMethods();
 		String methodName = null;
@@ -196,7 +193,10 @@ class FtpServerSocket extends Thread {
 				ps.flush();
 				ps.close();
 				this.send("226");
-			} catch (Exception e) {
+			} catch (IOException e) {
+				Log.debug("FtpServerSocket IOException in list()");
+			} catch (RuntimeException e) {
+				Log.debug("FtpServerSocket RuntimeException in list()");
 			}
 		}
 	}
@@ -246,7 +246,14 @@ class FtpServerSocket extends Thread {
 				if (null != o) {
 					try {
 						o.invoke(this, line);
-					} catch (Exception e) {
+					} catch (IllegalAccessException e1) {
+						Log.debug("FtpServerSocket IllegalAccessException in invoke in handle");
+					} catch (IllegalArgumentException e1) {
+						Log.debug("FtpServerSocket IllegalArgumentException in invoke in handle");
+					} catch (InvocationTargetException e1) {
+						Log.debug("FtpServerSocket InvocationTargetException in invoke in handle");
+					} catch (RuntimeException ex) {
+						Log.debug("FtpServerSocket RuntimeException in invoke in handle");
 					}
 				} else {
 					this.send("500");

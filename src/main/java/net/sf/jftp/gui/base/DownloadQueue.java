@@ -33,8 +33,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
@@ -273,7 +275,12 @@ public class DownloadQueue extends HPanel implements ActionListener {
 					this.liststr.addElement(rec.hostname + " : " + rec.remote + rec.file);
 				}
 			}
-		} catch (Exception ex) {
+		} catch (FileNotFoundException e) {
+			Log.debug("DownloadQueue FileNotFoundException in loadList");
+		} catch (IOException e) {
+			Log.debug("DownloadQueue IOException in loadList");
+		} catch (RuntimeException ex) {
+			Log.debug("DownloadQueue RuntimeException in loadList");
 		}
 	}
 
@@ -374,8 +381,10 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 						try {
 							Thread.sleep(10);
-						} catch (Exception ex) {
-							ex.printStackTrace();
+						} catch (InterruptedException e) {
+							Log.debug("DownloadQueue InterruptedException on Thread sleep in run");
+						} catch (RuntimeException ex) {
+							Log.debug("DownloadQueue RuntimeException on Thread sleep in run");
 						}
 					}
 
@@ -400,6 +409,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 					Thread.sleep(100);
 				}
 			} catch (InterruptedException e) {
+				Log.debug("DownloadQueue InterruptedException in run");
 			}
 
 			if (this.connected) {

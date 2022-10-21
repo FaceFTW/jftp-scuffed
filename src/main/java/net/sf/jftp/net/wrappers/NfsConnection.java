@@ -95,7 +95,7 @@ public class NfsConnection implements BasicConnection {
 		return true;
 	}
 
-	private String[] getExports() throws Exception {
+	private String[] getExports() throws java.net.UnknownHostException, IOException {
 		XFile xf = new XFile(this.url);
 		com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 

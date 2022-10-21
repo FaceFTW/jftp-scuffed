@@ -29,7 +29,7 @@ import java.util.zip.ZipOutputStream;
 public class ZipFileCreator {
 	private final ZipOutputStream z;
 
-	public ZipFileCreator(String[] files, String path, String name) throws Exception {
+	public ZipFileCreator(String[] files, String path, String name) throws java.io.FileNotFoundException, java.io.IOException {
 		super();
 		this.z = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path + name)));
 		this.perform(files, path, "");

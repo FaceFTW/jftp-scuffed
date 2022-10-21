@@ -299,7 +299,8 @@ public class DownloadList extends HPanel implements ActionListener {
 		if (type.equals(DataConnection.FINISHED) || type.startsWith(DataConnection.DFINISHED)) {
 			try {
 				JFtp.getConnectionHandler().removeConnection(file);
-			} catch (Exception ex) {
+			} catch (RuntimeException ex) {
+				Log.debug("DownloadList RuntimeException in updateList");
 			}
 
 			UpdateDaemon.updateCall();
@@ -390,7 +391,8 @@ public class DownloadList extends HPanel implements ActionListener {
 					return tmp;
 				}
 			}
-		} catch (Exception ex) {
+		} catch (RuntimeException ex) {
+			Log.debug("DownloadList RuntimeException in getRealName");
 		}
 
 		return file;

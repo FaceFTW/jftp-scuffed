@@ -65,6 +65,7 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 				line = in.readLine();
 				this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPCommand, line));
 			} catch (IOException e) {
+				Log.debug("CommandLine exception on run");
 			}
 		} while (!line.toLowerCase().startsWith("quit"));
 

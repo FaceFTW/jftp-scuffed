@@ -16,7 +16,9 @@
 package net.sf.jftp.event;
 
 import net.sf.jftp.net.FtpClient;
+import net.sf.jftp.system.logging.Log;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,7 +105,14 @@ public class FtpEventHandler implements EventHandler {
 			if (null != o) {
 				try {
 					o.invoke(this, list);
-				} catch (Exception ex) {
+				} catch (IllegalAccessException e1) {
+					Log.debug("FtpEventHandler IllegalAccessException in invoke in handle");
+				} catch (IllegalArgumentException e1) {
+					Log.debug("FtpEventHandler IllegalArgumentException in invoke in handle");
+				} catch (InvocationTargetException e1) {
+					Log.debug("FtpEventHandler InvocationTargetException in invoke in handle");
+				} catch (RuntimeException ex) {
+					Log.debug("FtpEventHandler RuntimeException in invoke in handle");
 				}
 			}
 		}

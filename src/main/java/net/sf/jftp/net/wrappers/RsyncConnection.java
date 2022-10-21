@@ -59,7 +59,7 @@ public class RsyncConnection implements BasicConnection {
 		Log.out("rsync host is: " + host);
 	}
 
-	private String[] getExports() throws Exception {
+	private String[] getExports() throws java.net.UnknownHostException, java.io.IOException {
 		com.sun.xfile.XFile xf = new com.sun.xfile.XFile(this.url);
 		com.sun.nfs.XFileExtensionAccessor nfsx = (com.sun.nfs.XFileExtensionAccessor) xf.getExtensionAccessor();
 
