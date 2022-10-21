@@ -25,6 +25,9 @@ import java.util.Properties;
 public enum Settings {
 	;
 
+	public static final String CONFIG_FALSE = "false";
+	public static final String CONFIG_TRUE = "true";
+	
 	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
 	private static final String defaultWidth = "1000";
 	private static final String defaultHeight = "740";
@@ -60,13 +63,13 @@ public enum Settings {
 	public static final String todo = "docs/TODO";
 	public static final String nfsinfo = "docs/doc/nfsinfo";
 	private static final Properties p = new Properties();
-	private static final String defaultFtpPasvMode = "true";
-	private static final String defaultEnableDebug = "false";
-	private static final String enableMultiThreading = "true";
-	private static final String enableSmbMultiThreading = "true";
-	private static final String enableSftpMultiThreading = "true";
-	private static final String noUploadMultiThreading = "false";
-	private static final String storePasswords = "false";
+	private static final String defaultFtpPasvMode = CONFIG_TRUE;
+	private static final String defaultEnableDebug = CONFIG_FALSE;
+	private static final String enableMultiThreading = CONFIG_TRUE;
+	private static final String enableSmbMultiThreading = CONFIG_TRUE;
+	private static final String enableSftpMultiThreading = CONFIG_TRUE;
+	private static final String noUploadMultiThreading = CONFIG_FALSE;
+	private static final String storePasswords = CONFIG_FALSE;
 	public static boolean IS_JAVA_1_6 = true;
 	public static String sshHostKeyVerificationFile = System.getProperty("user.home") + File.separator + ".jftp" + File.separator + ".ssh_hostfile";
 	public static int maxConnections = 3;
@@ -279,6 +282,10 @@ public enum Settings {
 
 	}
 
+	private static boolean isNotFalse(String what) {
+		return !what.trim().equals(CONFIG_FALSE);
+	}
+
 	public static Object setProperty(String key, String value) {
 		return p.setProperty(key, value);
 	}
@@ -292,10 +299,10 @@ public enum Settings {
 	}
 
 	public static Object setProperty(String key, boolean value) {
-		String val = "false";
+		String val = CONFIG_FALSE;
 
 		if (value) {
-			val = "true";
+			val = CONFIG_TRUE;
 		}
 
 		return p.setProperty(key, val);
@@ -313,9 +320,9 @@ public enum Settings {
 	}
 
 	public static boolean getHideLocalDotNames() {
-		String what = p.getProperty("jftp.hideHiddenDotNames", "false");
+		String what = p.getProperty("jftp.hideHiddenDotNames", CONFIG_FALSE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static int getMaxConnections() {
@@ -333,45 +340,45 @@ public enum Settings {
 	}
 
 	public static boolean getUseBackground() {
-		String what = p.getProperty("jftp.useBackground", "true");
+		String what = p.getProperty("jftp.useBackground", CONFIG_TRUE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableSshKeys() {
-		String what = p.getProperty("jftp.useSshKeyVerification", "false");
+		String what = p.getProperty("jftp.useSshKeyVerification", CONFIG_FALSE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableResuming() {
-		String what = p.getProperty("jftp.enableResuming", "true");
+		String what = p.getProperty("jftp.enableResuming", CONFIG_TRUE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableDebug() {
 		String what = p.getProperty("jftp.enableDebug", defaultEnableDebug);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getDisableLog() {
-		String what = p.getProperty("jftp.disableLog", "false");
+		String what = p.getProperty("jftp.disableLog", CONFIG_FALSE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableStatusAnimation() {
-		String what = p.getProperty("jftp.gui.enableStatusAnimation", "false");
+		String what = p.getProperty("jftp.gui.enableStatusAnimation", CONFIG_FALSE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getAskToDelete() {
-		String what = p.getProperty("jftp.gui.askToDelete", "true");
+		String what = p.getProperty("jftp.gui.askToDelete", CONFIG_TRUE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static String getLookAndFeel() {
@@ -379,51 +386,51 @@ public enum Settings {
 	}
 
 	public static boolean getUseNewIcons() {
-		String what = p.getProperty("jftp.gui.look.newIcons", "true");
+		String what = p.getProperty("jftp.gui.look.newIcons", CONFIG_TRUE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableMultiThreading() {
 		String what = p.getProperty("jftp.enableMultiThreading", enableMultiThreading);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableSmbMultiThreading() {
 		String what = p.getProperty("jftp.enableSmbMultiThreading", enableSmbMultiThreading);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableSftpMultiThreading() {
 		String what = p.getProperty("jftp.enableSftpMultiThreading", enableSftpMultiThreading);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getNoUploadMultiThreading() {
 		String what = p.getProperty("jftp.noUploadMultiThreading", noUploadMultiThreading);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getFtpPasvMode() {
 		String what = p.getProperty("jftp.ftpPasvMode", defaultFtpPasvMode);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getUseDefaultDir() {
-		String what = p.getProperty("jftp.useDefaultDir", "true");
+		String what = p.getProperty("jftp.useDefaultDir", CONFIG_TRUE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static boolean getEnableRSS() {
-		String what = p.getProperty("jftp.enableRSS", "false");
+		String what = p.getProperty("jftp.enableRSS", CONFIG_FALSE);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 	public static String getRSSFeed() {
@@ -471,7 +478,7 @@ public enum Settings {
 	public static boolean getStorePasswords() {
 		String what = p.getProperty("jftp.security.storePasswords", storePasswords);
 
-		return !what.trim().equals("false");
+		return isNotFalse(what);
 	}
 
 }
