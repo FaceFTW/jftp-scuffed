@@ -41,7 +41,7 @@ import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.UpdateDaemon;
 import net.sf.jftp.system.logging.Log;
-import net.sf.jftp.system.logging.Logger;
+import net.sf.jftp.system.logging.JftpLogger;
 import net.sf.jftp.tools.RSSFeeder;
 
 import javax.swing.*;
@@ -80,7 +80,7 @@ import java.net.URL;
 import java.util.List;
 
 
-public class JFtp extends JPanel implements WindowListener, ComponentListener, Logger, ChangeListener, InternalFrameListener {
+public class JFtp extends JPanel implements WindowListener, ComponentListener, JftpLogger, ChangeListener, InternalFrameListener {
 	public static final int CAPACITY = 9;
 	public static final int CONNECTION_DATA_LENGTH = 10;
 	public static final DownloadList dList = new DownloadList();

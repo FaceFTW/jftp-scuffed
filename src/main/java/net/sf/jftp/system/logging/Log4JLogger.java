@@ -21,8 +21,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 
-public class Log4JLogger implements net.sf.jftp.system.logging.Logger {
-	private final Logger logger = LogManager.getLogger("net/sf/jftp");
+public class Log4JLogger implements JftpLogger {
+	private static final Logger logger = LogManager.getLogger("net.sf.jftp");
 
 	public Log4JLogger() {
 		super();

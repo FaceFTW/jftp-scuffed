@@ -277,7 +277,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		}
 	}
 
-	// ------------ needed by Logger interface  --------------
+	// ------------ needed by JftpLogger interface  --------------
 	// main log method
 	public void debug(String msg) {
 		System.out.println(msg);

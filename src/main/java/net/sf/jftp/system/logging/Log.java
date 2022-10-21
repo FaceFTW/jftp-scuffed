@@ -20,14 +20,14 @@ import net.sf.jftp.config.Settings;
 
 public class Log {
 	private static final Log log = new Log();
-	private static Logger logger = new SystemLogger();
+	private static JftpLogger logger = new SystemLogger();
 	private static StringBuffer cache = new StringBuffer();
 
 	private Log() {
 		super();
 	}
 
-	public static void setLogger(Logger logger) {
+	public static void setLogger(JftpLogger logger) {
 		Log.logger = logger;
 	}
 
