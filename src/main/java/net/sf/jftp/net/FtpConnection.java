@@ -1893,7 +1893,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 
 			ex.printStackTrace();
-			throw new IOException(ex.getMessage());
+			JOptionPane.showMessageDialog(JFtp.mainFrame, ex.getMessage());
 		}
 	}
 

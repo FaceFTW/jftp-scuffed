@@ -16,6 +16,7 @@
 package net.sf.jftp.net;
 
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.gui.hostchooser.HostChooser;
 import net.sf.jftp.system.logging.Log;
 
 import java.io.BufferedOutputStream;
