@@ -28,14 +28,12 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
 
 
 public class AdvancedOptions extends HPanel implements ActionListener {
-	private static final ResourceBundle uiResources = ResourceBundle.getBundle("UIText");
 	private static boolean listOptionSet;
-	private final HTextField listCommand = new HTextField(uiResources.getString("ftp.list.command"), FtpConnection.LIST, 15);
-	private final JButton setListCommand = new JButton(uiResources.getString("set"));
+	private final HTextField listCommand = new HTextField("FTP LIST command:", FtpConnection.LIST, 15);
+	private final JButton setListCommand = new JButton("Set");
 
 	private final JLabel statusText = new JLabel();
 
@@ -44,8 +42,8 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 		this.setLayout(new BorderLayout(5, 5));
 
 		javax.swing.JLabel text = new javax.swing.JLabel();
-		text.setText(uiResources.getString("default.values.for.commands.can.be.overridden.here"));
-		this.statusText.setText(uiResources.getString("note.the.ftp.list.command.should.be.list.when.connecting.to.an.os.2.server"));
+		text.setText("Default values for commands can be overridden here.");
+		this.statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
 
 		text.setPreferredSize(new Dimension(400, 30));
 
@@ -71,16 +69,16 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 		panel.add(this.listCommand);
 		panel.add(this.setListCommand);
 
-		javax.swing.JButton saveCommand = new javax.swing.JButton(uiResources.getString("set.and.save"));
+		javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
 		panel.add(saveCommand);
 
 
 		content.add(panel);
 
-		this.add(uiResources.getString("north"), text);
-		this.add(uiResources.getString("center"), content);
+		this.add("North", text);
+		this.add("Center", content);
 
-		this.add(uiResources.getString("south"), this.statusText);
+		this.add("South", this.statusText);
 
 		this.setListCommand.addActionListener(this);
 		saveCommand.addActionListener(this);
@@ -90,7 +88,7 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 		if (e.getSource() == this.setListCommand) {
 			FtpConnection.LIST = this.listCommand.getText().trim();
 
-			this.statusText.setText(uiResources.getString("list.command.set"));
+			this.statusText.setText("LIST command set.");
 			listOptionSet = true;
 
 		} else {
@@ -100,7 +98,7 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 
 			SaveSet s = new SaveSet(Settings.adv_settings, this.listCommand.getText().trim());
 
-			this.statusText.setText(uiResources.getString("list.command.set.and.saved"));
+			this.statusText.setText("LIST command set and saved.");
 
 
 		}

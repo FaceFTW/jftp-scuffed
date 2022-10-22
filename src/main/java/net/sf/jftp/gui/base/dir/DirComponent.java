@@ -5,12 +5,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 
 public class DirComponent extends DirPanel implements ListSelectionListener {
 
-	private static final ResourceBundle uiResources = ResourceBundle.getBundle("UIText");
 	public final JTable table = new JTable();
 	DirPanel target;
 
@@ -27,8 +25,8 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	public void update() {
 		List<String> colNames = new ArrayList<>();
 		colNames.add("");
-		colNames.add(uiResources.getString("name"));
-		colNames.add(uiResources.getString("size"));
+		colNames.add("Name");
+		colNames.add("Size");
 		colNames.add("##");
 
 		TableUtils.layoutTable(this.jl, this.table, colNames);

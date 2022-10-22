@@ -36,22 +36,20 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-import java.util.ResourceBundle;
 
 
 public class AddBookmarks extends HFrame implements ActionListener, WindowListener {
-	private static ResourceBundle uiResources = ResourceBundle.getBundle("UIText");
 	private static net.sf.jftp.JFtp jftp;
 	//public JComboBox protocols = new JComboBox();
-	private final HComboBox protocols = new HComboBox(uiResources.getString("protocol"));
-	private final HTextField host = new HTextField(uiResources.getString("hostname"), "localhost");
-	private final HTextField user = new HTextField(uiResources.getString("username"), "anonymous");
-	private final HPasswordField pass = new HPasswordField(uiResources.getString("password"), "none@nowhere.no");
-	private final HTextField port = new HTextField(uiResources.getString("port"), "21");
-	private final HTextField dirOrDom = new HTextField(uiResources.getString("directory.domain"), "");
-	private final HComboBox isLocal = new HComboBox(uiResources.getString("local.connection"));
-	private final HButton add = new HButton(uiResources.getString("add.bookmark"));
-	private final HButton addAndConnect = new HButton(uiResources.getString("add.bookmark.and.connect.to.server"));
+	private final HComboBox protocols = new HComboBox("Protocol:");
+	private final HTextField host = new HTextField("Hostname:", "localhost");
+	private final HTextField user = new HTextField("Username:", "anonymous");
+	private final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
+	private final HTextField port = new HTextField("Port:    ", "21");
+	private final HTextField dirOrDom = new HTextField("Directory/Domain:    ", "");
+	private final HComboBox isLocal = new HComboBox("Local Connection:");
+	private final HButton add = new HButton("Add Bookmark");
+	private final HButton addAndConnect = new HButton("Add Bookmark and Connect to Server");
 
 	public AddBookmarks(ComponentListener l, net.sf.jftp.JFtp jftp) {
 		super();
@@ -69,7 +67,7 @@ public class AddBookmarks extends HFrame implements ActionListener, WindowListen
 	private void init() {
 		this.setSize(650, 400);
 		this.setLocation(50, 150);
-		this.setTitle(uiResources.getString("add.bookmarks"));
+		this.setTitle("Add Bookmarks...");
 
 		//setBackground(okP.getBackground());
 		this.getContentPane().setLayout(new GridLayout(8, 1));

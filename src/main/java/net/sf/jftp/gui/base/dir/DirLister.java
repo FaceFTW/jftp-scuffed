@@ -26,12 +26,10 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 
 public class DirLister implements ActionListener {
 	private final BasicConnection con;
-	private static final ResourceBundle uiResources = ResourceBundle.getBundle("UIText");
 	public boolean finished;
 	private int length;
 	private String[] files;
@@ -105,7 +103,7 @@ public class DirLister implements ActionListener {
 			this.isDirectory = true;
 
 			if (null != this.sortMode) {
-				if (!this.sortMode.equals(uiResources.getString("date"))) {
+				if (!this.sortMode.equals("Date")) {
 					this.sortFirst();
 				}
 
@@ -126,7 +124,7 @@ public class DirLister implements ActionListener {
 		List<String> sv = new ArrayList<>();
 		List<Integer> pv = new ArrayList<>();
 
-		if (type.equals(uiResources.getString("reverse"))) {
+		if (type.equals("Reverse")) {
 			for (int i = 0; i < this.length; i++) {
 				fv.add(this.files[i]);
 				sv.add(this.sizes[i]);
@@ -154,7 +152,7 @@ public class DirLister implements ActionListener {
 					this.perms[i] = ((int) permsTmp[this.length - i - 1]);
 				}
 			}
-		} else if (type.startsWith(uiResources.getString("size1"))) {
+		} else if (type.startsWith("Size")) {
 			int cnt = 0;
 			java.util.Map<Integer, String> processed = new java.util.HashMap<>();
 			boolean reverse = type.endsWith("/Re");
@@ -202,7 +200,7 @@ public class DirLister implements ActionListener {
 					this.perms[i] = pv.get(i);
 				}
 			}
-		} else if (type.equals(uiResources.getString("date"))) {
+		} else if (type.equals("Date")) {
 			String style = "ftp";
 
 			//TODO: may be slow
@@ -259,7 +257,7 @@ public class DirLister implements ActionListener {
 				this.dates[i] = (LocalDateTime) date[i];
 			}
 
-		} else if (type.equals(uiResources.getString("normal"))) {
+		} else if (type.equals("Normal")) {
 			// already done.
 		}
 	}

@@ -23,7 +23,6 @@ import net.sf.jftp.net.BasicConnection;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ResourceBundle;
 
 /**
  * Create directory dialog.
@@ -31,16 +30,15 @@ import java.util.ResourceBundle;
  * @author David Hansmann
  */
 public class Creator extends HFrame implements ActionListener {
-	private static final ResourceBundle uiResources = ResourceBundle.getBundle("UIText");
 	private final HTextField text;
-	private final HButton ok = new HButton(uiResources.getString("create.directory"));
+	private final HButton ok = new HButton("Create directory...");
 	private final BasicConnection con;
 
 	public Creator(String l, BasicConnection con) {
 		super();
 		this.con = con;
 
-		this.setTitle(uiResources.getString("choose"));
+		this.setTitle("Choose...");
 		this.getContentPane().setLayout(new FlowLayout());
 
 		this.text = new HTextField(l, "");
