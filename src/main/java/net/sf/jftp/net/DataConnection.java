@@ -18,6 +18,7 @@ package net.sf.jftp.net;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.hostchooser.HostChooser;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -28,6 +29,7 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.MessageFormat;
 
 
 /**
@@ -165,7 +167,7 @@ public class DataConnection implements Runnable {
 				} catch (Exception ex) {
 					this.ok = false;
 					ex.printStackTrace();
-					this.debug("Can't open Socket on " + this.host + ":" + this.port);
+					Log.debug(MessageFormat.format(I18nHelper.getLogString("can.t.open.socket.on.0.1"), this.host, this.port));
 				}
 			} else {
 				//Log.debug("trying new server socket: "+port);
@@ -174,11 +176,11 @@ public class DataConnection implements Runnable {
 				} catch (Exception ex) {
 					this.ok = false;
 					ex.printStackTrace();
-					Log.debug("Can't open ServerSocket on port " + this.port);
+					Log.debug(MessageFormat.format(I18nHelper.getLogString("can.t.open.serversocket.on.port.0"), this.port));
 				}
 			}
 		} catch (Exception ex) {
-			this.debug(ex.toString());
+			Log.debug(ex.toString());
 		}
 
 		this.isThere = true;
@@ -199,10 +201,10 @@ public class DataConnection implements Runnable {
 						this.sock = this.ssock.accept();
 					} catch (IOException e) {
 						this.sock = null;
-						this.debug("Got IOException while trying to open a socket!");
+						Log.debug(I18nHelper.getLogString("got.ioexception.while.trying.to.open.a.socket"));
 
 						if (5 == retry) {
-							this.debug("Connection failed, tried 5 times - maybe try a higher timeout in Settings.java...");
+							Log.debug(I18nHelper.getLogString("connection.failed.tried.5.times.maybe.try.a.higher.timeout.in.settings.java"));
 						}
 
 						this.finished = true;
@@ -212,7 +214,7 @@ public class DataConnection implements Runnable {
 						this.ssock.close();
 					}
 
-					this.debug("Attempt timed out, retrying...");
+					Log.debug(I18nHelper.getLogString("attempt.timed.out.retrying"));
 				}
 			}
 
@@ -228,7 +230,7 @@ public class DataConnection implements Runnable {
 						try {
 							if (this.resume) {
 								File f = new File(this.file);
-								fOut = new RandomAccessFile(this.file, "rw");
+								fOut = new RandomAccessFile(this.file, I18nHelper.getLogString("rw"));
 								fOut.seek(f.length());
 								buflen = f.length();
 							} else {
@@ -248,7 +250,7 @@ public class DataConnection implements Runnable {
 								bOut = new BufferedOutputStream(new FileOutputStream(this.localfile), Settings.bufferSize);
 							}
 						} catch (Exception ex) {
-							this.debug("Can't create outputfile: " + this.file);
+							Log.debug(MessageFormat.format(I18nHelper.getLogString("can.t.create.outputfile.0"), this.file));
 							ok = false;
 							ex.printStackTrace();
 						}
@@ -263,7 +265,7 @@ public class DataConnection implements Runnable {
 							}
 						} catch (Exception ex) {
 							ok = false;
-							this.debug("Can't get InputStream");
+							Log.debug(I18nHelper.getLogString("can.t.get.inputstream"));
 						}
 
 						if (ok) {
@@ -278,13 +280,13 @@ public class DataConnection implements Runnable {
 										try {
 											read = this.in.read(buf);
 										} catch (IOException es) {
-											Log.out("got a IOException");
+											Log.out(I18nHelper.getLogString("got.a.ioexception"));
 											ok = false;
 											fOut.close();
 											this.finished = true;
 											this.con.fireProgressUpdate(this.file, FAILED, -1);
 
-											Log.out("last read: " + read + ", len: " + (len + read));
+											Log.out(MessageFormat.format(I18nHelper.getLogString("last.read.0.len.12"), read, len + read));
 											es.printStackTrace();
 
 											return;
@@ -324,13 +326,13 @@ public class DataConnection implements Runnable {
 										try {
 											read = this.in.read(buf);
 										} catch (IOException es) {
-											Log.out("got a IOException");
+											Log.out(I18nHelper.getLogString("got.a.ioexception"));
 											ok = false;
 											bOut.close();
 											this.finished = true;
 											this.con.fireProgressUpdate(this.file, FAILED, -1);
 
-											Log.out("last read: " + read + ", len: " + (len + read));
+											Log.out(MessageFormat.format(I18nHelper.getLogString("last.read.0.len.1"), read, len + read));
 											es.printStackTrace();
 
 											return;
@@ -366,7 +368,7 @@ public class DataConnection implements Runnable {
 								}
 							} catch (IOException ex) {
 								ok = false;
-								this.debug("Old connection removed");
+								Log.debug(I18nHelper.getLogString("old.connection.removed"));
 								this.con.fireProgressUpdate(this.file, FAILED, -1);
 
 								//debug(ex + ": " + ex.getMessage());
@@ -382,7 +384,7 @@ public class DataConnection implements Runnable {
 				}
 			}
 		} catch (IOException ex) {
-			Log.debug("Can't connect socket to ServerSocket");
+			Log.debug(I18nHelper.getLogString("can.t.connect.socket.to.serversocket"));
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -415,14 +417,14 @@ public class DataConnection implements Runnable {
 		try {
 			this.sock.close();
 		} catch (Exception ex) {
-			this.debug(ex.toString());
+			Log.debug(ex.toString());
 		}
 
 		if (!Settings.getFtpPasvMode()) {
 			try {
 				this.ssock.close();
 			} catch (Exception ex) {
-				this.debug(ex.toString());
+				Log.debug(ex.toString());
 			}
 		}
 
@@ -441,10 +443,6 @@ public class DataConnection implements Runnable {
 
 	public FtpConnection getCon() {
 		return this.con;
-	}
-
-	private void debug(String msg) {
-		Log.debug(msg);
 	}
 
 	private boolean time() {
@@ -505,7 +503,7 @@ public class DataConnection implements Runnable {
 
 				//fIn = new BufferedInputStream(new FileInputStream(file));
 			} catch (Exception ex) {
-				this.debug("Can't open inputfile: " + " (" + ex + ")");
+				Log.debug(MessageFormat.format(I18nHelper.getLogString("can.t.open.inputfile.0"), ex));
 				ok = false;
 			}
 		}
@@ -515,7 +513,7 @@ public class DataConnection implements Runnable {
 				this.out = new BufferedOutputStream(this.sock.getOutputStream());
 			} catch (Exception ex) {
 				ok = false;
-				this.debug("Can't get OutputStream");
+				Log.debug(I18nHelper.getLogString("can.t.get.outputstream"));
 			}
 
 			if (ok) {
@@ -564,12 +562,12 @@ public class DataConnection implements Runnable {
 					//Log.debugSize(len, false, true, file);
 				} catch (IOException ex) {
 					ok = false;
-					this.debug("Error: Data connection closed.");
+					Log.debug(I18nHelper.getLogString("error.data.connection.closed"));
 					this.con.fireProgressUpdate(this.file, FAILED, -1);
 					ex.printStackTrace();
 				} catch (InterruptedException e) {
 					ok = false;
-					this.debug("Error: Latency Pause delayed!");
+					Log.debug(I18nHelper.getLogString("error.latency.pause.delayed"));
 					this.con.fireProgressUpdate(this.file, FAILED, -1);
 					e.printStackTrace();
 

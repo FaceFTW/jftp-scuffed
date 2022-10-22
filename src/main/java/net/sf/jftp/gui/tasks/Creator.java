@@ -19,6 +19,7 @@ import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.BasicConnection;
+import net.sf.jftp.util.I18nHelper;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -31,14 +32,14 @@ import java.awt.event.ActionListener;
  */
 public class Creator extends HFrame implements ActionListener {
 	private final HTextField text;
-	private final HButton ok = new HButton("Create directory...");
+	private final HButton ok = new HButton(I18nHelper.getUIString("create.directory"));
 	private final BasicConnection con;
 
 	public Creator(String l, BasicConnection con) {
 		super();
 		this.con = con;
 
-		this.setTitle("Choose...");
+		this.setTitle(I18nHelper.getUIString("choose"));
 		this.getContentPane().setLayout(new FlowLayout());
 
 		this.text = new HTextField(l, "");

@@ -1,5 +1,7 @@
 package net.sf.jftp.gui.base.dir;
 
+import net.sf.jftp.util.I18nHelper;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -25,8 +27,8 @@ public class DirComponent extends DirPanel implements ListSelectionListener {
 	public void update() {
 		List<String> colNames = new ArrayList<>();
 		colNames.add("");
-		colNames.add("Name");
-		colNames.add("Size");
+		colNames.add(I18nHelper.getUIString("name"));
+		colNames.add(I18nHelper.getUIString("size"));
 		colNames.add("##");
 
 		TableUtils.layoutTable(this.jl, this.table, colNames);

@@ -18,6 +18,7 @@ package net.sf.jftp.gui.tasks;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -37,10 +38,10 @@ import java.io.PrintStream;
 
 public class BookmarkManager extends JInternalFrame implements ActionListener {
 	private final JTextArea info = new JTextArea(25, 50);
-	private final JButton close = new JButton("Close");
+	private final JButton close = new JButton(I18nHelper.getUIString("close"));
 
 	public BookmarkManager() {
-		super("Manage Bookmarks", true, true, true, true);
+		super(I18nHelper.getUIString("manage.bookmarks1"), true, true, true, true);
 		this.setLocation(50, 50);
 		this.setSize(600, 540);
 		this.getContentPane().setLayout(new BorderLayout());
@@ -48,19 +49,19 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.load(Settings.bookmarks);
 
 		JScrollPane jsp = new JScrollPane(this.info);
-		this.getContentPane().add("Center", jsp);
+		this.getContentPane().add(I18nHelper.getUIString("center1"), jsp);
 
 		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		//closeP.add(close);
-		javax.swing.JButton save = new javax.swing.JButton("Save and close");
+		javax.swing.JButton save = new javax.swing.JButton(I18nHelper.getUIString("save.and.close"));
 		closeP.add(save);
 
 		this.close.addActionListener(this);
 		save.addActionListener(this);
 
-		this.getContentPane().add("South", closeP);
+		this.getContentPane().add(I18nHelper.getUIString("south1"), closeP);
 
 		this.info.setCaretPosition(0);
 		this.pack();

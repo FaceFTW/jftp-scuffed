@@ -30,11 +30,13 @@ import net.sf.jftp.net.wrappers.HttpTransfer;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.UpdateDaemon;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,16 +52,16 @@ public class DownloadList extends HPanel implements ActionListener {
 		super();
 		this.setLayout(new BorderLayout());
 
-		HImageButton resume = new HImageButton(Settings.resumeImage, "resume", "Resume selected transfer...", this);
+		HImageButton resume = new HImageButton(Settings.resumeImage, "resume", I18nHelper.getUIString("resume.selected.transfer"), this);
 		resume.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.resumeImage2)));
 		resume.setRolloverEnabled(true);
-		HImageButton pause = new HImageButton(Settings.pauseImage, "pause", "Pause selected transfer...", this);
+		HImageButton pause = new HImageButton(Settings.pauseImage, "pause", I18nHelper.getUIString("pause.selected.transfer"), this);
 		pause.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.pauseImage2)));
 		pause.setRolloverEnabled(true);
-		HImageButton clear = new HImageButton(Settings.clearImage, "clear", "Remove old/stalled items from output...", this);
+		HImageButton clear = new HImageButton(Settings.clearImage, "clear", I18nHelper.getUIString("remove.old.stalled.items.from.output"), this);
 		clear.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.clearImage2)));
 		clear.setRolloverEnabled(true);
-		HImageButton cancel = new HImageButton(Settings.deleteImage, "delete", "Cancel selected transfer...", this);
+		HImageButton cancel = new HImageButton(Settings.deleteImage, "delete", I18nHelper.getUIString("cancel.selected.transfer"), this);
 		cancel.setRolloverIcon(new ImageIcon(HImage.getImage(this, Settings.deleteImage2)));
 		cancel.setRolloverEnabled(true);
 
@@ -81,15 +83,15 @@ public class DownloadList extends HPanel implements ActionListener {
 		resume.setSize(24, 24);
 		pause.setSize(24, 24);
 
-		clear.setToolTipText("Remove old/stalled items from output...");
+		clear.setToolTipText(I18nHelper.getUIString("remove.old.stalled.items.from.output"));
 
-		resume.setToolTipText("Resume selected transfer...");
-		pause.setToolTipText("Pause selected transfer...");
-		cancel.setToolTipText("Cancel selected transfer...");
+		resume.setToolTipText(I18nHelper.getUIString("resume.selected.transfer"));
+		pause.setToolTipText(I18nHelper.getUIString("pause.selected.transfer"));
+		cancel.setToolTipText(I18nHelper.getUIString("cancel.selected.transfer"));
 
 		this.scroll = new JScrollPane(this.list);
-		this.add("South", cmdP);
-		this.add("Center", this.scroll);
+		this.add(I18nHelper.getUIString("south3"), cmdP);
+		this.add(I18nHelper.getUIString("center3"), this.scroll);
 	}
 
 	public void fresh() {
@@ -140,8 +142,8 @@ public class DownloadList extends HPanel implements ActionListener {
 
 				Object o = h.getConnections().get(cmd);
 
-				Log.out("aborting  transfer: " + cmd);
-				Log.out("connection handler present: " + h + ", pool size: " + h.getConnections().size());
+				Log.out(MessageFormat.format(I18nHelper.getLogString("aborting.transfer.0"), cmd));
+				Log.out(MessageFormat.format(I18nHelper.getLogString("connection.handler.present.0.pool.size.1"), h, h.getConnections().size()));
 
 				if (o instanceof HttpTransfer) {
 					Transfer d = (Transfer) o;
@@ -167,7 +169,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				this.updateList(this.getRawFile(this.getActiveItem()), DataConnection.FAILED, -1, -1);
 			}
 		} catch (Exception ex) {
-			Log.debug("Action is not supported for this connection.");
+			Log.debug(I18nHelper.getLogString("action.is.not.supported.for.this.connection"));
 			ex.printStackTrace();
 		}
 	}
@@ -203,7 +205,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				d.prepare();
 			}
 		} catch (Exception ex) {
-			Log.debug("Action is not supported for this connection.");
+			Log.debug(I18nHelper.getLogString("action.is.not.supported.for.this.connection"));
 		}
 	}
 
@@ -233,7 +235,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				}
 			}
 		} catch (Exception ex) {
-			Log.debug("Action is not supported for this connection.");
+			Log.debug(I18nHelper.getLogString("action.is.not.supported.for.this.connection"));
 		}
 	}
 
@@ -287,20 +289,20 @@ public class DownloadList extends HPanel implements ActionListener {
 		}
 
 		if (type.equals(DataConnection.GET) || type.equals(DataConnection.PUT)) {
-			message = message + (bytes / 1024) + " / " + tmp + " kb";
+			message = MessageFormat.format(I18nHelper.getUIString("0.1.2.kb"), message, bytes / 1024, tmp);
 			this.list.setTransferred(file, (bytes / 1024), message, s);
 		} else if (type.equals(DataConnection.GETDIR) || type.equals(DataConnection.PUTDIR)) {
-			message = message + (bytes / 1024) + " kb of file #" + count;
+			message = MessageFormat.format(I18nHelper.getUIString("0.1.kb.of.file.2"), message, bytes / 1024, count);
 			this.list.setTransferred(file, (bytes / 1024), message, -1);
 		} else if (type.startsWith(DataConnection.DFINISHED)) {
-			message = message + " " + count + " files.";
+			message = MessageFormat.format(I18nHelper.getUIString("0.1.files"), message, count);
 		}
 
 		if (type.equals(DataConnection.FINISHED) || type.startsWith(DataConnection.DFINISHED)) {
 			try {
 				JFtp.getConnectionHandler().removeConnection(file);
 			} catch (RuntimeException ex) {
-				Log.debug("DownloadList RuntimeException in updateList");
+				Log.debug(I18nHelper.getLogString("downloadlist.runtimeexception.in.updatelist"));
 			}
 
 			UpdateDaemon.updateCall();
@@ -392,7 +394,7 @@ public class DownloadList extends HPanel implements ActionListener {
 				}
 			}
 		} catch (RuntimeException ex) {
-			Log.debug("DownloadList RuntimeException in getRealName");
+			Log.debug(I18nHelper.getLogString("downloadlist.runtimeexception.in.getrealname"));
 		}
 
 		return file;

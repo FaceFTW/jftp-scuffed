@@ -21,6 +21,7 @@ import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.FtpConnection;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -32,8 +33,8 @@ import java.awt.event.ActionListener;
 
 public class AdvancedOptions extends HPanel implements ActionListener {
 	private static boolean listOptionSet;
-	private final HTextField listCommand = new HTextField("FTP LIST command:", FtpConnection.LIST, 15);
-	private final JButton setListCommand = new JButton("Set");
+	private final HTextField listCommand = new HTextField(I18nHelper.getUIString("ftp.list.command"), FtpConnection.LIST, 15);
+	private final JButton setListCommand = new JButton(I18nHelper.getUIString("set"));
 
 	private final JLabel statusText = new JLabel();
 
@@ -41,9 +42,9 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 		super();
 		this.setLayout(new BorderLayout(5, 5));
 
-		javax.swing.JLabel text = new javax.swing.JLabel();
-		text.setText("Default values for commands can be overridden here.");
-		this.statusText.setText("Note: The FTP LIST command should be \"LIST\" when connecting to an OS/2 server.");
+		JLabel text = new JLabel();
+		text.setText(I18nHelper.getUIString("default.values.for.commands.can.be.overridden.here"));
+		this.statusText.setText(I18nHelper.getUIString("note.the.ftp.list.command.should.be.list.when.connecting.to.an.os.2.server"));
 
 		text.setPreferredSize(new Dimension(400, 30));
 
@@ -69,16 +70,16 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 		panel.add(this.listCommand);
 		panel.add(this.setListCommand);
 
-		javax.swing.JButton saveCommand = new javax.swing.JButton("Set and Save");
+		JButton saveCommand = new JButton(I18nHelper.getUIString("set.and.save"));
 		panel.add(saveCommand);
 
 
 		content.add(panel);
 
-		this.add("North", text);
-		this.add("Center", content);
+		this.add(I18nHelper.getUIString("north"), text);
+		this.add(I18nHelper.getUIString("center"), content);
 
-		this.add("South", this.statusText);
+		this.add(I18nHelper.getUIString("south"), this.statusText);
 
 		this.setListCommand.addActionListener(this);
 		saveCommand.addActionListener(this);
@@ -88,7 +89,7 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 		if (e.getSource() == this.setListCommand) {
 			FtpConnection.LIST = this.listCommand.getText().trim();
 
-			this.statusText.setText("LIST command set.");
+			this.statusText.setText(I18nHelper.getUIString("list.command.set"));
 			listOptionSet = true;
 
 		} else {
@@ -98,7 +99,7 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 
 			SaveSet s = new SaveSet(Settings.adv_settings, this.listCommand.getText().trim());
 
-			this.statusText.setText("LIST command set and saved.");
+			this.statusText.setText(I18nHelper.getUIString("list.command.set.and.saved"));
 
 
 		}

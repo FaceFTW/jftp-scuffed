@@ -17,6 +17,7 @@
 //NOTE TO SELF: use setModal here somewhere?
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HComboBox;
@@ -25,6 +26,7 @@ import net.sf.jftp.gui.framework.HPasswordField;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.wrappers.StartConnection;
 import net.sf.jftp.system.StringUtils;
+import net.sf.jftp.util.I18nHelper;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -39,17 +41,17 @@ import java.io.PrintStream;
 
 
 public class AddBookmarks extends HFrame implements ActionListener, WindowListener {
-	private static net.sf.jftp.JFtp jftp;
+	private static JFtp jftp;
 	//public JComboBox protocols = new JComboBox();
-	private final HComboBox protocols = new HComboBox("Protocol:");
-	private final HTextField host = new HTextField("Hostname:", "localhost");
-	private final HTextField user = new HTextField("Username:", "anonymous");
-	private final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
-	private final HTextField port = new HTextField("Port:    ", "21");
-	private final HTextField dirOrDom = new HTextField("Directory/Domain:    ", "");
-	private final HComboBox isLocal = new HComboBox("Local Connection:");
-	private final HButton add = new HButton("Add Bookmark");
-	private final HButton addAndConnect = new HButton("Add Bookmark and Connect to Server");
+	private final HComboBox protocols = new HComboBox(I18nHelper.getUIString("protocol"));
+	private final HTextField host = new HTextField(I18nHelper.getUIString("hostname"), "localhost");
+	private final HTextField user = new HTextField(I18nHelper.getUIString("username"), "anonymous");
+	private final HPasswordField pass = new HPasswordField(I18nHelper.getUIString("password"), "none@nowhere.no");
+	private final HTextField port = new HTextField(I18nHelper.getUIString("port"), "21");
+	private final HTextField dirOrDom = new HTextField(I18nHelper.getUIString("directory.domain"), "");
+	private final HComboBox isLocal = new HComboBox(I18nHelper.getUIString("local.connection"));
+	private final HButton add = new HButton(I18nHelper.getUIString("add.bookmark"));
+	private final HButton addAndConnect = new HButton(I18nHelper.getUIString("add.bookmark.and.connect.to.server"));
 
 	public AddBookmarks(ComponentListener l, net.sf.jftp.JFtp jftp) {
 		super();
@@ -67,7 +69,7 @@ public class AddBookmarks extends HFrame implements ActionListener, WindowListen
 	private void init() {
 		this.setSize(650, 400);
 		this.setLocation(50, 150);
-		this.setTitle("Add Bookmarks...");
+		this.setTitle(I18nHelper.getUIString("add.bookmarks"));
 
 		//setBackground(okP.getBackground());
 		this.getContentPane().setLayout(new GridLayout(8, 1));
@@ -102,8 +104,8 @@ public class AddBookmarks extends HFrame implements ActionListener, WindowListen
 		this.protocols.addActionListener(this);
 
 		this.isLocal.setEditable(false);
-		this.isLocal.addItem("No");
-		this.isLocal.addItem("Yes");
+		this.isLocal.addItem(I18nHelper.getUIString("no"));
+		this.isLocal.addItem(I18nHelper.getUIString("yes"));
 	}
 
 	public void update() {

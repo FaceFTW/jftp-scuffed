@@ -17,6 +17,7 @@ package net.sf.jftp.gui.tasks;
 
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -42,7 +43,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		}
 	};
 
-	private final JButton close = new JButton("Close");
+	private final JButton close = new JButton(I18nHelper.getUIString("close1"));
 
 	public Displayer(java.net.URL file, Font font) {
 		super(file.getFile(), true, true, true, true);
@@ -59,7 +60,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		this.info.setEditable(false);
 
 		JScrollPane jsp = new JScrollPane(this.info);
-		this.getContentPane().add("Center", jsp);
+		this.getContentPane().add(I18nHelper.getUIString("center2"), jsp);
 
 		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -68,7 +69,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		this.close.addActionListener(this);
 
 		if (showCloseButton) {
-			this.getContentPane().add("South", closeP);
+			this.getContentPane().add(I18nHelper.getUIString("south2"), closeP);
 		}
 
 		this.info.setCaretPosition(0);

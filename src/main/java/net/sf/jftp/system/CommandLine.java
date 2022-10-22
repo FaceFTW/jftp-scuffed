@@ -24,6 +24,7 @@ import net.sf.jftp.event.FtpEventConstants;
 import net.sf.jftp.event.FtpEventHandler;
 import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.system.logging.Log4JLogger;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class CommandLine implements Runnable, EventHandler, FtpEventConstants {
 				line = in.readLine();
 				this.eventCollector.accept(new FtpEvent(net.sf.jftp.event.FtpEventConstants.FTPCommand, line));
 			} catch (IOException e) {
-				Log.debug("CommandLine exception on run");
+				Log.debug(I18nHelper.getLogString("commandline.exception.on.run"));
 			}
 		} while (!line.toLowerCase().startsWith("quit"));
 
