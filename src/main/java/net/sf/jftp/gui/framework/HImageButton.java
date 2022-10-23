@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.util.I18nHelper;
+
 import javax.swing.*;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -23,6 +25,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.MessageFormat;
 
 
 public class HImageButton extends JButton implements MouseListener {
@@ -39,7 +42,7 @@ public class HImageButton extends JButton implements MouseListener {
 		try {
 			this.setIcon(new ImageIcon(HImage.getImage(this, image)));
 		} catch (Exception ex) {
-			System.out.println("Image file: " + image);
+			System.out.println(MessageFormat.format(I18nHelper.getLogString("image.file.0"), image));
 			ex.printStackTrace();
 		}
 		this.addMouseListener(this);

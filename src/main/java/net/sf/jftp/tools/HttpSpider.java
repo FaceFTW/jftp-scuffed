@@ -19,6 +19,7 @@ import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -375,7 +376,7 @@ class Holer {
 			File f = new File(this.localDir + wo.substring(wo.lastIndexOf('/') + 1));
 
 			if (f.exists() && !force) {
-				Log.debug(">>> file already exists...");
+				Log.debug(I18nHelper.getLogString("file.already.exists1"));
 
 				return;
 			} else {
