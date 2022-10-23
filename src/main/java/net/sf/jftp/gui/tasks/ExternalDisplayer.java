@@ -18,6 +18,7 @@ package net.sf.jftp.gui.tasks;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -31,15 +32,16 @@ import java.io.BufferedInputStream;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 
 public class ExternalDisplayer extends HFrame implements ActionListener {
 	private final JTextArea info = new JTextArea(25, 50);
-	private final JButton close = new JButton("Close");
+	private final JButton close = new JButton(I18nHelper.getUIString("close"));
 
 	public ExternalDisplayer(java.net.URL file) {
 		super();
-		this.setTitle("Info...");
+		this.setTitle(I18nHelper.getUIString("info1"));
 		this.setLocation(50, 50);
 		this.setSize(600, 540);
 		this.getContentPane().setLayout(new BorderLayout());
@@ -53,7 +55,7 @@ public class ExternalDisplayer extends HFrame implements ActionListener {
 		this.info.setEditable(false);
 
 		JScrollPane jsp = new JScrollPane(this.info);
-		this.getContentPane().add("Center", jsp);
+		this.getContentPane().add(I18nHelper.getUIString("center"), jsp);
 
 		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -61,7 +63,7 @@ public class ExternalDisplayer extends HFrame implements ActionListener {
 
 		this.close.addActionListener(this);
 
-		this.getContentPane().add("South", closeP);
+		this.getContentPane().add(I18nHelper.getUIString("south"), closeP);
 
 		this.info.setCaretPosition(0);
 		this.setVisible(true);
@@ -85,7 +87,7 @@ public class ExternalDisplayer extends HFrame implements ActionListener {
 				now.append(data).append("\n");
 			}
 		} catch (IOException e) {
-			Log.debug(e + " @Displayer.load()");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.displayer.load"), e));
 		}
 
 		this.info.setText(now.toString());

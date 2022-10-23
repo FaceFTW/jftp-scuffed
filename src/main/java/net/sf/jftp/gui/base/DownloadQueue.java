@@ -26,6 +26,7 @@ import net.sf.jftp.net.DataConnection;
 import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -38,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 
@@ -60,29 +62,29 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		this.setLayout(new BorderLayout());
 		HPanel cmdP = new HPanel();
 
-		HImageButton start = new HImageButton(Settings.resumeImage, "start", "Start queue download...", this);
+		HImageButton start = new HImageButton(Settings.resumeImage, "start", I18nHelper.getUIString("start.queue.download"), this);
 		cmdP.add(start);
 
-		HImageButton stop = new HImageButton(Settings.pauseImage, "stop", "Stop queue download...", this);
+		HImageButton stop = new HImageButton(Settings.pauseImage, "stop", I18nHelper.getUIString("stop.queue.download"), this);
 		cmdP.add(stop);
 
 		cmdP.add(new JLabel("   "));
 
-		HImageButton up = new HImageButton(Settings.downloadImage, "up", "Change order of queue", this);
+		HImageButton up = new HImageButton(Settings.downloadImage, "up", I18nHelper.getUIString("change.order.of.queue"), this);
 		cmdP.add(up);
 
-		HImageButton down = new HImageButton(Settings.uploadImage, "down", "Change order of queue", this);
+		HImageButton down = new HImageButton(Settings.uploadImage, "down", I18nHelper.getUIString("change.order.of.queue"), this);
 		cmdP.add(down);
 
-		HImageButton delete = new HImageButton(Settings.deleteImage, "del", "Delete item in queue", this);
+		HImageButton delete = new HImageButton(Settings.deleteImage, "del", I18nHelper.getUIString("delete.item.in.queue"), this);
 		cmdP.add(delete);
 
 		cmdP.add(new JLabel("   "));
 
-		HImageButton save = new HImageButton(Settings.saveImage, "save", "Save queue list to file...", this);
+		HImageButton save = new HImageButton(Settings.saveImage, "save", I18nHelper.getUIString("save.queue.list.to.file"), this);
 		cmdP.add(save);
 
-		HImageButton load = new HImageButton(Settings.cdImage, "load", "Load queue list from...", this);
+		HImageButton load = new HImageButton(Settings.cdImage, "load", I18nHelper.getUIString("load.queue.list.from"), this);
 		cmdP.add(load);
 
 		start.setSize(24, 24);
@@ -105,13 +107,13 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		status.add(this.statuslabel);
 		this.add(status, BorderLayout.NORTH);
 
-		start.setToolTipText("Start queue download...");
-		stop.setToolTipText("Stop queue download...");
-		save.setToolTipText("Save queue list to file...");
-		load.setToolTipText("Load queue list from...");
-		up.setToolTipText("Change order of queue");
-		down.setToolTipText("Change order of queue");
-		delete.setToolTipText("Delete item in queue");
+		start.setToolTipText(I18nHelper.getUIString("start.queue.download"));
+		stop.setToolTipText(I18nHelper.getUIString("stop.queue.download"));
+		save.setToolTipText(I18nHelper.getUIString("save.queue.list.to.file"));
+		load.setToolTipText(I18nHelper.getUIString("load.queue.list.from"));
+		up.setToolTipText(I18nHelper.getUIString("change.order.of.queue"));
+		down.setToolTipText(I18nHelper.getUIString("change.order.of.queue"));
+		delete.setToolTipText(I18nHelper.getUIString("delete.item.in.queue"));
 
 	}
 
@@ -196,7 +198,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 			}
 		} else if (e.getActionCommand().equals("save")) {
 			JFileChooser chooser = new JFileChooser();
-			chooser.setDialogTitle("Save file");
+			chooser.setDialogTitle(I18nHelper.getUIString("save.file"));
 			chooser.setDialogType(JFileChooser.SAVE_DIALOG);
 
 			int returnVal = chooser.showSaveDialog(new JDialog());
@@ -207,7 +209,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 			}
 		} else if (e.getActionCommand().equals("load")) {
 			JFileChooser chooser = new JFileChooser();
-			chooser.setDialogTitle("Open file");
+			chooser.setDialogTitle(I18nHelper.getUIString("open.file"));
 			chooser.setDialogType(JFileChooser.OPEN_DIALOG);
 
 			int returnVal = chooser.showOpenDialog(new JDialog());
@@ -276,11 +278,11 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			Log.debug("DownloadQueue FileNotFoundException in loadList");
+			Log.debug(I18nHelper.getLogString("downloadqueue.filenotfoundexception.in.loadlist"));
 		} catch (IOException e) {
-			Log.debug("DownloadQueue IOException in loadList");
+			Log.debug(I18nHelper.getLogString("downloadqueue.ioexception.in.loadlist"));
 		} catch (RuntimeException ex) {
-			Log.debug("DownloadQueue RuntimeException in loadList");
+			Log.debug(I18nHelper.getLogString("downloadqueue.runtimeexception.in.loadlist"));
 		}
 	}
 
@@ -382,9 +384,9 @@ public class DownloadQueue extends HPanel implements ActionListener {
 						try {
 							Thread.sleep(10);
 						} catch (InterruptedException e) {
-							Log.debug("DownloadQueue InterruptedException on Thread sleep in run");
+							Log.debug(I18nHelper.getLogString("downloadqueue.interruptedexception.on.thread.sleep.in.run"));
 						} catch (RuntimeException ex) {
-							Log.debug("DownloadQueue RuntimeException on Thread sleep in run");
+							Log.debug(I18nHelper.getLogString("downloadqueue.runtimeexception.on.thread.sleep.in.run"));
 						}
 					}
 
@@ -409,7 +411,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 					Thread.sleep(100);
 				}
 			} catch (InterruptedException e) {
-				Log.debug("DownloadQueue InterruptedException in run");
+				Log.debug(I18nHelper.getLogString("downloadqueue.interruptedexception.in.run"));
 			}
 
 			if (this.connected) {
@@ -432,12 +434,12 @@ public class DownloadQueue extends HPanel implements ActionListener {
 			String strtmp;
 
 			if (0 == StringUtils.getFile(file).compareTo("")) {
-				strtmp = "directory " + file;
+				strtmp = MessageFormat.format(I18nHelper.getUIString("directory.0"), file);
 			} else {
-				strtmp = "file " + StringUtils.getFile(file);
+				strtmp = MessageFormat.format(I18nHelper.getUIString("file.0"), StringUtils.getFile(file));
 			}
 
-			DownloadQueue.this.statuslabel.setText("Downloading " + strtmp + " - kbyte " + (bytes / 1024));
+			DownloadQueue.this.statuslabel.setText(MessageFormat.format(I18nHelper.getUIString("downloading.0.kbyte.1"), strtmp, bytes / 1024));
 
 			String tmp;
 
@@ -455,7 +457,7 @@ public class DownloadQueue extends HPanel implements ActionListener {
 
 		// called if connection fails
 		public void connectionFailed(BasicConnection con, String why) {
-			System.out.println("connection failed!");
+			System.out.println(I18nHelper.getLogString("connection.failed"));
 		}
 
 		// up- or download has finished

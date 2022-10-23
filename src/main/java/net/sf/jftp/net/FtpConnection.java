@@ -21,6 +21,7 @@ import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -33,6 +34,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,7 +227,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		final boolean msg = true;
 		if (msg) {
-			Log.debug("Connecting to " + this.host);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("connecting.to.0"), this.host));
 		}
 
 		this.jcon = new JConnection(this.host, this.port);
@@ -236,12 +238,12 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			if (null == this.getLine(POSITIVE))//FTP220_SERVICE_READY) == null)
 			{
 				this.ok = false;
-				Log.debug("Server closed Connection, maybe too many users...");
+				Log.debug(I18nHelper.getLogString("server.closed.connection.maybe.too.many.users"));
 				status = FtpConstants.OFFLINE;
 			}
 
 			if (msg) {
-				Log.debug("Connection established...");
+				Log.debug(I18nHelper.getLogString("connection.established"));
 			}
 
 			this.jcon.send(FtpCommand.USER.name() + " " + username);
@@ -253,10 +255,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				if (this.success(POSITIVE))//FTP230_LOGGED_IN))
 				{
 					if (msg) {
-						Log.debug("Logged in...");
+						Log.debug(I18nHelper.getLogString("logged.in"));
 					}
 				} else {
-					Log.debug("Wrong password!");
+					Log.debug(I18nHelper.getLogString("wrong.password"));
 					this.ok = false;
 					status = FtpConstants.WRONG_LOGIN_DATA;
 				}
@@ -265,7 +267,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			// end if(jcon)...
 		} else {
 			if (msg) {
-				Log.debug("FTP not available!");
+				Log.debug(I18nHelper.getLogString("ftp.not.available"));
 				this.ok = false;
 				status = FtpConstants.GENERIC_FAILED;
 			}
@@ -288,7 +290,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			String[] advSettings = new String[6];
 
-			if (this.getOsType().contains("OS/2")) {
+			if (this.getOsType().contains(I18nHelper.getLogString("os.2"))) {
 				LIST_DEFAULT = "LIST";
 			}
 
@@ -377,17 +379,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 								this.currentSizes.add(size);
 							} catch (Exception ex) {
 								this.currentSizes.add("-1");
-								Log.out("WARNING: filesize can not be determined - value is " + size);
+								Log.out(MessageFormat.format(I18nHelper.getLogString("warning.filesize.can.not.be.determined.value.is.0"), size));
 							}
 						}
 					}
 				}
 
 				// ------------------------------------------------
-				else if (this.getOsType().contains("OS/2")) {
+				else if (this.getOsType().contains(I18nHelper.getLogString("os.2"))) {
 					java.util.StringTokenizer to = new java.util.StringTokenizer(tmp, " ", false);
 					tmp = this.giveSize(to, 0);
-					Log.out("OS/2 parser (size): " + tmp);
+					Log.out(MessageFormat.format(I18nHelper.getLogString("os.2.parser.size.0"), tmp));
 					this.currentSizes.add(tmp);
 				} else {
 					//Log.out("\n\nparser\n\n");
@@ -401,16 +403,16 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						//Log.out(tmp);
 					} else if (7 == to.countTokens()) // unix, too
 					{
-						Log.out("WARNING: 7 token backup size parser activated!");
+						Log.out(I18nHelper.getLogString("warning.7.token.backup.size.parser.activated"));
 						tmp = this.giveSize(to, 4);
 						this.currentSizes.add(tmp);
 					} else {
-						Log.debug("cannot parse line: " + tmp);
+						Log.debug(MessageFormat.format(I18nHelper.getLogString("cannot.parse.line.0"), tmp));
 					}
 				}
 			}
 		} catch (Exception ex) {
-			Log.debug(ex + " @FtpConnection::sortSize#1");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.sortsize.1"), ex));
 			return new String[0];
 		}
 
@@ -495,7 +497,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				}
 			}
 		} catch (Exception ex) {
-			Log.debug(ex + " @FtpConnection::getPermissions#1");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.getpermissions.1"), ex));
 		}
 
 		int[] ret = new int[this.currentPerms.size()];
@@ -549,7 +551,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					//Log.out("listing - (vms parser): " + tmp);
 
 					continue;
-				} else if (this.getOsType().contains("OS/2")) {
+				} else if (this.getOsType().contains(I18nHelper.getLogString("os.2"))) {
 					java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
 					if (this.giveFile(to2, 2).contains("DIR")) {
@@ -570,7 +572,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						}
 					}
 
-					Log.out("OS/2 parser: " + tmp);
+					Log.out(MessageFormat.format(I18nHelper.getLogString("os.2.parser.02"), tmp));
 					this.currentFiles.add(tmp);
 
 					continue;
@@ -594,9 +596,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						this.currentFiles.add(f);
 					}
 
-					Log.out("listing - (mvs parser): " + tmp + " -> " + f);
+					Log.out(MessageFormat.format(I18nHelper.getLogString("listing.mvs.parser.0.1"), tmp, f));
 					continue;
-				} else if (this.getOsType().contains("OS/2")) {
+				} else if (this.getOsType().contains(I18nHelper.getLogString("os.2"))) {
 					java.util.StringTokenizer to2 = new java.util.StringTokenizer(tmp, " ", true);
 
 					if (this.giveFile(to2, 2).contains("DIR")) {
@@ -617,7 +619,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						}
 					}
 
-					Log.out("OS/2 parser: " + tmp);
+					Log.out(MessageFormat.format(I18nHelper.getLogString("os.2.parser.0"), tmp));
 					this.currentFiles.add(tmp);
 
 					continue;
@@ -665,11 +667,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 						int y = date.lastIndexOf('-');
 
 						if (y > x) {
-							Log.debug("Using new Unix date parser");
+							Log.debug(I18nHelper.getLogString("using.new.unix.date.parser"));
 							newUnixDateStyle = true;
 						}
 					} catch (Exception ex) {
-						Log.out("could not preparse line: " + tmp);
+						Log.out(MessageFormat.format(I18nHelper.getLogString("could.not.preparse.line.0"), tmp));
 						lcount++;
 
 					}
@@ -736,10 +738,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					}
 
 					tmp = this.giveFile(to2, tokens);
-					Log.out("listing - WARNING: listing style unknown, using last token as filename!");
-					Log.out("listing - this may work but may also fail, filesizes and permissions will probably fail, too...");
-					Log.out("listing - please send us a feature request with the serveraddress to let us support this listing style :)");
-					Log.out("listing - (backup parser, token " + tokens + " ): " + tmp);
+					Log.out(I18nHelper.getLogString("listing.warning.listing.style.unknown.using.last.token.as.filename"));
+					Log.out(I18nHelper.getLogString("listing.this.may.work.but.may.also.fail.filesizes.and.permissions.will.probably.fail.too"));
+					Log.out(I18nHelper.getLogString("listing.please.send.us.a.feature.request.with.the.serveraddress.to.let.us.support.this.listing.style"));
+					Log.out(MessageFormat.format(I18nHelper.getLogString("listing.backup.parser.token.0.1"), tokens, tmp));
 				}
 
 				if (isDir) {
@@ -761,7 +763,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 			return files;
 		} catch (Exception ex) {
-			Log.debug(ex + " @FtpConnection::sortLs");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.sortls"), ex));
 			ex.printStackTrace();
 		}
 
@@ -932,14 +934,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	public int handleDownload(String file) {
 		if (Settings.getEnableMultiThreading()) {
-			Log.out("spawning new thread for this download.");
+			Log.out(I18nHelper.getLogString("spawning.new.thread.for.this.download"));
 
 			FtpTransfer t = new FtpTransfer(this.host, this.port, this.localPath, this.pwd, file, this.username, this.password, Transfer.DOWNLOAD, this.handler, this.listeners, this.crlf);
 			this.transfers.add(t);
 
 			return FtpConstants.NEW_TRANSFER_SPAWNED;
 		} else {
-			Log.out("multithreading is completely disabled.");
+			Log.out(I18nHelper.getLogString("multithreading.is.completely.disabled"));
 
 			return this.download(file);
 		}
@@ -977,9 +979,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
-					Log.debug("FtpConnection InterruptedException in Thread sleep in download");
+					Log.debug(I18nHelper.getLogString("ftpconnection.interruptedexception.in.thread.sleep.in.download"));
 				} catch (RuntimeException ex) {
-					Log.debug("FtpConnection RuntimeException in Thread sleep in download");
+					Log.debug(I18nHelper.getLogString("ftpconnection.runtimeexception.in.thread.sleep.in.download"));
 				}
 			}
 
@@ -990,9 +992,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			try {
 				Thread.sleep(400);
 			} catch (InterruptedException e) {
-				Log.debug("FtpConnection InterruptedException in Thread sleep in download");
+				Log.debug(I18nHelper.getLogString("ftpconnection.interruptedexception.in.thread.sleep.in.download"));
 			} catch (RuntimeException ex) {
-				Log.debug("FtpConnection RuntimeException in Thread sleep in download");
+				Log.debug(I18nHelper.getLogString("ftpconnection.runtimeexception.in.thread.sleep.in.download"));
 			}
 		}
 
@@ -1006,7 +1008,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 * @return An InputStream
 	 */
 	public InputStream getDownloadInputStream(String file) {
-		Log.out("ftp stream download started:" + this);
+		Log.out(MessageFormat.format(I18nHelper.getLogString("ftp.stream.download.started.0"), this));
 		file = this.parse(file);
 
 		try {
@@ -1032,7 +1034,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			return this.dcon.getInputStream();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Log.debug(ex + " @FtpConnection::getDownloadInputStream");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.getdownloadinputstream"), ex));
 
 			return null;
 		}
@@ -1099,7 +1101,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Log.debug(ex + " @FtpConnection::download");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.download"), ex));
 
 			return FtpConstants.TRANSFER_FAILED;
 		}
@@ -1128,9 +1130,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		if (!f.exists()) {
 			if (f.mkdir()) {
-				Log.debug("Created directory...");
+				Log.debug(I18nHelper.getLogString("created.directory"));
 			} else {
-				Log.debug("Can't create directory: " + dir);
+				Log.debug(MessageFormat.format(I18nHelper.getLogString("can.t.create.directory.0"), dir));
 			}
 		}
 
@@ -1153,7 +1155,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		for (String s : tmp) {
 			if (s.endsWith("/")) {
 				if (s.trim().equals("../") || s.trim().equals("./")) {
-					Log.debug("Skipping " + s.trim());
+					Log.debug(MessageFormat.format(I18nHelper.getLogString("skipping.0"), s.trim()));
 				} else {
 					if (!this.work) {
 						return FtpConstants.TRANSFER_STOPPED;
@@ -1204,7 +1206,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	private int handleUpload(String file, String realName) {
 		if (Settings.getEnableMultiThreading() && (!Settings.getNoUploadMultiThreading())) {
-			Log.out("spawning new thread for this upload.");
+			Log.out(I18nHelper.getLogString("spawning.new.thread.for.this.upload"));
 
 			FtpTransfer t;
 
@@ -1219,9 +1221,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			return FtpConstants.NEW_TRANSFER_SPAWNED;
 		} else {
 			if (Settings.getNoUploadMultiThreading()) {
-				Log.out("upload multithreading is disabled.");
+				Log.out(I18nHelper.getLogString("upload.multithreading.is.disabled"));
 			} else {
-				Log.out("multithreading is completely disabled.");
+				Log.out(I18nHelper.getLogString("multithreading.is.completely.disabled"));
 			}
 
 			return (null == realName) ? this.upload(file) : this.upload(file, realName);
@@ -1272,7 +1274,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	private int upload(String file, String realName, InputStream in) {
 		this.hasUploaded = true;
-		Log.out("ftp upload started: " + this);
+		Log.out(MessageFormat.format(I18nHelper.getLogString("ftp.upload.started.0"), this));
 
 		int stat;
 
@@ -1299,9 +1301,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				Log.debug("FtpConnection InterruptedException in Thread sleep in upload");
+				Log.debug(I18nHelper.getLogString("ftpconnection.interruptedexception.in.thread.sleep.in.upload"));
 			} catch (RuntimeException ex) {
-				Log.debug("FtpConnection RuntimeException in Thread sleep in upload");
+				Log.debug(I18nHelper.getLogString("ftpconnection.runtimeexception.in.thread.sleep.in.upload"));
 			}
 
 			this.fireActionFinished(this);
@@ -1311,9 +1313,9 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			Log.debug("FtpConnection InterruptedException in Thread sleep in upload");
+			Log.debug(I18nHelper.getLogString("ftpconnection.interruptedexception.in.thread.sleep.in.upload"));
 		} catch (RuntimeException ex) {
-			Log.debug("FtpConnection RuntimeException in Thread sleep in upload");
+			Log.debug(I18nHelper.getLogString("ftpconnection.runtimeexception.in.thread.sleep.in.upload"));
 		}
 
 		return stat;
@@ -1332,10 +1334,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	 */
 	private int rawUpload(String file, String realName, InputStream in) {
 		if (file.equals(realName)) {
-			Log.debug("File: " + file);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("file.0"), file));
 			realName = null;
 		} else {
-			Log.debug("File: " + file + ", stored as " + realName);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("file.0.stored.as.1"), file, realName));
 		}
 
 		char[] chars = {0, 0, 0, 0};
@@ -1345,10 +1347,10 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			throw new RuntimeException(e);
 		}
 		if (chars[0] == 'M' && chars[1] == 'Z') {
-			JOptionPane.showMessageDialog(JFtp.mainFrame, "Cannot upload EXEs!");
+			JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("cannot.upload.exes"));
 			throw new RuntimeException("Cannot upload EXEs!");
 		} else if (chars[1] == 'E' && chars[2] == 'L' && chars[3] == 'F') {
-			JOptionPane.showMessageDialog(JFtp.mainFrame, "Cannot upload Linux executables!");
+			JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("cannot.upload.linux.executables"));
 			throw new RuntimeException("Cannot upload Linux executables!");
 		}
 
@@ -1376,7 +1378,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				String[] sizes = this.sortSize();
 
 				if ((null == ls) || (null == sizes)) {
-					Log.out(">>> ls out of sync (skipping resume check)");
+					Log.out(I18nHelper.getLogString("ls.out.of.sync.skipping.resume.check"));
 				} else {
 					for (int i = 0; i < ls.length; i++) {
 						//Log.out(ls[i] + ":" + sizes[i]);
@@ -1398,17 +1400,17 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					File f = new File(path);
 
 					if (f.exists() && (f.length() <= Integer.parseInt(size))) {
-						Log.out("skipping resuming, file is <= filelength");
+						Log.out(I18nHelper.getLogString("skipping.resuming.file.is.filelength"));
 						resume = false;
 					} else if (f.exists() && 0 < Integer.parseInt(size)) {
 						if (!Settings.noUploadResumingQuestion) {
-							if (javax.swing.JOptionPane.OK_OPTION != javax.swing.JOptionPane.showConfirmDialog(new javax.swing.JLabel(), "A file smaller than the one to be uploaded already exists on the server,\n do you want to resume the upload?", "Resume upload?", javax.swing.JOptionPane.YES_NO_OPTION)) {
+							if (javax.swing.JOptionPane.OK_OPTION != javax.swing.JOptionPane.showConfirmDialog(new javax.swing.JLabel(), I18nHelper.getUIString("a.file.smaller.than.the.one.to.be.uploaded.already.exists.on.the.server.do.you.want.to.resume.the.upload"), I18nHelper.getUIString("resume.upload"), javax.swing.JOptionPane.YES_NO_OPTION)) {
 								resume = false;
 							}
 						}
-						Log.out("resume: " + resume + ", size: " + size);
+						Log.out(MessageFormat.format(I18nHelper.getLogString("resume.0.size.12"), resume, size));
 					} else {
-						Log.out("resume: " + resume + ", size: " + size);
+						Log.out(MessageFormat.format(I18nHelper.getLogString("resume.0.size.1"), resume, size));
 					}
 				}
 			}
@@ -1452,7 +1454,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Log.debug(ex + " @FtpConnection::upload");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.upload"), ex));
 
 			return FtpConstants.TRANSFER_FAILED;
 		}
@@ -1463,7 +1465,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 	private int uploadDir(String dir) {
 		//System.out.println("up");
 		if (dir.endsWith("\\")) {
-			System.out.println("Something's wrong with the selected directory - please report this bug!");
+			System.out.println(I18nHelper.getLogString("something.s.wrong.with.the.selected.directory.please.report.this.bug"));
 		}
 
 		if (!dir.endsWith("/")) {
@@ -1565,11 +1567,11 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 
 		for (int i = 0; i < tmp.length; i++) {
-			Log.out("cleanDir: " + tmp);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("cleandir.0"), tmp));
 
 			if (this.isSymlink(tmp[i])) {
-				Log.debug("WARNING: Skipping symlink, remove failed.");
-				Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
+				Log.debug(I18nHelper.getLogString("warning.skipping.symlink.remove.failed"));
+				Log.debug(I18nHelper.getLogString("this.is.necessary.to.prevent.possible.data.loss.when.removing.those.symlinks"));
 
 				tmp[i] = null;
 			}
@@ -1614,14 +1616,14 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 
 		if (file.trim().equals(".") || file.trim().equals("..")) {
-			Log.debug("ERROR: Catching attempt to delete . or .. directories");
+			Log.debug(I18nHelper.getLogString("error.catching.attempt.to.delete.or.directories"));
 
 			return FtpConstants.GENERIC_FAILED;
 		}
 
 		if (this.isSymlink(file)) {
-			Log.debug("WARNING: Skipping symlink, remove failed.");
-			Log.debug("This is necessary to prevent possible data loss when removing those symlinks.");
+			Log.debug(I18nHelper.getLogString("warning.skipping.symlink.remove.failed"));
+			Log.debug(I18nHelper.getLogString("this.is.necessary.to.prevent.possible.data.loss.when.removing.those.symlinks"));
 
 			return FtpConstants.REMOVE_FAILED;
 		}
@@ -1692,7 +1694,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		try {
 			in = this.jcon.getReader();
 		} catch (Exception ex) {
-			Log.debug(ex + " @FtpConnection::getLine");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.getline2"), ex));
 		}
 
 		//String resultString = null;
@@ -1720,7 +1722,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 					}
 				}
 			} catch (Exception ex) {
-				Log.debug(ex + " @FtpConnection::getLine");
+				Log.debug(MessageFormat.format(I18nHelper.getLogString("0.ftpconnection.getline"), ex));
 
 				break;
 			}
@@ -1789,7 +1791,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		if (this.getOsType().contains("MVS")) {
 
-			Log.out("pwd: " + x1);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("pwd.0"), x1));
 		} else if (!x1.endsWith("/")) {
 			x1 = x1 + "/";
 		}
@@ -1841,7 +1843,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		this.jcon.send(FtpCommand.MKD.name() + " " + dirName);
 
 		boolean ret = this.success(POSITIVE); // Filezille server bugfix, was: FTP257_PATH_CREATED);
-		Log.out("mkdir(" + dirName + ")  returned: " + ret);
+		Log.out(MessageFormat.format(I18nHelper.getLogString("mkdir.0.returned.1"), dirName, ret));
 
 		//*** Added 03/20/2005
 		this.fireDirectoryUpdate(this);
@@ -1916,19 +1918,19 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				this.type(oldType);
 			}
 		} catch (Exception ex) {
-			Log.debug("Cannot list remote directory!");
+			Log.debug(I18nHelper.getLogString("cannot.list.remote.directory"));
 
 			if (!oldType.equals(ASCII)) {
 				this.type(oldType);
 			}
 
 			String message = ex.getMessage();
-			if (message.equals("Read timed out")) {
-				JOptionPane.showMessageDialog(JFtp.mainFrame, message + ". Try using LIST compatibility mode?");
+			if (message.equals(I18nHelper.getUIString("read.timed.out"))) {
+				JOptionPane.showMessageDialog(JFtp.mainFrame, MessageFormat.format(I18nHelper.getUIString("0.try.using.list.compatibility.mode"), message));
 			} else {
 				JOptionPane.showMessageDialog(JFtp.mainFrame, message);
 			}
-			JFtp.log4JLogger.debug("EXCEPTION: " + message, ex);
+			JFtp.log4JLogger.debug(MessageFormat.format(I18nHelper.getLogString("exception.0"), message), ex);
 			throw new IOException(ex);
 		}
 	}
@@ -1967,7 +1969,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		p = this.parseSymlinkBack(p);
 
-		if (this.getOsType().contains("OS/2")) {
+		if (this.getOsType().contains(I18nHelper.getLogString("os.2"))) {
 			return this.chdirRaw(p);
 		} else if (this.getOsType().contains("MVS")) {
 			boolean cdup = false;
@@ -2012,7 +2014,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				if (null != tmp) p = tmp + p + "'";
 
 				System.out.println(p);
-				Log.out("MVS parser: " + p);
+				Log.out(MessageFormat.format(I18nHelper.getLogString("mvs.parser.0"), p));
 
 				return this.chdirRaw(p);
 			}
@@ -2056,7 +2058,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				return false;
 			}
 		} catch (Exception ex) {
-			Log.debug("(remote) Can not get pathname! " + this.pwd + ":" + p);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("remote.can.not.get.pathname.0.1"), this.pwd, p));
 			ex.printStackTrace();
 
 			return false;
@@ -2121,7 +2123,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 
 		if (file.contains("/")) {
 			dir = file.substring(0, file.lastIndexOf('/') + 1);
-			Log.out("checking dir: " + dir);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("checking.dir.0"), dir));
 
 			if (!this.chdir(dir)) {
 				return FtpConstants.CHDIR_FAILED;
@@ -2137,7 +2139,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		}
 
 		String f = file.substring(file.lastIndexOf('/') + 1);
-		Log.out("checking file: " + f);
+		Log.out(MessageFormat.format(I18nHelper.getLogString("checking.file.0"), f));
 
 		String[] files = this.sortLs();
 		int[] perms = this.getPermissions();
@@ -2519,7 +2521,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				DataConnection dcon = transfer.getDataConnection();
 
 				if (null == dcon || dcon.sock.isClosed()) {
-					Log.out("nothing to abort");
+					Log.out(I18nHelper.getLogString("nothing.to.abort"));
 
 					continue;
 				}
@@ -2527,7 +2529,7 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 				dcon.getCon().work = false;
 				dcon.sock.close();
 			} catch (Exception ex) {
-				Log.debug("Exception during abort: " + ex);
+				Log.debug(MessageFormat.format(I18nHelper.getLogString("exception.during.abort.0"), ex));
 				ex.printStackTrace();
 			}
 		}

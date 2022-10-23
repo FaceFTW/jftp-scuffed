@@ -17,6 +17,7 @@ package net.sf.jftp.net;
 
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +52,7 @@ public class FtpURLConnection extends URLConnection {
 			}
 		}
 
-		Log.debug("Connecting...");
+		Log.debug(I18nHelper.getLogString("connecting"));
 	}
 
 	public static void main(String[] args) {

@@ -17,6 +17,7 @@ package net.sf.jftp.tools;
 
 import net.sf.jftp.system.LocalIO;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -28,6 +29,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.text.MessageFormat;
 import java.util.List;
 
 
@@ -81,8 +83,8 @@ class FileSearch {
 
 			url = this.clear(url);
 
-			Log.out(">>> URL: " + url);
-			Log.out(">>> Scanning for ");
+			Log.out(MessageFormat.format(I18nHelper.getLogString("url.0"), url));
+			Log.out(I18nHelper.getLogString("scanning.for"));
 
 			for (String s : this.typeArray) {
 				Log.out(s + " ");
@@ -91,12 +93,12 @@ class FileSearch {
 			Log.out("");
 
 
-			Log.out("Fetching initial HTML file...");
+			Log.out(I18nHelper.getLogString("fetching.initial.html.file"));
 
 			Getter urlGetter = new Getter(this.localDir);
 			urlGetter.fetch(url, true);
 
-			Log.out("Searching for links...");
+			Log.out(I18nHelper.getLogString("searching.for.links"));
 			LocalIO.pause(500);
 
 			this.crawl(url);
@@ -165,11 +167,11 @@ class FileSearch {
 		url = this.clear(url);
 
 		int urlRating = this.checkForResult(url);
-		if (!quiet) Log.out("URL-Rating: " + url + " -> " + urlRating + " @" + this.currentDepth);
+		if (!quiet) Log.out(MessageFormat.format(I18nHelper.getLogString("url.rating.0.1.2"), url, urlRating, this.currentDepth));
 
 		if (0 < urlRating) {
 		} else if (0 > urlRating && 0 < this.currentDepth) {
-			if (!quiet) Log.out("SKIP " + url);
+			if (!quiet) Log.out(MessageFormat.format(I18nHelper.getLogString("skip.0"), url));
 			return;
 		}
 
@@ -178,14 +180,14 @@ class FileSearch {
 		String content = urlGetter.fetch(url);
 
 		int factor = this.rate(content);
-		if (!quiet) Log.out("Content-Rating: " + url + " -> " + factor + " @" + this.currentDepth);
+		if (!quiet) Log.out(MessageFormat.format(I18nHelper.getLogString("content.rating.0.1.2"), url, factor, this.currentDepth));
 
 		if (this.MIN_FACTOR > factor) {
-			if (!quiet) Log.out("DROP: " + url);
+			if (!quiet) Log.out(MessageFormat.format(I18nHelper.getLogString("drop.0"), url));
 			return;
 		}
 
-		if (!ultraquiet) Log.out("Url: " + url + " -> " + urlRating + ":" + factor + "@" + this.currentDepth);
+		if (!ultraquiet) Log.out(MessageFormat.format(I18nHelper.getLogString("url.0.1.2.3"), url, urlRating, factor, this.currentDepth));
 
 		java.util.List<String> m = this.sort(content, url.substring(0, url.lastIndexOf('/')), "href=\"");
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "src=\""));
@@ -193,13 +195,13 @@ class FileSearch {
 		m = this.addVector(m, this.sort(content, url.substring(0, url.lastIndexOf('/')), "SRC=\""));
 
 		for (String next : m) {
-			if (!quiet) Log.out("PROCESS: " + next);
+			if (!quiet) Log.out(MessageFormat.format(I18nHelper.getLogString("process.0"), next));
 			boolean skip = false;
 
 			while (!skip) {
 				for (String s : this.typeArray) {
 					if (next.endsWith(s) || s.trim().equals("*")) {
-						Log.out("HIT: " + url + " -> " + next);
+						Log.out(MessageFormat.format(I18nHelper.getLogString("hit.0.1"), url, next));
 
 						if (!this.LOAD || this.checkForScanableUrl(url)) continue;
 
@@ -246,7 +248,7 @@ class FileSearch {
 
 			was = this.createAbsoluteUrl(was, url);
 			res.add(was);
-			if (!quiet) Log.out("ADD: " + was);
+			if (!quiet) Log.out(MessageFormat.format(I18nHelper.getLogString("add.0"), was));
 		}
 	}
 
@@ -350,7 +352,7 @@ class Getter {
 			File f = new File(this.localDir + wo.substring(wo.lastIndexOf('/') + 1));
 
 			if (f.exists() && !force) {
-				if (!FileSearch.quiet) Log.debug(">>> file already exists...");
+				if (!FileSearch.quiet) Log.debug(I18nHelper.getLogString("file.already.exists"));
 
 				return;
 			} else {

@@ -16,10 +16,12 @@
 package net.sf.jftp.net.server;
 
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.MessageFormat;
 
 
 /**
@@ -48,7 +50,7 @@ class FtpServer extends Thread {
 				new FtpServerSocket(s);
 			}
 		} catch (IOException ioe) {
-			Log.debug("ServerSocket error: " + ioe);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("serversocket.error.0"), ioe));
 		}
 	}
 }

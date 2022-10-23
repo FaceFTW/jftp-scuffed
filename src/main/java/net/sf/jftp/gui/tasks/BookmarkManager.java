@@ -49,7 +49,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.load(Settings.bookmarks);
 
 		JScrollPane jsp = new JScrollPane(this.info);
-		this.getContentPane().add(I18nHelper.getUIString("center1"), jsp);
+		this.getContentPane().add(I18nHelper.getUIString("center"), jsp);
 
 		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -61,7 +61,7 @@ public class BookmarkManager extends JInternalFrame implements ActionListener {
 		this.close.addActionListener(this);
 		save.addActionListener(this);
 
-		this.getContentPane().add(I18nHelper.getUIString("south1"), closeP);
+		this.getContentPane().add(I18nHelper.getUIString("south"), closeP);
 
 		this.info.setCaretPosition(0);
 		this.pack();

@@ -18,6 +18,7 @@ package net.sf.jftp.net;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -26,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -80,12 +82,12 @@ public class FilesystemConnection implements BasicConnection {
 			}
 
 			if (!f.delete()) {
-				Log.debug("Removal failed.");
+				Log.debug(I18nHelper.getLogString("removal.failed"));
 
 				return -1;
 			}
 		} catch (IOException ex) {
-			Log.debug("Error: " + ex);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.03"), ex));
 			ex.printStackTrace();
 		}
 
@@ -126,7 +128,7 @@ public class FilesystemConnection implements BasicConnection {
 				}
 			}
 		} catch (IOException ex) {
-			Log.debug("Error: " + ex);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.02"), ex));
 			ex.printStackTrace();
 		}
 	}
@@ -175,7 +177,7 @@ public class FilesystemConnection implements BasicConnection {
 		File f = new File(p2);
 
 		if (!f.exists() || !f.isDirectory() || !f.canRead()) {
-			Log.debug("Access denied.");
+			Log.debug(I18nHelper.getLogString("access.denied"));
 
 			return false;
 		}
@@ -230,12 +232,12 @@ public class FilesystemConnection implements BasicConnection {
 
 				return p2;
 			} catch (IOException ex) {
-				Log.debug("Error: can not get pathname (processPath)!");
+				Log.debug(I18nHelper.getLogString("error.can.not.get.pathname.processpath"));
 
 				return null;
 			}
 		} else {
-			Log.debug("(processpPath) No such path: \"" + p + "\"");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("processppath.no.such.path.0"), p));
 
 			return null;
 		}
@@ -265,12 +267,12 @@ public class FilesystemConnection implements BasicConnection {
 
 				//System.out.println("localPath: "+path);
 			} catch (IOException ex) {
-				Log.debug("Error: can not get pathname (local)!");
+				Log.debug(I18nHelper.getLogString("error.can.not.get.pathname.local"));
 
 				return false;
 			}
 		} else {
-			Log.out("(local) obsolete setLocalDir: \"" + p + "\"");
+			Log.out(MessageFormat.format(I18nHelper.getLogString("local.obsolete.setlocaldir.0"), p));
 
 			return false;
 		}
@@ -369,7 +371,7 @@ public class FilesystemConnection implements BasicConnection {
 		File fx = new File(out);
 
 		if (!fx.mkdir()) {
-			Log.debug("Can not create directory: " + out + " - already exist or permission denied?");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("can.not.create.directory.0.already.exist.or.permission.denied"), out));
 		}
 
 		for (int i = 0; i < tmp.length; i++) {
@@ -442,7 +444,7 @@ public class FilesystemConnection implements BasicConnection {
 			in.close();
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (IOException ex) {
-			Log.debug("Error with file IO (" + ex + ")!");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.with.file.io.02"), ex));
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
 	}
@@ -459,7 +461,7 @@ public class FilesystemConnection implements BasicConnection {
 
 			return 0;
 		} catch (Exception ex) {
-			Log.debug("Error: " + ex);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.0"), ex));
 			ex.printStackTrace();
 
 			return -1;
@@ -492,7 +494,7 @@ public class FilesystemConnection implements BasicConnection {
 			in.close();
 			this.fireProgressUpdate(file, DataConnection.FINISHED, -1);
 		} catch (IOException ex) {
-			Log.debug("Error with file IO (" + ex + ")!");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.with.file.io.0"), ex));
 			this.fireProgressUpdate(file, DataConnection.FAILED, -1);
 		}
 	}
@@ -508,7 +510,7 @@ public class FilesystemConnection implements BasicConnection {
 			return new FileInputStream(file);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Log.debug(ex + " @Filesystemconnection::getDownloadInputStream");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("0.filesystemconnection.getdownloadinputstream"), ex));
 
 			return null;
 		}

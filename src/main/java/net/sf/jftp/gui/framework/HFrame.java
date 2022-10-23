@@ -16,6 +16,7 @@
 package net.sf.jftp.gui.framework;
 
 import net.sf.jftp.config.Settings;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.Toolkit;
@@ -26,7 +27,7 @@ public class HFrame extends JDialog {
 	public HFrame() {
 		super();
 		this.setFont(GUIDefaults.font);
-		this.setTitle("JFtp...");
+		this.setTitle(I18nHelper.getUIString("jftp"));
 		this.setBackground(new JLabel().getBackground());
 		this.setResizable(Settings.resize);
 

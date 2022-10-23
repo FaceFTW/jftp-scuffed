@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.util.I18nHelper;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 
@@ -29,11 +31,11 @@ public class HComboBox extends JPanel //implements ActionListener
 		this.setLayout(new BorderLayout(5, 5));
 
 		this.label = new JLabel(l + "  ");
-		this.add("West", this.label);
+		this.add(I18nHelper.getUIString("west"), this.label);
 
 		//comboBox = new JComboBox(t, 12);
 		this.comboBox = new JComboBox();
-		this.add("East", this.comboBox);
+		this.add(I18nHelper.getUIString("east"), this.comboBox);
 
 		this.setVisible(true);
 	}
@@ -43,11 +45,11 @@ public class HComboBox extends JPanel //implements ActionListener
 		this.setLayout(new BorderLayout(5, 5));
 
 		this.label = new JLabel(l + "  ");
-		this.add("West", this.label);
+		this.add(I18nHelper.getUIString("west"), this.label);
 
 		//comboBox = new JComboBox(t, 12);
 		this.comboBox = new JComboBox(t);
-		this.add("East", this.comboBox);
+		this.add(I18nHelper.getUIString("east"), this.comboBox);
 
 		this.setVisible(true);
 	}

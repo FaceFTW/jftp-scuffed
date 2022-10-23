@@ -43,7 +43,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		}
 	};
 
-	private final JButton close = new JButton(I18nHelper.getUIString("close1"));
+	private final JButton close = new JButton(I18nHelper.getUIString("close"));
 
 	public Displayer(java.net.URL file, Font font) {
 		super(file.getFile(), true, true, true, true);
@@ -60,7 +60,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		this.info.setEditable(false);
 
 		JScrollPane jsp = new JScrollPane(this.info);
-		this.getContentPane().add(I18nHelper.getUIString("center2"), jsp);
+		this.getContentPane().add(I18nHelper.getUIString("center"), jsp);
 
 		HPanel closeP = new HPanel();
 		closeP.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -69,7 +69,7 @@ public class Displayer extends JInternalFrame implements ActionListener {
 		this.close.addActionListener(this);
 
 		if (showCloseButton) {
-			this.getContentPane().add(I18nHelper.getUIString("south2"), closeP);
+			this.getContentPane().add(I18nHelper.getUIString("south"), closeP);
 		}
 
 		this.info.setCaretPosition(0);

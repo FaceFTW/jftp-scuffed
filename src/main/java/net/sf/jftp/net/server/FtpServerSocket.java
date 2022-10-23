@@ -16,6 +16,7 @@
 package net.sf.jftp.net.server;
 
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -194,9 +195,9 @@ class FtpServerSocket extends Thread {
 				ps.close();
 				this.send("226");
 			} catch (IOException e) {
-				Log.debug("FtpServerSocket IOException in list()");
+				Log.debug(I18nHelper.getLogString("ftpserversocket.ioexception.in.list"));
 			} catch (RuntimeException e) {
-				Log.debug("FtpServerSocket RuntimeException in list()");
+				Log.debug(I18nHelper.getLogString("ftpserversocket.runtimeexception.in.list"));
 			}
 		}
 	}
@@ -247,20 +248,20 @@ class FtpServerSocket extends Thread {
 					try {
 						o.invoke(this, line);
 					} catch (IllegalAccessException e1) {
-						Log.debug("FtpServerSocket IllegalAccessException in invoke in handle");
+						Log.debug(I18nHelper.getLogString("ftpserversocket.illegalaccessexception.in.invoke.in.handle"));
 					} catch (IllegalArgumentException e1) {
-						Log.debug("FtpServerSocket IllegalArgumentException in invoke in handle");
+						Log.debug(I18nHelper.getLogString("ftpserversocket.illegalargumentexception.in.invoke.in.handle"));
 					} catch (InvocationTargetException e1) {
-						Log.debug("FtpServerSocket InvocationTargetException in invoke in handle");
+						Log.debug(I18nHelper.getLogString("ftpserversocket.invocationtargetexception.in.invoke.in.handle"));
 					} catch (RuntimeException ex) {
-						Log.debug("FtpServerSocket RuntimeException in invoke in handle");
+						Log.debug(I18nHelper.getLogString("ftpserversocket.runtimeexception.in.invoke.in.handle"));
 					}
 				} else {
 					this.send("500");
 				}
 			}
 		} catch (IOException ioe) {
-			Log.debug("Socket error: " + ioe);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("socket.error.0"), ioe));
 		}
 	}
 }

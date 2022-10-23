@@ -3,11 +3,13 @@ package net.sf.jftp.net;
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 
 
 /**
@@ -87,7 +89,7 @@ public class FtpTransfer extends Transfer implements Runnable {
 		if (null == this.handler.getConnections().get(this.file)) {
 			this.handler.addConnection(this.file, this);
 		} else if (!this.pause) {
-			Log.debug("Transfer already in progress: " + this.file);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("transfer.already.in.progress.0"), this.file));
 			this.work = false;
 			this.stat = 2;
 
