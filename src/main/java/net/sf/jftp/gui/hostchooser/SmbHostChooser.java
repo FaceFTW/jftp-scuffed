@@ -16,6 +16,7 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
@@ -145,7 +146,7 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 		pass.text.addActionListener(this);
 
 		this.getContentPane().setLayout(new BorderLayout(3, 3));
-		this.getContentPane().add("Center", root);
+		this.getContentPane().add(JFtp.CENTER, root);
 
 		JTextArea t = new JTextArea() {
 			public Insets getInsets() {

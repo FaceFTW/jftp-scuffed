@@ -16,6 +16,7 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
@@ -159,7 +160,7 @@ public class SftpHostChooser extends HFrame implements ActionListener, WindowLis
 		root.add(this.ok, "align right");
 
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
-		this.getContentPane().add("Center", root);
+		this.getContentPane().add(JFtp.CENTER, root);
 
 		this.ok.addActionListener(this);
 		this.keyfile.addActionListener(this);

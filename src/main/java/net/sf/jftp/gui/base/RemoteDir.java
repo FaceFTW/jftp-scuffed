@@ -220,11 +220,11 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 
 		this.buttonPanel.setSize(this.getSize().width - 10, 32);
 
-		this.p.add("South", this.buttonPanel);
+		this.p.add(JFtp.SOUTH, this.buttonPanel);
 
 		JPanel second = new JPanel();
 		second.setLayout(new BorderLayout());
-		second.add("Center", this.p);
+		second.add(JFtp.CENTER, this.p);
 		this.downloadButton.setMinimumSize(new Dimension(50, 50));
 		this.downloadButton.setPreferredSize(new Dimension(50, 50));
 		this.downloadButton.setMaximumSize(new Dimension(50, 50));
@@ -313,7 +313,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		this.jsp.getVerticalScrollBar().addAdjustmentListener(adjustmentListener);
 
 		this.jsp.setSize(this.getSize().width - 20, this.getSize().height - 72);
-		this.add("Center", this.jsp);
+		this.add(JFtp.CENTER, this.jsp);
 		this.jsp.setVisible(true);
 
 		TableUtils.tryToEnableRowSorting(this.table);
@@ -793,7 +793,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 		h.setLocation((int) JFtp.mainFrame.getLocation().getX() + 300, (int) JFtp.mainFrame.getLocation().getY() + 300);
 
 		JTextArea text = new JTextArea();
-		h.getContentPane().add("Center", text);
+		h.getContentPane().add(JFtp.CENTER, text);
 		text.setText(" ---------------- Output -----------------\n" + JFtp.logTextArea.getText());
 		JFtp.logTextArea.setText("");
 		text.setEditable(false);
@@ -1070,7 +1070,7 @@ public class RemoteDir extends DirComponent implements ActionListener, Connectio
 			JScrollPane jsp = new JScrollPane(pane);
 
 			f.getContentPane().setLayout(new BorderLayout());
-			f.getContentPane().add("Center", jsp);
+			f.getContentPane().add(JFtp.CENTER, jsp);
 			f.setModal(false);
 			f.setLocation(100, 100);
 			f.setSize(600, 400);

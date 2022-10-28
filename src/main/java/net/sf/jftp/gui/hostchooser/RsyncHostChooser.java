@@ -16,6 +16,7 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
@@ -155,7 +156,7 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.pass.text.addActionListener(this);
 
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
-		this.getContentPane().add("Center", root);
+		this.getContentPane().add(JFtp.CENTER, root);
 
 		this.pack();
 		this.setModal(false);
@@ -351,8 +352,8 @@ public class RsyncHostChooser extends HFrame implements ActionListener, WindowLi
 		this.h.setLocation(150, 200);
 
 		JTextArea text = new JTextArea();
-		this.h.getContentPane().add("Center", text);
-		this.h.getContentPane().add("South", p);
+		this.h.getContentPane().add(JFtp.CENTER, text);
+		this.h.getContentPane().add(JFtp.SOUTH, p);
 		text.setText(" ---------------- Output -----------------\n\n" + "The server is busy at the moment.\n\n" + "Do you want JFtp to go to disappear and try to login\n" + "continuously?\n\n" + "(It will show up again when it has initiated a connection)\n\n");
 		net.sf.jftp.JFtp.logTextArea.setText("");
 		text.setEditable(false);

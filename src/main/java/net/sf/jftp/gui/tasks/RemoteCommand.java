@@ -75,7 +75,7 @@ public class RemoteCommand extends HFrame implements ActionListener {
 
 			t.setText(Log.getCache());
 			j.getContentPane().setLayout(new BorderLayout(5, 5));
-			j.getContentPane().add("Center", t);
+			j.getContentPane().add(JFtp.CENTER, t);
 			j.setSize(new Dimension(400, 300));
 			j.pack();
 			j.setVisible(true);

@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
@@ -78,9 +79,9 @@ public class AdvancedOptions extends HPanel implements ActionListener {
 		content.add(panel);
 
 		this.add(I18nHelper.getUIString("north"), text);
-		this.add(I18nHelper.getUIString("center"), content);
+		this.add(JFtp.CENTER, content);
 
-		this.add(I18nHelper.getUIString("south"), this.statusText);
+		this.add(JFtp.SOUTH, this.statusText);
 
 		this.setListCommand.addActionListener(this);
 		saveCommand.addActionListener(this);

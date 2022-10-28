@@ -1,5 +1,6 @@
 package net.sf.jftp.gui.framework;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.base.dir.DirEntry;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class ProgressbarItem extends JPanel {
 		this.d = d;
 		this.setLayout(new BorderLayout(2, 2));
 
-		this.add("Center", this.bar);
+		this.add(JFtp.CENTER, this.bar);
 
 		this.bar.setStringPainted(true);
 		this.bar.setString(d.file);

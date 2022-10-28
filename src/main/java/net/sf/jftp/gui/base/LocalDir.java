@@ -226,11 +226,11 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 
 		this.sorter.addActionListener(this);
 
-		this.p.add("South", this.buttonPanel);
+		this.p.add(JFtp.SOUTH, this.buttonPanel);
 
 		JPanel second = new JPanel();
 		second.setLayout(new BorderLayout());
-		second.add("Center", this.p);
+		second.add(JFtp.CENTER, this.p);
 		this.uploadButton.setMinimumSize(new Dimension(50, 50));
 		this.uploadButton.setPreferredSize(new Dimension(50, 50));
 		this.uploadButton.setMaximumSize(new Dimension(50, 50));
@@ -313,7 +313,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 
 
 		this.jsp.setSize(this.getSize().width - 20, this.getSize().height - 72);
-		this.add("Center", this.jsp);
+		this.add(JFtp.CENTER, this.jsp);
 		this.jsp.setVisible(true);
 
 		TableUtils.tryToEnableRowSorting(this.table);
@@ -1015,7 +1015,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 				JScrollPane jsp = new JScrollPane(pane);
 
 				f.setLayout(new BorderLayout());
-				f.add("Center", jsp);
+				f.add(JFtp.CENTER, jsp);
 				JFtp.statusP.jftp.addToDesktop(url, f, 600, 400);
 			} catch (Exception ex) {
 				Log.debug("File error: " + ex);

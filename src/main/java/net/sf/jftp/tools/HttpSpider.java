@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.tools;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.LocalIO;
@@ -67,9 +68,9 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		p1.add(this.depth);
 		this.dir.setText(localDir);
 		p1.add(this.dir);
-		this.add("Center", p1);
+		this.add(JFtp.CENTER, p1);
 		javax.swing.JPanel okP = new javax.swing.JPanel();
-		this.add("South", okP);
+		this.add(JFtp.SOUTH, okP);
 		okP.add(this.ok);
 		this.ok.addActionListener(this);
 
@@ -88,7 +89,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			this.removeAll();
 			this.add("North", new JLabel(I18nHelper.getUIString("starting.download.please.watch.the.log.window.for.details")));
-			this.add("Center", this.stop);
+			this.add(JFtp.CENTER, this.stop);
 			this.stop.addActionListener(this);
 			net.sf.jftp.JFtp.statusP.jftp.setClosable(this.hashCode(), false);
 			this.validate();

@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.tools;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.base.StatusCanvas;
 import net.sf.jftp.gui.framework.HImageButton;
@@ -48,7 +49,7 @@ public class RSSFeeder extends JPanel implements Runnable, ActionListener {
 		this.next.setPreferredSize(new Dimension(22, 22));
 		this.next.setMaximumSize(new Dimension(22, 22));
 		this.add("West", this.next);
-		this.add("Center", this.can);
+		this.add(JFtp.CENTER, this.can);
 		this.setPreferredSize(new Dimension(500, 25));
 		this.runner = new Thread(this);
 		this.runner.start();

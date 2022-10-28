@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.gui.hostchooser;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
@@ -86,7 +87,7 @@ public class WebdavHostChooser extends HFrame implements ActionListener, WindowL
 
 		this.okP.add(this.ok);
 
-		this.getContentPane().add("South", p);
+		this.getContentPane().add(JFtp.SOUTH, p);
 
 		this.ok.addActionListener(this);
 

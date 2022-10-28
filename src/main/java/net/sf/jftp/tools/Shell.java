@@ -1,5 +1,6 @@
 package net.sf.jftp.tools;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.system.logging.Log;
 
@@ -74,7 +75,7 @@ public class Shell extends HFrame implements Runnable {
 		this.text.setFont(new Font("Monospaced", java.awt.Font.PLAIN, 10));
 
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
-		this.getContentPane().add("Center", this.textP);
+		this.getContentPane().add(JFtp.CENTER, this.textP);
 		this.text.setEditable(false);
 		this.setBackground(this.text.getBackground());
 

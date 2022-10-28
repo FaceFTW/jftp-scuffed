@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.gui.hostchooser;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.framework.HButton;
@@ -132,7 +133,7 @@ public class NfsHostChooser extends HFrame implements ActionListener, WindowList
 		this.okP.add(this.ok);
 
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
-		this.getContentPane().add("Center", root);
+		this.getContentPane().add(JFtp.CENTER, root);
 
 		this.ok.addActionListener(this);
 		info.addActionListener(this);

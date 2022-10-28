@@ -16,6 +16,7 @@
 package net.sf.jftp.gui.hostchooser;
 
 import net.miginfocom.swing.MigLayout;
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.LoadSet;
 import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
@@ -170,7 +171,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			JLabel l2 = new JLabel(I18nHelper.getUIString("don.t.change.this.unless.you.transfer.text.only"));
 			l2.setFont(new Font("Dialog", Font.PLAIN, 10));
 			x1.add("North", l1);
-			x1.add("South", l2);
+			x1.add(JFtp.SOUTH, l2);
 			root.add(x1, "wrap");
 		}
 
@@ -196,7 +197,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		this.pass.text.addActionListener(this);
 
 		this.getContentPane().setLayout(new BorderLayout(10, 10));
-		this.getContentPane().add("Center", root);
+		this.getContentPane().add(JFtp.CENTER, root);
 
 		this.pack();
 		this.setModal(false);
@@ -378,8 +379,8 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		this.h.setLocation(150, 200);
 
 		JTextArea text = new JTextArea();
-		this.h.getContentPane().add("Center", text);
-		this.h.getContentPane().add("South", p);
+		this.h.getContentPane().add(JFtp.CENTER, text);
+		this.h.getContentPane().add(JFtp.SOUTH, p);
 		text.setText(I18nHelper.getUIString("busy.server"));
 		net.sf.jftp.JFtp.logTextArea.setText("");
 		text.setEditable(false);

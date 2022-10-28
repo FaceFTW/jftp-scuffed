@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HPanel;
@@ -45,7 +46,7 @@ class Remover extends HFrame implements ActionListener {
 		okP.add(this.ok);
 		okP.add(this.cancel);
 		this.getContentPane().add("North", this.text);
-		this.getContentPane().add("South", okP);
+		this.getContentPane().add(JFtp.SOUTH, okP);
 		this.ok.addActionListener(this);
 		this.cancel.addActionListener(this);
 

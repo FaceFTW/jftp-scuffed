@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.util.I18nHelper;
 
@@ -53,7 +54,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 			JScrollPane jsp = new JScrollPane(pane);
 
 			this.getContentPane().setLayout(new BorderLayout());
-			this.getContentPane().add("Center", jsp);
+			this.getContentPane().add(JFtp.CENTER, jsp);
 
 			this.setLocation(50, 50);
 			this.setSize(800, 500);

@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.util;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.framework.HTextField;
 
 import javax.swing.*;
@@ -91,8 +92,8 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 		outputPane.setMinimumSize(new Dimension(400, 300));
 
 		this.getContentPane().add("North", p1);
-		this.getContentPane().add("Center", outputPane);
-		this.getContentPane().add("South", p2);
+		this.getContentPane().add(JFtp.CENTER, outputPane);
+		this.getContentPane().add(JFtp.SOUTH, p2);
 
 		this.com.setText("");
 

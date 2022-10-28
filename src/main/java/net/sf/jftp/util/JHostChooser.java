@@ -15,6 +15,7 @@
  */
 package net.sf.jftp.util;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.gui.framework.HFrame;
 
 import javax.swing.*;
@@ -49,9 +50,9 @@ class JHostChooser extends HFrame implements ActionListener {
 		this.host.setText(RawConnection.host.getText());
 		this.port.setText(RawConnection.port.getText());
 
-		this.getContentPane().add("Center", p1);
+		this.getContentPane().add(JFtp.CENTER, p1);
 		javax.swing.JPanel okP = new javax.swing.JPanel();
-		this.getContentPane().add("South", okP);
+		this.getContentPane().add(JFtp.SOUTH, okP);
 		okP.add(this.ok);
 		this.ok.addActionListener(this);
 

@@ -15,6 +15,8 @@
  */
 package net.sf.jftp.gui.tasks;
 
+import net.sf.jftp.JFtp;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,7 +39,7 @@ class ImageViewer extends JInternalFrame {
 		ImagePanel p = new ImagePanel(img);
 		JScrollPane scroll = new JScrollPane(p);
 
-		this.getContentPane().add("Center", scroll);
+		this.getContentPane().add(JFtp.CENTER, scroll);
 
 		p.setMinimumSize(new Dimension(1500, 1500));
 		p.setPreferredSize(new Dimension(1500, 1500));

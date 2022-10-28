@@ -61,14 +61,14 @@ class ResumeDialog extends HFrame implements ActionListener {
 		}
 
 		this.getContentPane().setLayout(new BorderLayout(5, 5));
-		this.getContentPane().add("Center", text);
+		this.getContentPane().add(JFtp.CENTER, text);
 
 		HPanel p = new HPanel();
 		p.add(this.resume);
 		p.add(this.skip);
 		p.add(this.over);
 
-		this.getContentPane().add("South", p);
+		this.getContentPane().add(JFtp.SOUTH, p);
 
 		this.resume.addActionListener(this);
 		this.skip.addActionListener(this);

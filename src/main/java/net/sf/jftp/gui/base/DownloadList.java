@@ -90,8 +90,8 @@ public class DownloadList extends HPanel implements ActionListener {
 		cancel.setToolTipText(I18nHelper.getUIString("cancel.selected.transfer"));
 
 		this.scroll = new JScrollPane(this.list);
-		this.add(I18nHelper.getUIString("south"), cmdP);
-		this.add(I18nHelper.getUIString("center"), this.scroll);
+		this.add(JFtp.SOUTH, cmdP);
+		this.add(JFtp.CENTER, this.scroll);
 	}
 
 	public void fresh() {

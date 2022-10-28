@@ -93,6 +93,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	private static final int acceptableActions = DnDConstants.ACTION_COPY;
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
+	public static final String CENTER = "Center";
+	public static final String SOUTH = "South";
 	public static StatusPanel statusP;
 	public static JLabel statusL = new JLabel(I18nHelper.getUIString("welcome.to.jftp2"));
 	public static JFrame mainFrame;
@@ -416,7 +418,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		logButtonPanel.add(lockButton);
 		logSpPanel.setLayout(new BorderLayout(2, 2));
 		logSpPanel.add("West", logButtonPanel);
-		logSpPanel.add("Center", logSp);
+		logSpPanel.add(CENTER, logSp);
 
 		int x = desktop.getSize().width / 2;
 		this.j3.setLocation(5, 525);
@@ -437,7 +439,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.j1.toFront();
 		this.j2.toFront();
 
-		this.add("Center", desktop);
+		this.add(CENTER, desktop);
 
 		this.bottomBar.setFloatable(false);
 		this.bottomBar.add(StatusPanel.status, FlowLayout.LEFT);
@@ -446,7 +448,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			this.addRSS();
 		}
 
-		this.add("South", this.bottomBar);
+		this.add(SOUTH, this.bottomBar);
 
 		this.addComponentListener(this);
 		this.componentResized(new ComponentEvent(logTextArea, 0));
@@ -641,7 +643,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		mainFrame.setJMenuBar(menuBar);
 
 		mainFrame.getContentPane().setLayout(new BorderLayout());
-		mainFrame.getContentPane().add("Center", this);
+		mainFrame.getContentPane().add(CENTER, this);
 		SwingUtilities.updateComponentTreeUI(mainFrame);
 		mainFrame.pack();
 		mainFrame.validate();
