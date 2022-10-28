@@ -16,6 +16,7 @@
 package net.sf.jftp.gui.tasks;
 
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
@@ -23,12 +24,13 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 import java.awt.BorderLayout;
+import java.text.MessageFormat;
 import java.util.Vector;
 
 
 public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 	public HttpBrowser(String url) {
-		super("Http Browser", true, true, true, true);
+		super(I18nHelper.getUIString("http.browser"), true, true, true, true);
 
 		try {
 			this.setTitle(url);
@@ -39,7 +41,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 
 			if (!pane.getEditorKit().getContentType().equals("text/html") && !pane.getEditorKit().getContentType().equals("text/rtf")) {
 				if (!pane.getEditorKit().getContentType().equals("text/plain")) {
-					Log.debug("Could not display URL.");
+					Log.debug(I18nHelper.getLogString("could.not.display.url"));
 
 					return;
 				}
@@ -58,7 +60,7 @@ public class HttpBrowser extends JInternalFrame implements HyperlinkListener {
 			this.show();
 			this.requestFocus();
 		} catch (Exception ex) {
-			Log.debug("Error fetching URL: " + ex);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.fetching.url.0"), ex));
 			ex.printStackTrace();
 		}
 	}

@@ -34,6 +34,7 @@ import net.sf.jftp.net.FtpURLConnection;
 import net.sf.jftp.net.wrappers.StartConnection;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -50,27 +51,27 @@ import java.io.IOException;
 
 
 public class HostChooser extends HFrame implements ActionListener, WindowListener {
-	private final HTextField host = new HTextField("Hostname:", "localhost        ");
-	private final HTextField user = new HTextField("Username:", "anonymous        ");
+	private final HTextField host = new HTextField(I18nHelper.getUIString("hostname"), "localhost        ");
+	private final HTextField user = new HTextField(I18nHelper.getUIString("username"), "anonymous        ");
 	//public static HTextField pass = new HTextField("Password:","none@nowhere.no");
-	private final HPasswordField pass = new HPasswordField("Password:", "none@nowhere.no");
-	private final HTextField port = new HTextField("Port:    ", "21");
-	private final HTextField cwd = new HTextField("Remote:  ", Settings.defaultDir);
-	private final HTextField lcwd = new HTextField("Local:   ", Settings.defaultWorkDir);
-	private final HTextField dl = new HTextField("Max. connections:    ", "3");
-	private final HTextField crlf = new HTextField("Override server newline:    ", "<default>");
-	private final JCheckBox anonBox = new JCheckBox("Use anonymous login", false);
-	private final JCheckBox listBox = new JCheckBox("LIST compatibility mode", false);
-	private final JCheckBox dirBox = new JCheckBox("Use default directories", Settings.getUseDefaultDir());
-	private final JCheckBox modeBox = new JCheckBox("Use active Ftp (no need to)", false);
-	private final JCheckBox threadBox = new JCheckBox("Multiple connections", false);
+	private final HPasswordField pass = new HPasswordField(I18nHelper.getUIString("password"), "none@nowhere.no");
+	private final HTextField port = new HTextField(I18nHelper.getUIString("port"), "21");
+	private final HTextField cwd = new HTextField(I18nHelper.getUIString("remote"), Settings.defaultDir);
+	private final HTextField lcwd = new HTextField(I18nHelper.getUIString("local"), Settings.defaultWorkDir);
+	private final HTextField dl = new HTextField(I18nHelper.getUIString("max.connections"), "3");
+	private final HTextField crlf = new HTextField(I18nHelper.getUIString("override.server.newline"), "<default>");
+	private final JCheckBox anonBox = new JCheckBox(I18nHelper.getUIString("use.anonymous.login"), false);
+	private final JCheckBox listBox = new JCheckBox(I18nHelper.getUIString("list.compatibility.mode"), false);
+	private final JCheckBox dirBox = new JCheckBox(I18nHelper.getUIString("use.default.directories"), Settings.getUseDefaultDir());
+	private final JCheckBox modeBox = new JCheckBox(I18nHelper.getUIString("use.active.ftp.no.need.to"), false);
+	private final JCheckBox threadBox = new JCheckBox(I18nHelper.getUIString("multiple.connections1"), false);
 	private final HPanel okP = new HPanel();
-	private final HButton ok = new HButton("Connect");
-	private final HButton backMode = new HButton("Yes");
-	private final HButton frontMode = new HButton("No");
+	private final HButton ok = new HButton(I18nHelper.getUIString("connect"));
+	private final HButton backMode = new HButton(I18nHelper.getUIString("yes"));
+	private final HButton frontMode = new HButton(I18nHelper.getUIString("no"));
 	private final HFrame h = new HFrame();
 	private final HPanel listP = new HPanel();
-	private final HButton list = new HButton("Choose from or edit list...");
+	private final HButton list = new HButton(I18nHelper.getUIString("choose.from.or.edit.list"));
 	private final boolean ext = Settings.showNewlineOption;
 	private ComponentListener listener;
 	private int mode;
@@ -95,7 +96,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 	}
 
 	private void init() {
-		this.setTitle("Ftp Connection...");
+		this.setTitle(I18nHelper.getUIString("ftp.connection"));
 		this.setBackground(this.okP.getBackground());
 
 		this.anonBox.setSelected(false);
@@ -131,7 +132,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				this.pass.setText("");
 			}
 		} catch (Exception ex) {
-			Log.debug("Error initializing connection values!");
+			Log.debug(I18nHelper.getLogString("error.initializing.connection.values"));
 			//ex.printStackTrace();
 		}
 
@@ -164,9 +165,9 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 
 			JPanel x1 = new JPanel();
 			x1.setLayout(new BorderLayout(2, 2));
-			JLabel l1 = new JLabel("Unix: LF, Mac/MVS: CR, Win: CRLF");
+			JLabel l1 = new JLabel(I18nHelper.getUIString("unix.lf.mac.mvs.cr.win.crlf"));
 			l1.setFont(new Font("Dialog", Font.PLAIN, 10));
-			JLabel l2 = new JLabel("Don't change this unless you transfer text only");
+			JLabel l2 = new JLabel(I18nHelper.getUIString("don.t.change.this.unless.you.transfer.text.only"));
 			l2.setFont(new Font("Dialog", Font.PLAIN, 10));
 			x1.add("North", l1);
 			x1.add("South", l2);
@@ -233,7 +234,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				net.sf.jftp.JFtp.mainFrame.setVisible(true);
 				net.sf.jftp.JFtp.mainFrame.toFront();
 			} else {
-				this.setTitle("Wrong password!");
+				this.setTitle(I18nHelper.getUIString("wrong.password"));
 				this.host.setText(uc.getHost());
 				this.port.setText(Integer.toString(uc.getPort()));
 				this.user.setText(uc.getUser());
@@ -243,7 +244,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 				this.host.requestFocus();
 			}
 		} catch (IOException ex) {
-			Log.debug("Error!");
+			Log.debug(I18nHelper.getLogString("error"));
 			ex.printStackTrace();
 		}
 	}
@@ -373,13 +374,13 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 		this.frontMode.addActionListener(this);
 
 		this.h.getContentPane().setLayout(new BorderLayout(10, 10));
-		this.h.setTitle("Connection failed!");
+		this.h.setTitle(I18nHelper.getUIString("connection.failed"));
 		this.h.setLocation(150, 200);
 
 		JTextArea text = new JTextArea();
 		this.h.getContentPane().add("Center", text);
 		this.h.getContentPane().add("South", p);
-		text.setText(" ---------------- Output -----------------\n\n" + "The server is busy at the moment.\n\n" + "Do you want JFtp to go to disappear and try to login\n" + "continuously?\n\n" + "(It will show up again when it has initiated a connection)\n\n");
+		text.setText(I18nHelper.getUIString("busy.server"));
 		net.sf.jftp.JFtp.logTextArea.setText("");
 		text.setEditable(false);
 		this.h.pack();
@@ -433,7 +434,7 @@ public class HostChooser extends HFrame implements ActionListener, WindowListene
 			net.sf.jftp.JFtp.mainFrame.setVisible(false);
 
 			while ((FtpConstants.OFFLINE == response) && (1 == this.mode)) {
-				System.out.print("Server is full, next attempt in ");
+				System.out.print(I18nHelper.getLogString("server.is.full.next.attempt.in"));
 
 				int r = 5;
 

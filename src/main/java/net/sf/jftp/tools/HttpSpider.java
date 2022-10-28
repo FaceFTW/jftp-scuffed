@@ -37,16 +37,17 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
 
 public class HttpSpider extends HPanel implements Runnable, ActionListener {
-	private final HTextField host = new HTextField("Full URL:", "http://j-ftp.sourceforge.net/index.html", 30);
-	private final HTextField type = new HTextField("Types (use * for all):", "html-htm-css-gif-jpg-zip-gz-avi-mpg", 25);
-	private final HTextField depth = new HTextField("Search up to this many levels deeper:", "1", 10);
-	private final HTextField dir = new HTextField("Store files in:", "", 25);
-	private final JButton ok = new JButton("Start");
-	private final JButton stop = new JButton("Stop download (ASAP)");
+	private final HTextField host = new HTextField(I18nHelper.getUIString("full.url"), "http://j-ftp.sourceforge.net/index.html", 30);
+	private final HTextField type = new HTextField(I18nHelper.getUIString("types.use.for.all"), "html-htm-css-gif-jpg-zip-gz-avi-mpg", 25);
+	private final HTextField depth = new HTextField(I18nHelper.getUIString("search.up.to.this.many.levels.deeper"), "1", 10);
+	private final HTextField dir = new HTextField(I18nHelper.getUIString("store.files.in"), "", 25);
+	private final JButton ok = new JButton(I18nHelper.getUIString("start"));
+	private final JButton stop = new JButton(I18nHelper.getUIString("stop.download.asap"));
 	private int currentDepth;
 	private int MAX = 1;
 	private String[] typeArray = {"mpg", "avi", "mpeg", "mov", "rm", "wmv"};
@@ -86,7 +87,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 			this.argv = new String[]{this.host.getText().trim(), this.type.getText().trim(), this.depth.getText().trim()};
 
 			this.removeAll();
-			this.add("North", new JLabel("Starting download, please watch the log window for details"));
+			this.add("North", new JLabel(I18nHelper.getUIString("starting.download.please.watch.the.log.window.for.details")));
 			this.add("Center", this.stop);
 			this.stop.addActionListener(this);
 			net.sf.jftp.JFtp.statusP.jftp.setClosable(this.hashCode(), false);
@@ -103,9 +104,9 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 		this.spider(this.argv);
 
 		if (this.stopflag) {
-			Log.debug("\nRecursive download aborted.");
+			Log.debug(I18nHelper.getLogString("recursive.download.aborted"));
 		} else {
-			Log.debug("\nRecursive download finished.\nOuptut dir: " + this.localDir);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("recursive.download.finished.ouptut.dir.0"), this.localDir));
 		}
 
 		net.sf.jftp.JFtp.statusP.jftp.ensureLogging();
@@ -125,7 +126,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 				this.typeArray = this.check(argv[1]);
 
-				Log.debugRaw(">>> Scanning for ");
+				Log.debugRaw(I18nHelper.getLogString("scanning.for1"));
 
 				for (String s : this.typeArray) {
 					Log.debugRaw(s + " ");
@@ -142,7 +143,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				return;
 			}
 
-			Log.debug("Fetching initial HTML file...");
+			Log.debug(I18nHelper.getLogString("fetching.initial.html.file1"));
 
 			Holer sammy = new Holer(this.localDir);
 			sammy.bringAnStart(url, true);
@@ -151,7 +152,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				return;
 			}
 
-			Log.debug("Searching for links...");
+			Log.debug(I18nHelper.getLogString("searching.for.links1"));
 			net.sf.jftp.JFtp.statusP.jftp.ensureLogging();
 			LocalIO.pause(500);
 
@@ -200,7 +201,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 				return;
 			}
 
-			Log.out("Processing: " + value);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("processing.0"), value));
 
 			for (String s : this.typeArray) {
 				if (value.endsWith(s) || s.trim().equals("*")) {
@@ -251,7 +252,7 @@ public class HttpSpider extends HPanel implements Runnable, ActionListener {
 
 			was = this.checker(was, url);
 			mischen.add(was);
-			Log.out("Added: " + was);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("added.0"), was));
 		}
 	}
 

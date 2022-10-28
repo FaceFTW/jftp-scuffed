@@ -17,6 +17,7 @@ package net.sf.jftp.net;
 
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -25,6 +26,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.text.MessageFormat;
 
 
 /**
@@ -66,7 +68,7 @@ class JConnection implements Runnable {
 			// }
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			Log.out("WARNING: connection closed due to exception (" + this.host + ":" + this.port + ")");
+			Log.out(MessageFormat.format(I18nHelper.getLogString("warning.connection.closed.due.to.exception.0.1"), this.host, this.port));
 			this.isOk = false;
 
 			try {
@@ -83,7 +85,7 @@ class JConnection implements Runnable {
 				}
 			} catch (Exception ex2) {
 				ex2.printStackTrace();
-				Log.out("WARNING: got more errors trying to close socket and streams");
+				Log.out(I18nHelper.getLogString("warning.got.more.errors.trying.to.close.socket.and.streams"));
 			}
 		}
 
@@ -110,7 +112,7 @@ class JConnection implements Runnable {
 			this.out.flush();
 
 			if (data.startsWith("PASS")) {
-				Log.debug("> PASS ****");
+				Log.debug(I18nHelper.getLogString("pass"));
 			} else {
 				Log.debug("> " + data);
 			}

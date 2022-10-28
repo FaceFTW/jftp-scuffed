@@ -44,6 +44,7 @@ import net.sf.jftp.system.logging.JftpLogger;
 import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.system.logging.Log4JLogger;
 import net.sf.jftp.tools.RSSFeeder;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -78,6 +79,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.List;
 
 
@@ -92,7 +94,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	private static final ConnectionHandler defaultConnectionHandler = new ConnectionHandler();
 	private static final java.util.Map<String, javax.swing.JInternalFrame> internalFrames = new java.util.HashMap<>();
 	public static StatusPanel statusP;
-	public static JLabel statusL = new JLabel("Welcome to JFtp...                                                            ");
+	public static JLabel statusL = new JLabel(I18nHelper.getUIString("welcome.to.jftp2"));
 	public static JFrame mainFrame;
 	public static Dir localDir;
 	public static Dir remoteDir;
@@ -196,14 +198,14 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		sysprops.put("socksProxyHost", proxy);
 		sysprops.put("socksProxyPort", port);
 
-		Log.out("socks proxy: " + sysprops.get("socksProxyHost") + ":" + sysprops.get("socksProxyPort"));
+		Log.out(MessageFormat.format(I18nHelper.getLogString("socks.proxy.0.1"), sysprops.get("socksProxyHost"), sysprops.get("socksProxyPort")));
 	}
 
 	public static void main(String[] argv) {
 		try {
 			long start = System.currentTimeMillis();
 
-			Log.out("starting up jftp...");
+			Log.out(I18nHelper.getLogString("starting.up.jftp"));
 			System.setProperty("sshtools.logfile", Settings.appHomeDir + "log4.txt");
 
 			Settings.enableResuming = true;
@@ -223,16 +225,16 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 				}
 			}
 
-			Log.out("jftp is up and running.");
+			Log.out(I18nHelper.getLogString("jftp.is.up.and.running"));
 			long end = System.currentTimeMillis();
-			Log.out("startup time: " + (end - start) + "ms.");
+			Log.out(MessageFormat.format(I18nHelper.getLogString("startup.time.0.ms"), end - start));
 
 			//batch processing
 			if (1 < argv.length) {
 				int idx = 1;
 				if (argv[idx].startsWith("localDir=")) {
 					String path = argv[idx].substring("localDir=".length());
-					Log.debug("Setting local Dir: " + path);
+					Log.debug(MessageFormat.format(I18nHelper.getLogString("setting.local.dir.0"), path));
 					localDir.getCon().chdir(path);
 					idx++;
 
@@ -251,7 +253,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 						path = argv[i].substring(0, argv[i].lastIndexOf('/'));
 						file = argv[i].substring(argv[i].lastIndexOf('/') + 1);
 					}
-					Log.debug("Download: " + path + ":" + file);
+					Log.debug(MessageFormat.format(I18nHelper.getLogString("download.0.1"), path, file));
 
 					if (null != path) {
 						remoteDir.getCon().chdir(path);
@@ -355,10 +357,10 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		this.addBackgroundImage();
 
-		this.j1 = new JInternalFrame("Local filesystem", true, false, true, true);
+		this.j1 = new JInternalFrame(I18nHelper.getUIString("local.filesystem"), true, false, true, true);
 		this.j1.setMinimumSize(new Dimension(300, 300));
 		this.j1.setLocation(5, 5);
-		this.localConnectionPanel.addTab("file://", null, (Component) localDir, "Filesystem");
+		this.localConnectionPanel.addTab("file://", null, (Component) localDir, I18nHelper.getUIString("filesystem"));
 		this.localConnectionPanel.setSelectedIndex(0);
 		this.localConnectionPanel.addChangeListener(this);
 		this.j1.getContentPane().add(this.localConnectionPanel);
@@ -370,9 +372,9 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.j1.setSize(new Dimension(460, 480));
 		this.j1.show();
 
-		this.j2 = new JInternalFrame("Remote connections", true, false, true, true);
+		this.j2 = new JInternalFrame(I18nHelper.getUIString("remote.connections"), true, false, true, true);
 		this.j2.setLocation(470, 5);
-		this.remoteConnectionPanel.addTab("file://", null, (Component) remoteDir, "Filesystem");
+		this.remoteConnectionPanel.addTab("file://", null, (Component) remoteDir, I18nHelper.getUIString("filesystem"));
 		this.remoteConnectionPanel.setSelectedIndex(0);
 		this.remoteConnectionPanel.addChangeListener(this);
 		this.j2.getContentPane().add(this.remoteConnectionPanel);
@@ -390,7 +392,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		logSp = new JScrollPane(logTextArea);
 		logSp.setSize(new Dimension(428, 148));
 
-		this.j5 = new JInternalFrame("Queue System", true, false, true, true);
+		this.j5 = new JInternalFrame(I18nHelper.getUIString("queue.system"), true, false, true, true);
 		this.j5.setLocation(5, 500);
 		this.j5.getContentPane().add(dQueue, BorderLayout.CENTER);
 		desktop.add(this.j5);
@@ -398,13 +400,13 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.j5.setSize(new Dimension(440, 150));
 		this.j5.show();
 
-		this.j3 = new JInternalFrame("Log", true, false, true, true);
+		this.j3 = new JInternalFrame(I18nHelper.getUIString("log2"), true, false, true, true);
 
-		HImageButton clearButton = new HImageButton(Settings.clearLogImage, "clearLog", "Clear Log", e -> clearLog());
-		HImageButton lockButton = new HImageButton(Settings.scrollLockImage, "scrollLock", "Toggle Scroll Lock", e -> {
+		HImageButton clearButton = new HImageButton(Settings.clearLogImage, "clearLog", I18nHelper.getUIString("clear.log1"), e -> clearLog());
+		HImageButton lockButton = new HImageButton(Settings.scrollLockImage, "scrollLock", I18nHelper.getUIString("toggle.scroll.lock"), e -> {
 			doScroll = !doScroll;
 
-			statusP.status("Scroll lock " + (doScroll ? "deactivated" : "activated"));
+			statusP.status(MessageFormat.format(I18nHelper.getUIString("scroll.lock.0.choice.0.deactivated.1.activated"), doScroll ? 0 : 1));
 		});
 
 		JPanel logSpPanel = new JPanel();
@@ -424,7 +426,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.j3.setSize(new Dimension(440, 150));
 		this.j3.show();
 
-		this.j4 = new JInternalFrame("Download Manager", true, false, true, true);
+		this.j4 = new JInternalFrame(I18nHelper.getLogString("download.manager"), true, false, true, true);
 		this.j4.setLocation(450, 500);
 		this.j4.getContentPane().add(dList, BorderLayout.CENTER);
 		desktop.add(this.j4);
@@ -467,8 +469,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.feeder = new RSSFeeder();
 		this.bottomBar.add(this.feeder);
 		this.bottomBar.validate();
-
-		System.out.println("dfdfsgsd");
 	}
 
 	private void chooseHost() {
@@ -512,7 +512,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			f.setLocation(Integer.parseInt(x), Integer.parseInt(y));
 			f.setSize(Integer.parseInt(w), Integer.parseInt(h));
 		} catch (Exception ex) {
-			Log.out("Can not set internal fram position for: " + desc);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("can.not.set.internal.fram.position.for.0"), desc));
 		}
 	}
 
@@ -594,7 +594,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			this.background.setBounds(0, 0, this.getSize().width, this.getSize().height);
 			desktop.add(this.background, Integer.MIN_VALUE);
 		} catch (Exception ex) {
-			Log.out(Settings.background + " missing, no background image used");
+			Log.out(MessageFormat.format(I18nHelper.getLogString("0.missing.no.background.image.used"), Settings.background));
 		}
 	}
 
@@ -628,7 +628,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		mainFrame = new JFrame();
 		mainFrame.setLocation(Settings.getWindowLocation());
 
-		mainFrame.setTitle(Settings.title + " - Version " + getVersion());
+		mainFrame.setTitle(MessageFormat.format(I18nHelper.getUIString("0.version.1"), Settings.title, getVersion()));
 
 		mainFrame.setResizable(Settings.resize);
 		mainFrame.addWindowListener(this);
@@ -646,7 +646,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		mainFrame.pack();
 		mainFrame.validate();
 		mainFrame.setVisible(true);
-		JOptionPane.showMessageDialog(mainFrame, "Welcome to jFTP!");
+		JOptionPane.showMessageDialog(mainFrame, I18nHelper.getUIString("welcome.to.jftp"));
 	}
 
 	private void log(String msg) {
@@ -690,7 +690,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	private void logRaw(String msg) {
 		logTextArea.append(" " + msg);
 		log4JLogger.debug(msg);
-		Log.out("NOTE: logRaw called");
+		Log.out(I18nHelper.getLogString("note.lograw.called"));
 		this.paintImmediately(0, 0, this.getSize().width, this.getSize().height);
 
 	}
@@ -774,7 +774,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			return;
 		}
 
-		Log.out("flushing log buffer...");
+		Log.out(I18nHelper.getLogString("flushing.log.buffer"));
 		this.oldtime = 0;
 		this.log("");
 	}
@@ -794,7 +794,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 				});
 			}
 		} catch (Exception ex) {
-			Log.debug("Error setting look and feel: " + ex);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.setting.look.and.feel.0"), ex));
 		}
 	}
 
@@ -807,7 +807,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		tmp.setCon(con);
 
 		int x = this.remoteConnectionPanel.getSelectedIndex();
-		this.remoteConnectionPanel.addTab(this.parse(name), null, (Component) tmp, "Switch to: " + this.parse(name));
+		this.remoteConnectionPanel.addTab(this.parse(name), null, (Component) tmp, MessageFormat.format(I18nHelper.getUIString("switch.to.02"), this.parse(name)));
 		this.remoteConnectionPanel.setSelectedIndex(x + 1);
 		this.j2.setClosable(true);
 	}
@@ -821,7 +821,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		tmp.setCon(con);
 
 		int x = this.localConnectionPanel.getSelectedIndex();
-		this.localConnectionPanel.addTab(this.parse(name), null, (Component) tmp, "Switch to: " + this.parse(name));
+		this.localConnectionPanel.addTab(this.parse(name), null, (Component) tmp, MessageFormat.format(I18nHelper.getUIString("switch.to.0"), this.parse(name)));
 		this.localConnectionPanel.setSelectedIndex(x + 1);
 		this.j1.setClosable(true);
 	}
@@ -903,7 +903,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			f.dispose();
 
 		} else {
-			Log.debug("ERROR: " + component + " not found in Hashtable!");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.0.not.found.in.hashtable3"), component));
 		}
 	}
 
@@ -913,7 +913,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		if (null != f) {
 			f.setClosable(ok);
 		} else {
-			Log.debug("ERROR: " + component + " not found in Hashtable!");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.0.not.found.in.hashtable2"), component));
 		}
 	}
 
@@ -923,7 +923,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		if (null != f) {
 			f.setLocation(x, y);
 		} else {
-			Log.debug("ERROR: " + component + " not found in Hashtable!");
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("error.0.not.found.in.hashtable"), component));
 		}
 	}
 
@@ -963,7 +963,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	}
 
 	private void handleDrop(DropTargetDropEvent e, Transferable t) throws java.awt.datatransfer.UnsupportedFlavorException, java.io.IOException {
-		System.out.println("Starting dropAttempt");
+		System.out.println(I18nHelper.getLogString("starting.dropattempt"));
 
 		DataFlavor chosen = DataFlavor.javaFileListFlavor;
 		DataFlavor second = FileTransferable.plainTextFlavor;
@@ -984,7 +984,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		String name = "";
 
 		if (t.isDataFlavorSupported(chosen)) {
-			System.out.println("Using List DnD style");
+			System.out.println(I18nHelper.getLogString("using.list.dnd.style"));
 
 			List myList = (java.util.List) t.getTransferData(chosen);
 
@@ -992,7 +992,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 			for (java.io.File file : f) {
 				name = file.getAbsolutePath();
-				System.out.println("DnD file: " + name);
+				System.out.println(MessageFormat.format(I18nHelper.getLogString("dnd.file.02"), name));
 
 				name = name.replace("\r", "");
 				name = name.replace("\n", "");
@@ -1000,7 +1000,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 			this.draggedTransfer(f, name);
 		} else if (t.isDataFlavorSupported(second)) {
-			System.out.println("Using text/plain DnD style");
+			System.out.println(I18nHelper.getLogString("using.text.plain.dnd.style"));
 
 			data = t.getTransferData(flavor);
 
@@ -1023,17 +1023,17 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 				str = new StringBuilder(String.valueOf(data));
 			}
 
-			System.out.println("Object data: \"" + str + "\"");
+			System.out.println(MessageFormat.format(I18nHelper.getLogString("object.data.0"), str));
 
 			if (str.toString().startsWith("<")) {
-				Log.debug("Mozilla DnD detected (preparsing)");
+				Log.debug(I18nHelper.getLogString("mozilla.dnd.detected.preparsing"));
 				str = new StringBuilder(str.substring(str.indexOf("\"") + 1));
 				str = new StringBuilder(str.substring(0, str.indexOf("\"")));
-				Log.debug("Parsed data: " + str);
+				Log.debug(MessageFormat.format(I18nHelper.getLogString("parsed.data.0"), str));
 			}
 
 			if (str.toString().contains("[")) {
-				Log.debug("Windows DnD detected");
+				Log.debug(I18nHelper.getLogString("windows.dnd.detected"));
 				name = str.substring(str.indexOf("[") + 1);
 				name = name.substring(0, name.lastIndexOf(']'));
 			} else if (str.toString().startsWith("file://")) {
@@ -1041,16 +1041,16 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 				name = name.replace("\r", "");
 				name = name.replace("\n", "");
-				Log.debug("File URL DnD detected: " + name);
+				Log.debug(MessageFormat.format(I18nHelper.getLogString("file.url.dnd.detected.0"), name));
 			}
 
 			if (!new File(name).exists()) {
-				System.out.println("No file string in clipboard: " + name);
+				System.out.println(MessageFormat.format(I18nHelper.getLogString("no.file.string.in.clipboard.0"), name));
 
 				return;
 			}
 
-			System.out.println("DnD file: " + name);
+			System.out.println(MessageFormat.format(I18nHelper.getLogString("dnd.file.0"), name));
 
 			File[] f1 = new File[1];
 			f1[0] = new File(name);
@@ -1068,7 +1068,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 				name = name.substring(name.lastIndexOf('/') + 1);
 			}
 
-			Log.debug("DnD: " + path + " -> " + name);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("dnd.0.1"), path, name));
 
 			if (!path.trim().isEmpty()) {
 				((LocalDir) localDir).chdir(path);
@@ -1076,7 +1076,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 			((LocalDir) localDir).startTransfer(new DirEntry(name, ((ActionListener) localDir)));
 		} else {
-			Log.debug("Dragging multiple files or dirs is not yet supported.");
+			Log.debug(I18nHelper.getLogString("dragging.multiple.files.or.dirs.is.not.yet.supported"));
 		}
 	}
 

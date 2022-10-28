@@ -20,6 +20,7 @@ import net.sf.jftp.config.SaveSet;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.base.FtpHost;
 import net.sf.jftp.system.StringUtils;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -63,7 +64,7 @@ public class HostList extends JDialog {
 	 */
 	public HostList(JDialog parent) {
 		super(parent);
-		final String promptDialogTitle = " J-FTP Host Selection ";
+		final String promptDialogTitle = I18nHelper.getUIString("j.ftp.host.selection");
 		this.setTitle(promptDialogTitle);
 		this.init();
 		this.setSize(600, 300);
@@ -130,15 +131,15 @@ public class HostList extends JDialog {
 	private void initButtonPanel() {
 		this.jpbuttons = new JPanel();
 		this.jpbuttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		final String promptButtonCancel = "Cancel";
+		final String promptButtonCancel = I18nHelper.getUIString("cancel");
 		this.jbcancel = new JButton(promptButtonCancel);
-		final String promptButtonOk = "  Ok  ";
+		final String promptButtonOk = I18nHelper.getUIString("ok");
 		this.jbok = new JButton(promptButtonOk);
-		final String promptButtonSave = " Apply ";
+		final String promptButtonSave = I18nHelper.getUIString("apply");
 		this.jbsave = new JButton(promptButtonSave);
-		final String promptButtonNew = " New  ";
+		final String promptButtonNew = I18nHelper.getUIString("new");
 		this.jbnew = new JButton(promptButtonNew);
-		final String promptButtonDelete = "Delete";
+		final String promptButtonDelete = I18nHelper.getUIString("delete");
 		this.jbdelete = new JButton(promptButtonDelete);
 		this.jpbuttons.add(this.jbsave);
 		this.jpbuttons.add(this.jbok);
@@ -154,15 +155,15 @@ public class HostList extends JDialog {
 		this.jtfPass = new JPasswordField(20);
 		this.jtfName = new JTextField(20);
 		this.jtfPort = new JTextField(20);
-		final String promptHost = " Host : ";
+		final String promptHost = I18nHelper.getUIString("host");
 		javax.swing.JLabel jlHost = new javax.swing.JLabel(promptHost);
-		final String promptUser = " User : ";
+		final String promptUser = I18nHelper.getUIString("user");
 		javax.swing.JLabel jlUser = new javax.swing.JLabel(promptUser);
-		final String promptPass = " Password : ";
+		final String promptPass = I18nHelper.getUIString("password");
 		javax.swing.JLabel jlPass = new javax.swing.JLabel(promptPass);
-		final String promptName = " Name : ";
+		final String promptName = I18nHelper.getUIString("name");
 		javax.swing.JLabel jlName = new javax.swing.JLabel(promptName);
-		final String promptPort = " Port : ";
+		final String promptPort = I18nHelper.getUIString("port");
 		javax.swing.JLabel jlPort = new javax.swing.JLabel(promptPort);
 
 		this.jpHostInfo = new JPanel();

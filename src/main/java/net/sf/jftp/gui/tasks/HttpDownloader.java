@@ -19,6 +19,7 @@ import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.net.wrappers.HttpTransfer;
+import net.sf.jftp.util.I18nHelper;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -28,7 +29,7 @@ import java.util.Vector;
 
 public class HttpDownloader extends HPanel implements ActionListener {
 	private final HTextField text;
-	private final HButton ok = new HButton("Start");
+	private final HButton ok = new HButton(I18nHelper.getUIString("start"));
 
 	public HttpDownloader() {
 		super();
@@ -38,7 +39,7 @@ public class HttpDownloader extends HPanel implements ActionListener {
 		//getContentPane().
 		this.setLayout(new FlowLayout());
 
-		this.text = new HTextField("URL:", "http://", 25);
+		this.text = new HTextField(I18nHelper.getUIString("url"), "http://", 25);
 
 		//getContentPane().
 		this.add(this.text);

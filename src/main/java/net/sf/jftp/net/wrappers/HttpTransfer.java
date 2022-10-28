@@ -7,12 +7,14 @@ import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.net.Transfer;
 import net.sf.jftp.system.StringUtils;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Vector;
 
 
@@ -48,12 +50,12 @@ public class HttpTransfer extends Transfer implements Runnable {
 	public void run() {
 		try {
 			if (null == this.handler.getConnections().get(this.file)) {
-				Log.out("download started: " + this.url);
+				Log.out(MessageFormat.format(I18nHelper.getLogString("download.started.0"), this.url));
 				Log.out("connection handler present: " + this.handler + ", poll size: " + this.handler.getConnections().size());
-				Log.out("local file: " + this.localPath + this.file);
+				Log.out(MessageFormat.format(I18nHelper.getLogString("local.file.0.1"), this.localPath, this.file));
 				this.handler.addConnection(this.file, this);
 			} else {
-				Log.debug("Transfer already in progress: " + this.file);
+				Log.debug(MessageFormat.format(I18nHelper.getLogString("transfer.already.in.progress.01"), this.file));
 				this.work = false;
 				this.stat = 2;
 
@@ -87,7 +89,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 			this.fireProgressUpdate(this.file, DataConnection.FINISHED, len);
 		} catch (Exception ex) {
 			this.work = false;
-			Log.debug("Download failed: " + ex);
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("download.failed.0"), ex));
 
 			File f = new File(this.localPath + this.file);
 			f.delete();
@@ -101,7 +103,7 @@ public class HttpTransfer extends Transfer implements Runnable {
 		if (!this.work) {
 			File f = new File(this.localPath + this.file);
 			f.delete();
-			Log.out("download aborted: " + this.file);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("download.aborted.0"), this.file));
 		}
 	}
 
