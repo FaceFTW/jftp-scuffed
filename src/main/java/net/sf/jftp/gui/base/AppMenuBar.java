@@ -52,7 +52,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
+import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
 public class AppMenuBar extends JMenuBar implements ActionListener {
@@ -275,6 +277,17 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		}
 
 		this.view.add(this.lf);
+		
+		JMenu lo = new JMenu("Change locale to...");
+
+		for (Locale locale : Locale.getAvailableLocales()) {
+			if(I18nHelper.hasLocale(locale)){
+				javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(locale.getDisplayName());
+				tmp.addActionListener(this);
+				lo.add(tmp);
+			}
+		}
+		this.view.add(lo);
 
 		this.background.add(this.stdback);
 		this.view.add(this.background);
@@ -709,6 +722,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 						Settings.save();
 					}
 				}
+
+				for (Locale locale : Locale.getAvailableLocales())
+					if(locale.getDisplayName().equals(tmp)){
+						System.out.println(locale);
+						I18nHelper.setLocale(locale);
+					}
+					
+
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
