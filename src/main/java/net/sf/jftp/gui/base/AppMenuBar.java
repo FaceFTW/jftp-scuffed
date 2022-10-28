@@ -119,6 +119,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final JCheckBoxMenuItem stdback = new JCheckBoxMenuItem(I18nHelper.getUIString("background.image"), Settings.getUseBackground());
 	private final JCheckBoxMenuItem resuming = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.resuming"), Settings.enableResuming);
 	private final JCheckBoxMenuItem ask = new JCheckBoxMenuItem(I18nHelper.getUIString("always.ask.to.resume"), Settings.askToResume);
+	
+	private final JMenuItem rawCon = new JMenuItem(I18nHelper.getUIString("send.raw.command"));
+
 	private final JMenuItem proxy = new JMenuItem(I18nHelper.getUIString("proxy.settings2"));
 	private final JCheckBoxMenuItem smbThreads = new JCheckBoxMenuItem(I18nHelper.getUIString("multiple.connections"), Settings.getEnableSmbMultiThreading());
 	private final JCheckBoxMenuItem sftpThreads = new JCheckBoxMenuItem(I18nHelper.getUIString("multiple.connections"), Settings.getEnableSftpMultiThreading());
@@ -142,6 +145,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private Map<String, BookmarkItem> marks;
 	private JMenu current = this.bookmarks;
 	private JMenu last = this.bookmarks;
+	private JMenu lo = new JMenu(I18nHelper.getUIString("change.locale.to"));
 
 	public AppMenuBar(JFtp jftp) {
 		super();
@@ -168,6 +172,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.http.addActionListener(this);
 		this.hp.addActionListener(this);
 		this.raw.addActionListener(this);
+		this.rawCon.addActionListener(this);
 		this.nfsCon.addActionListener(this);
 		this.spider.addActionListener(this);
 		this.proxy.addActionListener(this);
@@ -209,6 +214,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.ftp.add(this.resuming);
 		this.ftp.add(this.ask);
 		this.ftp.add(this.nl);
+		this.ftp.add(this.rawCon);
 		this.smb.add(this.smbThreads);
 		this.sftp.add(this.sftpThreads);
 		this.sftp.add(this.sshKeys);
@@ -288,16 +294,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 		this.view.add(this.lf);
 
-		JMenu lo = new JMenu(I18nHelper.getUIString("change.locale.to"));
-
 		for (Locale locale : Locale.getAvailableLocales()) {
 			if (I18nHelper.hasLocale(locale)) {
 				javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(locale.getDisplayName());
 				tmp.addActionListener(this);
-				lo.add(tmp);
+				this.lo.add(tmp);
 			}
 		}
-		this.view.add(lo);
+		this.view.add(this.lo);
 
 		this.background.add(this.stdback);
 		this.view.add(this.background);
@@ -682,6 +686,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				this.connectionSelected(7);
 			} else if ((e.getSource() == this.lastConnections[8]) && (!JFtp.uiBlocked)) {
 				this.connectionSelected(8);
+			} else if (e.getSource() == this.rawCon) {
+				RawConnectionMenu rcm = new RawConnectionMenu();
+				this.jftp.addToDesktop("Send raw FTP command...", rcm, 500, 180);
+				this.jftp.setLocation(rcm.hashCode(), 110, 180);
 			} else if (e.getSource() == this.opts) {
 				AdvancedOptions adv = new AdvancedOptions();
 				this.jftp.addToDesktop(I18nHelper.getUIString("advanced.options"), adv, 500, 180);
