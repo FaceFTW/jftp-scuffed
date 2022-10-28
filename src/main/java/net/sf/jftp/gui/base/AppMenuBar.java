@@ -40,21 +40,28 @@ import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.tools.HttpSpider;
 import net.sf.jftp.util.I18nHelper;
 import net.sf.jftp.util.RawConnection;
+import org.apache.logging.log4j.core.config.properties.PropertiesConfiguration;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.MissingResourceException;
 import java.util.StringTokenizer;
 
 public class AppMenuBar extends JMenuBar implements ActionListener {
@@ -100,6 +107,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final JMenuItem raw = new JMenuItem(I18nHelper.getUIString("raw.tcp.ip.connection"));
 	private final JMenuItem spider = new JMenuItem(I18nHelper.getUIString("recursive.http.download"));
 	private final JMenuItem shell = new JMenuItem(I18nHelper.getUIString("execute.bin.bash"));
+	private final JMenuItem xkcd = new JMenuItem(I18nHelper.getUIString("xkcd.info.display"));
 	private final JMenuItem loadAudio = new JMenuItem(I18nHelper.getUIString("play.mp3"));
 	private final JCheckBoxMenuItem rssDisabled = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.rss.feed"), Settings.getEnableRSS());
 	private final JCheckBoxMenuItem nl = new JCheckBoxMenuItem(I18nHelper.getUIString("show.newline.option"), Settings.showNewlineOption);
@@ -167,6 +175,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.opts.addActionListener(this);
 		this.webdavCon.addActionListener(this);
 		this.shell.addActionListener(this);
+		this.xkcd.addActionListener(this);
 		this.nl.addActionListener(this);
 
 		this.localFtpCon.addActionListener(this);
@@ -230,6 +239,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.tools.add(this.raw);
 		this.tools.addSeparator();
 		this.tools.add(this.shell);
+		this.tools.add(this.xkcd);
 
 		this.view.add(this.hideHidden);
 		this.view.addSeparator();
@@ -277,11 +287,11 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		}
 
 		this.view.add(this.lf);
-		
-		JMenu lo = new JMenu("Change locale to...");
+
+		JMenu lo = new JMenu(I18nHelper.getUIString("change.locale.to"));
 
 		for (Locale locale : Locale.getAvailableLocales()) {
-			if(I18nHelper.hasLocale(locale)){
+			if (I18nHelper.hasLocale(locale)) {
 				javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(locale.getDisplayName());
 				tmp.addActionListener(this);
 				lo.add(tmp);
@@ -525,6 +535,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				this.show(Settings.todo);
 			} else if (e.getSource() == this.shell) {
 				UIUtils.runCommand("/bin/bash");
+			} else if (e.getSource() == this.xkcd) {
+				String messageText = this.getXkcdMessage();
+				JOptionPane.showMessageDialog(JFtp.mainFrame, messageText, I18nHelper.getUIString("todays.xkcd.popup.title"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (e.getSource() == this.loadAudio) {
 				try {
 					JFileChooser f = new JFileChooser();
@@ -723,17 +736,50 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 					}
 				}
 
-				for (Locale locale : Locale.getAvailableLocales())
-					if(locale.getDisplayName().equals(tmp)){
-						System.out.println(locale);
+				for (Locale locale : Locale.getAvailableLocales()) {
+					if (locale.getDisplayName().equals(tmp)) {
+						System.out.println("Matched locale: " + locale);
 						I18nHelper.setLocale(locale);
+						Settings.writeChangedProperty(Settings.LOCALE_KEY, locale.toLanguageTag());
+						break;
 					}
-					
-
+				}
+				JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("you.must.reload.jftp.for.this.to.fully.take.effect"));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			Log.debug(ex.toString());
+		}
+	}
+
+	private String getXkcdMessage() {
+		StringBuilder jsonString = new StringBuilder();
+		try {
+			URL url = new URL(XKCD_CONSTANTS.API_URL);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+				for (String line; (line = reader.readLine()) != null; ) {
+					jsonString.append(line);
+				}
+			}
+		} catch (Exception ex) {
+			String failed = I18nHelper.getUIString("failed.to.contact.xkcd");
+			Log.debug(failed);
+			Log.debug(ex.toString());
+			return failed;
+		}
+		JSONObject obj = new JSONObject(jsonString.toString());
+		try {
+			Log.debug(MessageFormat.format(I18nHelper.getLogString("xkcd.log.message"), obj.toString(1)));
+			String transcript = obj.getString(XKCD_CONSTANTS.TRANSCRIPT);
+			transcript = (transcript.isEmpty() ? I18nHelper.getUIString("xkcd.no.transcript.provided") : transcript);
+			return MessageFormat.format(I18nHelper.getUIString("today.s.xkcd.0.1.transcript.2.alt.text.3"), obj.getInt(XKCD_CONSTANTS.COMIC_NUMBER),obj.getString(XKCD_CONSTANTS.SAFE_TITLE),transcript,obj.getString(XKCD_CONSTANTS.ALT_TEXT));
+		} catch (JSONException ex) {
+			String failed = I18nHelper.getUIString("failed.to.parse.xkcd");
+			Log.debug(failed);
+			Log.debug(ex.toString());
+			return failed;
 		}
 	}
 
@@ -888,5 +934,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 			StartConnection.startCon(protocol, htmp, utmp, ptmp, potmp, dtmp, useLocal);
 		}
+	}
+
+	private enum XKCD_CONSTANTS {
+		;
+		static final String API_URL = "https://xkcd.com/info.0.json";
+		static final String COMIC_NUMBER = "num";
+		static final String SAFE_TITLE = "safe_title";
+		static final String ALT_TEXT = "alt";
+		static final String TRANSCRIPT = "transcript";
 	}
 }

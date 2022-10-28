@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/main/resources/LogText.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/LogText_de.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UIText.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/UIText_de.properties" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/UIText.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/UIText_de.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/UIText_en_GB.properties" />
+      <base-name>UIText</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/UIText.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/UIText_de.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/UIText_en_GB.properties" />
+      <base-name>UIText</base-name>
+    </custom-resource-bundle>
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/LogText.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/LogText_de.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/LogText_en_GB.properties" />
+      <base-name>LogText</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>

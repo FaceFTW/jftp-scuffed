@@ -15,11 +15,16 @@
  */
 package net.sf.jftp.config;
 
+import net.sf.jftp.system.logging.Log;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Locale;
 import java.util.Properties;
 
 
@@ -43,7 +48,7 @@ public enum Settings {
 	public static final String changelog = "docs/CHANGELOG";
 	public static final String todo = "docs/TODO";
 	public static final String nfsinfo = "docs/doc/nfsinfo";
-	private static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
+	public static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
 	private static final String defaultWidth = "1000";
 	private static final String defaultHeight = "740";
 	private static final String defaultX = "20";
@@ -164,6 +169,7 @@ public enum Settings {
 	//set to false if you want it to run as an applet
 	public static boolean isStandalone = true;
 	public static String hiddenPassword = "<%hidden%>";
+	public static String LOCALE_KEY = "language";
 	private static String infoImage;
 	private static String rmdirImage;
 	private static String bookFileImage;
@@ -431,6 +437,12 @@ public enum Settings {
 		return p.getProperty("jftp.customRSSFeed", "http://slashdot.org/rss/slashdot.rss");
 	}
 
+	public static Locale getLocale() {
+		String languageTag = p.getProperty(LOCALE_KEY, Locale.US.toLanguageTag());
+		Locale resolved = Locale.forLanguageTag(languageTag);
+		return resolved != null ? resolved : Locale.US;
+	}
+
 	public static java.awt.Dimension getWindowSize() {
 		int width = Integer.parseInt(p.getProperty("jftp.window.width", defaultWidth));
 		int height = Integer.parseInt(p.getProperty("jftp.window.height", defaultHeight));
@@ -472,6 +484,17 @@ public enum Settings {
 		String what = p.getProperty("jftp.security.storePasswords", storePasswords);
 
 		return isNotFalse(what);
+	}
+
+	public static void writeChangedProperty(String key, Object value) {
+		System.out.println("Writing " + key + " : " + value.toString());
+		try {
+			PropertiesConfiguration conf = new PropertiesConfiguration(propertyFilename);
+			conf.setProperty(key, value);
+			conf.save();
+		} catch (ConfigurationException e) {
+			Log.debug(e.toString());
+		}
 	}
 
 }

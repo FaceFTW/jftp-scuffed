@@ -30,7 +30,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 
 /**
@@ -108,12 +107,12 @@ class FtpServerSocket extends Thread {
 	}
 
 	private void send(String bundleId) {
-		this.out.print(I18nHelper.getString(bundleId));
+		this.out.print(I18nHelper.getResponseCodeString(bundleId));
 		this.out.flush();
 	}
 
 	private void send(String bundleId, Object[] args) {
-		MessageFormat fmt = new MessageFormat(I18nHelper.getString(bundleId));
+		MessageFormat fmt = new MessageFormat(I18nHelper.getResponseCodeString(bundleId));
 		this.out.print(fmt.format(args));
 		this.out.flush();
 	}
