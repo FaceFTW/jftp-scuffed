@@ -193,8 +193,8 @@ public class DirLister implements ActionListener {
 			}
 
 			for (int i = 0; i < this.length; i++) {
-				this.files[i] = (String) fv.get(i);
-				this.sizes[i] = (String) sv.get(i);
+				this.files[i] = fv.get(i);
+				this.sizes[i] = sv.get(i);
 
 				if (null != this.perms) {
 					this.perms[i] = pv.get(i);
@@ -222,14 +222,14 @@ public class DirLister implements ActionListener {
 
 			for (int j = 0; j < date.length; j++) {
 				for (int i = 0; i < date.length; i++) {
-					LocalDateTime x = (LocalDateTime) date[i];
+					LocalDateTime x = date[i];
 
 					if (i == (date.length - 1)) {
 						break;
 					}
 
-					if (this.comp(x, (LocalDateTime) date[i + 1])) {
-						LocalDateTime swp = (LocalDateTime) date[i + 1];
+					if (this.comp(x, date[i + 1])) {
+						LocalDateTime swp = date[i + 1];
 						date[i + 1] = x;
 						date[i] = swp;
 
@@ -254,7 +254,7 @@ public class DirLister implements ActionListener {
 			this.dates = new LocalDateTime[date.length];
 
 			for (int i = 0; i < this.dates.length; i++) {
-				this.dates[i] = (LocalDateTime) date[i];
+				this.dates[i] = date[i];
 			}
 
 		} else if (type.equals("Normal")) {

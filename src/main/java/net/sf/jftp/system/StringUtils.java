@@ -162,20 +162,6 @@ public enum StringUtils {
 
 	}
 
-	public static void main(String[] argv) {
-		final String a1 = "E:\\programme\\test.html";
-		final String a2 = "programme\\test.html";
-		final String a3 = "test.html";
-		final String a4 = "/programme/test.html";
-		final String a5 = "programme/test.html";
-
-		System.out.println("getfile: " + getFile(a1) + " - false, " + isRelative(a1));
-		System.out.println("getfile: " + getFile(a2) + " - true, " + isRelative(a2));
-		System.out.println("getfile: " + getFile(a3) + " - true, " + isRelative(a3));
-		System.out.println("getfile: " + getFile(a4) + " - false, " + isRelative(a4));
-		System.out.println("getfile: " + getFile(a5) + " - true, " + isRelative(a5));
-	}
-
 	public static String cut(String tmp, String where) {
 		StringBuilder ret = new StringBuilder();
 

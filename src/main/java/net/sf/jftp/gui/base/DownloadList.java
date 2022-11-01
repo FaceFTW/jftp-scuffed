@@ -312,7 +312,7 @@ public class DownloadList extends HPanel implements ActionListener {
 
 		DirEntry d = null;
 		if (this.downloads.containsKey(message)) {
-			d = (DirEntry) this.downloads.get(message);
+			d = this.downloads.get(message);
 		} else {
 			d = new DirEntry(message, null);
 			d.setNoRender();

@@ -30,10 +30,6 @@ class SmbTest extends NtlmAuthenticator {
 		return sb.toString().trim();
 	}
 
-	public static void main(String[] argv) throws Exception {
-		new SmbTest(new String[]{"smb://Cyberdemon/tv/"});
-	}
-
 	protected NtlmPasswordAuthentication getNtlmPasswordAuthentication() {
 		System.out.println(this.getRequestingException().getMessage() + " for " + this.getRequestingURL());
 

@@ -929,7 +929,7 @@ public class LocalDir extends DirComponent implements ActionListener, Connection
 				java.util.Enumeration<? extends java.util.zip.ZipEntry> e = z.entries();
 
 				while (e.hasMoreElements()) {
-					ZipEntry z1 = (ZipEntry) e.nextElement();
+					ZipEntry z1 = e.nextElement();
 					Log.debug("-> " + z1.getName());
 
 					BufferedInputStream in = new BufferedInputStream(z.getInputStream(z1));

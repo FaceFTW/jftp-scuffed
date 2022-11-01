@@ -20,6 +20,7 @@ import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HFrame;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -31,16 +32,16 @@ import java.awt.event.ActionListener;
 
 public class RemoteCommand extends HFrame implements ActionListener {
 	private final HTextField text;
-	private final HButton ok = new HButton("Execute");
+	private final HButton ok = new HButton(I18nHelper.getUIString("execute"));
 
 	public RemoteCommand() {
 		super();
 		//setSize(400, 80);
-		this.setTitle("Choose command...");
+		this.setTitle(I18nHelper.getUIString("choose.command"));
 		this.setLocation(150, 150);
 		this.getContentPane().setLayout(new FlowLayout());
 
-		this.text = new HTextField("Command:", "SITE CHMOD 755 file", 30);
+		this.text = new HTextField(I18nHelper.getUIString("command2"), "SITE CHMOD 755 file", 30);
 		this.getContentPane().add(this.text);
 		this.getContentPane().add(this.ok);
 		this.ok.addActionListener(this);
@@ -66,7 +67,7 @@ public class RemoteCommand extends HFrame implements ActionListener {
 
 			JDialog j = new JDialog();
 			j.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-			j.setTitle("Command response");
+			j.setTitle(I18nHelper.getUIString("command.response"));
 			j.setLocation(150, 150);
 
 			JTextArea t = new JTextArea();

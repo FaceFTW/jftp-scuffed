@@ -611,7 +611,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (ConnectionListener connectionListener : this.listeners) {
-				((ConnectionListener) connectionListener).updateProgress(file, type, bytes);
+				connectionListener.updateProgress(file, type, bytes);
 			}
 		}
 	}
@@ -631,7 +631,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (ConnectionListener listener : this.listeners) {
-				((ConnectionListener) listener).updateRemoteDirectory(this);
+				listener.updateRemoteDirectory(this);
 			}
 		}
 	}
@@ -651,14 +651,14 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 
 				if (this.shortProgress && Settings.shortProgress) {
 					if (type.startsWith(DataConnection.DFINISHED)) {
-						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
+						connectionListener.updateProgress(this.baseFile, DataConnection.DFINISHED + ":" + this.fileCount, bytes);
 					} else if (this.isDirUpload) {
-						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
+						connectionListener.updateProgress(this.baseFile, DataConnection.PUTDIR + ":" + this.fileCount, bytes);
 					} else {
-						((ConnectionListener) connectionListener).updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
+						connectionListener.updateProgress(this.baseFile, DataConnection.GETDIR + ":" + this.fileCount, bytes);
 					}
 				} else {
-					((ConnectionListener) connectionListener).updateProgress(file, type, bytes);
+					connectionListener.updateProgress(file, type, bytes);
 				}
 			}
 		}
@@ -668,7 +668,7 @@ public class SmbConnection extends NtlmAuthenticator implements BasicConnection 
 		if (null == this.listeners) {
 		} else {
 			for (ConnectionListener listener : this.listeners) {
-				((ConnectionListener) listener).actionFinished(con);
+				listener.actionFinished(con);
 			}
 		}
 	}

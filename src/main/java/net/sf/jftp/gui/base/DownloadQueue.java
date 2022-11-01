@@ -62,29 +62,36 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		this.setLayout(new BorderLayout());
 		HPanel cmdP = new HPanel();
 
-		HImageButton start = new HImageButton(Settings.resumeImage, "start", I18nHelper.getUIString("start.queue.download"), this);
+		HImageButton start = new HImageButton(Settings.resumeImage, "start", I18nHelper.getUIString(
+				"start.queue" + ".download"), this);
 		cmdP.add(start);
 
-		HImageButton stop = new HImageButton(Settings.pauseImage, "stop", I18nHelper.getUIString("stop.queue.download"), this);
+		HImageButton stop = new HImageButton(Settings.pauseImage, "stop",
+				I18nHelper.getUIString("stop.queue.download"), this);
 		cmdP.add(stop);
 
 		cmdP.add(new JLabel("   "));
 
-		HImageButton up = new HImageButton(Settings.downloadImage, "up", I18nHelper.getUIString("change.order.of.queue"), this);
+		HImageButton up = new HImageButton(Settings.downloadImage, "up", I18nHelper.getUIString(
+				"change.order.of" + ".queue"), this);
 		cmdP.add(up);
 
-		HImageButton down = new HImageButton(Settings.uploadImage, "down", I18nHelper.getUIString("change.order.of.queue"), this);
+		HImageButton down = new HImageButton(Settings.uploadImage, "down", I18nHelper.getUIString(
+				"change.order.of" + ".queue"), this);
 		cmdP.add(down);
 
-		HImageButton delete = new HImageButton(Settings.deleteImage, "del", I18nHelper.getUIString("delete.item.in.queue"), this);
+		HImageButton delete = new HImageButton(Settings.deleteImage, "del", I18nHelper.getUIString(
+				"delete.item.in" + ".queue"), this);
 		cmdP.add(delete);
 
 		cmdP.add(new JLabel("   "));
 
-		HImageButton save = new HImageButton(Settings.saveImage, "save", I18nHelper.getUIString("save.queue.list.to.file"), this);
+		HImageButton save = new HImageButton(Settings.saveImage, "save", I18nHelper.getUIString(
+				"save.queue.list.to" + ".file"), this);
 		cmdP.add(save);
 
-		HImageButton load = new HImageButton(Settings.cdImage, "load", I18nHelper.getUIString("load.queue.list.from"), this);
+		HImageButton load = new HImageButton(Settings.cdImage, "load", I18nHelper.getUIString("load.queue.list.from"),
+				this);
 		cmdP.add(load);
 
 		start.setSize(24, 24);
@@ -118,7 +125,8 @@ public class DownloadQueue extends HPanel implements ActionListener {
 	}
 
 	public void addFtp(String file) {
-		Log.debug("Remote File" + JFtp.remoteDir.getPath() + file + "Local File" + JFtp.localDir.getPath() + file + "HostName" + JFtp.hostinfo.hostname);
+		Log.debug("Remote File" + JFtp.remoteDir.getPath() + file + "Local File" + JFtp.localDir.getPath() + file
+				+ "HostName" + JFtp.hostinfo.hostname);
 
 		QueueRecord rec = new QueueRecord();
 		rec.type = "ftp";
@@ -297,34 +305,6 @@ public class DownloadQueue extends HPanel implements ActionListener {
 		System.out.print(msg);
 	}
 
-	// methods below are not used yet.
-	public void debug(String msg, Throwable throwable) {
-	}
-
-	public void warn(String msg) {
-	}
-
-	public void warn(String msg, Throwable throwable) {
-	}
-
-	public void error(String msg) {
-	}
-
-	public void error(String msg, Throwable throwable) {
-	}
-
-	public void info(String msg) {
-	}
-
-	public void info(String msg, Throwable throwable) {
-	}
-
-	public void fatal(String msg) {
-	}
-
-	public void fatal(String msg, Throwable throwable) {
-	}
-
 	class QueueRecord {
 		String type;
 
@@ -384,9 +364,11 @@ public class DownloadQueue extends HPanel implements ActionListener {
 						try {
 							Thread.sleep(10);
 						} catch (InterruptedException e) {
-							Log.debug(I18nHelper.getLogString("downloadqueue.interruptedexception.on.thread.sleep.in.run"));
+							Log.debug(I18nHelper.getLogString(
+									"downloadqueue.interruptedexception.on.thread.sleep.in" + ".run"));
 						} catch (RuntimeException ex) {
-							Log.debug(I18nHelper.getLogString("downloadqueue.runtimeexception.on.thread.sleep.in.run"));
+							Log.debug(I18nHelper.getLogString(
+									"downloadqueue.runtimeexception.on.thread.sleep.in" + ".run"));
 						}
 					}
 
@@ -397,7 +379,10 @@ public class DownloadQueue extends HPanel implements ActionListener {
 					if (1 <= DownloadQueue.this.queue.size()) {
 						rec = (QueueRecord) DownloadQueue.this.queue.get(0);
 
-						if ((0 == rec.hostname.compareTo(this.last.hostname)) && (0 == rec.port.compareTo(this.last.port)) && (0 == rec.username.compareTo(this.last.username)) && (0 == rec.password.compareTo(this.last.password))) {
+						if ((0 == rec.hostname.compareTo(this.last.hostname)) && (0
+								== rec.port.compareTo(this.last.port)) && (0
+								== rec.username.compareTo(this.last.username)) && (0
+								== rec.password.compareTo(this.last.password))) {
 							this.connected = true;
 						} else {
 							this.conFtp.disconnect();
@@ -439,7 +424,8 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				strtmp = MessageFormat.format(I18nHelper.getUIString("file.0"), StringUtils.getFile(file));
 			}
 
-			DownloadQueue.this.statuslabel.setText(MessageFormat.format(I18nHelper.getUIString("downloading.0.kbyte.1"), strtmp, bytes / 1024));
+			DownloadQueue.this.statuslabel.setText(MessageFormat.format(I18nHelper.getUIString("downloading.0.kbyte.1"), strtmp,
+					bytes / 1024));
 
 			String tmp;
 
@@ -449,7 +435,8 @@ public class DownloadQueue extends HPanel implements ActionListener {
 				tmp = " ";
 			}
 
-			if (((0 == type.compareTo(DataConnection.FINISHED)) || (0 == tmp.compareTo(DataConnection.DFINISHED))) && !this.block) {
+			if (((0 == type.compareTo(DataConnection.FINISHED)) || (0 == tmp.compareTo(DataConnection.DFINISHED)))
+					&& !this.block) {
 				DownloadQueue.this.queue.remove(0);
 				DownloadQueue.this.liststr.remove(0);
 			}

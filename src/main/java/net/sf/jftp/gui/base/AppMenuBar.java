@@ -18,7 +18,6 @@ package net.sf.jftp.gui.base;
 import javazoom.jl.player.Player;
 import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
-import net.sf.jftp.gui.framework.HImage;
 import net.sf.jftp.gui.hostchooser.HostChooser;
 import net.sf.jftp.gui.hostchooser.NfsHostChooser;
 import net.sf.jftp.gui.hostchooser.RsyncHostChooser;
@@ -29,18 +28,14 @@ import net.sf.jftp.gui.tasks.AddBookmarks;
 import net.sf.jftp.gui.tasks.AdvancedOptions;
 import net.sf.jftp.gui.tasks.BookmarkItem;
 import net.sf.jftp.gui.tasks.BookmarkManager;
-import net.sf.jftp.gui.tasks.Displayer;
-import net.sf.jftp.gui.tasks.HttpBrowser;
 import net.sf.jftp.gui.tasks.HttpDownloader;
 import net.sf.jftp.gui.tasks.LastConnections;
-import net.sf.jftp.gui.tasks.NativeHttpBrowser;
 import net.sf.jftp.gui.tasks.ProxyChooser;
 import net.sf.jftp.net.wrappers.StartConnection;
 import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.tools.HttpSpider;
 import net.sf.jftp.util.I18nHelper;
 import net.sf.jftp.util.RawConnection;
-import org.apache.logging.log4j.core.config.properties.PropertiesConfiguration;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -65,11 +60,15 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 public class AppMenuBar extends JMenuBar implements ActionListener {
-	public static final JCheckBoxMenuItem fadeMenu = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.status.animation"), Settings.getEnableStatusAnimation());
+	public static final JCheckBoxMenuItem fadeMenu = new JCheckBoxMenuItem(I18nHelper.getUIString(
+			"enable.status" + ".animation"), Settings.getEnableStatusAnimation());
 	public static final JMenuItem clearItems = new JMenuItem(I18nHelper.getUIString("clear.finished.items"));
-	private static final JCheckBoxMenuItem askToDelete = new JCheckBoxMenuItem(I18nHelper.getUIString("confirm.remove"), Settings.getAskToDelete());
-	private static final JCheckBoxMenuItem debug = new JCheckBoxMenuItem(I18nHelper.getUIString("verbose.console.debugging"), Settings.getEnableDebug());
-	private static final JCheckBoxMenuItem disableLog = new JCheckBoxMenuItem(I18nHelper.getUIString("disable.log"), Settings.getDisableLog());
+	private static final JCheckBoxMenuItem askToDelete =
+			new JCheckBoxMenuItem(I18nHelper.getUIString("confirm.remove"), Settings.getAskToDelete());
+	private static final JCheckBoxMenuItem debug = new JCheckBoxMenuItem(I18nHelper.getUIString(
+			"verbose.console" + ".debugging"), Settings.getEnableDebug());
+	private static final JCheckBoxMenuItem disableLog = new JCheckBoxMenuItem(I18nHelper.getUIString("disable.log"),
+			Settings.getDisableLog());
 	private final JMenu file = new JMenu(I18nHelper.getUIString("file"));
 	private final JMenu opt = new JMenu(I18nHelper.getUIString("options"));
 	private final JMenu view = new JMenu(I18nHelper.getUIString("view"));
@@ -86,10 +85,13 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final JMenu cnn = new JMenu("CNN");
 	private final JMenuItem localFtpCon = new JMenuItem(I18nHelper.getUIString("open.ftp.connection.in.local.tab"));
 	private final JMenuItem localSftpCon = new JMenuItem(I18nHelper.getUIString("open.sftp.connection.in.local.tab"));
-	private final JMenuItem localSmbCon = new JMenuItem(I18nHelper.getUIString("open.smb.lan.connection.in.local.tab"));
+	private final JMenuItem localSmbCon = new JMenuItem(I18nHelper.getUIString(
+			"open.smb.lan.connection.in.local" + ".tab"));
 	private final JMenuItem localNfsCon = new JMenuItem(I18nHelper.getUIString("open.nfs.connection.in.local.tab"));
-	private final JMenuItem localWebdavCon = new JMenuItem(I18nHelper.getUIString("open.webdav.connection.in.local.tab.alpha"));
-	private final JMenuItem closeLocalCon = new JMenuItem(I18nHelper.getUIString("close.active.connection.in.local.tab"));
+	private final JMenuItem localWebdavCon = new JMenuItem(I18nHelper.getUIString(
+			"open.webdav.connection.in.local.tab" + ".alpha"));
+	private final JMenuItem closeLocalCon = new JMenuItem(I18nHelper.getUIString(
+			"close.active.connection.in.local" + ".tab"));
 	private final JMenuItem ftpCon = new JMenuItem(I18nHelper.getUIString("connect.to.ftp.server"));
 	private final JMenuItem sftpCon = new JMenuItem(I18nHelper.getUIString("connect.to.sftp.server"));
 	private final JMenuItem rsyncCon = new JMenuItem(I18nHelper.getUIString("connect.to.rsync.server"));
@@ -98,10 +100,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final JMenuItem webdavCon = new JMenuItem(I18nHelper.getUIString("connect.to.webdav.server.alpha"));
 	private final JMenuItem close = new JMenuItem(I18nHelper.getUIString("disconnect.and.connect.to.filesystem"));
 	private final JMenuItem exit = new JMenuItem(I18nHelper.getUIString("exit"));
-	private final JMenuItem readme = new JMenuItem(I18nHelper.getUIString("show.readme"));
-	private final JMenuItem changelog = new JMenuItem(I18nHelper.getUIString("view.changelog"));
-	private final JMenuItem todo = new JMenuItem(I18nHelper.getUIString("what.s.next"));
-	private final JMenuItem hp = new JMenuItem(I18nHelper.getUIString("visit.project.homepage"));
 	private final JMenuItem opts = new JMenuItem(I18nHelper.getUIString("advanced.options2"));
 	private final JMenuItem http = new JMenuItem(I18nHelper.getUIString("download.file.from.url"));
 	private final JMenuItem raw = new JMenuItem(I18nHelper.getUIString("raw.tcp.ip.connection"));
@@ -109,26 +107,37 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final JMenuItem shell = new JMenuItem(I18nHelper.getUIString("execute.bin.bash"));
 	private final JMenuItem xkcd = new JMenuItem(I18nHelper.getUIString("xkcd.info.display"));
 	private final JMenuItem loadAudio = new JMenuItem(I18nHelper.getUIString("play.mp3"));
-	private final JCheckBoxMenuItem rssDisabled = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.rss.feed"), Settings.getEnableRSS());
-	private final JCheckBoxMenuItem nl = new JCheckBoxMenuItem(I18nHelper.getUIString("show.newline.option"), Settings.showNewlineOption);
+	private final JCheckBoxMenuItem rssDisabled = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.rss.feed"),
+			Settings.getEnableRSS());
+	private final JCheckBoxMenuItem nl = new JCheckBoxMenuItem(I18nHelper.getUIString("show.newline.option"),
+			Settings.showNewlineOption);
 	private final JMenuItem loadSlash = new JMenuItem(I18nHelper.getUIString("slashdot"));
 	private final JMenuItem loadCNN1 = new JMenuItem(I18nHelper.getUIString("cnn.top.stories"));
 	private final JMenuItem loadCNN2 = new JMenuItem(I18nHelper.getUIString("cnn.world"));
 	private final JMenuItem loadCNN3 = new JMenuItem(I18nHelper.getUIString("cnn.tech"));
 	private final JMenuItem loadRss = new JMenuItem(I18nHelper.getUIString("custom.rss.feed"));
-	private final JCheckBoxMenuItem stdback = new JCheckBoxMenuItem(I18nHelper.getUIString("background.image"), Settings.getUseBackground());
-	private final JCheckBoxMenuItem resuming = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.resuming"), Settings.enableResuming);
-	private final JCheckBoxMenuItem ask = new JCheckBoxMenuItem(I18nHelper.getUIString("always.ask.to.resume"), Settings.askToResume);
-	
+	private final JCheckBoxMenuItem stdback = new JCheckBoxMenuItem(I18nHelper.getUIString("background.image"),
+			Settings.getUseBackground());
+	private final JCheckBoxMenuItem resuming = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.resuming"),
+			Settings.enableResuming);
+	private final JCheckBoxMenuItem ask = new JCheckBoxMenuItem(I18nHelper.getUIString("always.ask.to.resume"),
+			Settings.askToResume);
+
 	private final JMenuItem rawCon = new JMenuItem(I18nHelper.getUIString("send.raw.command"));
 
 	private final JMenuItem proxy = new JMenuItem(I18nHelper.getUIString("proxy.settings2"));
-	private final JCheckBoxMenuItem smbThreads = new JCheckBoxMenuItem(I18nHelper.getUIString("multiple.connections"), Settings.getEnableSmbMultiThreading());
-	private final JCheckBoxMenuItem sftpThreads = new JCheckBoxMenuItem(I18nHelper.getUIString("multiple.connections"), Settings.getEnableSftpMultiThreading());
-	private final JCheckBoxMenuItem sshKeys = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.host.key.check"), Settings.getEnableSshKeys());
-	private final JCheckBoxMenuItem storePasswords = new JCheckBoxMenuItem(I18nHelper.getUIString("store.passwords.encrypted.using.internal.password"), Settings.getStorePasswords());
-	private final JCheckBoxMenuItem useNewIcons = new JCheckBoxMenuItem(I18nHelper.getUIString("use.silk.icons"), Settings.getUseNewIcons());
-	private final JCheckBoxMenuItem hideHidden = new JCheckBoxMenuItem(I18nHelper.getUIString("hide.local.hidden.files.unix.only"), Settings.getHideLocalDotNames());
+	private final JCheckBoxMenuItem smbThreads = new JCheckBoxMenuItem(I18nHelper.getUIString("multiple.connections"),
+			Settings.getEnableSmbMultiThreading());
+	private final JCheckBoxMenuItem sftpThreads = new JCheckBoxMenuItem(I18nHelper.getUIString("multiple.connections")
+			, Settings.getEnableSftpMultiThreading());
+	private final JCheckBoxMenuItem sshKeys = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.host.key.check"),
+			Settings.getEnableSshKeys());
+	private final JCheckBoxMenuItem storePasswords = new JCheckBoxMenuItem(I18nHelper.getUIString(
+			"store.passwords" + ".encrypted.using.internal.password"), Settings.getStorePasswords());
+	private final JCheckBoxMenuItem useNewIcons = new JCheckBoxMenuItem(I18nHelper.getUIString("use.silk.icons"),
+			Settings.getUseNewIcons());
+	private final JCheckBoxMenuItem hideHidden = new JCheckBoxMenuItem(I18nHelper.getUIString(
+			"hide.local.hidden.files" + ".unix.only"), Settings.getHideLocalDotNames());
 	private final JMenuItem clear = new JMenuItem(I18nHelper.getUIString("clear.log"));
 	//*** the menu items for the last connections
 	private final JMenuItem[] lastConnections = new JMenuItem[JFtp.CAPACITY];
@@ -136,10 +145,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final char charTab = '\t';
 	private final JMenuItem manage = new JMenuItem(I18nHelper.getUIString("manage.bookmarks"));
 	private final JMenuItem add = new JMenuItem(I18nHelper.getUIString("add.bookmark1"));
+	private final JMenuItem about = new JMenuItem("About jFTP");
 	private final JFtp jftp;
-	JMenu experimental = new JMenu(I18nHelper.getUIString("experimental.features"));
-	String tab = Character.toString(this.charTab);
-	//*** information on each of the last connections
+
 	//BUGFIX
 	private String[][] cons = new String[JFtp.CAPACITY][JFtp.CONNECTION_DATA_LENGTH];
 	private Map<String, BookmarkItem> marks;
@@ -154,9 +162,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.ftpCon.addActionListener(this);
 		this.close.addActionListener(this);
 		this.exit.addActionListener(this);
-		this.readme.addActionListener(this);
-		this.changelog.addActionListener(this);
-		this.todo.addActionListener(this);
 		this.resuming.addActionListener(this);
 		this.ask.addActionListener(this);
 		this.smbCon.addActionListener(this);
@@ -170,7 +175,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		debug.addActionListener(this);
 		disableLog.addActionListener(this);
 		this.http.addActionListener(this);
-		this.hp.addActionListener(this);
 		this.raw.addActionListener(this);
 		this.rawCon.addActionListener(this);
 		this.nfsCon.addActionListener(this);
@@ -200,14 +204,12 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.loadAudio.addActionListener(this);
 		this.useNewIcons.addActionListener(this);
 		this.hideHidden.addActionListener(this);
+		this.clearItems.addActionListener(JFtp.dList);
+		this.about.addActionListener(this);
 
-		clearItems.addActionListener(JFtp.dList);
 
 		this.clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, java.awt.event.InputEvent.ALT_MASK));
-		clearItems.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK));
-		this.changelog.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_3, java.awt.event.InputEvent.ALT_MASK));
-		this.readme.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK));
-		this.todo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_5, java.awt.event.InputEvent.ALT_MASK));
+		this.clearItems.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK));
 
 		this.resetFileItems();
 
@@ -261,9 +263,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.view.add(this.rss);
 		this.view.addSeparator();
 
-		this.info.add(this.readme);
-		this.info.add(this.changelog);
-		this.info.add(this.hp);
+		this.info.add(about);
 
 		UIManager.LookAndFeelInfo[] m = UIManager.getInstalledLookAndFeels();
 
@@ -280,7 +280,8 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			 * menu item do?
 			 */
 			try {
-				javax.swing.LookAndFeel lnf = (javax.swing.LookAndFeel) Class.forName(lookAndFeelInfo.getClassName()).newInstance();
+				javax.swing.LookAndFeel lnf =
+						(javax.swing.LookAndFeel) Class.forName(lookAndFeelInfo.getClassName()).newInstance();
 
 				if (lnf.isSupportedLookAndFeel()) {
 					javax.swing.JMenuItem tmp = new javax.swing.JMenuItem(lookAndFeelInfo.getName());
@@ -361,7 +362,8 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (tmp.toLowerCase().trim().startsWith("<enddir>")) {
 				this.current = this.last;
 			} else {
-				this.addBookmark(t.nextToken(), t.nextToken(), t.nextToken(), t.nextToken(), Integer.parseInt(t.nextToken()), t.nextToken(), t.nextToken());
+				this.addBookmark(t.nextToken(), t.nextToken(), t.nextToken(), t.nextToken(),
+						Integer.parseInt(t.nextToken()), t.nextToken(), t.nextToken());
 			}
 		} catch (Exception ex) {
 			Log.debug("Broken line: " + tmp);
@@ -518,30 +520,16 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			} else if (e.getSource() == this.clear) {
 				JFtp.clearLog();
 			} else if (e.getSource() == this.spider) {
-				this.jftp.addToDesktop(I18nHelper.getUIString("http.recursive.download"), new HttpSpider(JFtp.localDir.getPath() + "_httpdownload/"), 440, 250);
-			} else if (e.getSource() == this.hp) {
-				try {
-					NativeHttpBrowser.main(new String[]{"http://j-ftp.sourceforge.net"});
-				} catch (Throwable ex) {
-					ex.printStackTrace();
-					Log.debug(I18nHelper.getUIString("native.browser.intialization.failed.using.jcontentpane"));
-
-					HttpBrowser h = new HttpBrowser("http://j-ftp.sourceforge.net");
-					JFtp.desktop.add(h, Integer.MAX_VALUE - 10);
-				}
+				this.jftp.addToDesktop(I18nHelper.getUIString("http.recursive.download"), new HttpSpider(
+						JFtp.localDir.getPath() + "_httpdownload/"), 440, 250);
 			} else if (e.getSource() == this.raw) {
 				RawConnection c = new RawConnection();
-			} else if (e.getSource() == this.readme) {
-				this.show(Settings.readme);
-			} else if (e.getSource() == this.changelog) {
-				this.show(Settings.changelog);
-			} else if (e.getSource() == this.todo) {
-				this.show(Settings.todo);
 			} else if (e.getSource() == this.shell) {
 				UIUtils.runCommand("/bin/bash");
 			} else if (e.getSource() == this.xkcd) {
 				String messageText = this.getXkcdMessage();
-				JOptionPane.showMessageDialog(JFtp.mainFrame, messageText, I18nHelper.getUIString("todays.xkcd.popup.title"), JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(JFtp.mainFrame, messageText, I18nHelper.getUIString(
+						"todays.xkcd.popup" + ".title"), JOptionPane.INFORMATION_MESSAGE);
 			} else if (e.getSource() == this.loadAudio) {
 				try {
 					JFileChooser f = new JFileChooser();
@@ -601,7 +589,8 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				Settings.setProperty("jftp.gui.look.newIcons", res);
 				Settings.save();
 
-				JOptionPane.showMessageDialog(this, I18nHelper.getUIString("please.restart.jftp.to.have.the.ui.changed"));
+				JOptionPane.showMessageDialog(this, I18nHelper.getUIString(
+						"please.restart.jftp.to.have.the.ui" + ".changed"));
 			} else if (e.getSource() == this.hideHidden) {
 				boolean res = this.hideHidden.getState();
 				Settings.setProperty("jftp.hideHiddenDotNames", res);
@@ -625,7 +614,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				JFtp.statusP.jftp.fireUpdate();
 
 				String feed = Settings.getProperty("jftp.customRSSFeed");
-				if (null != feed && !feed.isEmpty()) feed = "http://slashdot.org/rss/slashdot.rss";
+				if (null != feed && !feed.isEmpty()) {
+					feed = "http://slashdot.org/rss/slashdot.rss";
+				}
 
 				this.switchRSS(feed);
 			} else if (e.getSource() == this.loadRss) {
@@ -662,6 +653,8 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				HttpDownloader dl = new HttpDownloader();
 				this.jftp.addToDesktop(I18nHelper.getUIString("http.download"), dl, 480, 100);
 				this.jftp.setLocation(dl.hashCode(), 100, 150);
+			} else if (e.getSource() == this.about) {
+				showAbout();
 			} else if (e.getSource() == fadeMenu) {
 				Settings.setProperty("jftp.gui.enableStatusAnimation", fadeMenu.getState());
 				Settings.save();
@@ -704,7 +697,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 
 				if (!state) {
 					JOptionPane j = new JOptionPane();
-					int x = JOptionPane.showConfirmDialog(this.storePasswords, I18nHelper.getUIString("you.chose.not.to.save.passwords.do.you.want.your.old.login.data.to.be.deleted"), I18nHelper.getUIString("delete.old.passwords"), JOptionPane.YES_NO_OPTION);
+					int x = JOptionPane.showConfirmDialog(this.storePasswords, I18nHelper.getUIString("you.chose.not"
+							+ ".to.save.passwords.do.you.want.your.old.login.data.to.be.deleted"),
+							I18nHelper.getUIString("delete.old.passwords"), JOptionPane.YES_NO_OPTION);
 
 					if (javax.swing.JOptionPane.YES_OPTION == x) {
 						File f = new File(Settings.login_def);
@@ -752,7 +747,8 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 						break;
 					}
 				}
-				JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("you.must.reload.jftp.for.this.to.fully.take.effect"));
+				JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString(
+						"you.must.reload.jftp.for.this.to" + ".fully.take.effect"));
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -782,7 +778,9 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 			Log.debug(MessageFormat.format(I18nHelper.getLogString("xkcd.log.message"), obj.toString(1)));
 			String transcript = obj.getString(XKCD_CONSTANTS.TRANSCRIPT);
 			transcript = (transcript.isEmpty() ? I18nHelper.getUIString("xkcd.no.transcript.provided") : transcript);
-			return MessageFormat.format(I18nHelper.getUIString("today.s.xkcd.0.1.transcript.2.alt.text.3"), obj.getInt(XKCD_CONSTANTS.COMIC_NUMBER),obj.getString(XKCD_CONSTANTS.SAFE_TITLE),transcript,obj.getString(XKCD_CONSTANTS.ALT_TEXT));
+			return MessageFormat.format(I18nHelper.getUIString("today.s.xkcd.0.1.transcript.2.alt.text.3"),
+					obj.getInt(XKCD_CONSTANTS.COMIC_NUMBER), obj.getString(XKCD_CONSTANTS.SAFE_TITLE), transcript,
+					obj.getString(XKCD_CONSTANTS.ALT_TEXT));
 		} catch (JSONException ex) {
 			String failed = I18nHelper.getUIString("failed.to.parse.xkcd");
 			Log.debug(failed);
@@ -801,17 +799,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		}
 
 		JFtp.statusP.jftp.feeder.switchTo(url);
-	}
-
-	private void show(String file) {
-		java.net.URL url = ClassLoader.getSystemResource(file);
-
-		if (null == url) {
-			url = HImage.class.getResource("/" + file);
-		}
-
-		Displayer d = new Displayer(url, null);
-		JFtp.desktop.add(d, Integer.MAX_VALUE - 11);
 	}
 
 	// by jake
@@ -845,11 +832,6 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.http.setMnemonic('D');
 		this.spider.setMnemonic('H');
 		this.raw.setMnemonic('T');
-
-		this.readme.setMnemonic('R');
-		this.todo.setMnemonic('N');
-		this.changelog.setMnemonic('C');
-		this.hp.setMnemonic('H');
 
 		this.opts.setMnemonic('A');
 		this.manage.setMnemonic('M');
@@ -944,6 +926,14 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		}
 	}
 
+	private static void showAbout() {
+		JOptionPane.showMessageDialog(JFtp.mainFrame,
+				"New\u2122 jFTP Plus Ultra Deluxe v0.0.1-RC1_ALPHA\n\n" + "Original Work by Cyberdemon\n"
+						+ "\"Optimizations\" by Alex Westerman, Omar Roth, Rob Budak, Dalton Julian, and Emily Hart "
+						+ "(2022)\n\n" + "(we tried)");
+	}
+
+
 	private enum XKCD_CONSTANTS {
 		;
 		static final String API_URL = "https://xkcd.com/info.0.json";
@@ -952,4 +942,5 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		static final String ALT_TEXT = "alt";
 		static final String TRANSCRIPT = "transcript";
 	}
+
 }

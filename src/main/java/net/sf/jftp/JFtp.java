@@ -83,7 +83,8 @@ import java.text.MessageFormat;
 import java.util.List;
 
 
-public class JFtp extends JPanel implements WindowListener, ComponentListener, JftpLogger, ChangeListener, InternalFrameListener {
+public class JFtp extends JPanel implements WindowListener, ComponentListener, JftpLogger, ChangeListener,
+		InternalFrameListener {
 	public static final int CAPACITY = 9;
 	public static final int CONNECTION_DATA_LENGTH = 10;
 	public static final DownloadList dList = new DownloadList();
@@ -200,7 +201,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		sysprops.put("socksProxyHost", proxy);
 		sysprops.put("socksProxyPort", port);
 
-		Log.out(MessageFormat.format(I18nHelper.getLogString("socks.proxy.0.1"), sysprops.get("socksProxyHost"), sysprops.get("socksProxyPort")));
+		Log.out(MessageFormat.format(I18nHelper.getLogString("socks.proxy.0.1"), sysprops.get("socksProxyHost"),
+				sysprops.get("socksProxyPort")));
 	}
 
 	public static void main(String[] argv) {
@@ -376,7 +378,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 		this.j2 = new JInternalFrame(I18nHelper.getUIString("remote.connections"), true, false, true, true);
 		this.j2.setLocation(470, 5);
-		this.remoteConnectionPanel.addTab("file://", null, (Component) remoteDir, I18nHelper.getUIString("filesystem"));
+		this.remoteConnectionPanel.addTab("file://", null, (Component) remoteDir, I18nHelper.getUIString("filesystem"
+		));
 		this.remoteConnectionPanel.setSelectedIndex(0);
 		this.remoteConnectionPanel.addChangeListener(this);
 		this.j2.getContentPane().add(this.remoteConnectionPanel);
@@ -404,11 +407,14 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 		this.j3 = new JInternalFrame(I18nHelper.getUIString("log2"), true, false, true, true);
 
-		HImageButton clearButton = new HImageButton(Settings.clearLogImage, "clearLog", I18nHelper.getUIString("clear.log1"), e -> clearLog());
-		HImageButton lockButton = new HImageButton(Settings.scrollLockImage, "scrollLock", I18nHelper.getUIString("toggle.scroll.lock"), e -> {
+		HImageButton clearButton = new HImageButton(Settings.clearLogImage, "clearLog", I18nHelper.getUIString("clear"
+				+ ".log1"), e -> clearLog());
+		HImageButton lockButton = new HImageButton(Settings.scrollLockImage, "scrollLock", I18nHelper.getUIString(
+				"toggle.scroll.lock"), e -> {
 			doScroll = !doScroll;
 
-			statusP.status(MessageFormat.format(I18nHelper.getUIString("scroll.lock.0.choice.0.deactivated.1.activated"), doScroll ? 0 : 1));
+			statusP.status(MessageFormat.format(I18nHelper.getUIString("scroll.lock.0.choice.0.deactivated.1"
+					+ ".activated"), doScroll ? 0 : 1));
 		});
 
 		JPanel logSpPanel = new JPanel();
@@ -507,8 +513,12 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		String w = Settings.getProperty("jftp.iframes." + desc + ".width");
 		String h = Settings.getProperty("jftp.iframes." + desc + ".height");
 
-		if (x.contains(".")) x = x.substring(0, x.indexOf('.'));
-		if (y.contains(".")) y = y.substring(0, y.indexOf('.'));
+		if (x.contains(".")) {
+			x = x.substring(0, x.indexOf('.'));
+		}
+		if (y.contains(".")) {
+			y = y.substring(0, y.indexOf('.'));
+		}
 
 		try {
 			f.setLocation(Integer.parseInt(x), Integer.parseInt(y));
@@ -596,7 +606,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			this.background.setBounds(0, 0, this.getSize().width, this.getSize().height);
 			desktop.add(this.background, Integer.MIN_VALUE);
 		} catch (Exception ex) {
-			Log.out(MessageFormat.format(I18nHelper.getLogString("0.missing.no.background.image.used"), Settings.background));
+			Log.out(MessageFormat.format(I18nHelper.getLogString("0.missing.no.background.image.used"),
+					Settings.background));
 		}
 	}
 
@@ -610,7 +621,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			this.setLookAndFeel("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
 		}
 
-		if ((null == Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("com.incors.plaf.kunststoff.KunststoffLookAndFeel")) {
+		if ((null == Settings.getLookAndFeel())
+				|| !Settings.getLookAndFeel().equals("com.incors.plaf.kunststoff.KunststoffLookAndFeel")) {
 			try {
 				Class.forName("com.incors.plaf.kunststoff.KunststoffLookAndFeel");
 				UIManager.installLookAndFeel("Kunststoff", "com.incors.plaf.kunststoff.KunststoffLookAndFeel");
@@ -618,7 +630,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			}
 		}
 
-		if ((null == Settings.getLookAndFeel()) || !Settings.getLookAndFeel().equals("net.sourceforge.mlf.metouia.MetouiaLookAndFeel")) {
+		if ((null == Settings.getLookAndFeel())
+				|| !Settings.getLookAndFeel().equals("net.sourceforge.mlf.metouia.MetouiaLookAndFeel")) {
 
 			try {
 				Class.forName("net.sourceforge.mlf.metouia.MetouiaLookAndFeel");
@@ -653,7 +666,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 
 	private void log(String msg) {
 		if (msg.startsWith("200") || msg.startsWith("227")) {
-			if ((0 < msg.indexOf("NOOP")) || (0 < msg.indexOf("Type")) || (0 < msg.indexOf("MODE")) || (0 < msg.indexOf("Passive"))) {
+			if ((0 < msg.indexOf("NOOP")) || (0 < msg.indexOf("Type")) || (0 < msg.indexOf("MODE")) || (0
+					< msg.indexOf("Passive"))) {
 				if (Settings.hideStatus) {
 					return;
 				}
@@ -748,9 +762,6 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		this.log(msg, throwable);
 	}
 
-	public void debugSize(int size, boolean recv, boolean last, String file) {
-	}
-
 	public void fireUpdate() {
 		LocalIO.pause(200);
 		this.repaint();
@@ -760,7 +771,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		if (this.buffer.isEmpty()) {
 			JScrollBar bar;
 
-			if ((null == logSp) || (null == (bar = logSp.getVerticalScrollBar())) || null == bar || (bar.getValue() == bar.getMaximum()) || bar.getValueIsAdjusting()) {
+			if ((null == logSp) || (null == (bar = logSp.getVerticalScrollBar())) || null == bar || (bar.getValue()
+					== bar.getMaximum()) || bar.getValueIsAdjusting()) {
 				return;
 			} else {
 				if (doScroll) {
@@ -809,7 +821,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		tmp.setCon(con);
 
 		int x = this.remoteConnectionPanel.getSelectedIndex();
-		this.remoteConnectionPanel.addTab(this.parse(name), null, (Component) tmp, MessageFormat.format(I18nHelper.getUIString("switch.to.02"), this.parse(name)));
+		this.remoteConnectionPanel.addTab(this.parse(name), null, (Component) tmp,
+				MessageFormat.format(I18nHelper.getUIString("switch.to.02"), this.parse(name)));
 		this.remoteConnectionPanel.setSelectedIndex(x + 1);
 		this.j2.setClosable(true);
 	}
@@ -823,7 +836,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 		tmp.setCon(con);
 
 		int x = this.localConnectionPanel.getSelectedIndex();
-		this.localConnectionPanel.addTab(this.parse(name), null, (Component) tmp, MessageFormat.format(I18nHelper.getUIString("switch.to.0"), this.parse(name)));
+		this.localConnectionPanel.addTab(this.parse(name), null, (Component) tmp,
+				MessageFormat.format(I18nHelper.getUIString("switch.to.0"), this.parse(name)));
 		this.localConnectionPanel.setSelectedIndex(x + 1);
 		this.j1.setClosable(true);
 	}
@@ -1047,7 +1061,8 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 			}
 
 			if (!new File(name).exists()) {
-				System.out.println(MessageFormat.format(I18nHelper.getLogString("no.file.string.in.clipboard.0"), name));
+				System.out.println(MessageFormat.format(I18nHelper.getLogString("no.file.string.in.clipboard.0"),
+						name));
 
 				return;
 			}

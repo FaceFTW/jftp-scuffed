@@ -56,15 +56,6 @@ public class Shell extends HFrame implements Runnable {
 		}
 	}
 
-	public static void main(String[] argv) {
-		try {
-			Process p = Runtime.getRuntime().exec(0 < argv.length ? argv[0] : "/bin/bash");
-			new Shell(p.getInputStream(), p.getOutputStream());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
 	private void init() throws Exception {
 		this.setTitle("Shell");
 
@@ -103,7 +94,7 @@ public class Shell extends HFrame implements Runnable {
 					if ((Shell.this.currCmd <= Shell.this.commands.size()) && (0 < Shell.this.currCmd)) {
 						Shell.this.currCmd--;
 
-						String cmd = (String) Shell.this.commands.get(Shell.this.currCmd);
+						String cmd = Shell.this.commands.get(Shell.this.currCmd);
 						Shell.this.input = cmd.substring(0, cmd.length() - 1);
 						Shell.this.text.setText(t + Shell.this.input);
 					}
@@ -114,7 +105,7 @@ public class Shell extends HFrame implements Runnable {
 					if (((Shell.this.currCmd + 1) < Shell.this.commands.size()) && (0 <= Shell.this.currCmd)) {
 						Shell.this.currCmd++;
 
-						String cmd = (String) Shell.this.commands.get(Shell.this.currCmd);
+						String cmd = Shell.this.commands.get(Shell.this.currCmd);
 						Shell.this.input = cmd.substring(0, cmd.length() - 1);
 						Shell.this.text.setText(t + Shell.this.input);
 					}

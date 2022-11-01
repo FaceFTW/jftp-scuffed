@@ -100,8 +100,8 @@ public class FtpEventHandler implements EventHandler {
 		}
 
 		if (!list.isEmpty()) {
-			String command = (String) list.get(0);
-			Method o = (Method) this.methods.get(command.toLowerCase());
+			String command = list.get(0);
+			Method o = this.methods.get(command.toLowerCase());
 
 			if (null != o) {
 				try {

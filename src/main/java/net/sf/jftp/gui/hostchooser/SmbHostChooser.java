@@ -168,10 +168,10 @@ public class SmbHostChooser extends HFrame implements ActionListener, WindowList
 			java.util.Enumeration<java.net.NetworkInterface> e = NetworkInterface.getNetworkInterfaces();
 
 			while (e.hasMoreElements()) {
-				java.util.Enumeration<java.net.InetAddress> f = ((NetworkInterface) e.nextElement()).getInetAddresses();
+				java.util.Enumeration<java.net.InetAddress> f = e.nextElement().getInetAddresses();
 
 				while (f.hasMoreElements()) {
-					this.ip.addItem(((InetAddress) f.nextElement()).getHostAddress());
+					this.ip.addItem(f.nextElement().getHostAddress());
 				}
 			}
 		} catch (Exception ex) {

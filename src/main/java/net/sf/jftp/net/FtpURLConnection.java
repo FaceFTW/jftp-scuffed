@@ -55,14 +55,6 @@ public class FtpURLConnection extends URLConnection {
 		Log.debug(I18nHelper.getLogString("connecting"));
 	}
 
-	public static void main(String[] args) {
-		try {
-			URLConnection uc = new FtpURLConnection(new URL("ftp://ftp:pass@localhost/pub"));
-			uc.connect();
-		} catch (IOException ioe) {
-		}
-	}
-
 	public void connect() throws IOException {
 		this.loginFlag = this.connection.login(this.username, this.password);
 

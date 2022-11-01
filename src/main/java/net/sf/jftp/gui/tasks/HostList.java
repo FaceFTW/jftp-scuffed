@@ -99,7 +99,6 @@ public class HostList extends JDialog {
 	 * overall initialization routine called from the ctor
 	 */
 	private void init() {
-		this.initPrompts();
 		this.initHostInfoPanel();
 		this.initButtonPanel();
 		this.initHostListFrame();
@@ -116,14 +115,6 @@ public class HostList extends JDialog {
 		this.setModal(true);
 	}
 
-	/**
-	 * This is where your internationalization can
-	 * take hold, you can change the values of the prompt
-	 * strings to whatever
-	 */
-	private void initPrompts() {
-		// do nothing
-	}
 
 	/**
 	 * initialize the button panel

@@ -44,7 +44,7 @@ public class EventProcessor implements Runnable, Acceptor, FtpEventConstants, Ev
 
 		if (null != handlers) {
 			for (EventHandler handler : handlers) {
-				((EventHandler) handler).handle(e);
+				handler.handle(e);
 			}
 		}
 	}

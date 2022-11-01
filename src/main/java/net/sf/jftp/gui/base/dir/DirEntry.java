@@ -78,7 +78,7 @@ public class DirEntry {
 
 		if (-1 != lastIndex) {
 			String ext = f.substring(lastIndex);
-			String tmp = (String) extensionMap.get(ext.toLowerCase());
+			String tmp = extensionMap.get(ext.toLowerCase());
 
 			if (null != tmp) {
 				image = tmp;

@@ -77,7 +77,7 @@ public enum Settings {
 	private static final String storePasswords = CONFIG_FALSE;
 	public static boolean IS_JAVA_1_6 = true;
 	public static String sshHostKeyVerificationFile = System.getProperty("user.home") + File.separator + ".jftp" + File.separator + ".ssh_hostfile";
-	public static int maxConnections = 3;
+	public static int maxConnections = 10;
 	public static boolean enableResuming; // overridden by JFtp
 	public static boolean enableUploadResuming;
 	public static boolean noUploadResumingQuestion = true;

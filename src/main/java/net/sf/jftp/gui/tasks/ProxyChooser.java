@@ -20,17 +20,19 @@ import net.sf.jftp.gui.framework.HButton;
 import net.sf.jftp.gui.framework.HPanel;
 import net.sf.jftp.gui.framework.HTextField;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 
 import javax.swing.*;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 
 public class ProxyChooser extends HPanel implements ActionListener {
 	private final HTextField proxy;
 	private final HTextField port;
-	private final HButton ok = new HButton("Ok");
+	private final HButton ok = new HButton(I18nHelper.getUIString("ok1"));
 
 	public ProxyChooser() {
 		super();
@@ -40,8 +42,8 @@ public class ProxyChooser extends HPanel implements ActionListener {
 		//getContentPane().
 		this.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		this.proxy = new HTextField("Socks proxy:", "");
-		this.port = new HTextField("Port:", "");
+		this.proxy = new HTextField(I18nHelper.getUIString("socks.proxy"), "");
+		this.port = new HTextField(I18nHelper.getUIString("port1"), "");
 
 		this.proxy.setText(Settings.getSocksProxyHost());
 		this.port.setText(Settings.getSocksProxyPort());
@@ -56,7 +58,7 @@ public class ProxyChooser extends HPanel implements ActionListener {
 		this.add(this.ok);
 
 		//getContentPane().
-		this.add(new JLabel("Please note that you have to restart JFtp to apply the changes!"));
+		this.add(new JLabel(I18nHelper.getUIString("please.note.that.you.have.to.restart.jftp.to.apply.the.changes")));
 		this.ok.addActionListener(this);
 
 		//setVisible(true);
@@ -78,7 +80,7 @@ public class ProxyChooser extends HPanel implements ActionListener {
 			Settings.setProperty("jftp.socksProxyPort", p);
 			Settings.save();
 
-			Log.out("proxy vars: " + h + ":" + p);
+			Log.out(MessageFormat.format(I18nHelper.getLogString("proxy.vars.0.1"), h, p));
 
 			if (h.isEmpty() || p.isEmpty()) {
 				return;
@@ -88,10 +90,10 @@ public class ProxyChooser extends HPanel implements ActionListener {
 			sysprops.put("socksProxyHost", h);
 			sysprops.put("socksProxyPort", p);
 
-			Log.out("new proxy vars set.");
+			Log.out(I18nHelper.getLogString("new.proxy.vars.set"));
 
 			this.remove(3);
-			this.add(new JLabel("Options set. Please restart JFtp."));
+			this.add(new JLabel(I18nHelper.getUIString("options.set.please.restart.jftp")));
 			this.validate();
 			this.setVisible(true);
 		}

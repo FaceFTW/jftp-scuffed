@@ -31,21 +31,21 @@ import java.awt.event.WindowListener;
 
 public class RawConnection extends JFrame implements ActionListener, WindowListener {
 	public static final HTextField host = new HTextField("Host:", "", 20);
-	public static final HTextField port = new HTextField("Port:", "", 5);
+	public static final HTextField port = new HTextField(I18nHelper.getUIString("port2"), "", 5);
 	public static final JTextArea output = new JTextArea();
 	public static boolean established;
 	public static boolean mayDispose;
 	public static JScrollPane outputPane;
 	private final JMenuBar mb = new JMenuBar();
-	private final JMenu file = new JMenu("Prog");
-	private final JMenu about = new JMenu("About");
-	private final JMenu session = new JMenu("Session");
+	private final JMenu file = new JMenu(I18nHelper.getUIString("prog"));
+	private final JMenu about = new JMenu(I18nHelper.getUIString("about"));
+	private final JMenu session = new JMenu(I18nHelper.getUIString("session"));
 	private final JMenuItem close = new JMenuItem("ExIt");
-	private final JMenuItem changeHost = new JMenuItem("Host...");
-	private final JMenuItem info = new JMenuItem("Info");
-	private final HTextField com = new HTextField("Command:", "", 20);
-	private final JButton send = new JButton("Send");
-	private final JButton clear = new JButton("Clear");
+	private final JMenuItem changeHost = new JMenuItem(I18nHelper.getUIString("host1"));
+	private final JMenuItem info = new JMenuItem(I18nHelper.getUIString("info2"));
+	private final HTextField com = new HTextField(I18nHelper.getUIString("command1"), "", 20);
+	private final JButton send = new JButton(I18nHelper.getUIString("send1"));
+	private final JButton clear = new JButton(I18nHelper.getUIString("clear"));
 	private JRawConnection c;
 
 	public RawConnection() {
@@ -58,7 +58,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 
 		this.setSize(550, 300);
 		this.setLocation(150, 150);
-		this.setTitle("Direct TCP/IP connection");
+		this.setTitle(I18nHelper.getUIString("direct.tcp.ip.connection"));
 		this.getContentPane().setLayout(new BorderLayout(2, 2));
 
 		javax.swing.JPanel p1 = new javax.swing.JPanel();
@@ -120,7 +120,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 			if (this.c.isThere()) {
 				this.c.send(this.com.getText());
 			} else {
-				this.debugWrite("No connection!");
+				this.debugWrite(I18nHelper.getLogString("no.connection"));
 			}
 		} else {
 			this.c = new JRawConnection(host.getText(), Integer.parseInt(port.getText()), true);
@@ -129,7 +129,7 @@ public class RawConnection extends JFrame implements ActionListener, WindowListe
 				this.c.send(this.com.getText());
 				established = true;
 			} else {
-				this.debugWrite("No connection!");
+				this.debugWrite(I18nHelper.getLogString("no.connection"));
 			}
 		}
 

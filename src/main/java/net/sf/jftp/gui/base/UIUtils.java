@@ -53,30 +53,4 @@ public enum UIUtils {
 	}
 }
 
-class Spawn implements Runnable {
-	private String cmd;
-
-	Spawn(String cmd) {
-		super();
-		this.cmd = cmd;
-
-		Thread runner = new Thread(this);
-		runner.start();
-	}
-
-	public void run() {
-		try {
-			final String str = "";
-
-			if (this.cmd.startsWith("file://")) this.cmd = this.cmd.substring(7);
-
-			Process p = Runtime.getRuntime().exec(this.cmd);
-			new Shell(p.getInputStream(), p.getOutputStream());
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-}
 
