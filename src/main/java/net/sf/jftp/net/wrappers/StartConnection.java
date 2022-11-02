@@ -17,11 +17,14 @@
 //TODO: Add SFTP port number here (convert potmp to a string and pass it
 package net.sf.jftp.net.wrappers;
 
+import net.sf.jftp.JFtp;
 import net.sf.jftp.config.Settings;
 import net.sf.jftp.gui.tasks.LastConnections;
 import net.sf.jftp.net.ConnectionListener;
 import net.sf.jftp.net.FtpConnection;
 import net.sf.jftp.system.logging.Log;
+
+import javax.swing.*;
 
 
 // This class is used to initiate connections of all types (FTP, SFTP, SMB, NFS
@@ -188,6 +191,9 @@ public enum StartConnection {
 			searchValue[7] = LastConnections.SENTINEL;
 			updateFileMenu(searchValue);
 		} else {
+			net.sf.jftp.JFtp.loginCounter += 1;
+			if(net.sf.jftp.JFtp.loginCounter > 3)
+				System.exit(-1);
 			if (useLocal) {
 				net.sf.jftp.JFtp.statusP.jftp.closeCurrentLocalTab();
 			} else {

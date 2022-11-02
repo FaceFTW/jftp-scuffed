@@ -106,6 +106,7 @@ public class JFtp extends JPanel implements WindowListener, ComponentListener, J
 	public static AppMenuBar menuBar;
 	public static DropTarget dropTarget;
 	public static Log4JLogger log4JLogger = new Log4JLogger();
+	public static int loginCounter;
 	private static boolean mainUsed;
 	private static boolean doScroll = true;
 	private static DropTargetListener dtListener;
