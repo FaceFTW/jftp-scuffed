@@ -15,7 +15,6 @@
  */
 package net.sf.jftp.config;
 
-import com.sun.org.apache.xml.internal.security.utils.I18n;
 import net.sf.jftp.system.logging.Log;
 import net.sf.jftp.util.I18nHelper;
 import org.apache.commons.configuration.ConfigurationException;
@@ -52,7 +51,9 @@ public enum Settings {
 	public static final String changelog = "docs/CHANGELOG";
 	public static final String todo = "docs/TODO";
 	public static final String nfsinfo = "docs/doc/nfsinfo";
-	public static final String propertyFilename = System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/', File.separatorChar);
+	public static final String propertyFilename =
+			System.getProperty("user.home") + File.separator + ".jftp/jftp.properties".replace('/',
+					File.separatorChar);
 	private static final String defaultWidth = "1000";
 	private static final String defaultHeight = "740";
 	private static final String defaultX = "20";
@@ -80,7 +81,8 @@ public enum Settings {
 	private static final String noUploadMultiThreading = CONFIG_FALSE;
 	private static final String storePasswords = CONFIG_FALSE;
 	public static boolean IS_JAVA_1_6 = true;
-	public static String sshHostKeyVerificationFile = System.getProperty("user.home") + File.separator + ".jftp" + File.separator + ".ssh_hostfile";
+	public static String sshHostKeyVerificationFile =
+			System.getProperty("user.home") + File.separator + ".jftp" + File.separator + ".ssh_hostfile";
 	public static int maxConnections = 10;
 	public static boolean enableResuming; // overridden by JFtp
 	public static boolean enableUploadResuming;
