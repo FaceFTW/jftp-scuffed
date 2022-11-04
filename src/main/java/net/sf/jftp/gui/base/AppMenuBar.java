@@ -106,6 +106,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 	private final JMenuItem spider = new JMenuItem(I18nHelper.getUIString("recursive.http.download"));
 	private final JMenuItem shell = new JMenuItem(I18nHelper.getUIString("execute.bin.bash"));
 	private final JMenuItem xkcd = new JMenuItem(I18nHelper.getUIString("xkcd.info.display"));
+	private final JMenuItem forgotAdminpassword = new JMenuItem(I18nHelper.getUIString("forgot.admin.password"));
 	private final JMenuItem loadAudio = new JMenuItem(I18nHelper.getUIString("play.mp3"));
 	private final JCheckBoxMenuItem rssDisabled = new JCheckBoxMenuItem(I18nHelper.getUIString("enable.rss.feed"),
 			Settings.getEnableRSS());
@@ -185,6 +186,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.webdavCon.addActionListener(this);
 		this.shell.addActionListener(this);
 		this.xkcd.addActionListener(this);
+		this.forgotAdminpassword.addActionListener(this);
 		this.nl.addActionListener(this);
 
 		this.localFtpCon.addActionListener(this);
@@ -248,6 +250,7 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 		this.tools.addSeparator();
 		this.tools.add(this.shell);
 		this.tools.add(this.xkcd);
+		this.tools.add(this.forgotAdminpassword);
 
 		this.view.add(this.hideHidden);
 		this.view.addSeparator();
@@ -530,6 +533,10 @@ public class AppMenuBar extends JMenuBar implements ActionListener {
 				String messageText = this.getXkcdMessage();
 				JOptionPane.showMessageDialog(JFtp.mainFrame, messageText, I18nHelper.getUIString(
 						"todays.xkcd.popup" + ".title"), JOptionPane.INFORMATION_MESSAGE);
+			} else if (e.getSource() == this.forgotAdminpassword) {
+				String messageText = I18nHelper.getUIString("please.contact.your.system.administrator.to.recover.your.j.ftp.admin.password");
+				Log.out("User attempted to recover admin password");
+				JOptionPane.showMessageDialog(JFtp.mainFrame, messageText, messageText, JOptionPane.WARNING_MESSAGE);
 			} else if (e.getSource() == this.loadAudio) {
 				try {
 					JFileChooser f = new JFileChooser();
