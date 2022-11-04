@@ -15,7 +15,9 @@
  */
 package net.sf.jftp.config;
 
+import com.sun.org.apache.xml.internal.security.utils.I18n;
 import net.sf.jftp.system.logging.Log;
+import net.sf.jftp.util.I18nHelper;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
@@ -24,6 +26,8 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -438,9 +442,19 @@ public enum Settings {
 	}
 
 	public static Locale getLocale() {
-		String languageTag = p.getProperty(LOCALE_KEY, Locale.US.toLanguageTag());
+		String languageTag = p.getProperty(LOCALE_KEY, I18nHelper.unsetLocale.toLanguageTag());
 		Locale resolved = Locale.forLanguageTag(languageTag);
-		return resolved != null ? resolved : Locale.US;
+		if (resolved.equals(I18nHelper.unsetLocale)) {
+			resolved = Locale.getDefault();
+			System.out.println("No language specified in config file. System default is: " + resolved);
+			if (!new HashSet<>(Arrays.asList(I18nHelper.locales)).contains(resolved)) {
+				System.out.println("Not supported by J-Ftp, using default language instead");
+				resolved = null;
+			} else {
+				System.out.println("Using system default language");
+			}
+		}
+		return resolved != null ? resolved : I18nHelper.fallbackLocale;
 	}
 
 	public static java.awt.Dimension getWindowSize() {

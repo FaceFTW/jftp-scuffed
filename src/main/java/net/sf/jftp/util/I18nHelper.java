@@ -16,7 +16,10 @@ public class I18nHelper {
 	 * Find: ((?:.*)=)([^\{\}\n]*)
 	 * Replace With: $1AAAA
 	 */
-	static Locale[] locales = {Locale.US, Locale.GERMAN, Locale.UK};
+	public static final Locale[] locales = {Locale.US, Locale.GERMAN, Locale.UK};
+	// Can be changed at any point; represents a locale we don't support as a placeholder.
+	public static final Locale unsetLocale = Locale.CANADA_FRENCH;
+	public static final Locale fallbackLocale = Locale.US;
 	private static ResourceBundle uiResources = ResourceBundle.getBundle(UI_TEXT);
 	private static ResourceBundle logResources = ResourceBundle.getBundle(LOG_TEXT);
 	private static ResourceBundle responseCodeBundle = ResourceBundle.getBundle(RESPONSES, Locale.US);
