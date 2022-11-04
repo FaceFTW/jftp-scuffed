@@ -166,6 +166,8 @@ public enum StartConnection {
 
 		//boolean isConnected = false;
 		if (net.sf.jftp.net.FtpConstants.LOGIN_OK == response) {
+			if(utmp.equals("admin"))
+				JFtp.isAdmin = true;
 
 			String potmpString = Integer.toString(potmp);
 			String useLocalString = "false";
@@ -191,13 +193,14 @@ public enum StartConnection {
 			searchValue[7] = LastConnections.SENTINEL;
 			updateFileMenu(searchValue);
 		} else {
-			net.sf.jftp.JFtp.loginCounter += 1;
-			if(net.sf.jftp.JFtp.loginCounter > 3)
-				System.exit(-1);
-			if (useLocal) {
-				net.sf.jftp.JFtp.statusP.jftp.closeCurrentLocalTab();
-			} else {
-				net.sf.jftp.JFtp.statusP.jftp.closeCurrentTab();
+			if(utmp.equals("admin")) {
+				net.sf.jftp.JFtp.loginAttempts += 1;
+				if (net.sf.jftp.JFtp.loginAttempts > 3) System.exit(-1);
+				if (useLocal) {
+					net.sf.jftp.JFtp.statusP.jftp.closeCurrentLocalTab();
+				} else {
+					net.sf.jftp.JFtp.statusP.jftp.closeCurrentTab();
+				}
 			}
 		}
 

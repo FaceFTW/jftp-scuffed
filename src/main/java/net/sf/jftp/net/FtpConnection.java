@@ -1346,12 +1346,15 @@ public class FtpConnection implements BasicConnection, FtpConstants {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		if (chars[0] == 'M' && chars[1] == 'Z') {
-			JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("cannot.upload.exes"));
-			throw new RuntimeException("Cannot upload EXEs!");
-		} else if (chars[1] == 'E' && chars[2] == 'L' && chars[3] == 'F') {
-			JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("cannot.upload.linux.executables"));
-			throw new RuntimeException("Cannot upload Linux executables!");
+
+		if(!JFtp.isAdmin) {
+			if (chars[0] == 'M' && chars[1] == 'Z') {
+				JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("cannot.upload.exes"));
+				throw new RuntimeException("Cannot upload EXEs!");
+			} else if (chars[1] == 'E' && chars[2] == 'L' && chars[3] == 'F') {
+				JOptionPane.showMessageDialog(JFtp.mainFrame, I18nHelper.getUIString("cannot.upload.linux.executables"));
+				throw new RuntimeException("Cannot upload Linux executables!");
+			}
 		}
 
 		file = this.parse(file);
