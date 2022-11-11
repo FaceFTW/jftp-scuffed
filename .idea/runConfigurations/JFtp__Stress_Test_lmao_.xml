@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="JFtp (Stress Test lmao)" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="net.sf.jftp.JFtp" />
+    <option name="MAIN_CLASS_NAME" value="view.JFtp" />
     <module name="j-ftp" />
     <option name="VM_PARAMETERS" value="-Xmx16m -Xss108k" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="net.sf.jftp.*" />
+        <option name="PATTERN" value="view.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

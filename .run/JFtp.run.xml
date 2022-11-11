@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="JFtp" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="net.sf.jftp.JFtp" />
+    <option name="MAIN_CLASS_NAME" value="view.JFtp" />
     <module name="j-ftp" />
     <extension name="coverage">
       <pattern>

@@ -29,7 +29,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>net.sf.jftp.JFtp</mainClass>
+                            <mainClass>view.JFtp</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
